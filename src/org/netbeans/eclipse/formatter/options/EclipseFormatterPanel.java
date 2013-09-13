@@ -9,11 +9,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.EditorKit;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.modules.editor.indent.api.IndentUtils;
 import org.openide.filesystems.FileChooserBuilder;
 import org.openide.filesystems.FileUtil;
+import org.openide.text.CloneableEditorSupport;
 import org.openide.util.Exceptions;
 import org.openide.util.NbPreferences;
 
@@ -28,6 +30,10 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
         this.project = p;
         initComponents();
         enableUI();
+        
+        EditorKit kit = CloneableEditorSupport.getEditorKit("text/xml");
+        previewPane.setEditorKit(kit);
+        
         formatterLocField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -91,7 +97,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
         formatterLocField = new javax.swing.JTextField();
         errorLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        previewPane = new javax.swing.JTextArea();
+        previewPane = new javax.swing.JEditorPane();
         netbeansCheckbox = new javax.swing.JCheckBox();
 
         org.openide.awt.Mnemonics.setLocalizedText(enablementCheckbox, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.enablementCheckbox.text")); // NOI18N
@@ -121,8 +127,9 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
         errorLabel.setToolTipText(org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.errorLabel.toolTipText")); // NOI18N
 
         previewPane.setEditable(false);
-        previewPane.setColumns(20);
-        previewPane.setRows(5);
+        previewPane.setFocusable(false);
+        previewPane.setHighlighter(null
+        );
         jScrollPane2.setViewportView(previewPane);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -325,7 +332,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JCheckBox netbeansCheckbox;
-    private javax.swing.JTextArea previewPane;
+    private javax.swing.JEditorPane previewPane;
     // End of variables declaration//GEN-END:variables
 
     private void enableUI() {
