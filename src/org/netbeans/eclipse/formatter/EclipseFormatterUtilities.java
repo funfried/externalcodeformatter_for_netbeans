@@ -3,6 +3,7 @@ package org.netbeans.eclipse.formatter;
 import java.util.prefs.Preferences;
 import javax.swing.Icon;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.EditorRegistry;
@@ -88,7 +89,7 @@ public class EclipseFormatterUtilities {
         }
     }
 
-    public boolean isJava(StyledDocument document) {
+    public static boolean isJava(Document document) {
         return "text/x-java".equals(NbEditorUtilities.getMimeType(document));
     }
 }

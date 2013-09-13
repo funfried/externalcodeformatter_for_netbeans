@@ -2,26 +2,18 @@ package org.netbeans.eclipse.formatter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
-import org.netbeans.api.java.source.JavaSource;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.cookies.EditorCookie;
-import org.openide.filesystems.FileObject;
-import org.openide.loaders.DataObject;
 import org.openide.nodes.Node;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
-import org.openide.util.Utilities;
 import org.openide.util.actions.CookieAction;
-import org.openide.util.actions.Presenter;
 
 @ActionID(
         category = "Build",
@@ -35,9 +27,9 @@ import org.openide.util.actions.Presenter;
     @ActionReference(path = "Shortcuts", name = "OS-F")
 })
 @NbBundle.Messages("CTL_EclipseFormatter=Format")
-public class ReformatWithEclipseAction extends CookieAction implements Presenter.Menu, ActionListener {
+public class ReformatWithEclipseAction extends CookieAction implements ActionListener {
 
-    private DataObject context = null;
+    private EditorCookie context = null;
     private EclipseFormatter formatter;
 
     public ReformatWithEclipseAction() {
@@ -46,27 +38,27 @@ public class ReformatWithEclipseAction extends CookieAction implements Presenter
     
     @Override
     protected boolean enable(Node[] nodes) {
-        if (nodes.length>0) {
-            if (nodes[0].getLookup().lookup(DataObject.class) != null) {
-                context = nodes[0].getLookup().lookup(DataObject.class);
-                FileObject fileObject = context.getPrimaryFile();
-                JavaSource javaSource = JavaSource.forFileObject(fileObject);
-                if (javaSource != null) {
+        if (nodes.length==1) {
+            final EditorCookie editorCookie = nodes[0].getLookup().lookup(EditorCookie.class);
+            if (editorCookie != null && null!=editorCookie.getDocument()) {
+                boolean isJava = EclipseFormatterUtilities.isJava(editorCookie.getDocument());
+                if (isJava) {
+                    context=editorCookie;
                     return true;
                 }
             }
         }
+        context = null;
         return false;
     }
     
     @Override
-    public JMenuItem getMenuPresenter() {
-        return new JMenu(Bundle.CTL_EclipseFormatter());
-    }
-     
-    @Override
     public void actionPerformed(ActionEvent e) {
-        final StyledDocument styledDoc = Utilities.actionsGlobalContext().lookup(EditorCookie.class).getDocument();
+        final EditorCookie editorCookie = context;
+        if (null == editorCookie || null == editorCookie.getDocument()) {
+            return;
+        }
+        final StyledDocument styledDoc = editorCookie.getDocument();
         GuardedSectionManager guards = GuardedSectionManager.getInstance(styledDoc);
         EclipseFormatterUtilities u = new EclipseFormatterUtilities();
         if (guards == null && this.formatter != null) {
@@ -86,7 +78,7 @@ public class ReformatWithEclipseAction extends CookieAction implements Presenter
 
     @Override
     protected Class<?>[] cookieClasses() {
-        return new Class[]{DataObject.class};
+        return new Class[]{EditorCookie.class};
     }
 
     //Not used:
