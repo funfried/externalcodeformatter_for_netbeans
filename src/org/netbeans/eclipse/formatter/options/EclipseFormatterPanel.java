@@ -121,7 +121,6 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
         errorLabel.setToolTipText(org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.errorLabel.toolTipText")); // NOI18N
 
         previewPane.setEditable(false);
-        previewPane.setBackground(new java.awt.Color(255, 255, 255));
         previewPane.setColumns(20);
         previewPane.setRows(5);
         jScrollPane2.setViewportView(previewPane);
