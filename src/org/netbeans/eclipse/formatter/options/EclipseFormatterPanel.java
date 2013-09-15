@@ -336,11 +336,11 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void enableUI() {
-        jLabel1.setEnabled(enablementCheckbox.isSelected() ? true : false);
-        jLabel2.setEnabled(enablementCheckbox.isSelected() ? true : false);
-        browseButton.setEnabled(enablementCheckbox.isSelected() ? true : false);
-        formatterLocField.setEnabled(enablementCheckbox.isSelected() ? true : false);
-        previewPane.setEnabled(enablementCheckbox.isSelected() ? true : false);
+        jLabel1.setEnabled(enablementCheckbox.isSelected());
+        jLabel2.setEnabled(enablementCheckbox.isSelected());
+        browseButton.setEnabled(enablementCheckbox.isSelected());
+        formatterLocField.setEnabled(enablementCheckbox.isSelected());
+        previewPane.setEnabled(enablementCheckbox.isSelected());
     }
 
 }
