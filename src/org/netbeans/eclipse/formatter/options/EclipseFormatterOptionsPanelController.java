@@ -24,13 +24,17 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
 
     @Override
     public void update() {
-        getPanel(null).load();
+        getPanelForGlobalConfig().load();
         changed = false;
+    }
+
+    private EclipseFormatterPanel getPanelForGlobalConfig() {
+        return getPanel(null);
     }
 
     @Override
     public void applyChanges() {
-        getPanel(null).store();
+        getPanelForGlobalConfig().store();
         changed = false;
     }
 
@@ -41,7 +45,7 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
 
     @Override
     public boolean isValid() {
-        return getPanel(null).valid();
+        return getPanelForGlobalConfig().valid();
     }
 
     @Override
@@ -81,15 +85,15 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
     }
 
     public JTextField getLocationField() {
-        return getPanel(null).getFormatterLocField();
+        return getPanelForGlobalConfig().getFormatterLocField();
     }
     
     public JCheckBox getEnablement() {
-        return getPanel(null).getEnabledCheckbox();
+        return getPanelForGlobalConfig().getEnabledCheckbox();
     }
     
     public JCheckBox getNetBeans() {
-        return getPanel(null).getNetBeansCheckbox();
+        return getPanelForGlobalConfig().getNetBeansCheckbox();
     }
 
     void changed() {
