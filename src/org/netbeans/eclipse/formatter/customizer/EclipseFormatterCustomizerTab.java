@@ -38,33 +38,15 @@ public class EclipseFormatterCustomizerTab implements ProjectCustomizer.Composit
             @Override
             public void actionPerformed(ActionEvent e) {
                 Preferences projectPrefs = ProjectUtils.getPreferences(project, IndentUtils.class, true);
-                if (!efopc.getEnablement().isSelected()) {
-                    String location = efopc.getLocationField().getText();
-                    projectPrefs.put("localEclipseFormatterLocation", location);
-                    projectPrefs.putBoolean("isLocalEclipseFormatterEnabled", false);
-                } else if (efopc.getEnablement().isSelected()) {
-                    String location = efopc.getLocationField().getText();
-                    projectPrefs.put("localEclipseFormatterLocation", location);
-                    projectPrefs.putBoolean("isLocalEclipseFormatterEnabled", true);
-                }
-                if (efopc.getNetBeans().isSelected()) {
-                    projectPrefs.putBoolean("isLocalNetBeansFormatterEnabled", true);
-                } else {
-                    projectPrefs.putBoolean("isLocalNetBeansFormatterEnabled", false);
-                }
+                projectPrefs.put("localEclipseFormatterLocation", efopc.getLocationField().getText());
+                projectPrefs.putBoolean("isLocalEclipseFormatterEnabled", efopc.getEnablement().isSelected());
+                projectPrefs.putBoolean("isLocalNetBeansFormatterEnabled", efopc.getNetBeans().isSelected());
             }
         });
         efopc.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if (!efopc.isValid()) {
-                    category.setValid(false);
-                }
-                else if (efopc.isValid() && !efopc.getEnablement().isSelected()) {
-                    category.setValid(true);
-                } else if (efopc.isValid() && efopc.getEnablement().isSelected()) {
-                    category.setValid(true);
-                }
+                    category.setValid(efopc.isValid());
             }
         });
         return component;

@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.options.OptionsPanelController;
@@ -88,11 +89,11 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
         return getPanelForGlobalConfig().getFormatterLocField();
     }
     
-    public JCheckBox getEnablement() {
+    public JRadioButton getEnablement() {
         return getPanelForGlobalConfig().getEnabledCheckbox();
     }
     
-    public JCheckBox getNetBeans() {
+    public JRadioButton getNetBeans() {
         return getPanelForGlobalConfig().getNetBeansCheckbox();
     }
 
