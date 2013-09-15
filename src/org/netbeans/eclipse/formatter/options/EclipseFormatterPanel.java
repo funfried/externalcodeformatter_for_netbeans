@@ -9,6 +9,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.EditorKit;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
@@ -208,12 +209,15 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
         //The default dir to use if no value is stored
         File home = new File(System.getProperty("user.home"));
+        final FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("Eclipse formatter (*.xml)", "xml");
         //Now build a file chooser and invoke the dialog in one line of code
         //"user-dir" is our unique key
-        File toAdd = new FileChooserBuilder("user-dir").setFilesOnly(true).setTitle("Open File").
-        setDefaultWorkingDirectory(home).setApproveText("Open").showOpenDialog();
+        File toAdd = new FileChooserBuilder("user-dir").setFilesOnly(true).setTitle("Choose Eclipse formatter file ...").
+                setDefaultWorkingDirectory(home).setApproveText("Choose").
+                addFileFilter(fileNameExtensionFilter).setFileFilter(fileNameExtensionFilter).
+                showOpenDialog();
         //Result will be null if the user clicked cancel or closed the dialog w/o OK
-        if (toAdd != null && toAdd.getName().endsWith("xml")) {
+        if (toAdd != null) {
             absolutePath = toAdd.getAbsolutePath();
             formatterLocField.setText(absolutePath);
             formatterLocField.addActionListener(new ActionListener() {
@@ -226,7 +230,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
                         Exceptions.printStackTrace(ex);
                     }
                 }
-            });
+            }); 
             try {
                 previewPane.setText(FileUtil.toFileObject(FileUtil.normalizeFile(new File(absolutePath))).asText());
             } catch (IOException ex) {
@@ -236,64 +240,78 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_browseButtonActionPerformed
 
     void load() {
-        String globalEclipseFormatterLocation = NbPreferences.forModule(EclipseFormatterPanel.class).get("globalEclipseFormatterLocation", "<no Eclipse formatter defined>");
+        String globalEclipseFormatterLocation = NbPreferences.forModule(EclipseFormatterPanel.class).get("globalEclipseFormatterLocation", NO__ECLIPSE_FORMATTER_DEFINED);
         boolean isGlobalEclipseFormatterEnabled = NbPreferences.forModule(EclipseFormatterPanel.class).getBoolean("isGlobalEclipseFormatterEnabled", false);
         if (project != null) {
-            String localEclipseFormatteLocation;
-            boolean isLocalEclipseFormatterEnabled;
-            boolean isLocalNetBeansFormatterEnabled;
-            Preferences projectPrefs = ProjectUtils.getPreferences(project, IndentUtils.class, true);
-            localEclipseFormatteLocation = projectPrefs.get("localEclipseFormatterLocation", "<no Eclipse formatter defined>");
-            isLocalEclipseFormatterEnabled = projectPrefs.getBoolean("isLocalEclipseFormatterEnabled", false);
-            isLocalNetBeansFormatterEnabled = projectPrefs.getBoolean("isLocalNetBeansFormatterEnabled", false);
-            if (isGlobalEclipseFormatterEnabled && !isLocalEclipseFormatterEnabled) {
-                localEclipseFormatteLocation = globalEclipseFormatterLocation;
-            }
-            formatterLocField.setText(localEclipseFormatteLocation);
-            netbeansCheckbox.setSelected(isLocalNetBeansFormatterEnabled);
-            if (netbeansCheckbox.isSelected()) {
-                enablementCheckbox.setSelected(false);
-            } else {
-                enablementCheckbox.setSelected(isLocalEclipseFormatterEnabled);
-            }
-            if (!localEclipseFormatteLocation.equals("<no Eclipse formatter defined>")) {
-                if (FileUtil.normalizeFile(new File(localEclipseFormatteLocation)).exists()) {
-                    try {
-                        previewPane.setText(FileUtil.toFileObject(FileUtil.normalizeFile(new File(localEclipseFormatteLocation))).asText());
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                }
-            } else if (!globalEclipseFormatterLocation.equals("<no Eclipse formatter defined>")) {
-                if (FileUtil.normalizeFile(new File(globalEclipseFormatterLocation)).exists()) {
-                    try {
-                        previewPane.setText(FileUtil.toFileObject(FileUtil.normalizeFile(new File(globalEclipseFormatterLocation))).asText());
-                        formatterLocField.setText(globalEclipseFormatterLocation);
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                }
-            }
-            netbeansCheckbox.setText("Use NetBeans Formatting");
-            enablementCheckbox.setText("Override global Eclipse formatter");
-            enableUI();
+            loadProjectOptionsUI(isGlobalEclipseFormatterEnabled, globalEclipseFormatterLocation);
         } else {
-            //If no Project in context, i.e., in Options window:
-            if (isGlobalEclipseFormatterEnabled) {
-                if (FileUtil.normalizeFile(new File(globalEclipseFormatterLocation)).exists()) {
-                    try {
-                        previewPane.setText(FileUtil.toFileObject(FileUtil.normalizeFile(new File(globalEclipseFormatterLocation))).asText());
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
+            loadOptionsWindowUI(isGlobalEclipseFormatterEnabled, globalEclipseFormatterLocation);
+        }
+    }
+
+    private void loadProjectOptionsUI(boolean isGlobalEclipseFormatterEnabled, String globalEclipseFormatterLocation) {
+        final File globalNormalizedFile = FileUtil.normalizeFile(new File(globalEclipseFormatterLocation));
+
+        Preferences projectPrefs = ProjectUtils.getPreferences(project, IndentUtils.class, true);
+        final boolean isLocalEclipseFormatterEnabled = projectPrefs.getBoolean("isLocalEclipseFormatterEnabled", false);
+        final boolean isLocalNetBeansFormatterEnabled = projectPrefs.getBoolean("isLocalNetBeansFormatterEnabled", false);
+        
+        String localEclipseFormatteLocation;
+        if (isGlobalEclipseFormatterEnabled && !isLocalEclipseFormatterEnabled) {
+            localEclipseFormatteLocation = globalEclipseFormatterLocation;
+        }else{
+            localEclipseFormatteLocation = projectPrefs.get("localEclipseFormatterLocation", NO__ECLIPSE_FORMATTER_DEFINED);
+        }
+        formatterLocField.setText(localEclipseFormatteLocation);
+        netbeansCheckbox.setSelected(isLocalNetBeansFormatterEnabled);
+        if (netbeansCheckbox.isSelected()) {
+            enablementCheckbox.setSelected(false);
+        } else {
+            enablementCheckbox.setSelected(isLocalEclipseFormatterEnabled);
+        }
+        if (!localEclipseFormatteLocation.equals(NO__ECLIPSE_FORMATTER_DEFINED)) {
+            final File localFile = FileUtil.normalizeFile(new File(localEclipseFormatteLocation));
+            if (localFile.exists()) {
+                try {
+                    previewPane.setText(FileUtil.toFileObject(localFile).asText());
+                    formatterLocField.setText(localEclipseFormatteLocation);
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
                 }
             }
-            formatterLocField.setText(globalEclipseFormatterLocation);
-            enablementCheckbox.setSelected(isGlobalEclipseFormatterEnabled);
-            netbeansCheckbox.setText("Show Debug Information");
-            enablementCheckbox.setText("Define global Eclipse formatter");
-            enableUI();
+        } else if (!globalEclipseFormatterLocation.equals(NO__ECLIPSE_FORMATTER_DEFINED)) {
+            if (globalNormalizedFile.exists()) {
+                try {
+                    previewPane.setText(FileUtil.toFileObject(globalNormalizedFile).asText());
+                    formatterLocField.setText(globalEclipseFormatterLocation);
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
         }
+        netbeansCheckbox.setText("Use NetBeans Formatting");
+        enablementCheckbox.setText("Override global Eclipse formatter");
+        enableUI();
+    }
+    private static final String NO__ECLIPSE_FORMATTER_DEFINED = "<no Eclipse formatter defined>";
+
+    private void loadOptionsWindowUI(boolean isGlobalEclipseFormatterEnabled, String globalEclipseFormatterLocation) {
+        //If no Project in context, i.e., in Options window:
+        if (isGlobalEclipseFormatterEnabled) {
+            final File globalNormalizedFile = FileUtil.normalizeFile(new File(globalEclipseFormatterLocation));        
+            if (globalNormalizedFile.exists()) {
+                try {
+                    previewPane.setText(FileUtil.toFileObject(globalNormalizedFile).asText());
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
+        }
+        formatterLocField.setText(globalEclipseFormatterLocation);
+        enablementCheckbox.setSelected(isGlobalEclipseFormatterEnabled);
+        netbeansCheckbox.setText("Show Debug Information");
+        enablementCheckbox.setText("Define global Eclipse formatter");
+        enableUI();
     }
 
     void store() {
@@ -305,20 +323,20 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
     }
 
     boolean valid() {
+        errorLabel.setText("");
         if (netbeansCheckbox.isSelected()){
-            errorLabel.setText("");
             return true;
         }
         else if (enablementCheckbox.isSelected()) {
-            if (new File(formatterLocField.getText()).exists() && new File(formatterLocField.getText()).getName().endsWith("xml")) {
-                errorLabel.setText("");
+            final String fileName = formatterLocField.getText();
+            final File file = new File(fileName);
+            if (file.exists() && file.getName().endsWith("xml")) {
                 return true;
             } else {
                 errorLabel.setText("OK button disabled until the Eclipse formatter is defined or disabled!");
                 return false;
             }
         } else {
-            errorLabel.setText("");
             return true;
         }
     }
@@ -336,11 +354,12 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void enableUI() {
-        jLabel1.setEnabled(enablementCheckbox.isSelected());
-        jLabel2.setEnabled(enablementCheckbox.isSelected());
-        browseButton.setEnabled(enablementCheckbox.isSelected());
-        formatterLocField.setEnabled(enablementCheckbox.isSelected());
-        previewPane.setEnabled(enablementCheckbox.isSelected());
+        final boolean isEnabled = enablementCheckbox.isSelected();
+        jLabel1.setEnabled(isEnabled);
+        jLabel2.setEnabled(isEnabled);
+        browseButton.setEnabled(isEnabled);
+        formatterLocField.setEnabled(isEnabled);
+        previewPane.setEnabled(isEnabled);
     }
 
 }
