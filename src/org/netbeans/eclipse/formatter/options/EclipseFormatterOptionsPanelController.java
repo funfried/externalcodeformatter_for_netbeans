@@ -2,14 +2,18 @@ package org.netbeans.eclipse.formatter.options;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.prefs.Preferences;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import org.netbeans.api.project.Project;
+import org.netbeans.api.project.ProjectUtils;
+import org.netbeans.modules.editor.indent.api.IndentUtils;
 import org.netbeans.spi.options.OptionsPanelController;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
+import org.openide.util.NbPreferences;
 
 @OptionsPanelController.SubRegistration(
         location = "Java",
@@ -25,17 +29,15 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
 
     @Override
     public void update() {
-        getPanelForGlobalConfig().load();
+//        Preferences pref=NbPreferences.forModule(EclipseFormatterPanel.class);
+//        Preferences projectPrefs = ProjectUtils.getPreferences(project, EclipseFormatterPanel.class, true);
+        panel.load();
         changed = false;
-    }
-
-    private EclipseFormatterPanel getPanelForGlobalConfig() {
-        return getPanel(null);
     }
 
     @Override
     public void applyChanges() {
-        getPanelForGlobalConfig().store();
+        panel.store();
         changed = false;
     }
 
@@ -46,7 +48,7 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
 
     @Override
     public boolean isValid() {
-        return getPanelForGlobalConfig().valid();
+        return panel.valid();
     }
 
     @Override
@@ -60,8 +62,16 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
     }
 
     @Override
-    public JComponent getComponent(Lookup masterLookup) {
-        return getPanel(masterLookup);
+    public EclipseFormatterPanel getComponent(Lookup masterLookup) {
+        final Project project = masterLookup.lookup(Project.class);
+        
+        Preferences preferences;
+        if (null==project){
+            preferences = NbPreferences.forModule(EclipseFormatterPanel.class);
+        }else{
+            preferences = ProjectUtils.getPreferences(project, EclipseFormatterPanel.class, true);
+        }
+        return getPanel(preferences);
     }
 
     @Override
@@ -74,27 +84,23 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
         pcs.removePropertyChangeListener(l);
     }
 
-    public EclipseFormatterPanel getPanel(Lookup lkp) {
+    public EclipseFormatterPanel getPanel(Preferences preferences) {
         if (panel == null) {
-            if (lkp != null) {
-                panel = new EclipseFormatterPanel(this, lkp.lookup(Project.class));
-            } else {
-                panel = new EclipseFormatterPanel(this, null);
-            }
+            panel = new EclipseFormatterPanel(this, preferences);
         }
         return panel;
     }
 
     public JTextField getLocationField() {
-        return getPanelForGlobalConfig().getFormatterLocField();
+        return panel.getFormatterLocField();
     }
     
     public JRadioButton getEnablement() {
-        return getPanelForGlobalConfig().getEnabledCheckbox();
+        return panel.getEnabledCheckbox();
     }
     
     public JRadioButton getNetBeans() {
-        return getPanelForGlobalConfig().getNetBeansCheckbox();
+        return panel.getNetBeansCheckbox();
     }
 
     void changed() {

@@ -5,37 +5,28 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.prefs.Preferences;
-import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.EditorKit;
-import org.netbeans.api.project.Project;
-import org.netbeans.api.project.ProjectUtils;
-import org.netbeans.modules.editor.indent.api.IndentUtils;
 import org.openide.filesystems.FileChooserBuilder;
 import org.openide.filesystems.FileUtil;
 import org.openide.text.CloneableEditorSupport;
 import org.openide.util.Exceptions;
-import org.openide.util.NbPreferences;
 
 public class EclipseFormatterPanel extends javax.swing.JPanel {
+    private final Preferences preferences;
 
-    enum Foo{
-        DISABLED_GLOBAL,
-        USE_ECLIPSE_GLOBAL,
-        DISABLED_LOCAL,
-        USE_ECLIPSE_LOCAL_GLOBALOVERRIDE,
+    public Preferences getPreferences() {
+        return preferences;
     }
     
     private EclipseFormatterOptionsPanelController controller;
-    private final Project project;
 
-    public EclipseFormatterPanel(final EclipseFormatterOptionsPanelController controller, Project p) {
+    public EclipseFormatterPanel(final EclipseFormatterOptionsPanelController controller, Preferences preferences) {
         this.controller = controller;
-        this.project = p;
         initComponents();
         enableUI();
         
@@ -83,6 +74,8 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
                 controller.changed();
             }
         });
+        this.preferences = preferences;
+        previewPane.setText(preferences.toString());
         
     }
 
@@ -257,58 +250,10 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
         }
     }
 
-    void load() {
-        String globalEclipseFormatterLocation = NbPreferences.forModule(EclipseFormatterPanel.class).get("globalEclipseFormatterLocation", NO__ECLIPSE_FORMATTER_DEFINED);
-        boolean isGlobalEclipseFormatterEnabled = NbPreferences.forModule(EclipseFormatterPanel.class).getBoolean("isGlobalEclipseFormatterEnabled", false);
-        if (project != null) {
-            loadProjectOptionsUI(isGlobalEclipseFormatterEnabled, globalEclipseFormatterLocation);
-        } else {
-            loadOptionsWindowUI(isGlobalEclipseFormatterEnabled, globalEclipseFormatterLocation);
-        }
-    }
-
-    private void loadProjectOptionsUI(boolean isGlobalEclipseFormatterEnabled, String globalEclipseFormatterLocation) {
-        final File globalNormalizedFile = FileUtil.normalizeFile(new File(globalEclipseFormatterLocation));
-
-        Preferences projectPrefs = ProjectUtils.getPreferences(project, IndentUtils.class, true);
-        final boolean isLocalEclipseFormatterEnabled = projectPrefs.getBoolean("isLocalEclipseFormatterEnabled", false);
-        final boolean isLocalNetBeansFormatterEnabled = projectPrefs.getBoolean("isLocalNetBeansFormatterEnabled", false);
-        
-        String localEclipseFormatteLocation;
-        if (isGlobalEclipseFormatterEnabled && !isLocalEclipseFormatterEnabled) {
-            localEclipseFormatteLocation = globalEclipseFormatterLocation;
-        }else{
-            localEclipseFormatteLocation = projectPrefs.get("localEclipseFormatterLocation", NO__ECLIPSE_FORMATTER_DEFINED);
-        }
-        formatterLocField.setText(localEclipseFormatteLocation);
-        rbUseNetBeans.setSelected(isLocalNetBeansFormatterEnabled);
-        if (rbUseNetBeans.isSelected()) {
-            rbUseEclipse.setSelected(false);
-        } else {
-            rbUseEclipse.setSelected(isLocalEclipseFormatterEnabled);
-        }
-        if (!localEclipseFormatteLocation.equals(NO__ECLIPSE_FORMATTER_DEFINED)) {
-            final File localFile = FileUtil.normalizeFile(new File(localEclipseFormatteLocation));
-            if (localFile.exists()) {
-                try {
-                    previewPane.setText(FileUtil.toFileObject(localFile).asText());
-                    formatterLocField.setText(localEclipseFormatteLocation);
-                } catch (IOException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-            }
-        } else if (!globalEclipseFormatterLocation.equals(NO__ECLIPSE_FORMATTER_DEFINED)) {
-            if (globalNormalizedFile.exists()) {
-                try {
-                    previewPane.setText(FileUtil.toFileObject(globalNormalizedFile).asText());
-                    formatterLocField.setText(globalEclipseFormatterLocation);
-                } catch (IOException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-            }
-        }
-        rbUseEclipse.setText("Override global Eclipse formatter");
-        enableUI();
+    public void load() {
+        String globalEclipseFormatterLocation = preferences.get("globalEclipseFormatterLocation", NO__ECLIPSE_FORMATTER_DEFINED);
+        boolean isGlobalEclipseFormatterEnabled = preferences.getBoolean("isGlobalEclipseFormatterEnabled", false);
+        loadOptionsWindowUI(isGlobalEclipseFormatterEnabled, globalEclipseFormatterLocation);
     }
     private static final String NO__ECLIPSE_FORMATTER_DEFINED = "<no Eclipse formatter defined>";
 
@@ -333,10 +278,10 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
         enableUI();
     }
 
-    void store() {
-        NbPreferences.forModule(EclipseFormatterPanel.class).put("globalEclipseFormatterLocation", formatterLocField.getText());
-        NbPreferences.forModule(EclipseFormatterPanel.class).putBoolean("isGlobalEclipseFormatterEnabled", rbUseEclipse.isSelected());
-        NbPreferences.forModule(EclipseFormatterPanel.class).putBoolean("globalEclipseFormatterDebug", cbShowNotifications.isSelected());
+    public void store() {
+        preferences.put("globalEclipseFormatterLocation", formatterLocField.getText());
+        preferences.putBoolean("isGlobalEclipseFormatterEnabled", rbUseEclipse.isSelected());
+        preferences.putBoolean("globalEclipseFormatterDebug", cbShowNotifications.isSelected());
     }
 
     boolean valid() {
