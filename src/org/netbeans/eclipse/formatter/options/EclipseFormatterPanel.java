@@ -146,6 +146,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
         jScrollPane2.setViewportView(previewPane);
 
         org.openide.awt.Mnemonics.setLocalizedText(cbShowNotifications, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbShowNotifications.text")); // NOI18N
+        cbShowNotifications.setToolTipText(org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbShowNotifications.toolTipText")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
