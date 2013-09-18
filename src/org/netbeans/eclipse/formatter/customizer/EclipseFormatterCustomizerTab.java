@@ -6,6 +6,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.prefs.Preferences;
 import javax.swing.JComponent;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.eclipse.formatter.options.EclipseFormatterOptionsPanelController;
@@ -15,10 +17,12 @@ import org.netbeans.spi.project.ui.support.ProjectCustomizer;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer.Category;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
+import org.openide.util.WeakListeners;
 
 public class EclipseFormatterCustomizerTab implements ProjectCustomizer.CompositeCategoryProvider {
 
     private final String name;
+    private Listener listener;
 
     private EclipseFormatterCustomizerTab(String name) {
         this.name = name;
@@ -31,24 +35,22 @@ public class EclipseFormatterCustomizerTab implements ProjectCustomizer.Composit
 
     @Override
     public JComponent createComponent(final Category category, final Lookup lkp) {
-        final EclipseFormatterOptionsPanelController efopc = new EclipseFormatterOptionsPanelController();
-        final EclipseFormatterPanel component = efopc.getComponent(lkp);
-        efopc.update();
-        category.setOkButtonListener(new ActionListener() {
+
+        final Project project = lkp.lookup(Project.class);
+        Preferences preferences = ProjectUtils.getPreferences(project, EclipseFormatterPanel.class, true);
+        final EclipseFormatterPanel component = new EclipseFormatterPanel(preferences);
+        component.load();
+        
+        category.setStoreListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 component.store();
             }
         });
-        efopc.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                category.setValid(efopc.isValid());
-            }
-        });
-//        efopc.get
-//        return new EclipseFormatterPanel(efopc, lkp.lookup(Project.class));
-        return component;        
+
+        listener = new Listener(category, component);
+        component.addChangeListener(WeakListeners.change(listener, component));
+        return component;   
     }
 
     @NbBundle.Messages({"LBL_Config=Eclipse Formatting"})
@@ -60,5 +62,21 @@ public class EclipseFormatterCustomizerTab implements ProjectCustomizer.Composit
     })
     public static EclipseFormatterCustomizerTab createMyDemoConfigurationTab() {
         return new EclipseFormatterCustomizerTab(Bundle.LBL_Config());
+    }
+    
+    private class Listener implements ChangeListener {
+
+        private final Category category;
+        private final EclipseFormatterPanel component;
+
+        private Listener(Category category, EclipseFormatterPanel component) {
+            this.category = category;
+            this.component = component;
+        }
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            category.setValid(component.isValid());
+        }
     }
 }

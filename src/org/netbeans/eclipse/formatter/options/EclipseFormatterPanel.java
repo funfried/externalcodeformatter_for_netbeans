@@ -2,11 +2,16 @@ package org.netbeans.eclipse.formatter.options;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.prefs.Preferences;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -23,10 +28,13 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
         return preferences;
     }
     
-    private EclipseFormatterOptionsPanelController controller;
+    private transient final Collection<ChangeListener> changeListeners=new ArrayList<ChangeListener>();
 
-    public EclipseFormatterPanel(final EclipseFormatterOptionsPanelController controller, Preferences preferences) {
-        this.controller = controller;
+    public void addChangeListener(ChangeListener listener) {
+        changeListeners.add(listener);
+    }
+
+    public EclipseFormatterPanel(Preferences preferences) {
         initComponents();
         enableUI();
         
@@ -36,42 +44,42 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
         formatterLocField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                controller.changed();
+                fireChangedListener();
             }
             @Override
             public void removeUpdate(DocumentEvent e) {
-                controller.changed();
+                fireChangedListener();            
             }
             @Override
             public void changedUpdate(DocumentEvent e) {
-                controller.changed();
+                fireChangedListener();
             }
         });
         rbUseEclipse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                     enableUI();
-                    controller.changed();
+                    fireChangedListener();
             }
         });
         rbUseNetBeans.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                     enableUI();
-                    controller.changed();
+                    fireChangedListener();
             }
         });
         formatterLocField.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setConfigFileAndUpdatePreviewPane(formatterLocField.getText());
-                    controller.changed();
+                    fireChangedListener();
                 }
             });
         cbShowNotifications.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.changed();
+                fireChangedListener();
             }
         });
         this.preferences = preferences;
@@ -79,16 +87,10 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
         
     }
 
-    public JTextField getFormatterLocField() {
-        return formatterLocField;
-    }
-    
-    public JRadioButton getEnabledCheckbox() {
-        return rbUseEclipse;
-    }
-    
-    public JRadioButton getNetBeansCheckbox() {
-        return rbUseNetBeans;
+    private void fireChangedListener() {
+        for (ChangeListener changeListener : changeListeners) {
+            changeListener.stateChanged(null);
+        }
     }
 
     /**

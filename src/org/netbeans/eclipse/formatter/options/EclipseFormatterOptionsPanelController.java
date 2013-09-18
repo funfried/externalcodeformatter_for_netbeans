@@ -1,5 +1,6 @@
 package org.netbeans.eclipse.formatter.options;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.prefs.Preferences;
@@ -7,6 +8,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.modules.editor.indent.api.IndentUtils;
@@ -14,6 +17,8 @@ import org.netbeans.spi.options.OptionsPanelController;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
 import org.openide.util.NbPreferences;
+import org.openide.util.Utilities;
+import org.openide.util.WeakListeners;
 
 @OptionsPanelController.SubRegistration(
         location = "Java",
@@ -21,7 +26,7 @@ import org.openide.util.NbPreferences;
         keywords = "#AdvancedOption_Keywords_EclipseFormatter",
         keywordsCategory = "Java/EclipseFormatter")
 @org.openide.util.NbBundle.Messages({"AdvancedOption_DisplayName_EclipseFormatter=Eclipse Formatter", "AdvancedOption_Keywords_EclipseFormatter=format Eclipse"})
-public final class EclipseFormatterOptionsPanelController extends OptionsPanelController {
+public final class EclipseFormatterOptionsPanelController extends OptionsPanelController implements ChangeListener {
 
     private EclipseFormatterPanel panel;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -29,15 +34,13 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
 
     @Override
     public void update() {
-//        Preferences pref=NbPreferences.forModule(EclipseFormatterPanel.class);
-//        Preferences projectPrefs = ProjectUtils.getPreferences(project, EclipseFormatterPanel.class, true);
-        panel.load();
+        createOrGetPanel().load();
         changed = false;
     }
 
     @Override
     public void applyChanges() {
-        panel.store();
+        createOrGetPanel().store();
         changed = false;
     }
 
@@ -48,7 +51,7 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
 
     @Override
     public boolean isValid() {
-        return panel.valid();
+        return createOrGetPanel().valid();
     }
 
     @Override
@@ -63,15 +66,16 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
 
     @Override
     public EclipseFormatterPanel getComponent(Lookup masterLookup) {
-        final Project project = masterLookup.lookup(Project.class);
-        
-        Preferences preferences;
-        if (null==project){
-            preferences = NbPreferences.forModule(EclipseFormatterPanel.class);
-        }else{
-            preferences = ProjectUtils.getPreferences(project, EclipseFormatterPanel.class, true);
+        return createOrGetPanel();
+    }
+
+    private EclipseFormatterPanel createOrGetPanel() {
+        if (null == panel) {
+            Preferences preferences = NbPreferences.forModule(EclipseFormatterPanel.class);
+            panel = new EclipseFormatterPanel(preferences);
+            panel.addChangeListener(WeakListeners.change (this, panel));
         }
-        return getPanel(preferences);
+        return panel;
     }
 
     @Override
@@ -84,26 +88,13 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
         pcs.removePropertyChangeListener(l);
     }
 
-    public EclipseFormatterPanel getPanel(Preferences preferences) {
-        if (panel == null) {
-            panel = new EclipseFormatterPanel(this, preferences);
-        }
-        return panel;
-    }
 
-    public JTextField getLocationField() {
-        return panel.getFormatterLocField();
-    }
-    
-    public JRadioButton getEnablement() {
-        return panel.getEnabledCheckbox();
-    }
-    
-    public JRadioButton getNetBeans() {
-        return panel.getNetBeansCheckbox();
-    }
-
-    void changed() {
+    /**
+     * Something in the panel has changed, so inform the listeners of this controller too.
+     * @param e 
+     */
+    @Override
+    public void stateChanged(ChangeEvent e) {
         if (!changed) {
             changed = true;
             pcs.firePropertyChange(OptionsPanelController.PROP_CHANGED, false, true);
