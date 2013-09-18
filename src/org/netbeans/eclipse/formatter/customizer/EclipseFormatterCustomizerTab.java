@@ -35,10 +35,8 @@ public class EclipseFormatterCustomizerTab implements ProjectCustomizer.Composit
 
     @Override
     public JComponent createComponent(final Category category, final Lookup lkp) {
-
-        final Project project = lkp.lookup(Project.class);
-        Preferences preferences = ProjectUtils.getPreferences(project, EclipseFormatterPanel.class, true);
-        final EclipseFormatterPanel component = new EclipseFormatterPanel(preferences);
+        Preferences projectPreferences = ProjectUtils.getPreferences(lkp.lookup(Project.class), EclipseFormatterPanel.class, true);
+        final EclipseFormatterPanel component = new EclipseFormatterPanel(projectPreferences);
         component.load();
         
         category.setStoreListener(new ActionListener() {
