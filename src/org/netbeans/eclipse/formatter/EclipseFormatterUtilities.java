@@ -1,42 +1,26 @@
 package org.netbeans.eclipse.formatter;
 
-import java.util.prefs.Preferences;
 import javax.swing.Icon;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.EditorRegistry;
-import org.netbeans.eclipse.formatter.options.EclipseFormatterPanel;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.netbeans.modules.editor.indent.api.Reformat;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
-import org.openide.util.NbPreferences;
 
 public class EclipseFormatterUtilities {
 
     public static Icon icon = ImageUtilities.image2Icon(ImageUtilities.loadImage("org/netbeans/eclipse/formatter/icon.png"));
 
-    static EclipseFormatter ef;
-    static Preferences globalPrefs;
-
-    public static EclipseFormatter getEclipseFormatter() {
-        if (ef == null) {
-            ef = new EclipseFormatter();
-        }
-        return ef;
+    public static EclipseFormatter getEclipseFormatter(String formatterFile) {
+        return new EclipseFormatter(formatterFile);
     }
 
-    public static Preferences getGlobalPrefs() {
-        if (globalPrefs == null) {
-            globalPrefs = NbPreferences.forModule(EclipseFormatterPanel.class);;
-        }
-        return globalPrefs;
-    }
-
-    public void reFormatWithEclipse(StyledDocument document, EclipseFormatter formatter, boolean isJava) {
+    public void reFormatWithEclipse(StyledDocument document, EclipseFormatter formatter) {
         int caret = -1;
         JTextComponent editor = EditorRegistry.lastFocusedComponent();
         if (editor != null) {
@@ -45,15 +29,13 @@ public class EclipseFormatterUtilities {
         final int length = document.getLength();
         String result = null;
         try {
-            if (isJava) {
-                String docText = null;
-                try {
-                    docText = document.getText(0, length);
-                } catch (BadLocationException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-                result = formatter.forCode(docText);
+            String docText = null;
+            try {
+                docText = document.getText(0, length);
+            } catch (BadLocationException ex) {
+                Exceptions.printStackTrace(ex);
             }
+            result = formatter.forCode(docText);
         } finally {
             if (result != null) {
                 try {

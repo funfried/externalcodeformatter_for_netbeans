@@ -57,7 +57,7 @@
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <specification-version>1.71.2.40</specification-version>
+                        <specification-version>1.81.1.43</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -67,6 +67,24 @@
                     <run-dependency>
                         <release-version>1</release-version>
                         <specification-version>1.29.1</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.netbeans.modules.editor.settings</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <release-version>1</release-version>
+                        <specification-version>1.49.1</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.netbeans.modules.editor.util</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <release-version>1</release-version>
+                        <specification-version>1.55.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>

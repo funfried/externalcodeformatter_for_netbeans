@@ -12,14 +12,12 @@ import java.util.prefs.Preferences;
 import javax.swing.event.ChangeListener;
 import org.netbeans.eclipse.formatter.options.EclipseFormatterPanel;
 
-/**
- *
- * @author markiewb
- */
+
 public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements VerifiableConfigPanel {
 
     private final Preferences projectPreferences;
     private final EclipseFormatterPanel innerComponent;
+    public static final String USE_PROJECT_SETTINGS = "useProjectSettings";
 
     ProjectSpecificSettingsPanel(EclipseFormatterPanel innerComponent, Preferences projectPreferences) {
         initComponents();
@@ -72,13 +70,13 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
 
     @Override
     public void load() {
-        boolean useProjectSettings = projectPreferences.getBoolean("useProjectSettings", false);
+        boolean useProjectSettings = projectPreferences.getBoolean(USE_PROJECT_SETTINGS, false);
         cbOverrideGlobalSettings.setSelected(useProjectSettings);
     }
 
     @Override
     public void store() {
-        projectPreferences.putBoolean("useProjectSettings", cbOverrideGlobalSettings.isSelected());
+        projectPreferences.putBoolean(USE_PROJECT_SETTINGS, cbOverrideGlobalSettings.isSelected());
     }
 
     private transient final Collection<ChangeListener> changeListeners = new ArrayList<ChangeListener>();

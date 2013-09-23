@@ -24,7 +24,10 @@ import org.openide.util.Exceptions;
 
 public class EclipseFormatterPanel extends javax.swing.JPanel implements VerifiableConfigPanel{
     private final Preferences preferences;
-
+    public static final String SHOW_NOTIFICATIONS = "showNotifications";
+    public static final String ECLIPSE_FORMATTER_ENABLED = "eclipseFormatterEnabled";
+    public static final String ECLIPSE_FORMATTER_LOCATION = "eclipseFormatterLocation";
+    
     public Preferences getPreferences() {
         return preferences;
     }
@@ -255,9 +258,9 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
 
     @Override
     public void load() {
-        String eclipseFormatterLocation = preferences.get("eclipseFormatterLocation", null);
-        boolean isEclipseFormatterEnabled = preferences.getBoolean("eclipseFormatterEnabled", false);
-        boolean showNotifications = preferences.getBoolean("showNotifications", false);
+        String eclipseFormatterLocation = preferences.get(ECLIPSE_FORMATTER_LOCATION, null);
+        boolean isEclipseFormatterEnabled = preferences.getBoolean(ECLIPSE_FORMATTER_ENABLED, false);
+        boolean showNotifications = preferences.getBoolean(SHOW_NOTIFICATIONS, false);
         loadOptionsWindowUI(isEclipseFormatterEnabled, eclipseFormatterLocation, showNotifications);
     }
 
@@ -286,9 +289,9 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
 
     @Override
     public void store() {
-        preferences.put("eclipseFormatterLocation", formatterLocField.getText());
-        preferences.putBoolean("eclipseFormatterEnabled", rbUseEclipse.isSelected());
-        preferences.putBoolean("showNotifications", cbShowNotifications.isSelected());
+        preferences.put(ECLIPSE_FORMATTER_LOCATION, formatterLocField.getText());
+        preferences.putBoolean(ECLIPSE_FORMATTER_ENABLED, rbUseEclipse.isSelected());
+        preferences.putBoolean(SHOW_NOTIFICATIONS, cbShowNotifications.isSelected());
     }
 
     boolean valid() {

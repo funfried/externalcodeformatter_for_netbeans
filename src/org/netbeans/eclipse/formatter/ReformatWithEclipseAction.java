@@ -30,20 +30,15 @@ import org.openide.util.actions.CookieAction;
 public class ReformatWithEclipseAction extends CookieAction implements ActionListener {
 
     private EditorCookie context = null;
-    private EclipseFormatter formatter;
 
-    public ReformatWithEclipseAction() {
-        this.formatter = EclipseFormatterUtilities.getEclipseFormatter();
-    }
-    
     @Override
     protected boolean enable(Node[] nodes) {
-        if (nodes.length==1) {
+        if (nodes.length == 1) {
             final EditorCookie editorCookie = nodes[0].getLookup().lookup(EditorCookie.class);
-            if (editorCookie != null && null!=editorCookie.getDocument()) {
+            if (editorCookie != null && null != editorCookie.getDocument()) {
                 boolean isJava = EclipseFormatterUtilities.isJava(editorCookie.getDocument());
                 if (isJava) {
-                    context=editorCookie;
+                    context = editorCookie;
                     return true;
                 }
             }
@@ -51,7 +46,7 @@ public class ReformatWithEclipseAction extends CookieAction implements ActionLis
         context = null;
         return false;
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         final EditorCookie editorCookie = context;
@@ -59,16 +54,8 @@ public class ReformatWithEclipseAction extends CookieAction implements ActionLis
             return;
         }
         final StyledDocument styledDoc = editorCookie.getDocument();
-        GuardedSectionManager guards = GuardedSectionManager.getInstance(styledDoc);
-        EclipseFormatterUtilities u = new EclipseFormatterUtilities();
-        if (guards == null && this.formatter != null) {
-            u.reFormatWithEclipse(styledDoc, formatter, u.isJava(styledDoc));
-        } else {
-            if (EclipseFormatterUtilities.getGlobalPrefs().getBoolean("globalEclipseFormatterDebug", false) == true) {
-                NotificationDisplayer.getDefault().notify("NetBeans formatter", EclipseFormatterUtilities.icon, "(Files with guarded blocks are not supported by Eclipse formatters)", null);
-            }
-            u.reformatWithNetBeans(styledDoc);
-        }
+        
+        new FormatJavaAction().format(styledDoc);
     }
 
     @Override
@@ -83,10 +70,14 @@ public class ReformatWithEclipseAction extends CookieAction implements ActionLis
 
     //Not used:
     @Override
-    public String getName() {return null;}
- 
+    public String getName() {
+        return null;
+    }
+
     //Not used:
-    @Override protected void performAction(Node[] nodes) {}
+    @Override
+    protected void performAction(Node[] nodes) {
+    }
 
     @Override
     public HelpCtx getHelpCtx() {
