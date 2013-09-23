@@ -72,6 +72,7 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
     public void load() {
         boolean useProjectSettings = projectPreferences.getBoolean(USE_PROJECT_SETTINGS, false);
         cbOverrideGlobalSettings.setSelected(useProjectSettings);
+        innerPanel.setVisible(useProjectSettings);
     }
 
     @Override

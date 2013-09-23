@@ -8,6 +8,7 @@ package org.netbeans.eclipse.formatter;
 import java.util.prefs.Preferences;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
+import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.eclipse.formatter.customizer.ProjectSpecificSettingsPanel;
@@ -44,11 +45,16 @@ public class FormatJavaAction {
     }
 
     private Preferences getActivePreferences(final StyledDocument styledDoc) {
-        Project project = NbEditorUtilities.getFileObject(styledDoc).getLookup().lookup(Project.class);
-        Preferences projectPreferences = ProjectUtils.getPreferences(project, EclipseFormatterPanel.class, true);
         Preferences globalPreferences = NbPreferences.forModule(EclipseFormatterPanel.class);
-        if (projectPreferences.getBoolean(ProjectSpecificSettingsPanel.USE_PROJECT_SETTINGS, false)) {
-            return projectPreferences;
+        Project project = FileOwnerQuery.getOwner(NbEditorUtilities.getDataObject(styledDoc).getPrimaryFile());
+        if (null != project) {
+            NotificationDisplayer.getDefault().notify("Project", EclipseFormatterUtilities.icon, "" + project, null);
+            Preferences projectPreferences = ProjectUtils.getPreferences(project, EclipseFormatterPanel.class, true);
+            if (projectPreferences.getBoolean(ProjectSpecificSettingsPanel.USE_PROJECT_SETTINGS, false)) {
+                return projectPreferences;
+            } else {
+                return globalPreferences;
+            }
         } else {
             return globalPreferences;
         }
