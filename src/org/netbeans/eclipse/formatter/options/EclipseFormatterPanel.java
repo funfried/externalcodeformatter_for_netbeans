@@ -16,12 +16,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.EditorKit;
+import org.netbeans.eclipse.formatter.customizer.VerifiableConfigPanel;
 import org.openide.filesystems.FileChooserBuilder;
 import org.openide.filesystems.FileUtil;
 import org.openide.text.CloneableEditorSupport;
 import org.openide.util.Exceptions;
 
-public class EclipseFormatterPanel extends javax.swing.JPanel {
+public class EclipseFormatterPanel extends javax.swing.JPanel implements VerifiableConfigPanel{
     private final Preferences preferences;
 
     public Preferences getPreferences() {
@@ -252,17 +253,18 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
         }
     }
 
+    @Override
     public void load() {
-        String globalEclipseFormatterLocation = preferences.get("globalEclipseFormatterLocation", NO__ECLIPSE_FORMATTER_DEFINED);
-        boolean isGlobalEclipseFormatterEnabled = preferences.getBoolean("isGlobalEclipseFormatterEnabled", false);
-        loadOptionsWindowUI(isGlobalEclipseFormatterEnabled, globalEclipseFormatterLocation);
+        String eclipseFormatterLocation = preferences.get("eclipseFormatterLocation", null);
+        boolean isEclipseFormatterEnabled = preferences.getBoolean("eclipseFormatterEnabled", false);
+        boolean showNotifications = preferences.getBoolean("showNotifications", false);
+        loadOptionsWindowUI(isEclipseFormatterEnabled, eclipseFormatterLocation, showNotifications);
     }
-    private static final String NO__ECLIPSE_FORMATTER_DEFINED = "<no Eclipse formatter defined>";
 
-    private void loadOptionsWindowUI(boolean isGlobalEclipseFormatterEnabled, String globalEclipseFormatterLocation) {
+    private void loadOptionsWindowUI(boolean isEclipseFormatterEnabled, String formatterFile, boolean showNotifications) {
         //If no Project in context, i.e., in Options window:
-        if (isGlobalEclipseFormatterEnabled) {
-            final File globalNormalizedFile = FileUtil.normalizeFile(new File(globalEclipseFormatterLocation));        
+        if (isEclipseFormatterEnabled) {
+            final File globalNormalizedFile = FileUtil.normalizeFile(new File(formatterFile));        
             if (globalNormalizedFile.exists()) {
                 try {
                     previewPane.setText(FileUtil.toFileObject(globalNormalizedFile).asText());
@@ -271,19 +273,22 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
                 }
             }
         }
-        formatterLocField.setText(globalEclipseFormatterLocation);
-        if (isGlobalEclipseFormatterEnabled) {
+        formatterLocField.setText(formatterFile);
+        if (isEclipseFormatterEnabled) {
             buttonGroup1.setSelected(rbUseEclipse.getModel(), true);
         }else{
             buttonGroup1.setSelected(rbUseNetBeans.getModel(), true);
         }
+        
+        cbShowNotifications.setSelected(showNotifications);
         enableUI();
     }
 
+    @Override
     public void store() {
-        preferences.put("globalEclipseFormatterLocation", formatterLocField.getText());
-        preferences.putBoolean("isGlobalEclipseFormatterEnabled", rbUseEclipse.isSelected());
-        preferences.putBoolean("globalEclipseFormatterDebug", cbShowNotifications.isSelected());
+        preferences.put("eclipseFormatterLocation", formatterLocField.getText());
+        preferences.putBoolean("eclipseFormatterEnabled", rbUseEclipse.isSelected());
+        preferences.putBoolean("showNotifications", cbShowNotifications.isSelected());
     }
 
     boolean valid() {
@@ -324,6 +329,11 @@ public class EclipseFormatterPanel extends javax.swing.JPanel {
         formatterLocField.setEnabled(isEnabled);
         previewPane.setEnabled(isEnabled);
         cbShowNotifications.setEnabled(isEnabled);
+    }
+
+    @Override
+    public boolean holdsValidConfig() {
+        return valid();
     }
 
 }

@@ -2,17 +2,13 @@ package org.netbeans.eclipse.formatter.customizer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.prefs.Preferences;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
-import org.netbeans.eclipse.formatter.options.EclipseFormatterOptionsPanelController;
 import org.netbeans.eclipse.formatter.options.EclipseFormatterPanel;
-import org.netbeans.modules.editor.indent.api.IndentUtils;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer.Category;
 import org.openide.util.Lookup;
@@ -36,19 +32,23 @@ public class EclipseFormatterCustomizerTab implements ProjectCustomizer.Composit
     @Override
     public JComponent createComponent(final Category category, final Lookup lkp) {
         Preferences projectPreferences = ProjectUtils.getPreferences(lkp.lookup(Project.class), EclipseFormatterPanel.class, true);
-        final EclipseFormatterPanel component = new EclipseFormatterPanel(projectPreferences);
-        component.load();
-        
+        final EclipseFormatterPanel configPanel = new EclipseFormatterPanel(projectPreferences);
+        final ProjectSpecificSettingsPanel projectSpecificSettingsPanel = new ProjectSpecificSettingsPanel(configPanel, projectPreferences);
+        configPanel.load();
+        projectSpecificSettingsPanel.load();
+
         category.setStoreListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                component.store();
+                configPanel.store();
+                projectSpecificSettingsPanel.store();
             }
         });
 
-        listener = new Listener(category, component);
-        component.addChangeListener(WeakListeners.change(listener, component));
-        return component;   
+        listener = new Listener(category, projectSpecificSettingsPanel);
+        configPanel.addChangeListener(WeakListeners.change(listener, configPanel));
+        projectSpecificSettingsPanel.addChangeListener(WeakListeners.change(listener, projectSpecificSettingsPanel));
+        return projectSpecificSettingsPanel;
     }
 
     @NbBundle.Messages({"LBL_Config=Eclipse Formatting"})
@@ -61,20 +61,20 @@ public class EclipseFormatterCustomizerTab implements ProjectCustomizer.Composit
     public static EclipseFormatterCustomizerTab createMyDemoConfigurationTab() {
         return new EclipseFormatterCustomizerTab(Bundle.LBL_Config());
     }
-    
+
     private class Listener implements ChangeListener {
 
         private final Category category;
-        private final EclipseFormatterPanel component;
+        private final ProjectSpecificSettingsPanel projectSpecificPanel;
 
-        private Listener(Category category, EclipseFormatterPanel component) {
+        private Listener(Category category, ProjectSpecificSettingsPanel projectSpecificPanel) {
             this.category = category;
-            this.component = component;
+            this.projectSpecificPanel = projectSpecificPanel;
         }
 
         @Override
         public void stateChanged(ChangeEvent e) {
-            category.setValid(component.isValid());
+            category.setValid(projectSpecificPanel.holdsValidConfig());
         }
     }
 }
