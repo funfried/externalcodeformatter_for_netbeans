@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <!-- restructure the original formatting panel to a hierarchy node -->
+    <folder name="Projects">
+        <folder name="org-netbeans-modules-java-j2seproject">
+            <folder name="Customizer">
+                <attr intvalue="1000" name="position"/>
+                <folder name="Formatting">
+                    <file name="Self.instance">
+                        <attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
+                        <attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
+                        <attr name="allowedMimeTypes" stringvalue="text/x-java"/>
+                        <attr name="position" intvalue="0"/>
+                    </file>
+                    <attr
+                        bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
+                    <attr intvalue="1000" name="position"/>
+                </folder>
+                <file name="Formatting.instance_hidden"/>
+            </folder>
+        </folder>
+        <folder name="org-netbeans-modules-web-project">
+            <folder name="Customizer">
+                <attr intvalue="1000" name="position"/>
+                <folder name="Formatting">
+                    <file name="Self.instance">
+                        <attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
+                        <attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
+                        <attr name="allowedMimeTypes" stringvalue="text/x-java"/>
+                        <attr name="position" intvalue="0"/>
+                    </file>
+                    <attr
+                        bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
+                    <attr intvalue="1000" name="position"/>
+                </folder>
+                <file name="Formatting.instance_hidden"/>
+            </folder>
+        </folder>
+        <folder name="org-netbeans-modules-apisupport-project">
+            <folder name="Customizer">
+                <attr intvalue="1000" name="position"/>
+                <folder name="Formatting">
+                    <file name="Self.instance">
+                        <attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
+                        <attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
+                        <attr name="allowedMimeTypes" stringvalue="text/x-java"/>
+                        <attr name="position" intvalue="0"/>
+                    </file>
+                    <attr
+                        bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
+                    <attr intvalue="1000" name="position"/>
+                </folder>
+                <file name="Formatting.instance_hidden"/>
+            </folder>
+        </folder>
+        <folder name="org-netbeans-modules-maven-project">
+            <folder name="Customizer">
+                <attr intvalue="1000" name="position"/>
+                <folder name="Formatting">
+                    <file name="Self.instance">
+                        <attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
+                        <attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
+                        <attr name="allowedMimeTypes" stringvalue="text/x-java"/>
+                        <attr name="position" intvalue="0"/>
+                    </file>
+                    <attr
+                        bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
+                    <attr intvalue="1000" name="position"/>
+                </folder>
+                <file name="Formatting.instance_hidden"/>
+            </folder>
+        </folder>
+    </folder>
+</filesystem>
