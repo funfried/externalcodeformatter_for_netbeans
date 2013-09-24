@@ -16,17 +16,15 @@ import org.openide.util.NbBundle;
 import org.openide.util.actions.CookieAction;
 
 @ActionID(
-        category = "Build",
+        category = "Source",
         id = "org.netbeans.eclipse.formatter.ReformatWithEclipseBeforeSaveTask")
 @ActionRegistration(
         lazy = true,
         displayName = "#CTL_EclipseFormatter")
 @ActionReferences({
-    @ActionReference(path = "Menu/Source", position = 0),
-    @ActionReference(path = "Editors/text/x-java/Actions", position = 0),
-    @ActionReference(path = "Shortcuts", name = "OS-F")
+    @ActionReference(path = "Menu/Source", position = 0)
 })
-@NbBundle.Messages("CTL_EclipseFormatter=Format")
+@NbBundle.Messages("CTL_EclipseFormatter=Format with Eclipse formatter")
 public class ReformatWithEclipseAction extends CookieAction implements ActionListener {
 
     private EditorCookie context = null;
