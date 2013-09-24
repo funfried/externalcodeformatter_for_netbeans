@@ -5,6 +5,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
+import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.editor.EditorRegistry;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.netbeans.modules.editor.indent.api.Reformat;
@@ -14,7 +15,15 @@ import org.openide.util.ImageUtilities;
 
 public class EclipseFormatterUtilities {
 
-    public static Icon icon = ImageUtilities.image2Icon(ImageUtilities.loadImage("org/netbeans/eclipse/formatter/icon.png"));
+    @StaticResource
+    private static final String eclipse = "org/netbeans/eclipse/formatter/eclipse.gif";
+    @StaticResource
+    private static final String netBeans = "org/netbeans/eclipse/formatter/netbeans.gif";
+
+    public static Icon iconEclipse = ImageUtilities.image2Icon(ImageUtilities.loadImage(eclipse));
+    public static Icon iconNetBeans = ImageUtilities.image2Icon(ImageUtilities.loadImage(netBeans));
+    
+    
 
     public static EclipseFormatter getEclipseFormatter(String formatterFile) {
         return new EclipseFormatter(formatterFile);

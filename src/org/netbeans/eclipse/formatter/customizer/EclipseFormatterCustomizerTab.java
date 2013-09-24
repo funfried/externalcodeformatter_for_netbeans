@@ -6,11 +6,13 @@ import java.util.prefs.Preferences;
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.eclipse.formatter.options.EclipseFormatterPanel;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer.Category;
+import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.WeakListeners;
@@ -24,9 +26,14 @@ public class EclipseFormatterCustomizerTab implements ProjectCustomizer.Composit
         this.name = name;
     }
 
+    
+    @StaticResource
+    private static final String ICON = "org/netbeans/eclipse/formatter/eclipse.gif";
+    
+    
     @Override
     public Category createCategory(Lookup lkp) {
-        return ProjectCustomizer.Category.create(name, name, null);
+        return ProjectCustomizer.Category.create(name, name, ImageUtilities.loadImage(ICON, false));
     }
 
     @Override

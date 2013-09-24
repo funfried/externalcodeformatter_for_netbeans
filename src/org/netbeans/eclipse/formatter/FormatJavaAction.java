@@ -15,6 +15,7 @@ import org.netbeans.eclipse.formatter.customizer.ProjectSpecificSettingsPanel;
 import org.netbeans.eclipse.formatter.options.EclipseFormatterPanel;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.awt.NotificationDisplayer;
+import org.openide.awt.StatusDisplayer;
 import org.openide.util.NbPreferences;
 
 /**
@@ -31,15 +32,24 @@ public class FormatJavaAction {
         Preferences pref = getActivePreferences(styledDoc);
 
         final boolean isEclipseFormatterEnabled = pref.getBoolean(EclipseFormatterPanel.ECLIPSE_FORMATTER_ENABLED, false);
+        final boolean showNotifications = pref.getBoolean(EclipseFormatterPanel.SHOW_NOTIFICATIONS, false);
 
         if (!hasGuardedSections && isJava && isEclipseFormatterEnabled) {
             String formatterFile = pref.get(EclipseFormatterPanel.ECLIPSE_FORMATTER_LOCATION, null);
             final EclipseFormatter formatter = EclipseFormatterUtilities.getEclipseFormatter(formatterFile);
-            NotificationDisplayer.getDefault().notify("Eclipse formatter", EclipseFormatterUtilities.icon, "Formatted using " + formatter + formatterFile, null);
+
+            if (showNotifications) {
+                NotificationDisplayer.getDefault().notify("Format using Eclipse formatter", EclipseFormatterUtilities.iconEclipse, formatterFile, null);
+            }
+            StatusDisplayer.getDefault().setStatusText("Format using Eclipse formatter");
             u.reFormatWithEclipse(styledDoc, formatter);
 
         } else {
-            NotificationDisplayer.getDefault().notify("NetBeans formatter", EclipseFormatterUtilities.icon, "Formatting using NB", null);
+
+            if (showNotifications) {
+                NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", EclipseFormatterUtilities.iconNetBeans, "", null);
+            }
+            StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
             u.reformatWithNetBeans(styledDoc);
         }
     }
@@ -48,7 +58,7 @@ public class FormatJavaAction {
         Preferences globalPreferences = NbPreferences.forModule(EclipseFormatterPanel.class);
         Project project = FileOwnerQuery.getOwner(NbEditorUtilities.getDataObject(styledDoc).getPrimaryFile());
         if (null != project) {
-            NotificationDisplayer.getDefault().notify("Project", EclipseFormatterUtilities.icon, "" + project, null);
+//            NotificationDisplayer.getDefault().notify("Project", null, "" + project, null);
             Preferences projectPreferences = ProjectUtils.getPreferences(project, EclipseFormatterPanel.class, true);
             if (projectPreferences.getBoolean(ProjectSpecificSettingsPanel.USE_PROJECT_SETTINGS, false)) {
                 return projectPreferences;
