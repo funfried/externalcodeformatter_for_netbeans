@@ -47,7 +47,16 @@ public class FormatJavaAction {
         } else {
 
             if (showNotifications) {
-                NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", EclipseFormatterUtilities.iconNetBeans, "", null);
+                String detail="";
+                if (hasGuardedSections && isEclipseFormatterEnabled){
+                    detail+="Because file contains guarded sections. ";
+                }
+                if (!isJava) {
+                    detail+="Because file isn't a Java file. ";
+                    
+                }
+                
+                NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", EclipseFormatterUtilities.iconNetBeans, detail, null);
             }
             StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
             u.reformatWithNetBeans(styledDoc);
