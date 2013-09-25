@@ -27,7 +27,6 @@ import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReadException;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
-import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
 import org.xml.sax.SAXException;

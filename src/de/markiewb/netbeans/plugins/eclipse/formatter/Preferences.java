@@ -10,7 +10,6 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
-import de.markiewb.netbeans.plugins.eclipse.formatter.customizer.ProjectSpecificSettingsPanel;
 import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.project.FileOwnerQuery;

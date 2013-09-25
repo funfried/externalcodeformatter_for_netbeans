@@ -10,11 +10,8 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
-import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ENABLED;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ENABLE_SAVEACTION;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.SHOW_NOTIFICATIONS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.getActivePreferences;
-import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.prefs.Preferences;
 import javax.swing.text.Document;

@@ -10,24 +10,15 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter.options;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.prefs.Preferences;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import org.netbeans.api.project.Project;
-import org.netbeans.api.project.ProjectUtils;
-import org.netbeans.modules.editor.indent.api.IndentUtils;
 import org.netbeans.spi.options.OptionsPanelController;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
 import org.openide.util.NbPreferences;
-import org.openide.util.Utilities;
 import org.openide.util.WeakListeners;
 
 @OptionsPanelController.SubRegistration(

@@ -17,15 +17,8 @@ import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.getActi
 import java.util.prefs.Preferences;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
-import org.netbeans.api.project.FileOwnerQuery;
-import org.netbeans.api.project.Project;
-import org.netbeans.api.project.ProjectUtils;
-import de.markiewb.netbeans.plugins.eclipse.formatter.customizer.ProjectSpecificSettingsPanel;
-import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel;
-import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
-import org.openide.util.NbPreferences;
 
 /**
  *
