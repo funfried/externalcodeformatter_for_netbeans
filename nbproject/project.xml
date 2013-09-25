@@ -12,7 +12,7 @@
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <specification-version>1.21.1.121</specification-version>
+                        <specification-version>1.18.1.121</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -21,7 +21,7 @@
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <specification-version>1.21.1</specification-version>
+                        <specification-version>1.17.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -30,7 +30,7 @@
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>3</release-version>
-                        <specification-version>1.71.2.5.21.40</specification-version>
+                        <specification-version>1.70.1.5.21.40</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -52,21 +52,12 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
-                    <code-name-base>org.netbeans.modules.editor.indent.project</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <release-version>0</release-version>
-                        <specification-version>1.12.1</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
                     <code-name-base>org.netbeans.modules.editor.lib2</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <specification-version>1.81.1.43</specification-version>
+                        <specification-version>1.71.1.40</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -79,47 +70,12 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
-                    <code-name-base>org.netbeans.modules.editor.settings</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <release-version>1</release-version>
-                        <specification-version>1.49.1</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>org.netbeans.modules.editor.util</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <release-version>1</release-version>
-                        <specification-version>1.55.1</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>org.netbeans.modules.java.source</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>0.110.3.23.1.20.6</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>org.netbeans.modules.lexer</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <release-version>2</release-version>
-                        <specification-version>1.49.3.1</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
                     <code-name-base>org.netbeans.modules.options.api</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <specification-version>1.31.2</specification-version>
+                        <specification-version>1.31.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -161,7 +117,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>7.44.3</specification-version>
+                        <specification-version>7.44.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -169,7 +125,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>7.33.2</specification-version>
+                        <specification-version>7.33.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -177,7 +133,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>6.54.2</specification-version>
+                        <specification-version>6.54.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -185,7 +141,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>8.29.3</specification-version>
+                        <specification-version>8.29.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -205,6 +161,15 @@
                     </run-dependency>
                 </dependency>
             </module-dependencies>
+            <test-dependencies>
+                <test-type>
+                    <name>unit</name>
+                    <test-dependency>
+                        <code-name-base>org.netbeans.libs.junit4</code-name-base>
+                        <compile-dependency/>
+                    </test-dependency>
+                </test-type>
+            </test-dependencies>
             <public-packages/>
             <class-path-extension>
                 <runtime-relative-path>ext/org.eclipse.equinox.preferences_3.4.1.R37x_v20110725.jar</runtime-relative-path>

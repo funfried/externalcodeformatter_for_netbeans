@@ -34,7 +34,6 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         cbOverrideGlobalSettings = new javax.swing.JCheckBox();
         innerPanel = new javax.swing.JPanel();
@@ -42,10 +41,6 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
         setLayout(new java.awt.BorderLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(cbOverrideGlobalSettings, org.openide.util.NbBundle.getMessage(ProjectSpecificSettingsPanel.class, "ProjectSpecificSettingsPanel.cbOverrideGlobalSettings.text")); // NOI18N
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, innerPanel, org.jdesktop.beansbinding.ELProperty.create("${visible}"), cbOverrideGlobalSettings, org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        bindingGroup.addBinding(binding);
-
         cbOverrideGlobalSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbOverrideGlobalSettingsActionPerformed(evt);
@@ -53,11 +48,10 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
         });
         add(cbOverrideGlobalSettings, java.awt.BorderLayout.PAGE_START);
         add(innerPanel, java.awt.BorderLayout.CENTER);
-
-        bindingGroup.bind();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbOverrideGlobalSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOverrideGlobalSettingsActionPerformed
+        innerPanel.setVisible(cbOverrideGlobalSettings.isSelected());
         fireChangedListener();
     }//GEN-LAST:event_cbOverrideGlobalSettingsActionPerformed
 
@@ -65,7 +59,6 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbOverrideGlobalSettings;
     private javax.swing.JPanel innerPanel;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     @Override
