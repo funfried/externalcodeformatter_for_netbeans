@@ -8,14 +8,14 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package org.netbeans.eclipse.formatter.customizer;
+package de.markiewb.netbeans.plugins.eclipse.formatter.customizer;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.prefs.Preferences;
 import javax.swing.event.ChangeListener;
-import org.netbeans.eclipse.formatter.options.EclipseFormatterPanel;
+import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel;
 
 
 public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements VerifiableConfigPanel {

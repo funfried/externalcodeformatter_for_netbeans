@@ -1,4 +1,4 @@
-package org.netbeans.eclipse.formatter.xml;
+package de.markiewb.netbeans.plugins.eclipse.formatter.xml;
 
 import java.util.ArrayList;
 import java.util.List;

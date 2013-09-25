@@ -1,4 +1,4 @@
-package org.netbeans.eclipse.formatter.xml;
+package de.markiewb.netbeans.plugins.eclipse.formatter.xml;
 
 /**
  * An exception thrown when there is an error reading settings from the code

@@ -1,4 +1,4 @@
-package org.netbeans.eclipse.formatter.xml;
+package de.markiewb.netbeans.plugins.eclipse.formatter.xml;
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.RuleSetBase;

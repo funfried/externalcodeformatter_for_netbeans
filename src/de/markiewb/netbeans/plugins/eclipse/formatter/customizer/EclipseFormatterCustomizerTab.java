@@ -8,7 +8,7 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package org.netbeans.eclipse.formatter.customizer;
+package de.markiewb.netbeans.plugins.eclipse.formatter.customizer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +19,7 @@ import javax.swing.event.ChangeListener;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
-import org.netbeans.eclipse.formatter.options.EclipseFormatterPanel;
+import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer.Category;
 import org.openide.util.ImageUtilities;
@@ -38,7 +38,7 @@ public class EclipseFormatterCustomizerTab implements ProjectCustomizer.Composit
 
     
     @StaticResource
-    private static final String ICON = "org/netbeans/eclipse/formatter/eclipse.gif";
+    private static final String ICON = "de/markiewb/netbeans/plugins/eclipse/formatter/eclipse.gif";
     
     
     @Override

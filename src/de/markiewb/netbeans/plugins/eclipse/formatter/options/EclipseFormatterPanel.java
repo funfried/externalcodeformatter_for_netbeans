@@ -8,7 +8,7 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package org.netbeans.eclipse.formatter.options;
+package de.markiewb.netbeans.plugins.eclipse.formatter.options;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +26,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.EditorKit;
-import org.netbeans.eclipse.formatter.customizer.VerifiableConfigPanel;
+import de.markiewb.netbeans.plugins.eclipse.formatter.customizer.VerifiableConfigPanel;
 import org.openide.filesystems.FileChooserBuilder;
 import org.openide.filesystems.FileUtil;
 import org.openide.text.CloneableEditorSupport;

@@ -8,7 +8,7 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package org.netbeans.eclipse.formatter;
+package de.markiewb.netbeans.plugins.eclipse.formatter;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,8 +25,8 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
-import org.netbeans.eclipse.formatter.xml.ConfigReadException;
-import org.netbeans.eclipse.formatter.xml.ConfigReader;
+import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReadException;
+import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;

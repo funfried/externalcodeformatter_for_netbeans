@@ -8,7 +8,7 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package org.netbeans.eclipse.formatter.options;
+package de.markiewb.netbeans.plugins.eclipse.formatter.options;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

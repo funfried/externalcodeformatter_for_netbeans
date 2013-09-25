@@ -8,7 +8,7 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package org.netbeans.eclipse.formatter;
+package de.markiewb.netbeans.plugins.eclipse.formatter;
 
 import javax.swing.Icon;
 import javax.swing.text.BadLocationException;
@@ -26,9 +26,9 @@ import org.openide.util.ImageUtilities;
 public class EclipseFormatterUtilities {
 
     @StaticResource
-    private static final String eclipse = "org/netbeans/eclipse/formatter/eclipse.gif";
+    private static final String eclipse = "de/markiewb/netbeans/plugins/eclipse/formatter/eclipse.gif";
     @StaticResource
-    private static final String netBeans = "org/netbeans/eclipse/formatter/netbeans.gif";
+    private static final String netBeans = "de/markiewb/netbeans/plugins/eclipse/formatter/netbeans.gif";
 
     public static Icon iconEclipse = ImageUtilities.image2Icon(ImageUtilities.loadImage(eclipse));
     public static Icon iconNetBeans = ImageUtilities.image2Icon(ImageUtilities.loadImage(netBeans));

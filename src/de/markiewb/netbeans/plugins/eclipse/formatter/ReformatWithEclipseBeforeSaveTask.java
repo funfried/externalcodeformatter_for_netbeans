@@ -8,7 +8,7 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package org.netbeans.eclipse.formatter;
+package de.markiewb.netbeans.plugins.eclipse.formatter;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.text.Document;

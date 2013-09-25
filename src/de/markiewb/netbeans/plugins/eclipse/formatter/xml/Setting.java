@@ -1,4 +1,4 @@
-package org.netbeans.eclipse.formatter.xml;
+package de.markiewb.netbeans.plugins.eclipse.formatter.xml;
 
 /**
  * A class representing the setting XML element in the Eclipse formatter config
