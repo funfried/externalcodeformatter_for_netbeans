@@ -76,7 +76,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         formatterLocField.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    setConfigFileAndUpdatePreviewPane(formatterLocField.getText());
+                    loadEclipseFormatterFileForPreview(formatterLocField.getText());
                     fireChangedListener();
                 }
             });
@@ -87,8 +87,6 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
             }
         });
         this.preferences = preferences;
-        previewPane.setText(preferences.toString());
-        
     }
 
     private void fireChangedListener() {
@@ -154,16 +152,18 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(formatterLocField)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(browseButton)
-                        .addGap(7, 7, 7))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
-                    .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(errorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(formatterLocField)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(browseButton)
+                                .addGap(7, 7, 7))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(cbShowNotifications)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -178,14 +178,14 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                     .addComponent(formatterLocField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(browseButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-                .addGap(30, 30, 30)
                 .addComponent(errorLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbShowNotifications)
-                .addGap(8, 8, 8))
+                .addContainerGap())
         );
 
         buttonGroup1.add(rbUseNetBeans);
@@ -239,44 +239,21 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         showOpenDialog();
         //Result will be null if the user clicked cancel or closed the dialog w/o OK
         if (toAdd != null) {
-            setConfigFileAndUpdatePreviewPane( toAdd.getAbsolutePath());
+            loadEclipseFormatterFileForPreview(toAdd.getAbsolutePath());
         }
     }//GEN-LAST:event_browseButtonActionPerformed
 
-    private void setConfigFileAndUpdatePreviewPane(String absolutePath) {
-        if (absolutePath.equals(formatterLocField.getText())){
-            //already set
-            return;
-        }
-        formatterLocField.setText(absolutePath);
-        try {
-            previewPane.setText(FileUtil.toFileObject(FileUtil.normalizeFile(new File(absolutePath))).asText());
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-    }
-
     @Override
     public void load() {
-        String eclipseFormatterLocation = preferences.get(ECLIPSE_FORMATTER_LOCATION, null);
+        String eclipseFormatterLocation = preferences.get(ECLIPSE_FORMATTER_LOCATION, "");
         boolean isEclipseFormatterEnabled = preferences.getBoolean(ECLIPSE_FORMATTER_ENABLED, false);
         boolean showNotifications = preferences.getBoolean(SHOW_NOTIFICATIONS, false);
         loadOptionsWindowUI(isEclipseFormatterEnabled, eclipseFormatterLocation, showNotifications);
     }
 
     private void loadOptionsWindowUI(boolean isEclipseFormatterEnabled, String formatterFile, boolean showNotifications) {
-        //If no Project in context, i.e., in Options window:
-        if (isEclipseFormatterEnabled) {
-            final File globalNormalizedFile = FileUtil.normalizeFile(new File(formatterFile));        
-            if (globalNormalizedFile.exists()) {
-                try {
-                    previewPane.setText(FileUtil.toFileObject(globalNormalizedFile).asText());
-                } catch (IOException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-            }
-        }
-        formatterLocField.setText(formatterFile);
+        loadEclipseFormatterFileForPreview(formatterFile);
+        
         if (isEclipseFormatterEnabled) {
             buttonGroup1.setSelected(rbUseEclipse.getModel(), true);
         }else{
@@ -287,6 +264,21 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         enableUI();
     }
 
+    private void loadEclipseFormatterFileForPreview(String formatterFile) {
+        
+        formatterLocField.setText(formatterFile);
+        final File file = new File(formatterFile);
+        
+        if (file.exists()) {
+            final File globalNormalizedFile = FileUtil.normalizeFile(file);
+            try {
+                previewPane.setText(FileUtil.toFileObject(globalNormalizedFile).asText());
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+    }
+
     @Override
     public void store() {
         preferences.put(ECLIPSE_FORMATTER_LOCATION, formatterLocField.getText());
@@ -295,14 +287,14 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     }
 
     boolean valid() {
-        errorLabel.setText("");
+        errorLabel.setText(" ");
         if (rbUseEclipse.isSelected()) {
             final String fileName = formatterLocField.getText();
             final File file = new File(fileName);
             if (file.exists() && file.getName().endsWith("xml")) {
                 return true;
             } else {
-                errorLabel.setText("OK button disabled until the Eclipse formatter is defined or disabled!");
+                errorLabel.setText("Invalid file. Please enter a valid configuration file.");
                 return false;
             }
         } 
