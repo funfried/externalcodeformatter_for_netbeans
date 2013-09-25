@@ -112,10 +112,10 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         errorLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         previewPane = new javax.swing.JEditorPane();
-        cbShowNotifications = new javax.swing.JCheckBox();
         rbUseNetBeans = new javax.swing.JRadioButton();
         rbUseEclipse = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
+        cbShowNotifications = new javax.swing.JCheckBox();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -142,9 +142,6 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         );
         jScrollPane2.setViewportView(previewPane);
 
-        org.openide.awt.Mnemonics.setLocalizedText(cbShowNotifications, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbShowNotifications.text")); // NOI18N
-        cbShowNotifications.setToolTipText(org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbShowNotifications.toolTipText")); // NOI18N
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -163,10 +160,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                                 .addComponent(formatterLocField)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(browseButton)
-                                .addGap(7, 7, 7))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cbShowNotifications)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(7, 7, 7)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -182,9 +176,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbShowNotifications)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -196,6 +188,9 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.jLabel3.text")); // NOI18N
 
+        org.openide.awt.Mnemonics.setLocalizedText(cbShowNotifications, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbShowNotifications.text")); // NOI18N
+        cbShowNotifications.setToolTipText(org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbShowNotifications.toolTipText")); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -205,24 +200,28 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(rbUseEclipse)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(rbUseNetBeans)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3)))
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbShowNotifications)
+                            .addComponent(rbUseEclipse))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(rbUseNetBeans)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbUseNetBeans)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rbUseEclipse)
                 .addGap(4, 4, 4)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addComponent(cbShowNotifications)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -323,7 +322,6 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         browseButton.setEnabled(isEnabled);
         formatterLocField.setEnabled(isEnabled);
         previewPane.setEnabled(isEnabled);
-        cbShowNotifications.setEnabled(isEnabled);
     }
 
     @Override
