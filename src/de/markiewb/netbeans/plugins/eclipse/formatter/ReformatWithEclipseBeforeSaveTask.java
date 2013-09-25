@@ -10,7 +10,12 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ENABLED;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.SHOW_NOTIFICATIONS;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.getActivePreferences;
+import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.prefs.Preferences;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.mimelookup.MimeRegistration;
@@ -28,10 +33,22 @@ public class ReformatWithEclipseBeforeSaveTask implements OnSaveTask {
 
     @Override
     public void performTask() {
+
+        
+        
         
         final StyledDocument styledDoc = (StyledDocument) document;
 
+        
+        Preferences pref = getActivePreferences(styledDoc);
+
+        final boolean isEclipseFormatterEnabled = pref.getBoolean(ECLIPSE_FORMATTER_ENABLED, false);
+        final boolean showNotifications = pref.getBoolean(SHOW_NOTIFICATIONS, false);
+        
         new FormatJavaAction().format(styledDoc);
+        
+        
+        
     }
 
     @Override

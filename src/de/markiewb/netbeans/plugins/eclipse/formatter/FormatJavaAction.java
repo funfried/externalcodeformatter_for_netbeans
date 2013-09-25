@@ -10,6 +10,10 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ENABLED;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_LOCATION;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.SHOW_NOTIFICATIONS;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.getActivePreferences;
 import java.util.prefs.Preferences;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
@@ -36,11 +40,11 @@ public class FormatJavaAction {
         final boolean isJava = EclipseFormatterUtilities.isJava(styledDoc);
         Preferences pref = getActivePreferences(styledDoc);
 
-        final boolean isEclipseFormatterEnabled = pref.getBoolean(EclipseFormatterPanel.ECLIPSE_FORMATTER_ENABLED, false);
-        final boolean showNotifications = pref.getBoolean(EclipseFormatterPanel.SHOW_NOTIFICATIONS, false);
+        final boolean isEclipseFormatterEnabled = pref.getBoolean(ECLIPSE_FORMATTER_ENABLED, false);
+        final boolean showNotifications = pref.getBoolean(SHOW_NOTIFICATIONS, false);
 
         if (!hasGuardedSections && isJava && isEclipseFormatterEnabled) {
-            String formatterFile = pref.get(EclipseFormatterPanel.ECLIPSE_FORMATTER_LOCATION, null);
+            String formatterFile = pref.get(ECLIPSE_FORMATTER_LOCATION, null);
             final EclipseFormatter formatter = EclipseFormatterUtilities.getEclipseFormatter(formatterFile);
 
             if (showNotifications) {
@@ -65,22 +69,6 @@ public class FormatJavaAction {
             }
             StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
             u.reformatWithNetBeans(styledDoc);
-        }
-    }
-
-    private Preferences getActivePreferences(final StyledDocument styledDoc) {
-        Preferences globalPreferences = NbPreferences.forModule(EclipseFormatterPanel.class);
-        Project project = FileOwnerQuery.getOwner(NbEditorUtilities.getDataObject(styledDoc).getPrimaryFile());
-        if (null != project) {
-//            NotificationDisplayer.getDefault().notify("Project", null, "" + project, null);
-            Preferences projectPreferences = ProjectUtils.getPreferences(project, EclipseFormatterPanel.class, true);
-            if (projectPreferences.getBoolean(ProjectSpecificSettingsPanel.USE_PROJECT_SETTINGS, false)) {
-                return projectPreferences;
-            } else {
-                return globalPreferences;
-            }
-        } else {
-            return globalPreferences;
         }
     }
 

@@ -10,6 +10,9 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter.options;
 
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ENABLED;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_LOCATION;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.SHOW_NOTIFICATIONS;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
@@ -34,9 +37,6 @@ import org.openide.util.Exceptions;
 
 public class EclipseFormatterPanel extends javax.swing.JPanel implements VerifiableConfigPanel{
     private final Preferences preferences;
-    public static final String SHOW_NOTIFICATIONS = "showNotifications";
-    public static final String ECLIPSE_FORMATTER_ENABLED = "eclipseFormatterEnabled";
-    public static final String ECLIPSE_FORMATTER_LOCATION = "eclipseFormatterLocation";
     
     public Preferences getPreferences() {
         return preferences;

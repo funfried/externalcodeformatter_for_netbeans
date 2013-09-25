@@ -10,6 +10,7 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter.customizer;
 
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.USE_PROJECT_SETTINGS;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,7 +23,6 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
 
     private final Preferences projectPreferences;
     private final EclipseFormatterPanel innerComponent;
-    public static final String USE_PROJECT_SETTINGS = "useProjectSettings";
 
     ProjectSpecificSettingsPanel(EclipseFormatterPanel innerComponent, Preferences projectPreferences) {
         initComponents();
