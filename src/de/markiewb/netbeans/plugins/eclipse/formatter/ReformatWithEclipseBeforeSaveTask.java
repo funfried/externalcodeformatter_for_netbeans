@@ -11,6 +11,7 @@
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ENABLED;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ENABLE_SAVEACTION;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.SHOW_NOTIFICATIONS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.getActivePreferences;
 import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel;
@@ -33,22 +34,13 @@ public class ReformatWithEclipseBeforeSaveTask implements OnSaveTask {
 
     @Override
     public void performTask() {
-
-        
-        
-        
         final StyledDocument styledDoc = (StyledDocument) document;
-
-        
         Preferences pref = getActivePreferences(styledDoc);
 
-        final boolean isEclipseFormatterEnabled = pref.getBoolean(ECLIPSE_FORMATTER_ENABLED, false);
-        final boolean showNotifications = pref.getBoolean(SHOW_NOTIFICATIONS, false);
-        
-        new FormatJavaAction().format(styledDoc);
-        
-        
-        
+        final boolean enableSaveAction = pref.getBoolean(ENABLE_SAVEACTION, false);
+        if (enableSaveAction) {
+            new FormatJavaAction().format(styledDoc);
+        }
     }
 
     @Override

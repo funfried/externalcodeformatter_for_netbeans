@@ -12,6 +12,7 @@ package de.markiewb.netbeans.plugins.eclipse.formatter.options;
 
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ENABLED;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_LOCATION;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ENABLE_SAVEACTION;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.SHOW_NOTIFICATIONS;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -96,6 +97,12 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                 fireChangedListener();
             }
         });
+        cbEnableSaveAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fireChangedListener();
+            }
+        });
         this.preferences = preferences;
     }
 
@@ -126,6 +133,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         rbUseEclipse = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         cbShowNotifications = new javax.swing.JCheckBox();
+        cbEnableSaveAction = new javax.swing.JCheckBox();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -186,7 +194,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -200,6 +208,8 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
 
         org.openide.awt.Mnemonics.setLocalizedText(cbShowNotifications, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbShowNotifications.text")); // NOI18N
         cbShowNotifications.setToolTipText(org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbShowNotifications.toolTipText")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(cbEnableSaveAction, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbEnableSaveAction.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -215,6 +225,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                         .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbEnableSaveAction)
                             .addComponent(cbShowNotifications)
                             .addComponent(rbUseEclipse))
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -232,6 +243,8 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbShowNotifications)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbEnableSaveAction)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -256,11 +269,12 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     public void load() {
         String eclipseFormatterLocation = preferences.get(ECLIPSE_FORMATTER_LOCATION, "");
         boolean isEclipseFormatterEnabled = preferences.getBoolean(ECLIPSE_FORMATTER_ENABLED, false);
-        boolean showNotifications = preferences.getBoolean(SHOW_NOTIFICATIONS, false);
-        loadOptionsWindowUI(isEclipseFormatterEnabled, eclipseFormatterLocation, showNotifications);
+        boolean showNotifications = preferences.getBoolean(SHOW_NOTIFICATIONS, true);
+        boolean enableSaveAction = preferences.getBoolean(ENABLE_SAVEACTION, true);
+        loadOptionsWindowUI(isEclipseFormatterEnabled, eclipseFormatterLocation, showNotifications, enableSaveAction);
     }
 
-    private void loadOptionsWindowUI(boolean isEclipseFormatterEnabled, String formatterFile, boolean showNotifications) {
+    private void loadOptionsWindowUI(boolean isEclipseFormatterEnabled, String formatterFile, boolean showNotifications, boolean enableSaveAction) {
         loadEclipseFormatterFileForPreview(formatterFile);
         
         if (isEclipseFormatterEnabled) {
@@ -270,6 +284,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         }
         
         cbShowNotifications.setSelected(showNotifications);
+        cbEnableSaveAction.setSelected(enableSaveAction);
         enableUI();
     }
 
@@ -293,6 +308,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         preferences.put(ECLIPSE_FORMATTER_LOCATION, formatterLocField.getText());
         preferences.putBoolean(ECLIPSE_FORMATTER_ENABLED, rbUseEclipse.isSelected());
         preferences.putBoolean(SHOW_NOTIFICATIONS, cbShowNotifications.isSelected());
+        preferences.putBoolean(ENABLE_SAVEACTION, cbEnableSaveAction.isSelected());
     }
 
     boolean valid() {
@@ -312,6 +328,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseButton;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox cbEnableSaveAction;
     private javax.swing.JCheckBox cbShowNotifications;
     private javax.swing.JLabel errorLabel;
     private javax.swing.JTextField formatterLocField;
