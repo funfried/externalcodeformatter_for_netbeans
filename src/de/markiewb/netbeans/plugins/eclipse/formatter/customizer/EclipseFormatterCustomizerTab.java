@@ -49,7 +49,7 @@ public class EclipseFormatterCustomizerTab implements ProjectCustomizer.Composit
     @Override
     public JComponent createComponent(final Category category, final Lookup lkp) {
         Preferences projectPreferences = ProjectUtils.getPreferences(lkp.lookup(Project.class), EclipseFormatterPanel.class, true);
-        final EclipseFormatterPanel configPanel = new EclipseFormatterPanel(projectPreferences);
+        final EclipseFormatterPanel configPanel = new EclipseFormatterPanel(projectPreferences, true);
         final ProjectSpecificSettingsPanel projectSpecificSettingsPanel = new ProjectSpecificSettingsPanel(configPanel, projectPreferences);
         configPanel.load();
         projectSpecificSettingsPanel.load();

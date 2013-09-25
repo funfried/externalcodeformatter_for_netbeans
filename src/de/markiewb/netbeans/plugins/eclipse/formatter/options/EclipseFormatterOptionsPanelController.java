@@ -73,7 +73,7 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
     private EclipseFormatterPanel createOrGetPanel() {
         if (null == panel) {
             Preferences globalPreferences = NbPreferences.forModule(EclipseFormatterPanel.class);
-            panel = new EclipseFormatterPanel(globalPreferences);
+            panel = new EclipseFormatterPanel(globalPreferences, false);
             panel.addChangeListener(WeakListeners.change (this, panel));
         }
         return panel;

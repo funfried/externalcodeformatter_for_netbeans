@@ -34,6 +34,7 @@ import org.openide.util.Exceptions;
 
 public class EclipseFormatterPanel extends javax.swing.JPanel implements VerifiableConfigPanel{
     private final Preferences preferences;
+    private final boolean showsProjectSettings;
     
     public Preferences getPreferences() {
         return preferences;
@@ -45,9 +46,10 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         changeListeners.add(listener);
     }
 
-    public EclipseFormatterPanel(Preferences preferences) {
+    public EclipseFormatterPanel(Preferences preferences, boolean showsProjectSettings) {
         initComponents();
         enableUI();
+        
         
         EditorKit kit = CloneableEditorSupport.getEditorKit("text/xml");
         previewPane.setEditorKit(kit);
@@ -100,6 +102,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
             }
         });
         this.preferences = preferences;
+        this.showsProjectSettings = showsProjectSettings;
     }
 
     private void fireChangedListener() {
@@ -127,7 +130,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         previewPane = new javax.swing.JEditorPane();
         rbUseNetBeans = new javax.swing.JRadioButton();
         rbUseEclipse = new javax.swing.JRadioButton();
-        jLabel3 = new javax.swing.JLabel();
+        txtProjectSpecificHint = new javax.swing.JLabel();
         cbShowNotifications = new javax.swing.JCheckBox();
         cbEnableSaveAction = new javax.swing.JCheckBox();
 
@@ -200,7 +203,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         buttonGroup1.add(rbUseEclipse);
         org.openide.awt.Mnemonics.setLocalizedText(rbUseEclipse, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.rbUseEclipse.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.jLabel3.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(txtProjectSpecificHint, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.txtProjectSpecificHint.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(cbShowNotifications, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbShowNotifications.text")); // NOI18N
         cbShowNotifications.setToolTipText(org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbShowNotifications.toolTipText")); // NOI18N
@@ -218,7 +221,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(rbUseNetBeans)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3))
+                        .addComponent(txtProjectSpecificHint))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbEnableSaveAction)
@@ -232,7 +235,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbUseNetBeans)
-                    .addComponent(jLabel3))
+                    .addComponent(txtProjectSpecificHint))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rbUseEclipse)
                 .addGap(4, 4, 4)
@@ -330,12 +333,12 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     private javax.swing.JTextField formatterLocField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JEditorPane previewPane;
     private javax.swing.JRadioButton rbUseEclipse;
     private javax.swing.JRadioButton rbUseNetBeans;
+    private javax.swing.JLabel txtProjectSpecificHint;
     // End of variables declaration//GEN-END:variables
 
     private void enableUI() {
@@ -345,6 +348,8 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         browseButton.setEnabled(isEnabled);
         formatterLocField.setEnabled(isEnabled);
         previewPane.setEnabled(isEnabled);
+        
+        txtProjectSpecificHint.setVisible(!showsProjectSettings);
     }
 
     @Override
