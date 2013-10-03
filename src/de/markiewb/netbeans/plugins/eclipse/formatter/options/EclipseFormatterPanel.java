@@ -269,7 +269,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         String eclipseFormatterLocation = preferences.get(ECLIPSE_FORMATTER_LOCATION, "");
         boolean isEclipseFormatterEnabled = preferences.getBoolean(ECLIPSE_FORMATTER_ENABLED, false);
         boolean showNotifications = preferences.getBoolean(SHOW_NOTIFICATIONS, true);
-        boolean enableSaveAction = preferences.getBoolean(ENABLE_SAVEACTION, true);
+        boolean enableSaveAction = preferences.getBoolean(ENABLE_SAVEACTION, false);
         loadOptionsWindowUI(isEclipseFormatterEnabled, eclipseFormatterLocation, showNotifications, enableSaveAction);
     }
 
