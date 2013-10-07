@@ -73,7 +73,7 @@ public final class EclipseFormatter {
         } catch (ConfigReadException ex) {
             Exceptions.printStackTrace(ex);
         }
-        CodeFormatter formatter = ToolFactory.createCodeFormatter(configFromStatic);
+        CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig);
         final TextEdit te = formatter.format(opts, code, 0, code.length(), 0, null);
         final IDocument dc = new Document(code);
         String formattedCode = code;
