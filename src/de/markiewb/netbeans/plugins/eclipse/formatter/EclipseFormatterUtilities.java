@@ -37,34 +37,37 @@ public class EclipseFormatterUtilities {
         return new EclipseFormatter(formatterFile);
     }
 
-    public void reFormatWithEclipse(StyledDocument document, EclipseFormatter formatter) {
+    public void reFormatWithEclipse(final StyledDocument document, final EclipseFormatter formatter) {
         int caret = -1;
         JTextComponent editor = EditorRegistry.lastFocusedComponent();
         if (editor != null) {
             caret = editor.getCaretPosition();
         }
-        final int length = document.getLength();
-        String result = null;
-        try {
-            String docText = null;
-            try {
-                docText = document.getText(0, length);
-            } catch (BadLocationException ex) {
-                Exceptions.printStackTrace(ex);
-            }
-            result = formatter.forCode(docText);
-        } finally {
-            if (result != null) {
+        //run atomic to prevent empty entries in undo buffer
+        NbDocument.runAtomic(document, new Runnable() {
+
+            @Override
+            public void run() {
                 try {
-                    document.remove(0, length);
-                    document.insertString(0, result, null);
-                    if (editor != null) {
-                        editor.setCaretPosition(Math.max(0, Math.min(caret, document.getLength())));
+                    final int length = document.getLength();
+
+                    String docText = null;
+                    try {
+                        docText = document.getText(0, length);
+                    } catch (BadLocationException ex) {
+                        Exceptions.printStackTrace(ex);
                     }
+                    final String formattedContent = formatter.forCode(docText);
+
+                    document.remove(0, length);
+                    document.insertString(0, formattedContent, null);
                 } catch (BadLocationException ex) {
                     Exceptions.printStackTrace(ex);
                 }
             }
+        });
+        if (editor != null) {
+            editor.setCaretPosition(Math.max(0, Math.min(caret, document.getLength())));
         }
     }
 
