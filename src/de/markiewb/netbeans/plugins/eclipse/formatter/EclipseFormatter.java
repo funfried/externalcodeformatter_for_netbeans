@@ -50,28 +50,10 @@ public final class EclipseFormatter {
         }
     }
 
-//     NotificationDisplayer.getDefault().notify("Using the Global Eclipse formatter", icon, message, null);
-    private Map getFormattingOptions() {
-        Map options = DefaultCodeFormatterConstants.getJavaConventionsSettings();
-        options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_1_6);
-        options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, JavaCore.VERSION_1_6);
-        options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_6);
-//      For checking whether the Eclipse formatter works,
-//      without needing an Eclipse formatter XML file:
-//        options.put(
-//		DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_ENUM_CONSTANTS,
-//		DefaultCodeFormatterConstants.createAlignmentValue(
-//		true,
-//		DefaultCodeFormatterConstants.WRAP_ONE_PER_LINE,
-//		DefaultCodeFormatterConstants.INDENT_ON_COLUMN));
-
-        return options;
-    }
-
     private String format(final String code) throws MalformedTreeException, BadLocationException {
         final int opts = CodeFormatter.K_COMPILATION_UNIT + CodeFormatter.F_INCLUDE_COMMENTS;
         Map allConfig = new HashMap();
-        final Map configFromStatic = getFormattingOptions();
+        final Map configFromStatic = DefaultCodeFormatterConstants.getJavaConventionsSettings();
         try {
             List<Profile> profiles = new ConfigReader().read(FileUtil.normalizeFile(new File(formatterFile)));
 
