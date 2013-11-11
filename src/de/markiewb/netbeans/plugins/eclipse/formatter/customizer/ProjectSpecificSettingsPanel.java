@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.prefs.Preferences;
 import javax.swing.event.ChangeListener;
 import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel;
+import org.netbeans.api.options.OptionsDisplayer;
 
 
 public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements VerifiableConfigPanel {
@@ -40,10 +41,15 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cbOverrideGlobalSettings = new javax.swing.JCheckBox();
         innerPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        cbOverrideGlobalSettings = new javax.swing.JCheckBox();
+        lblJumpToGlobalOptions = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
+        add(innerPanel, java.awt.BorderLayout.CENTER);
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(cbOverrideGlobalSettings, org.openide.util.NbBundle.getMessage(ProjectSpecificSettingsPanel.class, "ProjectSpecificSettingsPanel.cbOverrideGlobalSettings.text")); // NOI18N
         cbOverrideGlobalSettings.addActionListener(new java.awt.event.ActionListener() {
@@ -51,8 +57,18 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
                 cbOverrideGlobalSettingsActionPerformed(evt);
             }
         });
-        add(cbOverrideGlobalSettings, java.awt.BorderLayout.PAGE_START);
-        add(innerPanel, java.awt.BorderLayout.CENTER);
+        jPanel1.add(cbOverrideGlobalSettings, java.awt.BorderLayout.WEST);
+
+        lblJumpToGlobalOptions.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        org.openide.awt.Mnemonics.setLocalizedText(lblJumpToGlobalOptions, org.openide.util.NbBundle.getMessage(ProjectSpecificSettingsPanel.class, "ProjectSpecificSettingsPanel.lblJumpToGlobalOptions.text")); // NOI18N
+        lblJumpToGlobalOptions.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblJumpToGlobalOptionsMouseClicked(evt);
+            }
+        });
+        jPanel1.add(lblJumpToGlobalOptions, java.awt.BorderLayout.CENTER);
+
+        add(jPanel1, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbOverrideGlobalSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOverrideGlobalSettingsActionPerformed
@@ -60,10 +76,16 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
         fireChangedListener();
     }//GEN-LAST:event_cbOverrideGlobalSettingsActionPerformed
 
+    private void lblJumpToGlobalOptionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJumpToGlobalOptionsMouseClicked
+         OptionsDisplayer.getDefault().open("Java"+ "/de.markiewb.netbeans.plugins.eclipse.formatter.options");
+    }//GEN-LAST:event_lblJumpToGlobalOptionsMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cbOverrideGlobalSettings;
     private javax.swing.JPanel innerPanel;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblJumpToGlobalOptions;
     // End of variables declaration//GEN-END:variables
 
     @Override
