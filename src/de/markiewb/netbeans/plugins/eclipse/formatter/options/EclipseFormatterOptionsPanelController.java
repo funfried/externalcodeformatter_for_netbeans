@@ -22,6 +22,7 @@ import org.openide.util.NbPreferences;
 import org.openide.util.WeakListeners;
 
 @OptionsPanelController.SubRegistration(
+        id = "de.markiewb.netbeans.plugins.eclipse.formatter.options",
         location = "Java",
         displayName = "#AdvancedOption_DisplayName_EclipseFormatter",
         keywords = "#AdvancedOption_Keywords_EclipseFormatter",
