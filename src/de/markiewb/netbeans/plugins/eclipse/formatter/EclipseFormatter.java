@@ -27,6 +27,8 @@ import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReadException;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
+import de.markiewb.netbeans.plugins.eclipse.formatter.xml.Profile;
+import java.util.List;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
 import org.xml.sax.SAXException;
@@ -34,9 +36,18 @@ import org.xml.sax.SAXException;
 public final class EclipseFormatter {
 
     private final String formatterFile;
+    private final String formatterProfile;
 
-    EclipseFormatter(String formatterFile) {
+    EclipseFormatter(String formatterFile, String formatterProfile) {
         this.formatterFile = formatterFile;
+        this.formatterProfile = formatterProfile;
+    }
+    
+    public class ProfileNotFoundException extends RuntimeException{
+
+        public ProfileNotFoundException(String message) {
+            super(message);
+        }
     }
 
 //     NotificationDisplayer.getDefault().notify("Using the Global Eclipse formatter", icon, message, null);
@@ -62,7 +73,23 @@ public final class EclipseFormatter {
         Map allConfig = new HashMap();
         final Map configFromStatic = getFormattingOptions();
         try {
-            Map configFromFile = new ConfigReader().read(FileUtil.normalizeFile(new File(formatterFile)));
+            List<Profile> profiles = new ConfigReader().read(FileUtil.normalizeFile(new File(formatterFile)));
+
+            String name = formatterProfile;
+            Map<String, String> configFromFile;
+
+            if (profiles.isEmpty()) {
+                //no config found
+                throw new ProfileNotFoundException("No profiles found in " + formatterFile);
+            }
+
+            Profile profile = getProfileByName(profiles, name);
+
+            if (null == profile) {
+                throw new ProfileNotFoundException("profile " + name + " not found in " + formatterFile);
+            }
+
+            configFromFile = profile.getSettings();
 
             allConfig.putAll(configFromStatic);
             allConfig.putAll(configFromFile);
@@ -90,13 +117,25 @@ public final class EclipseFormatter {
             if (code != null) {
                 result = this.format(code);
             }
-        } catch (Exception ex) {
+        } catch (BadLocationException ex) {
             System.out.println(ex);
             Logger.getLogger(EclipseFormatter.class.getName()).log(Level.SEVERE,
                     "code could not be formatted!", ex);
+        } catch (MalformedTreeException ex) {
             System.out.println(ex);
+            Logger.getLogger(EclipseFormatter.class.getName()).log(Level.SEVERE,
+                    "code could not be formatted!", ex);
         }
         return result;
+    }
+
+    private Profile getProfileByName(List<Profile> profiles, String name) {
+        for (Profile profile : profiles) {
+            if (null != profile && name.equals(profile.getName())) {
+                return profile;
+            }
+        }
+        return null;
     }
 
 }

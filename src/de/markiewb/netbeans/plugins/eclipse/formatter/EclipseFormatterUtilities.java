@@ -33,8 +33,8 @@ public class EclipseFormatterUtilities {
     public static Icon iconEclipse = ImageUtilities.image2Icon(ImageUtilities.loadImage(eclipse));
     public static Icon iconNetBeans = ImageUtilities.image2Icon(ImageUtilities.loadImage(netBeans));
 
-    public static EclipseFormatter getEclipseFormatter(String formatterFile) {
-        return new EclipseFormatter(formatterFile);
+    public static EclipseFormatter getEclipseFormatter(String formatterFile, String formatterProfile) {
+        return new EclipseFormatter(formatterFile, formatterProfile);
     }
 
     public void reFormatWithEclipse(final StyledDocument document, final EclipseFormatter formatter) {
