@@ -399,6 +399,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         browseButton.setEnabled(isEnabled);
         formatterLocField.setEnabled(isEnabled);
         previewPane.setEnabled(isEnabled);
+        jLabel3.setEnabled(isEnabled);
         cbProfile.setEnabled(isEnabled);
         
         txtProjectSpecificHint.setVisible(!showsProjectSettings);
