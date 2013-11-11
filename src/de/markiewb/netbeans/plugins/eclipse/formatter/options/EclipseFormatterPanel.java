@@ -92,7 +92,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         formatterLocField.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    loadEclipseFormatterFileForPreview(formatterLocField.getText(), cbProfile.getSelectedItem().toString());
+                    loadEclipseFormatterFileForPreview(formatterLocField.getText(), getSelectedProfile());
                     fireChangedListener();
                 }
             });
@@ -288,9 +288,17 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         showOpenDialog();
         //Result will be null if the user clicked cancel or closed the dialog w/o OK
         if (toAdd != null) {
-            loadEclipseFormatterFileForPreview(toAdd.getAbsolutePath(), cbProfile.getSelectedItem().toString());
+            loadEclipseFormatterFileForPreview(toAdd.getAbsolutePath(), getSelectedProfile());
         }
     }//GEN-LAST:event_browseButtonActionPerformed
+
+    private String getSelectedProfile() {
+        if (null != cbProfile.getSelectedItem()) {
+            return cbProfile.getSelectedItem().toString();
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public void load() {
@@ -331,10 +339,15 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                 List<Profile> profiles = new ConfigReader().read(file);
                 cbProfile.removeAllItems();
                 cbProfile.addItem(Bundle.ChooseProfile());
+
+                String entryToSelect = null;
                 for (Profile profile : profiles) {
                     cbProfile.addItem(profile.getName());
+                    if (activeProfile != null && activeProfile.equals(profile.getName())) {
+                        entryToSelect = profile.getName();
+                    }
                 }
-                cbProfile.setSelectedItem(activeProfile);
+                selectProfileOrFallback(entryToSelect, profiles);
             } catch (IOException ex) {
                 Exceptions.printStackTrace(ex);
             } catch (SAXException ex) {
@@ -345,13 +358,27 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         }
     }
 
+    private void selectProfileOrFallback(String entryToSelect, List<Profile> profiles) {
+        if (null != entryToSelect) {
+            cbProfile.setSelectedItem(entryToSelect);
+        } else {
+            if (profiles.size() == 1) {
+                //only one entry (excl. default) -> choose the only valid item
+                cbProfile.setSelectedIndex(1);
+            } else {
+                //fallback: ===choose profile==
+                cbProfile.setSelectedIndex(0);
+            }
+        }
+    }
+
     @Override
     public void store() {
         preferences.put(ECLIPSE_FORMATTER_LOCATION, formatterLocField.getText());
         preferences.putBoolean(ECLIPSE_FORMATTER_ENABLED, rbUseEclipse.isSelected());
         preferences.putBoolean(SHOW_NOTIFICATIONS, cbShowNotifications.isSelected());
         preferences.putBoolean(ENABLE_SAVEACTION, cbEnableSaveAction.isSelected());
-        preferences.put(ECLIPSE_FORMATTER_ACTIVE_PROFILE, cbProfile.getSelectedItem().toString());
+        preferences.put(ECLIPSE_FORMATTER_ACTIVE_PROFILE, getSelectedProfile());
     }
 
     boolean valid() {
