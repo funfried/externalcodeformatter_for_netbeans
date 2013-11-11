@@ -26,6 +26,7 @@ public class Preferences {
 
     public static final String SHOW_NOTIFICATIONS = "showNotifications";
     public static final String ECLIPSE_FORMATTER_ENABLED = "eclipseFormatterEnabled";
+    public static final String ECLIPSE_FORMATTER_ACTIVE_PROFILE = "eclipseFormatterActiveProfile";
     public static final String ECLIPSE_FORMATTER_LOCATION = "eclipseFormatterLocation";
     public static final String ENABLE_SAVEACTION = "enableFormatAsSaveAction";
     public static final String USE_PROJECT_SETTINGS = "useProjectSettings";

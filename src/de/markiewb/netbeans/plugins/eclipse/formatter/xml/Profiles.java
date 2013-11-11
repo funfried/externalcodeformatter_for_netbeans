@@ -5,25 +5,25 @@ import java.util.List;
 
 /**
  * A class representing the profiles XML element in the Eclipse formatter config
- * file, including a List of profile setting Maps with id and value.
+ * file, including a List of profile settings.
  *
  * @author Matt Blanchette
  */
 public class Profiles {
 
     public static final String PROFILE_KIND = "CodeFormatterProfile";
-    private List profiles = new ArrayList();
+    private final List<Profile> profiles = new ArrayList<Profile>();
 
     public Profiles() {
     }
 
     public void addProfile(Profile profile) {
         if (PROFILE_KIND.equals(profile.getKind())) {
-            profiles.add(profile.getSettings());
+            profiles.add(profile);
         }
     }
 
-    public List getProfiles() {
+    public List<Profile> getProfiles() {
         return profiles;
     }
 

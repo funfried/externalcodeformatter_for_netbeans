@@ -12,7 +12,11 @@ import java.util.Map;
 public class Profile {
 
     private String kind;
-    private Map settings = new HashMap();
+    private String version;
+    private String name;
+
+    private final Map settings = new HashMap();
+
 
     public Profile() {
     }
@@ -32,5 +36,20 @@ public class Profile {
     public void setKind(String kind) {
         this.kind = kind;
     }
-    
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

@@ -10,13 +10,17 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
+import de.markiewb.netbeans.plugins.eclipse.formatter.EclipseFormatter.ProfileNotFoundException;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ENABLED;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_LOCATION;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.SHOW_NOTIFICATIONS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.getActivePreferences;
 import java.util.prefs.Preferences;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
 
@@ -38,13 +42,22 @@ public class FormatJavaAction {
 
         if (!hasGuardedSections && isJava && isEclipseFormatterEnabled) {
             String formatterFile = pref.get(ECLIPSE_FORMATTER_LOCATION, null);
-            final EclipseFormatter formatter = EclipseFormatterUtilities.getEclipseFormatter(formatterFile);
+            String formatterProfile = pref.get(ECLIPSE_FORMATTER_ACTIVE_PROFILE, null);
+            final EclipseFormatter formatter = EclipseFormatterUtilities.getEclipseFormatter(formatterFile, formatterProfile);
 
-            if (showNotifications) {
-                NotificationDisplayer.getDefault().notify("Format using Eclipse formatter", EclipseFormatterUtilities.iconEclipse, formatterFile, null);
+            try {
+                u.reFormatWithEclipse(styledDoc, formatter);
+            } catch (ProfileNotFoundException e) {
+                NotifyDescriptor notify = new NotifyDescriptor.Message(String.format("<html>Profile '%s' not found in <tt>%s</tt><br><br>Please configure a valid one in the project properties OR at Tools|Options|Java|Eclipse Formatter!", formatterProfile, formatterFile), NotifyDescriptor.ERROR_MESSAGE);
+                DialogDisplayer.getDefault().notify(notify);
+                return;
             }
-            StatusDisplayer.getDefault().setStatusText("Format using Eclipse formatter");
-            u.reFormatWithEclipse(styledDoc, formatter);
+
+            final String msg = String.format("Using profile '%s' from %s", formatterProfile, formatterFile);
+            if (showNotifications) {
+                NotificationDisplayer.getDefault().notify("Format using Eclipse formatter", EclipseFormatterUtilities.iconEclipse, msg, null);
+            }
+            StatusDisplayer.getDefault().setStatusText("Format using Eclipse formatter: "+msg);
 
         } else {
 

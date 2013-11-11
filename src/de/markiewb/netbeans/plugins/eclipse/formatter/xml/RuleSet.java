@@ -26,6 +26,8 @@ class RuleSet extends RuleSetBase {
         digester.addSetNext("profiles/profile/setting", "addSetting");
 
         digester.addSetProperties("profiles/profile", "kind", "kind");
+        digester.addSetProperties("profiles/profile", "name", "name");
+        digester.addSetProperties("profiles/profile", "version", "version");
         digester.addSetProperties("profiles/profile/setting", "id", "id");
         digester.addSetProperties("profiles/profile/setting", "value", "value");
     }
