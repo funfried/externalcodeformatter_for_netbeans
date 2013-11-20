@@ -42,8 +42,8 @@ public final class EclipseFormatter {
         this.formatterFile = formatterFile;
         this.formatterProfile = formatterProfile;
     }
-    
-    public class ProfileNotFoundException extends RuntimeException{
+
+    public class ProfileNotFoundException extends RuntimeException {
 
         public ProfileNotFoundException(String message) {
             super(message);
@@ -129,7 +129,14 @@ public final class EclipseFormatter {
         return result;
     }
 
+    /**
+     * 
+     * @return profile of <code>null</code> if profile with name not found
+     */
     private Profile getProfileByName(List<Profile> profiles, String name) {
+        if (null == name) {
+            return null;
+        }
         for (Profile profile : profiles) {
             if (null != profile && name.equals(profile.getName())) {
                 return profile;

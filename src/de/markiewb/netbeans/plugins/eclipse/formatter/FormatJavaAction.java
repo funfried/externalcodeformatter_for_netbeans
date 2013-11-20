@@ -42,7 +42,7 @@ public class FormatJavaAction {
 
         if (!hasGuardedSections && isJava && isEclipseFormatterEnabled) {
             String formatterFile = pref.get(ECLIPSE_FORMATTER_LOCATION, null);
-            String formatterProfile = pref.get(ECLIPSE_FORMATTER_ACTIVE_PROFILE, null);
+            String formatterProfile = pref.get(ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
             final EclipseFormatter formatter = EclipseFormatterUtilities.getEclipseFormatter(formatterFile, formatterProfile);
 
             try {

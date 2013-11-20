@@ -296,7 +296,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         if (null != cbProfile.getSelectedItem()) {
             return cbProfile.getSelectedItem().toString();
         } else {
-            return null;
+            return "";
         }
     }
 
