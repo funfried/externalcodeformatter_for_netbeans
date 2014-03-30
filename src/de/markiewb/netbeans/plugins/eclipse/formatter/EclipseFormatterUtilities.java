@@ -113,12 +113,13 @@ public class EclipseFormatterUtilities {
                     docText = document.getText(0, document.getLength());
                 } catch (BadLocationException ex) {
                     Exceptions.printStackTrace(ex);
+                    return;
                 }
                 
                 final String formattedContent = formatter.forCode(docText, startOffset, endOffset);
                 
                 // quick check for changed
-                if (!formattedContent.equals(docText)) {
+                if (formattedContent != null) {
                     document.remove(startOffset, endOffset - startOffset);
                     document.insertString(startOffset, 
                             formattedContent.substring(startOffset, 

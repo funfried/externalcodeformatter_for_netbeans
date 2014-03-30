@@ -68,6 +68,7 @@ public final class EclipseFormatter {
         return options;
     }
 
+    // returns null if format resulted in no change
     private String format(final String code, int startOffset, int endOffset) throws MalformedTreeException, BadLocationException {
         final int opts =
                 CodeFormatter.K_COMPILATION_UNIT + CodeFormatter.F_INCLUDE_COMMENTS;
@@ -104,8 +105,8 @@ public final class EclipseFormatter {
         CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig);
         final TextEdit te = formatter.format(opts, code, startOffset, endOffset - startOffset, 0, null);
         final IDocument dc = new Document(code);
-        String formattedCode = code;
-        if (te != null) {
+        String formattedCode = null;
+        if ((te != null) && (te.getChildrenSize() > 0)) {
             te.apply(dc);
             formattedCode = dc.get();
         }
