@@ -37,15 +37,18 @@ public class EclipseFormatterUtilities {
         return new EclipseFormatter(formatterFile, formatterProfile);
     }
 
-    public void reFormatWithEclipse(final StyledDocument document, final EclipseFormatter formatter) {
+    public void reFormatWithEclipse(final StyledDocument document, final EclipseFormatter formatter, boolean forSave) {
         int caret = -1;
         int dot = -1;
         int mark = -1;
         JTextComponent editor = EditorRegistry.lastFocusedComponent();
         if (editor != null) {
             caret = editor.getCaretPosition();
-            dot = editor.getCaret().getDot();
-            mark = editor.getCaret().getMark();
+            // only look fro selection if reformatting due to menu action, if reformatting on save we always reformat the whole doc
+            if (!forSave) {
+                dot = editor.getCaret().getDot();
+                mark = editor.getCaret().getMark();
+            }
         }
         //run atomic to prevent empty entries in undo buffer
         NbDocument.runAtomic(document, new EclipseFormatterTask(document, formatter, dot, mark));
@@ -54,13 +57,14 @@ public class EclipseFormatterUtilities {
         }
     }
 
-    public void reformatWithNetBeans(final StyledDocument styledDoc) {
+    public void reformatWithNetBeans(final StyledDocument styledDoc, boolean forSave) {
         final Reformat rf = Reformat.get(styledDoc);
         int dot = -1;
         int mark = -1;
         rf.lock();
         JTextComponent editor = EditorRegistry.lastFocusedComponent();
-        if (editor != null) {
+        // only care about selection if reformatting on menu action and not on file save
+        if ((editor != null) && !forSave) {
             dot = editor.getCaret().getDot();
             mark = editor.getCaret().getMark();
         }
