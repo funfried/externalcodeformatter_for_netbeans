@@ -68,8 +68,9 @@ public final class EclipseFormatter {
         return options;
     }
 
-    private String format(final String code) throws MalformedTreeException, BadLocationException {
-        final int opts = CodeFormatter.K_COMPILATION_UNIT + CodeFormatter.F_INCLUDE_COMMENTS;
+    private String format(final String code, int startOffset, int endOffset) throws MalformedTreeException, BadLocationException {
+        final int opts =
+                CodeFormatter.K_COMPILATION_UNIT + CodeFormatter.F_INCLUDE_COMMENTS;
         Map allConfig = new HashMap();
         final Map configFromStatic = getFormattingOptions();
         try {
@@ -101,21 +102,21 @@ public final class EclipseFormatter {
             Exceptions.printStackTrace(ex);
         }
         CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig);
-        final TextEdit te = formatter.format(opts, code, 0, code.length(), 0, null);
+        final TextEdit te = formatter.format(opts, code, startOffset, endOffset - startOffset, 0, null);
         final IDocument dc = new Document(code);
         String formattedCode = code;
         if (te != null) {
             te.apply(dc);
             formattedCode = dc.get();
         }
-        return formattedCode.toString();
+        return formattedCode;
     }
 
-    public String forCode(final String code) {
+    public String forCode(final String code, int startOffset, int endOffset) {
         String result = null;
         try {
             if (code != null) {
-                result = this.format(code);
+                result = this.format(code, startOffset, endOffset);
             }
         } catch (BadLocationException ex) {
             System.out.println(ex);
