@@ -36,7 +36,7 @@ public class ReformatWithEclipseBeforeSaveTask implements OnSaveTask {
 
         final boolean enableSaveAction = pref.getBoolean(ENABLE_SAVEACTION, false);
         if (enableSaveAction) {
-            new FormatJavaAction().format(styledDoc);
+            new FormatJavaAction().format(styledDoc, true);
         }
     }
 
