@@ -7,6 +7,7 @@
  *
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
+ *    Saad Mufti <saad.mufti@teamaol.com> 
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
@@ -30,7 +31,7 @@ import org.openide.awt.StatusDisplayer;
  */
 public class FormatJavaAction {
 
-    void format(final StyledDocument styledDoc) {
+    void format(final StyledDocument styledDoc, boolean forSave) {
         GuardedSectionManager guards = GuardedSectionManager.getInstance(styledDoc);
         EclipseFormatterUtilities u = new EclipseFormatterUtilities();
         final boolean hasGuardedSections = guards != null;
@@ -46,7 +47,7 @@ public class FormatJavaAction {
             final EclipseFormatter formatter = EclipseFormatterUtilities.getEclipseFormatter(formatterFile, formatterProfile);
 
             try {
-                u.reFormatWithEclipse(styledDoc, formatter);
+                u.reFormatWithEclipse(styledDoc, formatter, forSave);
             } catch (ProfileNotFoundException e) {
                 NotifyDescriptor notify = new NotifyDescriptor.Message(String.format("<html>Profile '%s' not found in <tt>%s</tt><br><br>Please configure a valid one in the project properties OR at Tools|Options|Java|Eclipse Formatter!", formatterProfile, formatterFile), NotifyDescriptor.ERROR_MESSAGE);
                 DialogDisplayer.getDefault().notify(notify);
@@ -57,24 +58,24 @@ public class FormatJavaAction {
             if (showNotifications) {
                 NotificationDisplayer.getDefault().notify("Format using Eclipse formatter", EclipseFormatterUtilities.iconEclipse, msg, null);
             }
-            StatusDisplayer.getDefault().setStatusText("Format using Eclipse formatter: "+msg);
+            StatusDisplayer.getDefault().setStatusText("Format using Eclipse formatter: " + msg);
 
         } else {
 
             if (showNotifications) {
-                String detail="";
-                if (hasGuardedSections && isEclipseFormatterEnabled){
-                    detail+="Because file contains guarded sections. ";
+                String detail = "";
+                if (hasGuardedSections && isEclipseFormatterEnabled) {
+                    detail += "Because file contains guarded sections. ";
                 }
                 if (!isJava) {
-                    detail+="Because file isn't a Java file. ";
-                    
+                    detail += "Because file isn't a Java file. ";
+
                 }
-                
+
                 NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", EclipseFormatterUtilities.iconNetBeans, detail, null);
             }
             StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
-            u.reformatWithNetBeans(styledDoc);
+            u.reformatWithNetBeans(styledDoc, forSave);
         }
     }
 

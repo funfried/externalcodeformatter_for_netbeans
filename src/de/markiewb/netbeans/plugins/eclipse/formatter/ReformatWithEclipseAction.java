@@ -7,6 +7,7 @@
  *
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
+ *    Saad Mufti <saad.mufti@teamaol.com> 
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
@@ -60,8 +61,8 @@ public class ReformatWithEclipseAction extends CookieAction implements ActionLis
             return;
         }
         final StyledDocument styledDoc = editorCookie.getDocument();
-        
-        new FormatJavaAction().format(styledDoc);
+        final boolean noSaveAction = false;
+        new FormatJavaAction().format(styledDoc, noSaveAction);
     }
 
     @Override
