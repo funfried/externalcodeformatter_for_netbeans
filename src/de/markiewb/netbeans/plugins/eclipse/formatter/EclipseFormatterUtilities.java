@@ -38,6 +38,12 @@ public class EclipseFormatterUtilities {
         return new EclipseFormatter(formatterFile, formatterProfile);
     }
 
+    /**
+     * 
+     * @param document
+     * @param formatter
+     * @param forSave true, if invoked by save action
+     */
     public void reFormatWithEclipse(final StyledDocument document, final EclipseFormatter formatter, boolean forSave) {
         int caret = -1;
         int dot = -1;
@@ -45,7 +51,7 @@ public class EclipseFormatterUtilities {
         JTextComponent editor = EditorRegistry.lastFocusedComponent();
         if (editor != null) {
             caret = editor.getCaretPosition();
-            // only look fro selection if reformatting due to menu action, if reformatting on save we always reformat the whole doc
+            // only look for selection if reformatting due to menu action, if reformatting on save we always reformat the whole doc
             if (!forSave) {
                 dot = editor.getCaret().getDot();
                 mark = editor.getCaret().getMark();
@@ -58,8 +64,13 @@ public class EclipseFormatterUtilities {
         }
     }
 
-    public void reformatWithNetBeans(final StyledDocument styledDoc, boolean forSave) {
-        final Reformat rf = Reformat.get(styledDoc);
+    /**
+     *
+     * @param document
+     * @param forSave true, if invoked by save action
+     */
+    public void reformatWithNetBeans(final StyledDocument document, boolean forSave) {
+        final Reformat rf = Reformat.get(document);
         int dot = -1;
         int mark = -1;
         rf.lock();
@@ -71,7 +82,7 @@ public class EclipseFormatterUtilities {
         }
 
         try {
-            NbDocument.runAtomicAsUser(styledDoc, new NetBeansFormatterTask(styledDoc, rf, dot, mark));
+            NbDocument.runAtomicAsUser(document, new NetBeansFormatterTask(document, rf, dot, mark));
         } catch (BadLocationException ex) {
             Exceptions.printStackTrace(ex);
         } finally {
@@ -89,22 +100,14 @@ public class EclipseFormatterUtilities {
         private final EclipseFormatter formatter;
         private final int startOffset;
         private final int endOffset;
-        private final boolean full;
 
         EclipseFormatterTask(StyledDocument document, EclipseFormatter formatter, int dot, int mark) {
             this.document = document;
             this.formatter = formatter;
             if (dot != mark) {
-                full = false;
-                if (dot > mark) {
-                    startOffset = mark;
-                    endOffset = dot;
-                } else {
-                    startOffset = dot;
-                    endOffset = mark;
-                }
+                startOffset = Math.min(mark, dot);
+                endOffset = Math.max(mark, dot);
             } else {
-                full = true;
                 startOffset = 0;
                 endOffset = document.getLength();
             }
@@ -113,7 +116,7 @@ public class EclipseFormatterUtilities {
         @Override
         public void run() {
             try {
-                String docText = null;
+                String docText;
                 try {
                     docText = document.getText(0, document.getLength());
                 } catch (BadLocationException ex) {
@@ -139,22 +142,15 @@ public class EclipseFormatterUtilities {
 
     private static class NetBeansFormatterTask implements Runnable {
 
-        private final StyledDocument document;
         private final Reformat rf;
         private final int startOffset;
         private final int endOffset;
 
         NetBeansFormatterTask(StyledDocument document, Reformat rf, int dot, int mark) {
-            this.document = document;
             this.rf = rf;
             if (dot != mark) {
-                if (dot > mark) {
-                    startOffset = mark;
-                    endOffset = dot;
-                } else {
-                    startOffset = dot;
-                    endOffset = mark;
-                }
+                startOffset = Math.min(mark, dot);
+                endOffset = Math.max(mark, dot);
             } else {
                 startOffset = 0;
                 endOffset = document.getLength();

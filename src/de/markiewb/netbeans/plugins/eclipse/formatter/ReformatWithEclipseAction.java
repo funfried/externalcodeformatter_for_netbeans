@@ -61,8 +61,8 @@ public class ReformatWithEclipseAction extends CookieAction implements ActionLis
             return;
         }
         final StyledDocument styledDoc = editorCookie.getDocument();
-        
-        new FormatJavaAction().format(styledDoc, false);
+        final boolean noSaveAction = false;
+        new FormatJavaAction().format(styledDoc, noSaveAction);
     }
 
     @Override

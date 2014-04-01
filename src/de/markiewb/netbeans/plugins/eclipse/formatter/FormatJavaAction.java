@@ -58,20 +58,20 @@ public class FormatJavaAction {
             if (showNotifications) {
                 NotificationDisplayer.getDefault().notify("Format using Eclipse formatter", EclipseFormatterUtilities.iconEclipse, msg, null);
             }
-            StatusDisplayer.getDefault().setStatusText("Format using Eclipse formatter: "+msg);
+            StatusDisplayer.getDefault().setStatusText("Format using Eclipse formatter: " + msg);
 
         } else {
 
             if (showNotifications) {
-                String detail="";
-                if (hasGuardedSections && isEclipseFormatterEnabled){
-                    detail+="Because file contains guarded sections. ";
+                String detail = "";
+                if (hasGuardedSections && isEclipseFormatterEnabled) {
+                    detail += "Because file contains guarded sections. ";
                 }
                 if (!isJava) {
-                    detail+="Because file isn't a Java file. ";
-                    
+                    detail += "Because file isn't a Java file. ";
+
                 }
-                
+
                 NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", EclipseFormatterUtilities.iconNetBeans, detail, null);
             }
             StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");

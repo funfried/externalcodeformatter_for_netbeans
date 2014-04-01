@@ -20,14 +20,13 @@ import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.mimelookup.MimeRegistration;
 import org.netbeans.spi.editor.document.OnSaveTask;
 
-public class ReformatWithEclipseBeforeSaveTask implements OnSaveTask {
+public class ReformatOnSaveTask implements OnSaveTask {
 
     private final Document document;
-    private AtomicBoolean canceled = new AtomicBoolean();
+    private final AtomicBoolean canceled = new AtomicBoolean();
 
-    ReformatWithEclipseBeforeSaveTask(Document doc) {
+    ReformatOnSaveTask(Document doc) {
         this.document = doc;
-        
     }
 
     @Override
@@ -37,7 +36,8 @@ public class ReformatWithEclipseBeforeSaveTask implements OnSaveTask {
 
         final boolean enableSaveAction = pref.getBoolean(ENABLE_SAVEACTION, false);
         if (enableSaveAction) {
-            new FormatJavaAction().format(styledDoc, true);
+            final boolean isSaveAction = true;
+            new FormatJavaAction().format(styledDoc, isSaveAction);
         }
     }
 
@@ -57,7 +57,7 @@ public class ReformatWithEclipseBeforeSaveTask implements OnSaveTask {
 
         @Override
         public OnSaveTask createTask(Context context) {
-            return new ReformatWithEclipseBeforeSaveTask(context.getDocument());
+            return new ReformatOnSaveTask(context.getDocument());
         }
     }
 
