@@ -30,7 +30,7 @@ import org.openide.awt.StatusDisplayer;
  */
 public class FormatJavaAction {
 
-    void format(final StyledDocument styledDoc) {
+    void format(final StyledDocument styledDoc, boolean forSave) {
         GuardedSectionManager guards = GuardedSectionManager.getInstance(styledDoc);
         EclipseFormatterUtilities u = new EclipseFormatterUtilities();
         final boolean hasGuardedSections = guards != null;
@@ -46,7 +46,7 @@ public class FormatJavaAction {
             final EclipseFormatter formatter = EclipseFormatterUtilities.getEclipseFormatter(formatterFile, formatterProfile);
 
             try {
-                u.reFormatWithEclipse(styledDoc, formatter);
+                u.reFormatWithEclipse(styledDoc, formatter, forSave);
             } catch (ProfileNotFoundException e) {
                 NotifyDescriptor notify = new NotifyDescriptor.Message(String.format("<html>Profile '%s' not found in <tt>%s</tt><br><br>Please configure a valid one in the project properties OR at Tools|Options|Java|Eclipse Formatter!", formatterProfile, formatterFile), NotifyDescriptor.ERROR_MESSAGE);
                 DialogDisplayer.getDefault().notify(notify);
@@ -74,7 +74,7 @@ public class FormatJavaAction {
                 NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", EclipseFormatterUtilities.iconNetBeans, detail, null);
             }
             StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
-            u.reformatWithNetBeans(styledDoc);
+            u.reformatWithNetBeans(styledDoc, forSave);
         }
     }
 
