@@ -44,6 +44,13 @@ public final class EclipseFormatter {
         this.formatterProfile = formatterProfile;
     }
 
+    public class CannotLoadConfigurationException extends RuntimeException {
+
+        public CannotLoadConfigurationException(Exception ex) {
+            super(ex);
+        }
+    }
+
     public class ProfileNotFoundException extends RuntimeException {
 
         public ProfileNotFoundException(String message) {
@@ -70,7 +77,7 @@ public final class EclipseFormatter {
     }
 
     // returns null if format resulted in no change
-    private String format(final String code, int startOffset, int endOffset) throws MalformedTreeException, BadLocationException {
+    private String format(final String code, int startOffset, int endOffset) {
         final int opts =
                 CodeFormatter.K_COMPILATION_UNIT + CodeFormatter.F_INCLUDE_COMMENTS;
         Map allConfig = new HashMap();
@@ -96,19 +103,22 @@ public final class EclipseFormatter {
 
             allConfig.putAll(configFromStatic);
             allConfig.putAll(configFromFile);
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        } catch (SAXException ex) {
-            Exceptions.printStackTrace(ex);
-        } catch (ConfigReadException ex) {
-            Exceptions.printStackTrace(ex);
+        } catch (Exception ex) {
+            System.err.println("Could not load configuration: " + formatterFile + ex);
+
+            throw new CannotLoadConfigurationException(ex);
         }
         CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig);
         final TextEdit te = formatter.format(opts, code, startOffset, endOffset - startOffset, 0, null);
         final IDocument dc = new Document(code);
         String formattedCode = null;
         if ((te != null) && (te.getChildrenSize() > 0)) {
-            te.apply(dc);
+            try {
+                te.apply(dc);
+            } catch (Exception ex) {
+                System.err.println("Code could not be formatted!" + ex);
+                return null;
+            }
             formattedCode = dc.get();
         }
         return formattedCode;
@@ -116,18 +126,8 @@ public final class EclipseFormatter {
 
     public String forCode(final String code, int startOffset, int endOffset) {
         String result = null;
-        try {
-            if (code != null) {
-                result = this.format(code, startOffset, endOffset);
-            }
-        } catch (BadLocationException ex) {
-            System.out.println(ex);
-            Logger.getLogger(EclipseFormatter.class.getName()).log(Level.SEVERE,
-                    "code could not be formatted!", ex);
-        } catch (MalformedTreeException ex) {
-            System.out.println(ex);
-            Logger.getLogger(EclipseFormatter.class.getName()).log(Level.SEVERE,
-                    "code could not be formatted!", ex);
+        if (code != null) {
+            result = this.format(code, startOffset, endOffset);
         }
         return result;
     }
