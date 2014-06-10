@@ -11,10 +11,11 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
+import de.markiewb.netbeans.plugins.eclipse.formatter.EclipseFormatter.CannotLoadConfigurationException;
 import de.markiewb.netbeans.plugins.eclipse.formatter.EclipseFormatter.ProfileNotFoundException;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ENABLED;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_LOCATION;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.SHOW_NOTIFICATIONS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.getActivePreferences;
 import java.util.prefs.Preferences;
@@ -50,6 +51,9 @@ public class FormatJavaAction {
                 u.reFormatWithEclipse(styledDoc, formatter, forSave);
             } catch (ProfileNotFoundException e) {
                 NotifyDescriptor notify = new NotifyDescriptor.Message(String.format("<html>Profile '%s' not found in <tt>%s</tt><br><br>Please configure a valid one in the project properties OR at Tools|Options|Java|Eclipse Formatter!", formatterProfile, formatterFile), NotifyDescriptor.ERROR_MESSAGE);
+                DialogDisplayer.getDefault().notify(notify);
+            }catch (CannotLoadConfigurationException e){
+                NotifyDescriptor notify = new NotifyDescriptor.Message(String.format("<html>Could not find configuration file %s.<br>Make sure the file exists and it can be read.", formatterFile), NotifyDescriptor.ERROR_MESSAGE);
                 DialogDisplayer.getDefault().notify(notify);
                 return;
             }
