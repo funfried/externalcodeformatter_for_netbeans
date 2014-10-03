@@ -158,6 +158,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         cbShowNotifications = new javax.swing.JCheckBox();
         cbEnableSaveAction = new javax.swing.JCheckBox();
         btnDonate = new javax.swing.JLabel();
+        btnVisitHomePage = new javax.swing.JLabel();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -272,6 +273,13 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
             }
         });
 
+        org.openide.awt.Mnemonics.setLocalizedText(btnVisitHomePage, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.btnVisitHomePage.text")); // NOI18N
+        btnVisitHomePage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVisitHomePageMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -285,14 +293,16 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
                         .addComponent(txtProjectSpecificHint))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbShowNotifications)
-                            .addComponent(rbUseEclipse))
+                        .addComponent(rbUseEclipse)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cbEnableSaveAction)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDonate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnDonate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cbShowNotifications)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -306,7 +316,9 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbShowNotifications)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbShowNotifications)
+                    .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbEnableSaveAction)
@@ -338,6 +350,14 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
             Exceptions.printStackTrace(ex);
         }
     }//GEN-LAST:event_btnDonateMouseClicked
+
+    private void btnVisitHomePageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVisitHomePageMouseClicked
+        try {
+            HtmlBrowser.URLDisplayer.getDefault().showURLExternal(new URL("https://github.com/markiewb/eclipsecodeformatter_for_netbeans/"));
+        } catch (MalformedURLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }//GEN-LAST:event_btnVisitHomePageMouseClicked
 
     private String getSelectedProfile() {
         if (null != cbProfile.getSelectedItem()) {
@@ -449,6 +469,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseButton;
     private javax.swing.JLabel btnDonate;
+    private javax.swing.JLabel btnVisitHomePage;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox cbEnableSaveAction;
     private javax.swing.JCheckBox cbPreserveBreakpoints;
