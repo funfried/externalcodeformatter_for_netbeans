@@ -31,11 +31,15 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cbEnableSaveAction" min="-2" max="-2" attributes="0"/>
                           <Component id="cbShowNotifications" min="-2" max="-2" attributes="0"/>
                           <Component id="rbUseEclipse" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="cbEnableSaveAction" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnDonate" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -56,7 +60,10 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="cbShowNotifications" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="cbEnableSaveAction" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="cbEnableSaveAction" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnDonate" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -289,6 +296,16 @@
           <ResourceString bundle="de/markiewb/netbeans/plugins/eclipse/formatter/options/Bundle.properties" key="EclipseFormatterPanel.cbEnableSaveAction.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="btnDonate">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/markiewb/netbeans/plugins/eclipse/formatter/options/Bundle.properties" key="EclipseFormatterPanel.btnDonate.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDonateMouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
