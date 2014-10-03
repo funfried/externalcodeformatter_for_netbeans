@@ -16,6 +16,8 @@ import de.markiewb.netbeans.plugins.eclipse.formatter.EclipseFormatter.ProfileNo
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ENABLED;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_LOCATION;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.PRESERVE_BREAKPOINTS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.SHOW_NOTIFICATIONS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.getActivePreferences;
 import java.util.prefs.Preferences;
@@ -41,6 +43,7 @@ public class FormatJavaAction {
 
         final boolean isEclipseFormatterEnabled = pref.getBoolean(ECLIPSE_FORMATTER_ENABLED, false);
         final boolean showNotifications = pref.getBoolean(SHOW_NOTIFICATIONS, false);
+        final boolean preserveBreakpoints = pref.getBoolean(PRESERVE_BREAKPOINTS, true);
 
         if (!hasGuardedSections && isJava && isEclipseFormatterEnabled) {
             String formatterFile = pref.get(ECLIPSE_FORMATTER_LOCATION, null);
@@ -48,7 +51,7 @@ public class FormatJavaAction {
             final EclipseFormatter formatter = EclipseFormatterUtilities.getEclipseFormatter(formatterFile, formatterProfile);
 
             try {
-                u.reFormatWithEclipse(styledDoc, formatter, forSave);
+                u.reFormatWithEclipse(styledDoc, formatter, forSave, preserveBreakpoints);
             } catch (ProfileNotFoundException e) {
                 NotifyDescriptor notify = new NotifyDescriptor.Message(String.format("<html>Profile '%s' not found in <tt>%s</tt><br><br>Please configure a valid one in the project properties OR at Tools|Options|Java|Eclipse Formatter!", formatterProfile, formatterFile), NotifyDescriptor.ERROR_MESSAGE);
                 DialogDisplayer.getDefault().notify(notify);

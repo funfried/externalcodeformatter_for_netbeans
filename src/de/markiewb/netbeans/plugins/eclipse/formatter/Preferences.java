@@ -29,6 +29,10 @@ public class Preferences {
     public static final String ECLIPSE_FORMATTER_ACTIVE_PROFILE = "eclipseFormatterActiveProfile";
     public static final String ECLIPSE_FORMATTER_LOCATION = "eclipseFormatterLocation";
     public static final String ENABLE_SAVEACTION = "enableFormatAsSaveAction";
+    /**
+     * @since 1.8
+     */
+    public static final String PRESERVE_BREAKPOINTS = "preserveBreakPoints";
     public static final String USE_PROJECT_SETTINGS = "useProjectSettings";
 
     public static java.util.prefs.Preferences getActivePreferences(final StyledDocument styledDoc) {
