@@ -11,12 +11,12 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
+import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
+import de.markiewb.netbeans.plugins.eclipse.formatter.xml.Profile;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.ToolFactory;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
@@ -26,13 +26,7 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
-import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReadException;
-import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
-import de.markiewb.netbeans.plugins.eclipse.formatter.xml.Profile;
-import java.util.List;
 import org.openide.filesystems.FileUtil;
-import org.openide.util.Exceptions;
-import org.xml.sax.SAXException;
 
 public final class EclipseFormatter {
 
@@ -44,21 +38,36 @@ public final class EclipseFormatter {
         this.formatterProfile = formatterProfile;
     }
 
-    public class CannotLoadConfigurationException extends RuntimeException {
-
-        public CannotLoadConfigurationException(Exception ex) {
-            super(ex);
+    public String forCode(final String code, int startOffset, int endOffset) {
+        String result = null;
+        if (code != null) {
+            result = this.format(code, startOffset, endOffset);
         }
+        return result;
     }
 
-    public class ProfileNotFoundException extends RuntimeException {
+    // returns null if format resulted in no change
+    private String format(final String code, int startOffset, int endOffset) {
+        final int opts
+                = CodeFormatter.K_COMPILATION_UNIT + CodeFormatter.F_INCLUDE_COMMENTS;
+        Map allConfig = readConfig();
 
-        public ProfileNotFoundException(String message) {
-            super(message);
+        CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig);
+        final TextEdit te = formatter.format(opts, code, startOffset, endOffset - startOffset, 0, null);
+        final IDocument dc = new Document(code);
+        String formattedCode = null;
+        if ((te != null) && (te.getChildrenSize() > 0)) {
+            try {
+                te.apply(dc);
+            } catch (Exception ex) {
+                System.err.println("Code could not be formatted!" + ex);
+                return null;
+            }
+            formattedCode = dc.get();
         }
+        return formattedCode;
     }
 
-//     NotificationDisplayer.getDefault().notify("Using the Global Eclipse formatter", icon, message, null);
     private Map getFormattingOptions() {
         Map options = DefaultCodeFormatterConstants.getJavaConventionsSettings();
         options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_1_6);
@@ -76,10 +85,23 @@ public final class EclipseFormatter {
         return options;
     }
 
-    // returns null if format resulted in no change
-    private String format(final String code, int startOffset, int endOffset) {
-        final int opts =
-                CodeFormatter.K_COMPILATION_UNIT + CodeFormatter.F_INCLUDE_COMMENTS;
+    /**
+     *
+     * @return profile of <code>null</code> if profile with name not found
+     */
+    private Profile getProfileByName(List<Profile> profiles, String name) {
+        if (null == name) {
+            return null;
+        }
+        for (Profile profile : profiles) {
+            if (null != profile && name.equals(profile.getName())) {
+                return profile;
+            }
+        }
+        return null;
+    }
+
+    private Map readConfig() throws ProfileNotFoundException {
         Map allConfig = new HashMap();
         final Map configFromStatic = getFormattingOptions();
         try {
@@ -108,44 +130,21 @@ public final class EclipseFormatter {
 
             throw new CannotLoadConfigurationException(ex);
         }
-        CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig);
-        final TextEdit te = formatter.format(opts, code, startOffset, endOffset - startOffset, 0, null);
-        final IDocument dc = new Document(code);
-        String formattedCode = null;
-        if ((te != null) && (te.getChildrenSize() > 0)) {
-            try {
-                te.apply(dc);
-            } catch (Exception ex) {
-                System.err.println("Code could not be formatted!" + ex);
-                return null;
-            }
-            formattedCode = dc.get();
-        }
-        return formattedCode;
+        return allConfig;
     }
 
-    public String forCode(final String code, int startOffset, int endOffset) {
-        String result = null;
-        if (code != null) {
-            result = this.format(code, startOffset, endOffset);
+    public class CannotLoadConfigurationException extends RuntimeException {
+
+        public CannotLoadConfigurationException(Exception ex) {
+            super(ex);
         }
-        return result;
     }
 
-    /**
-     * 
-     * @return profile of <code>null</code> if profile with name not found
-     */
-    private Profile getProfileByName(List<Profile> profiles, String name) {
-        if (null == name) {
-            return null;
+    public class ProfileNotFoundException extends RuntimeException {
+
+        public ProfileNotFoundException(String message) {
+            super(message);
         }
-        for (Profile profile : profiles) {
-            if (null != profile && name.equals(profile.getName())) {
-                return profile;
-            }
-        }
-        return null;
     }
 
 }

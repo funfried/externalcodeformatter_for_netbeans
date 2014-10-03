@@ -11,18 +11,36 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.lang.model.element.TypeElement;
 import javax.swing.Icon;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.annotations.common.StaticResource;
+import org.netbeans.api.debugger.Breakpoint;
+import org.netbeans.api.debugger.DebuggerManager;
+import org.netbeans.api.debugger.jpda.ClassLoadUnloadBreakpoint;
+import org.netbeans.api.debugger.jpda.FieldBreakpoint;
+import org.netbeans.api.debugger.jpda.LineBreakpoint;
+import org.netbeans.api.debugger.jpda.MethodBreakpoint;
 import org.netbeans.api.editor.EditorRegistry;
+import org.netbeans.api.java.source.CompilationController;
+import org.netbeans.api.java.source.JavaSource;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.netbeans.modules.editor.indent.api.Reformat;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.util.Utilities;
 
 public class EclipseFormatterUtilities {
 
@@ -39,12 +57,12 @@ public class EclipseFormatterUtilities {
     }
 
     /**
-     * 
+     *
      * @param document
      * @param formatter
      * @param forSave true, if invoked by save action
      */
-    public void reFormatWithEclipse(final StyledDocument document, final EclipseFormatter formatter, boolean forSave) {
+    public void reFormatWithEclipse(final StyledDocument document, final EclipseFormatter formatter, boolean forSave, boolean preserveBreakpoints) {
         int caret = -1;
         int dot = -1;
         int mark = -1;
@@ -57,8 +75,9 @@ public class EclipseFormatterUtilities {
                 mark = editor.getCaret().getMark();
             }
         }
+
         //run atomic to prevent empty entries in undo buffer
-        NbDocument.runAtomic(document, new EclipseFormatterTask(document, formatter, dot, mark));
+        NbDocument.runAtomic(document, new EclipseFormatterTask(document, formatter, dot, mark, preserveBreakpoints));
         if (editor != null) {
             editor.setCaretPosition(Math.max(0, Math.min(caret, document.getLength())));
         }
@@ -94,15 +113,27 @@ public class EclipseFormatterUtilities {
         return "text/x-java".equals(NbEditorUtilities.getMimeType(document));
     }
 
+    /**
+     * Formats the given document using the eclipse formatter. LineBreakpoints
+     * get removed and the following breakpoints are getting reattached:
+     * <ul>
+     * <li>ClassLoadUnloadBreakpoint</li>
+     * <li>FieldBreakpoint</li>
+     * <li>MethodBreakpoint</li>
+     * </ul>
+     */
     private static class EclipseFormatterTask implements Runnable {
 
         private final StyledDocument document;
         private final EclipseFormatter formatter;
+        private final boolean preserveBreakpoints;
         private final int startOffset;
         private final int endOffset;
+        private final FileObject fileObject;
 
-        EclipseFormatterTask(StyledDocument document, EclipseFormatter formatter, int dot, int mark) {
+        EclipseFormatterTask(StyledDocument document, EclipseFormatter formatter, int dot, int mark, boolean preserveBreakpoints) {
             this.document = document;
+            this.fileObject = NbEditorUtilities.getFileObject(document);
             this.formatter = formatter;
             if (dot != mark) {
                 startOffset = Math.min(mark, dot);
@@ -111,6 +142,7 @@ public class EclipseFormatterUtilities {
                 startOffset = 0;
                 endOffset = document.getLength();
             }
+            this.preserveBreakpoints = preserveBreakpoints;
         }
 
         @Override
@@ -123,20 +155,151 @@ public class EclipseFormatterUtilities {
                     Exceptions.printStackTrace(ex);
                     return;
                 }
-                
                 final String formattedContent = formatter.forCode(docText, startOffset, endOffset);
-                
+
+                DebuggerManager debuggerManager = DebuggerManager.getDebuggerManager();
+                List<Breakpoint> breakpoint2Keep=Collections.emptyList();
+                if (preserveBreakpoints){
+                    final Breakpoint[] breakpoints = debuggerManager.getBreakpoints();
+                    //a) remove all line breakpoints before replacing the text in the editor
+                    //b) hold all other breakpoints from the current file, so that they can be reattached
+                    final String classNameOfTopMostTypeInFile = getFQNOfTopMostType(fileObject);
+                    
+                    List<Breakpoint> lineBreakPoints = getLinkBreakpoints(breakpoints, fileObject);
+                    for (Breakpoint breakpoint : lineBreakPoints) {
+                        debuggerManager.removeBreakpoint(breakpoint);
+                    }
+
+                    breakpoint2Keep = getPreserveableBreakpoints(breakpoints, classNameOfTopMostTypeInFile);
+                    //Remove all breakpoints from the current file (else they would be invalided)
+                    for (Breakpoint breakpoint : breakpoint2Keep) {
+                        debuggerManager.removeBreakpoint(breakpoint);
+                    }
+                }
+
                 // quick check for changed
                 if (formattedContent != null) {
                     document.remove(startOffset, endOffset - startOffset);
-                    document.insertString(startOffset, 
-                            formattedContent.substring(startOffset, 
+                    document.insertString(startOffset,
+                            formattedContent.substring(startOffset,
                                     endOffset + formattedContent.length() - 
                                             docText.length()), null);
+                }
+
+                //Reattach breakpoints where possible
+                for (Breakpoint breakpoint : breakpoint2Keep) {
+                    debuggerManager.addBreakpoint(breakpoint);
                 }
             } catch (BadLocationException ex) {
                 Exceptions.printStackTrace(ex);
             }
+        }
+
+        private List<Breakpoint> getPreserveableBreakpoints(Breakpoint[] breakpoints, String currentClassName) throws IllegalArgumentException {
+            List<Breakpoint> result = new ArrayList<Breakpoint>();
+            for (Breakpoint breakpoint : breakpoints) {
+
+                if (breakpoint instanceof ClassLoadUnloadBreakpoint) {
+                    for (String classname : ((ClassLoadUnloadBreakpoint) breakpoint).getClassFilters()) {
+                        if (isSameTypeOrInnerType(classname, currentClassName)) {
+                            result.add(breakpoint);
+                        }
+                    }
+                }
+                if (breakpoint instanceof FieldBreakpoint) {
+                    if (isSameTypeOrInnerType(((FieldBreakpoint) breakpoint).getClassName(), currentClassName)) {
+                        result.add(breakpoint);
+                    }
+                }
+                if (breakpoint instanceof MethodBreakpoint) {
+                    for (String className : ((MethodBreakpoint) breakpoint).getClassFilters()) {
+                        if (isSameTypeOrInnerType(className, currentClassName)) {
+                            result.add(breakpoint);
+                        }
+                    }
+                }
+                /**
+                 * NOTE: ExceptionBreakpoint/ThreadBreakpoint have no annotation
+                 * in file, so they cannot be removed by the formatter
+                 */
+                /**
+                 * NOTE: LineBreakpoint is not supported
+                 */
+            }
+
+            return result;
+        }
+        private List<Breakpoint> getLinkBreakpoints(Breakpoint[] breakpoints, FileObject fileOfCurrentClass) throws IllegalArgumentException {
+            List<Breakpoint> result = new ArrayList<Breakpoint>();
+            for (Breakpoint breakpoint : breakpoints) {
+                /**
+                 * NOTE: ExceptionBreakpoint/ThreadBreakpoint have no annotation
+                 * in file, so they cannot be removed by the formatter
+                 */
+
+                /**
+                 * Remove LineBreakpoints, because setting the new text for the
+                 * document invalidates the breakpoints
+                 */
+                if (breakpoint instanceof LineBreakpoint) {
+
+                    String url = ((LineBreakpoint) breakpoint).getURL();
+                    if (null == url) {
+                        continue;
+                    }
+                    FileObject toFileObject;
+                    try {
+                        toFileObject = FileUtil.toFileObject(FileUtil.normalizeFile(Utilities.toFile(new URI(url))));
+                    } catch (URISyntaxException ex) {
+                        Exceptions.printStackTrace(ex);
+                        continue;
+                    }
+                    if (null == toFileObject) {
+                        continue;
+                    }
+
+                    if (fileOfCurrentClass.equals(toFileObject)) {
+                        result.add(breakpoint);
+                    }
+                }
+            }
+            return result;
+        }
+        
+        private static boolean isSameTypeOrInnerType(String className, String fqnOfTopMostType) {
+            if (className.equals(fqnOfTopMostType)) {
+                return true;
+            }
+            //Support innerTypes like com.company.Foo$InnerClass
+            return className.startsWith(fqnOfTopMostType + "$");
+        }
+
+        private String getFQNOfTopMostType(FileObject fo) throws IllegalArgumentException {
+            JavaSource javaSource = JavaSource.forFileObject(fo);
+
+            final List<String> collector = new ArrayList<String>();
+            org.netbeans.api.java.source.Task<CompilationController> task = new org.netbeans.api.java.source.Task<CompilationController>() {
+                @Override
+                public void run(CompilationController cc) throws IOException {
+                    cc.toPhase(JavaSource.Phase.ELEMENTS_RESOLVED);
+
+                    //get FQN of outermost type
+                    List<? extends TypeElement> topLevelElements = cc.getTopLevelElements();
+                    if (null != topLevelElements && !topLevelElements.isEmpty()) {
+                        TypeElement outermostTypeElement = cc.getElementUtilities().outermostTypeElement(topLevelElements.get(0));
+                        collector.add(outermostTypeElement.getQualifiedName().toString());
+                    }
+                }
+            };
+            try {
+                javaSource.runUserActionTask(task, true);
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+            if (collector.isEmpty()) {
+                return null;
+            }
+            return collector.get(0);
         }
     }
 
