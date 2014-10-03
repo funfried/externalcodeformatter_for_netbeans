@@ -49,7 +49,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         return preferences;
     }
 
-    private transient final Collection<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
+    private transient final Collection<ChangeListener> changeListeners = new ArrayList<>();
 
     public void addChangeListener(ChangeListener listener) {
         changeListeners.add(listener);
@@ -373,11 +373,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                     }
                 }
                 selectProfileOrFallback(entryToSelect, profiles);
-            } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
-            } catch (SAXException ex) {
-                Exceptions.printStackTrace(ex);
-            } catch (ConfigReadException ex) {
+            } catch (IOException | SAXException | ConfigReadException ex) {
                 Exceptions.printStackTrace(ex);
             }
         }

@@ -100,7 +100,7 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
         projectPreferences.putBoolean(USE_PROJECT_SETTINGS, cbOverrideGlobalSettings.isSelected());
     }
 
-    private transient final Collection<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
+    private transient final Collection<ChangeListener> changeListeners = new ArrayList<>();
 
     public void addChangeListener(ChangeListener listener) {
         changeListeners.add(listener);

@@ -12,7 +12,7 @@ import java.util.List;
 public class Profiles {
 
     public static final String PROFILE_KIND = "CodeFormatterProfile";
-    private final List<Profile> profiles = new ArrayList<Profile>();
+    private final List<Profile> profiles = new ArrayList<>();
 
     public Profiles() {
     }

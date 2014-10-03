@@ -196,7 +196,7 @@ public class EclipseFormatterUtilities {
         }
 
         private List<Breakpoint> getPreserveableBreakpoints(Breakpoint[] breakpoints, String currentClassName) throws IllegalArgumentException {
-            List<Breakpoint> result = new ArrayList<Breakpoint>();
+            List<Breakpoint> result = new ArrayList<>();
             for (Breakpoint breakpoint : breakpoints) {
 
                 if (breakpoint instanceof ClassLoadUnloadBreakpoint) {
@@ -230,7 +230,7 @@ public class EclipseFormatterUtilities {
             return result;
         }
         private List<Breakpoint> getLinkBreakpoints(Breakpoint[] breakpoints, FileObject fileOfCurrentClass) throws IllegalArgumentException {
-            List<Breakpoint> result = new ArrayList<Breakpoint>();
+            List<Breakpoint> result = new ArrayList<>();
             for (Breakpoint breakpoint : breakpoints) {
                 /**
                  * NOTE: ExceptionBreakpoint/ThreadBreakpoint have no annotation
@@ -277,7 +277,7 @@ public class EclipseFormatterUtilities {
         private String getFQNOfTopMostType(FileObject fo) throws IllegalArgumentException {
             JavaSource javaSource = JavaSource.forFileObject(fo);
 
-            final List<String> collector = new ArrayList<String>();
+            final List<String> collector = new ArrayList<>();
             org.netbeans.api.java.source.Task<CompilationController> task = new org.netbeans.api.java.source.Task<CompilationController>() {
                 @Override
                 public void run(CompilationController cc) throws IOException {
