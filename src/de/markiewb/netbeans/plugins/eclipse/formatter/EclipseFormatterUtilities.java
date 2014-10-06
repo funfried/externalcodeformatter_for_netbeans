@@ -40,6 +40,7 @@ import org.openide.filesystems.FileUtil;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.util.RequestProcessor;
 import org.openide.util.Utilities;
 
 public class EclipseFormatterUtilities {
@@ -51,6 +52,8 @@ public class EclipseFormatterUtilities {
 
     public static Icon iconEclipse = ImageUtilities.image2Icon(ImageUtilities.loadImage(eclipse));
     public static Icon iconNetBeans = ImageUtilities.image2Icon(ImageUtilities.loadImage(netBeans));
+    
+    private static final RequestProcessor RP = new RequestProcessor("Format with Eclipse formatter", 1, true, false); //NOI18N
 
     public static EclipseFormatter getEclipseFormatter(String formatterFile, String formatterProfile) {
         return new EclipseFormatter(formatterFile, formatterProfile);
@@ -275,10 +278,10 @@ public class EclipseFormatterUtilities {
         }
 
         private String getFQNOfTopMostType(FileObject fo) throws IllegalArgumentException {
-            JavaSource javaSource = JavaSource.forFileObject(fo);
+            final JavaSource javaSource = JavaSource.forFileObject(fo);
 
             final List<String> collector = new ArrayList<>();
-            org.netbeans.api.java.source.Task<CompilationController> task = new org.netbeans.api.java.source.Task<CompilationController>() {
+            final org.netbeans.api.java.source.Task<CompilationController> task = new org.netbeans.api.java.source.Task<CompilationController>() {
                 @Override
                 public void run(CompilationController cc) throws IOException {
                     cc.toPhase(JavaSource.Phase.ELEMENTS_RESOLVED);
@@ -291,11 +294,18 @@ public class EclipseFormatterUtilities {
                     }
                 }
             };
-            try {
-                javaSource.runUserActionTask(task, true);
-            } catch (IOException ex) {
-                Exceptions.printStackTrace(ex);
-            }
+            RP.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        javaSource.runUserActionTask(task, false);
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                }
+            });
+
             if (collector.isEmpty()) {
                 return null;
             }
