@@ -19,10 +19,7 @@ import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.cookies.EditorCookie;
-import org.openide.nodes.Node;
-import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
-import org.openide.util.actions.CookieAction;
 
 @ActionID(
         category = "Source",
@@ -34,61 +31,29 @@ import org.openide.util.actions.CookieAction;
     @ActionReference(path = "Menu/Source", position = 0)
 })
 @NbBundle.Messages("CTL_EclipseFormatter=Format with Eclipse formatter")
-public class ReformatWithEclipseAction extends CookieAction implements ActionListener {
+public class ReformatWithEclipseAction implements ActionListener {
 
     private EditorCookie context = null;
 
-    @Override
-    protected boolean enable(Node[] nodes) {
-        if (nodes.length == 1) {
-            final EditorCookie editorCookie = nodes[0].getLookup().lookup(EditorCookie.class);
-            if (editorCookie != null && null != editorCookie.getDocument()) {
-                boolean isJava = EclipseFormatterUtilities.isJava(editorCookie.getDocument());
-                if (isJava) {
-                    context = editorCookie;
-                    return true;
-                }
-            }
-        }
-        context = null;
-        return false;
+    public ReformatWithEclipseAction(EditorCookie context) {
+        this.context = context;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        final EditorCookie editorCookie = context;
-        if (null == editorCookie || null == editorCookie.getDocument()) {
+
+        if (null == context || null == context.getDocument()) {
             return;
         }
-        final StyledDocument styledDoc = editorCookie.getDocument();
+        final StyledDocument document = context.getDocument();
+        boolean isJava = EclipseFormatterUtilities.isJava(document);
+        if (!isJava) {
+            return;
+        }
+
+        final StyledDocument styledDoc = document;
         final boolean noSaveAction = false;
         new FormatJavaAction().format(styledDoc, noSaveAction);
-    }
-
-    @Override
-    protected int mode() {
-        return CookieAction.MODE_EXACTLY_ONE;
-    }
-
-    @Override
-    protected Class<?>[] cookieClasses() {
-        return new Class[]{EditorCookie.class};
-    }
-
-    //Not used:
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    //Not used:
-    @Override
-    protected void performAction(Node[] nodes) {
-    }
-
-    @Override
-    public HelpCtx getHelpCtx() {
-        return HelpCtx.DEFAULT_HELP;
     }
 
 }
