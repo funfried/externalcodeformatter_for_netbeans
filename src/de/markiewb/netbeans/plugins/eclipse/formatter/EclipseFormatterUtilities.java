@@ -182,7 +182,10 @@ public class EclipseFormatterUtilities {
                         //b) hold all other breakpoints from the current file, so that they can be reattached
                         final String classNameOfTopMostTypeInFile = getFQNOfTopMostType(fileObject);
 
-                        List<Breakpoint> lineBreakPoints = getLinkBreakpoints(breakpoints, fileObject);
+                        int lineStart = NbDocument.findLineNumber(document, startOffset);
+                        int lineEnd = NbDocument.findLineNumber(document, endOffset);
+
+                        List<Breakpoint> lineBreakPoints = getLineBreakpoints(breakpoints, fileObject, lineStart, lineEnd);
                         for (Breakpoint breakpoint : lineBreakPoints) {
                             debuggerManager.removeBreakpoint(breakpoint);
                         }
@@ -255,7 +258,7 @@ public class EclipseFormatterUtilities {
             return collector.get(0);
         }
 
-        private List<Breakpoint> getLinkBreakpoints(Breakpoint[] breakpoints, FileObject fileOfCurrentClass) throws IllegalArgumentException {
+        private List<Breakpoint> getLineBreakpoints(Breakpoint[] breakpoints, FileObject fileOfCurrentClass, int lineStart, int lineEnd) throws IllegalArgumentException {
             List<Breakpoint> result = new ArrayList<>();
             for (Breakpoint breakpoint : breakpoints) {
                 /**
@@ -269,8 +272,14 @@ public class EclipseFormatterUtilities {
                  */
                 if (breakpoint instanceof LineBreakpoint) {
 
-                    String url = ((LineBreakpoint) breakpoint).getURL();
+                    LineBreakpoint lineBreakpoint = (LineBreakpoint) breakpoint;
+                    String url = lineBreakpoint.getURL();
                     if (null == url) {
+                        continue;
+                    }
+                    int current = lineBreakpoint.getLineNumber();
+                    final boolean isBreakpointInSelection = lineStart <= current && current <= lineEnd;
+                    if (!isBreakpointInSelection) {
                         continue;
                     }
                     FileObject toFileObject;
