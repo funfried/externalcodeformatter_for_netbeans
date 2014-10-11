@@ -121,6 +121,13 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                 fireChangedListener();
             }
         });
+        cbPreserveBreakpoints.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fireChangedListener();
+            }
+        });
         this.preferences = preferences;
         this.showsProjectSettings = showsProjectSettings;
     }
