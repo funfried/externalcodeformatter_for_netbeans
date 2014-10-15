@@ -13,10 +13,11 @@ package de.markiewb.netbeans.plugins.eclipse.formatter;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.lang.model.element.TypeElement;
 import javax.swing.Icon;
 import javax.swing.text.BadLocationException;
@@ -44,6 +45,8 @@ import org.openide.util.RequestProcessor;
 import org.openide.util.Utilities;
 
 public class EclipseFormatterUtilities {
+
+    private static final Logger LOG = Logger.getLogger(EclipseFormatterUtilities.class.getName());
 
     @StaticResource
     private static final String eclipse = "de/markiewb/netbeans/plugins/eclipse/formatter/eclipse.gif";
@@ -285,8 +288,8 @@ public class EclipseFormatterUtilities {
                     FileObject toFileObject;
                     try {
                         toFileObject = FileUtil.toFileObject(FileUtil.normalizeFile(Utilities.toFile(new URI(url))));
-                    } catch (URISyntaxException ex) {
-                        Exceptions.printStackTrace(ex);
+                    } catch (Exception ex) {
+                        LOG.log(Level.WARNING, "{0} cannot be converted to URI/File: {1}. Please report to https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/55", new Object[]{url, ex.getMessage()});
                         continue;
                     }
                     if (null == toFileObject) {
