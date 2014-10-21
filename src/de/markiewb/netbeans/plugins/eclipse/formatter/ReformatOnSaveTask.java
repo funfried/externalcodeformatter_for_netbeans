@@ -22,16 +22,15 @@ import org.netbeans.spi.editor.document.OnSaveTask;
 
 public class ReformatOnSaveTask implements OnSaveTask {
 
-    private final Document document;
-    private final AtomicBoolean canceled = new AtomicBoolean();
+    private final Context context;
 
-    ReformatOnSaveTask(Document doc) {
-        this.document = doc;
+    private ReformatOnSaveTask(Context context) {
+        this.context = context;
     }
 
     @Override
     public void performTask() {
-        final StyledDocument styledDoc = (StyledDocument) document;
+        final StyledDocument styledDoc = (StyledDocument) this.context.getDocument();
         Preferences pref = getActivePreferences(styledDoc);
 
         final boolean enableSaveAction = pref.getBoolean(ENABLE_SAVEACTION, false);
@@ -48,7 +47,6 @@ public class ReformatOnSaveTask implements OnSaveTask {
 
     @Override
     public boolean cancel() {
-        canceled.set(true);
         return true;
     }
 
@@ -57,7 +55,7 @@ public class ReformatOnSaveTask implements OnSaveTask {
 
         @Override
         public OnSaveTask createTask(Context context) {
-            return new ReformatOnSaveTask(context.getDocument());
+            return new ReformatOnSaveTask(context);
         }
     }
 
