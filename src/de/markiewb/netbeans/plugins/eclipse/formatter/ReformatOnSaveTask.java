@@ -13,12 +13,13 @@ package de.markiewb.netbeans.plugins.eclipse.formatter;
 
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ENABLE_SAVEACTION;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.getActivePreferences;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.prefs.Preferences;
-import javax.swing.text.Document;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.mimelookup.MimeRegistration;
 import org.netbeans.spi.editor.document.OnSaveTask;
+import org.openide.text.NbDocument;
+import org.openide.util.Exceptions;
 
 public class ReformatOnSaveTask implements OnSaveTask {
 
@@ -42,7 +43,12 @@ public class ReformatOnSaveTask implements OnSaveTask {
 
     @Override
     public void runLocked(Runnable run) {
-        run.run();
+        try {
+            NbDocument.runAtomicAsUser((StyledDocument) context.getDocument(), run);
+        } catch (BadLocationException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
     }
 
     @Override

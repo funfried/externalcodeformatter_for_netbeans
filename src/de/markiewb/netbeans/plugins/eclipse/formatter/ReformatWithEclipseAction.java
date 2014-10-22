@@ -13,8 +13,6 @@ package de.markiewb.netbeans.plugins.eclipse.formatter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.StyledDocument;
 import org.openide.awt.ActionID;
@@ -58,19 +56,7 @@ public class ReformatWithEclipseAction implements ActionListener {
 
         final StyledDocument styledDoc = document;
         final boolean noSaveAction = false;
-        saveDocumentIfModified();
         new FormatJavaAction().format(styledDoc, noSaveAction);
-        saveDocumentIfModified();
-    }
-
-    private void saveDocumentIfModified() {
-        if (context.isModified()) {
-            try {
-                context.saveDocument();
-            } catch (IOException ex) {
-                LOG.log(Level.SEVERE, "Document {0} could not be saved", new Object[]{context.getDocument(), ex.getMessage()});
-            }
-        }
     }
 
 }

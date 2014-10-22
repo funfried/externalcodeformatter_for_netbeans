@@ -16,6 +16,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.lang.model.element.TypeElement;
@@ -34,6 +35,7 @@ import org.netbeans.api.debugger.jpda.MethodBreakpoint;
 import org.netbeans.api.editor.EditorRegistry;
 import org.netbeans.api.java.source.CompilationController;
 import org.netbeans.api.java.source.JavaSource;
+import org.netbeans.api.progress.ProgressUtils;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.netbeans.modules.editor.indent.api.Reformat;
 import org.openide.filesystems.FileObject;
@@ -41,7 +43,6 @@ import org.openide.filesystems.FileUtil;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
-import org.openide.util.RequestProcessor;
 import org.openide.util.Utilities;
 
 public class EclipseFormatterUtilities {
@@ -55,8 +56,6 @@ public class EclipseFormatterUtilities {
 
     public static Icon iconEclipse = ImageUtilities.image2Icon(ImageUtilities.loadImage(eclipse));
     public static Icon iconNetBeans = ImageUtilities.image2Icon(ImageUtilities.loadImage(netBeans));
-
-    private static final RequestProcessor RP = new RequestProcessor("Format with Eclipse formatter", 1, true, false); //NOI18N
 
     public static EclipseFormatter getEclipseFormatter(String formatterFile, String formatterProfile) {
         return new EclipseFormatter(formatterFile, formatterProfile);
@@ -85,7 +84,21 @@ public class EclipseFormatterUtilities {
         final int _caret = caret;
         final int _dot = dot;
         final int _mark = mark;
-        RP.post(new EclipseFormatterTask(document, formatter, _dot, _mark, preserveBreakpoints, _caret, editor));
+
+        try {
+            final AtomicBoolean cancel = new AtomicBoolean();
+            ProgressUtils.runOffEventDispatchThread(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    final EclipseFormatterTask formatterRunnable = new EclipseFormatterTask(document, formatter, _dot, _mark, preserveBreakpoints, _caret, editor);
+                    formatterRunnable.run();
+                }
+            }, "Format with Eclipse formatter", cancel, false);
+
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -223,11 +236,11 @@ public class EclipseFormatterUtilities {
                     }
                     //Set caret if possible
                     if (editor != null) {
-                        editor.setCaretPosition(Math.max(0, Math.min(caret, document.getLength())));
+                        editor.setCaretPosition(Math.max(0, Math.min(caret, docText.length())));
                     }
                 }
 
-            } catch (BadLocationException ex) {
+            } catch (Exception ex) {
                 Exceptions.printStackTrace(ex);
             }
         }
