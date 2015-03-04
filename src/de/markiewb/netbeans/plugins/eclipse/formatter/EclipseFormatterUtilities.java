@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.lang.model.element.TypeElement;
 import javax.swing.Icon;
+import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
@@ -94,10 +95,21 @@ public class EclipseFormatterUtilities {
 
                     final EclipseFormatterTask formatterRunnable = new EclipseFormatterTask(document, formatter, _dot, _mark, preserveBreakpoints, _caret, editor);
                     formatterRunnable.run();
+
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Set caret after the formatting, if possible
+                            if (editor != null) {
+                                editor.setCaretPosition(Math.max(0, Math.min(_caret, editor.getDocument().getLength())));
+                            }
+                        }
+                    });
                 }
             }, "Format with Eclipse formatter", cancel, false);
 
         } catch (Exception e) {
+            Exceptions.printStackTrace(e);
         }
     }
 
@@ -233,10 +245,6 @@ public class EclipseFormatterUtilities {
                         for (Breakpoint breakpoint : breakpoint2Keep) {
                             debuggerManager.addBreakpoint(breakpoint);
                         }
-                    }
-                    //Set caret if possible
-                    if (editor != null) {
-                        editor.setCaretPosition(Math.max(0, Math.min(caret, docText.length())));
                     }
                 }
 
