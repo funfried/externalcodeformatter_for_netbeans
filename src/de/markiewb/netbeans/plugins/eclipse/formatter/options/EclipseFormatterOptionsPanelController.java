@@ -27,7 +27,7 @@ import org.openide.util.WeakListeners;
         displayName = "#AdvancedOption_DisplayName_EclipseFormatter",
         keywords = "#AdvancedOption_Keywords_EclipseFormatter",
         keywordsCategory = "Java/EclipseFormatter")
-@org.openide.util.NbBundle.Messages({"AdvancedOption_DisplayName_EclipseFormatter=Eclipse Formatter", "AdvancedOption_Keywords_EclipseFormatter=format Eclipse"})
+@org.openide.util.NbBundle.Messages({"AdvancedOption_DisplayName_EclipseFormatter=Eclipse Formatter", "AdvancedOption_Keywords_EclipseFormatter=Eclipse Formatter"})
 public final class EclipseFormatterOptionsPanelController extends OptionsPanelController implements ChangeListener {
 
     private EclipseFormatterPanel panel;

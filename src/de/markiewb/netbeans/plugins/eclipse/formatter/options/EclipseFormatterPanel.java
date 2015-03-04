@@ -35,6 +35,7 @@ import de.markiewb.netbeans.plugins.eclipse.formatter.xml.Profile;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import org.netbeans.spi.options.OptionsPanelController.Keywords;
 import org.openide.awt.HtmlBrowser;
 import org.openide.filesystems.FileChooserBuilder;
 import org.openide.filesystems.FileUtil;
@@ -43,6 +44,7 @@ import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.xml.sax.SAXException;
 
+@Keywords(location="Java", tabTitle="Eclipse Formatter", keywords={"eclipse","format","eclipse formatter"})
 public class EclipseFormatterPanel extends javax.swing.JPanel implements VerifiableConfigPanel {
 
     private final Preferences preferences;
