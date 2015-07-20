@@ -60,6 +60,14 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
+                    <code-name-base>org.netbeans.libs.osgi</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.15.1</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
                     <code-name-base>org.netbeans.modules.editor</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
@@ -119,6 +127,14 @@
                     <compile-dependency/>
                     <run-dependency>
                         <specification-version>0.129.2.26.2.24.8</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.netbeans.modules.netbinox</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.32.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -270,6 +286,10 @@
             <class-path-extension>
                 <runtime-relative-path>ext/org.eclipse.equinox.common_3.7.0.v20150402-1709.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/org.eclipse.equinox.common_3.7.0.v20150402-1709.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/org.eclipse.core.runtime_3.11.0.v20150405-1723.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/org.eclipse.core.runtime_3.11.0.v20150405-1723.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>
