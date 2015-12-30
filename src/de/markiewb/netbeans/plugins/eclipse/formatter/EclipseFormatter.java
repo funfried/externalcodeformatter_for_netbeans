@@ -48,7 +48,7 @@ public final class EclipseFormatter {
     private String format(final String code, int startOffset, int endOffset) {
         final int opts
                 = CodeFormatter.K_COMPILATION_UNIT + CodeFormatter.F_INCLUDE_COMMENTS;
-        Map allConfig = readConfig();
+        Map<String, String> allConfig = readConfig();
 
         CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig);
         final TextEdit te = formatter.format(opts, code, startOffset, endOffset - startOffset, 0, null);
@@ -66,8 +66,8 @@ public final class EclipseFormatter {
         return formattedCode;
     }
 
-    private Map getFormattingOptions() {
-        Map options = DefaultCodeFormatterConstants.getJavaConventionsSettings();
+    private Map<String, String> getFormattingOptions() {
+        Map<String, String> options = DefaultCodeFormatterConstants.getJavaConventionsSettings();
         options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_1_6);
         options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, JavaCore.VERSION_1_6);
         options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_6);
@@ -99,9 +99,9 @@ public final class EclipseFormatter {
         return null;
     }
 
-    private Map readConfig() throws ProfileNotFoundException {
-        Map allConfig = new HashMap();
-        final Map configFromStatic = getFormattingOptions();
+    private Map<String, String> readConfig() throws ProfileNotFoundException {
+        Map<String, String> allConfig = new HashMap<>();
+        final Map<String, String> configFromStatic = getFormattingOptions();
         try {
             List<Profile> profiles = new ConfigReader().read(FileUtil.normalizeFile(new File(formatterFile)));
 
