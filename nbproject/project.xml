@@ -252,20 +252,20 @@
                 <binary-origin>release/modules/ext/org.eclipse.core.contenttype_3.5.0.v20150421-2214.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/org.eclipse.core.resources_3.10.0.v20150423-0755.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/org.eclipse.core.resources_3.10.0.v20150423-0755.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
                 <runtime-relative-path>ext/org.eclipse.equinox.preferences_3.5.300.v20150408-1437.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/org.eclipse.equinox.preferences_3.5.300.v20150408-1437.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/org.eclipse.core.runtime_3.11.1.v20150903-1804.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/org.eclipse.core.runtime_3.11.1.v20150903-1804.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/commons-digester3-3.2.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/commons-digester3-3.2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/org.eclipse.jdt.core_3.11.0.v20150602-1242.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/org.eclipse.jdt.core_3.11.0.v20150602-1242.jar</binary-origin>
+                <runtime-relative-path>ext/org.eclipse.jdt.core_3.11.1.v20150902-1521.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/org.eclipse.jdt.core_3.11.1.v20150902-1521.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/commons-beanutils-1.8.3.jar</runtime-relative-path>
@@ -274,6 +274,10 @@
             <class-path-extension>
                 <runtime-relative-path>ext/org.eclipse.core.jobs_3.7.0.v20150330-2103.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/org.eclipse.core.jobs_3.7.0.v20150330-2103.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/org.eclipse.core.resources_3.10.1.v20150725-1910.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/org.eclipse.core.resources_3.10.1.v20150725-1910.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/commons-logging-1.1.3.jar</runtime-relative-path>
@@ -286,10 +290,6 @@
             <class-path-extension>
                 <runtime-relative-path>ext/org.eclipse.equinox.common_3.7.0.v20150402-1709.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/org.eclipse.equinox.common_3.7.0.v20150402-1709.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/org.eclipse.core.runtime_3.11.0.v20150405-1723.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/org.eclipse.core.runtime_3.11.0.v20150405-1723.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>

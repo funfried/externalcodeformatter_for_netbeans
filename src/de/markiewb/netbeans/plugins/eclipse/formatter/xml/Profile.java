@@ -15,7 +15,7 @@ public class Profile {
     private String version;
     private String name;
 
-    private final Map settings = new HashMap();
+    private final Map<String, String> settings = new HashMap<>();
 
 
     public Profile() {
@@ -25,7 +25,7 @@ public class Profile {
         settings.put(setting.getId(), setting.getValue());
     }
 
-    public Map getSettings() {
+    public Map<String, String> getSettings() {
         return settings;
     }
 
