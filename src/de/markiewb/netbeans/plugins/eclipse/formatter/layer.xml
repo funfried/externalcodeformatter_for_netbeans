@@ -72,4 +72,15 @@
             </folder>
         </folder>
     </folder>
+    
+    <folder name="Editors">
+        <folder name="text">
+            <folder name="x-java">
+                <folder name="CodeTemplates">
+                    <file name="eclipse-formatter-templates.xml" url="eclipse-formatter-templates.xml"/>
+                </folder>
+            </folder>
+        </folder>
+    </folder>
+    
 </filesystem>
