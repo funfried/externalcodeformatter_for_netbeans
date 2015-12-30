@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE codetemplates PUBLIC "-//NetBeans//DTD Editor Code Templates settings 1.0//EN" "http://www.netbeans.org/dtds/EditorCodeTemplates-1_0.dtd">
+<codetemplates>
+    <codetemplate abbreviation="formatonoff" xml:space="preserve">
+        <code><![CDATA[// @formatter:off
+${selection}
+// @formatter:on]]></code>
+        <description><![CDATA[@formatter:off (for Eclipse Java Code Formatter)]]></description>
+    </codetemplate>
+    <codetemplate abbreviation="formatteron" xml:space="preserve" contexts="BLOCK,CASE,LABELED_STATEMENT,DO_WHILE_LOOP,ENHANCED_FOR_LOOP,FOR_LOOP,IF,WHILE_LOOP,LAMBDA_EXPRESSION">
+        <code><![CDATA[// @formatter:on]]></code>
+        <description><![CDATA[@formatter:on (for Eclipse Java Code Formatter)]]></description>
+    </codetemplate>
+    <codetemplate abbreviation="formatteroff" xml:space="preserve" contexts="BLOCK,CASE,LABELED_STATEMENT,DO_WHILE_LOOP,ENHANCED_FOR_LOOP,FOR_LOOP,IF,WHILE_LOOP,LAMBDA_EXPRESSION">
+        <code><![CDATA[// @formatter:off]]></code>
+        <description><![CDATA[@formatter:off (for Eclipse Java Code Formatter)]]></description>
+    </codetemplate>
+</codetemplates>
