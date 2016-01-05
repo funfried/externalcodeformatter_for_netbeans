@@ -11,12 +11,17 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
+import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReadException;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.Profile;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.ToolFactory;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
@@ -25,6 +30,7 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.TextEdit;
 import org.openide.filesystems.FileUtil;
+import org.xml.sax.SAXException;
 
 public final class EclipseFormatter {
 
@@ -103,23 +109,13 @@ public final class EclipseFormatter {
         Map<String, String> allConfig = new HashMap<>();
         final Map<String, String> configFromStatic = getFormattingOptions();
         try {
-            List<Profile> profiles = new ConfigReader().read(FileUtil.normalizeFile(new File(formatterFile)));
-
-            String name = formatterProfile;
-            Map<String, String> configFromFile;
-
-            if (profiles.isEmpty()) {
-                //no config found
-                throw new ProfileNotFoundException("No profiles found in " + formatterFile);
+            final File file = new File(formatterFile);
+            Map<String, String> configFromFile = new LinkedHashMap<>();
+            if (Preferences.isWorkspaceMechanicFile(formatterFile)) {
+                configFromFile.putAll(readConfigFromWorkspaceMechanicFile(file));
+            } else {
+                configFromFile.putAll(readConfigFromFormatterXmlFile(file));
             }
-
-            Profile profile = getProfileByName(profiles, name);
-
-            if (null == profile) {
-                throw new ProfileNotFoundException("profile " + name + " not found in " + formatterFile);
-            }
-
-            configFromFile = profile.getSettings();
 
             allConfig.putAll(configFromStatic);
             allConfig.putAll(configFromFile);
@@ -129,6 +125,39 @@ public final class EclipseFormatter {
             throw new CannotLoadConfigurationException(ex);
         }
         return allConfig;
+    }
+
+    private Map<String, String> readConfigFromFormatterXmlFile(final File file) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
+        Map<String, String> configFromFile;
+        List<Profile> profiles = new ConfigReader().read(FileUtil.normalizeFile(file));
+        String name = formatterProfile;
+        if (profiles.isEmpty()) {
+            //no config found
+            throw new ProfileNotFoundException("No profiles found in " + formatterFile);
+        }
+        Profile profile = getProfileByName(profiles, name);
+        if (null == profile) {
+            throw new ProfileNotFoundException("profile " + name + " not found in " + formatterFile);
+        }
+        configFromFile = profile.getSettings();
+        return configFromFile;
+    }
+
+    private Map<String, String> readConfigFromWorkspaceMechanicFile(final File file) throws IOException {
+        Map<String, String> result = new LinkedHashMap<>();
+        Properties properties = new Properties();
+        try (FileInputStream is = new FileInputStream(file)) {
+            properties.load(is);
+        }
+        final String prefix = "/instance/org.eclipse.jdt.core/";
+        for (Object object : properties.keySet()) {
+            String key = (String) object;
+            if (key.startsWith(prefix)) {
+                String value = properties.getProperty(key);
+                result.put(key.substring(prefix.length()), value);
+            }
+        }
+        return result;
     }
 
     public class CannotLoadConfigurationException extends RuntimeException {

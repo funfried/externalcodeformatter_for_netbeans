@@ -16,7 +16,6 @@ import de.markiewb.netbeans.plugins.eclipse.formatter.EclipseFormatter.ProfileNo
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ENABLED;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_LOCATION;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.PRESERVE_BREAKPOINTS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.SHOW_NOTIFICATIONS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.getActivePreferences;
@@ -61,7 +60,15 @@ public class FormatJavaAction {
                 return;
             }
 
-            final String msg = String.format("Using profile '%s' from %s", formatterProfile, formatterFile);
+            String msg;
+            if (de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.isWorkspaceMechanicFile(formatterFile)) {
+                //Workspace mechanic file
+                msg = String.format("Using %s", formatterFile);
+            } else {
+                //XML file
+                msg = String.format("Using profile '%s' from %s", formatterProfile, formatterFile);
+            }
+
             if (showNotifications) {
                 NotificationDisplayer.getDefault().notify("Format using Eclipse formatter", EclipseFormatterUtilities.iconEclipse, msg, null);
             }

@@ -38,13 +38,14 @@ import java.util.List;
 import org.netbeans.spi.options.OptionsPanelController.Keywords;
 import org.openide.awt.HtmlBrowser;
 import org.openide.filesystems.FileChooserBuilder;
+import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.text.CloneableEditorSupport;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.xml.sax.SAXException;
 
-@Keywords(location="Java", tabTitle="Eclipse Formatter", keywords={"eclipse","format","eclipse formatter"})
+@Keywords(location = "Java", tabTitle = "Eclipse Formatter", keywords = {"eclipse", "format", "eclipse formatter"})
 public class EclipseFormatterPanel extends javax.swing.JPanel implements VerifiableConfigPanel {
 
     private final Preferences preferences;
@@ -339,12 +340,13 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
         //The default dir to use if no value is stored
         File home = new File(System.getProperty("user.home"));
-        final FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("Eclipse formatter (*.xml)", "xml");
+        final FileNameExtensionFilter fileNameExtensionFilterXML = new FileNameExtensionFilter("Eclipse formatter (*.xml)", "xml");
+        final FileNameExtensionFilter fileNameExtensionFilterEPF = new FileNameExtensionFilter("Workspace mechanic (*.epf)", "epf");
         //Now build a file chooser and invoke the dialog in one line of code
         //"user-dir" is our unique key
-        File toAdd = new FileChooserBuilder("user-dir").setFilesOnly(true).setTitle("Choose Eclipse formatter file ...").
+        File toAdd = new FileChooserBuilder("user-dir").setFilesOnly(true).setTitle("Choose configuration ...").
                 setDefaultWorkingDirectory(home).setApproveText("Choose").
-                addFileFilter(fileNameExtensionFilter).setFileFilter(fileNameExtensionFilter).
+                addFileFilter(fileNameExtensionFilterXML).addFileFilter(fileNameExtensionFilterEPF).setFileFilter(fileNameExtensionFilterXML).
                 showOpenDialog();
         //Result will be null if the user clicked cancel or closed the dialog w/o OK
         if (toAdd != null) {
@@ -410,22 +412,29 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         formatterLocField.setText(formatterFile);
         final File file = new File(formatterFile);
 
+        cbProfile.setEnabled(false);
+        cbProfile.removeAllItems();
         if (file.exists()) {
-            final File globalNormalizedFile = FileUtil.normalizeFile(file);
             try {
-                previewPane.setText(FileUtil.toFileObject(globalNormalizedFile).asText());
-                List<Profile> profiles = new ConfigReader().read(file);
-                cbProfile.removeAllItems();
-                cbProfile.addItem(Bundle.ChooseProfile());
+                final FileObject fo = FileUtil.toFileObject(FileUtil.normalizeFile(file));
+                previewPane.setText(fo.asText());
 
-                String entryToSelect = null;
-                for (Profile profile : profiles) {
-                    cbProfile.addItem(profile.getName());
-                    if (activeProfile != null && activeProfile.equals(profile.getName())) {
-                        entryToSelect = profile.getName();
+                if (de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.isWorkspaceMechanicFile(fo.getNameExt())) {
+                    //workspace mechanic files do not support profiles
+                } else {
+                    List<Profile> profiles = new ConfigReader().read(file);
+                    cbProfile.addItem(Bundle.ChooseProfile());
+
+                    String entryToSelect = null;
+                    for (Profile profile : profiles) {
+                        cbProfile.addItem(profile.getName());
+                        if (activeProfile != null && activeProfile.equals(profile.getName())) {
+                            entryToSelect = profile.getName();
+                        }
                     }
+                    selectProfileOrFallback(entryToSelect, profiles);
+                    cbProfile.setEnabled(true);
                 }
-                selectProfileOrFallback(entryToSelect, profiles);
             } catch (IOException | SAXException | ConfigReadException ex) {
                 Exceptions.printStackTrace(ex);
             }
@@ -435,14 +444,12 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     private void selectProfileOrFallback(String entryToSelect, List<Profile> profiles) {
         if (null != entryToSelect) {
             cbProfile.setSelectedItem(entryToSelect);
+        } else if (profiles.size() == 1) {
+            //only one entry (excl. default) -> choose the only valid item
+            cbProfile.setSelectedIndex(1);
         } else {
-            if (profiles.size() == 1) {
-                //only one entry (excl. default) -> choose the only valid item
-                cbProfile.setSelectedIndex(1);
-            } else {
-                //fallback: ===choose profile==
-                cbProfile.setSelectedIndex(0);
-            }
+            //fallback: ===choose profile==
+            cbProfile.setSelectedIndex(0);
         }
     }
 
@@ -459,14 +466,16 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     boolean valid() {
         errorLabel.setText(" ");
         if (rbUseEclipse.isSelected()) {
-            if (cbProfile.getSelectedIndex() == 0) {
+            final String fileName = formatterLocField.getText();
+            final File file = new File(fileName);
+            final boolean isXML = de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.isXMLConfigurationFile(file.getName());
+            final boolean isEPF = de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.isWorkspaceMechanicFile(file.getName());
+            if (isXML && cbProfile.getSelectedIndex() == 0) {
                 //"choose profile" entry is selected
                 return false;
             }
 
-            final String fileName = formatterLocField.getText();
-            final File file = new File(fileName);
-            if (file.exists() && file.getName().endsWith("xml")) {
+            if (file.exists() && (isXML || isEPF)) {
                 return true;
             } else {
                 errorLabel.setText("Invalid file. Please enter a valid configuration file.");
@@ -505,8 +514,13 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         browseButton.setEnabled(isEnabled);
         formatterLocField.setEnabled(isEnabled);
         previewPane.setEnabled(isEnabled);
-        jLabel3.setEnabled(isEnabled);
-        cbProfile.setEnabled(isEnabled);
+        if (-1 != cbProfile.getSelectedIndex()) {
+            jLabel3.setEnabled(isEnabled);
+            cbProfile.setEnabled(isEnabled);
+        } else {
+            jLabel3.setEnabled(false);
+            cbProfile.setEnabled(false);
+        }
         cbPreserveBreakpoints.setEnabled(isEnabled);
 
         txtProjectSpecificHint.setVisible(!showsProjectSettings);
