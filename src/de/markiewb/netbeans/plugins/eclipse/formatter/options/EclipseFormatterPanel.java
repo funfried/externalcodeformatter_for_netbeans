@@ -15,32 +15,33 @@ import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ECLIPSE_FORMATTER_LOCATION;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.ENABLE_SAVEACTION;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.PRESERVE_BREAKPOINTS;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.PROJECT_PREF_FILE;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.SHOW_NOTIFICATIONS;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.prefs.Preferences;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.EditorKit;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.USE_PROJECT_PREFS;
 import de.markiewb.netbeans.plugins.eclipse.formatter.customizer.VerifiableConfigPanel;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReadException;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.Profile;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.prefs.Preferences;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.netbeans.spi.options.OptionsPanelController.Keywords;
 import org.openide.awt.HtmlBrowser;
 import org.openide.filesystems.FileChooserBuilder;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
-import org.openide.text.CloneableEditorSupport;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.xml.sax.SAXException;
@@ -64,9 +65,6 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     public EclipseFormatterPanel(Preferences preferences, boolean showsProjectSettings) {
         initComponents();
         enableUI();
-
-        EditorKit kit = CloneableEditorSupport.getEditorKit("text/xml");
-        previewPane.setEditorKit(kit);
 
         formatterLocField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -151,17 +149,16 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         browseButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         formatterLocField = new javax.swing.JTextField();
         errorLabel = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        previewPane = new javax.swing.JEditorPane();
-        jLabel3 = new javax.swing.JLabel();
+        lblProfile = new javax.swing.JLabel();
         cbProfile = new javax.swing.JComboBox();
         cbPreserveBreakpoints = new javax.swing.JCheckBox();
         jLabel4 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        cbUseProjectPref = new javax.swing.JCheckBox();
         rbUseNetBeans = new javax.swing.JRadioButton();
         rbUseEclipse = new javax.swing.JRadioButton();
         txtProjectSpecificHint = new javax.swing.JLabel();
@@ -171,8 +168,6 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         btnVisitHomePage = new javax.swing.JLabel();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.jLabel2.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(browseButton, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.browseButton.text")); // NOI18N
         browseButton.addActionListener(new java.awt.event.ActionListener() {
@@ -190,19 +185,19 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         org.openide.awt.Mnemonics.setLocalizedText(errorLabel, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.errorLabel.text")); // NOI18N
         errorLabel.setToolTipText(org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.errorLabel.toolTipText")); // NOI18N
 
-        previewPane.setEditable(false);
-        previewPane.setFocusable(false);
-        previewPane.setHighlighter(null
-        );
-        jScrollPane2.setViewportView(previewPane);
+        lblProfile.setLabelFor(cbProfile);
+        org.openide.awt.Mnemonics.setLocalizedText(lblProfile, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.lblProfile.text")); // NOI18N
 
-        jLabel3.setLabelFor(cbProfile);
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.jLabel3.text")); // NOI18N
-
+        cbPreserveBreakpoints.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(cbPreserveBreakpoints, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbPreserveBreakpoints.text")); // NOI18N
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.jLabel4.text")); // NOI18N
         jLabel4.setEnabled(false);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.jLabel2.text")); // NOI18N
+        jLabel2.setEnabled(false);
+
+        org.openide.awt.Mnemonics.setLocalizedText(cbUseProjectPref, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbUseProjectPref.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -212,7 +207,10 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                        .addComponent(cbUseProjectPref)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -220,23 +218,22 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(cbPreserveBreakpoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
-                                    .addComponent(jLabel3))
+                                    .addComponent(lblProfile))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(cbProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(formatterLocField)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(browseButton)
-                                        .addGap(7, 7, 7)))))
+                                        .addComponent(browseButton))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(cbProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(45, 45, 45)
+                                        .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -247,21 +244,24 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                     .addComponent(jLabel1)
                     .addComponent(formatterLocField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(browseButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(7, 7, 7)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(errorLabel)
-                    .addComponent(jLabel3)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblProfile)
                     .addComponent(cbProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(cbUseProjectPref)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbPreserveBreakpoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(27, 27, 27))
         );
+
+        jLabel2.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.jLabel2.AccessibleContext.accessibleName")); // NOI18N
 
         buttonGroup1.add(rbUseNetBeans);
         org.openide.awt.Mnemonics.setLocalizedText(rbUseNetBeans, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.rbUseNetBeans.text")); // NOI18N
@@ -297,14 +297,10 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(rbUseNetBeans)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                         .addComponent(txtProjectSpecificHint))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(rbUseEclipse)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cbEnableSaveAction)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -312,8 +308,14 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cbShowNotifications)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(rbUseEclipse)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,11 +344,28 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         File home = new File(System.getProperty("user.home"));
         final FileNameExtensionFilter fileNameExtensionFilterXML = new FileNameExtensionFilter("Eclipse formatter (*.xml)", "xml");
         final FileNameExtensionFilter fileNameExtensionFilterEPF = new FileNameExtensionFilter("Workspace mechanic (*.epf)", "epf");
+        final FileFilter fileNameExtensionFilterProjectSetting = new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                if (f.isDirectory()) {
+                    return true;
+                }
+                return PROJECT_PREF_FILE.equals(f.getName());
+            }
+
+            @Override
+            public String getDescription() {
+                return "Eclipse project settings (" + PROJECT_PREF_FILE + ")";
+            }
+        };
         //Now build a file chooser and invoke the dialog in one line of code
         //"user-dir" is our unique key
-        File toAdd = new FileChooserBuilder("user-dir").setFilesOnly(true).setTitle("Choose configuration ...").
+        File toAdd = new FileChooserBuilder("user-dir").setFileHiding(false).setFilesOnly(true).setTitle("Choose configuration ...").
                 setDefaultWorkingDirectory(home).setApproveText("Choose").
-                addFileFilter(fileNameExtensionFilterXML).addFileFilter(fileNameExtensionFilterEPF).setFileFilter(fileNameExtensionFilterXML).
+                addFileFilter(fileNameExtensionFilterProjectSetting).
+                addFileFilter(fileNameExtensionFilterXML).
+                addFileFilter(fileNameExtensionFilterEPF).
+                setFileFilter(fileNameExtensionFilterXML).
                 showOpenDialog();
         //Result will be null if the user clicked cancel or closed the dialog w/o OK
         if (toAdd != null) {
@@ -386,11 +405,12 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         boolean showNotifications = preferences.getBoolean(SHOW_NOTIFICATIONS, true);
         boolean enableSaveAction = preferences.getBoolean(ENABLE_SAVEACTION, false);
         boolean preserveBreakpoints = preferences.getBoolean(PRESERVE_BREAKPOINTS, true);
-        loadOptionsWindowUI(isEclipseFormatterEnabled, eclipseFormatterLocation, eclipseFormatterProfile, showNotifications, enableSaveAction, preserveBreakpoints);
+        boolean useProjectPrefs = preferences.getBoolean(USE_PROJECT_PREFS, true);
+        loadOptionsWindowUI(isEclipseFormatterEnabled, eclipseFormatterLocation, eclipseFormatterProfile, showNotifications, enableSaveAction, preserveBreakpoints, useProjectPrefs);
         fireChangedListener();
     }
 
-    private void loadOptionsWindowUI(boolean isEclipseFormatterEnabled, String formatterFile, String profile, boolean showNotifications, boolean enableSaveAction, boolean preserveBreakpoints) {
+    private void loadOptionsWindowUI(boolean isEclipseFormatterEnabled, String formatterFile, String profile, boolean showNotifications, boolean enableSaveAction, boolean preserveBreakpoints, boolean useProjectPrefs) {
         loadEclipseFormatterFileForPreview(formatterFile, profile);
 
         if (isEclipseFormatterEnabled) {
@@ -402,6 +422,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         cbShowNotifications.setSelected(showNotifications);
         cbEnableSaveAction.setSelected(enableSaveAction);
         cbPreserveBreakpoints.setSelected(preserveBreakpoints);
+        cbUseProjectPref.setSelected(useProjectPrefs);
         enableUI();
     }
 
@@ -413,15 +434,15 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         final File file = new File(formatterFile);
 
         cbProfile.setEnabled(false);
+        lblProfile.setEnabled(false);
+
         cbProfile.removeAllItems();
         if (file.exists()) {
             try {
                 final FileObject fo = FileUtil.toFileObject(FileUtil.normalizeFile(file));
-                previewPane.setText(fo.asText());
 
-                if (de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.isWorkspaceMechanicFile(fo.getNameExt())) {
-                    //workspace mechanic files do not support profiles
-                } else {
+                //only xml configurations contain profiles
+                if (de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.isXMLConfigurationFile(fo.getNameExt())) {
                     List<Profile> profiles = new ConfigReader().read(file);
                     cbProfile.addItem(Bundle.ChooseProfile());
 
@@ -434,6 +455,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                     }
                     selectProfileOrFallback(entryToSelect, profiles);
                     cbProfile.setEnabled(true);
+                    lblProfile.setEnabled(true);
                 }
             } catch (IOException | SAXException | ConfigReadException ex) {
                 Exceptions.printStackTrace(ex);
@@ -461,6 +483,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         preferences.putBoolean(ENABLE_SAVEACTION, cbEnableSaveAction.isSelected());
         preferences.put(ECLIPSE_FORMATTER_ACTIVE_PROFILE, getSelectedProfile());
         preferences.putBoolean(PRESERVE_BREAKPOINTS, cbPreserveBreakpoints.isSelected());
+        preferences.putBoolean(USE_PROJECT_PREFS, cbUseProjectPref.isSelected());
     }
 
     boolean valid() {
@@ -470,12 +493,18 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
             final File file = new File(fileName);
             final boolean isXML = de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.isXMLConfigurationFile(file.getName());
             final boolean isEPF = de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.isWorkspaceMechanicFile(file.getName());
+            final boolean isProjectSetting = de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.isProjectSetting(file.getName());
             if (isXML && cbProfile.getSelectedIndex() == 0) {
                 //"choose profile" entry is selected
                 return false;
             }
 
-            if (file.exists() && (isXML || isEPF)) {
+            //use configuration from .settings
+            if (cbUseProjectPref.isSelected()) {
+                return true;
+            }
+
+            if (file.exists() && (isXML || isEPF || isProjectSetting)) {
                 return true;
             } else {
                 errorLabel.setText("Invalid file. Please enter a valid configuration file.");
@@ -493,15 +522,14 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     private javax.swing.JCheckBox cbPreserveBreakpoints;
     private javax.swing.JComboBox cbProfile;
     private javax.swing.JCheckBox cbShowNotifications;
+    private javax.swing.JCheckBox cbUseProjectPref;
     private javax.swing.JLabel errorLabel;
     private javax.swing.JTextField formatterLocField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JEditorPane previewPane;
+    private javax.swing.JLabel lblProfile;
     private javax.swing.JRadioButton rbUseEclipse;
     private javax.swing.JRadioButton rbUseNetBeans;
     private javax.swing.JLabel txtProjectSpecificHint;
@@ -510,18 +538,17 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     private void enableUI() {
         final boolean isEnabled = rbUseEclipse.isSelected();
         jLabel1.setEnabled(isEnabled);
-        jLabel2.setEnabled(isEnabled);
         browseButton.setEnabled(isEnabled);
         formatterLocField.setEnabled(isEnabled);
-        previewPane.setEnabled(isEnabled);
         if (-1 != cbProfile.getSelectedIndex()) {
-            jLabel3.setEnabled(isEnabled);
+            lblProfile.setEnabled(isEnabled);
             cbProfile.setEnabled(isEnabled);
         } else {
-            jLabel3.setEnabled(false);
+            lblProfile.setEnabled(false);
             cbProfile.setEnabled(false);
         }
         cbPreserveBreakpoints.setEnabled(isEnabled);
+        cbUseProjectPref.setEnabled(isEnabled);
 
         txtProjectSpecificHint.setVisible(!showsProjectSettings);
     }

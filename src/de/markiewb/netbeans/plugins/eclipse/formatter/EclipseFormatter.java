@@ -113,8 +113,10 @@ public final class EclipseFormatter {
             Map<String, String> configFromFile = new LinkedHashMap<>();
             if (Preferences.isWorkspaceMechanicFile(formatterFile)) {
                 configFromFile.putAll(readConfigFromWorkspaceMechanicFile(file));
-            } else {
+            } else if (Preferences.isXMLConfigurationFile(formatterFile)) {
                 configFromFile.putAll(readConfigFromFormatterXmlFile(file));
+            } else if (Preferences.isProjectSetting(formatterFile)) {
+                configFromFile.putAll(readConfigFromProjectSettings(file));
             }
 
             allConfig.putAll(configFromStatic);
@@ -156,6 +158,19 @@ public final class EclipseFormatter {
                 String value = properties.getProperty(key);
                 result.put(key.substring(prefix.length()), value);
             }
+        }
+        return result;
+    }
+    
+    private Map<String, String> readConfigFromProjectSettings(final File file) throws IOException {
+        Map<String, String> result = new LinkedHashMap<>();
+        Properties properties = new Properties();
+        try (FileInputStream is = new FileInputStream(file)) {
+            properties.load(is);
+        }
+        for (Object object : properties.keySet()) {
+            String key = (String) object;
+            result.put(key, properties.getProperty(key));
         }
         return result;
     }
