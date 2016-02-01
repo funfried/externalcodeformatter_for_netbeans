@@ -1,5 +1,6 @@
 package de.markiewb.netbeans.plugins.eclipse.formatter;
 
+import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class FormatTest {
                 + "			       A,\n"
                 + "				   B,\n"
                 + "				   C}";
-        String actual = formatter.forCode(text, 0, text.length() - 1);
+        String actual = formatter.forCode(text, 0, text.length() - 1, null);
         assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
     }
 
@@ -34,7 +35,7 @@ public class FormatTest {
                 + "			       A,\n"
                 + "				   B,\n"
                 + "				   C}";
-        String actual = formatter.forCode(text, 0, text.length() - 1);
+        String actual = formatter.forCode(text, 0, text.length() - 1, null);
         assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
     }
 
@@ -48,7 +49,7 @@ public class FormatTest {
                 + "			       A,\n"
                 + "				   B,\n"
                 + "				   C}";
-        String actual = formatter.forCode(text, 0, text.length() - 1);
+        String actual = formatter.forCode(text, 0, text.length() - 1, null);
         assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
     }
 

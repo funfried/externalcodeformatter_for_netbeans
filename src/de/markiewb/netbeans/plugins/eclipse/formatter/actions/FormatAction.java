@@ -9,8 +9,9 @@
  *    markiewb - initial API and implementation and/or initial documentation
  *    Saad Mufti <saad.mufti@teamaol.com> 
  */
-package de.markiewb.netbeans.plugins.eclipse.formatter;
+package de.markiewb.netbeans.plugins.eclipse.formatter.actions;
 
+import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.FormatterStrategyDispatcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ import org.openide.awt.ActionRegistration;
 import org.openide.cookies.EditorCookie;
 import org.openide.util.NbBundle;
 
+
 @ActionID(
         category = "Source",
         id = "org.netbeans.eclipse.formatter.ReformatWithEclipseBeforeSaveTask")
@@ -32,13 +34,13 @@ import org.openide.util.NbBundle;
     @ActionReference(path = "Menu/Source", position = 0)
 })
 @NbBundle.Messages("CTL_EclipseFormatter=Format with Eclipse formatter")
-public class ReformatWithEclipseAction implements ActionListener {
+public class FormatAction implements ActionListener {
 
-    private static final Logger LOG = Logger.getLogger(ReformatWithEclipseAction.class.getName());
+    private static final Logger LOG = Logger.getLogger(FormatAction.class.getName());
 
     private EditorCookie context = null;
 
-    public ReformatWithEclipseAction(EditorCookie context) {
+    public FormatAction(EditorCookie context) {
         this.context = context;
     }
 
@@ -49,14 +51,8 @@ public class ReformatWithEclipseAction implements ActionListener {
             return;
         }
         final StyledDocument document = context.getDocument();
-        boolean isJava = EclipseFormatterUtilities.isJava(document);
-        if (!isJava) {
-            return;
-        }
 
-        final StyledDocument styledDoc = document;
-        final boolean noSaveAction = false;
-        new FormatJavaAction().format(styledDoc, noSaveAction);
+        new FormatterStrategyDispatcher().format(document, null, false);
     }
 
 }
