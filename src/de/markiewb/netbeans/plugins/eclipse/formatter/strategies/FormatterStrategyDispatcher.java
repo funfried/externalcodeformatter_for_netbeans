@@ -19,29 +19,29 @@ import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.Eclipse
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_ENABLED;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_LOCATION;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.LINEFEED;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.PRESERVE_BREAKPOINTS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.PROJECT_PREF_FILE;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.SHOW_NOTIFICATIONS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.USE_PROJECT_PREFS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.getActivePreferences;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.getLineFeed;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatterStrategy;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 import java.io.File;
-import java.util.Collections;
-import java.util.List;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
+import org.netbeans.editor.BaseDocument;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
 import org.openide.filesystems.FileObject;
-
 
 /**
  *
@@ -73,6 +73,7 @@ public class FormatterStrategyDispatcher {
         final boolean showNotifications = pref.getBoolean(SHOW_NOTIFICATIONS, false);
         final boolean preserveBreakpoints = pref.getBoolean(PRESERVE_BREAKPOINTS, true);
         final boolean useProjectPrefs = pref.getBoolean(USE_PROJECT_PREFS, true);
+        final String lineFeed = pref.get(LINEFEED, "");
         if (!hasGuardedSections && isJava && isEclipseFormatterEnabled) {
             String formatterProfile = pref.get(ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
             String formatterFile = getFormatterFileFromProjectConfiguration(useProjectPrefs, styledDoc);
@@ -86,9 +87,15 @@ public class FormatterStrategyDispatcher {
                 return;
             }
 
-            final EclipseFormatter formatter = new EclipseFormatter(formatterFile, formatterProfile);
+            //format with configured linefeed
+            final EclipseFormatter formatter = new EclipseFormatter(formatterFile, formatterProfile, lineFeed);
 
             try {
+                //save with configured linefeed
+                if (null != lineFeed) {
+                    styledDoc.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, getLineFeed(lineFeed));
+                    styledDoc.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, getLineFeed(lineFeed));
+                }
                 eclipseStrategy.format(styledDoc, formatter, forSave, preserveBreakpoints, changedElements);
             } catch (ProfileNotFoundException e) {
                 NotifyDescriptor notify = new NotifyDescriptor.Message(String.format("<html>Profile '%s' not found in <tt>%s</tt><br><br>Please configure a valid one in the project properties OR at Tools|Options|Java|Eclipse Formatter!", formatterProfile, formatterFile), NotifyDescriptor.ERROR_MESSAGE);
@@ -116,7 +123,7 @@ public class FormatterStrategyDispatcher {
         if (useProjectPrefs) {
             FileObject fileForDocument = NbEditorUtilities.getFileObject(styledDoc);
             if (null != fileForDocument) {
-                
+
                 Project project = FileOwnerQuery.getOwner(fileForDocument);
                 if (null != project) {
                     FileObject projectDirectory = project.getProjectDirectory();

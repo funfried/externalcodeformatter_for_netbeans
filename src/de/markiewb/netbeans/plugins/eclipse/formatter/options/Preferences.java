@@ -23,6 +23,7 @@ import org.openide.util.NbPreferences;
  * @author markiewb
  */
 public class Preferences {
+
     public static final boolean FEATURE_formatChangedLinesOnly = true;
     public static final String ECLIPSE_FORMATTER_ACTIVE_PROFILE = "eclipseFormatterActiveProfile";
     public static final String ECLIPSE_FORMATTER_ENABLED = "eclipseFormatterEnabled";
@@ -43,6 +44,10 @@ public class Preferences {
      * @since 1.10
      */
     public static final String PROJECT_PREF_FILE = "org.eclipse.jdt.core.prefs";
+    /**
+     * @since 1.10
+     */
+    public static final String LINEFEED = "linefeed";
 
     public static java.util.prefs.Preferences getActivePreferences(final StyledDocument styledDoc) {
         java.util.prefs.Preferences globalPreferences = NbPreferences.forModule(EclipseFormatterPanel.class);
@@ -70,5 +75,25 @@ public class Preferences {
 
     public static boolean isProjectSetting(String filename) {
         return filename.endsWith("org.eclipse.jdt.core.prefs");
+    }
+
+    public static String getLineFeed(String lineFeedSetting) {
+        final boolean usePlatformLinefeed = null == lineFeedSetting || "".equals(lineFeedSetting);
+        String linefeed = null;
+        if (!usePlatformLinefeed) {
+
+            switch (lineFeedSetting) {
+                case "\\n":
+                    linefeed = org.netbeans.editor.BaseDocument.LS_LF;
+                    break;
+                case "\\r":
+                    linefeed = org.netbeans.editor.BaseDocument.LS_CR;
+                    break;
+                case "\\r\\n":
+                    linefeed = org.netbeans.editor.BaseDocument.LS_CRLF;
+                    break;
+            }
+        }
+        return linefeed;
     }
 }

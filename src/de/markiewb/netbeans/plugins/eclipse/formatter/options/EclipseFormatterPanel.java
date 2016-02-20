@@ -21,6 +21,7 @@ import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences
 import de.markiewb.netbeans.plugins.eclipse.formatter.customizer.VerifiableConfigPanel;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION_MODIFIEDLINESONLY;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.FEATURE_formatChangedLinesOnly;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.LINEFEED;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReadException;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.Profile;
@@ -170,6 +171,8 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cbUseProjectPref = new javax.swing.JCheckBox();
+        lblLinefeed = new javax.swing.JLabel();
+        cbLinefeed = new javax.swing.JComboBox<>();
         rbUseNetBeans = new javax.swing.JRadioButton();
         rbUseEclipse = new javax.swing.JRadioButton();
         txtProjectSpecificHint = new javax.swing.JLabel();
@@ -211,42 +214,54 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
 
         org.openide.awt.Mnemonics.setLocalizedText(cbUseProjectPref, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.cbUseProjectPref.text")); // NOI18N
 
+        lblLinefeed.setLabelFor(cbLinefeed);
+        org.openide.awt.Mnemonics.setLocalizedText(lblLinefeed, org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.lblLinefeed.text")); // NOI18N
+        lblLinefeed.setToolTipText(org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.lblLinefeed.toolTipText")); // NOI18N
+
+        cbLinefeed.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "System", "\\n", "\\r\\n", "\\r" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(176, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(lblLinefeed))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cbPreserveBreakpoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(formatterLocField)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(browseButton))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cbProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(45, 45, 45)
-                                        .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                        .addContainerGap())
+                        .addGap(6, 6, 6)
+                        .addComponent(lblProfile)))
+                .addGap(53, 53, 53)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbLinefeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formatterLocField))
+                .addGap(12, 12, 12)
+                .addComponent(browseButton)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(524, Short.MAX_VALUE)
+                .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(95, 95, 95))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblProfile)
-                            .addComponent(cbUseProjectPref))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(111, 111, 111)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(cbPreserveBreakpoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(cbUseProjectPref)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,10 +271,10 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                     .addComponent(jLabel1)
                     .addComponent(formatterLocField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(browseButton))
-                .addGap(7, 7, 7)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(errorLabel)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(lblProfile)
@@ -270,7 +285,11 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                 .addComponent(cbPreserveBreakpoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(lblLinefeed)
+                    .addComponent(cbLinefeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel2.getAccessibleContext().setAccessibleName(org.openide.util.NbBundle.getMessage(EclipseFormatterPanel.class, "EclipseFormatterPanel.jLabel2.AccessibleContext.accessibleName")); // NOI18N
@@ -313,20 +332,20 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(rbUseNetBeans)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                         .addComponent(txtProjectSpecificHint))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cbEnableSaveAction)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbEnableSaveActionModifiedLinesOnly)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDonate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(cbShowNotifications)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cbEnableSaveAction)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbEnableSaveActionModifiedLinesOnly)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDonate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cbShowNotifications)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(rbUseEclipse)
                                 .addGap(0, 0, Short.MAX_VALUE))
@@ -356,6 +375,22 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnDonateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDonateMouseClicked
+        try {
+            HtmlBrowser.URLDisplayer.getDefault().showURLExternal(new URL("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K4CMP92RZELE2"));
+        } catch (MalformedURLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }//GEN-LAST:event_btnDonateMouseClicked
+
+    private void btnVisitHomePageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVisitHomePageMouseClicked
+        try {
+            HtmlBrowser.URLDisplayer.getDefault().showURLExternal(new URL("https://github.com/markiewb/eclipsecodeformatter_for_netbeans/"));
+        } catch (MalformedURLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }//GEN-LAST:event_btnVisitHomePageMouseClicked
+
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
         //The default dir to use if no value is stored
         File home = new File(System.getProperty("user.home"));
@@ -378,33 +413,17 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         //Now build a file chooser and invoke the dialog in one line of code
         //"user-dir" is our unique key
         File toAdd = new FileChooserBuilder("user-dir").setFileHiding(false).setFilesOnly(true).setTitle("Choose configuration ...").
-                setDefaultWorkingDirectory(home).setApproveText("Choose").
-                addFileFilter(fileNameExtensionFilterProjectSetting).
-                addFileFilter(fileNameExtensionFilterXML).
-                addFileFilter(fileNameExtensionFilterEPF).
-                setFileFilter(fileNameExtensionFilterXML).
-                showOpenDialog();
+        setDefaultWorkingDirectory(home).setApproveText("Choose").
+        addFileFilter(fileNameExtensionFilterProjectSetting).
+        addFileFilter(fileNameExtensionFilterXML).
+        addFileFilter(fileNameExtensionFilterEPF).
+        setFileFilter(fileNameExtensionFilterXML).
+        showOpenDialog();
         //Result will be null if the user clicked cancel or closed the dialog w/o OK
         if (toAdd != null) {
             loadEclipseFormatterFileForPreview(toAdd.getAbsolutePath(), getSelectedProfile());
         }
     }//GEN-LAST:event_browseButtonActionPerformed
-
-    private void btnDonateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDonateMouseClicked
-        try {
-            HtmlBrowser.URLDisplayer.getDefault().showURLExternal(new URL("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K4CMP92RZELE2"));
-        } catch (MalformedURLException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-    }//GEN-LAST:event_btnDonateMouseClicked
-
-    private void btnVisitHomePageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVisitHomePageMouseClicked
-        try {
-            HtmlBrowser.URLDisplayer.getDefault().showURLExternal(new URL("https://github.com/markiewb/eclipsecodeformatter_for_netbeans/"));
-        } catch (MalformedURLException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-    }//GEN-LAST:event_btnVisitHomePageMouseClicked
 
     private String getSelectedProfile() {
         if (null != cbProfile.getSelectedItem()) {
@@ -424,11 +443,12 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         boolean enableSaveActionModifiedLines = preferences.getBoolean(ENABLE_SAVEACTION_MODIFIEDLINESONLY, false);
         boolean preserveBreakpoints = preferences.getBoolean(PRESERVE_BREAKPOINTS, true);
         boolean useProjectPrefs = preferences.getBoolean(USE_PROJECT_PREFS, true);
-        loadOptionsWindowUI(isEclipseFormatterEnabled, eclipseFormatterLocation, eclipseFormatterProfile, showNotifications, enableSaveAction, preserveBreakpoints, useProjectPrefs, enableSaveActionModifiedLines);
+        String lineFeed = preferences.get(LINEFEED, "");
+        loadOptionsWindowUI(isEclipseFormatterEnabled, eclipseFormatterLocation, eclipseFormatterProfile, showNotifications, enableSaveAction, preserveBreakpoints, useProjectPrefs, enableSaveActionModifiedLines, lineFeed);
         fireChangedListener();
     }
 
-    private void loadOptionsWindowUI(boolean isEclipseFormatterEnabled, String formatterFile, String profile, boolean showNotifications, boolean enableSaveAction, boolean preserveBreakpoints, boolean useProjectPrefs, boolean enableSaveActionModifiedLines) {
+    private void loadOptionsWindowUI(boolean isEclipseFormatterEnabled, String formatterFile, String profile, boolean showNotifications, boolean enableSaveAction, boolean preserveBreakpoints, boolean useProjectPrefs, boolean enableSaveActionModifiedLines, String lineFeed) {
         loadEclipseFormatterFileForPreview(formatterFile, profile);
 
         if (isEclipseFormatterEnabled) {
@@ -442,6 +462,12 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         cbEnableSaveActionModifiedLinesOnly.setSelected(enableSaveActionModifiedLines);
         cbPreserveBreakpoints.setSelected(preserveBreakpoints);
         cbUseProjectPref.setSelected(useProjectPrefs);
+        if (null == lineFeed || "".equals(lineFeed)) {
+            //default = system-dependend LF
+            cbLinefeed.setSelectedIndex(0);
+        } else {
+            cbLinefeed.setSelectedItem(lineFeed);
+        }
         enableUI();
     }
 
@@ -500,12 +526,13 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         preferences.putBoolean(ECLIPSE_FORMATTER_ENABLED, rbUseEclipse.isSelected());
         preferences.putBoolean(SHOW_NOTIFICATIONS, cbShowNotifications.isSelected());
         preferences.putBoolean(ENABLE_SAVEACTION, cbEnableSaveAction.isSelected());
-        if (FEATURE_formatChangedLinesOnly){
+        if (FEATURE_formatChangedLinesOnly) {
             preferences.putBoolean(ENABLE_SAVEACTION_MODIFIEDLINESONLY, cbEnableSaveActionModifiedLinesOnly.isSelected());
         }
         preferences.put(ECLIPSE_FORMATTER_ACTIVE_PROFILE, getSelectedProfile());
         preferences.putBoolean(PRESERVE_BREAKPOINTS, cbPreserveBreakpoints.isSelected());
         preferences.putBoolean(USE_PROJECT_PREFS, cbUseProjectPref.isSelected());
+        preferences.put(LINEFEED, getLinefeed());
     }
 
     boolean valid() {
@@ -542,6 +569,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox cbEnableSaveAction;
     private javax.swing.JCheckBox cbEnableSaveActionModifiedLinesOnly;
+    private javax.swing.JComboBox<String> cbLinefeed;
     private javax.swing.JCheckBox cbPreserveBreakpoints;
     private javax.swing.JComboBox cbProfile;
     private javax.swing.JCheckBox cbShowNotifications;
@@ -552,6 +580,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblLinefeed;
     private javax.swing.JLabel lblProfile;
     private javax.swing.JRadioButton rbUseEclipse;
     private javax.swing.JRadioButton rbUseNetBeans;
@@ -572,6 +601,8 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         }
         cbPreserveBreakpoints.setEnabled(isEnabled);
         cbUseProjectPref.setEnabled(isEnabled);
+        cbLinefeed.setEnabled(isEnabled);
+        lblLinefeed.setEnabled(isEnabled);
 
         txtProjectSpecificHint.setVisible(!showsProjectSettings);
     }
@@ -579,6 +610,13 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
     @Override
     public boolean holdsValidConfig() {
         return valid();
+    }
+
+    String getLinefeed() {
+        if (0 == cbLinefeed.getSelectedIndex()) {
+            return "";
+        }
+        return cbLinefeed.getSelectedItem().toString();
     }
 
 }

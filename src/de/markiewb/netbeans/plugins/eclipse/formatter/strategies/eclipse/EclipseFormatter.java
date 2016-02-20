@@ -13,6 +13,7 @@ package de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse;
 
 import de.markiewb.netbeans.plugins.eclipse.formatter.Pair;
 import de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.getLineFeed;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReadException;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.Profile;
@@ -34,7 +35,6 @@ import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.Region;
 import org.eclipse.text.edits.TextEdit;
 import org.openide.filesystems.FileUtil;
 import org.xml.sax.SAXException;
@@ -45,10 +45,12 @@ public final class EclipseFormatter {
 
     private final String formatterFile;
     private final String formatterProfile;
+    private final String lineFeedSetting;
 
-    public EclipseFormatter(String formatterFile, String formatterProfile) {
+    public EclipseFormatter(String formatterFile, String formatterProfile, String lineFeed) {
         this.formatterFile = formatterFile;
         this.formatterProfile = formatterProfile;
+        this.lineFeedSetting = lineFeed;
     }
 
     public String forCode(final String code, int startOffset, int endOffset, SortedSet<Pair> changedElements) {
@@ -68,6 +70,7 @@ public final class EclipseFormatter {
         CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig);
         //see http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FCodeFormatter.html&anchor=format(int,
 
+        String linefeed = getLineFeed(lineFeedSetting);
         final TextEdit te;
         // org.eclipse.jface.text.Region
         List<IRegion> regions = new ArrayList<>();
@@ -78,12 +81,10 @@ public final class EclipseFormatter {
             }
             LOG.finest("regions = " + regions);
             IRegion[] toArray = regions.toArray(new IRegion[regions.size()]);
-            //FIXME use line separator
             LOG.finest("use regions " + regions);
-            te = formatter.format(opts, code, toArray, 0, null);
+            te = formatter.format(opts, code, toArray, 0, linefeed);
         } else {
-            //FIXME use line separator
-            te = formatter.format(opts, code, startOffset, endOffset - startOffset, 0, null);
+            te = formatter.format(opts, code, startOffset, endOffset - startOffset, 0, linefeed);
         }
 
         final IDocument dc = new Document(code);
