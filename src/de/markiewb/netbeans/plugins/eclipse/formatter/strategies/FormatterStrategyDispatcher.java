@@ -11,7 +11,6 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter.strategies;
 
-import de.markiewb.netbeans.plugins.eclipse.formatter.Pair;
 import de.markiewb.netbeans.plugins.eclipse.formatter.Utilities;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter.CannotLoadConfigurationException;
@@ -29,7 +28,6 @@ import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatterStrategy;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 import java.io.File;
-import java.util.SortedSet;
 import java.util.prefs.Preferences;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
@@ -52,7 +50,7 @@ public class FormatterStrategyDispatcher {
     EclipseFormatterStrategy eclipseStrategy = new EclipseFormatterStrategy();
     NetBeansFormatterStrategy netbeansStrategy = new NetBeansFormatterStrategy();
 
-    public void formatWithNetBeans(final boolean showNotifications, final boolean hasGuardedSections, final boolean isEclipseFormatterEnabled, final boolean isJava, final StyledDocument styledDoc, boolean forSave, SortedSet<Pair> changedElements) {
+    public void formatWithNetBeans(final boolean showNotifications, final boolean hasGuardedSections, final boolean isEclipseFormatterEnabled, final boolean isJava, ParameterObject po) {
         if (showNotifications) {
             String detail = getNotificationMessageForNetBeans(hasGuardedSections, isEclipseFormatterEnabled, isJava);
 
@@ -60,10 +58,11 @@ public class FormatterStrategyDispatcher {
         }
         StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
         boolean preserveBreakpoints = false;
-        netbeansStrategy.format(styledDoc, null, forSave, preserveBreakpoints, changedElements);
+        netbeansStrategy.format(null, preserveBreakpoints, po);
     }
 
-    public void format(final StyledDocument styledDoc, SortedSet<Pair> changedElements, boolean forSave) {
+    public void format(ParameterObject po) {
+        final StyledDocument styledDoc = po.styledDoc;
         GuardedSectionManager guards = GuardedSectionManager.getInstance(styledDoc);
         final boolean hasGuardedSections = guards != null;
         final boolean isJava = Utilities.isJava(styledDoc);
@@ -83,7 +82,7 @@ public class FormatterStrategyDispatcher {
 
             if (!new File(formatterFile).exists()) {
                 //fallback to NB
-                formatWithNetBeans(showNotifications, hasGuardedSections, isEclipseFormatterEnabled, isJava, styledDoc, forSave, changedElements);
+                formatWithNetBeans(showNotifications, hasGuardedSections, isEclipseFormatterEnabled, isJava, po);
                 return;
             }
 
@@ -96,7 +95,7 @@ public class FormatterStrategyDispatcher {
                     styledDoc.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, getLineFeed(lineFeed));
                     styledDoc.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, getLineFeed(lineFeed));
                 }
-                eclipseStrategy.format(styledDoc, formatter, forSave, preserveBreakpoints, changedElements);
+                eclipseStrategy.format(formatter, preserveBreakpoints, po);
             } catch (ProfileNotFoundException e) {
                 NotifyDescriptor notify = new NotifyDescriptor.Message(String.format("<html>Profile '%s' not found in <tt>%s</tt><br><br>Please configure a valid one in the project properties OR at Tools|Options|Java|Eclipse Formatter!", formatterProfile, formatterFile), NotifyDescriptor.ERROR_MESSAGE);
                 DialogDisplayer.getDefault().notify(notify);
@@ -114,7 +113,7 @@ public class FormatterStrategyDispatcher {
             StatusDisplayer.getDefault().setStatusText("Format using Eclipse formatter: " + msg);
 
         } else {
-            formatWithNetBeans(showNotifications, hasGuardedSections, isEclipseFormatterEnabled, isJava, styledDoc, forSave, changedElements);
+            formatWithNetBeans(showNotifications, hasGuardedSections, isEclipseFormatterEnabled, isJava, po);
         }
     }
 

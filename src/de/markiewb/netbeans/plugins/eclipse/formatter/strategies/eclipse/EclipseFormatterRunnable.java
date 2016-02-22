@@ -20,7 +20,6 @@ import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.debugger.Breakpoint;
 import org.netbeans.api.debugger.DebuggerManager;
@@ -66,17 +65,15 @@ class EclipseFormatterRunnable implements Runnable {
         //Support innerTypes like com.company.Foo$InnerClass
         return className.startsWith(fqnOfTopMostType + "$");
     }
-    private final int caret;
     private final SortedSet<Pair> changedElements;
     private final StyledDocument document;
-    private final JTextComponent editor;
     private final int endOffset;
     private final FileObject fileObject;
     private final EclipseFormatter formatter;
     private final boolean preserveBreakpoints;
     private final int startOffset;
 
-    EclipseFormatterRunnable(StyledDocument document, EclipseFormatter formatter, int dot, int mark, boolean preserveBreakpoints, int caret, JTextComponent editor, SortedSet<Pair> changedElements) {
+    EclipseFormatterRunnable(StyledDocument document, EclipseFormatter formatter, int dot, int mark, boolean preserveBreakpoints, SortedSet<Pair> changedElements) {
         this.document = document;
         this.fileObject = NbEditorUtilities.getFileObject(document);
         this.formatter = formatter;
@@ -88,8 +85,6 @@ class EclipseFormatterRunnable implements Runnable {
             endOffset = document.getLength();
         }
         this.preserveBreakpoints = preserveBreakpoints;
-        this.caret = caret;
-        this.editor = editor;
         this.changedElements = changedElements;
     }
 

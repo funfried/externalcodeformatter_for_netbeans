@@ -11,18 +11,20 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter.actions;
 
+import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.ParameterObject;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.FormatterStrategyDispatcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
+import javax.swing.JEditorPane;
 import javax.swing.text.StyledDocument;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.cookies.EditorCookie;
+import org.openide.text.NbDocument;
 import org.openide.util.NbBundle;
-
 
 @ActionID(
         category = "Source",
@@ -50,9 +52,23 @@ public class FormatAction implements ActionListener {
         if (null == context || null == context.getDocument()) {
             return;
         }
-        final StyledDocument document = context.getDocument();
+        JEditorPane editor = NbDocument.findRecentEditorPane(context);
+        int start = (editor != null) ? editor.getSelectionStart() : -1;
+        int end = (editor != null) ? editor.getSelectionEnd() : -1;
+        int caret = (editor != null) ? editor.getCaretPosition() : -1;
 
-        new FormatterStrategyDispatcher().format(document, null, false);
+        final StyledDocument document = context.getDocument();
+        
+        ParameterObject po = new ParameterObject();
+        po.styledDoc = document;
+        po.changedElements = null;
+        po.forSave = false;
+        po.selectionStart = start;
+        po.selectionEnd = end;
+        po.caret = caret;
+        po.editor = editor;
+        
+        new FormatterStrategyDispatcher().format(po);
     }
 
 }

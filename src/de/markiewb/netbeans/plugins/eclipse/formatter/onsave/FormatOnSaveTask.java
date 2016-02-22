@@ -12,6 +12,7 @@
 package de.markiewb.netbeans.plugins.eclipse.formatter.onsave;
 
 import de.markiewb.netbeans.plugins.eclipse.formatter.Pair;
+import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.ParameterObject;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.FormatterStrategyDispatcher;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION_MODIFIEDLINESONLY;
@@ -23,7 +24,9 @@ import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
+import org.netbeans.api.editor.EditorRegistry;
 import org.netbeans.api.editor.mimelookup.MimeRegistration;
 import org.netbeans.spi.editor.document.OnSaveTask;
 import org.openide.text.NbDocument;
@@ -76,12 +79,24 @@ public class FormatOnSaveTask implements OnSaveTask {
         final boolean enableSaveAction = pref.getBoolean(ENABLE_SAVEACTION, false);
         final boolean modifiedLinesOnly = pref.getBoolean(ENABLE_SAVEACTION_MODIFIEDLINESONLY, false);
         if (enableSaveAction) {
+            JTextComponent editor = EditorRegistry.lastFocusedComponent();
+            int caret = (null != editor) ? editor.getCaretPosition() : -1;
             final boolean isSaveAction = true;
             SortedSet<Pair> changedElements = null;
             if (modifiedLinesOnly && FEATURE_formatChangedLinesOnly) {
                 changedElements = getChangedLines(context, styledDoc);
             }
-            new FormatterStrategyDispatcher().format(styledDoc, changedElements, isSaveAction);
+
+            ParameterObject po = new ParameterObject();
+            po.styledDoc = styledDoc;
+            po.changedElements = changedElements;
+            po.forSave = isSaveAction;
+            po.selectionStart = -1;
+            po.selectionEnd = -1;
+            po.caret = caret;
+            po.editor = editor;
+
+            new FormatterStrategyDispatcher().format(po);
         }
     }
 

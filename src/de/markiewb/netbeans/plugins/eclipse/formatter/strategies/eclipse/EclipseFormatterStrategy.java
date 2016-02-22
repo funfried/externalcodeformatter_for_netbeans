@@ -11,14 +11,12 @@
 package de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse;
 
 import de.markiewb.netbeans.plugins.eclipse.formatter.Pair;
+import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.ParameterObject;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.IFormatterStrategy;
 import java.util.SortedSet;
-import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
-import org.netbeans.api.editor.EditorRegistry;
-import org.netbeans.api.progress.ProgressUtils;
 import org.openide.util.Exceptions;
 
 /**
@@ -34,31 +32,30 @@ public class EclipseFormatterStrategy implements IFormatterStrategy {
      * @param forSave true, if invoked by save action
      */
     @Override
-    public void format(final StyledDocument document, final EclipseFormatter formatter, boolean forSave, final boolean preserveBreakpoints, final SortedSet<Pair> changedElements) {
-        int caret = -1;
-        int dot = -1;
-        int mark = -1;
-        final JTextComponent editor = EditorRegistry.lastFocusedComponent();
-        if (editor != null) {
-            caret = editor.getCaretPosition();
-            // only look for selection if reformatting due to menu action, if reformatting on save we always reformat the whole doc
-            if (!forSave) {
-                dot = editor.getCaret().getDot();
-                mark = editor.getCaret().getMark();
-            }
-        }
+    public void format(EclipseFormatter formatter, boolean preserveBreakpoints, ParameterObject po) {
+        final int selectionStart = po.selectionStart;
+        final int selectionEnd = po.selectionEnd;
+        final boolean forSave = po.forSave;
+        final SortedSet<Pair> changedElements = po.changedElements;
+        final StyledDocument document = po.styledDoc;
+        final JTextComponent editor = po.editor;
+        final int caret = po.caret;
+
+        final int _dot = (!forSave) ? selectionStart : -1;
+        final int _mark = (!forSave) ? selectionEnd : -1;
         final int _caret = caret;
-        final int _dot = dot;
-        final int _mark = mark;
         try {
-            final EclipseFormatterRunnable formatterRunnable = new EclipseFormatterRunnable(document, formatter, _dot, _mark, preserveBreakpoints, _caret, editor, changedElements);
+            final EclipseFormatterRunnable formatterRunnable = new EclipseFormatterRunnable(document, formatter, _dot, _mark, preserveBreakpoints, changedElements);
             formatterRunnable.run();
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     //Set caret after the formatting, if possible
-                    if (editor != null) {
-                        editor.setCaretPosition(Math.max(0, Math.min(_caret, editor.getDocument().getLength())));
+                    if (editor != null && _caret > 0) {
+                        final int car = Math.max(0, Math.min(_caret, editor.getDocument().getLength()));
+                        editor.setCaretPosition(car);
+                        editor.requestFocus();
+                        editor.requestFocusInWindow();
                     }
                 }
             });

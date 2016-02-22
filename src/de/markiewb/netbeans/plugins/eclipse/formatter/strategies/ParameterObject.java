@@ -10,14 +10,22 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter.strategies;
 
-import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter;
+import de.markiewb.netbeans.plugins.eclipse.formatter.Pair;
+import java.util.SortedSet;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.StyledDocument;
 
 /**
  *
  * @author markiewb
  */
-public interface IFormatterStrategy {
+public class ParameterObject {
 
-    void format(final EclipseFormatter formatter, final boolean preserveBreakpoints, ParameterObject po);
-
+    public StyledDocument styledDoc;
+    public SortedSet<Pair> changedElements;
+    public boolean forSave;
+    public int selectionStart;
+    public int selectionEnd;
+    public int caret;
+    public JTextComponent editor;
 }
