@@ -9,17 +9,21 @@
  *    markiewb - initial API and implementation and/or initial documentation
  *    Saad Mufti <saad.mufti@teamaol.com> 
  */
-package de.markiewb.netbeans.plugins.eclipse.formatter;
+package de.markiewb.netbeans.plugins.eclipse.formatter.actions;
 
+import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.ParameterObject;
+import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.FormatterStrategyDispatcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
+import javax.swing.JEditorPane;
 import javax.swing.text.StyledDocument;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.cookies.EditorCookie;
+import org.openide.text.NbDocument;
 import org.openide.util.NbBundle;
 
 @ActionID(
@@ -32,13 +36,13 @@ import org.openide.util.NbBundle;
     @ActionReference(path = "Menu/Source", position = 0)
 })
 @NbBundle.Messages("CTL_EclipseFormatter=Format with Eclipse formatter")
-public class ReformatWithEclipseAction implements ActionListener {
+public class FormatAction implements ActionListener {
 
-    private static final Logger LOG = Logger.getLogger(ReformatWithEclipseAction.class.getName());
+    private static final Logger LOG = Logger.getLogger(FormatAction.class.getName());
 
     private EditorCookie context = null;
 
-    public ReformatWithEclipseAction(EditorCookie context) {
+    public FormatAction(EditorCookie context) {
         this.context = context;
     }
 
@@ -48,15 +52,23 @@ public class ReformatWithEclipseAction implements ActionListener {
         if (null == context || null == context.getDocument()) {
             return;
         }
-        final StyledDocument document = context.getDocument();
-        boolean isJava = EclipseFormatterUtilities.isJava(document);
-        if (!isJava) {
-            return;
-        }
+        JEditorPane editor = NbDocument.findRecentEditorPane(context);
+        int start = (editor != null) ? editor.getSelectionStart() : -1;
+        int end = (editor != null) ? editor.getSelectionEnd() : -1;
+        int caret = (editor != null) ? editor.getCaretPosition() : -1;
 
-        final StyledDocument styledDoc = document;
-        final boolean noSaveAction = false;
-        new FormatJavaAction().format(styledDoc, noSaveAction);
+        final StyledDocument document = context.getDocument();
+        
+        ParameterObject po = new ParameterObject();
+        po.styledDoc = document;
+        po.changedElements = null;
+        po.forSave = false;
+        po.selectionStart = start;
+        po.selectionEnd = end;
+        po.caret = caret;
+        po.editor = editor;
+        
+        new FormatterStrategyDispatcher().format(po);
     }
 
 }

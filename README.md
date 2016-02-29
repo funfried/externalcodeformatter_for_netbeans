@@ -25,20 +25,32 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <h2>Features:</h2>
 <ul>
 <li>Global configuration and project specific configuration</li>
-<li>Supports profiles (since 1.6)</li>
 <li>On save action (Disabled by default)</li>
 <li>Shows the used formatter as notification  (Enabled by default)</li>
+<li>Supports profiles (since 1.6)</li>
 <li>Supports format of selected text (since 1.7)</li>
 <li>Preserve breakpoints (experimental) (since 1.8)</li>
 <li>Code templates for @formatter:on/off (since 1.9)</li>
 <li>Supports <a href="https://code.google.com/a/eclipselabs.org/p/workspacemechanic/">Workspace Mechanic</a> configuration file (since 1.10)</li>
+<li>Support configuration from .settings/org.eclipse.jdt.core.prefs (absolute and relative paths) (since 1.10)</li>
+<li>On save action: Introduced option for formatting only the changed lines (since 1.10)</li>
+<li>Support configuration of linefeed (since 1.10)</li>
+<li>Support configuration of source level (since 1.10)</li>
 </ul>
 
-
-
-<h2>Updates in 1.10:</h2>
+<h2>Updates in 1.10.2:</h2>
 <ul>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/61">Feature 61</a>]: Support <a href="https://code.google.com/a/eclipselabs.org/p/workspacemechanic/">Workspace Mechanic</a> configuration file (*.epf)</li>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/67">Feature 67</a>]: Support configuration via <projectdir>/.settings/org.eclipse.jdt.core.prefs or absolute path to org.eclipse.jdt.core.prefs</li>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/68">Feature 68</a>]: Reduce download size by 77% by repacking jars with pack200</li>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/70">Feature 70</a>]: On save action: Introduced option for formatting only the changed lines</li>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/71">Feature 71</a>]: Support configuration of linefeed</li>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/23">Feature 23</a>]: Support configuration of source level</li>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/37">Feature 37</a>]: Fallback to NB formatter, if file isn't a java file</li>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/73">Bugfix 73</a>]: Selection in undocked windows is not respected, when called via keyboard</li>
+
+
+
 </ul>
 
 <h2>Updates in 1.9:</h2>

@@ -10,7 +10,7 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter.customizer;
 
-import static de.markiewb.netbeans.plugins.eclipse.formatter.Preferences.USE_PROJECT_SETTINGS;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.USE_PROJECT_SETTINGS;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Collection;
