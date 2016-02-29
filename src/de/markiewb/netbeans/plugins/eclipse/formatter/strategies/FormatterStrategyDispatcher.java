@@ -22,6 +22,7 @@ import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.PRESERVE_BREAKPOINTS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.PROJECT_PREF_FILE;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.SHOW_NOTIFICATIONS;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.SOURCELEVEL;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.USE_PROJECT_PREFS;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.getActivePreferences;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.getLineFeed;
@@ -73,6 +74,7 @@ public class FormatterStrategyDispatcher {
         final boolean preserveBreakpoints = pref.getBoolean(PRESERVE_BREAKPOINTS, true);
         final boolean useProjectPrefs = pref.getBoolean(USE_PROJECT_PREFS, true);
         final String lineFeed = pref.get(LINEFEED, "");
+        final String sourceLevel = pref.get(SOURCELEVEL, "");
         if (!hasGuardedSections && isJava && isEclipseFormatterEnabled) {
             String formatterProfile = pref.get(ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
             String formatterFile = getFormatterFileFromProjectConfiguration(useProjectPrefs, styledDoc);
@@ -87,7 +89,7 @@ public class FormatterStrategyDispatcher {
             }
 
             //format with configured linefeed
-            final EclipseFormatter formatter = new EclipseFormatter(formatterFile, formatterProfile, lineFeed);
+            final EclipseFormatter formatter = new EclipseFormatter(formatterFile, formatterProfile, lineFeed, sourceLevel);
 
             try {
                 //save with configured linefeed

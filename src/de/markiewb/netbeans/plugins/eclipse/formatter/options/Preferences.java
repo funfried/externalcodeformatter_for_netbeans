@@ -48,6 +48,10 @@ public class Preferences {
      * @since 1.10
      */
     public static final String LINEFEED = "linefeed";
+    /**
+     * @since 1.10
+     */
+    public static final String SOURCELEVEL = "sourcelevel";
 
     public static java.util.prefs.Preferences getActivePreferences(final StyledDocument styledDoc) {
         java.util.prefs.Preferences globalPreferences = NbPreferences.forModule(EclipseFormatterPanel.class);

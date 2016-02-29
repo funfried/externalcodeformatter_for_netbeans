@@ -46,11 +46,13 @@ public final class EclipseFormatter {
     private final String formatterFile;
     private final String formatterProfile;
     private final String lineFeedSetting;
+    private final String sourceLevel;
 
-    public EclipseFormatter(String formatterFile, String formatterProfile, String lineFeed) {
+    public EclipseFormatter(String formatterFile, String formatterProfile, String lineFeed, String sourceLevel) {
         this.formatterFile = formatterFile;
         this.formatterProfile = formatterProfile;
         this.lineFeedSetting = lineFeed;
+        this.sourceLevel = sourceLevel;
     }
 
     public String forCode(final String code, int startOffset, int endOffset, SortedSet<Pair> changedElements) {
@@ -101,20 +103,23 @@ public final class EclipseFormatter {
         return formattedCode;
     }
 
-    private Map<String, String> getFormattingOptions() {
-        Map<String, String> options = DefaultCodeFormatterConstants.getJavaConventionsSettings();
-        options.put(JavaCore.COMPILER_COMPLIANCE, JavaCore.VERSION_1_6);
-        options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, JavaCore.VERSION_1_6);
-        options.put(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_6);
-//      For checking whether the Eclipse formatter works,
-//      without needing an Eclipse formatter XML file:
-//        options.put(
-//		DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_ENUM_CONSTANTS,
-//		DefaultCodeFormatterConstants.createAlignmentValue(
-//		true,
-//		DefaultCodeFormatterConstants.WRAP_ONE_PER_LINE,
-//		DefaultCodeFormatterConstants.INDENT_ON_COLUMN));
+    private Map<String, String> getSourceLevelOptions() {
+        Map<String, String> options = new HashMap<>();
+        if (null != sourceLevel && !"".equals(sourceLevel)) {
+            String level = sourceLevel;
+            options.put(JavaCore.COMPILER_COMPLIANCE, level);
+            options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, level);
+            options.put(JavaCore.COMPILER_SOURCE, level);
+        }
+        return options;
+    }
 
+    private Map<String, String> getSourceLevelDefaults() {
+        String level = JavaCore.VERSION_1_6;
+        Map<String, String> options = new HashMap<>();
+        options.put(JavaCore.COMPILER_COMPLIANCE, level);
+        options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, level);
+        options.put(JavaCore.COMPILER_SOURCE, level);
         return options;
     }
 
@@ -136,7 +141,6 @@ public final class EclipseFormatter {
 
     private Map<String, String> readConfig() throws ProfileNotFoundException {
         Map<String, String> allConfig = new HashMap<>();
-        final Map<String, String> configFromStatic = getFormattingOptions();
         try {
             final File file = new File(formatterFile);
             Map<String, String> configFromFile = new LinkedHashMap<>();
@@ -148,8 +152,10 @@ public final class EclipseFormatter {
                 configFromFile.putAll(readConfigFromProjectSettings(file));
             }
 
-            allConfig.putAll(configFromStatic);
+            allConfig.putAll(DefaultCodeFormatterConstants.getJavaConventionsSettings());
+            allConfig.putAll(getSourceLevelDefaults());
             allConfig.putAll(configFromFile);
+            allConfig.putAll(getSourceLevelOptions());
         } catch (Exception ex) {
             LOG.warning("Could not load configuration: " + formatterFile + ex);
 
