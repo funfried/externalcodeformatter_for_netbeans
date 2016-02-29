@@ -38,6 +38,10 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <li>Support configuration of source level (since 1.10)</li>
 </ul>
 
+<img src="https://raw.githubusercontent.com/markiewb/eclipsecodeformatter_for_netbeans/master/doc/global.png">
+<br>
+<img src="https://raw.githubusercontent.com/markiewb/eclipsecodeformatter_for_netbeans/master/doc/project.png">
+
 <h2>Updates in 1.10.2:</h2>
 <ul>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/61">Feature 61</a>]: Support <a href="https://code.google.com/a/eclipselabs.org/p/workspacemechanic/">Workspace Mechanic</a> configuration file (*.epf)</li>
@@ -151,6 +155,3 @@ Compatible to NetBeans 8.0.2+ and JDK7+.
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K4CMP92RZELE2"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" alt="btn_donate_SM.gif"></a>
 
 </p>
-
-
-
