@@ -27,10 +27,14 @@ import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.getActivePreferences;
 import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.getLineFeed;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatterStrategy;
+import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.IBreakpointsProvider;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.prefs.Preferences;
 import javax.swing.text.StyledDocument;
+import org.netbeans.api.debugger.jpda.LineBreakpoint;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
@@ -88,8 +92,15 @@ public class FormatterStrategyDispatcher {
                 return;
             }
 
+            final IBreakpointsProvider breakpointProvider = new IBreakpointsProvider() {
+                @Override
+                public Collection<LineBreakpoint> getBreakpoints() {
+                    return Collections.emptyList();
+                }
+            };
+            
             //format with configured linefeed
-            final EclipseFormatter formatter = new EclipseFormatter(formatterFile, formatterProfile, lineFeed, sourceLevel);
+            final EclipseFormatter formatter = new EclipseFormatter(formatterFile, formatterProfile, lineFeed, sourceLevel, breakpointProvider);
 
             try {
                 //save with configured linefeed

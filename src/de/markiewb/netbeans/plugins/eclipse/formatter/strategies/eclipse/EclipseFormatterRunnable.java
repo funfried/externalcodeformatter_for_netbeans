@@ -14,6 +14,7 @@ import de.markiewb.netbeans.plugins.eclipse.formatter.Pair;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
@@ -98,29 +99,39 @@ class EclipseFormatterRunnable implements Runnable {
                 Exceptions.printStackTrace(ex);
                 return;
             }
+
+            final List<LineBreakpoint> lineBreakPoints = new ArrayList<>();
+            DebuggerManager debuggerManager = DebuggerManager.getDebuggerManager();
+            List<Breakpoint> breakpoint2Keep = Collections.emptyList();
+            if (preserveBreakpoints) {
+                final Breakpoint[] breakpoints = debuggerManager.getBreakpoints();
+                //a) remove all line breakpoints before replacing the text in the editor
+                //b) hold all other breakpoints from the current file, so that they can be reattached
+                //FIXME guess the main class by its filepath relative to src/com/foo/Bar.java -> com.foo.Bar
+                final String classNameOfTopMostTypeInFile = getFQNOfTopMostType(fileObject);
+                int lineStart = NbDocument.findLineNumber(document, startOffset);
+                int lineEnd = NbDocument.findLineNumber(document, endOffset);
+                lineBreakPoints.addAll(getLineBreakpoints(breakpoints, fileObject, lineStart, lineEnd));
+                for (Breakpoint breakpoint : lineBreakPoints) {
+                    debuggerManager.removeBreakpoint(breakpoint);
+                }
+                breakpoint2Keep = getPreserveableBreakpoints(breakpoints, classNameOfTopMostTypeInFile);
+                //Remove all breakpoints from the current file (else they would be invalided)
+                for (Breakpoint breakpoint : breakpoint2Keep) {
+                    debuggerManager.removeBreakpoint(breakpoint);
+                }
+            }
+            final IBreakpointsProvider breakpointProvider = new IBreakpointsProvider() {
+                @Override
+                public Collection<LineBreakpoint> getBreakpoints() {
+                    return lineBreakPoints;
+                }
+            };
+
             final String formattedContent = formatter.forCode(docText, startOffset, endOffset, changedElements);
+            
             // quick check for changed
             if (formattedContent != null && /*does not support changes of EOL*/ !formattedContent.equals(docText)) {
-                DebuggerManager debuggerManager = DebuggerManager.getDebuggerManager();
-                List<Breakpoint> breakpoint2Keep = Collections.emptyList();
-                if (preserveBreakpoints) {
-                    final Breakpoint[] breakpoints = debuggerManager.getBreakpoints();
-                    //a) remove all line breakpoints before replacing the text in the editor
-                    //b) hold all other breakpoints from the current file, so that they can be reattached
-                    //FIXME guess the main class by its filepath relative to src/com/foo/Bar.java -> com.foo.Bar
-                    final String classNameOfTopMostTypeInFile = getFQNOfTopMostType(fileObject);
-                    int lineStart = NbDocument.findLineNumber(document, startOffset);
-                    int lineEnd = NbDocument.findLineNumber(document, endOffset);
-                    List<Breakpoint> lineBreakPoints = getLineBreakpoints(breakpoints, fileObject, lineStart, lineEnd);
-                    for (Breakpoint breakpoint : lineBreakPoints) {
-                        debuggerManager.removeBreakpoint(breakpoint);
-                    }
-                    breakpoint2Keep = getPreserveableBreakpoints(breakpoints, classNameOfTopMostTypeInFile);
-                    //Remove all breakpoints from the current file (else they would be invalided)
-                    for (Breakpoint breakpoint : breakpoint2Keep) {
-                        debuggerManager.removeBreakpoint(breakpoint);
-                    }
-                }
                 //runAtomicAsUser, so that removal and insert is only one undo step
                 NbDocument.runAtomicAsUser(document, new Runnable() {
                     @Override
@@ -203,8 +214,8 @@ class EclipseFormatterRunnable implements Runnable {
         return "";
     }
 
-    private List<Breakpoint> getLineBreakpoints(Breakpoint[] breakpoints, FileObject fileOfCurrentClass, int lineStart, int lineEnd) throws IllegalArgumentException {
-        List<Breakpoint> result = new ArrayList<>();
+    private Collection<LineBreakpoint> getLineBreakpoints(Breakpoint[] breakpoints, FileObject fileOfCurrentClass, int lineStart, int lineEnd) throws IllegalArgumentException {
+        List<LineBreakpoint> result = new ArrayList<>();
         for (Breakpoint breakpoint : breakpoints) {
             /**
              * NOTE: ExceptionBreakpoint/ThreadBreakpoint have no annotation in
@@ -236,7 +247,7 @@ class EclipseFormatterRunnable implements Runnable {
                     continue;
                 }
                 if (fileOfCurrentClass.equals(toFileObject)) {
-                    result.add(breakpoint);
+                    result.add(lineBreakpoint);
                 }
             }
         }

@@ -3,10 +3,10 @@ package de.markiewb.netbeans.plugins.eclipse.formatter;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter;
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import org.junit.Test;
 import org.netbeans.api.debugger.jpda.LineBreakpoint;
@@ -19,8 +19,6 @@ public class FormatAndKeepBreakpointsTest {
 
     @Test
     public void testFormatWholeFile() throws URISyntaxException {
-        File f = new File(this.getClass().getClassLoader().getResource("formattersampleeclipse.xml").toURI());
-        EclipseFormatter formatter = new EclipseFormatter(f.getAbsolutePath(), "eclipse-demo", null, null);
         final String text = "package foo;\n"
                 + "\n"
                 + "public class NewClass1 {\n"
@@ -47,14 +45,12 @@ public class FormatAndKeepBreakpointsTest {
                 + "    }\n"
                 + "}\n"
                 + "";
-        String actual = format(formatter, text);
+        String actual = format(text);
         assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
     }
 
     @Test
     public void testFormatWholeFileOneLineBreakpoint() throws URISyntaxException {
-        File f = new File(this.getClass().getClassLoader().getResource("formattersampleeclipse.xml").toURI());
-        EclipseFormatter formatter = new EclipseFormatter(f.getAbsolutePath(), "eclipse-demo", null, null);
         final String text = "package foo;\n"
                 + "\n"
                 + "public class NewClass1 {\n"
@@ -80,19 +76,20 @@ public class FormatAndKeepBreakpointsTest {
                 + "	System.err.println();\n"
                 + "    }\n"
                 + "}\n";
-        String actual = format(formatter, text);
+        String actual = format(text);
         assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
     }
 
-    private static String format(EclipseFormatter formatter, final String input) {
-        Map<Integer, LineBreakpoint> lbkps = new HashMap<>();
+    private String format(final String input) throws URISyntaxException {
+
+        Collection<LineBreakpoint> lbkps = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 
         List<String> lines = Arrays.asList(input.split("\n"));
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
             if (line.startsWith("LBP")) {
-                lbkps.put(i, LineBreakpoint.create("file://dummy.txt", i));
+                lbkps.add(LineBreakpoint.create("file://dummy.txt", i));
                 sb.append(line.substring("LBP".length()));
             } else {
                 sb.append(line);
@@ -100,7 +97,11 @@ public class FormatAndKeepBreakpointsTest {
             sb.append("\n");
         }
         String text = sb.toString();
+        
+        File f = new File(this.getClass().getClassLoader().getResource("formattersampleeclipse.xml").toURI());
+        EclipseFormatter formatter = new EclipseFormatter(f.getAbsolutePath(), "eclipse-demo", null, null, new TestableBreakpointsProviderImpl(lbkps));
         return formatter.forCode(text, 0, text.length() - 1, null);
     }
+
 
 }

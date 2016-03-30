@@ -47,12 +47,14 @@ public final class EclipseFormatter {
     private final String formatterProfile;
     private final String lineFeedSetting;
     private final String sourceLevel;
+    private final IBreakpointsProvider breakpointsProvider;
 
-    public EclipseFormatter(String formatterFile, String formatterProfile, String lineFeed, String sourceLevel) {
+    public EclipseFormatter(String formatterFile, String formatterProfile, String lineFeed, String sourceLevel, IBreakpointsProvider breakpointsProvider) {
         this.formatterFile = formatterFile;
         this.formatterProfile = formatterProfile;
         this.lineFeedSetting = lineFeed;
         this.sourceLevel = sourceLevel;
+        this.breakpointsProvider = breakpointsProvider;
     }
 
     public String forCode(final String code, int startOffset, int endOffset, SortedSet<Pair> changedElements) {
