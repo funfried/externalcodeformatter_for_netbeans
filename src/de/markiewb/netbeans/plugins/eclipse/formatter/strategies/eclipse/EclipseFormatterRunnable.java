@@ -127,7 +127,39 @@ class EclipseFormatterRunnable implements Runnable {
                     return lineBreakPoints;
                 }
             };
-
+            List<String> asList = Arrays.asList(docText.split("\n"));
+            /**
+             * <pre>
+             * 0
+             * 1
+             * 2 BK
+             * 3
+             * 4
+             * 
+             * sections SEC:
+             * 0..1
+             * 2..2
+             * 3..4
+             * 
+             *  . Collector c &lt;= empty
+             *  . s &lt;= split sections by linebreakpoints (one single line section for one linebreakpoint)
+             *  . Foreach i from s
+             *  . .     d &lt;= format whole document using s[i].startLineOffset..s[i].endLineOffset
+             *  . .     p &lt;= extract part from d, which has changed 
+             *  . . .     p &lt;= d
+             *  . . .     p &lt;= remove s[i+1].startLine..s[max].endLine from p // remove from tail
+             *  . . .     p &lt;= remove s[min].startLine..s[i-1].endLine from p // remove from head
+             *  . . .     return p
+             *  . .     c &lt;= add p to c
+             *  . .     lineMap &lt;= Remember, which line is mapped to lines (sections could be expanded to several lines)
+             *  . Replace text with c
+             *  . Foreach oldLineIndex from linebreaks
+             *  . . newLines &lt;=lineMap[oldlineIndex]
+             *  . . try to set Breakpoints at each newLine
+             * 
+             * 
+             * </pre>
+             */
             final String formattedContent = formatter.forCode(docText, startOffset, endOffset, changedElements);
             
             // quick check for changed
