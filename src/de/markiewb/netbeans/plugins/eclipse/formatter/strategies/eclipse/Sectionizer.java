@@ -27,6 +27,9 @@ public class Sectionizer {
         if (0 == maxLine && lineNumbersWithBreakpoint.isEmpty()) {
             return Collections.singletonList(new Section(0, 0));
         }
+        if (Integer.MAX_VALUE == maxLine && lineNumbersWithBreakpoint.isEmpty()) {
+            return Collections.singletonList(new Section(0, Integer.MAX_VALUE));
+        }
 
         //head
         // 0..4

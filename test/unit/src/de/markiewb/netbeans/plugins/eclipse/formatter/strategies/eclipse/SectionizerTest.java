@@ -5,6 +5,7 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse;
 
+import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.Sectionizer.Section;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.After;
@@ -93,6 +94,17 @@ public class SectionizerTest {
         int maxLine = -1;
         Sectionizer instance = new Sectionizer();
         List<Sectionizer.Section> expResult = Arrays.asList();
+        List<Sectionizer.Section> result = instance.sectionise(lineNumbersWithBreakpoint, maxLine);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testSectionise_AllLines_OneSection() {
+
+        List<Integer> lineNumbersWithBreakpoint = Arrays.asList();
+        int maxLine = Integer.MAX_VALUE;
+        Sectionizer instance = new Sectionizer();
+        List<Sectionizer.Section> expResult = Arrays.asList(new Section(0, Integer.MAX_VALUE));
         List<Sectionizer.Section> result = instance.sectionise(lineNumbersWithBreakpoint, maxLine);
         assertEquals(expResult, result);
     }
