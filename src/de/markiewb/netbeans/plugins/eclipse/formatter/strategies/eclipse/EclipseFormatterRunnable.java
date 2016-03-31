@@ -101,9 +101,9 @@ class EclipseFormatterRunnable implements Runnable {
             }
 
             final List<LineBreakpoint> lineBreakPoints = new ArrayList<>();
-            DebuggerManager debuggerManager = DebuggerManager.getDebuggerManager();
             List<Breakpoint> breakpoint2Keep = Collections.emptyList();
             if (preserveBreakpoints) {
+                DebuggerManager debuggerManager = DebuggerManager.getDebuggerManager();
                 final Breakpoint[] breakpoints = debuggerManager.getBreakpoints();
                 //a) remove all line breakpoints before replacing the text in the editor
                 //b) hold all other breakpoints from the current file, so that they can be reattached
@@ -127,41 +127,8 @@ class EclipseFormatterRunnable implements Runnable {
                     return lineBreakPoints;
                 }
             };
-            List<String> asList = Arrays.asList(docText.split("\n"));
-            /**
-             * <pre>
-             * 0
-             * 1
-             * 2 BK
-             * 3
-             * 4
-             * 
-             * sections SEC:
-             * 0..1
-             * 2..2
-             * 3..4
-             * 
-             *  . Collector c &lt;= empty
-             *  . s &lt;= split sections by linebreakpoints (one single line section for one linebreakpoint)
-             *  . Foreach i from s
-             *  . .     d &lt;= format whole document using s[i].startLineOffset..s[i].endLineOffset
-             *  . .     p &lt;= extract part from d, which has changed 
-             *  . . .     p &lt;= d
-             *  . . .     p &lt;= remove s[i+1].startLine..s[max].endLine from p // remove from tail
-             *  . . .     p &lt;= remove s[min].startLine..s[i-1].endLine from p // remove from head
-             *  . . .     return p
-             *  . .     c &lt;= add p to c
-             *  . .     lineMap &lt;= Remember, which line is mapped to lines (sections could be expanded to several lines)
-             *  . Replace text with c
-             *  . Foreach oldLineIndex from linebreaks
-             *  . . newLines &lt;=lineMap[oldlineIndex]
-             *  . . try to set Breakpoints at each newLine
-             * 
-             * 
-             * </pre>
-             */
-            final String formattedContent = formatter.forCode(docText, startOffset, endOffset, changedElements);
-            
+            final String formattedContent = formatSections(formatter, document, breakpointProvider, docText);
+
             // quick check for changed
             if (formattedContent != null && /*does not support changes of EOL*/ !formattedContent.equals(docText)) {
                 //runAtomicAsUser, so that removal and insert is only one undo step
@@ -178,6 +145,8 @@ class EclipseFormatterRunnable implements Runnable {
                 });
                 if (preserveBreakpoints) {
                     //Reattach breakpoints where possible
+                    DebuggerManager debuggerManager = DebuggerManager.getDebuggerManager();
+
                     for (Breakpoint breakpoint : breakpoint2Keep) {
                         debuggerManager.addBreakpoint(breakpoint);
                     }
@@ -185,6 +154,75 @@ class EclipseFormatterRunnable implements Runnable {
             }
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
+        }
+    }
+
+    public String formatSections(EclipseFormatter formatter, StyledDocument document, final IBreakpointsProvider breakpointProvider, final String docText) {
+        List<Integer> linebreakPointsLines = new ArrayList<>();
+        Collection<LineBreakpoint> breakpoints = breakpointProvider.getBreakpoints();
+        for (LineBreakpoint breakpoint : breakpoints) {
+            linebreakPointsLines.add(breakpoint.getLineNumber());
+        }
+        //FIXME constant
+        linebreakPointsLines.add(19);
+        StringBuilder c = new StringBuilder();
+        //FIXME better algorithm
+        String text = docText;
+        int maxLine = text.replaceAll("\r\n", "\n").replaceAll("\r", "\n").split("\n").length - 1;
+        List<Sectionizer.Section> sections = new Sectionizer().sectionise(linebreakPointsLines, maxLine);
+        for (Sectionizer.Section section : sections) {
+            int start = getOffsetForLine(document, section.startLineIncluding);
+            int end = getOffsetForLine(document, section.endLineIncluding + 1);
+            String formattedContent = formatter.forCode(docText, start, end, Collections.<Pair>emptySortedSet());
+            StringBuilder s = new StringBuilder(formattedContent);
+
+            // remove lines from tail
+            s.delete(formattedContent.length() - (docText.length() - end), formattedContent.length());
+            // remove lines from head
+            s.delete(0, start);
+
+            c.append(s.toString());
+        }
+        /**
+         * <pre>
+         * 0
+         * 1
+         * 2 BK
+         * 3
+         * 4
+         *
+         * sections SEC:
+         * 0..1
+         * 2..2
+         * 3..4
+         *
+         *  . Collector c &lt;= empty
+         *  . s &lt;= split sections by linebreakpoints (one single line section for one linebreakpoint)
+         *  . Foreach i from s
+         *  . .     d &lt;= format whole document using s[i].startLineOffset..s[i].endLineOffset
+         *  . .     p &lt;= extract part from d, which has changed
+         *  . . .     p &lt;= d
+         *  . . .     p &lt;= remove s[i+1].startLine..s[max].endLine from p // remove from tail
+         *  . . .     p &lt;= remove s[min].startLine..s[i-1].endLine from p // remove from head
+         *  . . .     return p
+         *  . .     c &lt;= add p to c
+         *  . .     lineMap &lt;= Remember, which line is mapped to lines (sections could be expanded to several lines)
+         *  . Replace text with c
+         *  . Foreach oldLineIndex from linebreaks
+         *  . . newLines &lt;=lineMap[oldlineIndex]
+         *  . . try to set Breakpoints at each newLine
+         *
+         *
+         * </pre>
+         */
+        return c.toString();
+    }
+
+    private int getOffsetForLine(StyledDocument document1, int line) {
+        try {
+            return NbDocument.findLineOffset(document1, line);
+        } catch (Exception e) {
+            return document1.getLength();
         }
     }
     /**
