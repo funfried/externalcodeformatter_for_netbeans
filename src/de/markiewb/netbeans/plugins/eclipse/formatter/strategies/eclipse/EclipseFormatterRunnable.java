@@ -127,7 +127,16 @@ class EclipseFormatterRunnable implements Runnable {
                     return lineBreakPoints;
                 }
             };
-            final String formattedContent = formatSections(formatter, document, breakpointProvider, docText);
+            
+            List<Integer> linebreakPointsLines = new ArrayList<>();
+            Collection<LineBreakpoint> breakpoints = breakpointProvider.getBreakpoints();
+            for (LineBreakpoint breakpoint : breakpoints) {
+                linebreakPointsLines.add(breakpoint.getLineNumber());
+            }
+            //FIXME constant
+            linebreakPointsLines.add(19);
+ 
+            final String formattedContent = new EclipseFormatterWithSections().formatSections(formatter, document, linebreakPointsLines, docText);
 
             // quick check for changed
             if (formattedContent != null && /*does not support changes of EOL*/ !formattedContent.equals(docText)) {
@@ -157,74 +166,6 @@ class EclipseFormatterRunnable implements Runnable {
         }
     }
 
-    public String formatSections(EclipseFormatter formatter, StyledDocument document, final IBreakpointsProvider breakpointProvider, final String docText) {
-        List<Integer> linebreakPointsLines = new ArrayList<>();
-        Collection<LineBreakpoint> breakpoints = breakpointProvider.getBreakpoints();
-        for (LineBreakpoint breakpoint : breakpoints) {
-            linebreakPointsLines.add(breakpoint.getLineNumber());
-        }
-        //FIXME constant
-        linebreakPointsLines.add(19);
-        StringBuilder c = new StringBuilder();
-        //FIXME better algorithm
-        String text = docText;
-        int maxLine = text.replaceAll("\r\n", "\n").replaceAll("\r", "\n").split("\n").length - 1;
-        List<Sectionizer.Section> sections = new Sectionizer().sectionise(linebreakPointsLines, maxLine);
-        for (Sectionizer.Section section : sections) {
-            int start = getOffsetForLine(document, section.startLineIncluding);
-            int end = getOffsetForLine(document, section.endLineIncluding + 1);
-            String formattedContent = formatter.forCode(docText, start, end, Collections.<Pair>emptySortedSet());
-            StringBuilder s = new StringBuilder(formattedContent);
-
-            // remove lines from tail
-            s.delete(formattedContent.length() - (docText.length() - end), formattedContent.length());
-            // remove lines from head
-            s.delete(0, start);
-
-            c.append(s.toString());
-        }
-        /**
-         * <pre>
-         * 0
-         * 1
-         * 2 BK
-         * 3
-         * 4
-         *
-         * sections SEC:
-         * 0..1
-         * 2..2
-         * 3..4
-         *
-         *  . Collector c &lt;= empty
-         *  . s &lt;= split sections by linebreakpoints (one single line section for one linebreakpoint)
-         *  . Foreach i from s
-         *  . .     d &lt;= format whole document using s[i].startLineOffset..s[i].endLineOffset
-         *  . .     p &lt;= extract part from d, which has changed
-         *  . . .     p &lt;= d
-         *  . . .     p &lt;= remove s[i+1].startLine..s[max].endLine from p // remove from tail
-         *  . . .     p &lt;= remove s[min].startLine..s[i-1].endLine from p // remove from head
-         *  . . .     return p
-         *  . .     c &lt;= add p to c
-         *  . .     lineMap &lt;= Remember, which line is mapped to lines (sections could be expanded to several lines)
-         *  . Replace text with c
-         *  . Foreach oldLineIndex from linebreaks
-         *  . . newLines &lt;=lineMap[oldlineIndex]
-         *  . . try to set Breakpoints at each newLine
-         *
-         *
-         * </pre>
-         */
-        return c.toString();
-    }
-
-    private int getOffsetForLine(StyledDocument document1, int line) {
-        try {
-            return NbDocument.findLineOffset(document1, line);
-        } catch (Exception e) {
-            return document1.getLength();
-        }
-    }
     /**
      * Copied from org.netbeans.modules.maven.classpath.MavenSourcesImpl. These
      * constants where not public API, so they are duplicated in here.
