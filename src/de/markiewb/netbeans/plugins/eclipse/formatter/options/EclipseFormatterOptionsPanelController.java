@@ -27,10 +27,10 @@ import org.openide.util.WeakListeners;
         displayName = "#AdvancedOption_DisplayName_EclipseFormatter",
         keywords = "#AdvancedOption_Keywords_EclipseFormatter",
         keywordsCategory = "Java/EclipseFormatter")
-@org.openide.util.NbBundle.Messages({"AdvancedOption_DisplayName_EclipseFormatter=Eclipse Formatter", "AdvancedOption_Keywords_EclipseFormatter=Eclipse Formatter"})
+@org.openide.util.NbBundle.Messages({"AdvancedOption_DisplayName_EclipseFormatter=Eclipse Formatter 4.4", "AdvancedOption_Keywords_EclipseFormatter=Eclipse Formatter 4.4"})
 public final class EclipseFormatterOptionsPanelController extends OptionsPanelController implements ChangeListener {
 
-    private EclipseFormatterPanel panel;
+    private EclipseFormatterPanel44 panel;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private boolean changed;
 
@@ -67,14 +67,14 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
     }
 
     @Override
-    public EclipseFormatterPanel getComponent(Lookup masterLookup) {
+    public EclipseFormatterPanel44 getComponent(Lookup masterLookup) {
         return createOrGetPanel();
     }
 
-    private EclipseFormatterPanel createOrGetPanel() {
+    private EclipseFormatterPanel44 createOrGetPanel() {
         if (null == panel) {
-            Preferences globalPreferences = NbPreferences.forModule(EclipseFormatterPanel.class);
-            panel = new EclipseFormatterPanel(globalPreferences, false);
+            Preferences globalPreferences = NbPreferences.forModule(EclipseFormatterPanel44.class);
+            panel = new EclipseFormatterPanel44(globalPreferences, false);
             panel.addChangeListener(WeakListeners.change (this, panel));
         }
         return panel;

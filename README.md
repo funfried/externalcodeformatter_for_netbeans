@@ -42,6 +42,12 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <br>
 <img src="https://raw.githubusercontent.com/markiewb/eclipsecodeformatter_for_netbeans/master/doc/project.png">
 
+<h2>Updates in 1.10.2 - 4.4 Fork:</h2>
+<ul>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/72">Feature 72</a>]: Support formatting using Eclipse 4.4 - Fork of the 1.10.2 Version with Eclipse Luna jars</li>
+</ul>
+
+
 <h2>Updates in 1.10.2:</h2>
 <ul>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/61">Feature 61</a>]: Support <a href="https://code.google.com/a/eclipselabs.org/p/workspacemechanic/">Workspace Mechanic</a> configuration file (*.epf)</li>
@@ -127,14 +133,14 @@ Please note that this plugin only provides support for formatting. Eclipse users
 </li>
 <li>This plugin bundles several 3rd-party libraries to provide its functionality.
 <dl><dt><a href="http://www.eclipse.org/legal/epl-v10.html">Eclipse Public License, Version 1.0</a></dt><dd>
-org.eclipse.core.contenttype_3.5.0.v20150421-2214.jar
-org.eclipse.core.jobs_3.7.0.v20150330-2103.jar
-org.eclipse.core.resources_3.10.1.v20150725-1910.jar
-org.eclipse.core.runtime_3.11.1.v20150903-1804.jar
-org.eclipse.equinox.common_3.7.0.v20150402-1709.jar
-org.eclipse.equinox.preferences_3.5.300.v20150408-1437.jar
-org.eclipse.jdt.core_3.11.1.v20150902-1521.jar
-org.eclipse.text_3.5.400.v20150505-1044.jar
+org.eclipse.core.contenttype_3.4.200.v20140207-1251.jar
+org.eclipse.core.jobs_3.6.1.v20141014-1248.jar
+org.eclipse.core.resources_3.9.1.v20140825-1431.jar
+org.eclipse.core.runtime_3.10.0.v20140318-2214.jar
+org.eclipse.equinox.common_3.6.200.v20130402-1505.jar
+org.eclipse.equinox.preferences_3.5.200.v20140224-1527.jar
+org.eclipse.jdt.core_3.10.2.v20150120-1634.jar
+org.eclipse.text_3.5.300.v20130515-1451.jar
 </dd>
 </dl>
 <dl><dt><a href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></dt><dd>commons-beanutils-1.8.3.jar

@@ -110,9 +110,9 @@ public class FormatterStrategyDispatcher {
             String msg = getNotificationMessageForEclipseFormatterConfigurationFileType(formatterFile, formatterProfile);
 
             if (showNotifications) {
-                NotificationDisplayer.getDefault().notify("Format using Eclipse formatter", Utilities.iconEclipse, msg, null);
+                NotificationDisplayer.getDefault().notify("Format using Eclipse formatter 4.4", Utilities.iconEclipse, msg, null);
             }
-            StatusDisplayer.getDefault().setStatusText("Format using Eclipse formatter: " + msg);
+            StatusDisplayer.getDefault().setStatusText("Format using Eclipse formatter 4.4: " + msg);
 
         } else {
             formatWithNetBeans(showNotifications, hasGuardedSections, isEclipseFormatterEnabled, isJava, po);

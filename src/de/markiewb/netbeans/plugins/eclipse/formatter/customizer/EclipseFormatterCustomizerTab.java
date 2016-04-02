@@ -19,7 +19,7 @@ import javax.swing.event.ChangeListener;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
-import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel;
+import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel44;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer.Category;
 import org.openide.util.ImageUtilities;
@@ -48,8 +48,8 @@ public class EclipseFormatterCustomizerTab implements ProjectCustomizer.Composit
 
     @Override
     public JComponent createComponent(final Category category, final Lookup lkp) {
-        Preferences projectPreferences = ProjectUtils.getPreferences(lkp.lookup(Project.class), EclipseFormatterPanel.class, true);
-        final EclipseFormatterPanel configPanel = new EclipseFormatterPanel(projectPreferences, true);
+        Preferences projectPreferences = ProjectUtils.getPreferences(lkp.lookup(Project.class), EclipseFormatterPanel44.class, true);
+        final EclipseFormatterPanel44 configPanel = new EclipseFormatterPanel44(projectPreferences, true);
         final ProjectSpecificSettingsPanel projectSpecificSettingsPanel = new ProjectSpecificSettingsPanel(configPanel, projectPreferences);
         configPanel.load();
         projectSpecificSettingsPanel.load();
@@ -68,7 +68,7 @@ public class EclipseFormatterCustomizerTab implements ProjectCustomizer.Composit
         return projectSpecificSettingsPanel;
     }
 
-    @NbBundle.Messages({"LBL_Config=Eclipse Formatting"})
+    @NbBundle.Messages({"LBL_Config=Eclipse Formatter 4.4"})
     @Registrations({
         @Registration(category = "Formatting", projectType = "org-netbeans-modules-java-j2seproject", position = 1000),
         @Registration(category = "Formatting", projectType = "org-netbeans-modules-web-project", position = 1000),

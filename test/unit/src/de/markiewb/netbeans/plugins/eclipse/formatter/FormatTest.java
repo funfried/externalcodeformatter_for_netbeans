@@ -17,9 +17,7 @@ public class FormatTest {
         final String expected = "package foo;\n"
                 + "\n"
                 + "public enum NewEmptyJUnitTest {\n"
-                + "			       A,\n"
-                + "				   B,\n"
-                + "				   C}";
+                + "    A, B, C}";
         String actual = formatter.forCode(text, 0, text.length() - 1, null);
         assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
     }
@@ -31,9 +29,7 @@ public class FormatTest {
         final String expected = "package foo;\n"
                 + "\n"
                 + "public enum NewEmptyJUnitTest {\n"
-                + "			       A,\n"
-                + "				   B,\n"
-                + "				   C}";
+                + "    A, B, C}";
         String actual = formatter.forCode(text, 0, text.length() - 1, null);
         assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
     }
@@ -45,9 +41,7 @@ public class FormatTest {
         final String expected = "package foo;\n"
                 + "\n"
                 + "public enum NewEmptyJUnitTest {\n"
-                + "			       A,\n"
-                + "				   B,\n"
-                + "				   C}";
+                + "    A, B, C}";
         String actual = formatter.forCode(text, 0, text.length() - 1, null);
         assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
     }
@@ -59,9 +53,7 @@ public class FormatTest {
         final String expected = "package foo;\r"
                 + "\r"
                 + "public enum NewEmptyJUnitTest {\r"
-                + "			       A,\r"
-                + "				   B,\r"
-                + "				   C}";
+                + "    A, B, C}";
         String actual = formatter.forCode(text, 0, text.length() - 1, null);
         assertEquals("Formatting should change the code", expected, actual);
     }
@@ -73,9 +65,7 @@ public class FormatTest {
         final String expected = "package foo;\n"
                 + "\n"
                 + "public enum NewEmptyJUnitTest {\n"
-                + "			       A,\n"
-                + "				   B,\n"
-                + "				   C}";
+                + "    A, B, C}";
         String actual = formatter.forCode(text, 0, text.length() - 1, null);
         assertEquals("Formatting should change the code", expected, actual);
     }
@@ -87,9 +77,7 @@ public class FormatTest {
         final String expected = "package foo;\r\n"
                 + "\r\n"
                 + "public enum NewEmptyJUnitTest {\r\n"
-                + "			       A,\r\n"
-                + "				   B,\r\n"
-                + "				   C}";
+                + "    A, B, C}";
         String actual = formatter.forCode(text, 0, text.length() - 1, null);
         assertEquals("Formatting should change the code", expected, actual);
     }
@@ -119,10 +107,8 @@ public class FormatTest {
         final String expected = "package foo;\n"
                 + "\n"
                 + "public enum NewEmptyJUnitTest {\n"
-                + "			       A,\n"
-                + "				   B,\n"
-                + "				   C}";
+                + "    A, B, C}";
         String actual = formatter.forCode(text, 0, text.length() - 1, null);
-        assertEquals("Invalid source code for 1.4 - enum is not a keyword", expected, actual);
+        assertEquals("Invalid source code for 1.5 - enum is not a keyword", expected, actual);
     }
 }

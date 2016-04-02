@@ -10,7 +10,7 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter.options;
 
-import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel;
+import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel44;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
@@ -54,11 +54,11 @@ public class Preferences {
     public static final String SOURCELEVEL = "sourcelevel";
 
     public static java.util.prefs.Preferences getActivePreferences(final StyledDocument styledDoc) {
-        java.util.prefs.Preferences globalPreferences = NbPreferences.forModule(EclipseFormatterPanel.class);
+        java.util.prefs.Preferences globalPreferences = NbPreferences.forModule(EclipseFormatterPanel44.class);
         Project project = FileOwnerQuery.getOwner(NbEditorUtilities.getDataObject(styledDoc).getPrimaryFile());
         if (null != project) {
 //            NotificationDisplayer.getDefault().notify("Project", null, "" + project, null);
-            java.util.prefs.Preferences projectPreferences = ProjectUtils.getPreferences(project, EclipseFormatterPanel.class, true);
+            java.util.prefs.Preferences projectPreferences = ProjectUtils.getPreferences(project, EclipseFormatterPanel44.class, true);
             if (projectPreferences.getBoolean(USE_PROJECT_SETTINGS, false)) {
                 return projectPreferences;
             } else {

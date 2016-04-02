@@ -16,16 +16,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.prefs.Preferences;
 import javax.swing.event.ChangeListener;
-import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel;
+import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel44;
 import org.netbeans.api.options.OptionsDisplayer;
 
 
 public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements VerifiableConfigPanel {
 
     private final Preferences projectPreferences;
-    private final EclipseFormatterPanel innerComponent;
+    private final EclipseFormatterPanel44 innerComponent;
 
-    ProjectSpecificSettingsPanel(EclipseFormatterPanel innerComponent, Preferences projectPreferences) {
+    ProjectSpecificSettingsPanel(EclipseFormatterPanel44 innerComponent, Preferences projectPreferences) {
         initComponents();
         this.innerComponent = innerComponent;
         this.projectPreferences = projectPreferences;

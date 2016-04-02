@@ -35,7 +35,7 @@ import org.openide.util.NbBundle;
 @ActionReferences({
     @ActionReference(path = "Menu/Source", position = 0)
 })
-@NbBundle.Messages("CTL_EclipseFormatter=Format with Eclipse formatter")
+@NbBundle.Messages("CTL_EclipseFormatter=Format with Eclipse formatter 4.4")
 public class FormatAction implements ActionListener {
 
     private static final Logger LOG = Logger.getLogger(FormatAction.class.getName());
