@@ -12,8 +12,8 @@
 package de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse;
 
 import de.markiewb.netbeans.plugins.eclipse.formatter.Pair;
-import de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.getLineFeed;
+import de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.getLineFeed;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReadException;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.Profile;

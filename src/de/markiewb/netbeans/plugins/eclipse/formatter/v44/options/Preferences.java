@@ -8,9 +8,9 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package de.markiewb.netbeans.plugins.eclipse.formatter.options;
+package de.markiewb.netbeans.plugins.eclipse.formatter.v44.options;
 
-import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel44;
+import de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.EclipseFormatterPanel44;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;

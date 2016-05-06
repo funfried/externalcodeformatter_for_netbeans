@@ -8,7 +8,7 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package de.markiewb.netbeans.plugins.eclipse.formatter.customizer;
+package de.markiewb.netbeans.plugins.eclipse.formatter.v44.customizer;
 
 /**
  *

@@ -8,7 +8,7 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package de.markiewb.netbeans.plugins.eclipse.formatter.customizer;
+package de.markiewb.netbeans.plugins.eclipse.formatter.v44.customizer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +19,7 @@ import javax.swing.event.ChangeListener;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
-import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel44;
+import de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.EclipseFormatterPanel44;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer.Category;
 import org.openide.util.ImageUtilities;

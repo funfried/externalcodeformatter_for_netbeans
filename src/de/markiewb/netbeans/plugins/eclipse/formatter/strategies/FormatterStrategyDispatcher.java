@@ -15,17 +15,17 @@ import de.markiewb.netbeans.plugins.eclipse.formatter.Utilities;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter.CannotLoadConfigurationException;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter.ProfileNotFoundException;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_ENABLED;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_LOCATION;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.LINEFEED;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.PRESERVE_BREAKPOINTS;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.PROJECT_PREF_FILE;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.SHOW_NOTIFICATIONS;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.SOURCELEVEL;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.USE_PROJECT_PREFS;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.getActivePreferences;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.getLineFeed;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.ECLIPSE_FORMATTER_ENABLED;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.ECLIPSE_FORMATTER_LOCATION;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.LINEFEED;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.PRESERVE_BREAKPOINTS;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.PROJECT_PREF_FILE;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.SHOW_NOTIFICATIONS;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.SOURCELEVEL;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.USE_PROJECT_PREFS;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.getActivePreferences;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.getLineFeed;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatterStrategy;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 import java.io.File;
@@ -55,9 +55,9 @@ public class FormatterStrategyDispatcher {
         if (showNotifications) {
             String detail = getNotificationMessageForNetBeans(hasGuardedSections, isEclipseFormatterEnabled, isJava);
 
-            NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Utilities.iconNetBeans, detail, null);
+            NotificationDisplayer.getDefault().notify("Format using NetBeans formatter 4.4", Utilities.iconNetBeans, detail, null);
         }
-        StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
+        StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter ");
         boolean preserveBreakpoints = false;
         netbeansStrategy.format(null, preserveBreakpoints, po);
     }
@@ -140,13 +140,13 @@ public class FormatterStrategyDispatcher {
 
     public String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
         String msg = "";
-        if (de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.isWorkspaceMechanicFile(formatterFile)) {
+        if (de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.isWorkspaceMechanicFile(formatterFile)) {
             //Workspace mechanic file
             msg = String.format("Using %s", formatterFile);
-        } else if (de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.isXMLConfigurationFile(formatterFile)) {
+        } else if (de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.isXMLConfigurationFile(formatterFile)) {
             //XML file
             msg = String.format("Using profile '%s' from %s", formatterProfile, formatterFile);
-        } else if (de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.isProjectSetting(formatterFile)) {
+        } else if (de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.isProjectSetting(formatterFile)) {
             //org.eclipse.jdt.core.prefs
             msg = String.format("Using %s", formatterFile);
         }

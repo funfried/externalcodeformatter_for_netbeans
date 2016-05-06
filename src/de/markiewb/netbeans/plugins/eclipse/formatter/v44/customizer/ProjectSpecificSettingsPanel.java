@@ -8,15 +8,15 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package de.markiewb.netbeans.plugins.eclipse.formatter.customizer;
+package de.markiewb.netbeans.plugins.eclipse.formatter.v44.customizer;
 
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.USE_PROJECT_SETTINGS;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.USE_PROJECT_SETTINGS;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.prefs.Preferences;
 import javax.swing.event.ChangeListener;
-import de.markiewb.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel44;
+import de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.EclipseFormatterPanel44;
 import org.netbeans.api.options.OptionsDisplayer;
 
 
@@ -77,7 +77,7 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
     }//GEN-LAST:event_cbOverrideGlobalSettingsActionPerformed
 
     private void lblJumpToGlobalOptionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJumpToGlobalOptionsMouseClicked
-         OptionsDisplayer.getDefault().open("Java"+ "/de.markiewb.netbeans.plugins.eclipse.formatter.options");
+         OptionsDisplayer.getDefault().open("Java"+ "/de.markiewb.netbeans.plugins.eclipse.formatter.options44");
     }//GEN-LAST:event_lblJumpToGlobalOptionsMouseClicked
 
 

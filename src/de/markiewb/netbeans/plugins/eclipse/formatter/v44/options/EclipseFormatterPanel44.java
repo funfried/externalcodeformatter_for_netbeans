@@ -8,21 +8,21 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package de.markiewb.netbeans.plugins.eclipse.formatter.options;
+package de.markiewb.netbeans.plugins.eclipse.formatter.v44.options;
 
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_ENABLED;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_LOCATION;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.PRESERVE_BREAKPOINTS;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.PROJECT_PREF_FILE;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.SHOW_NOTIFICATIONS;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.USE_PROJECT_PREFS;
-import de.markiewb.netbeans.plugins.eclipse.formatter.customizer.VerifiableConfigPanel;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION_MODIFIEDLINESONLY;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.FEATURE_formatChangedLinesOnly;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.LINEFEED;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.SOURCELEVEL;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.ECLIPSE_FORMATTER_ENABLED;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.ECLIPSE_FORMATTER_LOCATION;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.ENABLE_SAVEACTION;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.PRESERVE_BREAKPOINTS;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.PROJECT_PREF_FILE;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.SHOW_NOTIFICATIONS;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.USE_PROJECT_PREFS;
+import de.markiewb.netbeans.plugins.eclipse.formatter.v44.customizer.VerifiableConfigPanel;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.ENABLE_SAVEACTION_MODIFIEDLINESONLY;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.FEATURE_formatChangedLinesOnly;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.LINEFEED;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.SOURCELEVEL;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReadException;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
 import de.markiewb.netbeans.plugins.eclipse.formatter.xml.Profile;
@@ -521,7 +521,7 @@ public class EclipseFormatterPanel44 extends javax.swing.JPanel implements Verif
                 final FileObject fo = FileUtil.toFileObject(FileUtil.normalizeFile(file));
 
                 //only xml configurations contain profiles
-                if (de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.isXMLConfigurationFile(fo.getNameExt())) {
+                if (de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.isXMLConfigurationFile(fo.getNameExt())) {
                     List<Profile> profiles = new ConfigReader().read(file);
                     cbProfile.addItem(Bundle.ChooseProfile());
 
@@ -579,9 +579,9 @@ public class EclipseFormatterPanel44 extends javax.swing.JPanel implements Verif
         if (rbUseEclipse.isSelected()) {
             final String fileName = formatterLocField.getText();
             final File file = new File(fileName);
-            final boolean isXML = de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.isXMLConfigurationFile(file.getName());
-            final boolean isEPF = de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.isWorkspaceMechanicFile(file.getName());
-            final boolean isProjectSetting = de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.isProjectSetting(file.getName());
+            final boolean isXML = de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.isXMLConfigurationFile(file.getName());
+            final boolean isEPF = de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.isWorkspaceMechanicFile(file.getName());
+            final boolean isProjectSetting = de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.isProjectSetting(file.getName());
             if (isXML && cbProfile.getSelectedIndex() == 0) {
                 //"choose profile" entry is selected
                 return false;

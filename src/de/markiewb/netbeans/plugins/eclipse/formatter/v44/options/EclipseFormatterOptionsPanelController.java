@@ -8,7 +8,7 @@
  * Contributors:
  *    markiewb - initial API and implementation and/or initial documentation
  */
-package de.markiewb.netbeans.plugins.eclipse.formatter.options;
+package de.markiewb.netbeans.plugins.eclipse.formatter.v44.options;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -22,7 +22,7 @@ import org.openide.util.NbPreferences;
 import org.openide.util.WeakListeners;
 
 @OptionsPanelController.SubRegistration(
-        id = "de.markiewb.netbeans.plugins.eclipse.formatter.options",
+        id = "de.markiewb.netbeans.plugins.eclipse.formatter.options44",
         location = "Java",
         displayName = "#AdvancedOption_DisplayName_EclipseFormatter",
         keywords = "#AdvancedOption_Keywords_EclipseFormatter",

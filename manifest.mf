@@ -2,4 +2,4 @@ Manifest-Version: 1.0
 OpenIDE-Module: de.markiewb.netbeans.plugins.eclipse.formatter44
 OpenIDE-Module-Layer: de/markiewb/netbeans/plugins/eclipse/formatter/layer.xml
 OpenIDE-Module-Localizing-Bundle: de/markiewb/netbeans/plugins/eclipse/formatter/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.10.2.0
+OpenIDE-Module-Specification-Version: 1.10.2.1

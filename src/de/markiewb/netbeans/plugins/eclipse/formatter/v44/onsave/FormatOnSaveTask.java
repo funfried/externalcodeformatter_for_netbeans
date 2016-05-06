@@ -9,15 +9,15 @@
  *    markiewb - initial API and implementation and/or initial documentation
  *    Saad Mufti <saad.mufti@teamaol.com> 
  */
-package de.markiewb.netbeans.plugins.eclipse.formatter.onsave;
+package de.markiewb.netbeans.plugins.eclipse.formatter.v44.onsave;
 
 import de.markiewb.netbeans.plugins.eclipse.formatter.Pair;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.ParameterObject;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.FormatterStrategyDispatcher;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION_MODIFIEDLINESONLY;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.FEATURE_formatChangedLinesOnly;
-import static de.markiewb.netbeans.plugins.eclipse.formatter.options.Preferences.getActivePreferences;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.ENABLE_SAVEACTION;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.ENABLE_SAVEACTION_MODIFIEDLINESONLY;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.FEATURE_formatChangedLinesOnly;
+import static de.markiewb.netbeans.plugins.eclipse.formatter.v44.options.Preferences.getActivePreferences;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;

@@ -9,7 +9,7 @@
  *    markiewb - initial API and implementation and/or initial documentation
  *    Saad Mufti <saad.mufti@teamaol.com> 
  */
-package de.markiewb.netbeans.plugins.eclipse.formatter.actions;
+package de.markiewb.netbeans.plugins.eclipse.formatter.v44.actions;
 
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.ParameterObject;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.FormatterStrategyDispatcher;
@@ -28,7 +28,7 @@ import org.openide.util.NbBundle;
 
 @ActionID(
         category = "Source",
-        id = "org.netbeans.eclipse.formatter.ReformatWithEclipseBeforeSaveTask")
+        id = "org.netbeans.eclipse.formatter.ReformatWithEclipseBeforeSaveTask44")
 @ActionRegistration(
         lazy = true,
         displayName = "#CTL_EclipseFormatter")
@@ -36,13 +36,13 @@ import org.openide.util.NbBundle;
     @ActionReference(path = "Menu/Source", position = 0)
 })
 @NbBundle.Messages("CTL_EclipseFormatter=Format with Eclipse formatter 4.4")
-public class FormatAction implements ActionListener {
+public class FormatAction44 implements ActionListener {
 
-    private static final Logger LOG = Logger.getLogger(FormatAction.class.getName());
+    private static final Logger LOG = Logger.getLogger(FormatAction44.class.getName());
 
     private EditorCookie context = null;
 
-    public FormatAction(EditorCookie context) {
+    public FormatAction44(EditorCookie context) {
         this.context = context;
     }
 
