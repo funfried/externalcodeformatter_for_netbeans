@@ -140,6 +140,13 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
                 fireChangedListener();
             }
         });
+        cbLinefeed.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fireChangedListener();
+            }
+        });
         cbSourceLevel.addActionListener(new ActionListener() {
 
             @Override
@@ -488,6 +495,8 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
         cbShowNotifications.setSelected(showNotifications);
         cbEnableSaveAction.setSelected(enableSaveAction);
         cbEnableSaveActionModifiedLinesOnly.setSelected(enableSaveActionModifiedLines);
+        //depends on cbEnableSaveAction
+        cbEnableSaveActionModifiedLinesOnly.setEnabled(enableSaveAction);
         cbPreserveBreakpoints.setSelected(preserveBreakpoints);
         cbUseProjectPref.setSelected(useProjectPrefs);
         if (null == lineFeed || "".equals(lineFeed)) {

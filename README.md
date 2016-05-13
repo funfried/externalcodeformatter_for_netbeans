@@ -33,6 +33,8 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <h2>Updates in 1.11.0:</h2>
 <ul>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/78">Feature 78</a>]: Support formatting using Eclipse 4.5.2 Mars.2</li>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/74">Bugfix 74</a>]: Fixed: Minor UI issues in options dialog</li>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/80">Bugfix 80</a>]: Fixed: Prevent "URI is not hierarchical" exception</li>
 </ul>
 
 <h2>Updates in 1.10.2:</h2>
