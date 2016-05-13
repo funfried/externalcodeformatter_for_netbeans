@@ -225,6 +225,11 @@ class EclipseFormatterRunnable implements Runnable {
                 if (!isBreakpointInSelection) {
                     continue;
                 }
+                if (url.startsWith("jar:file:")) {
+                    //https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/80 
+                    //prevent URI is not hierarchical.
+                    continue;
+                }
                 FileObject toFileObject;
                 try {
                     toFileObject = FileUtil.toFileObject(FileUtil.normalizeFile(Utilities.toFile(new URI(url))));
