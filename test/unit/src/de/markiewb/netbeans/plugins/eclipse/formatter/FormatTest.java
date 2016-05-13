@@ -52,6 +52,37 @@ public class FormatTest {
         assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
     }
 
+    /**
+     * https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77
+     */
+    @Test
+    public void testFormatUsingProjectSettings_ExplicitDefaultFormatter() {
+        EclipseFormatter formatter = new EclipseFormatter("D:\\ws\\eclipsecodeformatter_for_netbeans\\test\\unit\\src\\defaultformatter_org.eclipse.jdt.core.prefs", null, null, null);
+        final String text = "package foo;public enum NewEmptyJUnitTest { A, B, C}";
+        final String expected = "package foo;\n"
+                + "\n"
+                + "public enum NewEmptyJUnitTest {\n"
+                + "			       A,\n"
+                + "				   B,\n"
+                + "				   C}";
+        String actual = formatter.forCode(text, 0, text.length() - 1, null);
+        assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
+    }
+
+    /**
+     * https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77
+     */
+    @Test
+    public void testFormatUsingProjectSettings_Explicit3rdPartyFormatter_Failure() {
+        EclipseFormatter formatter = new EclipseFormatter("D:\\ws\\eclipsecodeformatter_for_netbeans\\test\\unit\\src\\3rdPartyFormatter_org.eclipse.jdt.core.prefs", null, null, null);
+        final String text = "package foo;public enum NewEmptyJUnitTest { A, B, C}";
+        try {
+            formatter.forCode(text, 0, text.length() - 1, null);
+        } catch (Exception e) {
+            assertEquals(true, e.getMessage().contains("The use of third-party Java code formatters is not supported by this plugin."));
+        }
+    }
+
     @Test
     public void testFormatUsingLinefeed_CR() {
         EclipseFormatter formatter = new EclipseFormatter("D:\\ws\\eclipsecodeformatter_for_netbeans\\test\\unit\\src\\org.eclipse.jdt.core.prefs", null, "\\r", null);

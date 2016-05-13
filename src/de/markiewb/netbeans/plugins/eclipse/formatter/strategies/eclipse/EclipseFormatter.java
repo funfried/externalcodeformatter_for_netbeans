@@ -156,6 +156,17 @@ public final class EclipseFormatter {
             allConfig.putAll(getSourceLevelDefaults());
             allConfig.putAll(configFromFile);
             allConfig.putAll(getSourceLevelOptions());
+            // https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77
+            // https://bugs.eclipse.org/bugs/show_bug.cgi?id=449262
+            if (org.eclipse.jdt.core.JavaCore.DEFAULT_JAVA_FORMATTER.equals(allConfig.get("org.eclipse.jdt.core.javaFormatter"))) {
+                //ignore default formatter as configured extension point
+                allConfig.remove("org.eclipse.jdt.core.javaFormatter");
+            }
+            if (null != allConfig.get("org.eclipse.jdt.core.javaFormatter")) {
+                throw new UnsupportedOperationException("The use of third-party Java code formatters is not supported by this plugin.\n"
+                        + "See https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77 \n"
+                        + "Try to remove the entry 'org.eclipse.jdt.core.javaFormatter' from the configuration.");
+            }
         } catch (Exception ex) {
             LOG.warning("Could not load configuration: " + formatterFile + ex);
 

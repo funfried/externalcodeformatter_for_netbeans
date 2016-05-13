@@ -35,6 +35,7 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/78">Feature 78</a>]: Support formatting using Eclipse 4.5.2 Mars.2</li>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/74">Bugfix 74</a>]: Fixed: Minor UI issues in options dialog</li>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/80">Bugfix 80</a>]: Fixed: Prevent "URI is not hierarchical" exception</li>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77">Bugfix 77</a>]: Fixed: Exception, when using third-party Java code formatter in configuation file</li>
 </ul>
 
 <h2>Updates in 1.10.2:</h2>
@@ -128,7 +129,7 @@ org.eclipse.core.resources_3.10.1.v20150725-1910.jar
 org.eclipse.core.runtime_3.11.1.v20150903-1804.jar
 org.eclipse.equinox.common_3.7.0.v20150402-1709.jar
 org.eclipse.equinox.preferences_3.5.300.v20150408-1437.jar
-org.eclipse.jdt.core_3.11.1.v20150902-1521.jar
+org.eclipse.jdt.core_3.11.2.v20160128-0629.jar
 org.eclipse.text_3.5.400.v20150505-1044.jar
 </dd>
 </dl>
