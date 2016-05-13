@@ -248,16 +248,16 @@
                 <binary-origin>release/modules/ext/commons-digester3-3.2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/org.eclipse.jdt.core_3.11.1.v20150902-1521.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/org.eclipse.jdt.core_3.11.1.v20150902-1521.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
                 <runtime-relative-path>ext/commons-beanutils-1.8.3.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/commons-beanutils-1.8.3.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/org.eclipse.core.jobs_3.7.0.v20150330-2103.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/org.eclipse.core.jobs_3.7.0.v20150330-2103.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/org.eclipse.jdt.core_3.11.2.v20160128-0629.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/org.eclipse.jdt.core_3.11.2.v20160128-0629.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/org.eclipse.core.resources_3.10.1.v20150725-1910.jar</runtime-relative-path>
