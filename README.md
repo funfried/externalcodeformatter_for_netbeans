@@ -3,7 +3,9 @@
 Eclipse Java Code Formatter for NetBeans
 ========================================
 
-Download available at http://plugins.netbeans.org/plugin/50877/?show=true
+Download is available
+* with Eclipse Mars 4.5 engine at http://plugins.netbeans.org/plugin/50877
+* with Eclipse Luna 4.4 engine at http://plugins.netbeans.org/plugin/64061
 
 This plugin helps you to apply to a common code style in a team of Eclipse JDT and NetBeans IDE users. The original formatting engine of Eclipse is embedded and allows you to format the sourcecode the same way as your Eclipse co-workers do. You only have to provide an Eclipse formatter configuration file.
 <h3>
