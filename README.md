@@ -42,9 +42,15 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <br>
 <img src="https://raw.githubusercontent.com/markiewb/eclipsecodeformatter_for_netbeans/master/doc/project.png">
 
-<h2>Updates in 1.10.2 - 4.4 Fork:</h2>
+<h2>Updates in 1.12.0.44 - 4.4 Fork:</h2>
+<ul>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/87">Bugfix 87</a>]: Backport "Minor UI issues in options dialog"</li>
+</ul>
+
+<h2>Updates in 1.10.2.1 - 4.4 Fork:</h2>
 <ul>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/72">Feature 72</a>]: Support formatting using Eclipse 4.4 - Fork of the 1.10.2 Version with Eclipse Luna jars</li>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/79">Bugfix 79</a>]: Fixed: Cannot use version 4.4 parallel to 4.5</li>
 </ul>
 
 
