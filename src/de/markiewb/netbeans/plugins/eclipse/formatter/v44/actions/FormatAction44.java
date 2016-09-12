@@ -11,64 +11,56 @@
  */
 package de.markiewb.netbeans.plugins.eclipse.formatter.v44.actions;
 
-import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.ParameterObject;
 import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.FormatterStrategyDispatcher;
+import de.markiewb.netbeans.plugins.eclipse.formatter.strategies.ParameterObject;
+
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.logging.Logger;
-import javax.swing.JEditorPane;
+
+import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
-import org.openide.awt.ActionID;
-import org.openide.awt.ActionReference;
-import org.openide.awt.ActionReferences;
-import org.openide.awt.ActionRegistration;
-import org.openide.cookies.EditorCookie;
-import org.openide.text.NbDocument;
+
+import org.netbeans.api.editor.EditorActionRegistration;
 import org.openide.util.NbBundle;
 
-@ActionID(
-        category = "Source",
-        id = "org.netbeans.eclipse.formatter.ReformatWithEclipseBeforeSaveTask44")
-@ActionRegistration(
-        lazy = true,
-        displayName = "#CTL_EclipseFormatter")
-@ActionReferences({
-    @ActionReference(path = "Menu/Source", position = 0)
-})
-@NbBundle.Messages("CTL_EclipseFormatter=Format with Eclipse formatter 4.4")
-public class FormatAction44 implements ActionListener {
+/**
+ * Registration analog to
+ * http://hg.netbeans.org/jet-main/file/01c13d4da2da/java.hints/src/org/netbeans
+ * /modules /java/hints/OrganizeMembers.java
+ *
+ * @author markiewb
+ */
+@NbBundle.Messages({ "CTL_EclipseFormatter=Format with Eclipse formatter 4.4",
+	"eclipse-format=Format with Eclipse formatter 4.4" })
+@EditorActionRegistration(name = FormatAction44.MACRONAME, mimeType = "text/x-java", menuPath = "Source", menuPosition = 0, menuText = "#CTL_EclipseFormatter")
+public class FormatAction44 extends org.netbeans.editor.BaseAction {
+    public static final String ID = "org.netbeans.eclipse.formatter.ReformatWithEclipseBeforeSaveTask44";
+    public static final String MACRONAME = "eclipse-format";
 
     private static final Logger LOG = Logger.getLogger(FormatAction44.class.getName());
 
-    private EditorCookie context = null;
-
-    public FormatAction44(EditorCookie context) {
-        this.context = context;
-    }
-
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e, JTextComponent component) {
+	if (component == null || !component.isEditable() || !component.isEnabled()) {
+	    return;
+	}
 
-        if (null == context || null == context.getDocument()) {
-            return;
-        }
-        JEditorPane editor = NbDocument.findRecentEditorPane(context);
-        int start = (editor != null) ? editor.getSelectionStart() : -1;
-        int end = (editor != null) ? editor.getSelectionEnd() : -1;
-        int caret = (editor != null) ? editor.getCaretPosition() : -1;
+	int start = component.getSelectionStart();
+	int end = component.getSelectionEnd();
+	int caret = component.getCaretPosition();
 
-        final StyledDocument document = context.getDocument();
-        
-        ParameterObject po = new ParameterObject();
-        po.styledDoc = document;
-        po.changedElements = null;
-        po.forSave = false;
-        po.selectionStart = start;
-        po.selectionEnd = end;
-        po.caret = caret;
-        po.editor = editor;
-        
-        new FormatterStrategyDispatcher().format(po);
+	final StyledDocument document = (StyledDocument) component.getDocument();
+
+	ParameterObject po = new ParameterObject();
+	po.styledDoc = document;
+	po.changedElements = null;
+	po.forSave = false;
+	po.selectionStart = start;
+	po.selectionEnd = end;
+	po.caret = caret;
+	po.editor = component;
+
+	new FormatterStrategyDispatcher().format(po);
     }
 
 }
