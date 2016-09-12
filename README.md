@@ -45,6 +45,8 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <h2>Updates in 1.12.0.44 - 4.4 Fork:</h2>
 <ul>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/87">Bugfix 87</a>]: Backport "Minor UI issues in options dialog"</li>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/88">Bugfix 88</a>]: Backport "Cannot be converted to URI/File: URI is not hierarchical."</li>
+
 </ul>
 
 <h2>Updates in 1.10.2.1 - 4.4 Fork:</h2>
