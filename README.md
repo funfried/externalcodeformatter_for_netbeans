@@ -36,6 +36,7 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <li>On save action: Introduced option for formatting only the changed lines (since 1.10)</li>
 <li>Support configuration of linefeed (since 1.10)</li>
 <li>Support configuration of source level (since 1.10)</li>
+<li>Support for macro invocation (since 1.12)</li>
 </ul>
 
 <img src="https://raw.githubusercontent.com/markiewb/eclipsecodeformatter_for_netbeans/master/doc/global.png">
@@ -44,9 +45,9 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 
 <h2>Updates in 1.12.0.44 - 4.4 Fork:</h2>
 <ul>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/89">Feature 89</a>]: Backport "Allow action to be invoked via macro"</li>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/87">Bugfix 87</a>]: Backport "Minor UI issues in options dialog"</li>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/88">Bugfix 88</a>]: Backport "Cannot be converted to URI/File: URI is not hierarchical."</li>
-
 </ul>
 
 <h2>Updates in 1.10.2.1 - 4.4 Fork:</h2>
