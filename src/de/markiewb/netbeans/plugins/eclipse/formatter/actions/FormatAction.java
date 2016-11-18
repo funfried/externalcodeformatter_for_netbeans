@@ -32,7 +32,7 @@ import org.openide.util.NbBundle;
  */
 @NbBundle.Messages({ "CTL_EclipseFormatter=Format with Eclipse formatter 4.5",
 	"eclipse45-format=Format with Eclipse formatter 4.5" })
-@EditorActionRegistration(name = FormatAction.MACRONAME, mimeType = "text/x-java", menuPath = "Source", menuPosition = 0, menuText = "#CTL_EclipseFormatter")
+@EditorActionRegistration(name = FormatAction.MACRONAME, menuPath = "Source", menuPosition = 0, menuText = "#CTL_EclipseFormatter")
 public class FormatAction extends org.netbeans.editor.BaseAction {
     public static final String ID = "org.netbeans.eclipse.formatter.ReformatWithEclipseBeforeSaveTask45";
     public static final String MACRONAME = "eclipse45-format";

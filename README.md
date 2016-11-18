@@ -33,6 +33,11 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <img src="https://raw.githubusercontent.com/markiewb/eclipsecodeformatter_for_netbeans/master/doc/project.png">
 
 
+<h2>Updates in 1.12.1:</h2>
+<ul>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/90">Bugfix 88</a>]: Fixed: Keyboard shortcut does not format non java files</li>
+</ul>
+
 <h2>Updates in 1.12.0:</h2>
 <ul>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/86">Feature 86</a>]: Allow action to be invoked via macro</li>
