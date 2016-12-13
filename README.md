@@ -4,7 +4,7 @@ Eclipse Java Code Formatter for NetBeans
 ========================================
 
 Download is available
-* with Eclipse Mars 4.6 engine at http://plugins.netbeans.org/plugin/70382
+* with Eclipse Neon 4.6 engine at http://plugins.netbeans.org/plugin/70382
 * with Eclipse Mars 4.5 engine at http://plugins.netbeans.org/plugin/50877
 * with Eclipse Luna 4.4 engine at http://plugins.netbeans.org/plugin/64061
 
