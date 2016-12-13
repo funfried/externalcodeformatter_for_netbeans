@@ -4,6 +4,7 @@ Eclipse Java Code Formatter for NetBeans
 ========================================
 
 Download is available
+* with Eclipse Mars 4.6 engine at http://plugins.netbeans.org/plugin/70382
 * with Eclipse Mars 4.5 engine at http://plugins.netbeans.org/plugin/50877
 * with Eclipse Luna 4.4 engine at http://plugins.netbeans.org/plugin/64061
 
@@ -33,8 +34,10 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <img src="https://raw.githubusercontent.com/markiewb/eclipsecodeformatter_for_netbeans/master/doc/project.png">
 
 
-<h2>Updates in 1.12.1:</h2>
+
+<h2>Updates in 1.12.1.46 - 4.6 Fork:</h2>
 <ul>
+<li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/84">Feature 84</a>]: Provide support for Eclipse Neon 4.6 1a</li>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/90">Bugfix 88</a>]: Fixed: Keyboard shortcut does not format non java files</li>
 </ul>
 
@@ -136,14 +139,14 @@ Please note that this plugin only provides support for formatting. Eclipse users
 </li>
 <li>This plugin bundles several 3rd-party libraries to provide its functionality.
 <dl><dt><a href="http://www.eclipse.org/legal/epl-v10.html">Eclipse Public License, Version 1.0</a></dt><dd>
-org.eclipse.core.contenttype_3.5.0.v20150421-2214.jar
-org.eclipse.core.jobs_3.7.0.v20150330-2103.jar
-org.eclipse.core.resources_3.10.1.v20150725-1910.jar
-org.eclipse.core.runtime_3.11.1.v20150903-1804.jar
-org.eclipse.equinox.common_3.7.0.v20150402-1709.jar
-org.eclipse.equinox.preferences_3.5.300.v20150408-1437.jar
-org.eclipse.jdt.core_3.11.2.v20160128-0629.jar
-org.eclipse.text_3.5.400.v20150505-1044.jar
+org.eclipse.core.contenttype_3.5.100.v20160418-1621.jar
+org.eclipse.core.jobs_3.8.0.v20160509-0411.jar
+org.eclipse.core.resources_3.11.0.v20160503-1608.jar
+org.eclipse.core.runtime_3.12.0.v20160606-1342.jar
+org.eclipse.equinox.common_3.8.0.v20160509-1230.jar
+org.eclipse.equinox.preferences_3.6.1.v20160815-1406.jar
+org.eclipse.jdt.core_3.12.1.v20160829-0950.jar
+org.eclipse.text_3.6.0.v20160503-1849.jar
 </dd>
 </dl>
 <dl><dt><a href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></dt><dd>commons-beanutils-1.8.3.jar

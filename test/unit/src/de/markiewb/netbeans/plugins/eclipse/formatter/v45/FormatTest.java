@@ -1,6 +1,6 @@
-package de.markiewb.netbeans.plugins.eclipse.formatter.v45;
+package de.markiewb.netbeans.plugins.eclipse.formatter.v46;
 
-import de.markiewb.netbeans.plugins.eclipse.formatter.v45.strategies.eclipse.EclipseFormatter;
+import de.markiewb.netbeans.plugins.eclipse.formatter.v46.strategies.eclipse.EclipseFormatter;
 import static junit.framework.Assert.assertEquals;
 import org.junit.Test;
 

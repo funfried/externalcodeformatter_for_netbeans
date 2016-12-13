@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.markiewb.netbeans.plugins.eclipse.formatter.v45;
+package de.markiewb.netbeans.plugins.eclipse.formatter.v46;
 
-import de.markiewb.netbeans.plugins.eclipse.formatter.v45.Pair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
