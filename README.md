@@ -34,9 +34,9 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <li>Support for macro invocation (since 1.12)</li>
 </ul>
 
-<img src="https://raw.githubusercontent.com/markiewb/eclipsecodeformatter_for_netbeans/master/doc/global.png">
+<img src="https://raw.githubusercontent.com/funfried/eclipsecodeformatter_for_netbeans/master/doc/global.png">
 <br>
-<img src="https://raw.githubusercontent.com/markiewb/eclipsecodeformatter_for_netbeans/master/doc/project.png">
+<img src="https://raw.githubusercontent.com/funfried/eclipsecodeformatter_for_netbeans/master/doc/project.png">
 
 
 <h2>Updates in 1.12.2.46 - 4.6 Fork:</h2>

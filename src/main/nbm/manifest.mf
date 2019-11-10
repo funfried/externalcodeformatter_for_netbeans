@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: de.funfried.netbeans.plugins.eclipse.formatter
+OpenIDE-Module-Layer: de/funfried/netbeans/plugins/eclipse/formatter/layer.xml
+OpenIDE-Module-Localizing-Bundle: de/funfried/netbeans/plugins/eclipse/formatter/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.12.3.46
