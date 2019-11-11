@@ -89,7 +89,7 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
 	/**
 	 * Something in the panel has changed, so inform the listeners of this controller too.
 	 * 
-	 * @param e
+	 * @param e the {@link ChangeEvent}
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {

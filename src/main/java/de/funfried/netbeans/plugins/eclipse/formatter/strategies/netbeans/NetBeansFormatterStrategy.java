@@ -25,11 +25,10 @@ import org.openide.util.Exceptions;
  * @author markiewb
  */
 public class NetBeansFormatterStrategy implements IFormatterStrategy {
-
 	/**
-	 *
-	 * @param document
-	 * @param forSave true, if invoked by save action
+	 * @param formatter           the {@link EclipseFormatter}
+	 * @param preserveBreakpoints {@code true} if breakpoints should be preserved
+	 * @param po                  the {@link ParameterObject}
 	 */
 	@Override
 	public void format(EclipseFormatter formatter, boolean preserveBreakpoints, ParameterObject po) {

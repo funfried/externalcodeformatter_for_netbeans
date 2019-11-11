@@ -26,12 +26,10 @@ import org.openide.util.Exceptions;
  * @author markiewb
  */
 public class EclipseFormatterStrategy implements IFormatterStrategy {
-
 	/**
-	 *
-	 * @param document
-	 * @param formatter
-	 * @param forSave true, if invoked by save action
+	 * @param formatter           the {@link EclipseFormatter}
+	 * @param preserveBreakpoints {@code true} if breakpoints should be preserved
+	 * @param po                  the {@link ParameterObject}
 	 */
 	@Override
 	public void format(EclipseFormatter formatter, boolean preserveBreakpoints, ParameterObject po) {
@@ -65,5 +63,4 @@ public class EclipseFormatterStrategy implements IFormatterStrategy {
 			Exceptions.printStackTrace(e);
 		}
 	}
-
 }
