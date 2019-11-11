@@ -11,7 +11,7 @@
 
     <groupId>de.funfried.netbeans.plugins</groupId>
     <artifactId>eclipsecodeformatter</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.13-SNAPSHOT</version>
     <packaging>nbm</packaging>
 
     <developers>
@@ -22,11 +22,22 @@
             <roles>
                 <role>Developer</role>
             </roles>
+            <url>https://www.funfried.de</url>
         </developer>
         <developer>
             <id>markiewb</id>
-            <name>markiewb</name>
+            <name>Benno Markiewicz</name>
             <url>https://github.com/markiewb</url>
+        </developer>
+        <developer>
+            <id>geertjanw</id>
+            <name>Geertjan Wielenga</name>
+            <url>https://github.com/geertjanw</url>
+        </developer>
+        <developer>
+            <id>epochcoder</id>
+            <name>Willie Scholtz</name>
+            <url>https://github.com/epochcoder</url>
         </developer>
     </developers>
 
@@ -326,13 +337,14 @@
                 <version>4.3</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <verifyIntegrity>false</verifyIntegrity>
+                    <licenseName>Eclipse Public License, Version 2.0</licenseName>
+                    <licenseFile>Eclipse Public License - Version 2.0.htm</licenseFile>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.0</version>
                 <configuration>
                     <archive>
                         <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
