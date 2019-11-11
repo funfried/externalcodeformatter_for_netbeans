@@ -30,6 +30,17 @@
                         <enabled>true</enabled>
                     </snapshots>
                 </repository>
+                <repository>
+                    <id>mvnrepository</id>
+                    <name>mvnrepository</name>
+                    <url>https://mvnrepository.com/artifact/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
             </repositories>
             <pluginRepositories>
                 <pluginRepository>
@@ -47,6 +58,17 @@
                     <id>apache</id>
                     <name>apache</name>
                     <url>https://repo.maven.apache.org/maven2/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>mvnrepository</id>
+                    <name>mvnrepository</name>
+                    <url>https://mvnrepository.com/artifact/</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
