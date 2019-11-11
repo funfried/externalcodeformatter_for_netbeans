@@ -339,6 +339,8 @@
                 <configuration>
                     <licenseName>Eclipse Public License, Version 2.0</licenseName>
                     <licenseFile>Eclipse Public License - Version 2.0.htm</licenseFile>
+                    <distributionUrl>https://github.com/funfried/eclipsecodeformatter_for_netbeans/</distributionUrl>
+                    <author>Fabian Bahle (info@funfried.de) and others / original authors: benno.markiewicz@googlemail.com, geertjan.wielenga@oracle.com and williescholtz@gmail.com</author>
                 </configuration>
             </plugin>
             <plugin>
