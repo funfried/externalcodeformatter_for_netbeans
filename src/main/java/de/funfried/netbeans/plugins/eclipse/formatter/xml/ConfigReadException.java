@@ -7,11 +7,9 @@ package de.funfried.netbeans.plugins.eclipse.formatter.xml;
  * @author Matt Blanchette
  */
 public class ConfigReadException extends Exception {
+	private static final long serialVersionUID = 1L;
 
-        private static final long serialVersionUID = 1L;
-
-        public ConfigReadException(String message) {
-                super(message);
-        }
-
+	public ConfigReadException(String message) {
+		super(message);
+	}
 }

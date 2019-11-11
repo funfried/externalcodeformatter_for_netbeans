@@ -10,21 +10,17 @@ import java.util.List;
  * @author Matt Blanchette
  */
 public class Profiles {
+	public static final String PROFILE_KIND = "CodeFormatterProfile";
 
-    public static final String PROFILE_KIND = "CodeFormatterProfile";
-    private final List<Profile> profiles = new ArrayList<>();
+	private final List<Profile> profiles = new ArrayList<>();
 
-    public Profiles() {
-    }
+	public void addProfile(Profile profile) {
+		if (PROFILE_KIND.equals(profile.getKind())) {
+			profiles.add(profile);
+		}
+	}
 
-    public void addProfile(Profile profile) {
-        if (PROFILE_KIND.equals(profile.getKind())) {
-            profiles.add(profile);
-        }
-    }
-
-    public List<Profile> getProfiles() {
-        return profiles;
-    }
-
+	public List<Profile> getProfiles() {
+		return profiles;
+	}
 }

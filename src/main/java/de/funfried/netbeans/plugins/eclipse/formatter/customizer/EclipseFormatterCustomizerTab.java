@@ -1,12 +1,11 @@
 /*
  * Copyright (c) 2013 markiewb.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
+ * http://www.eclipse.org/legal/epl-v20.html
  * Contributors:
- *    markiewb - initial API and implementation and/or initial documentation
+ * markiewb - initial API and implementation and/or initial documentation
  */
 package de.funfried.netbeans.plugins.eclipse.formatter.customizer;
 
@@ -33,69 +32,69 @@ import org.openide.util.WeakListeners;
 
 public class EclipseFormatterCustomizerTab implements ProjectCustomizer.CompositeCategoryProvider {
 
-    private final String name;
-    private Listener listener;
+	private final String name;
 
-    private EclipseFormatterCustomizerTab(String name) {
-        this.name = name;
-    }
+	private Listener listener;
 
-    
-    @StaticResource
-    private static final String ICON = "de/funfried/netbeans/plugins/eclipse/formatter/eclipse.gif";
-    
-    
-    @Override
-    public Category createCategory(Lookup lkp) {
-        return ProjectCustomizer.Category.create(name, name, ImageUtilities.loadImage(ICON, false));
-    }
+	private EclipseFormatterCustomizerTab(String name) {
+		this.name = name;
+	}
 
-    @Override
-    public JComponent createComponent(final Category category, final Lookup lkp) {
-        Preferences projectPreferences = ProjectUtils.getPreferences(lkp.lookup(Project.class), EclipseFormatterPanel.class, true);
-        final EclipseFormatterPanel configPanel = new EclipseFormatterPanel(projectPreferences, true);
-        final ProjectSpecificSettingsPanel projectSpecificSettingsPanel = new ProjectSpecificSettingsPanel(configPanel, projectPreferences);
-        configPanel.load();
-        projectSpecificSettingsPanel.load();
+	@StaticResource
+	private static final String ICON = "de/funfried/netbeans/plugins/eclipse/formatter/eclipse.gif";
 
-        category.setStoreListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                configPanel.store();
-                projectSpecificSettingsPanel.store();
-            }
-        });
+	@Override
+	public Category createCategory(Lookup lkp) {
+		return ProjectCustomizer.Category.create(name, name, ImageUtilities.loadImage(ICON, false));
+	}
 
-        listener = new Listener(category, projectSpecificSettingsPanel);
-        configPanel.addChangeListener(WeakListeners.change(listener, configPanel));
-        projectSpecificSettingsPanel.addChangeListener(WeakListeners.change(listener, projectSpecificSettingsPanel));
-        return projectSpecificSettingsPanel;
-    }
+	@Override
+	public JComponent createComponent(final Category category, final Lookup lkp) {
+		Preferences projectPreferences = ProjectUtils.getPreferences(lkp.lookup(Project.class), EclipseFormatterPanel.class, true);
+		final EclipseFormatterPanel configPanel = new EclipseFormatterPanel(projectPreferences, true);
+		final ProjectSpecificSettingsPanel projectSpecificSettingsPanel = new ProjectSpecificSettingsPanel(configPanel, projectPreferences);
+		configPanel.load();
+		projectSpecificSettingsPanel.load();
 
-    @NbBundle.Messages({"LBL_Config=Eclipse Formatting"})
-    @Registrations({
-        @Registration(category = "Formatting", projectType = "org-netbeans-modules-java-j2seproject", position = 1000),
-        @Registration(category = "Formatting", projectType = "org-netbeans-modules-web-project", position = 1000),
-        @Registration(category = "Formatting", projectType = "org-netbeans-modules-maven", position = 1000),
-        @Registration(category = "Formatting", projectType = "org-netbeans-modules-apisupport-project", position = 1000)
-    })
-    public static EclipseFormatterCustomizerTab createMyDemoConfigurationTab() {
-        return new EclipseFormatterCustomizerTab(Bundle.LBL_Config());
-    }
+		category.setStoreListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				configPanel.store();
+				projectSpecificSettingsPanel.store();
+			}
+		});
 
-    private class Listener implements ChangeListener {
+		listener = new Listener(category, projectSpecificSettingsPanel);
+		configPanel.addChangeListener(WeakListeners.change(listener, configPanel));
+		projectSpecificSettingsPanel.addChangeListener(WeakListeners.change(listener, projectSpecificSettingsPanel));
+		return projectSpecificSettingsPanel;
+	}
 
-        private final Category category;
-        private final ProjectSpecificSettingsPanel projectSpecificPanel;
+	@NbBundle.Messages({ "LBL_Config=Eclipse Formatting" })
+	@Registrations({
+			@Registration(category = "Formatting", projectType = "org-netbeans-modules-java-j2seproject", position = 1000),
+			@Registration(category = "Formatting", projectType = "org-netbeans-modules-web-project", position = 1000),
+			@Registration(category = "Formatting", projectType = "org-netbeans-modules-maven", position = 1000),
+			@Registration(category = "Formatting", projectType = "org-netbeans-modules-apisupport-project", position = 1000)
+	})
+	public static EclipseFormatterCustomizerTab createMyDemoConfigurationTab() {
+		return new EclipseFormatterCustomizerTab(Bundle.LBL_Config());
+	}
 
-        private Listener(Category category, ProjectSpecificSettingsPanel projectSpecificPanel) {
-            this.category = category;
-            this.projectSpecificPanel = projectSpecificPanel;
-        }
+	private class Listener implements ChangeListener {
 
-        @Override
-        public void stateChanged(ChangeEvent e) {
-            category.setValid(projectSpecificPanel.holdsValidConfig());
-        }
-    }
+		private final Category category;
+
+		private final ProjectSpecificSettingsPanel projectSpecificPanel;
+
+		private Listener(Category category, ProjectSpecificSettingsPanel projectSpecificPanel) {
+			this.category = category;
+			this.projectSpecificPanel = projectSpecificPanel;
+		}
+
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			category.setValid(projectSpecificPanel.holdsValidConfig());
+		}
+	}
 }

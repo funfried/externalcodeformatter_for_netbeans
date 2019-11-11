@@ -16,31 +16,30 @@ import org.xml.sax.SAXException;
  * @author Matt Blanchette
  */
 public class ConfigReader {
+	/**
+	 * Read from the
+	 * <code>input</code> and return it's configuration settings as a
+	 * {@link Map}.
+	 *
+	 * @param input
+	 * @return return {@link Map} with all the configurations read from the
+	 *         config file, or throws an exception if there's a problem reading the
+	 *         input, e.g.: invalid XML.
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ConfigReadException
+	 */
+	public List<Profile> read(File normalizedFile) throws IOException, SAXException, ConfigReadException {
+		Digester digester = new Digester();
+		digester.addRuleSet(new RuleSet());
 
-    /**
-     * Read from the
-     * <code>input</code> and return it's configuration settings as a
-     * {@link Map}.
-     *
-     * @param input
-     * @return return {@link Map} with all the configurations read from the
-     * config file, or throws an exception if there's a problem reading the
-     * input, e.g.: invalid XML.
-     * @throws SAXException
-     * @throws IOException
-     * @throws ConfigReadException
-     */
-    public List<Profile> read(File normalizedFile) throws IOException, SAXException, ConfigReadException {
-        Digester digester = new Digester();
-        digester.addRuleSet(new RuleSet());
+		Object result = digester.parse(normalizedFile);
+		if (result == null && !(result instanceof Profiles)) {
+			throw new ConfigReadException("No profiles found in config file");
+		}
 
-        Object result = digester.parse(normalizedFile);
-        if (result == null && !(result instanceof Profiles)) {
-            throw new ConfigReadException("No profiles found in config file");
-        }
+		Profiles profiles = (Profiles) result;
 
-        Profiles profiles = (Profiles) result;
-
-        return profiles.getProfiles();
-    }   
+		return profiles.getProfiles();
+	}
 }

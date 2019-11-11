@@ -7,26 +7,23 @@ package de.funfried.netbeans.plugins.eclipse.formatter.xml;
  * @author Matt Blanchette
  */
 public class Setting {
+	private String id;
 
-    private String id;
-    private String value;
+	private String value;
 
-    public Setting() {
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getValue() {
+		return value;
+	}
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
+	public void setValue(String value) {
+		this.value = value;
+	}
 }

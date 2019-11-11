@@ -10,46 +10,43 @@ import java.util.Map;
  * @author Matt Blanchette
  */
 public class Profile {
+	private String kind;
 
-    private String kind;
-    private String version;
-    private String name;
+	private String version;
 
-    private final Map<String, String> settings = new HashMap<>();
+	private String name;
 
+	private final Map<String, String> settings = new HashMap<>();
 
-    public Profile() {
-    }
+	public void addSetting(Setting setting) {
+		settings.put(setting.getId(), setting.getValue());
+	}
 
-    public void addSetting(Setting setting) {
-        settings.put(setting.getId(), setting.getValue());
-    }
+	public Map<String, String> getSettings() {
+		return settings;
+	}
 
-    public Map<String, String> getSettings() {
-        return settings;
-    }
+	public String getKind() {
+		return kind;
+	}
 
-    public String getKind() {
-        return kind;
-    }
+	public void setKind(String kind) {
+		this.kind = kind;
+	}
 
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
-    public String getVersion() {
-        return version;
-    }
+	public String getVersion() {
+		return version;
+	}
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+	public void setName(String name) {
+		this.name = name;
+	}
 }
