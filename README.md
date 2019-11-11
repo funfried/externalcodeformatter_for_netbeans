@@ -1,14 +1,11 @@
-<hr>
-<h1 style="color: #FF0000">This project is DEAD and NOT SUPPORTED by its former developer anymore.</h1>
-Please fork it and create a new plugin from it. I can guide you through the process (as time allows), but I won't write code, accept pull-requests nor put updates to the NetBeans plugins center.
-<hr>
-
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K4CMP92RZELE2)
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T29T6JHK5GSYC&source=url)
 
 Eclipse Java Code Formatter for NetBeans
 ========================================
 
-Download is available
+New release is pending ...
+
+Former downloads are still available
 * with Eclipse Neon 4.6 engine at http://plugins.netbeans.org/plugin/70382
 * with Eclipse Mars 4.5 engine at http://plugins.netbeans.org/plugin/50877
 * with Eclipse Luna 4.4 engine at http://plugins.netbeans.org/plugin/64061
@@ -38,7 +35,7 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <br>
 <img src="https://raw.githubusercontent.com/funfried/eclipsecodeformatter_for_netbeans/master/doc/project.png">
 
-
+<h1>Changelog:</h1>
 <h2>Updates in 1.12.2.46 - 4.6 Fork:</h2>
 <ul>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/93">Bugfix 93</a>]: Fixed: java.lang.NoClassDefFoundError after another version of the plugin has been uninstalled</li>
@@ -144,35 +141,48 @@ Please note that this plugin only provides support for formatting. Eclipse users
 
 <h2>Licensing</h2>
 <ul>
-<li>This plugin is licensed under <a href="http://www.eclipse.org/legal/epl-v10.html">Eclipse Public License, Version 1.0</a>
+<li>This plugin is licensed under <a href="http://www.eclipse.org/legal/epl-v20.html">Eclipse Public License, Version 2.0</a>
 </li>
 <li>This plugin bundles several 3rd-party libraries to provide its functionality.
-<dl><dt><a href="http://www.eclipse.org/legal/epl-v10.html">Eclipse Public License, Version 1.0</a></dt><dd>
-org.eclipse.core.contenttype_3.5.100.v20160418-1621.jar
-org.eclipse.core.jobs_3.8.0.v20160509-0411.jar
-org.eclipse.core.resources_3.11.0.v20160503-1608.jar
-org.eclipse.core.runtime_3.12.0.v20160606-1342.jar
-org.eclipse.equinox.common_3.8.0.v20160509-1230.jar
-org.eclipse.equinox.preferences_3.6.1.v20160815-1406.jar
-org.eclipse.jdt.core_3.12.1.v20160829-0950.jar
-org.eclipse.text_3.6.0.v20160503-1849.jar
+<dl><dt><a href="https://www.eclipse.org/legal/epl-v20.html">Eclipse Public License, Version 2.0</a></dt><dd>
+org.eclipse.core.commands_3.9.500.jar
+org.eclipse.core.contenttype_3.7.400.jar
+org.eclipse.core.expressions_3.6.500.jar
+org.eclipse.core.filesystem_1.7.500.jar
+org.eclipse.core.jobs_3.10.500.jar
+org.eclipse.core.resources_3.13.500.jar
+org.eclipse.core.runtime_3.16.0.jar
+org.eclipse.equinox.app_1.4.300.jar
+org.eclipse.equinox.common_3.10.500.jar
+org.eclipse.equinox.preferences_3.7.500.jar
+org.eclipse.equinox.registry_3.8.500.jar
+org.eclipse.osgi_3.15.0.jar
+org.eclipse.text_3.9.0.jar
+org.eclipse.jdt.core_3.18.0.jar
 </dd>
 </dl>
-<dl><dt><a href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></dt><dd>commons-beanutils-1.8.3.jar
+<dl><dt><a href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></dt>
+<dd>
+cglib-3.3.0.jar
+commons-lang3-3.9.jar
 commons-digester3-3.2.jar
-commons-logging-1.1.3.jar</dd>
+commons-beanutils-1.9.4.jar
+commons-logging-1.2.jar</dd>
+</dl>
+</dl>
+<dl><dt><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-clause</a></dt>
+<dd>
+asm-7.2.jar
+asm-all-5.2.jar</dd>
 </dl>
 </li>
-<li>Originally forked from <a href="https://blogs.oracle.com/geertjan/entry/eclipse_formatter_for_netbeans_ide">https://blogs.oracle.com/geertjan/entry/eclipse_formatter_for_netbeans_ide</a> with allowance of Geertjan Wielenga.</li>
+<li>Originally forked from <a href="https://github.com/geertjanw/eclipsecodeformatter_for_netbeans/">https://github.com/geertjanw/eclipsecodeformatter_for_netbeans/</a> with allowance of Geertjan Wielenga which was forked from <a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/">https://github.com/markiewb/eclipsecodeformatter_for_netbeans/</a> which was based on <a href="https://blogs.oracle.com/geertjan/entry/eclipse_formatter_for_netbeans_ide">https://blogs.oracle.com/geertjan/entry/eclipse_formatter_for_netbeans_ide</a>.</li>
 <li>Based on <a href="http://epochcoder.blogspot.com/2013/08/import-eclipse-formatter-into-netbeans.html">http://epochcoder.blogspot.com/2013/08/import-eclipse-formatter-into-netbeans.html</a> from Willie Scholtz.</li>
 </ul>
 
 <p>
-Provide defects, request for enhancements and feedback at <a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues">https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues</a>
+Provide defects, request for enhancements and feedback at <a href="https://github.com/funfried/eclipsecodeformatter_for_netbeans/issues">https://github.com/funfried/eclipsecodeformatter_for_netbeans/issues</a>
 </p>
-Compatible to NetBeans 8.0.2+ and JDK7+.
+Compatible to NetBeans 8.2+ and JDK8+.
 
-<p>
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=K4CMP92RZELE2"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" alt="btn_donate_SM.gif"></a>
-
-</p>
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T29T6JHK5GSYC&source=url)
