@@ -9,6 +9,39 @@
             <id>travis</id>
             <repositories>
                 <repository>
+                    <id>imagej</id>
+                    <name>imagej</name>
+                    <url>http://maven.imagej.net/content/groups/public</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>maven-central</id>
+                    <name>maven-central</name>
+                    <url>https://repo1.maven.org/maven2/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>apache</id>
+                    <name>apache</name>
+                    <url>https://repo.maven.apache.org/maven2/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
                     <id>mvnrepository</id>
                     <name>mvnrepository</name>
                     <url>https://mvnrepository.com/artifact/</url>
@@ -21,6 +54,39 @@
                 </repository>
             </repositories>
             <pluginRepositories>
+                <pluginRepository>
+                    <id>imagej</id>
+                    <name>imagej</name>
+                    <url>http://maven.imagej.net/content/groups/public</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>maven-central</id>
+                    <name>maven-central</name>
+                    <url>https://repo1.maven.org/maven2/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+                <pluginRepository>
+                    <id>apache</id>
+                    <name>apache</name>
+                    <url>https://repo.maven.apache.org/maven2/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
                 <pluginRepository>
                     <id>mvnrepository</id>
                     <name>mvnrepository</name>
