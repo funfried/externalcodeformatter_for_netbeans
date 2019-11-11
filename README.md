@@ -1,5 +1,7 @@
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T29T6JHK5GSYC&source=url)
 
+[![Build Status](https://travis-ci.com/funfried/eclipsecodeformatter_for_netbeans.svg?branch=master)](https://travis-ci.com/funfried
+
 Eclipse Java Code Formatter for NetBeans
 ========================================
 
