@@ -64,7 +64,6 @@
 		<url>https://travis-ci.org/funfried/eclipsecodeformatter_for_netbeans/</url>
 	</ciManagement>
 
-	<!-- Registration in progress ... -->
 	<distributionManagement>
 		<repository>
 			<id>sonatype-nexus-staging</id>
