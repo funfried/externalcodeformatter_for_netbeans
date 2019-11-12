@@ -165,17 +165,18 @@ org.eclipse.jdt.core_3.18.0.jar
 </dl>
 <dl><dt><a href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></dt>
 <dd>
-cglib-3.3.0.jar
 commons-lang3-3.9.jar
 commons-digester3-3.2.jar
 commons-beanutils-1.9.4.jar
-commons-logging-1.2.jar</dd>
+commons-logging-1.2.jar
+</dd>
 </dl>
 </dl>
 <dl><dt><a href="https://opensource.org/licenses/BSD-3-Clause">BSD 3-clause</a></dt>
 <dd>
 asm-7.2.jar
-asm-all-5.2.jar</dd>
+asm-all-5.2.jar
+</dd>
 </dl>
 </li>
 <li>Originally forked from <a href="https://github.com/geertjanw/eclipsecodeformatter_for_netbeans/">https://github.com/geertjanw/eclipsecodeformatter_for_netbeans/</a> with allowance of Geertjan Wielenga which was forked from <a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/">https://github.com/markiewb/eclipsecodeformatter_for_netbeans/</a> which was based on <a href="https://blogs.oracle.com/geertjan/entry/eclipse_formatter_for_netbeans_ide">https://blogs.oracle.com/geertjan/entry/eclipse_formatter_for_netbeans_ide</a>.</li>
