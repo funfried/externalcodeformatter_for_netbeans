@@ -10,6 +10,8 @@
 package de.funfried.netbeans.plugins.eclipse.formatter.options;
 
 import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
@@ -22,7 +24,7 @@ import org.openide.util.NbPreferences;
  */
 public class Preferences {
 
-	public static final boolean FEATURE_formatChangedLinesOnly = true;
+	public static final boolean FEATURE_FORMAT_CHANGED_LINES_ONLY = true;
 
 	public static final String ECLIPSE_FORMATTER_ACTIVE_PROFILE = "eclipseFormatterActiveProfile";
 
@@ -88,14 +90,14 @@ public class Preferences {
 	}
 
 	public static boolean isProjectSetting(String filename) {
-		return filename.endsWith("org.eclipse.jdt.core.prefs");
+		return filename.endsWith(PROJECT_PREF_FILE);
 	}
 
 	public static String getLineFeed(String lineFeedSetting) {
-		final boolean usePlatformLinefeed = null == lineFeedSetting || "".equals(lineFeedSetting);
 		String linefeed = null;
-		if (!usePlatformLinefeed) {
 
+		boolean usePlatformLinefeed = StringUtils.isBlank(lineFeedSetting);
+		if (!usePlatformLinefeed) {
 			switch (lineFeedSetting) {
 				case "\\n":
 					linefeed = org.netbeans.editor.BaseDocument.LS_LF;
@@ -108,6 +110,7 @@ public class Preferences {
 					break;
 			}
 		}
+
 		return linefeed;
 	}
 }

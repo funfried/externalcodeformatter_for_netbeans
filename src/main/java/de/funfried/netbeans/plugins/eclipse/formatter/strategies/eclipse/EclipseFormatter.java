@@ -28,6 +28,7 @@ import java.util.Properties;
 import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.jdt.core.JavaCore;
@@ -42,8 +43,9 @@ import org.openide.filesystems.FileUtil;
 import org.xml.sax.SAXException;
 
 public final class EclipseFormatter {
-
 	private static final Logger LOG = Logger.getLogger(EclipseFormatter.class.getName());
+
+	private static final String WORKSPACE_MECHANIC_PREFIX = "/instance/org.eclipse.jdt.core/";
 
 	private final String formatterFile;
 
@@ -65,6 +67,7 @@ public final class EclipseFormatter {
 		if (code != null) {
 			result = this.format(code, startOffset, endOffset, changedElements);
 		}
+
 		return result;
 	}
 
@@ -85,9 +88,9 @@ public final class EclipseFormatter {
 				final int length = e.getRight() - e.getLeft();
 				regions.add(new org.eclipse.jface.text.Region(e.getLeft(), length));
 			}
-			LOG.finest("regions = " + regions);
+			LOG.log(Level.FINEST, "regions = {0}", regions);
 			IRegion[] toArray = regions.toArray(new IRegion[regions.size()]);
-			LOG.finest("use regions " + regions);
+			LOG.log(Level.FINEST, "use regions {0}", regions);
 			te = formatter.format(opts, code, toArray, 0, linefeed);
 		} else {
 			te = formatter.format(opts, code, startOffset, endOffset - startOffset, 0, linefeed);
@@ -99,7 +102,7 @@ public final class EclipseFormatter {
 			try {
 				te.apply(dc);
 			} catch (Exception ex) {
-				LOG.warning("Code could not be formatted!" + ex);
+				LOG.log(Level.WARNING, "Code could not be formatted!", ex);
 				return null;
 			}
 			formattedCode = dc.get();
@@ -181,52 +184,42 @@ public final class EclipseFormatter {
 	}
 
 	private Map<String, String> readConfigFromFormatterXmlFile(final File file) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
-		Map<String, String> configFromFile;
 		List<Profile> profiles = new ConfigReader().read(FileUtil.normalizeFile(file));
 		String name = formatterProfile;
 		if (profiles.isEmpty()) {
 			//no config found
 			throw new ProfileNotFoundException("No profiles found in " + formatterFile);
 		}
+
 		Profile profile = getProfileByName(profiles, name);
 		if (null == profile) {
 			throw new ProfileNotFoundException("profile " + name + " not found in " + formatterFile);
 		}
-		configFromFile = profile.getSettings();
-		return configFromFile;
+
+		return profile.getSettings();
 	}
 
 	private Map<String, String> readConfigFromWorkspaceMechanicFile(final File file) throws IOException {
-		Map<String, String> result = new LinkedHashMap<>();
 		Properties properties = new Properties();
 		try (FileInputStream is = new FileInputStream(file)) {
 			properties.load(is);
 		}
-		final String prefix = "/instance/org.eclipse.jdt.core/";
-		for (Object object : properties.keySet()) {
-			String key = (String) object;
-			if (key.startsWith(prefix)) {
-				String value = properties.getProperty(key);
-				result.put(key.substring(prefix.length()), value);
-			}
-		}
-		return result;
+
+		return properties.keySet().stream().filter(key -> ((String) key).startsWith(WORKSPACE_MECHANIC_PREFIX))
+				.collect(Collectors.toMap(key -> ((String) key).substring(WORKSPACE_MECHANIC_PREFIX.length()), key -> properties.getProperty((String) key)));
 	}
 
 	private Map<String, String> readConfigFromProjectSettings(final File file) throws IOException {
-		Map<String, String> result = new LinkedHashMap<>();
 		Properties properties = new Properties();
 		try (FileInputStream is = new FileInputStream(file)) {
 			properties.load(is);
 		}
-		for (Object object : properties.keySet()) {
-			String key = (String) object;
-			result.put(key, properties.getProperty(key));
-		}
-		return result;
+
+		return properties.keySet().stream().collect(Collectors.toMap(key -> (String) key, key -> properties.getProperty((String) key)));
 	}
 
 	public class CannotLoadConfigurationException extends RuntimeException {
+		private static final long serialVersionUID = 1L;
 
 		public CannotLoadConfigurationException(Exception ex) {
 			super(ex);
@@ -234,10 +227,10 @@ public final class EclipseFormatter {
 	}
 
 	public class ProfileNotFoundException extends RuntimeException {
+		private static final long serialVersionUID = 1L;
 
 		public ProfileNotFoundException(String message) {
 			super(message);
 		}
 	}
-
 }

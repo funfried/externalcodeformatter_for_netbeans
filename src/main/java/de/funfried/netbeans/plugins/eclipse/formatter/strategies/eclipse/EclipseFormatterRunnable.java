@@ -106,6 +106,7 @@ class EclipseFormatterRunnable implements Runnable {
 				Exceptions.printStackTrace(ex);
 				return;
 			}
+
 			final String formattedContent = formatter.forCode(docText, startOffset, endOffset, changedElements);
 			// quick check for changed
 			if (formattedContent != null && /* does not support changes of EOL */ !formattedContent.equals(docText)) {
@@ -129,6 +130,7 @@ class EclipseFormatterRunnable implements Runnable {
 						debuggerManager.removeBreakpoint(breakpoint);
 					}
 				}
+
 				//runAtomicAsUser, so that removal and insert is only one undo step
 				NbDocument.runAtomicAsUser(document, new Runnable() {
 					@Override
@@ -141,6 +143,7 @@ class EclipseFormatterRunnable implements Runnable {
 						}
 					}
 				});
+
 				if (preserveBreakpoints) {
 					//Reattach breakpoints where possible
 					for (Breakpoint breakpoint : breakpoint2Keep) {
@@ -177,8 +180,9 @@ class EclipseFormatterRunnable implements Runnable {
 	public static final String SOURCES_TYPE_RESOURCES = "resources";
 
 	private List<SourceGroup> getAllSourceGroups(Project p) {
-		final Sources sources = ProjectUtils.getSources(p);
-		List<SourceGroup> list = new ArrayList<SourceGroup>();
+		Sources sources = ProjectUtils.getSources(p);
+
+		List<SourceGroup> list = new ArrayList<>();
 		list.addAll(Arrays.asList(sources.getSourceGroups(SOURCES_TYPE_JAVA)));
 		list.addAll(Arrays.asList(sources.getSourceGroups(SOURCES_TYPE_RESOURCES)));
 		list.addAll(Arrays.asList(sources.getSourceGroups(SOURCES_HINT_TEST)));
@@ -186,6 +190,7 @@ class EclipseFormatterRunnable implements Runnable {
 		list.addAll(Arrays.asList(sources.getSourceGroups(MAVEN_TYPE_GEN_SOURCES)));
 		list.addAll(Arrays.asList(sources.getSourceGroups(MAVEN_TYPE_OTHER)));
 		list.addAll(Arrays.asList(sources.getSourceGroups(MAVEN_TYPE_TEST_OTHER)));
+
 		return list;
 	}
 
@@ -193,10 +198,12 @@ class EclipseFormatterRunnable implements Runnable {
 		if (null == fo) {
 			return "";
 		}
+
 		Project p = FileOwnerQuery.getOwner(fo);
 		if (null == p) {
 			return "";
 		}
+
 		for (SourceGroup sourceGroup : getAllSourceGroups(p)) {
 			//SourceGroup: c:/myprojects/project/src/main/java/
 			//OriginFolder: c:/myprojects/project/src/main/java/com/foo/impl
@@ -214,6 +221,7 @@ class EclipseFormatterRunnable implements Runnable {
 				return result;
 			}
 		}
+
 		return "";
 	}
 
@@ -234,16 +242,19 @@ class EclipseFormatterRunnable implements Runnable {
 				if (null == url) {
 					continue;
 				}
+
 				int current = lineBreakpoint.getLineNumber();
 				final boolean isBreakpointInSelection = lineStart <= current && current <= lineEnd;
 				if (!isBreakpointInSelection) {
 					continue;
 				}
+
 				if (url.startsWith("jar:file:")) {
 					//https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/80 
 					//prevent URI is not hierarchical.
 					continue;
 				}
+
 				FileObject toFileObject;
 				try {
 					toFileObject = FileUtil.toFileObject(FileUtil.normalizeFile(Utilities.toFile(new URI(url))));
@@ -252,14 +263,17 @@ class EclipseFormatterRunnable implements Runnable {
 							new Object[] { url, ex.getMessage() });
 					continue;
 				}
+
 				if (null == toFileObject) {
 					continue;
 				}
+
 				if (fileOfCurrentClass.equals(toFileObject)) {
 					result.add(breakpoint);
 				}
 			}
 		}
+
 		return result;
 	}
 
@@ -273,11 +287,13 @@ class EclipseFormatterRunnable implements Runnable {
 					}
 				}
 			}
+
 			if (breakpoint instanceof FieldBreakpoint) {
 				if (isSameTypeOrInnerType(((FieldBreakpoint) breakpoint).getClassName(), currentClassName)) {
 					result.add(breakpoint);
 				}
 			}
+
 			if (breakpoint instanceof MethodBreakpoint) {
 				for (String className : ((MethodBreakpoint) breakpoint).getClassFilters()) {
 					if (isSameTypeOrInnerType(className, currentClassName)) {
@@ -285,6 +301,7 @@ class EclipseFormatterRunnable implements Runnable {
 					}
 				}
 			}
+
 			/**
 			 * NOTE: ExceptionBreakpoint/ThreadBreakpoint have no annotation in
 			 * file, so they cannot be removed by the formatter
@@ -293,7 +310,7 @@ class EclipseFormatterRunnable implements Runnable {
 			 * NOTE: LineBreakpoint is not supported
 			 */
 		}
+
 		return result;
 	}
-
 }

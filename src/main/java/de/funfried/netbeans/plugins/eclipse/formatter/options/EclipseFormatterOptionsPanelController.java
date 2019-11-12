@@ -23,7 +23,6 @@ import org.openide.util.WeakListeners;
 @OptionsPanelController.SubRegistration(id = "de.funfried.netbeans.plugins.eclipse.formatter.options", location = "Java", displayName = "#AdvancedOption_DisplayName_EclipseFormatter", keywords = "#AdvancedOption_Keywords_EclipseFormatter", keywordsCategory = "Java/EclipseFormatter")
 @org.openide.util.NbBundle.Messages({ "AdvancedOption_DisplayName_EclipseFormatter=Eclipse Formatter", "AdvancedOption_Keywords_EclipseFormatter=Eclipse Formatter" })
 public final class EclipseFormatterOptionsPanelController extends OptionsPanelController implements ChangeListener {
-
 	private EclipseFormatterPanel panel;
 
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);

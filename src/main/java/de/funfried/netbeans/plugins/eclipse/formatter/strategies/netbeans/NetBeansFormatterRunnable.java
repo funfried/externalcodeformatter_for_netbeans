@@ -18,7 +18,6 @@ import org.netbeans.modules.editor.indent.api.Reformat;
  * @author markiewb
  */
 class NetBeansFormatterRunnable implements Runnable {
-
 	private final Reformat rf;
 
 	private final int startOffset;
@@ -27,6 +26,7 @@ class NetBeansFormatterRunnable implements Runnable {
 
 	NetBeansFormatterRunnable(StyledDocument document, Reformat rf, int dot, int mark) {
 		this.rf = rf;
+
 		if (dot != mark) {
 			startOffset = Math.min(mark, dot);
 			endOffset = Math.max(mark, dot);

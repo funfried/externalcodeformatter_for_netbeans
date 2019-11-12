@@ -42,6 +42,7 @@ public class NetBeansFormatterStrategy implements IFormatterStrategy {
 		// only care about selection if reformatting on menu action and not on file save
 		final int _dot = (!forSave) ? selectionStart : -1;
 		final int _mark = (!forSave) ? selectionEnd : -1;
+
 		try {
 			NbDocument.runAtomicAsUser(document, new NetBeansFormatterRunnable(document, rf, _dot, _mark));
 		} catch (BadLocationException ex) {
@@ -50,5 +51,4 @@ public class NetBeansFormatterStrategy implements IFormatterStrategy {
 			rf.unlock();
 		}
 	}
-
 }

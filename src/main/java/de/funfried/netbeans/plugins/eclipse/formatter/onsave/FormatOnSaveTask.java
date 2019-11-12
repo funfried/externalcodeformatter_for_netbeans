@@ -14,11 +14,11 @@ import de.funfried.netbeans.plugins.eclipse.formatter.strategies.ParameterObject
 import de.funfried.netbeans.plugins.eclipse.formatter.strategies.FormatterStrategyDispatcher;
 import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION;
 import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION_MODIFIEDLINESONLY;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.FEATURE_formatChangedLinesOnly;
 import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.getActivePreferences;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
@@ -33,6 +33,8 @@ import org.netbeans.api.editor.mimelookup.MimeRegistration;
 import org.netbeans.spi.editor.document.OnSaveTask;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
+
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.FEATURE_FORMAT_CHANGED_LINES_ONLY;
 
 public class FormatOnSaveTask implements OnSaveTask {
 
@@ -63,7 +65,7 @@ public class FormatOnSaveTask implements OnSaveTask {
 
 			try {
 				LOG.finest(String.format("Offset %s-%s -> Line %s-%s -> Offset %s-%s", startOffset, endOffset, startLine, endLine, start, end));
-				LOG.finest("\n\"" + doc.getText(start, end - start) + "\"\n");
+				LOG.log(Level.FINEST, "\n\"{0}\"\n", doc.getText(start, end - start));
 			} catch (BadLocationException ex) {
 				Exceptions.printStackTrace(ex);
 			}
@@ -85,7 +87,7 @@ public class FormatOnSaveTask implements OnSaveTask {
 			int caret = (null != editor) ? editor.getCaretPosition() : -1;
 			final boolean isSaveAction = true;
 			SortedSet<Pair<Integer, Integer>> changedElements = null;
-			if (modifiedLinesOnly && FEATURE_formatChangedLinesOnly) {
+			if (modifiedLinesOnly && FEATURE_FORMAT_CHANGED_LINES_ONLY) {
 				changedElements = getChangedLines(context, styledDoc);
 			}
 

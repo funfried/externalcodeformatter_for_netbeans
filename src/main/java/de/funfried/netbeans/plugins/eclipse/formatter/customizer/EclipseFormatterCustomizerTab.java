@@ -82,7 +82,6 @@ public class EclipseFormatterCustomizerTab implements ProjectCustomizer.Composit
 	}
 
 	private class Listener implements ChangeListener {
-
 		private final Category category;
 
 		private final ProjectSpecificSettingsPanel projectSpecificPanel;
