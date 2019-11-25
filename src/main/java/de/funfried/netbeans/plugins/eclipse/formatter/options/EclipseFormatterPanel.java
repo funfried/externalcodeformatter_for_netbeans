@@ -9,18 +9,18 @@
  */
 package de.funfried.netbeans.plugins.eclipse.formatter.options;
 
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_ENABLED;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_LOCATION;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.PRESERVE_BREAKPOINTS;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.PROJECT_PREF_FILE;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.SHOW_NOTIFICATIONS;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.USE_PROJECT_PREFS;
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.ECLIPSE_FORMATTER_ENABLED;
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.ECLIPSE_FORMATTER_LOCATION;
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.ENABLE_SAVEACTION;
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.PRESERVE_BREAKPOINTS;
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.PROJECT_PREF_FILE;
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.SHOW_NOTIFICATIONS;
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.USE_PROJECT_PREFS;
 import de.funfried.netbeans.plugins.eclipse.formatter.customizer.VerifiableConfigPanel;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION_MODIFIEDLINESONLY;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.LINEFEED;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.SOURCELEVEL;
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.ENABLE_SAVEACTION_MODIFIEDLINESONLY;
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.LINEFEED;
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.SOURCELEVEL;
 import de.funfried.netbeans.plugins.eclipse.formatter.xml.ConfigReadException;
 import de.funfried.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
 import de.funfried.netbeans.plugins.eclipse.formatter.xml.Profile;
@@ -49,10 +49,11 @@ import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.xml.sax.SAXException;
 
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.FEATURE_FORMAT_CHANGED_LINES_ONLY;
+import static de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.FEATURE_FORMAT_CHANGED_LINES_ONLY;
 
 @Keywords(location = "Java", tabTitle = "Eclipse Formatter", keywords = {"eclipse", "format", "eclipse formatter"})
 public class EclipseFormatterPanel extends javax.swing.JPanel implements VerifiableConfigPanel {
+	private static final long serialVersionUID = 1L;
 
 	private final Preferences preferences;
 
@@ -529,7 +530,7 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
 				final FileObject fo = FileUtil.toFileObject(FileUtil.normalizeFile(file));
 
 				//only xml configurations contain profiles
-				if (de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.isXMLConfigurationFile(fo.getNameExt())) {
+				if (de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.isXMLConfigurationFile(fo.getNameExt())) {
 					List<Profile> profiles = new ConfigReader().read(file);
 					cbProfile.addItem(Bundle.ChooseProfile());
 
@@ -587,9 +588,9 @@ public class EclipseFormatterPanel extends javax.swing.JPanel implements Verifia
 		if (rbUseEclipse.isSelected()) {
 			final String fileName = formatterLocField.getText();
 			final File file = new File(fileName);
-			final boolean isXML = de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.isXMLConfigurationFile(file.getName());
-			final boolean isEPF = de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.isWorkspaceMechanicFile(file.getName());
-			final boolean isProjectSetting = de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.isProjectSetting(file.getName());
+			final boolean isXML = de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.isXMLConfigurationFile(file.getName());
+			final boolean isEPF = de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.isWorkspaceMechanicFile(file.getName());
+			final boolean isProjectSetting = de.funfried.netbeans.plugins.eclipse.formatter.options.Settings.isProjectSetting(file.getName());
 			if (isXML && cbProfile.getSelectedIndex() == 0) {
 				//"choose profile" entry is selected
 				return false;

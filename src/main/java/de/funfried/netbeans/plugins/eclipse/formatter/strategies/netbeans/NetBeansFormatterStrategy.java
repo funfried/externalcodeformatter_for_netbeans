@@ -11,7 +11,6 @@ package de.funfried.netbeans.plugins.eclipse.formatter.strategies.netbeans;
 
 import de.funfried.netbeans.plugins.eclipse.formatter.strategies.ParameterObject;
 import de.funfried.netbeans.plugins.eclipse.formatter.strategies.IFormatterStrategy;
-import de.funfried.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
@@ -23,15 +22,14 @@ import org.openide.util.Exceptions;
 /**
  *
  * @author markiewb
+ * @author bahlef
  */
 public class NetBeansFormatterStrategy implements IFormatterStrategy {
 	/**
-	 * @param formatter           the {@link EclipseFormatter}
-	 * @param preserveBreakpoints {@code true} if breakpoints should be preserved
-	 * @param po                  the {@link ParameterObject}
+	 * @param po the {@link ParameterObject}
 	 */
 	@Override
-	public void format(EclipseFormatter formatter, boolean preserveBreakpoints, ParameterObject po) {
+	public void format(ParameterObject po) {
 		final int selectionStart = po.selectionStart;
 		final int selectionEnd = po.selectionEnd;
 		final boolean forSave = po.forSave;
@@ -50,5 +48,10 @@ public class NetBeansFormatterStrategy implements IFormatterStrategy {
 		} finally {
 			rf.unlock();
 		}
+	}
+
+	@Override
+	public boolean canHandle(StyledDocument document) {
+		return true;
 	}
 }

@@ -17,7 +17,7 @@ import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.util.ImageUtilities;
 
-public class Utilities {
+public class Utils {
 	@StaticResource
 	private static final String ECLIPSE = "de/funfried/netbeans/plugins/eclipse/formatter/eclipse.gif";
 

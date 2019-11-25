@@ -10,165 +10,70 @@
  */
 package de.funfried.netbeans.plugins.eclipse.formatter.strategies;
 
-import de.funfried.netbeans.plugins.eclipse.formatter.Utilities;
-import de.funfried.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter;
-import de.funfried.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter.CannotLoadConfigurationException;
-import de.funfried.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter.ProfileNotFoundException;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_ACTIVE_PROFILE;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_ENABLED;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.ECLIPSE_FORMATTER_LOCATION;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.LINEFEED;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.PRESERVE_BREAKPOINTS;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.PROJECT_PREF_FILE;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.SHOW_NOTIFICATIONS;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.SOURCELEVEL;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.USE_PROJECT_PREFS;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.getActivePreferences;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.getLineFeed;
 import de.funfried.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatterStrategy;
 import de.funfried.netbeans.plugins.eclipse.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 
-import java.io.File;
-import java.util.prefs.Preferences;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.text.StyledDocument;
 
-import org.netbeans.api.editor.guards.GuardedSectionManager;
-import org.netbeans.api.project.FileOwnerQuery;
-import org.netbeans.api.project.Project;
-import org.netbeans.editor.BaseDocument;
-import org.netbeans.modules.editor.NbEditorUtilities;
-import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
-import org.openide.awt.NotificationDisplayer;
-import org.openide.awt.StatusDisplayer;
-import org.openide.filesystems.FileObject;
+import org.openide.util.Exceptions;
+
+import de.funfried.netbeans.plugins.eclipse.formatter.exceptions.FileTypeNotSupportedException;
 
 /**
  *
  * @author markiewb
+ * @author bahlef
  */
 public class FormatterStrategyDispatcher {
+	private static final Logger log = Logger.getLogger(FormatterStrategyDispatcher.class.getName());
 
-	EclipseFormatterStrategy eclipseStrategy = new EclipseFormatterStrategy();
+	private final EclipseFormatterStrategy eclipseStrategy = new EclipseFormatterStrategy();
 
-	NetBeansFormatterStrategy netbeansStrategy = new NetBeansFormatterStrategy();
+	private final NetBeansFormatterStrategy netbeansStrategy = new NetBeansFormatterStrategy();
 
-	public void formatWithNetBeans(final boolean showNotifications, final boolean hasGuardedSections, final boolean isEclipseFormatterEnabled, final boolean isJava, ParameterObject po) {
-		if (showNotifications) {
-			String detail = getNotificationMessageForNetBeans(hasGuardedSections, isEclipseFormatterEnabled, isJava);
+	private static final ReentrantLock lock = new ReentrantLock();
 
-			NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Utilities.iconNetBeans, detail, null);
+	private static FormatterStrategyDispatcher instance = null;
+
+	private FormatterStrategyDispatcher() {
+	}
+
+	public static FormatterStrategyDispatcher getInstance() {
+		lock.lock();
+
+		try {
+			if (instance == null) {
+				instance = new FormatterStrategyDispatcher();
+			}
+		} finally {
+			lock.unlock();
 		}
-		StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
-		boolean preserveBreakpoints = false;
-		netbeansStrategy.format(null, preserveBreakpoints, po);
+
+		return instance;
 	}
 
 	public void format(ParameterObject po) {
-		final StyledDocument styledDoc = po.styledDoc;
-		GuardedSectionManager guards = GuardedSectionManager.getInstance(styledDoc);
-		final boolean hasGuardedSections = guards != null;
-		final boolean isJava = Utilities.isJava(styledDoc);
-		Preferences pref = getActivePreferences(styledDoc);
+		try {
+			final StyledDocument styledDoc = po.styledDoc;
 
-		final boolean isEclipseFormatterEnabled = pref.getBoolean(ECLIPSE_FORMATTER_ENABLED, false);
-		final boolean showNotifications = pref.getBoolean(SHOW_NOTIFICATIONS, false);
-		final boolean preserveBreakpoints = pref.getBoolean(PRESERVE_BREAKPOINTS, true);
-		final boolean useProjectPrefs = pref.getBoolean(USE_PROJECT_PREFS, true);
-		final String lineFeed = pref.get(LINEFEED, "");
-		final String sourceLevel = pref.get(SOURCELEVEL, "");
-		if (!hasGuardedSections && isJava && isEclipseFormatterEnabled) {
-			String formatterProfile = pref.get(ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
-			String formatterFile = getFormatterFileFromProjectConfiguration(useProjectPrefs, styledDoc);
-			if (null == formatterFile) {
-				formatterFile = pref.get(ECLIPSE_FORMATTER_LOCATION, null);
-			}
+			if (eclipseStrategy.canHandle(styledDoc)) {
+				try {
+					eclipseStrategy.format(po);
+				} catch (FileTypeNotSupportedException ex) {
+					log.log(Level.FINE, "Could not use Eclipse formatter for given document", ex);
 
-			if (!new File(formatterFile).exists()) {
-				//fallback to NB
-				formatWithNetBeans(showNotifications, hasGuardedSections, isEclipseFormatterEnabled, isJava, po);
-				return;
-			}
-
-			//format with configured linefeed
-			final EclipseFormatter formatter = new EclipseFormatter(formatterFile, formatterProfile, lineFeed, sourceLevel);
-
-			try {
-				//save with configured linefeed
-				if (null != lineFeed) {
-					styledDoc.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, getLineFeed(lineFeed));
-					styledDoc.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, getLineFeed(lineFeed));
+					// fallback to NetBeans formatter, but should not be possible because of canHandle call before
+					netbeansStrategy.format(po);
 				}
-				eclipseStrategy.format(formatter, preserveBreakpoints, po);
-			} catch (ProfileNotFoundException e) {
-				NotifyDescriptor notify = new NotifyDescriptor.Message(
-						String.format("<html>Profile '%s' not found in <tt>%s</tt><br><br>Please configure a valid one in the project properties OR at Tools|Options|Java|Eclipse Formatter!", formatterProfile,
-								formatterFile),
-						NotifyDescriptor.ERROR_MESSAGE);
-				DialogDisplayer.getDefault().notify(notify);
-			} catch (CannotLoadConfigurationException e) {
-				NotifyDescriptor notify = new NotifyDescriptor.Message(String.format("<html>Could not find configuration file %s.<br>Make sure the file exists and it can be read.", formatterFile),
-						NotifyDescriptor.ERROR_MESSAGE);
-				DialogDisplayer.getDefault().notify(notify);
-				return;
+			} else {
+				netbeansStrategy.format(po);
 			}
-
-			String msg = getNotificationMessageForEclipseFormatterConfigurationFileType(formatterFile, formatterProfile);
-
-			if (showNotifications) {
-				NotificationDisplayer.getDefault().notify("Format using Eclipse formatter", Utilities.iconEclipse, msg, null);
-			}
-			StatusDisplayer.getDefault().setStatusText("Format using Eclipse formatter: " + msg);
-
-		} else {
-			formatWithNetBeans(showNotifications, hasGuardedSections, isEclipseFormatterEnabled, isJava, po);
+		} catch (Exception e) {
+			Exceptions.printStackTrace(e);
 		}
 	}
-
-	public String getFormatterFileFromProjectConfiguration(final boolean useProjectPrefs, final StyledDocument styledDoc) {
-		//use ${projectdir}/.settings/org.eclipse.jdt.core.prefs, if activated in options
-		if (useProjectPrefs) {
-			FileObject fileForDocument = NbEditorUtilities.getFileObject(styledDoc);
-			if (null != fileForDocument) {
-
-				Project project = FileOwnerQuery.getOwner(fileForDocument);
-				if (null != project) {
-					FileObject projectDirectory = project.getProjectDirectory();
-					FileObject preferenceFile = projectDirectory.getFileObject(".settings/" + PROJECT_PREF_FILE);
-					if (null != preferenceFile) {
-						return preferenceFile.getPath();
-					}
-				}
-			}
-		}
-		return null;
-	}
-
-	public String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
-		String msg = "";
-		if (de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.isWorkspaceMechanicFile(formatterFile)) {
-			//Workspace mechanic file
-			msg = String.format("Using %s", formatterFile);
-		} else if (de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.isXMLConfigurationFile(formatterFile)) {
-			//XML file
-			msg = String.format("Using profile '%s' from %s", formatterProfile, formatterFile);
-		} else if (de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.isProjectSetting(formatterFile)) {
-			//org.eclipse.jdt.core.prefs
-			msg = String.format("Using %s", formatterFile);
-		}
-		return msg;
-	}
-
-	public String getNotificationMessageForNetBeans(final boolean hasGuardedSections, final boolean isEclipseFormatterEnabled, final boolean isJava) {
-		String detail = "";
-		if (hasGuardedSections && isEclipseFormatterEnabled) {
-			detail += "Because file contains guarded sections. ";
-		}
-		if (!isJava) {
-			detail += "Because file isn't a Java file. ";
-		}
-		return detail;
-	}
-
 }

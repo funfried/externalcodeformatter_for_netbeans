@@ -9,8 +9,6 @@
  */
 package de.funfried.netbeans.plugins.eclipse.formatter.customizer;
 
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.USE_PROJECT_SETTINGS;
-
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +19,8 @@ import javax.swing.event.ChangeListener;
 import de.funfried.netbeans.plugins.eclipse.formatter.options.EclipseFormatterPanel;
 
 import org.netbeans.api.options.OptionsDisplayer;
+
+import de.funfried.netbeans.plugins.eclipse.formatter.options.Settings;
 
 public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements VerifiableConfigPanel {
 	private static final long serialVersionUID = 1L;
@@ -96,16 +96,16 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
 	private javax.swing.JLabel lblJumpToGlobalOptions;
 	// End of variables declaration//GEN-END:variables
 
-	@Override
+@Override
 	public void load() {
-		boolean useProjectSettings = projectPreferences.getBoolean(USE_PROJECT_SETTINGS, false);
+		boolean useProjectSettings = projectPreferences.getBoolean(Settings.USE_PROJECT_SETTINGS, false);
 		cbOverrideGlobalSettings.setSelected(useProjectSettings);
 		innerPanel.setVisible(useProjectSettings);
 	}
 
 	@Override
 	public void store() {
-		projectPreferences.putBoolean(USE_PROJECT_SETTINGS, cbOverrideGlobalSettings.isSelected());
+		projectPreferences.putBoolean(Settings.USE_PROJECT_SETTINGS, cbOverrideGlobalSettings.isSelected());
 	}
 
 	private transient final Collection<ChangeListener> changeListeners = new ArrayList<>();
@@ -128,5 +128,4 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
 		}
 		return result;
 	}
-
 }

@@ -10,8 +10,7 @@
  */
 package de.funfried.netbeans.plugins.eclipse.formatter.strategies.eclipse;
 
-import de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.getLineFeed;
+import de.funfried.netbeans.plugins.eclipse.formatter.options.Settings;
 import de.funfried.netbeans.plugins.eclipse.formatter.xml.ConfigReadException;
 import de.funfried.netbeans.plugins.eclipse.formatter.xml.ConfigReader;
 import de.funfried.netbeans.plugins.eclipse.formatter.xml.Profile;
@@ -24,12 +23,14 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.ToolFactory;
@@ -38,79 +39,82 @@ import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 import org.eclipse.text.edits.TextEdit;
 import org.openide.filesystems.FileUtil;
 import org.xml.sax.SAXException;
 
+import de.funfried.netbeans.plugins.eclipse.formatter.exceptions.CannotLoadConfigurationException;
+import de.funfried.netbeans.plugins.eclipse.formatter.exceptions.ProfileNotFoundException;
+
 public final class EclipseFormatter {
-	private static final Logger LOG = Logger.getLogger(EclipseFormatter.class.getName());
+	private static final Logger log = Logger.getLogger(EclipseFormatter.class.getName());
+
+	private static final int FORMATTER_OPTS = CodeFormatter.K_COMPILATION_UNIT | CodeFormatter.F_INCLUDE_COMMENTS /* + CodeFormatter.K_CLASS_BODY_DECLARATIONS + CodeFormatter.K_STATEMENTS */;
 
 	private static final String WORKSPACE_MECHANIC_PREFIX = "/instance/org.eclipse.jdt.core/";
 
-	private final String formatterFile;
+	@SuppressWarnings("unchecked")
+	private static final Map<String, String> ECLIPSE_JAVA_FORMATTER_DEFAULTS = DefaultCodeFormatterConstants.getJavaConventionsSettings();
 
-	private final String formatterProfile;
+	private static final Map<String, String> SOURCE_LEVEL_DEFAULTS = new LinkedHashMap<>();
 
-	private final String lineFeedSetting;
-
-	private final String sourceLevel;
-
-	public EclipseFormatter(String formatterFile, String formatterProfile, String lineFeed, String sourceLevel) {
-		this.formatterFile = formatterFile;
-		this.formatterProfile = formatterProfile;
-		this.lineFeedSetting = lineFeed;
-		this.sourceLevel = sourceLevel;
+	static {
+		String level = JavaCore.VERSION_1_6;
+		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_COMPLIANCE, level);
+		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, level);
+		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_SOURCE, level);
 	}
 
-	public String forCode(final String code, int startOffset, int endOffset, SortedSet<Pair<Integer, Integer>> changedElements) {
-		String result = null;
-		if (code != null) {
-			result = this.format(code, startOffset, endOffset, changedElements);
+	public String format(String formatterFile, String formatterProfile, String code, String lineFeedSetting, String sourceLevel, SortedSet<Pair<Integer, Integer>> changedElements)
+			throws ProfileNotFoundException, CannotLoadConfigurationException {
+		if(code == null) {
+			return null;
 		}
 
-		return result;
-	}
+		Map<String, String> allConfig = readConfig(formatterFile, formatterProfile, sourceLevel);
 
-	// returns null if format resulted in no change
-	private String format(final String code, int startOffset, int endOffset, SortedSet<Pair<Integer, Integer>> changedElements) {
-		final int opts = CodeFormatter.K_COMPILATION_UNIT + CodeFormatter.F_INCLUDE_COMMENTS /* + CodeFormatter.K_CLASS_BODY_DECLARATIONS + CodeFormatter.K_STATEMENTS */;
-		Map<String, String> allConfig = readConfig();
+		String lineFeed = Settings.getLineFeed(lineFeedSetting, null);
 
-		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig);
+		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);
 		//see http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FCodeFormatter.html&anchor=format(int,
 
-		String linefeed = getLineFeed(lineFeedSetting);
-		final TextEdit te;
-		// org.eclipse.jface.text.Region
 		List<IRegion> regions = new ArrayList<>();
-		if (null != changedElements && !changedElements.isEmpty()) {
-			for (Pair<Integer, Integer> e : changedElements) {
-				final int length = e.getRight() - e.getLeft();
-				regions.add(new org.eclipse.jface.text.Region(e.getLeft(), length));
+		if (!CollectionUtils.isEmpty(changedElements)) {
+			for(Pair<Integer, Integer> changedElement : changedElements) {
+				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));
 			}
-			LOG.log(Level.FINEST, "regions = {0}", regions);
-			IRegion[] toArray = regions.toArray(new IRegion[regions.size()]);
-			LOG.log(Level.FINEST, "use regions {0}", regions);
-			te = formatter.format(opts, code, toArray, 0, linefeed);
 		} else {
-			te = formatter.format(opts, code, startOffset, endOffset - startOffset, 0, linefeed);
+			regions.add(new Region(0, code.length()));
 		}
 
-		final IDocument dc = new Document(code);
+		return format(formatter, code, regions.toArray(new IRegion[regions.size()]), lineFeed);
+	}
+
+	private String format(CodeFormatter formatter, String code, IRegion[] regions, String lineFeed) {
 		String formattedCode = null;
+
+		TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);
 		if ((te != null) && (te.getChildrenSize() > 0)) {
 			try {
+				IDocument dc = new Document(code);
 				te.apply(dc);
+
+				formattedCode = dc.get();
+
+				if(Objects.equals(code, formattedCode)) {
+					return null;
+				}
 			} catch (Exception ex) {
-				LOG.log(Level.WARNING, "Code could not be formatted!", ex);
+				log.log(Level.WARNING, "Code could not be formatted!", ex);
 				return null;
 			}
-			formattedCode = dc.get();
 		}
+
 		return formattedCode;
 	}
 
-	private Map<String, String> getSourceLevelOptions() {
+	private Map<String, String> getSourceLevelOptions(String sourceLevel) {
 		Map<String, String> options = new HashMap<>();
 		if (null != sourceLevel && !"".equals(sourceLevel)) {
 			String level = sourceLevel;
@@ -118,15 +122,7 @@ public final class EclipseFormatter {
 			options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, level);
 			options.put(JavaCore.COMPILER_SOURCE, level);
 		}
-		return options;
-	}
 
-	private Map<String, String> getSourceLevelDefaults() {
-		String level = JavaCore.VERSION_1_6;
-		Map<String, String> options = new HashMap<>();
-		options.put(JavaCore.COMPILER_COMPLIANCE, level);
-		options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, level);
-		options.put(JavaCore.COMPILER_SOURCE, level);
 		return options;
 	}
 
@@ -146,36 +142,43 @@ public final class EclipseFormatter {
 		return null;
 	}
 
-	private Map<String, String> readConfig() throws ProfileNotFoundException {
+	private Map<String, String> readConfig(String formatterFile, String formatterProfile, String sourceLevel) throws ProfileNotFoundException, CannotLoadConfigurationException {
 		Map<String, String> allConfig = new HashMap<>();
 		try {
-			final File file = new File(formatterFile);
-			Map<String, String> configFromFile = new LinkedHashMap<>();
-			if (Preferences.isWorkspaceMechanicFile(formatterFile)) {
-				configFromFile.putAll(readConfigFromWorkspaceMechanicFile(file));
-			} else if (Preferences.isXMLConfigurationFile(formatterFile)) {
-				configFromFile.putAll(readConfigFromFormatterXmlFile(file));
-			} else if (Preferences.isProjectSetting(formatterFile)) {
-				configFromFile.putAll(readConfigFromProjectSettings(file));
+			Map<String, String> configFromFile;
+			if (Settings.isWorkspaceMechanicFile(formatterFile)) {
+				configFromFile = readConfigFromWorkspaceMechanicFile(formatterFile);
+			} else if (Settings.isXMLConfigurationFile(formatterFile)) {
+				configFromFile = readConfigFromFormatterXmlFile(formatterFile, formatterProfile);
+			} else if (Settings.isProjectSetting(formatterFile)) {
+				configFromFile = readConfigFromProjectSettings(formatterFile);
+			} else {
+				configFromFile = new LinkedHashMap<>();
 			}
 
-			allConfig.putAll(DefaultCodeFormatterConstants.getJavaConventionsSettings());
-			allConfig.putAll(getSourceLevelDefaults());
+			allConfig.putAll(ECLIPSE_JAVA_FORMATTER_DEFAULTS);
+			allConfig.putAll(SOURCE_LEVEL_DEFAULTS);
 			allConfig.putAll(configFromFile);
-			allConfig.putAll(getSourceLevelOptions());
+			allConfig.putAll(getSourceLevelOptions(sourceLevel));
+
 			// https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77
 			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=449262
 			if (org.eclipse.jdt.core.JavaCore.DEFAULT_JAVA_FORMATTER.equals(allConfig.get("org.eclipse.jdt.core.javaFormatter"))) {
 				//ignore default formatter as configured extension point
 				allConfig.remove("org.eclipse.jdt.core.javaFormatter");
 			}
+
 			if (null != allConfig.get("org.eclipse.jdt.core.javaFormatter")) {
 				throw new UnsupportedOperationException("The use of third-party Java code formatters is not supported by this plugin.\n"
-						+ "See https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77 \n"
+						+ "See https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77\n"
 						+ "Try to remove the entry 'org.eclipse.jdt.core.javaFormatter' from the configuration.");
 			}
+		} catch (ProfileNotFoundException ex) {
+			log.log(Level.WARNING, "Could not load configuration: " + formatterFile, ex);
+
+			throw ex;
 		} catch (Exception ex) {
-			LOG.log(Level.WARNING, "Could not load configuration: " + formatterFile, ex);
+			log.log(Level.WARNING, "Could not load configuration: " + formatterFile, ex);
 
 			throw new CannotLoadConfigurationException(ex);
 		}
@@ -183,25 +186,25 @@ public final class EclipseFormatter {
 		return allConfig;
 	}
 
-	private Map<String, String> readConfigFromFormatterXmlFile(final File file) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
-		List<Profile> profiles = new ConfigReader().read(FileUtil.normalizeFile(file));
+	private Map<String, String> readConfigFromFormatterXmlFile(String formatterFile, String formatterProfile) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
+		List<Profile> profiles = new ConfigReader().read(FileUtil.normalizeFile(new File(formatterFile)));
 		String name = formatterProfile;
 		if (profiles.isEmpty()) {
 			//no config found
-			throw new ProfileNotFoundException("No profiles found in " + formatterFile);
+			throw new ProfileNotFoundException("No profile found in " + formatterFile);
 		}
 
 		Profile profile = getProfileByName(profiles, name);
 		if (null == profile) {
-			throw new ProfileNotFoundException("profile " + name + " not found in " + formatterFile);
+			throw new ProfileNotFoundException("Profile " + name + " not found in " + formatterFile);
 		}
 
 		return profile.getSettings();
 	}
 
-	private Map<String, String> readConfigFromWorkspaceMechanicFile(final File file) throws IOException {
+	private Map<String, String> readConfigFromWorkspaceMechanicFile(String formatterFile) throws IOException {
 		Properties properties = new Properties();
-		try (FileInputStream is = new FileInputStream(file)) {
+		try (FileInputStream is = new FileInputStream(formatterFile)) {
 			properties.load(is);
 		}
 
@@ -209,28 +212,12 @@ public final class EclipseFormatter {
 				.collect(Collectors.toMap(key -> ((String) key).substring(WORKSPACE_MECHANIC_PREFIX.length()), key -> properties.getProperty((String) key)));
 	}
 
-	private Map<String, String> readConfigFromProjectSettings(final File file) throws IOException {
+	private Map<String, String> readConfigFromProjectSettings(final String formatterFile) throws IOException {
 		Properties properties = new Properties();
-		try (FileInputStream is = new FileInputStream(file)) {
+		try (FileInputStream is = new FileInputStream(formatterFile)) {
 			properties.load(is);
 		}
 
 		return properties.keySet().stream().collect(Collectors.toMap(key -> (String) key, key -> properties.getProperty((String) key)));
-	}
-
-	public class CannotLoadConfigurationException extends RuntimeException {
-		private static final long serialVersionUID = 1L;
-
-		public CannotLoadConfigurationException(Exception ex) {
-			super(ex);
-		}
-	}
-
-	public class ProfileNotFoundException extends RuntimeException {
-		private static final long serialVersionUID = 1L;
-
-		public ProfileNotFoundException(String message) {
-			super(message);
-		}
 	}
 }

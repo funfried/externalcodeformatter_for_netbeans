@@ -12,12 +12,10 @@ package de.funfried.netbeans.plugins.eclipse.formatter.onsave;
 
 import de.funfried.netbeans.plugins.eclipse.formatter.strategies.ParameterObject;
 import de.funfried.netbeans.plugins.eclipse.formatter.strategies.FormatterStrategyDispatcher;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.ENABLE_SAVEACTION_MODIFIEDLINESONLY;
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.getActivePreferences;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
@@ -34,11 +32,12 @@ import org.netbeans.spi.editor.document.OnSaveTask;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
 
-import static de.funfried.netbeans.plugins.eclipse.formatter.options.Preferences.FEATURE_FORMAT_CHANGED_LINES_ONLY;
+import de.funfried.netbeans.plugins.eclipse.formatter.options.Settings;
 
 public class FormatOnSaveTask implements OnSaveTask {
+	private static final Logger log = Logger.getLogger(FormatOnSaveTask.class.getName());
 
-	private static final Logger LOG = Logger.getLogger(FormatOnSaveTask.class.getName());
+	private final ReentrantLock lock = new ReentrantLock();
 
 	private final Context context;
 
@@ -46,9 +45,9 @@ public class FormatOnSaveTask implements OnSaveTask {
 		this.context = context;
 	}
 
-	public SortedSet<Pair<Integer, Integer>> getChangedLines(Context context1, StyledDocument doc) {
+	public SortedSet<Pair<Integer, Integer>> getChangedLines(StyledDocument doc) {
 		final SortedSet<Pair<Integer, Integer>> changedElements = new TreeSet<>();
-		Element root = context1.getModificationsRootElement();
+		Element root = context.getModificationsRootElement();
 		for (int i = 0; i < root.getElementCount(); i++) {
 			Element e = root.getElement(i);
 			int startOffset = e.getStartOffset();
@@ -64,8 +63,8 @@ public class FormatOnSaveTask implements OnSaveTask {
 			int end = NbDocument.findLineOffset(doc, endLine);
 
 			try {
-				LOG.finest(String.format("Offset %s-%s -> Line %s-%s -> Offset %s-%s", startOffset, endOffset, startLine, endLine, start, end));
-				LOG.log(Level.FINEST, "\n\"{0}\"\n", doc.getText(start, end - start));
+				log.finest(String.format("Offset %s-%s -> Line %s-%s -> Offset %s-%s", startOffset, endOffset, startLine, endLine, start, end));
+				log.log(Level.FINEST, "\n\"{0}\"\n", doc.getText(start, end - start));
 			} catch (BadLocationException ex) {
 				Exceptions.printStackTrace(ex);
 			}
@@ -78,35 +77,44 @@ public class FormatOnSaveTask implements OnSaveTask {
 	@Override
 	public void performTask() {
 		final StyledDocument styledDoc = (StyledDocument) this.context.getDocument();
-		Preferences pref = getActivePreferences(styledDoc);
+		Preferences pref = Settings.getActivePreferences(styledDoc);
 
-		final boolean enableSaveAction = pref.getBoolean(ENABLE_SAVEACTION, false);
-		final boolean modifiedLinesOnly = pref.getBoolean(ENABLE_SAVEACTION_MODIFIEDLINESONLY, false);
+		final boolean enableSaveAction = pref.getBoolean(Settings.ENABLE_SAVEACTION, false);
 		if (enableSaveAction) {
-			JTextComponent editor = EditorRegistry.lastFocusedComponent();
-			int caret = (null != editor) ? editor.getCaretPosition() : -1;
-			final boolean isSaveAction = true;
 			SortedSet<Pair<Integer, Integer>> changedElements = null;
-			if (modifiedLinesOnly && FEATURE_FORMAT_CHANGED_LINES_ONLY) {
-				changedElements = getChangedLines(context, styledDoc);
+
+			final boolean modifiedLinesOnly = pref.getBoolean(Settings.ENABLE_SAVEACTION_MODIFIEDLINESONLY, false);
+			if (modifiedLinesOnly && Settings.FEATURE_FORMAT_CHANGED_LINES_ONLY) {
+				changedElements = getChangedLines(styledDoc);
 			}
+
+			JTextComponent editor = EditorRegistry.findComponent(styledDoc);
+			int caret = (null != editor) ? editor.getCaretPosition() : -1;
 
 			ParameterObject po = new ParameterObject();
 			po.styledDoc = styledDoc;
 			po.changedElements = changedElements;
-			po.forSave = isSaveAction;
+			po.forSave = true;
 			po.selectionStart = -1;
 			po.selectionEnd = -1;
 			po.caret = caret;
 			po.editor = editor;
 
-			new FormatterStrategyDispatcher().format(po);
+			FormatterStrategyDispatcher.getInstance().format(po);
 		}
 	}
 
 	@Override
 	public void runLocked(Runnable run) {
-		run.run();
+		if (run != null) {
+			lock.lock();
+
+			try {
+				run.run();
+			} finally {
+				lock.unlock();
+			}
+		}
 	}
 
 	@Override

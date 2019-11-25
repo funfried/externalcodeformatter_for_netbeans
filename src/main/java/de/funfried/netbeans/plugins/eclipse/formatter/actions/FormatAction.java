@@ -19,19 +19,19 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
 
 import org.netbeans.api.editor.EditorActionRegistration;
+import org.netbeans.editor.BaseAction;
 import org.openide.util.NbBundle;
 
 /**
  * Registration analog to
- * http://hg.netbeans.org/jet-main/file/01c13d4da2da/java.hints/src/org/netbeans
- * /modules /java/hints/OrganizeMembers.java
+ * http://hg.netbeans.org/jet-main/file/01c13d4da2da/java.hints/src/org/netbeans/modules/java/hints/OrganizeMembers.java
  *
  * @author markiewb
+ * @author bahlef
  */
-@NbBundle.Messages({ "CTL_EclipseFormatter=Format with Eclipse formatter",
-		"eclipse-format=Format with Eclipse formatter" })
-@EditorActionRegistration(name = FormatAction.MACRONAME, menuPath = "Source", menuPosition = 0, menuText = "#CTL_EclipseFormatter")
-public class FormatAction extends org.netbeans.editor.BaseAction {
+@NbBundle.Messages({ "eclipse-format=Format with Eclipse formatter" })
+@EditorActionRegistration(category = "Source", name = FormatAction.MACRONAME, menuPath = "Source", menuPosition = 299, menuText = "#eclipse-format", popupPath = "", popupPosition = 1599, popupText = "#eclipse-format")
+public class FormatAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 
 	public static final String MACRONAME = "eclipse-format";
@@ -57,6 +57,6 @@ public class FormatAction extends org.netbeans.editor.BaseAction {
 		po.caret = caret;
 		po.editor = component;
 
-		new FormatterStrategyDispatcher().format(po);
+		FormatterStrategyDispatcher.getInstance().format(po);
 	}
 }

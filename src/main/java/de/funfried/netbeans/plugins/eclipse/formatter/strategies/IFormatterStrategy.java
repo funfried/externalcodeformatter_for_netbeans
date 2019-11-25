@@ -9,14 +9,15 @@
  */
 package de.funfried.netbeans.plugins.eclipse.formatter.strategies;
 
-import de.funfried.netbeans.plugins.eclipse.formatter.strategies.eclipse.EclipseFormatter;
+import javax.swing.text.StyledDocument;
 
 /**
  *
  * @author markiewb
+ * @author bahlef
  */
 public interface IFormatterStrategy {
+	boolean canHandle(StyledDocument document);
 
-	void format(final EclipseFormatter formatter, final boolean preserveBreakpoints, ParameterObject po);
-
+	void format(ParameterObject po);
 }
