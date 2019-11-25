@@ -20,7 +20,6 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
@@ -175,20 +174,12 @@ class EclipseFormatterRunnable implements Runnable {
 				SortedSet<Pair<Integer, Integer>> nonGuardedSections = new TreeSet<>();
 				Iterable<GuardedSection> guardedSections = guards.getGuardedSections();
 
-				StringBuilder sb = new StringBuilder();
-				guardedSections.forEach(guard -> sb.append(guard.getStartPosition().getOffset()).append("/").append(guard.getEndPosition().getOffset()).append(" "));
-
 				for (Pair<Integer, Integer> changedElement : regions) {
 					nonGuardedSections.addAll(avoidGuardedSection(changedElement, guardedSections));
 				}
 
 				regions = nonGuardedSections;
 			}
-
-			final List<Pair<Integer, Integer>> regionsList = regions.stream().collect(Collectors.toList());
-
-			StringBuilder sb = new StringBuilder();
-			regionsList.stream().forEach(section -> sb.append(section.getLeft()).append("/").append(section.getRight()).append(" "));
 
 			String formattedContent = formatter.format(formatterFile, formatterProfile, code, lineFeedSetting, sourceLevel, regions);
 			// quick check for changed
@@ -217,7 +208,7 @@ class EclipseFormatterRunnable implements Runnable {
 				try {
 					//runAtomicAsUser, so that removal and insert is only one undo step
 					NbDocument.runAtomicAsUser(document, () -> {
-						if(guards == null) {
+						if (guards == null) {
 							try {
 								document.remove(0, code.length());
 								document.insertString(0, formattedContent, null);
@@ -234,7 +225,7 @@ class EclipseFormatterRunnable implements Runnable {
 							for (int i = guardsList.size() - 1; i >= -1; i--) {
 								// find code between guards an replace it ...
 								GuardedSection guard = null;
-								if(i >= 0) {
+								if (i >= 0) {
 									guard = guardsList.get(i);
 								}
 
@@ -249,7 +240,7 @@ class EclipseFormatterRunnable implements Runnable {
 								int startFormattedCode = 0;
 								int startOldCode = 0;
 
-								if(guard != null) {
+								if (guard != null) {
 									String guardedCode = guard.getText();
 
 									// guarded code is not formatted, so it can be found
@@ -269,7 +260,7 @@ class EclipseFormatterRunnable implements Runnable {
 
 								try {
 									String unformattedCodePart = document.getText(startOldCode, (endOldCode - startOldCode) + 1);
-									if(!Objects.equals(unformattedCodePart, formattedCodePart)) {
+									if (!Objects.equals(unformattedCodePart, formattedCodePart)) {
 										// to avoid loosing unguarded sections before or after a guarded section,
 										// we insert the formatted code first and then remove the old one
 										document.insertString(startOldCode, formattedCodePart, null);
