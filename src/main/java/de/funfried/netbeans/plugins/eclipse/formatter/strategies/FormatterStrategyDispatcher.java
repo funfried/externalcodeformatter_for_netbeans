@@ -22,6 +22,7 @@ import javax.swing.text.StyledDocument;
 import org.openide.util.Exceptions;
 
 import de.funfried.netbeans.plugins.eclipse.formatter.exceptions.FileTypeNotSupportedException;
+import de.funfried.netbeans.plugins.eclipse.formatter.strategies.google.GoogleFormatterStrategy;
 
 /**
  *
@@ -32,6 +33,8 @@ public class FormatterStrategyDispatcher {
 	private static final Logger log = Logger.getLogger(FormatterStrategyDispatcher.class.getName());
 
 	private final EclipseFormatterStrategy eclipseStrategy = new EclipseFormatterStrategy();
+
+	private final GoogleFormatterStrategy googleStrategy = new GoogleFormatterStrategy();
 
 	private final NetBeansFormatterStrategy netbeansStrategy = new NetBeansFormatterStrategy();
 
@@ -65,6 +68,15 @@ public class FormatterStrategyDispatcher {
 					eclipseStrategy.format(po);
 				} catch (FileTypeNotSupportedException ex) {
 					log.log(Level.FINE, "Could not use Eclipse formatter for given document", ex);
+
+					// fallback to NetBeans formatter, but should not be possible because of canHandle call before
+					netbeansStrategy.format(po);
+				}
+			} else if (googleStrategy.canHandle(styledDoc)) {
+				try {
+					googleStrategy.format(po);
+				} catch (FileTypeNotSupportedException ex) {
+					log.log(Level.FINE, "Could not use Google formatter for given document", ex);
 
 					// fallback to NetBeans formatter, but should not be possible because of canHandle call before
 					netbeansStrategy.format(po);

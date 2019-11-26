@@ -15,7 +15,7 @@ package de.funfried.netbeans.plugins.eclipse.formatter.customizer;
  */
 public interface VerifiableConfigPanel {
 
-	boolean holdsValidConfig();
+	boolean valid();
 
 	void load();
 

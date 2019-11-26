@@ -2,17 +2,20 @@
 
 [![Build Status](https://travis-ci.com/funfried/eclipsecodeformatter_for_netbeans.svg?branch=master)](https://travis-ci.com/funfried/eclipsecodeformatter_for_netbeans)
 
-Eclipse Java Code Formatter for NetBeans
+External Java Code Formatters for NetBeans
 ========================================
+(former Eclipse Java Code Formatter for NetBeans)
 
 New release is pending ...
+
+You can find the latest snapshot releases at https://oss.sonatype.org/content/repositories/snapshots/de/funfried/netbeans/plugins/externalcodeformatter/1.13-SNAPSHOT/
 
 Former downloads are still available
 * with Eclipse Neon 4.6 engine at http://plugins.netbeans.org/plugin/70382
 * with Eclipse Mars 4.5 engine at http://plugins.netbeans.org/plugin/50877
 * with Eclipse Luna 4.4 engine at http://plugins.netbeans.org/plugin/64061
 
-This plugin helps you to apply to a common code style in a team of Eclipse JDT and NetBeans IDE users. The original formatting engine of Eclipse is embedded and allows you to format the sourcecode the same way as your Eclipse co-workers do. You only have to provide an Eclipse formatter configuration file.
+This plugin helps you to apply to a common code style in a team of Eclipse JDT and NetBeans IDE users. The original formatting engine of Eclipse is embedded and allows you to format the sourcecode the same way as your Eclipse co-workers do. You only have to provide an Eclipse formatter configuration file. Besides you can also use the <a href="https://github.com/google/google-java-format">Google Code Formatter</a> which has also plugins for Eclipse and IntelliJ.
 <h3>
 <font color="#FF0000">Known issue: When the Eclipse formatter is used the line-breakpoints at the formatted lines are lost. Class/Method/Field breakpoints will be preserved.</font>
 </h3>
@@ -20,7 +23,7 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <ul>
 <li>Global configuration and project specific configuration</li>
 <li>On save action (Disabled by default)</li>
-<li>Shows the used formatter as notification  (Enabled by default)</li>
+<li>Shows the used formatter in a notification (Disabled by default)</li>
 <li>Supports profiles (since 1.6)</li>
 <li>Supports format of selected text (since 1.7)</li>
 <li>Preserve breakpoints (experimental) (since 1.8)</li>
@@ -32,13 +35,22 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <li>Support configuration of source level (since 1.10)</li>
 <li>Support for macro invocation (since 1.12)</li>
 <li>Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted) (since 1.13)</li>
+<li>Support for Google code formatter (since 1.13)</li>
 </ul>
 
-<img src="https://raw.githubusercontent.com/funfried/eclipsecodeformatter_for_netbeans/master/doc/global.png">
+<img src="https://raw.githubusercontent.com/funfried/externalcodeformatter_for_netbeans/master/doc/global.png">
 <br>
-<img src="https://raw.githubusercontent.com/funfried/eclipsecodeformatter_for_netbeans/master/doc/project.png">
+<img src="https://raw.githubusercontent.com/funfried/externalcodeformatter_for_netbeans/master/doc/project.png">
 
 <h1>Changelog:</h1>
+<h2>Updates in 1.13-SNAPSHOT:</h2>
+<ul>
+<li>[Feature]: Besides the Eclipse code formatter you can now also configure and use the Google code formatter</li>
+<li>[Feature]: Added editor popup action, so in the context menu of the editor you can also find the "Format with Eclipse formatter" action</li>
+<li>[Feature]: Guarded documents are now supported (e.g. Panels or Dialogs that are created with the NetBeans GUI builder, guarded blocks are skip of course, but every thing in between will be formatted according to the formatter settings)</li>
+<li>[Improvement]: Switched from old Ant based NetBeans plugin project to the new maven project for NetBeans plugins</li>
+</ul>
+
 <h2>Updates in 1.12.2.46 - 4.6 Fork:</h2>
 <ul>
 <li>[<a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/93">Bugfix 93</a>]: Fixed: java.lang.NoClassDefFoundError after another version of the plugin has been uninstalled</li>
@@ -166,6 +178,8 @@ org.eclipse.jdt.core_3.18.0.jar
 </dl>
 <dl><dt><a href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></dt>
 <dd>
+google-java-format-1.7.jar
+guava-28.1-jre.jar
 commons-lang3-3.9.jar
 commons-digester3-3.2.jar
 commons-beanutils-1.9.4.jar
@@ -185,7 +199,7 @@ asm-all-5.2.jar
 </ul>
 
 <p>
-Provide defects, request for enhancements and feedback at <a href="https://github.com/funfried/eclipsecodeformatter_for_netbeans/issues">https://github.com/funfried/eclipsecodeformatter_for_netbeans/issues</a>
+Provide defects, request for enhancements and feedback at <a href="https://github.com/funfried/externalcodeformatter_for_netbeans/issues">https://github.com/funfried/externalcodeformatter_for_netbeans/issues</a>
 </p>
 Compatible to NetBeans 8.2+ and JDK8+.
 

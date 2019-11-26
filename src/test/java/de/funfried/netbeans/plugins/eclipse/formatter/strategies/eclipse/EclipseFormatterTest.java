@@ -3,7 +3,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.ECLIPSE.org/legal/epl-v20.html
+ * http://www.eclipse.org/legal/epl-v20.html
  * Contributors:
  * bahlef - initial API and implementation and/or initial documentation
  */
@@ -11,6 +11,8 @@ package de.funfried.netbeans.plugins.eclipse.formatter.strategies.eclipse;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import de.funfried.netbeans.plugins.eclipse.formatter.options.Settings;
 
 /**
  *
@@ -112,7 +114,7 @@ public class EclipseFormatterTest {
 				+ "}";
 
 		EclipseFormatter formatter = new EclipseFormatter();
-		String actual = formatter.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, "\\r", null, null);
+		String actual = formatter.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\r", System.getProperty("line.separator")), null, null);
 		Assert.assertEquals("Formatting should change the code", expected, actual);
 	}
 
@@ -128,7 +130,7 @@ public class EclipseFormatterTest {
 				+ "}";
 
 		EclipseFormatter formatter = new EclipseFormatter();
-		String actual = formatter.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, "\\n", null, null);
+		String actual = formatter.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", System.getProperty("line.separator")), null, null);
 		Assert.assertEquals("Formatting should change the code", expected, actual);
 	}
 
@@ -144,7 +146,7 @@ public class EclipseFormatterTest {
 				+ "}";
 
 		EclipseFormatter formatter = new EclipseFormatter();
-		String actual = formatter.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, "\\r\\n", null, null);
+		String actual = formatter.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\r\\n", System.getProperty("line.separator")), null, null);
 		Assert.assertEquals("Formatting should change the code", expected, actual);
 	}
 
@@ -154,7 +156,7 @@ public class EclipseFormatterTest {
 		final String expected = null;
 
 		EclipseFormatter formatter = new EclipseFormatter();
-		String actual = formatter.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, "\\n", "1.3", null);
+		String actual = formatter.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", System.getProperty("line.separator")), "1.3", null);
 		Assert.assertEquals("Invalid source code for 1.3 - enum is not a keyword", expected, actual);
 	}
 
@@ -164,7 +166,7 @@ public class EclipseFormatterTest {
 		final String expected = null;
 
 		EclipseFormatter formatter = new EclipseFormatter();
-		String actual = formatter.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, "\\n", "1.4", null);
+		String actual = formatter.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", System.getProperty("line.separator")), "1.4", null);
 		Assert.assertEquals("Invalid source code for 1.4 - enum is not a keyword", expected, actual);
 	}
 
@@ -180,7 +182,7 @@ public class EclipseFormatterTest {
 				+ "}";
 
 		EclipseFormatter formatter = new EclipseFormatter();
-		String actual = formatter.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, "\\n", "1.5", null);
+		String actual = formatter.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", System.getProperty("line.separator")), "1.5", null);
 		Assert.assertEquals("Invalid source code for 1.4 - enum is not a keyword", expected, actual);
 	}
 }

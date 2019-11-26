@@ -29,12 +29,12 @@ import org.openide.util.NbBundle;
  * @author markiewb
  * @author bahlef
  */
-@NbBundle.Messages({ "eclipse-format=Format with Eclipse formatter" })
-@EditorActionRegistration(category = "Source", name = FormatAction.MACRONAME, menuPath = "Source", menuPosition = 299, menuText = "#eclipse-format", popupPath = "", popupPosition = 1599, popupText = "#eclipse-format")
+@NbBundle.Messages({ "external-format=Format with external formatter" })
+@EditorActionRegistration(category = "Source", name = FormatAction.MACRONAME, menuPath = "Source", menuPosition = 299, menuText = "#external-format", popupPath = "", popupPosition = 1599, popupText = "#external-format")
 public class FormatAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 
-	public static final String MACRONAME = "eclipse-format";
+	public static final String MACRONAME = "external-format";
 
 	@Override
 	public void actionPerformed(ActionEvent e, JTextComponent component) {

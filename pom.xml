@@ -4,9 +4,9 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>Eclipse Java Code Formatter for NetBeans</name>
-	<description>Eclipse Java Code Formatter Integration for NetBeans</description>
-	<url>https://github.com/funfried/eclipsecodeformatter_for_netbeans/</url>
+	<name>External Java Code Formatters for NetBeans</name>
+	<description>External (Eclipse and Google) Java Code Formatters Integration for NetBeans</description>
+	<url>https://github.com/funfried/externalcodeformatter_for_netbeans/</url>
 	<inceptionYear>2019</inceptionYear>
 	<licenses>
 		<license>
@@ -16,7 +16,7 @@
 	</licenses>
 
 	<groupId>de.funfried.netbeans.plugins</groupId>
-	<artifactId>eclipsecodeformatter</artifactId>
+	<artifactId>externalcodeformatter</artifactId>
 	<version>1.13-SNAPSHOT</version>
 	<packaging>nbm</packaging>
 
@@ -48,20 +48,20 @@
 	</contributors>
 
 	<scm>
-		<connection>scm:git:https://github.com/funfried/eclipsecodeformatter_for_netbeans.git</connection>
-		<developerConnection>scm:git:git@github.com/funfried/eclipsecodeformatter_for_netbeans.git</developerConnection>
+		<connection>scm:git:https://github.com/funfried/externalcodeformatter_for_netbeans.git</connection>
+		<developerConnection>scm:git:git@github.com/funfried/externalcodeformatter_for_netbeans.git</developerConnection>
 		<tag>HEAD</tag>
-		<url>https://github.com/funfried/eclipsecodeformatter_for_netbeans</url>
+		<url>https://github.com/funfried/externalcodeformatter_for_netbeans</url>
 	</scm>
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/funfried/eclipsecodeformatter_for_netbeans/issues</url>
+		<url>https://github.com/funfried/externalcodeformatter_for_netbeans/issues</url>
 	</issueManagement>
 
 	<ciManagement>
 		<system>travis</system>
-		<url>https://travis-ci.org/funfried/eclipsecodeformatter_for_netbeans/</url>
+		<url>https://travis-ci.org/funfried/externalcodeformatter_for_netbeans/</url>
 	</ciManagement>
 
 	<distributionManagement>
@@ -184,6 +184,25 @@
 		<dependency>
 			<groupId>org.eclipse.platform</groupId>
 			<artifactId>org.eclipse.text</artifactId>
+		</dependency>
+
+		<!-- Google Formatter -->
+		<dependency>
+			<groupId>com.google.googlejavaformat</groupId>
+			<artifactId>google-java-format</artifactId>
+			<version>1.7</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>28.1-jre</version>
 		</dependency>
 
 		<!-- NetBeans API -->

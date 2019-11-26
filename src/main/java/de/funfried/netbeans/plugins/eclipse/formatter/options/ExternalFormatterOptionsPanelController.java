@@ -20,10 +20,10 @@ import org.openide.util.Lookup;
 import org.openide.util.NbPreferences;
 import org.openide.util.WeakListeners;
 
-@OptionsPanelController.SubRegistration(id = "de.funfried.netbeans.plugins.eclipse.formatter.options", location = "Java", displayName = "#AdvancedOption_DisplayName_EclipseFormatter", keywords = "#AdvancedOption_Keywords_EclipseFormatter", keywordsCategory = "Java/EclipseFormatter")
-@org.openide.util.NbBundle.Messages({ "AdvancedOption_DisplayName_EclipseFormatter=Eclipse Formatter", "AdvancedOption_Keywords_EclipseFormatter=Eclipse Formatter" })
-public final class EclipseFormatterOptionsPanelController extends OptionsPanelController implements ChangeListener {
-	private EclipseFormatterPanel panel;
+@OptionsPanelController.SubRegistration(id = "de.funfried.netbeans.plugins.eclipse.formatter.options", location = "Java", displayName = "#AdvancedOption_DisplayName_ExternalFormatter", keywords = "#AdvancedOption_Keywords_ExternalFormatter", keywordsCategory = "Java/ExternalFormatter")
+@org.openide.util.NbBundle.Messages({ "AdvancedOption_DisplayName_ExternalFormatter=External Formatter", "AdvancedOption_Keywords_ExternalFormatter=External Formatter" })
+public final class ExternalFormatterOptionsPanelController extends OptionsPanelController implements ChangeListener {
+	private ExternalFormatterPanel panel;
 
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
@@ -62,14 +62,14 @@ public final class EclipseFormatterOptionsPanelController extends OptionsPanelCo
 	}
 
 	@Override
-	public EclipseFormatterPanel getComponent(Lookup masterLookup) {
+	public ExternalFormatterPanel getComponent(Lookup masterLookup) {
 		return createOrGetPanel();
 	}
 
-	private EclipseFormatterPanel createOrGetPanel() {
+	private ExternalFormatterPanel createOrGetPanel() {
 		if (null == panel) {
-			Preferences globalPreferences = NbPreferences.forModule(EclipseFormatterPanel.class);
-			panel = new EclipseFormatterPanel(globalPreferences, false);
+			Preferences globalPreferences = NbPreferences.forModule(ExternalFormatterPanel.class);
+			panel = new ExternalFormatterPanel(globalPreferences, false);
 			panel.addChangeListener(WeakListeners.change(this, panel));
 		}
 		return panel;

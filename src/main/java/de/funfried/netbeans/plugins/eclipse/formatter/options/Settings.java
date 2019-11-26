@@ -24,6 +24,7 @@ import org.openide.util.NbPreferences;
 /**
  *
  * @author markiewb
+ * @author bahlef
  */
 public class Settings {
 	public static final boolean FEATURE_FORMAT_CHANGED_LINES_ONLY = true;
@@ -67,11 +68,21 @@ public class Settings {
 	 */
 	public static final String SOURCELEVEL = "sourcelevel";
 
+	/**
+	 * @since 1.13
+	 */
+	public static final String GOOGLE_FORMATTER_ENABLED = "googleFormatterEnabled";
+
+	/**
+	 * @since 1.13
+	 */
+	public static final String GOOGLE_FORMATTER_CODE_STYLE = "googleFormatterCodeStyle";
+
 	public static Preferences getActivePreferences(final StyledDocument styledDoc) {
-		Preferences globalPreferences = NbPreferences.forModule(EclipseFormatterPanel.class);
+		Preferences globalPreferences = NbPreferences.forModule(ExternalFormatterPanel.class);
 		Project project = FileOwnerQuery.getOwner(NbEditorUtilities.getDataObject(styledDoc).getPrimaryFile());
 		if (null != project) {
-			Preferences projectPreferences = ProjectUtils.getPreferences(project, EclipseFormatterPanel.class, true);
+			Preferences projectPreferences = ProjectUtils.getPreferences(project, ExternalFormatterPanel.class, true);
 			if (projectPreferences.getBoolean(USE_PROJECT_SETTINGS, false)) {
 				return projectPreferences;
 			}

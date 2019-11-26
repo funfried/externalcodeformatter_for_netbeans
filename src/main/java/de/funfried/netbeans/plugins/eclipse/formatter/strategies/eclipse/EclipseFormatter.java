@@ -66,22 +66,23 @@ public final class EclipseFormatter {
 		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_SOURCE, level);
 	}
 
-	public String format(String formatterFile, String formatterProfile, String code, String lineFeedSetting, String sourceLevel, SortedSet<Pair<Integer, Integer>> changedElements)
+	EclipseFormatter() {
+	}
+
+	public String format(String formatterFile, String formatterProfile, String code, String lineFeed, String sourceLevel, SortedSet<Pair<Integer, Integer>> changedElements)
 			throws ProfileNotFoundException, CannotLoadConfigurationException {
-		if(code == null) {
+		if (code == null) {
 			return null;
 		}
 
 		Map<String, String> allConfig = readConfig(formatterFile, formatterProfile, sourceLevel);
-
-		String lineFeed = Settings.getLineFeed(lineFeedSetting, null);
 
 		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);
 		//see http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FCodeFormatter.html&anchor=format(int,
 
 		List<IRegion> regions = new ArrayList<>();
 		if (!CollectionUtils.isEmpty(changedElements)) {
-			for(Pair<Integer, Integer> changedElement : changedElements) {
+			for (Pair<Integer, Integer> changedElement : changedElements) {
 				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));
 			}
 		} else {
@@ -102,7 +103,7 @@ public final class EclipseFormatter {
 
 				formattedCode = dc.get();
 
-				if(Objects.equals(code, formattedCode)) {
+				if (Objects.equals(code, formattedCode)) {
 					return null;
 				}
 			} catch (Exception ex) {
