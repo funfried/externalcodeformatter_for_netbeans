@@ -486,7 +486,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<licenseName>Eclipse Public License, Version 2.0</licenseName>
-					<licenseFile>${basedir}/src/main/resources/de/funfried/netbeans/plugins/eclipse/formatter/epl-v20.html</licenseFile>
+					<licenseFile>${basedir}/src/main/resources/de/funfried/netbeans/plugins/external/formatter/epl-v20.html</licenseFile>
 					<distributionUrl>https://github.com/funfried/eclipsecodeformatter_for_netbeans/</distributionUrl>
 					<author>Fabian Bahle (info@funfried.de) and others / original authors: benno.markiewicz@googlemail.com, geertjan.wielenga@oracle.com and williescholtz@gmail.com</author>
 				</configuration>

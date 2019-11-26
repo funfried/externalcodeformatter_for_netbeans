@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-OpenIDE-Module-Layer: de/funfried/netbeans/plugins/eclipse/formatter/layer.xml
-OpenIDE-Module-Localizing-Bundle: de/funfried/netbeans/plugins/eclipse/formatter/Bundle.properties
+OpenIDE-Module-Layer: de/funfried/netbeans/plugins/external/formatter/layer.xml
+OpenIDE-Module-Localizing-Bundle: de/funfried/netbeans/plugins/external/formatter/Bundle.properties
