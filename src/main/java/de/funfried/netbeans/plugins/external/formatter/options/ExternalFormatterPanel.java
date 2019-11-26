@@ -463,7 +463,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 
 	private void btnDonateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDonateMouseClicked
 		try {
-			HtmlBrowser.URLDisplayer.getDefault().showURLExternal(new URL("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T29T6JHK5GSYC&source=url"));
+			HtmlBrowser.URLDisplayer.getDefault().showURLExternal(new URL("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url"));
 		} catch (MalformedURLException ex) {
 			Exceptions.printStackTrace(ex);
 		}

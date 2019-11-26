@@ -1,4 +1,4 @@
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T29T6JHK5GSYC&source=url)
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url)
 
 [![Build Status](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master)](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans)
 
@@ -203,4 +203,4 @@ Provide defects, request for enhancements and feedback at <a href="https://githu
 </p>
 Compatible to NetBeans 8.2+ and JDK8+.
 
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T29T6JHK5GSYC&source=url)
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url)
