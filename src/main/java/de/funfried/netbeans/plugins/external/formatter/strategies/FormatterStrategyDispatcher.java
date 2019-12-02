@@ -59,30 +59,30 @@ public class FormatterStrategyDispatcher {
 		return instance;
 	}
 
-	public void format(ParameterObject po) {
+	public void format(FormatterAdvice fa) {
 		try {
-			final StyledDocument styledDoc = po.styledDoc;
+			final StyledDocument styledDoc = fa.styledDoc;
 
 			if (eclipseStrategy.canHandle(styledDoc)) {
 				try {
-					eclipseStrategy.format(po);
+					eclipseStrategy.format(fa);
 				} catch (FileTypeNotSupportedException ex) {
 					log.log(Level.FINE, "Could not use Eclipse formatter for given document", ex);
 
 					// fallback to NetBeans formatter, but should not be possible because of canHandle call before
-					netbeansStrategy.format(po);
+					netbeansStrategy.format(fa);
 				}
 			} else if (googleStrategy.canHandle(styledDoc)) {
 				try {
-					googleStrategy.format(po);
+					googleStrategy.format(fa);
 				} catch (FileTypeNotSupportedException ex) {
 					log.log(Level.FINE, "Could not use Google formatter for given document", ex);
 
 					// fallback to NetBeans formatter, but should not be possible because of canHandle call before
-					netbeansStrategy.format(po);
+					netbeansStrategy.format(fa);
 				}
 			} else {
-				netbeansStrategy.format(po);
+				netbeansStrategy.format(fa);
 			}
 		} catch (Exception e) {
 			Exceptions.printStackTrace(e);

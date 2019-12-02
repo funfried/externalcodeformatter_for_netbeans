@@ -12,7 +12,6 @@ package de.funfried.netbeans.plugins.external.formatter.strategies.google;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.SortedSet;
-import java.util.logging.Logger;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -27,12 +26,18 @@ import com.google.googlejavaformat.java.JavaFormatterOptions;
  * @author bahlef
  */
 public final class GoogleFormatter {
-	private static final Logger log = Logger.getLogger(GoogleFormatter.class.getName());
-
 	GoogleFormatter() {
 	}
 
 	public String format(String code, JavaFormatterOptions.Style codeStyle, SortedSet<Pair<Integer, Integer>> changedElements) {
+		if (code == null) {
+			return null;
+		}
+
+		if (codeStyle == null) {
+			codeStyle = JavaFormatterOptions.Style.GOOGLE;
+		}
+
 		Collection<Range<Integer>> characterRanges = new ArrayList<>();
 		if (!CollectionUtils.isEmpty(changedElements)) {
 			for (Pair<Integer, Integer> changedElement : changedElements) {

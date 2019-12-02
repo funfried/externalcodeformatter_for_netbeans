@@ -26,6 +26,26 @@
 		</fluidoSkin>
 	</custom>
 
+	<version position="right"/>
+	<publishDate position="right" />
+
+	<bannerLeft>
+		<name>External Java Code Formatters for NetBeans</name>
+		<src>imgs/logos/externalcodeformatter.png</src>
+		<href>http://ecf.funfried.de</href>
+	</bannerLeft>
+
+	<bannerRight>
+		<name>Apache NetBeans</name>
+		<src>imgs/logos/netbeans.png</src>
+		<href>https://netbeans.apache.org/</href>
+	</bannerRight>
+
+	<poweredBy>
+		<logo name="Maven" href="https://maven.apache.org/" img="https://maven.apache.org/images/logos/maven-feather.png" />
+		<logo name="Apache NetBeans" href="https://netbeans.apache.org/" img="imgs/logos/netbeans_small.png" />
+	</poweredBy>
+
 	<body>
 		<breadcrumbs>
 			<item name="Home" href="index.html" />
@@ -37,8 +57,10 @@
 		<menu ref="reports" />
 
 		<links>
+			<item name="Apache NetBeans" href="http://netbeans.apache.org" />
 			<item name="funfried.de" href="https://www.funfried.de/en/" />
 			<item name="Donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=926F5XBCTK2LQ&amp;source=url" />
+			<item name="GitHub project page" href="https://github.com/funfried/externalcodeformatter_for_netbeans/" />
 		</links>
 	</body>
 </project>

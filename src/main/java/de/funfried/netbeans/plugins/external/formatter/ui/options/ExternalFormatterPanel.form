@@ -208,7 +208,7 @@
         <Component class="javax.swing.JButton" name="browseButton">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.browseButton.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.browseButton.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Events>
@@ -222,14 +222,14 @@
               <ComponentRef name="formatterLocField"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.lblFormatterFile.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.lblFormatterFile.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="formatterLocField">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.formatterLocField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.formatterLocField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Events>
@@ -242,10 +242,10 @@
               <Color blue="33" green="33" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.errorLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.errorLabel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.errorLabel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.errorLabel.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
@@ -256,7 +256,7 @@
               <ComponentRef name="cbProfile"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.lblProfile.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.lblProfile.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
@@ -276,20 +276,20 @@
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.jLabel2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.jLabel2.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <AccessibilityProperties>
             <Property name="AccessibleContext.accessibleName" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.jLabel2.AccessibleContext.accessibleName" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.jLabel2.AccessibleContext.accessibleName" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </AccessibilityProperties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="cbUseProjectPref">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.cbUseProjectPref.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.cbUseProjectPref.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
@@ -300,10 +300,10 @@
               <ComponentRef name="cbLinefeed"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.lblLinefeed.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.lblLinefeed.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.lblLinefeed.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.lblLinefeed.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
@@ -331,7 +331,7 @@
               <ComponentRef name="cbSourceLevel"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.lblSourceLevel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.lblSourceLevel.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>
@@ -365,7 +365,7 @@
         </Property>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.rbUseNetBeans.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.rbUseNetBeans.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
@@ -378,10 +378,10 @@
           <ComponentRef name="formatterBtnGrp"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.rbUseEclipse.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.rbUseEclipse.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.rbUseEclipse.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.rbUseEclipse.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
@@ -391,17 +391,17 @@
     <Component class="javax.swing.JLabel" name="txtProjectSpecificHint">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.txtProjectSpecificHint.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.txtProjectSpecificHint.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="cbShowNotifications">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.cbShowNotifications.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.cbShowNotifications.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.cbShowNotifications.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.cbShowNotifications.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
@@ -411,7 +411,7 @@
     <Component class="javax.swing.JCheckBox" name="cbEnableSaveAction">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.cbEnableSaveAction.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.cbEnableSaveAction.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
@@ -422,7 +422,7 @@
       <Properties>
         <Property name="horizontalAlignment" type="int" value="4"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.btnDonate.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.btnDonate.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Handcursor"/>
@@ -436,7 +436,7 @@
       <Properties>
         <Property name="horizontalAlignment" type="int" value="4"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.btnVisitHomePage.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.btnVisitHomePage.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Handcursor"/>
@@ -449,7 +449,7 @@
     <Component class="javax.swing.JCheckBox" name="cbEnableSaveActionModifiedLinesOnly">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.cbEnableSaveActionModifiedLinesOnly.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.cbEnableSaveActionModifiedLinesOnly.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
@@ -462,7 +462,7 @@
           <ComponentRef name="formatterBtnGrp"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.rbUseGoogle.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.rbUseGoogle.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
@@ -473,7 +473,7 @@
       <Properties>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.cbPreserveBreakpoints.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.cbPreserveBreakpoints.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
@@ -483,7 +483,7 @@
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.jLabel4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.jLabel4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
@@ -533,7 +533,7 @@
             </Property>
             <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.googleCodeStyleRdBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.googleCodeStyleRdBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Events>
@@ -546,7 +546,7 @@
               <ComponentRef name="googleCodeStyleBtnGrp"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.aospRdBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.aospRdBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Events>
@@ -556,7 +556,7 @@
         <Component class="javax.swing.JLabel" name="googleCodeStyleLbl">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/options/Bundle.properties" key="ExternalFormatterPanel.googleCodeStyleLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.googleCodeStyleLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
         </Component>

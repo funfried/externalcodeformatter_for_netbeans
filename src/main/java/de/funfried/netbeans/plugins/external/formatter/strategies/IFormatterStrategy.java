@@ -19,5 +19,5 @@ import javax.swing.text.StyledDocument;
 public interface IFormatterStrategy {
 	boolean canHandle(StyledDocument document);
 
-	void format(ParameterObject po);
+	void format(FormatterAdvice fa);
 }

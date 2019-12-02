@@ -9,7 +9,7 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.netbeans;
 
-import de.funfried.netbeans.plugins.external.formatter.strategies.ParameterObject;
+import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
 import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStrategy;
 
 import javax.swing.text.BadLocationException;
@@ -26,20 +26,21 @@ import org.openide.util.Exceptions;
  */
 public class NetBeansFormatterStrategy implements IFormatterStrategy {
 	/**
-	 * @param po the {@link ParameterObject}
+	 * @param fa the {@link FormatterAdvice}
 	 */
 	@Override
-	public void format(ParameterObject po) {
-		final int selectionStart = po.selectionStart;
-		final int selectionEnd = po.selectionEnd;
-		final boolean forSave = po.forSave;
-		final StyledDocument document = po.styledDoc;
+	public void format(FormatterAdvice fa) {
+		final int selectionStart = fa.selectionStart;
+		final int selectionEnd = fa.selectionEnd;
+		final boolean forSave = fa.forSave;
+		final StyledDocument document = fa.styledDoc;
 
 		final Reformat rf = Reformat.get(document);
 		rf.lock();
+
 		// only care about selection if reformatting on menu action and not on file save
-		final int _dot = (!forSave) ? selectionStart : -1;
-		final int _mark = (!forSave) ? selectionEnd : -1;
+		final int _dot = !forSave ? selectionStart : -1;
+		final int _mark = !forSave ? selectionEnd : -1;
 
 		try {
 			NbDocument.runAtomicAsUser(document, new NetBeansFormatterRunnable(document, rf, _dot, _mark));

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+	<properties>
+		<title>About</title>
+		<author email="info@funfried.de">Fabian Bahle</author>
+	</properties>
+
+	<body>
+		<section name="What is External Java Code Formatters for NetBeans?">
+			<p>
+				This is the project page of the <a href="https://netbeans.apache.org">NetBeans IDE</a> plugin
+				<i>External Java Code Formatters for NetBeans</i>. This plugin adds the possibility to use
+				third-party Java Code Formatters (as for now the
+				<a href="https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.user%2Freference%2Fpreferences%2Fjava%2Fcodestyle%2Fref-preferences-formatter.htm">
+					Eclipse Java Code Formatter
+				</a> and the <a href="https://github.com/google/google-java-format">Google Java Code Formatter</a>)
+				inside the NetBeans IDE. This plugin helps you to apply to a common code style in a team of
+				Eclipse JDT and NetBeans IDE users.
+			</p>
+		</section>
+	</body>
+</document>

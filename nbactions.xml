@@ -7,4 +7,11 @@
                 <goal>formatter:format</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-site</actionName>
+            <displayName>site</displayName>
+            <goals>
+                <goal>site:site</goal>
+            </goals>
+        </action>
     </actions>

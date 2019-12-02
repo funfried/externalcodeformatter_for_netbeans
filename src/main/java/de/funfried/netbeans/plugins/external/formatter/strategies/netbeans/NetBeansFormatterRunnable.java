@@ -19,7 +19,8 @@ import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
 
 import de.funfried.netbeans.plugins.external.formatter.Utils;
-import de.funfried.netbeans.plugins.external.formatter.options.Settings;
+import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  *
@@ -56,7 +57,7 @@ class NetBeansFormatterRunnable implements Runnable {
 			if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
 				String detail = getNotificationMessageForNetBeans(Utils.isJava(document));
 
-				NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Utils.iconNetBeans, detail, null);
+				NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Icons.ICON_NETBEANS, detail, null);
 			}
 
 			StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");

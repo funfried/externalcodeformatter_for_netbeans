@@ -10,7 +10,7 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 
-import de.funfried.netbeans.plugins.external.formatter.options.Settings;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.Profile;
@@ -70,7 +70,7 @@ public final class EclipseFormatter {
 	}
 
 	public String format(String formatterFile, String formatterProfile, String code, String lineFeed, String sourceLevel, SortedSet<Pair<Integer, Integer>> changedElements)
-			throws ProfileNotFoundException, CannotLoadConfigurationException {
+			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException {
 		if (code == null) {
 			return null;
 		}
@@ -96,7 +96,7 @@ public final class EclipseFormatter {
 		String formattedCode = null;
 
 		TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);
-		if ((te != null) && (te.getChildrenSize() > 0)) {
+		if (te != null && te.getChildrenSize() > 0) {
 			try {
 				IDocument dc = new Document(code);
 				te.apply(dc);
@@ -143,7 +143,7 @@ public final class EclipseFormatter {
 		return null;
 	}
 
-	private Map<String, String> readConfig(String formatterFile, String formatterProfile, String sourceLevel) throws ProfileNotFoundException, CannotLoadConfigurationException {
+	private Map<String, String> readConfig(String formatterFile, String formatterProfile, String sourceLevel) throws ProfileNotFoundException, ConfigReadException, CannotLoadConfigurationException {
 		Map<String, String> allConfig = new HashMap<>();
 		try {
 			Map<String, String> configFromFile;
@@ -174,7 +174,7 @@ public final class EclipseFormatter {
 						+ "See https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77\n"
 						+ "Try to remove the entry 'org.eclipse.jdt.core.javaFormatter' from the configuration.");
 			}
-		} catch (ProfileNotFoundException ex) {
+		} catch (ConfigReadException | ProfileNotFoundException ex) {
 			log.log(Level.WARNING, "Could not load configuration: " + formatterFile, ex);
 
 			throw ex;

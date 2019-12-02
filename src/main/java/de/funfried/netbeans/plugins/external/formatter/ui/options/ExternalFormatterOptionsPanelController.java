@@ -7,7 +7,7 @@
  * Contributors:
  * markiewb - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.options;
+package de.funfried.netbeans.plugins.external.formatter.ui.options;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -20,7 +20,7 @@ import org.openide.util.Lookup;
 import org.openide.util.NbPreferences;
 import org.openide.util.WeakListeners;
 
-@OptionsPanelController.SubRegistration(id = "de.funfried.netbeans.plugins.external.formatter.options", location = "Java", displayName = "#AdvancedOption_DisplayName_ExternalFormatter", keywords = "#AdvancedOption_Keywords_ExternalFormatter", keywordsCategory = "Java/ExternalFormatter")
+@OptionsPanelController.SubRegistration(id = "de.funfried.netbeans.plugins.external.formatter.ui.options", location = "Java", displayName = "#AdvancedOption_DisplayName_ExternalFormatter", keywords = "#AdvancedOption_Keywords_ExternalFormatter", keywordsCategory = "Java/ExternalFormatter")
 @org.openide.util.NbBundle.Messages({ "AdvancedOption_DisplayName_ExternalFormatter=External Formatter", "AdvancedOption_Keywords_ExternalFormatter=External Formatter" })
 public final class ExternalFormatterOptionsPanelController extends OptionsPanelController implements ChangeListener {
 	private ExternalFormatterPanel panel;

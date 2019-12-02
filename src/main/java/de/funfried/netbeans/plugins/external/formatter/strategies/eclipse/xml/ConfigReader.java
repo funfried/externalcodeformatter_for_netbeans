@@ -2,7 +2,9 @@ package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.digester3.Digester;
 
@@ -28,12 +30,17 @@ public class ConfigReader {
 	 * @throws IOException         if there is a I/O issue
 	 * @throws ConfigReadException if the given file is not a eclipse formatter template
 	 */
+	@NotNull
 	public List<Profile> read(File normalizedFile) throws IOException, SAXException, ConfigReadException {
+		if (normalizedFile == null) {
+			return new ArrayList<>();
+		}
+
 		Digester digester = new Digester();
 		digester.addRuleSet(new RuleSet());
 
 		Object result = digester.parse(normalizedFile);
-		if (result == null && !(result instanceof Profiles)) {
+		if (result == null || !(result instanceof Profiles)) {
 			throw new ConfigReadException("No profiles found in config file");
 		}
 

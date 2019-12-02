@@ -5,8 +5,9 @@ package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml;
  * formatter profile of an Eclipse formatter config file.
  * 
  * @author Matt Blanchette
+ * @author bahlef
  */
-public class ConfigReadException extends Exception {
+public class ConfigReadException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	public ConfigReadException(String message) {

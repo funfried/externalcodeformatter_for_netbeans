@@ -7,7 +7,7 @@
  * Contributors:
  * markiewb - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.options;
+package de.funfried.netbeans.plugins.external.formatter.ui.options;
 
 import java.util.prefs.Preferences;
 
@@ -19,6 +19,8 @@ import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.editor.BaseDocument;
 import org.netbeans.modules.editor.NbEditorUtilities;
+import org.openide.filesystems.FileObject;
+import org.openide.loaders.DataObject;
 import org.openide.util.NbPreferences;
 
 /**
@@ -80,11 +82,17 @@ public class Settings {
 
 	public static Preferences getActivePreferences(final StyledDocument styledDoc) {
 		Preferences globalPreferences = NbPreferences.forModule(ExternalFormatterPanel.class);
-		Project project = FileOwnerQuery.getOwner(NbEditorUtilities.getDataObject(styledDoc).getPrimaryFile());
-		if (null != project) {
-			Preferences projectPreferences = ProjectUtils.getPreferences(project, ExternalFormatterPanel.class, true);
-			if (projectPreferences.getBoolean(USE_PROJECT_SETTINGS, false)) {
-				return projectPreferences;
+		DataObject dataObj = NbEditorUtilities.getDataObject(styledDoc);
+		if (dataObj != null) {
+			FileObject primaryFile = dataObj.getPrimaryFile();
+			if (primaryFile != null) {
+				Project project = FileOwnerQuery.getOwner(primaryFile);
+				if (null != project) {
+					Preferences projectPreferences = ProjectUtils.getPreferences(project, ExternalFormatterPanel.class, true);
+					if (projectPreferences.getBoolean(USE_PROJECT_SETTINGS, false)) {
+						return projectPreferences;
+					}
+				}
 			}
 		}
 
@@ -92,15 +100,15 @@ public class Settings {
 	}
 
 	public static boolean isWorkspaceMechanicFile(String filename) {
-		return filename.endsWith("epf");
+		return filename != null && filename.endsWith("epf");
 	}
 
 	public static boolean isXMLConfigurationFile(String filename) {
-		return filename.endsWith("xml");
+		return filename != null && filename.endsWith("xml");
 	}
 
 	public static boolean isProjectSetting(String filename) {
-		return filename.endsWith(PROJECT_PREF_FILE);
+		return filename != null && filename.endsWith(PROJECT_PREF_FILE);
 	}
 
 	public static String getLineFeed(String lineFeedSetting, String fallback) {
@@ -117,6 +125,9 @@ public class Settings {
 					break;
 				case "\\r\\n":
 					linefeed = BaseDocument.LS_CRLF;
+					break;
+				default:
+					linefeed = null;
 					break;
 			}
 		}

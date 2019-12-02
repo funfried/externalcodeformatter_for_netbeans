@@ -7,7 +7,7 @@
  * Contributors:
  * markiewb - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.customizer;
+package de.funfried.netbeans.plugins.external.formatter.ui.customizer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +20,7 @@ import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 
-import de.funfried.netbeans.plugins.external.formatter.options.ExternalFormatterPanel;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
 
 import org.netbeans.spi.project.ui.support.ProjectCustomizer;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer.Category;
@@ -29,7 +29,7 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.WeakListeners;
 
-import de.funfried.netbeans.plugins.external.formatter.Utils;
+import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 
 public class ExternalFormatterCustomizerTab implements ProjectCustomizer.CompositeCategoryProvider {
 	private final String name;
@@ -40,7 +40,7 @@ public class ExternalFormatterCustomizerTab implements ProjectCustomizer.Composi
 
 	@Override
 	public Category createCategory(Lookup lkp) {
-		return ProjectCustomizer.Category.create(name, name, ImageUtilities.loadImage(Utils.EXTERNAL_FORMATTER_ICON_PATH, false));
+		return ProjectCustomizer.Category.create(name, name, ImageUtilities.loadImage(Icons.EXTERNAL_FORMATTER_ICON_PATH, false));
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class ExternalFormatterCustomizerTab implements ProjectCustomizer.Composi
 		return new ExternalFormatterCustomizerTab(Bundle.LBL_Config());
 	}
 
-	private class ValidationListener implements ChangeListener {
+	private static class ValidationListener implements ChangeListener {
 		private final Category category;
 
 		private final ProjectSpecificSettingsPanel projectSpecificPanel;

@@ -8,10 +8,10 @@
  * markiewb - initial API and implementation and/or initial documentation
  * Saad Mufti <saad.mufti@teamaol.com>
  */
-package de.funfried.netbeans.plugins.external.formatter.actions;
+package de.funfried.netbeans.plugins.external.formatter.ui.actions;
 
 import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
-import de.funfried.netbeans.plugins.external.formatter.strategies.ParameterObject;
+import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
 
 import java.awt.event.ActionEvent;
 
@@ -48,15 +48,6 @@ public class FormatAction extends BaseAction {
 
 		final StyledDocument document = (StyledDocument) component.getDocument();
 
-		ParameterObject po = new ParameterObject();
-		po.styledDoc = document;
-		po.changedElements = null;
-		po.forSave = false;
-		po.selectionStart = start;
-		po.selectionEnd = end;
-		po.caret = caret;
-		po.editor = component;
-
-		FormatterStrategyDispatcher.getInstance().format(po);
+		FormatterStrategyDispatcher.getInstance().format(new FormatterAdvice(document, start, end, caret, component));
 	}
 }

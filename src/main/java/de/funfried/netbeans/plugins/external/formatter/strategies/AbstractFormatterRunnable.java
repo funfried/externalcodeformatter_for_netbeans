@@ -9,6 +9,7 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies;
 
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +23,7 @@ import java.util.logging.Logger;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
+import org.apache.commons.collections4.CollectionUtils;
 
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
@@ -38,6 +40,7 @@ import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
+import org.netbeans.editor.BaseDocument;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -173,13 +176,13 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 								// do not use guard.getText() because it sometimes returns code without new line characters, e.g. for generated action methods
 								String guardedCode = code.substring(guard.getStartPosition().getOffset(), guard.getEndPosition().getOffset() + 1);
 
-								log.log(Level.FINEST, "Guard {0}: ''{1}''", new Object[]{guard.getName(), guardedCode});
+								log.log(Level.FINEST, "Guard {0}: ''{1}''", new Object[] { guard.getName(), guardedCode });
 
 								// guarded code is not formatted, so it can be found
 								// by it's former formatting in the formatted code
 								guardStart = formattedContent.indexOf(guardedCode);
 								if (guardStart == -1) {
-									log.log(Level.FINEST, "Could not find guarded code ''{0}'' after reformat into ''{1}''", new Object[]{guardedCode, formattedContent});
+									log.log(Level.FINEST, "Could not find guarded code ''{0}'' after reformat into ''{1}''", new Object[] { guardedCode, formattedContent });
 
 									continue;
 								}
@@ -190,12 +193,12 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 
 							String formattedCodePart = formattedContent.substring(startFormattedCode, endFormattedCode.getValue() + 1);
 
-							log.log(Level.FINEST, "Formatted code part ({0}-{1}/{2}): ''{3}''", new Object[]{startFormattedCode, endFormattedCode.getValue(), formattedCodePart.length(), formattedCodePart});
+							log.log(Level.FINEST, "Formatted code part ({0}-{1}/{2}): ''{3}''", new Object[] { startFormattedCode, endFormattedCode.getValue(), formattedCodePart.length(), formattedCodePart });
 
 							try {
 								String unformattedCodePart = document.getText(startOldCode, (endOldCode - startOldCode) + 1);
 
-								log.log(Level.FINEST, "Previous code part ({0}-{1}/{2}): ''{3}''", new Object[]{startOldCode, endOldCode, ((endOldCode - startOldCode) + 1), unformattedCodePart});
+								log.log(Level.FINEST, "Previous code part ({0}-{1}/{2}): ''{3}''", new Object[] { startOldCode, endOldCode, (endOldCode - startOldCode) + 1, unformattedCodePart });
 
 								if (!Objects.equals(unformattedCodePart, formattedCodePart)) {
 									// to avoid loosing unguarded sections before or after a guarded section,
@@ -311,7 +314,8 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 				try {
 					toFileObject = FileUtil.toFileObject(FileUtil.normalizeFile(Utilities.toFile(new URI(url))));
 				} catch (Exception ex) {
-					log.log(Level.WARNING, "{0} cannot be converted to URI/File: {1}. Please see https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/55 and report to https://github.com/funfried/externalcodeformatter_for_netbeans/issues/",
+					log.log(Level.WARNING,
+							"{0} cannot be converted to URI/File: {1}. Please see https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/55 and report to https://github.com/funfried/externalcodeformatter_for_netbeans/issues/",
 							new Object[] { url, ex.getMessage() });
 					continue;
 				}
@@ -320,7 +324,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 					continue;
 				}
 
-				if (fileOfCurrentClass.equals(toFileObject)) {
+				if (toFileObject.equals(fileOfCurrentClass)) {
 					result.add(breakpoint);
 				}
 			}
@@ -378,6 +382,51 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		}
 		//Support innerTypes like com.company.Foo$InnerClass
 		return className.startsWith(fqnOfTopMostType + "$");
+	}
+
+	protected String getCode(String lineFeedSetting) throws BadLocationException {
+		//save with configured linefeed
+		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty("line.separator"));
+		if (null != lineFeedSetting) {
+			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);
+			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);
+		}
+
+		return document.getText(0, document.getLength());
+	}
+
+	protected SortedSet<Pair<Integer, Integer>> getFormattableSections(String code, GuardedSectionManager guards) {
+		SortedSet<Pair<Integer, Integer>> regions = changedElements;
+		if (CollectionUtils.isEmpty(changedElements)) {
+			regions = new TreeSet<>();
+
+			if (this.startOffset > -1 && this.endOffset > -1) {
+				regions.add(Pair.of(this.startOffset, this.endOffset));
+			} else {
+				regions.add(Pair.of(0, code.length() - 1));
+			}
+		}
+
+		if (guards != null) {
+			SortedSet<Pair<Integer, Integer>> nonGuardedSections = new TreeSet<>();
+			Iterable<GuardedSection> guardedSections = guards.getGuardedSections();
+
+			StringBuilder sb = new StringBuilder();
+			guardedSections.forEach(guard -> sb.append(guard.getStartPosition().getOffset()).append("/").append(guard.getEndPosition().getOffset()).append(" "));
+			log.log(Level.FINEST, "Guarded sections: {0}", sb.toString().trim());
+
+			for (Pair<Integer, Integer> changedElement : regions) {
+				nonGuardedSections.addAll(avoidGuardedSection(changedElement, guardedSections));
+			}
+
+			regions = nonGuardedSections;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		regions.stream().forEach(section -> sb.append(section.getLeft()).append("/").append(section.getRight()).append(" "));
+		log.log(Level.FINEST, "Formating sections: {0}", sb.toString().trim());
+
+		return regions;
 	}
 
 	protected SortedSet<Pair<Integer, Integer>> avoidGuardedSection(Pair<Integer, Integer> section, Iterable<GuardedSection> guardedSections) {

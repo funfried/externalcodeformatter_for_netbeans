@@ -46,7 +46,7 @@
                 <Component class="javax.swing.JCheckBox" name="cbOverrideGlobalSettings">
                   <Properties>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/customizer/Bundle.properties" key="ProjectSpecificSettingsPanel.cbOverrideGlobalSettings.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/customizer/Bundle.properties" key="ProjectSpecificSettingsPanel.cbOverrideGlobalSettings.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
                   <Events>
@@ -62,7 +62,7 @@
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="4"/>
                     <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/customizer/Bundle.properties" key="ProjectSpecificSettingsPanel.lblJumpToGlobalOptions.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/customizer/Bundle.properties" key="ProjectSpecificSettingsPanel.lblJumpToGlobalOptions.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </Properties>
                   <Events>

@@ -7,9 +7,9 @@
  * Contributors:
  * markiewb - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.options;
+package de.funfried.netbeans.plugins.external.formatter.ui.options;
 
-import de.funfried.netbeans.plugins.external.formatter.customizer.VerifiableConfigPanel;
+import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableConfigPanel;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.Profile;
@@ -40,25 +40,20 @@ import org.xml.sax.SAXException;
 
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
-@Keywords(location = "Java", tabTitle = "External Formatter", keywords = {"eclipse", "google", "external", "format", "formatter", "eclipse formatter", "google formatter", "external formatter"})
+@Keywords(location = "Java", tabTitle = "External Formatter", keywords = { "eclipse", "google", "external", "format", "formatter", "eclipse formatter", "google formatter", "external formatter" })
 public class ExternalFormatterPanel extends javax.swing.JPanel implements VerifiableConfigPanel {
 	private static final long serialVersionUID = 1L;
 
-	private final Preferences preferences;
+	private transient final Collection<ChangeListener> changeListeners = new ArrayList<>();
+
+	private transient final Preferences preferences;
 
 	private final boolean showsProjectSettings;
 
-	public Preferences getPreferences() {
-		return preferences;
-	}
-
-	private transient final Collection<ChangeListener> changeListeners = new ArrayList<>();
-
-	public void addChangeListener(ChangeListener listener) {
-		changeListeners.add(listener);
-	}
-
 	public ExternalFormatterPanel(Preferences preferences, boolean showsProjectSettings) {
+		this.preferences = preferences;
+		this.showsProjectSettings = showsProjectSettings;
+
 		initComponents();
 		updateEnabledState();
 
@@ -85,10 +80,17 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 				fireChangedListener();
 			}
 		});
-		this.preferences = preferences;
-		this.showsProjectSettings = showsProjectSettings;
+
 		this.cbEnableSaveActionModifiedLinesOnly.setVisible(Settings.FEATURE_FORMAT_CHANGED_LINES_ONLY);
 		this.cbEnableSaveActionModifiedLinesOnly.setEnabled(Settings.FEATURE_FORMAT_CHANGED_LINES_ONLY);
+	}
+
+	public Preferences getPreferences() {
+		return preferences;
+	}
+
+	public void addChangeListener(ChangeListener listener) {
+		changeListeners.add(listener);
 	}
 
 	private void fireChangedListener() {
@@ -589,12 +591,14 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		String lineFeed = preferences.get(Settings.LINEFEED, "");
 		String sourceLevel = preferences.get(Settings.SOURCELEVEL, "");
 
-		loadOptionsWindowUI(googleFormatterEnabled, googleFormatterCodeStyle, eclipseFormatterEnabled, eclipseFormatterLocation, eclipseFormatterProfile, showNotifications, enableSaveAction, preserveBreakpoints, useProjectPrefs, enableSaveActionModifiedLines, lineFeed, sourceLevel);
+		loadOptionsWindowUI(googleFormatterEnabled, googleFormatterCodeStyle, eclipseFormatterEnabled, eclipseFormatterLocation, eclipseFormatterProfile, showNotifications, enableSaveAction,
+				preserveBreakpoints, useProjectPrefs, enableSaveActionModifiedLines, lineFeed, sourceLevel);
 
 		fireChangedListener();
 	}
 
-	private void loadOptionsWindowUI(boolean googleFormatterEnabled, String googleFormatterCodeStyle, boolean eclipseFormatterEnabled, String formatterFile, String profile, boolean showNotifications, boolean enableSaveAction, boolean preserveBreakpoints, boolean useProjectPrefs, boolean enableSaveActionModifiedLines, String lineFeed, String sourceLevel) {
+	private void loadOptionsWindowUI(boolean googleFormatterEnabled, String googleFormatterCodeStyle, boolean eclipseFormatterEnabled, String formatterFile, String profile, boolean showNotifications,
+			boolean enableSaveAction, boolean preserveBreakpoints, boolean useProjectPrefs, boolean enableSaveActionModifiedLines, String lineFeed, String sourceLevel) {
 		loadEclipseFormatterFileForPreview(formatterFile, profile);
 
 		if (eclipseFormatterEnabled) {
@@ -605,7 +609,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 			formatterBtnGrp.setSelected(rbUseNetBeans.getModel(), true);
 		}
 
-		if(JavaFormatterOptions.Style.AOSP.name().equals(googleFormatterCodeStyle)) {
+		if (JavaFormatterOptions.Style.AOSP.name().equals(googleFormatterCodeStyle)) {
 			googleCodeStyleBtnGrp.setSelected(aospRdBtn.getModel(), true);
 		} else {
 			googleCodeStyleBtnGrp.setSelected(googleCodeStyleRdBtn.getModel(), true);
@@ -708,9 +712,9 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		if (rbUseEclipse.isSelected()) {
 			final String fileName = formatterLocField.getText();
 			final File file = new File(fileName);
-			final boolean isXML = de.funfried.netbeans.plugins.external.formatter.options.Settings.isXMLConfigurationFile(file.getName());
-			final boolean isEPF = de.funfried.netbeans.plugins.external.formatter.options.Settings.isWorkspaceMechanicFile(file.getName());
-			final boolean isProjectSetting = de.funfried.netbeans.plugins.external.formatter.options.Settings.isProjectSetting(file.getName());
+			final boolean isXML = de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.isXMLConfigurationFile(file.getName());
+			final boolean isEPF = de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.isWorkspaceMechanicFile(file.getName());
+			final boolean isProjectSetting = de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.isProjectSetting(file.getName());
 			if (isXML && cbProfile.getSelectedIndex() == 0) {
 				//"choose profile" entry is selected
 				return false;

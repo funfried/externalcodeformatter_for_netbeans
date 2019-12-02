@@ -7,7 +7,7 @@
  * Contributors:
  * markiewb - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.customizer;
+package de.funfried.netbeans.plugins.external.formatter.ui.customizer;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -16,16 +16,16 @@ import java.util.prefs.Preferences;
 
 import javax.swing.event.ChangeListener;
 
-import de.funfried.netbeans.plugins.external.formatter.options.ExternalFormatterPanel;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
 
 import org.netbeans.api.options.OptionsDisplayer;
 
-import de.funfried.netbeans.plugins.external.formatter.options.Settings;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements VerifiableConfigPanel {
 	private static final long serialVersionUID = 1L;
 
-	private final Preferences projectPreferences;
+	private transient final Preferences projectPreferences;
 
 	private final ExternalFormatterPanel innerComponent;
 
@@ -91,7 +91,7 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
 	}//GEN-LAST:event_cbOverrideGlobalSettingsActionPerformed
 
 	private void lblJumpToGlobalOptionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJumpToGlobalOptionsMouseClicked
-		OptionsDisplayer.getDefault().open("Java" + "/de.funfried.netbeans.plugins.external.formatter.options");
+		OptionsDisplayer.getDefault().open("Java" + "/de.funfried.netbeans.plugins.external.formatter.ui.options");
 	}//GEN-LAST:event_lblJumpToGlobalOptionsMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -103,7 +103,7 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
     private javax.swing.JScrollPane scrollPane;
     // End of variables declaration//GEN-END:variables
 
-@Override
+	@Override
 	public void load() {
 		boolean useProjectSettings = projectPreferences.getBoolean(Settings.USE_PROJECT_SETTINGS, false);
 		cbOverrideGlobalSettings.setSelected(useProjectSettings);
