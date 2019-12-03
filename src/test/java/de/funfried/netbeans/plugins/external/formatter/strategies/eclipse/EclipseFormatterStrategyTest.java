@@ -9,17 +9,20 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 
-import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
-import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import java.util.prefs.Preferences;
+
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyledDocument;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.netbeans.junit.NbTestCase;
 import org.openide.util.NbPreferences;
+
+import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
+import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  *

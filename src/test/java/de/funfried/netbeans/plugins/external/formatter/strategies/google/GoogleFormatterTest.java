@@ -9,13 +9,15 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.google;
 
-import com.google.googlejavaformat.java.JavaFormatterOptions;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.google.googlejavaformat.java.JavaFormatterOptions;
 
 /**
  *

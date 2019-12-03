@@ -9,14 +9,18 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
-import org.junit.Assert;
-import org.junit.Test;
-
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
-import org.junit.BeforeClass;
 
 /**
  *
@@ -241,6 +245,30 @@ public class EclipseFormatterTest {
 			instance.format("src/test/resources/notexistent.xml", "myProfile", text, null, null, null);
 		} catch (CannotLoadConfigurationException e) {
 			Assert.assertEquals(true, e.getMessage().contains("src/test/resources/notexistent.xml"));
+		}
+	}
+
+	@Test
+	public void testNullCode() {
+		final String expected = null;
+
+		String actual = instance.format("src/test/resources/formattersampleeclipse.xml", "eclipse-demo", null, null, null, null);
+		Assert.assertEquals("Formatting should change the code", expected, actual);
+	}
+
+	@Test
+	public void testIllegalChangedElementsCode() {
+		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}";
+
+		SortedSet<Pair<Integer, Integer>> regions = new TreeSet<>();
+		regions.add(Pair.of(1200, 1230));
+
+		try {
+			instance.format("src/test/resources/formattersampleeclipse.xml", "eclipse-demo", text, null, null, regions);
+
+			Assert.assertFalse("Should have thrown an IllegalArgumentException", true);
+		} catch (IllegalArgumentException ex) {
+			Assert.assertTrue(true);
 		}
 	}
 }
