@@ -60,6 +60,29 @@ public class GoogleFormatterStrategyTest extends NbTestCase {
 	}
 
 	/**
+	 * Test of {@link GoogleFormatterStrategy#format(de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice)}
+	 * method, of class {@link GoogleFormatterStrategy}.
+	 *
+	 * @throws Exception if an error occurs
+	 */
+	@Test
+	public void testUnsupportedFileType() throws Exception {
+		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}";
+
+		StyledDocument document = new DefaultStyledDocument();
+		document.putProperty("mimeType", "text/xml");
+		document.insertString(0, text, null);
+
+		GoogleFormatterStrategy instance = new GoogleFormatterStrategy();
+
+		try {
+			instance.format(new FormatterAdvice(document, null, -1, null));
+		} catch (Exception ex) {
+			Assert.assertTrue("Formatting should not be possible for the given file type", ex.getMessage().contains("The file type 'text/xml' is not supported"));
+		}
+	}
+
+	/**
 	 * Test of {@link GoogleFormatterStrategy#isActivated(javax.swing.text.StyledDocument)} method, of class
 	 * {@link GoogleFormatterStrategy}.
 	 */

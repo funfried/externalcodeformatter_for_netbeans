@@ -9,7 +9,6 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies;
 
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import java.util.prefs.Preferences;
@@ -52,8 +51,7 @@ public class FormatterStrategyDispatcherTest extends NbTestCase {
 		document.putProperty("mimeType", "text/x-java");
 		document.insertString(0, text, null);
 
-		EclipseFormatterStrategy instance = new EclipseFormatterStrategy();
-		instance.format(new FormatterAdvice(document, null, -1, null));
+		FormatterStrategyDispatcher.getInstance().format(new FormatterAdvice(document, null, -1, null));
 
 		String actual = document.getText(0, document.getLength());
 

@@ -83,7 +83,7 @@ public class GoogleFormatterTest {
 
 	@Test
 	public void testPartlyFormatClassUsingGoogleStyle() {
-		final String text = "package foo; public class NewEmptyJUnitTest { public void doSomething(String arg) { System.out.println(\"Hello World\"); } public boolean doSomethingElse(Object obj) { return false; } }\n";
+		final String text = "package foo; public class NewEmptyJUnitTest { public void doSomething(String arg) { System.out.println(\"Hello World\"); } public boolean doSomethingElse(Object obj) { return false; } }";
 		final String expected = "package foo;\n" +
 				"\n" +
 				"public class NewEmptyJUnitTest {\n" +
@@ -97,7 +97,7 @@ public class GoogleFormatterTest {
 
 		SortedSet<Pair<Integer, Integer>> regions = new TreeSet<>();
 		regions.add(Pair.of(0, 43));
-		regions.add(Pair.of(120, 183));
+		regions.add(Pair.of(120, 182));
 
 		String actual = instance.format(text, JavaFormatterOptions.Style.GOOGLE, regions);
 		Assert.assertEquals("Formatting should change the code", expected, actual);
@@ -157,7 +157,7 @@ public class GoogleFormatterTest {
 
 	@Test
 	public void testPartlyFormatClassUsingAndroidStyle() {
-		final String text = "package foo; public class NewEmptyJUnitTest { public void doSomething(String arg) { System.out.println(\"Hello World\"); } public boolean doSomethingElse(Object obj) { return false; } }\n";
+		final String text = "package foo; public class NewEmptyJUnitTest { public void doSomething(String arg) { System.out.println(\"Hello World\"); } public boolean doSomethingElse(Object obj) { return false; } }";
 		final String expected = "package foo;\n" +
 				"\n" +
 				"public class NewEmptyJUnitTest {\n" +
@@ -171,7 +171,7 @@ public class GoogleFormatterTest {
 
 		SortedSet<Pair<Integer, Integer>> regions = new TreeSet<>();
 		regions.add(Pair.of(0, 43));
-		regions.add(Pair.of(120, 183));
+		regions.add(Pair.of(120, 182));
 
 		String actual = instance.format(text, JavaFormatterOptions.Style.AOSP, regions);
 		Assert.assertEquals("Formatting should change the code", expected, actual);

@@ -10,6 +10,7 @@
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 
 import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
+import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import java.util.prefs.Preferences;
@@ -56,13 +57,39 @@ public class EclipseFormatterStrategyTest extends NbTestCase {
 	}
 
 	/**
-	 * Test of {@link EclipseFormatterStrategy#isActivated(javax.swing.text.StyledDocument)} method, of class
-	 * {@link EclipseFormatterStrategy}.
+	 * Test of {@link FormatterStrategyDispatcher#format(de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice)}
+	 * method, of class {@link FormatterStrategyDispatcher}.
+	 *
+	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void testIsActivated() {
+	public void testUnsupportedFileType() throws Exception {
+		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}";
+
+		StyledDocument document = new DefaultStyledDocument();
+		document.putProperty("mimeType", "text/xml");
+		document.insertString(0, text, null);
+
+		EclipseFormatterStrategy instance = new EclipseFormatterStrategy();
+
+		try {
+			instance.format(new FormatterAdvice(document, null, -1, null));
+		} catch (Exception ex) {
+			Assert.assertTrue("Formatting should not be possible for the given file type", ex.getMessage().contains("The file type 'text/xml' is not supported"));
+		}
+	}
+
+	/**
+	 * Test of {@link EclipseFormatterStrategy#isActivated(javax.swing.text.StyledDocument)} method, of class
+	 * {@link EclipseFormatterStrategy}.
+	 *
+	 * @throws Exception if an error occurs
+	 */
+	@Test
+	public void testIsActivated() throws Exception {
 		Preferences prefs = NbPreferences.forModule(ExternalFormatterPanel.class);
 		prefs.put(Settings.ECLIPSE_FORMATTER_ENABLED, "true");
+		prefs.flush();
 
 		StyledDocument document = new DefaultStyledDocument();
 		document.putProperty("mimeType", "text/x-java");

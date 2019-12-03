@@ -62,6 +62,7 @@ class NetBeansFormatterRunnable implements Runnable {
 
 			StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
 		} catch (BadLocationException ex) {
+			throw new RuntimeException(ex);
 		}
 	}
 
