@@ -25,13 +25,41 @@
             </goals>
         </action>
         <action>
-            <actionName>CUSTOM-deploy</actionName>
-            <displayName>deploy</displayName>
+            <actionName>CUSTOM-deploy to maven central</actionName>
+            <displayName>deploy to maven central</displayName>
             <goals>
                 <goal>clean</goal>
                 <goal>deploy</goal>
             </goals>
             <activatedProfiles>
+                <activatedProfile>release-commons</activatedProfile>
+                <activatedProfile>sonatype-oss-release</activatedProfile>
+            </activatedProfiles>
+        </action>
+        <action>
+            <actionName>CUSTOM-deploy to GitHub</actionName>
+            <displayName>deploy to GitHub</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>deploy</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>release-commons</activatedProfile>
+                <activatedProfile>github</activatedProfile>
+            </activatedProfiles>
+        </action>
+        <action>
+            <actionName>CUSTOM-release site to GitHub and artifact to maven central</actionName>
+            <displayName>release site to GitHub and artifact to maven central</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>deploy</goal>
+                <goal>site</goal>
+                <goal>site:stage</goal>
+                <goal>scm-publish:publish-scm</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>release-commons</activatedProfile>
                 <activatedProfile>sonatype-oss-release</activatedProfile>
             </activatedProfiles>
         </action>
