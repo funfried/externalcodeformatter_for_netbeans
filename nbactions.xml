@@ -14,4 +14,25 @@
                 <goal>site:site</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-site and deploy</actionName>
+            <displayName>site and deploy</displayName>
+            <goals>
+                <goal>verify</goal>
+                <goal>site</goal>
+                <goal>site:stage</goal>
+                <goal>scm-publish:publish-scm</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-deploy</actionName>
+            <displayName>deploy</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>deploy</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>sonatype-oss-release</activatedProfile>
+            </activatedProfiles>
+        </action>
     </actions>
