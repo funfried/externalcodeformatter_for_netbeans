@@ -3,12 +3,15 @@
 		  xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
 
 	<properties>
-		<title>Changes External Java Code Formatter</title>
+		<title>Changes External Java Code Formatters</title>
 		<author email="info@funfried.de">Fabian Bahle</author>
 	</properties>
 
 	<body>
-		<release version="1.13" date="2019-12-02" description="First release under my control (previous releases https://github.com/geertjanw/eclipsecodeformatter_for_netbeans)">
+		<release version="1.13-SNAPSHOT" date="TBD" description="First release from funfried (previous releases can be found here https://github.com/geertjanw/eclipsecodeformatter_for_netbeans)">
+			<action dev="bahlef" type="update">
+				Renamed the project from "Eclipse Java Code Formatter for NetBeans" to "External Java Code Formatters for NetBeans" because of adding Google Code Formatter
+			</action>
 			<action dev="bahlef" type="add">
 				Removed default formatter action and added shortcut (Ctrl + Meta/Cmd + F) for external formatter action
 			</action>

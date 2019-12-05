@@ -38,9 +38,9 @@ This plugin helps you to apply to a common code style in a team of Eclipse JDT a
 <li>Support for Google code formatter (since 1.13)</li>
 </ul>
 
-<img src="https://raw.githubusercontent.com/funfried/externalcodeformatter_for_netbeans/master/doc/global.png">
+<img src="https://raw.githubusercontent.com/funfried/externalcodeformatter_for_netbeans/master/src/site/resources/imgs/global.png">
 <br>
-<img src="https://raw.githubusercontent.com/funfried/externalcodeformatter_for_netbeans/master/doc/project.png">
+<img src="https://raw.githubusercontent.com/funfried/externalcodeformatter_for_netbeans/master/src/site/resources/imgs/project.png">
 
 <h1>Changelog:</h1>
 <h2>Updates in 1.13-SNAPSHOT:</h2>

@@ -21,5 +21,26 @@
 				Eclipse JDT and NetBeans IDE users.
 			</p>
 		</section>
+		<section name="Download">
+			<p>
+				You can either download the latest version directly from maven central
+				<a href="https://oss.sonatype.org/content/repositories/snapshots/de/funfried/netbeans/plugins/externalcodeformatter/1.13-SNAPSHOT/">here</a>
+				or the last official release from the <a href="http://netbeans-vm.apache.org/pluginportal/">NetBeans Plugin Center</a>
+				(not yet released).
+			</p>
+		</section>
+		<section name="Usage">
+			<p>
+				Just open the preferences dialog in NetBeans after the installation and go to <i>Options</i> -&gt;
+				<i>Java</i> -&gt; <i>External Formatter</i> and setup the formatter as you like.
+			</p>
+			<img src="imgs/global.png" alt="Global options" />
+			<p>
+				You can also setup the formatter individually per project, just right click on the project and click
+				on <i>Properties</i>, navigate to <i>Project properties</i> -&gt; <i>Formatting</i> -&gt;
+				<i>External Formatting</i>. Make it a tick in <i>Override global settings</i>
+			</p>
+			<img src="imgs/project.png" alt="Project options" />
+		</section>
 	</body>
 </document>
