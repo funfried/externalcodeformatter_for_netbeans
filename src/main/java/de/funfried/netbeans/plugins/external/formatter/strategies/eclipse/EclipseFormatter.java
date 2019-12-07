@@ -10,11 +10,6 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.Profile;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -46,6 +41,10 @@ import org.xml.sax.SAXException;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
+import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
+import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.Profile;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 public final class EclipseFormatter {
 	private static final Logger log = Logger.getLogger(EclipseFormatter.class.getName());
