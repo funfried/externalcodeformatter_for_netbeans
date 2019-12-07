@@ -38,17 +38,17 @@ source code the same way as e.g. your Eclipse co-workers do.
 Compatible with NetBeans 8.2+ and JDK8+.
 
 ## Downloads
-You can find the download links [here](http://funfried.github.io/ecf4nb/downloads.html).
+You can find the download links [here](http://funfried.github.io/externalcodeformatter_for_netbeans/downloads.html).
 
 ## Known issues
-Please check the open [GitHub Issues](/issues) and see [here](http://funfried.github.io/ecf4nb/known_issues.html)
+Please check the open [GitHub Issues](/issues) and see [here](http://funfried.github.io/externalcodeformatter_for_netbeans/known_issues.html)
 
 ### Note:
 Please note that this plugin only provides support for formatting. Eclipse users may miss the application of save-actions like "adding @Override annotations" or "member sort order". Such AST-based transformations are not provided by this plugin.
 
 ## Licensing
-This plugin is licensed under the [Eclipse Public License, Version 2.0](http://funfried.github.io/ecf4nb/licenses.html).
-This plugin uses third-party libraries, which are needed to provide this plugins functionality, please check their licenses [here](https://funfried.github.io/ecf4nb/dependencies.html).
+This plugin is licensed under the [Eclipse Public License, Version 2.0](http://funfried.github.io/externalcodeformatter_for_netbeans/licenses.html).
+This plugin uses third-party libraries, which are needed to provide this plugins functionality, please check their licenses [here](https://funfried.github.io/externalcodeformatter_for_netbeans/dependencies.html).
 
 ## The history of this project
 * The original idea is based on http://epochcoder.blogspot.com/2013/08/import-eclipse-formatter-into-netbeans.html from [Willie Scholtz](https://github.com/epochcoder)

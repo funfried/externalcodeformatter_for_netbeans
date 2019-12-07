@@ -6,7 +6,7 @@
 
 	<name>External Java Code Formatters for NetBeans</name>
 	<description>External (Eclipse and Google) Java Code Formatters Integration for NetBeans</description>
-	<url>https://funfried.github.io/ecf4nb/</url>
+	<url>https://funfried.github.io/externalcodeformatter_for_netbeans/</url>
 	<inceptionYear>2019</inceptionYear>
 	<licenses>
 		<license>
@@ -644,6 +644,7 @@
 				<artifactId>maven-scm-publish-plugin</artifactId>
 				<configuration>
 					<serverId>github</serverId>
+					<scmBranch>gh-pages</scmBranch>
 				</configuration>
 				<executions>
 					<execution>
@@ -654,7 +655,6 @@
 						</goals>
 						<configuration>
 							<content>${project.build.directory}/site</content>
-							<scmBranch>gh-site</scmBranch>
 						</configuration>
 					</execution>
 				</executions>
