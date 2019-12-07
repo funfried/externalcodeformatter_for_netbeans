@@ -68,7 +68,7 @@
 		<site>
 			<id>github</id>
 			<name>Maven Site Distribution</name>
-			<url>scm:git:https://github.com/funfried/ecf4nb.git</url>
+			<url>scm:git:https://github.com/funfried/externalcodeformatter_for_netbeans.git</url>
 		</site>
 		<repository>
 			<id>sonatype-nexus-staging</id>
@@ -654,7 +654,7 @@
 						</goals>
 						<configuration>
 							<content>${project.build.directory}/site</content>
-							<scmBranch>master</scmBranch>
+							<scmBranch>gh-site</scmBranch>
 						</configuration>
 					</execution>
 				</executions>

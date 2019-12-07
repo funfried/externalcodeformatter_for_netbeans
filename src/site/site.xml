@@ -53,14 +53,17 @@
 
 		<menu name="Overview">
 			<item name="Introduction" href="index.html"/>
+			<item name="Downloads" href="download.html"/>
+			<item name="Usage" href="usage.html"/>
+			<item name="Known Issues" href="known_issues.html"/>
 		</menu>
 		<menu ref="reports" />
 
 		<links>
 			<item name="Apache NetBeans" href="http://netbeans.apache.org" />
+			<item name="GitHub project page" href="https://github.com/funfried/externalcodeformatter_for_netbeans/" />
 			<item name="funfried.de" href="https://www.funfried.de/en/" />
 			<item name="Donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=926F5XBCTK2LQ&amp;source=url" />
-			<item name="GitHub project page" href="https://github.com/funfried/externalcodeformatter_for_netbeans/" />
 		</links>
 	</body>
 </project>

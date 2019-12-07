@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+	<properties>
+		<title>Usage</title>
+		<author email="info@funfried.de">Fabian Bahle</author>
+	</properties>
+
+	<body>
+		<section name="Usage">
+			<p>
+				Just open the preferences dialog in NetBeans after the installation and go to <i>Options</i> -&gt;
+				<i>Java</i> -&gt; <i>External Formatter</i> and setup the formatter as you like.
+			</p>
+			<img src="imgs/global.png" alt="Global options" />
+			<p>
+				You can also setup the formatter individually per project, just right click on the project and click
+				on <i>Properties</i>, navigate to <i>Project properties</i> -&gt; <i>Formatting</i> -&gt;
+				<i>External Formatting</i>. Make it a tick in <i>Override global settings</i>
+			</p>
+			<img src="imgs/project.png" alt="Project options" />
+		</section>
+	</body>
+</document>
