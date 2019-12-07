@@ -9,7 +9,6 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies;
 
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +22,8 @@ import java.util.logging.Logger;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
-import org.apache.commons.collections4.CollectionUtils;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.debugger.Breakpoint;
@@ -47,6 +46,8 @@ import org.openide.filesystems.FileUtil;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
 import org.openide.util.Utilities;
+
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  * Abstract implementation of the formatter {@link Runnable}. LineBreakpoints get
@@ -91,13 +92,10 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 
 	protected final int endOffset;
 
-	protected final FileObject fileObject;
-
 	protected final int startOffset;
 
 	protected AbstractFormatterRunnable(StyledDocument document, int dot, int mark, SortedSet<Pair<Integer, Integer>> changedElements) {
 		this.document = document;
-		this.fileObject = NbEditorUtilities.getFileObject(document);
 		this.changedElements = changedElements;
 
 		if (dot != mark) {
@@ -115,11 +113,12 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 			DebuggerManager debuggerManager = DebuggerManager.getDebuggerManager();
 			List<Breakpoint> breakpoint2Keep = Collections.emptyList();
 			if (preserveBreakpoints) {
-				final Breakpoint[] breakpoints = debuggerManager.getBreakpoints();
+				Breakpoint[] breakpoints = debuggerManager.getBreakpoints();
 				//a) remove all line breakpoints before replacing the text in the editor
 				//b) hold all other breakpoints from the current file, so that they can be reattached
 				//FIXME guess the main class by its filepath relative to src/com/foo/Bar.java -> com.foo.Bar
-				final String classNameOfTopMostTypeInFile = getFQNOfTopMostType(fileObject);
+				FileObject fileObject = NbEditorUtilities.getFileObject(document);
+				String classNameOfTopMostTypeInFile = getFQNOfTopMostType(fileObject);
 				int lineStart = NbDocument.findLineNumber(document, startOffset);
 				int lineEnd = NbDocument.findLineNumber(document, endOffset);
 				List<Breakpoint> lineBreakPoints = getLineBreakpoints(breakpoints, fileObject, lineStart, lineEnd);
@@ -204,7 +203,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 									// to avoid loosing unguarded sections before or after a guarded section,
 									// we insert the formatted code first and then remove the old one
 									document.insertString(startOldCode, formattedCodePart, null);
-									document.remove(startOldCode + (formattedCodePart.length() - 1), (endOldCode - startOldCode) + 1);
+									document.remove(startOldCode + formattedCodePart.length(), (endOldCode - startOldCode) + 1);
 								}
 							} catch (BadLocationException ex) {
 								Exceptions.printStackTrace(ex);
