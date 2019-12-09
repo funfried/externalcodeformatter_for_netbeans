@@ -15,7 +15,22 @@ import javax.swing.text.Document;
 
 import org.netbeans.modules.editor.NbEditorUtilities;
 
+/**
+ * Utility class.
+ *
+ * @author markiewb
+ * @author bahlef
+ */
 public interface Utils {
+	/**
+	 * Checks if the mime type of a given {@link Document} is {@code text/x-java}
+	 * and returns {@code true} if it is, otherwise {@code false}.
+	 *
+	 * @param document the {@link Document} where to check the mime type
+	 *
+	 * @return {@code true} if the mime type is {@code text/x-java}, otherwise
+	 *         {@code false}
+	 */
 	public static boolean isJava(Document document) {
 		return "text/x-java".equals(NbEditorUtilities.getMimeType(document));
 	}

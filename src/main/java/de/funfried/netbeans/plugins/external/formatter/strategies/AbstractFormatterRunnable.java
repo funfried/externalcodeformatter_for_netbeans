@@ -65,12 +65,16 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 public abstract class AbstractFormatterRunnable implements Runnable {
 	private static final Logger log = Logger.getLogger(AbstractFormatterRunnable.class.getName());
 
+	/** {@link SortedSet} containing document offset ranges which should be formatted. */
 	protected final SortedSet<Pair<Integer, Integer>> changedElements;
 
+	/** The {@link StyledDocument} from which the content should be formatted. */
 	protected final StyledDocument document;
 
+	/** End offset to format. Only used for selections. */
 	protected final int endOffset;
 
+	/** Start offset to format. Only used for selections. */
 	protected final int startOffset;
 
 	protected AbstractFormatterRunnable(StyledDocument document, int dot, int mark, SortedSet<Pair<Integer, Integer>> changedElements) {

@@ -8,7 +8,7 @@
  * markiewb - initial API and implementation and/or initial documentation
  * Saad Mufti <saad.mufti@teamaol.com>
  */
-package de.funfried.netbeans.plugins.external.formatter.ui.onsave;
+package de.funfried.netbeans.plugins.external.formatter.ui.tasks;
 
 import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
 import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;

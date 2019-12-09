@@ -10,20 +10,38 @@
 package de.funfried.netbeans.plugins.external.formatter.exceptions;
 
 /**
+ * {@link RuntimeException} which is thrown when a given profile name could not be
+ * found in a formatter configuration.
  *
  * @author bahlef
  */
 public class ProfileNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Creates a new instance of {@link ProfileNotFoundException}.
+	 *
+	 * @param message the detail message
+	 */
 	public ProfileNotFoundException(String message) {
 		super(message);
 	}
 
+	/**
+	 * Creates a new instance of {@link ProfileNotFoundException}.
+	 * 
+	 * @param cause the original cause of the exceptio
+	 */
 	public ProfileNotFoundException(Throwable cause) {
 		super(cause);
 	}
 
+	/**
+	 * Creates a new instance of {@link ProfileNotFoundException}.
+	 *
+	 * @param message the detail message
+	 * @param cause   the original cause of the exception
+	 */
 	public ProfileNotFoundException(String message, Throwable cause) {
 		super(message, cause);
 	}
