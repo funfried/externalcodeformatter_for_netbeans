@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.mutable.MutableInt;
@@ -52,12 +53,12 @@ import org.openide.util.Utilities;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * Abstract implementation of the formatter {@link Runnable}. LineBreakpoints get
+ * Abstract implementation of the formatter {@link Runnable}. {@link LineBreakpoint}s get
  * removed and the following breakpoints are getting reattached:
  * <ul>
- * <li>ClassLoadUnloadBreakpoint</li>
- * <li>FieldBreakpoint</li>
- * <li>MethodBreakpoint</li>
+ * <li>{@link ClassLoadUnloadBreakpoint}</li>
+ * <li>{@link FieldBreakpoint}</li>
+ * <li>{@link MethodBreakpoint}</li>
  * </ul>
  *
  * @author bahlef
@@ -77,20 +78,45 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	/** Start offset to format. Only used for selections. */
 	protected final int startOffset;
 
-	protected AbstractFormatterRunnable(StyledDocument document, int dot, int mark, SortedSet<Pair<Integer, Integer>> changedElements) {
+	/**
+	 * Constructor which has to be used by subclasses.
+	 *
+	 * @param document        the {@link StyledDocument} from which the content should be formatted
+	 * @param startOffset     the start offset, will be set to zero if equal to {@code endOffset}
+	 * @param endOffset       the end offset, will be set to the documents length minus one if equal to {@code startOffset}
+	 * @param changedElements {@link SortedSet} containing document offset ranges which should be formatted or {@code null} to format the whole document
+	 */
+	protected AbstractFormatterRunnable(StyledDocument document, int startOffset, int endOffset, SortedSet<Pair<Integer, Integer>> changedElements) {
 		this.document = document;
 		this.changedElements = changedElements;
 
-		if (dot != mark) {
-			this.startOffset = Math.min(mark, dot);
-			this.endOffset = Math.max(mark, dot);
+		if (startOffset != endOffset) {
+			this.startOffset = Math.min(endOffset, startOffset);
+			this.endOffset = Math.max(endOffset, startOffset);
 		} else {
 			this.startOffset = 0;
 			this.endOffset = document.getLength() - 1;
 		}
 	}
 
-	protected boolean setFormattedCode(String code, String formattedContent, GuardedSectionManager guards, boolean preserveBreakpoints) {
+	/**
+	 * Applies the given {@code formattedContent} to the {@code document}. If
+	 * {@code preserveBreakpoints} is {@code true} the {@link ClassLoadUnloadBreakpoint},
+	 * {@link FieldBreakpoint} and {@link MethodBreakpoint} will be preserved, but
+	 * {@link LineBreakpoint}s will get removed anyway.
+	 *
+	 * @param code                the previous (unformatted) content
+	 * @param formattedContent    the formatted code
+	 * @param preserveBreakpoints {@code true} to preserve all {@link ClassLoadUnloadBreakpoint}s,
+	 *                            {@link FieldBreakpoint}s and {@link MethodBreakpoint}s
+	 *                            (but not {@link LineBreakpoint}s)
+	 *
+	 * @return {@code true} if and only if the given {@code formattedContent} was set to
+	 *         the {@code document}, if due to any circumstances (old code equals formatted code,
+	 *         thrown exceptions, ...) the {@code formattedContent} wasn't applied {@code false}
+	 *         is returned
+	 */
+	protected boolean setFormattedCode(String code, String formattedContent, boolean preserveBreakpoints) {
 		// quick check for changed
 		if (formattedContent != null && /* does not support changes of EOL */ !formattedContent.equals(code)) {
 			DebuggerManager debuggerManager = DebuggerManager.getDebuggerManager();
@@ -104,8 +130,8 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 				String classNameOfTopMostTypeInFile = getFQNOfTopMostType(fileObject);
 				int lineStart = NbDocument.findLineNumber(document, startOffset);
 				int lineEnd = NbDocument.findLineNumber(document, endOffset);
-				List<Breakpoint> lineBreakPoints = getLineBreakpoints(breakpoints, fileObject, lineStart, lineEnd);
-				for (Breakpoint breakpoint : lineBreakPoints) {
+				List<LineBreakpoint> lineBreakPoints = getLineBreakpoints(breakpoints, fileObject, lineStart, lineEnd);
+				for (LineBreakpoint breakpoint : lineBreakPoints) {
 					debuggerManager.removeBreakpoint(breakpoint);
 				}
 
@@ -118,6 +144,8 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 			}
 
 			try {
+				GuardedSectionManager guards = GuardedSectionManager.getInstance(document);
+
 				//runAtomicAsUser, so that removal and insert is only one undo step
 				NbDocument.runAtomicAsUser(document, () -> {
 					if (guards == null) {
@@ -214,6 +242,16 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		return false;
 	}
 
+	/**
+	 * Returns a {@link List} within all {@link SourceGroup} objects for the given
+	 * {@link Project}.
+	 *
+	 * @param p the {@link Project}
+	 *
+	 * @return A {@link List} within all {@link SourceGroup} objects for the given
+	 *         {@link Project}
+	 */
+	@NotNull
 	protected List<SourceGroup> getAllSourceGroups(Project p) {
 		Sources sources = ProjectUtils.getSources(p);
 
@@ -229,6 +267,13 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		return list;
 	}
 
+	/**
+	 * Returns the fully qualified name of the top most type of the given {@link FileObject}.
+	 *
+	 * @param fo the {@link FileObject}
+	 *
+	 * @return The fully qualified name of the top most type of the given {@link FileObject}
+	 */
 	protected String getFQNOfTopMostType(FileObject fo) {
 		if (null == fo) {
 			return "";
@@ -262,8 +307,22 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		return "";
 	}
 
-	protected List<Breakpoint> getLineBreakpoints(Breakpoint[] breakpoints, FileObject fileOfCurrentClass, int lineStart, int lineEnd) {
-		List<Breakpoint> result = new ArrayList<>();
+	/**
+	 * Returns a {@link List} within {@link LineBreakpoint}s from the given {@code breakpints}
+	 * array which belong to the given {@code fileOfCurrentClass} that are between the given
+	 * {@code lineStart} and {@code lineEnd}.
+	 * 
+	 * @param breakpoints        mixed array of {@link Breakpoint}s
+	 * @param fileOfCurrentClass the {@link FileObject} of the currently formatted Java class
+	 * @param lineStart          the line number where the formatting starts
+	 * @param lineEnd            the line number where the formatting ends
+	 *
+	 * @return A {@link List} within {@link LineBreakpoint}s from the given {@code breakpints}
+	 *         array which belong to the given {@code fileOfCurrentClass} that are between the given
+	 *         {@code lineStart} and {@code lineEnd}
+	 */
+	protected List<LineBreakpoint> getLineBreakpoints(Breakpoint[] breakpoints, FileObject fileOfCurrentClass, int lineStart, int lineEnd) {
+		List<LineBreakpoint> result = new ArrayList<>();
 		for (Breakpoint breakpoint : breakpoints) {
 			/**
 			 * NOTE: ExceptionBreakpoint/ThreadBreakpoint have no annotation in
@@ -307,7 +366,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 				}
 
 				if (toFileObject.equals(fileOfCurrentClass)) {
-					result.add(breakpoint);
+					result.add(lineBreakpoint);
 				}
 			}
 		}
@@ -315,6 +374,19 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		return result;
 	}
 
+	/**
+	 * Returns a {@link List} within all preservable {@link Breakpoint}s which belong
+	 * to the given {@code currentClassName} from a given mixed {@link Breakpoint}s
+	 * array.
+	 *
+	 * @param breakpoints      the mixed {@link Breakpoint}s array
+	 * @param currentClassName the fully qualified class name of the Java class that
+	 *                         is currently formatted
+	 *
+	 * @return A {@link List} within all preservable {@link Breakpoint}s which belong
+	 *         to the given {@code currentClassName} from a given mixed {@link Breakpoint}s
+	 *         array
+	 */
 	protected List<Breakpoint> getPreserveableBreakpoints(Breakpoint[] breakpoints, String currentClassName) {
 		List<Breakpoint> result = new ArrayList<>();
 		for (Breakpoint breakpoint : breakpoints) {
@@ -352,21 +424,44 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		return result;
 	}
 
+	/**
+	 * Checks if the given {@code className} is the same or inner type of the given
+	 * {@code fqnOfTopMostType}. Returns {@code true} if the given {@code className}
+	 * is the same or an inner type of the given {@code fqnOfTopMostType}.
+	 * 
+	 * @param className        the class name to check
+	 * @param fqnOfTopMostType the top most type to check against
+	 *
+	 * @return {@code true} if the given {@code className} is the same or an inner
+	 *         type of the given {@code fqnOfTopMostType}
+	 */
 	protected static boolean isSameTypeOrInnerType(String className, String fqnOfTopMostType) {
 		if (null == className) {
 			return false;
 		}
+
 		if (null == fqnOfTopMostType) {
 			return false;
 		}
+
 		if (className.equals(fqnOfTopMostType)) {
 			return true;
 		}
+
 		//Support innerTypes like com.company.Foo$InnerClass
 		return className.startsWith(fqnOfTopMostType + "$");
 	}
 
-	protected String getCode(String lineFeedSetting) throws BadLocationException {
+	/**
+	 * Returns the content of the {@code document} in respect to the given
+	 * {@code lineFeedSetting}.
+	 *
+	 * @param lineFeedSetting the line feed setting
+	 *
+	 * @return The content of the {@code document} in respect to the given
+	 *         {@code lineFeedSetting}
+	 */
+	protected String getCode(String lineFeedSetting) {
 		//save with configured linefeed
 		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty("line.separator"));
 		if (null != lineFeedSetting) {
@@ -374,9 +469,27 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);
 		}
 
-		return document.getText(0, document.getLength());
+		try {
+			return document.getText(0, document.getLength());
+		} catch (BadLocationException ex) {
+			Exceptions.printStackTrace(ex);
+
+			throw new UnsupportedOperationException(ex);
+		}
 	}
 
+	/**
+	 * Returns a {@link SortedSet} within ranges as {@link Pair}s of {@link Integer}s
+	 * which describe the start and end offsets which can be formatted in respect to
+	 * the given {@link GuardedSectionManager}.
+	 *
+	 * @param code   the current unformatted content of the {@link document}
+	 * @param guards the {@link GuardedSectionManager} of the {@link document}
+	 *
+	 * @return A {@link SortedSet} within ranges as {@link Pair}s of {@link Integer}s
+	 *         which describe the start and end offsets which can be formatted in respect to
+	 *         the given {@link GuardedSectionManager}
+	 */
 	protected SortedSet<Pair<Integer, Integer>> getFormattableSections(String code, GuardedSectionManager guards) {
 		SortedSet<Pair<Integer, Integer>> regions = changedElements;
 		if (CollectionUtils.isEmpty(changedElements)) {
@@ -411,6 +524,18 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		return regions;
 	}
 
+	/**
+	 * Checks if a given {@code section} interferes with the given {@code guardedSections}
+	 * and if so splits the given {@code section} into multiple sections and returns them
+	 * as a {@link SortedSet}.
+	 *
+	 * @param section         the section that should be checked
+	 * @param guardedSections the guarded sections of the {@code document}
+	 *
+	 * @return A {@link SortedSet} containing the splitted sections or just the initial
+	 *         {@code section} itself if there was no interference with the given
+	 *         {@code guardedSections}
+	 */
 	protected SortedSet<Pair<Integer, Integer>> avoidGuardedSection(Pair<Integer, Integer> section, Iterable<GuardedSection> guardedSections) {
 		SortedSet<Pair<Integer, Integer>> ret = new TreeSet<>();
 
@@ -456,6 +581,10 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		return ret;
 	}
 
+	/**
+	 * {@link RuntimeException} which is used as a {@code break} condition inside
+	 * a {@link Iterable#forEach(java.util.function.Consumer)}.
+	 */
 	protected static class BreakException extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 	}

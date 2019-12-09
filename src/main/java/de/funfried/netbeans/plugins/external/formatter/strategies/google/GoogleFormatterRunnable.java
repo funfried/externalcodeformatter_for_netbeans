@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -22,15 +21,14 @@ import org.netbeans.api.editor.guards.GuardedSectionManager;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
-import org.openide.util.Exceptions;
 
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
 import de.funfried.netbeans.plugins.external.formatter.Utils;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FileTypeNotSupportedException;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import de.funfried.netbeans.plugins.external.formatter.strategies.AbstractFormatterRunnable;
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  * Formats the given document using the google formatter. LineBreakpoints get
@@ -66,14 +64,7 @@ class GoogleFormatterRunnable extends AbstractFormatterRunnable {
 		boolean preserveBreakpoints = pref.getBoolean(Settings.PRESERVE_BREAKPOINTS, true);
 		String codeStylePref = pref.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 
-		final String code;
-
-		try {
-			code = getCode(null);
-		} catch (BadLocationException ex) {
-			Exceptions.printStackTrace(ex);
-			return;
-		}
+		String code = getCode(null);
 
 		try {
 			GuardedSectionManager guards = GuardedSectionManager.getInstance(document);
@@ -81,7 +72,7 @@ class GoogleFormatterRunnable extends AbstractFormatterRunnable {
 
 			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);
 			// quick check for changed
-			if (setFormattedCode(code, formattedContent, guards, preserveBreakpoints)) {
+			if (setFormattedCode(code, formattedContent, preserveBreakpoints)) {
 				SwingUtilities.invokeLater(() -> {
 					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
 						NotificationDisplayer.getDefault().notify("Format using Goolge formatter", Icons.ICON_GOOGLE, null, null);

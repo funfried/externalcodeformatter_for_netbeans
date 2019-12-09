@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -27,15 +26,14 @@ import org.openide.NotifyDescriptor;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
 import org.openide.filesystems.FileObject;
-import org.openide.util.Exceptions;
 
 import de.funfried.netbeans.plugins.external.formatter.Utils;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FileTypeNotSupportedException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import de.funfried.netbeans.plugins.external.formatter.strategies.AbstractFormatterRunnable;
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  * Formats the given document using the eclipse formatter. LineBreakpoints get
@@ -78,14 +76,7 @@ class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 		String lineFeedSetting = pref.get(Settings.LINEFEED, "");
 		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty("line.separator"));
 
-		final String code;
-
-		try {
-			code = getCode(lineFeedSetting);
-		} catch (BadLocationException ex) {
-			Exceptions.printStackTrace(ex);
-			return;
-		}
+		String code = getCode(lineFeedSetting);
 
 		try {
 			GuardedSectionManager guards = GuardedSectionManager.getInstance(document);
@@ -93,7 +84,7 @@ class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 
 			String formattedContent = formatter.format(formatterFile, formatterProfile, code, lineFeed, sourceLevel, regions);
 			// quick check for changed
-			if (setFormattedCode(code, formattedContent, guards, preserveBreakpoints)) {
+			if (setFormattedCode(code, formattedContent, preserveBreakpoints)) {
 				String msg = getNotificationMessageForEclipseFormatterConfigurationFileType(formatterFile, formatterProfile);
 
 				SwingUtilities.invokeLater(() -> {
