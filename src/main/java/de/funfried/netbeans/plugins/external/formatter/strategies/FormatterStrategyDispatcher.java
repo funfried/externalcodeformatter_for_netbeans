@@ -10,9 +10,6 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies;
 
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterStrategy;
-import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
-
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +19,9 @@ import javax.swing.text.StyledDocument;
 import org.openide.util.Exceptions;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FileTypeNotSupportedException;
+import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.strategies.google.GoogleFormatterStrategy;
+import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 
 /**
  *
@@ -61,7 +60,7 @@ public class FormatterStrategyDispatcher {
 
 	public void format(FormatterAdvice fa) {
 		try {
-			final StyledDocument styledDoc = fa.styledDoc;
+			final StyledDocument styledDoc = fa.getStyledDocument();
 
 			if (eclipseStrategy.canHandle(styledDoc)) {
 				try {

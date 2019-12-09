@@ -29,25 +29,17 @@ public abstract class AbstractFormatterStrategy implements IFormatterStrategy {
 	 */
 	@Override
 	public void format(FormatterAdvice fa) {
-		final int selectionStart = fa.selectionStart;
-		final int selectionEnd = fa.selectionEnd;
-		final boolean forSave = fa.forSave;
-		final SortedSet<Pair<Integer, Integer>> changedElements = fa.changedElements;
-		final StyledDocument document = fa.styledDoc;
-		final JTextComponent editor = fa.editor;
-		final int caret = fa.caret;
+		int _dot = !fa.isForSave() ? fa.getSelectionStart() : -1;
+		int _mark = !fa.isForSave() ? fa.getSelectionEnd() : -1;
 
-		final int _dot = !forSave ? selectionStart : -1;
-		final int _mark = !forSave ? selectionEnd : -1;
-		final int _caret = caret;
+		format(fa.getStyledDocument(), _dot, _mark, fa.getChangedElements());
 
-		format(document, _dot, _mark, changedElements);
-
+		JTextComponent editor = fa.getEditor();
 		if (editor != null) {
 			SwingUtilities.invokeLater(() -> {
 				//Set caret after the formatting, if possible
-				if (_caret > 0) {
-					final int car = Math.max(0, Math.min(_caret, editor.getDocument().getLength()));
+				if (fa.getCaret() > 0) {
+					final int car = Math.max(0, Math.min(fa.getCaret(), editor.getDocument().getLength()));
 					editor.setCaretPosition(car);
 					editor.requestFocus();
 					editor.requestFocusInWindow();

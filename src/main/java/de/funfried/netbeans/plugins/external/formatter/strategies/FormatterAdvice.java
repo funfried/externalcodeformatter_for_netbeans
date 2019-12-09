@@ -22,30 +22,30 @@ import org.apache.commons.lang3.tuple.Pair;
  * @author bahlef
  */
 public class FormatterAdvice {
-	public final StyledDocument styledDoc;
+	private final StyledDocument styledDocument;
 
-	public final SortedSet<Pair<Integer, Integer>> changedElements;
+	private final SortedSet<Pair<Integer, Integer>> changedElements;
 
-	public final boolean forSave;
+	private final boolean forSave;
 
-	public final int selectionStart;
+	private final int selectionStart;
 
-	public final int selectionEnd;
+	private final int selectionEnd;
 
-	public final int caret;
+	private final int caret;
 
-	public final JTextComponent editor;
+	private final JTextComponent editor;
 
-	public FormatterAdvice(StyledDocument styledDoc, int selectionStart, int selectionEnd, int caret, JTextComponent editor) {
-		this(styledDoc, null, false, selectionStart, selectionEnd, caret, editor);
+	public FormatterAdvice(StyledDocument styledDocument, int selectionStart, int selectionEnd, int caret, JTextComponent editor) {
+		this(styledDocument, null, false, selectionStart, selectionEnd, caret, editor);
 	}
 
-	public FormatterAdvice(StyledDocument styledDoc, SortedSet<Pair<Integer, Integer>> changedElements, int caret, JTextComponent editor) {
-		this(styledDoc, changedElements, true, -1, -1, caret, editor);
+	public FormatterAdvice(StyledDocument styledDocument, SortedSet<Pair<Integer, Integer>> changedElements, int caret, JTextComponent editor) {
+		this(styledDocument, changedElements, true, -1, -1, caret, editor);
 	}
 
-	private FormatterAdvice(StyledDocument styledDoc, SortedSet<Pair<Integer, Integer>> changedElements, boolean forSave, int selectionStart, int selectionEnd, int caret, JTextComponent editor) {
-		this.styledDoc = styledDoc;
+	private FormatterAdvice(StyledDocument styledDocument, SortedSet<Pair<Integer, Integer>> changedElements, boolean forSave, int selectionStart, int selectionEnd, int caret, JTextComponent editor) {
+		this.styledDocument = styledDocument;
 		this.changedElements = changedElements;
 		this.forSave = forSave;
 		this.selectionStart = selectionStart;
@@ -54,8 +54,8 @@ public class FormatterAdvice {
 		this.editor = editor;
 	}
 
-	public StyledDocument getStyledDoc() {
-		return styledDoc;
+	public StyledDocument getStyledDocument() {
+		return styledDocument;
 	}
 
 	public SortedSet<Pair<Integer, Integer>> getChangedElements() {

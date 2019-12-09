@@ -9,15 +9,15 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.netbeans;
 
-import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
-import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStrategy;
-
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.netbeans.modules.editor.indent.api.Reformat;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
+
+import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
+import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStrategy;
 
 /**
  *
@@ -30,17 +30,14 @@ public class NetBeansFormatterStrategy implements IFormatterStrategy {
 	 */
 	@Override
 	public void format(FormatterAdvice fa) {
-		final int selectionStart = fa.selectionStart;
-		final int selectionEnd = fa.selectionEnd;
-		final boolean forSave = fa.forSave;
-		final StyledDocument document = fa.styledDoc;
+		StyledDocument document = fa.getStyledDocument();
 
-		final Reformat rf = Reformat.get(document);
+		Reformat rf = Reformat.get(document);
 		rf.lock();
 
 		// only care about selection if reformatting on menu action and not on file save
-		final int _dot = !forSave ? selectionStart : -1;
-		final int _mark = !forSave ? selectionEnd : -1;
+		int _dot = !fa.isForSave() ? fa.getSelectionStart() : -1;
+		int _mark = !fa.isForSave() ? fa.getSelectionEnd() : -1;
 
 		try {
 			NbDocument.runAtomicAsUser(document, new NetBeansFormatterRunnable(document, rf, _dot, _mark));
