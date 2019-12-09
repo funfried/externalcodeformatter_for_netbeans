@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<profiles version="1">
+    <profile kind="CodeFormatterProfile" name="eclipse-demo" version="1">
+        <setting id="org.eclipse.jdt.core.formatter.alignment_for_enum_constants" value="70"/>
+    </profile>
+</profiles>
