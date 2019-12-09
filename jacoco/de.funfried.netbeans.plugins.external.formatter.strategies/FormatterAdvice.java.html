@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FormatterAdvice.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Java Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.strategies</a> &gt; <span class="el_source">FormatterAdvice.java</span></div><h1>FormatterAdvice.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2013-2016 markiewb.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * markiewb - initial API and implementation and/or initial documentation
+ */
+package de.funfried.netbeans.plugins.external.formatter.strategies;
+
+import java.util.SortedSet;
+
+import javax.swing.text.JTextComponent;
+import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+/**
+ *
+ * @author markiewb
+ * @author bahlef
+ */
+public class FormatterAdvice {
+	private final StyledDocument styledDocument;
+
+	private final SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements;
+
+	private final boolean forSave;
+
+	private final int selectionStart;
+
+	private final int selectionEnd;
+
+	private final int caret;
+
+	private final JTextComponent editor;
+
+	public FormatterAdvice(StyledDocument styledDocument, int selectionStart, int selectionEnd, int caret, JTextComponent editor) {
+<span class="nc" id="L40">		this(styledDocument, null, false, selectionStart, selectionEnd, caret, editor);</span>
+<span class="nc" id="L41">	}</span>
+
+	public FormatterAdvice(StyledDocument styledDocument, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements, int caret, JTextComponent editor) {
+<span class="fc" id="L44">		this(styledDocument, changedElements, true, -1, -1, caret, editor);</span>
+<span class="fc" id="L45">	}</span>
+
+<span class="fc" id="L47">	private FormatterAdvice(StyledDocument styledDocument, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements, boolean forSave, int selectionStart, int selectionEnd, int caret, JTextComponent editor) {</span>
+<span class="fc" id="L48">		this.styledDocument = styledDocument;</span>
+<span class="fc" id="L49">		this.changedElements = changedElements;</span>
+<span class="fc" id="L50">		this.forSave = forSave;</span>
+<span class="fc" id="L51">		this.selectionStart = selectionStart;</span>
+<span class="fc" id="L52">		this.selectionEnd = selectionEnd;</span>
+<span class="fc" id="L53">		this.caret = caret;</span>
+<span class="fc" id="L54">		this.editor = editor;</span>
+<span class="fc" id="L55">	}</span>
+
+	public StyledDocument getStyledDocument() {
+<span class="fc" id="L58">		return styledDocument;</span>
+	}
+
+	public SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; getChangedElements() {
+<span class="fc" id="L62">		return changedElements;</span>
+	}
+
+	public boolean isForSave() {
+<span class="fc" id="L66">		return forSave;</span>
+	}
+
+	public int getSelectionStart() {
+<span class="nc" id="L70">		return selectionStart;</span>
+	}
+
+	public int getSelectionEnd() {
+<span class="nc" id="L74">		return selectionEnd;</span>
+	}
+
+	public int getCaret() {
+<span class="nc" id="L78">		return caret;</span>
+	}
+
+	public JTextComponent getEditor() {
+<span class="fc" id="L82">		return editor;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

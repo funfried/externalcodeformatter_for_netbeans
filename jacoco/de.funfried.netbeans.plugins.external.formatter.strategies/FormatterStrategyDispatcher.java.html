@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FormatterStrategyDispatcher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Java Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.strategies</a> &gt; <span class="el_source">FormatterStrategyDispatcher.java</span></div><h1>FormatterStrategyDispatcher.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2013 markiewb.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * markiewb - initial API and implementation and/or initial documentation
+ * Saad Mufti &lt;saad.mufti@teamaol.com&gt;
+ */
+package de.funfried.netbeans.plugins.external.formatter.strategies;
+
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.text.StyledDocument;
+
+import org.openide.util.Exceptions;
+
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FileTypeNotSupportedException;
+import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterStrategy;
+import de.funfried.netbeans.plugins.external.formatter.strategies.google.GoogleFormatterStrategy;
+import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
+
+/**
+ *
+ * @author markiewb
+ * @author bahlef
+ */
+public class FormatterStrategyDispatcher {
+<span class="fc" id="L32">	private static final Logger log = Logger.getLogger(FormatterStrategyDispatcher.class.getName());</span>
+
+<span class="fc" id="L34">	private final EclipseFormatterStrategy eclipseStrategy = new EclipseFormatterStrategy();</span>
+
+<span class="fc" id="L36">	private final GoogleFormatterStrategy googleStrategy = new GoogleFormatterStrategy();</span>
+
+<span class="fc" id="L38">	private final NetBeansFormatterStrategy netbeansStrategy = new NetBeansFormatterStrategy();</span>
+
+<span class="fc" id="L40">	private static final ReentrantLock lock = new ReentrantLock();</span>
+
+<span class="fc" id="L42">	private static FormatterStrategyDispatcher instance = null;</span>
+
+<span class="fc" id="L44">	private FormatterStrategyDispatcher() {</span>
+<span class="fc" id="L45">	}</span>
+
+	public static FormatterStrategyDispatcher getInstance() {
+<span class="fc" id="L48">		lock.lock();</span>
+
+		try {
+<span class="fc bfc" id="L51" title="All 2 branches covered.">			if (instance == null) {</span>
+<span class="fc" id="L52">				instance = new FormatterStrategyDispatcher();</span>
+			}
+		} finally {
+<span class="fc" id="L55">			lock.unlock();</span>
+		}
+
+<span class="fc" id="L58">		return instance;</span>
+	}
+
+	public void format(FormatterAdvice fa) {
+		try {
+<span class="fc" id="L63">			final StyledDocument styledDoc = fa.getStyledDocument();</span>
+
+<span class="fc bfc" id="L65" title="All 2 branches covered.">			if (eclipseStrategy.canHandle(styledDoc)) {</span>
+				try {
+<span class="fc" id="L67">					eclipseStrategy.format(fa);</span>
+<span class="nc" id="L68">				} catch (FileTypeNotSupportedException ex) {</span>
+<span class="nc" id="L69">					log.log(Level.FINE, &quot;Could not use Eclipse formatter for given document&quot;, ex);</span>
+
+					// fallback to NetBeans formatter, but should not be possible because of canHandle call before
+<span class="nc" id="L72">					netbeansStrategy.format(fa);</span>
+<span class="pc" id="L73">				}</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">			} else if (googleStrategy.canHandle(styledDoc)) {</span>
+				try {
+<span class="fc" id="L76">					googleStrategy.format(fa);</span>
+<span class="nc" id="L77">				} catch (FileTypeNotSupportedException ex) {</span>
+<span class="nc" id="L78">					log.log(Level.FINE, &quot;Could not use Google formatter for given document&quot;, ex);</span>
+
+					// fallback to NetBeans formatter, but should not be possible because of canHandle call before
+<span class="nc" id="L81">					netbeansStrategy.format(fa);</span>
+<span class="pc" id="L82">				}</span>
+			} else {
+<span class="nc" id="L84">				netbeansStrategy.format(fa);</span>
+			}
+<span class="nc" id="L86">		} catch (Exception e) {</span>
+<span class="nc" id="L87">			Exceptions.printStackTrace(e);</span>
+<span class="fc" id="L88">		}</span>
+<span class="fc" id="L89">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

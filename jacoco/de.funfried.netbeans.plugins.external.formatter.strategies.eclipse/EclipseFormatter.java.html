@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EclipseFormatter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Java Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.strategies.eclipse</a> &gt; <span class="el_source">EclipseFormatter.java</span></div><h1>EclipseFormatter.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2013 markiewb.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * markiewb - initial API and implementation and/or initial documentation
+ * Saad Mufti &lt;saad.mufti@teamaol.com&gt;
+ */
+package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.SortedSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.ToolFactory;
+import org.eclipse.jdt.core.formatter.CodeFormatter;
+import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
+import org.eclipse.text.edits.TextEdit;
+import org.openide.filesystems.FileUtil;
+import org.xml.sax.SAXException;
+
+import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
+import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
+import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.Profile;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+
+public final class EclipseFormatter {
+<span class="fc" id="L50">	private static final Logger log = Logger.getLogger(EclipseFormatter.class.getName());</span>
+
+	private static final int FORMATTER_OPTS = CodeFormatter.K_COMPILATION_UNIT | CodeFormatter.F_INCLUDE_COMMENTS /* + CodeFormatter.K_CLASS_BODY_DECLARATIONS + CodeFormatter.K_STATEMENTS */;
+
+	private static final String WORKSPACE_MECHANIC_PREFIX = &quot;/instance/org.eclipse.jdt.core/&quot;;
+
+	@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L57">	private static final Map&lt;String, String&gt; ECLIPSE_JAVA_FORMATTER_DEFAULTS = DefaultCodeFormatterConstants.getJavaConventionsSettings();</span>
+
+<span class="fc" id="L59">	private static final Map&lt;String, String&gt; SOURCE_LEVEL_DEFAULTS = new LinkedHashMap&lt;&gt;();</span>
+
+	static {
+<span class="fc" id="L62">		String level = JavaCore.VERSION_1_6;</span>
+<span class="fc" id="L63">		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_COMPLIANCE, level);</span>
+<span class="fc" id="L64">		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, level);</span>
+<span class="fc" id="L65">		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_SOURCE, level);</span>
+<span class="fc" id="L66">	}</span>
+
+<span class="fc" id="L68">	EclipseFormatter() {</span>
+<span class="fc" id="L69">	}</span>
+
+	public String format(String formatterFile, String formatterProfile, String code, String lineFeed, String sourceLevel, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements)
+			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException {
+<span class="fc bfc" id="L73" title="All 2 branches covered.">		if (code == null) {</span>
+<span class="fc" id="L74">			return null;</span>
+		}
+
+<span class="fc" id="L77">		Map&lt;String, String&gt; allConfig = readConfig(formatterFile, formatterProfile, sourceLevel);</span>
+
+<span class="fc" id="L79">		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);</span>
+		//see http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FCodeFormatter.html&amp;anchor=format(int,
+
+<span class="fc" id="L82">		List&lt;IRegion&gt; regions = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		if (!CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
+<span class="fc" id="L85">				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));</span>
+<span class="fc" id="L86">			}</span>
+		} else {
+<span class="fc" id="L88">			regions.add(new Region(0, code.length()));</span>
+		}
+
+<span class="fc" id="L91">		return format(formatter, code, regions.toArray(new IRegion[regions.size()]), lineFeed);</span>
+	}
+
+	private String format(CodeFormatter formatter, String code, IRegion[] regions, String lineFeed) {
+<span class="fc" id="L95">		String formattedCode = null;</span>
+
+<span class="fc" id="L97">		TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);</span>
+<span class="pc bpc" id="L98" title="1 of 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
+			try {
+<span class="fc" id="L100">				IDocument dc = new Document(code);</span>
+<span class="fc" id="L101">				te.apply(dc);</span>
+
+<span class="fc" id="L103">				formattedCode = dc.get();</span>
+
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
+<span class="nc" id="L106">					return null;</span>
+				}
+<span class="nc" id="L108">			} catch (Exception ex) {</span>
+<span class="nc" id="L109">				log.log(Level.WARNING, &quot;Code could not be formatted!&quot;, ex);</span>
+<span class="nc" id="L110">				return null;</span>
+<span class="fc" id="L111">			}</span>
+		}
+
+<span class="fc" id="L114">		return formattedCode;</span>
+	}
+
+	private Map&lt;String, String&gt; getSourceLevelOptions(String sourceLevel) {
+<span class="fc" id="L118">		Map&lt;String, String&gt; options = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L119" title="All 4 branches covered.">		if (null != sourceLevel &amp;&amp; !&quot;&quot;.equals(sourceLevel)) {</span>
+<span class="fc" id="L120">			String level = sourceLevel;</span>
+<span class="fc" id="L121">			options.put(JavaCore.COMPILER_COMPLIANCE, level);</span>
+<span class="fc" id="L122">			options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, level);</span>
+<span class="fc" id="L123">			options.put(JavaCore.COMPILER_SOURCE, level);</span>
+		}
+
+<span class="fc" id="L126">		return options;</span>
+	}
+
+	/**
+	 *
+	 * @return profile of &lt;code&gt;null&lt;/code&gt; if profile with name not found
+	 */
+	private Profile getProfileByName(List&lt;Profile&gt; profiles, String name) {
+<span class="fc bfc" id="L134" title="All 2 branches covered.">		if (null == name) {</span>
+<span class="fc" id="L135">			return null;</span>
+		}
+<span class="fc bfc" id="L137" title="All 2 branches covered.">		for (Profile profile : profiles) {</span>
+<span class="pc bpc" id="L138" title="1 of 4 branches missed.">			if (null != profile &amp;&amp; name.equals(profile.getName())) {</span>
+<span class="fc" id="L139">				return profile;</span>
+			}
+<span class="fc" id="L141">		}</span>
+<span class="fc" id="L142">		return null;</span>
+	}
+
+	private Map&lt;String, String&gt; readConfig(String formatterFile, String formatterProfile, String sourceLevel) throws ProfileNotFoundException, ConfigReadException, CannotLoadConfigurationException {
+<span class="fc" id="L146">		Map&lt;String, String&gt; allConfig = new HashMap&lt;&gt;();</span>
+		try {
+			Map&lt;String, String&gt; configFromFile;
+<span class="fc bfc" id="L149" title="All 2 branches covered.">			if (Settings.isWorkspaceMechanicFile(formatterFile)) {</span>
+<span class="fc" id="L150">				configFromFile = readConfigFromWorkspaceMechanicFile(formatterFile);</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">			} else if (Settings.isXMLConfigurationFile(formatterFile)) {</span>
+<span class="fc" id="L152">				configFromFile = readConfigFromFormatterXmlFile(formatterFile, formatterProfile);</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">			} else if (Settings.isProjectSetting(formatterFile)) {</span>
+<span class="fc" id="L154">				configFromFile = readConfigFromProjectSettings(formatterFile);</span>
+			} else {
+<span class="fc" id="L156">				configFromFile = new LinkedHashMap&lt;&gt;();</span>
+			}
+
+<span class="fc" id="L159">			allConfig.putAll(ECLIPSE_JAVA_FORMATTER_DEFAULTS);</span>
+<span class="fc" id="L160">			allConfig.putAll(SOURCE_LEVEL_DEFAULTS);</span>
+<span class="fc" id="L161">			allConfig.putAll(configFromFile);</span>
+<span class="fc" id="L162">			allConfig.putAll(getSourceLevelOptions(sourceLevel));</span>
+
+			// https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77
+			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=449262
+<span class="fc bfc" id="L166" title="All 2 branches covered.">			if (org.eclipse.jdt.core.JavaCore.DEFAULT_JAVA_FORMATTER.equals(allConfig.get(&quot;org.eclipse.jdt.core.javaFormatter&quot;))) {</span>
+				//ignore default formatter as configured extension point
+<span class="fc" id="L168">				allConfig.remove(&quot;org.eclipse.jdt.core.javaFormatter&quot;);</span>
+			}
+
+<span class="fc bfc" id="L171" title="All 2 branches covered.">			if (null != allConfig.get(&quot;org.eclipse.jdt.core.javaFormatter&quot;)) {</span>
+<span class="fc" id="L172">				throw new UnsupportedOperationException(&quot;The use of third-party Java code formatters is not supported by this plugin.\n&quot;</span>
+						+ &quot;See https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77\n&quot;
+						+ &quot;Try to remove the entry 'org.eclipse.jdt.core.javaFormatter' from the configuration.&quot;);
+			}
+<span class="fc" id="L176">		} catch (ConfigReadException | ProfileNotFoundException ex) {</span>
+<span class="fc" id="L177">			log.log(Level.WARNING, &quot;Could not load configuration: &quot; + formatterFile, ex);</span>
+
+<span class="fc" id="L179">			throw ex;</span>
+<span class="fc" id="L180">		} catch (Exception ex) {</span>
+<span class="fc" id="L181">			log.log(Level.WARNING, &quot;Could not load configuration: &quot; + formatterFile, ex);</span>
+
+<span class="fc" id="L183">			throw new CannotLoadConfigurationException(ex);</span>
+<span class="fc" id="L184">		}</span>
+
+<span class="fc" id="L186">		return allConfig;</span>
+	}
+
+	private Map&lt;String, String&gt; readConfigFromFormatterXmlFile(String formatterFile, String formatterProfile) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
+<span class="fc" id="L190">		List&lt;Profile&gt; profiles = new ConfigReader().read(FileUtil.normalizeFile(new File(formatterFile)));</span>
+<span class="fc" id="L191">		String name = formatterProfile;</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">		if (profiles.isEmpty()) {</span>
+			//no config found
+<span class="nc" id="L194">			throw new ProfileNotFoundException(&quot;No profile found in &quot; + formatterFile);</span>
+		}
+
+<span class="fc" id="L197">		Profile profile = getProfileByName(profiles, name);</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">		if (null == profile) {</span>
+<span class="fc" id="L199">			throw new ProfileNotFoundException(&quot;Profile &quot; + name + &quot; not found in &quot; + formatterFile);</span>
+		}
+
+<span class="fc" id="L202">		return profile.getSettings();</span>
+	}
+
+	private Map&lt;String, String&gt; readConfigFromWorkspaceMechanicFile(String formatterFile) throws IOException {
+<span class="fc" id="L206">		Properties properties = new Properties();</span>
+<span class="fc" id="L207">		try (FileInputStream is = new FileInputStream(formatterFile)) {</span>
+<span class="fc" id="L208">			properties.load(is);</span>
+		}
+
+<span class="fc" id="L211">		return properties.keySet().stream().filter(key -&gt; ((String) key).startsWith(WORKSPACE_MECHANIC_PREFIX))</span>
+<span class="fc" id="L212">				.collect(Collectors.toMap(key -&gt; ((String) key).substring(WORKSPACE_MECHANIC_PREFIX.length()), key -&gt; properties.getProperty((String) key)));</span>
+	}
+
+	private Map&lt;String, String&gt; readConfigFromProjectSettings(final String formatterFile) throws IOException {
+<span class="fc" id="L216">		Properties properties = new Properties();</span>
+<span class="fc" id="L217">		try (FileInputStream is = new FileInputStream(formatterFile)) {</span>
+<span class="fc" id="L218">			properties.load(is);</span>
+		}
+
+<span class="fc" id="L221">		return properties.keySet().stream().collect(Collectors.toMap(key -&gt; (String) key, key -&gt; properties.getProperty((String) key)));</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

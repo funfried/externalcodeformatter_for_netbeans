@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NetBeansFormatterStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Java Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.strategies.netbeans</a> &gt; <span class="el_source">NetBeansFormatterStrategy.java</span></div><h1>NetBeansFormatterStrategy.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2013-2016 markiewb.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * markiewb - initial API and implementation and/or initial documentation
+ */
+package de.funfried.netbeans.plugins.external.formatter.strategies.netbeans;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
+
+import org.netbeans.modules.editor.indent.api.Reformat;
+import org.openide.text.NbDocument;
+import org.openide.util.Exceptions;
+
+import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
+import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStrategy;
+
+/**
+ *
+ * @author markiewb
+ * @author bahlef
+ */
+<span class="fc" id="L27">public class NetBeansFormatterStrategy implements IFormatterStrategy {</span>
+	/**
+	 * @param fa the {@link FormatterAdvice}
+	 */
+	@Override
+	public void format(FormatterAdvice fa) {
+<span class="nc" id="L33">		StyledDocument document = fa.getStyledDocument();</span>
+
+<span class="nc" id="L35">		Reformat rf = Reformat.get(document);</span>
+<span class="nc" id="L36">		rf.lock();</span>
+
+		// only care about selection if reformatting on menu action and not on file save
+<span class="nc bnc" id="L39" title="All 2 branches missed.">		int _dot = !fa.isForSave() ? fa.getSelectionStart() : -1;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">		int _mark = !fa.isForSave() ? fa.getSelectionEnd() : -1;</span>
+
+		try {
+<span class="nc" id="L43">			NbDocument.runAtomicAsUser(document, new NetBeansFormatterRunnable(document, rf, _dot, _mark));</span>
+<span class="nc" id="L44">		} catch (BadLocationException ex) {</span>
+<span class="nc" id="L45">			Exceptions.printStackTrace(ex);</span>
+		} finally {
+<span class="nc" id="L47">			rf.unlock();</span>
+		}
+<span class="nc" id="L49">	}</span>
+
+	@Override
+	public boolean canHandle(StyledDocument document) {
+<span class="nc" id="L53">		return true;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

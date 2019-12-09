@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RuleSet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Java Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml</a> &gt; <span class="el_source">RuleSet.java</span></div><h1>RuleSet.java</h1><pre class="source lang-java linenums">package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml;
+
+import org.apache.commons.digester3.Digester;
+import org.apache.commons.digester3.RuleSetBase;
+
+/**
+ * An Apache Commons Digester RuleSet for configuring a digester to parse the
+ * Eclipse formatter config XML into objects.
+ *
+ * @author jecki
+ * @author Matt Blanchette
+ */
+<span class="fc" id="L13">class RuleSet extends RuleSetBase {</span>
+	/**
+	 * @see
+	 *      org.apache.commons.digester.RuleSetBase#addRuleInstances(org.apache.commons.digester.Digester)
+	 */
+	@Override
+	public void addRuleInstances(Digester digester) {
+<span class="fc" id="L20">		digester.addObjectCreate(&quot;profiles&quot;, Profiles.class);</span>
+<span class="fc" id="L21">		digester.addObjectCreate(&quot;profiles/profile&quot;, Profile.class);</span>
+<span class="fc" id="L22">		digester.addObjectCreate(&quot;profiles/profile/setting&quot;, Setting.class);</span>
+
+<span class="fc" id="L24">		digester.addSetNext(&quot;profiles/profile&quot;, &quot;addProfile&quot;);</span>
+<span class="fc" id="L25">		digester.addSetNext(&quot;profiles/profile/setting&quot;, &quot;addSetting&quot;);</span>
+
+<span class="fc" id="L27">		digester.addSetProperties(&quot;profiles/profile&quot;, &quot;kind&quot;, &quot;kind&quot;);</span>
+<span class="fc" id="L28">		digester.addSetProperties(&quot;profiles/profile&quot;, &quot;name&quot;, &quot;name&quot;);</span>
+<span class="fc" id="L29">		digester.addSetProperties(&quot;profiles/profile&quot;, &quot;version&quot;, &quot;version&quot;);</span>
+<span class="fc" id="L30">		digester.addSetProperties(&quot;profiles/profile/setting&quot;, &quot;id&quot;, &quot;id&quot;);</span>
+<span class="fc" id="L31">		digester.addSetProperties(&quot;profiles/profile/setting&quot;, &quot;value&quot;, &quot;value&quot;);</span>
+<span class="fc" id="L32">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

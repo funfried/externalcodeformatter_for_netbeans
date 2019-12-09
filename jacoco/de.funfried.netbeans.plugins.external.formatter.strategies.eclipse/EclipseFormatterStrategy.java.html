@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EclipseFormatterStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Java Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.strategies.eclipse</a> &gt; <span class="el_source">EclipseFormatterStrategy.java</span></div><h1>EclipseFormatterStrategy.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2013-2016 markiewb.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * markiewb - initial API and implementation and/or initial documentation
+ */
+package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
+
+import java.util.SortedSet;
+import java.util.prefs.Preferences;
+
+import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+import de.funfried.netbeans.plugins.external.formatter.strategies.AbstractFormatterStrategy;
+
+/**
+ *
+ * @author markiewb
+ * @author bahlef
+ */
+<span class="fc" id="L27">public class EclipseFormatterStrategy extends AbstractFormatterStrategy {</span>
+<span class="fc" id="L28">	private final EclipseFormatter formatter = new EclipseFormatter();</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void format(StyledDocument document, int dot, int mark, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
+<span class="fc" id="L35">		EclipseFormatterRunnable formatterRunnable = new EclipseFormatterRunnable(document, formatter, dot, mark, changedElements);</span>
+<span class="fc" id="L36">		formatterRunnable.run();</span>
+<span class="fc" id="L37">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean isActivated(StyledDocument document) {
+<span class="fc" id="L44">		Preferences pref = Settings.getActivePreferences(document);</span>
+<span class="fc" id="L45">		return pref.getBoolean(Settings.ECLIPSE_FORMATTER_ENABLED, false);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
