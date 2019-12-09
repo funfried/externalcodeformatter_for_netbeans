@@ -212,6 +212,12 @@
 
 		<!-- NetBeans API -->
 		<dependency>
+			<groupId>org.netbeans.modules</groupId>
+			<artifactId>org-netbeans-modules-maven</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-netbeans-api-debugger</artifactId>
 			<version>${netbeans.version}</version>
@@ -268,6 +274,18 @@
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-netbeans-modules-projectuiapi</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-java-project</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-libs-javacapi</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
 
@@ -427,6 +445,13 @@
 					<groupId>org.apache.netbeans.utilities</groupId>
 					<artifactId>nbm-maven-plugin</artifactId>
 					<version>4.3</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.netbeans.contrib.yenta</groupId>
+							<artifactId>api</artifactId>
+							<version>1.1</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -703,6 +728,7 @@
 								<ignored>commons-beanutils:commons-beanutils</ignored>
 								<ignored>javax.annotation:javax.annotation-api</ignored>
 								<ignored>org.hibernate.validator:hibernate-validator</ignored>
+								<ignored>org.netbeans.api:org-netbeans-libs-javacapi</ignored>
 							</ignoredUnusedDeclaredDependencies>
 						</configuration>
 					</execution>

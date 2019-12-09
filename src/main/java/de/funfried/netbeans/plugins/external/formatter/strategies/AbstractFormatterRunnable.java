@@ -34,6 +34,7 @@ import org.netbeans.api.debugger.jpda.LineBreakpoint;
 import org.netbeans.api.debugger.jpda.MethodBreakpoint;
 import org.netbeans.api.editor.guards.GuardedSection;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
+import org.netbeans.api.java.project.JavaProjectConstants;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
@@ -41,6 +42,7 @@ import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
 import org.netbeans.editor.BaseDocument;
 import org.netbeans.modules.editor.NbEditorUtilities;
+import org.netbeans.modules.maven.classpath.MavenSourcesImpl;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.text.NbDocument;
@@ -62,29 +64,6 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  */
 public abstract class AbstractFormatterRunnable implements Runnable {
 	private static final Logger log = Logger.getLogger(AbstractFormatterRunnable.class.getName());
-
-	/**
-	 * Copied from org.netbeans.modules.maven.classpath.MavenSourcesImpl. These
-	 * constants where not public API, so they are duplicated in here.
-	 * https://github.com/markiewb/nb-resource-hyperlink-at-cursor/issues/9
-	 */
-	public static final String MAVEN_TYPE_OTHER = "Resources"; //NOI18N
-
-	public static final String MAVEN_TYPE_TEST_OTHER = "TestResources"; //NOI18N
-
-	public static final String MAVEN_TYPE_GEN_SOURCES = "GeneratedSources"; //NOI18N
-
-	/**
-	 * http://bits.netbeans.org/dev/javadoc/org-netbeans-modules-java-project/constant-values.html#org.netbeans.api.java.project.SOURCES_HINT_TEST
-	 *
-	 */
-	public static final String SOURCES_HINT_MAIN = "main";
-
-	public static final String SOURCES_HINT_TEST = "test";
-
-	public static final String SOURCES_TYPE_JAVA = "java";
-
-	public static final String SOURCES_TYPE_RESOURCES = "resources";
 
 	protected final SortedSet<Pair<Integer, Integer>> changedElements;
 
@@ -235,13 +214,13 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		Sources sources = ProjectUtils.getSources(p);
 
 		List<SourceGroup> list = new ArrayList<>();
-		list.addAll(Arrays.asList(sources.getSourceGroups(SOURCES_TYPE_JAVA)));
-		list.addAll(Arrays.asList(sources.getSourceGroups(SOURCES_TYPE_RESOURCES)));
-		list.addAll(Arrays.asList(sources.getSourceGroups(SOURCES_HINT_TEST)));
-		list.addAll(Arrays.asList(sources.getSourceGroups(SOURCES_HINT_MAIN)));
-		list.addAll(Arrays.asList(sources.getSourceGroups(MAVEN_TYPE_GEN_SOURCES)));
-		list.addAll(Arrays.asList(sources.getSourceGroups(MAVEN_TYPE_OTHER)));
-		list.addAll(Arrays.asList(sources.getSourceGroups(MAVEN_TYPE_TEST_OTHER)));
+		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA)));
+		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_RESOURCES)));
+		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_HINT_TEST)));
+		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_HINT_MAIN)));
+		list.addAll(Arrays.asList(sources.getSourceGroups(MavenSourcesImpl.TYPE_GEN_SOURCES)));
+		list.addAll(Arrays.asList(sources.getSourceGroups(MavenSourcesImpl.TYPE_OTHER)));
+		list.addAll(Arrays.asList(sources.getSourceGroups(MavenSourcesImpl.TYPE_TEST_OTHER)));
 
 		return list;
 	}
