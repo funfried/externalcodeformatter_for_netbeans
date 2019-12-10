@@ -8,7 +8,7 @@
 	</properties>
 
 	<body>
-		<release version="1.13-SNAPSHOT" date="TBD" description="First release from funfried (previous releases can be found here https://github.com/geertjanw/eclipsecodeformatter_for_netbeans)">
+		<release version="1.13-SNAPSHOT" date="TBD" description="First release from funfried aka bahlef">
 			<action dev="bahlef" type="update">
 				Renamed the project from "Eclipse Java Code Formatter for NetBeans" to "External Java Code Formatters for NetBeans" because of adding Google Code Formatter
 			</action>
@@ -26,6 +26,225 @@
 			</action>
 			<action dev="bahlef" type="add">
 				Added editor context menu action
+			</action>
+		</release>
+
+		<release version="1.12.2.46" date="2017-03-29">
+			<action dev="markiewb" type="fix" issue="93">
+				Fixed: java.lang.NoClassDefFoundError after another version of the plugin has been uninstalled
+			</action>
+		</release>
+
+		<release version="1.12.1.46" date="2016-12-13">
+			<action dev="markiewb" type="add" issue="84">
+				Provide support for Eclipse Neon 4.6 1a
+			</action>
+			<action dev="markiewb" type="fix" issue="88">
+				Fixed: Keyboard shortcut does not format non java files
+			</action>
+			<action dev="markiewb" type="add" issue="89">
+				Backport "Allow action to be invoked via macro"
+			</action>
+			<action dev="markiewb" type="fix" issue="87">
+				Backport "Minor UI issues in options dialog"
+			</action>
+			<action dev="markiewb" type="fix" issue="88">
+				Backport "Cannot be converted to URI/File: URI is not hierarchical."
+			</action>
+		</release>
+
+		<release version="1.12.0" date="2016-09-12">
+			<action dev="markiewb" type="add" issue="86">
+				Allow action to be invoked via macro
+			</action>
+		</release>
+
+		<release version="1.11.0" date="2016-05-14">
+			<action dev="markiewb" type="add" issue="78">
+				Support formatting using Eclipse 4.5.2 Mars.2
+			</action>
+			<action dev="markiewb" type="fix" issue="74">
+				Fixed: Minor UI issues in options dialog
+			</action>
+			<action dev="markiewb" type="fix" issue="80">
+				Fixed: Prevent "URI is not hierarchical" exception
+			</action>
+			<action dev="markiewb" type="fix" issue="77">
+				Fixed: Exception, when using third-party Java code formatter in configuation file
+			</action>
+		</release>
+
+		<release version="1.10.2.1" date="2016-05-07">
+			<action dev="markiewb" type="add" issue="72">
+				Support formatting using Eclipse 4.4 - Fork of the 1.10.2 Version with Eclipse Luna jars
+			</action>
+			<action dev="markiewb" type="fix" issue="79">
+				Fixed: Cannot use version 4.4 parallel to 4.5
+			</action>
+		</release>
+
+		<release version="1.10.2" date="2016-02-29">
+			<action dev="markiewb" type="add" issue="61">
+				Support Workspace Mechanic (https://code.google.com/a/eclipselabs.org/p/workspacemechanic/) configuration file (*.epf)
+			</action>
+			<action dev="markiewb" type="add" issue="67">
+				Support configuration via &lt;projectdir&gt;/.settings/org.eclipse.jdt.core.prefs or absolute path to org.eclipse.jdt.core.prefs
+			</action>
+			<action dev="markiewb" type="add" issue="68">
+				Reduce download size by 77% by repacking jars with pack200
+			</action>
+			<action dev="markiewb" type="add" issue="70">
+				On save action: Introduced option for formatting only the changed lines
+			</action>
+			<action dev="markiewb" type="add" issue="71">
+				Support configuration of linefeed
+			</action>
+			<action dev="markiewb" type="add" issue="23">
+				Support configuration of source level
+			</action>
+			<action dev="markiewb" type="add" issue="37">
+				Fallback to NB formatter, if file isn't a java file
+			</action>
+			<action dev="markiewb" type="fix" issue="73">
+				Selection in undocked windows is not respected, when called via keyboard
+			</action>
+		</release>
+
+		<release version="1.9.0.0" date="2015-12-30">
+			<action dev="markiewb" type="change" issue="63">
+				Update to Eclipse formatter jars from Eclipse 4.5.1 (Mars.1)
+			</action>
+			<action dev="markiewb" type="add" issue="65">
+				Code templates for @formatter:on/off (https://github.com/markiewb/eclipsecodeformatter_for_netbeans/wiki/Support-of-@formatter:off)
+			</action>
+			<action dev="markiewb" type="change" issue="66">
+				Update requirements to NetBeans 8.0+
+			</action>
+		</release>
+
+		<release version="1.8.0.6" date="2015-03-04" description="Bug fix release">
+			<action dev="markiewb" type="add" issue="57">
+				Fixed: java.lang.IllegalArgumentException: bad position and run parts in EDT
+			</action>
+			<action dev="markiewb" type="fix" issue="4">
+				Fixed: option panel isn't found by searching for "eclipse"
+			</action>
+		</release>
+
+		<release version="1.8.0.5" date="2014-10-31" description="Bug fix release">
+			<action dev="markiewb" type="add" issue="56">
+				Fixed: Format on Save - Changed files remain modified after saving them in Java Editor
+			</action>
+			<action dev="markiewb" type="fix" issue="55">
+				Fixed: "URI is not hierarchical" error message on calling format - add logging for this error
+			</action>
+		</release>
+
+		<release version="1.8.0.4" date="2014-10-11">
+			<action dev="markiewb" type="add" issue="47">
+				Preserve Class/Method/Field breakpoints (experimental, can be disabled in options)
+			</action>
+			<action dev="markiewb" type="fix" issue="53">
+				Fixed: Do not remove linebreakpoint, if line is not included in selection
+			</action>
+			<action dev="markiewb" type="add" issue="52">
+				Fixed: Cannot assign shortcut for "Format with Eclipse Formatter" action
+			</action>
+			<action dev="markiewb" type="update" issue="46">
+				Update to use eclipse formatter libs from eclipse 4.4
+			</action>
+			<action dev="markiewb" type="update" issue="48">
+				Support only NetBeans 7.4 and above
+			</action>
+			<action dev="markiewb" type="update" issue="49">
+				Add donation button
+			</action>
+			<action dev="markiewb" type="update" issue="50">
+				Add link to github/homepage
+			</action>
+		</release>
+
+		<release version="1.7.1" date="2014-06-10" description="Bug fix release">
+			<action dev="markiewb" type="fix" issue="40">
+				Fixed: NPE when configuration file not found
+			</action>
+		</release>
+
+		<release version="1.7.0" date="2014-04-01">
+			<action dev="markiewb" type="add" due-to="Saad Mufti (https://github.com/saadmufti)" issue="38">
+				Format selected part of document
+			</action>
+		</release>
+
+		<release version="1.6.1" date="2013-11-20" description="Bug fix release">
+			<action dev="markiewb" type="fix" issue="34">
+				Fixed: NPE while saving options when no profile is set
+			</action>
+		</release>
+
+		<release version="1.6" date="2013-11-11">
+			<action dev="markiewb" type="update" issue="30">
+				Update to Eclipse formatter jars from Eclipse Kepler 4.3
+			</action>
+			<action dev="markiewb" type="add" issue="31">
+				First profile in file is always used - support selection of profile
+			</action>
+			<action dev="markiewb" type="add" issue="21">
+				Project specific options: Show link to global options
+			</action>
+		</release>
+
+		<release version="1.5" date="2013-10-20">
+			<action dev="markiewb" type="fix" issue="18">
+				Fixed: Formatting with eclipse formatter introduces empty document in undo manager
+			</action>
+			<action dev="markiewb" type="add" issue="27">
+				Provide a signed package for the PPUC
+			</action>
+		</release>
+
+		<release version="1.4.1" date="2013-10-07" description="Bug fix release">
+			<action dev="markiewb" type="fix" issue="25">
+				Fixed: Configured formatter.xml isn't used
+			</action>
+		</release>
+
+		<release version="1.4" date="2013-10-03" description="First documented release">
+			<action dev="markiewb" type="update" issue="22">
+				Compile against NB 7.3
+			</action>
+			<action dev="markiewb" type="fix" issue="16">
+				Choose a license, which is compatible to the embedded libs
+			</action>
+			<action dev="markiewb" type="update" issue="14">
+				Compatibility to JDK6
+			</action>
+			<action dev="markiewb" type="add" issue="13">
+				Add action "Format with Eclipse Formatter"
+			</action>
+			<action dev="markiewb" type="fix" issue="11">
+				After saving the caret is always placed at the end of the file
+			</action>
+			<action dev="markiewb" type="fix" issue="10">
+				Preview panel in options isn't aware to dark themes LAF
+			</action>
+			<action dev="markiewb" type="update" issue="9">
+				Simplify org.netbeans.eclipse.formatter.ReformatWithEclipseBeforeSaveTask.isJava() 
+			</action>
+			<action dev="markiewb" type="update" issue="8">
+				Make formatting "on save" optional.
+			</action>
+			<action dev="markiewb" type="update" issue="5">
+				Use standard border for options/project settings
+			</action>
+			<action dev="markiewb" type="fix" issue="3">
+				Missing XML syntax highlighting in options/project settings
+			</action>
+			<action dev="markiewb" type="fix" issue="2">
+				Missing mnemonics in options dialog/project settings
+			</action>
+			<action dev="markiewb" type="fix" issue="1">
+				NPE when Format action is invoked but no java document has the focus
 			</action>
 		</release>
 	</body>

@@ -53,9 +53,10 @@
 
 		<menu name="Overview">
 			<item name="Introduction" href="index.html"/>
-			<item name="Downloads" href="downloads.html"/>
 			<item name="Usage" href="usage.html"/>
 			<item name="Known Issues" href="known_issues.html"/>
+			<item name="Downloads" href="downloads.html"/>
+			<item name="Changelog" href="changes-report.html"/>
 		</menu>
 		<menu ref="reports" />
 
