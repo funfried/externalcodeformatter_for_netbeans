@@ -19,9 +19,7 @@ import javax.swing.event.ChangeListener;
 
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
-
-import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
-
+import org.netbeans.modules.maven.api.NbMavenProject;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer.Category;
 import org.openide.util.ImageUtilities;
@@ -30,17 +28,25 @@ import org.openide.util.NbBundle;
 import org.openide.util.WeakListeners;
 
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
 
+@NbBundle.Messages({ "LBL_Config=External Formatting" })
+@ProjectCustomizer.CompositeCategoryProvider.Registrations({
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-j2ee-clientproject", position = 1000),
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-j2ee-ejbjarproject", position = 1000),
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-java-j2seproject", position = 1000),
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-j2ee-ejbjarproject", position = 1000),
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-ant-freeform", position = 1000),
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-web-project", position = 1000),
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-maven/" + NbMavenProject.TYPE_OSGI, position = 1000),
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-maven", position = 1000),
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(projectType = "org-netbeans-modules-gradle", position = 1000),
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-apisupport-project", position = 1000)
+})
 public class ExternalFormatterCustomizerTab implements ProjectCustomizer.CompositeCategoryProvider {
-	private final String name;
-
-	private ExternalFormatterCustomizerTab(String name) {
-		this.name = name;
-	}
-
 	@Override
 	public Category createCategory(Lookup lkp) {
-		return ProjectCustomizer.Category.create(name, name, ImageUtilities.loadImage(Icons.EXTERNAL_FORMATTER_ICON_PATH, false));
+		return ProjectCustomizer.Category.create("external-format", Bundle.LBL_Config(), ImageUtilities.loadImage(Icons.EXTERNAL_FORMATTER_ICON_PATH, false));
 	}
 
 	@Override
@@ -63,17 +69,6 @@ public class ExternalFormatterCustomizerTab implements ProjectCustomizer.Composi
 		configPanel.addChangeListener(WeakListeners.change(listener, configPanel));
 		projectSpecificSettingsPanel.addChangeListener(WeakListeners.change(listener, projectSpecificSettingsPanel));
 		return projectSpecificSettingsPanel;
-	}
-
-	@NbBundle.Messages({ "LBL_Config=External Formatting" })
-	@Registrations({
-			@Registration(category = "Formatting", projectType = "org-netbeans-modules-java-j2seproject", position = 1000),
-			@Registration(category = "Formatting", projectType = "org-netbeans-modules-web-project", position = 1000),
-			@Registration(category = "Formatting", projectType = "org-netbeans-modules-maven", position = 1000),
-			@Registration(category = "Formatting", projectType = "org-netbeans-modules-apisupport-project", position = 1000)
-	})
-	public static ExternalFormatterCustomizerTab createMyDemoConfigurationTab() {
-		return new ExternalFormatterCustomizerTab(Bundle.LBL_Config());
 	}
 
 	private static class ValidationListener implements ChangeListener {
