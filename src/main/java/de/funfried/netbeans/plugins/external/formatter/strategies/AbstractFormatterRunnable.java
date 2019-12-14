@@ -43,7 +43,6 @@ import org.netbeans.api.project.SourceGroup;
 import org.netbeans.api.project.Sources;
 import org.netbeans.editor.BaseDocument;
 import org.netbeans.modules.editor.NbEditorUtilities;
-import org.netbeans.modules.maven.classpath.MavenSourcesImpl;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.text.NbDocument;
@@ -260,9 +259,14 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_RESOURCES)));
 		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_HINT_TEST)));
 		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_HINT_MAIN)));
-		list.addAll(Arrays.asList(sources.getSourceGroups(MavenSourcesImpl.TYPE_GEN_SOURCES)));
-		list.addAll(Arrays.asList(sources.getSourceGroups(MavenSourcesImpl.TYPE_OTHER)));
-		list.addAll(Arrays.asList(sources.getSourceGroups(MavenSourcesImpl.TYPE_TEST_OTHER)));
+
+		try {
+			list.addAll(Arrays.asList(sources.getSourceGroups(org.netbeans.modules.maven.classpath.MavenSourcesImpl.TYPE_GEN_SOURCES)));
+			list.addAll(Arrays.asList(sources.getSourceGroups(org.netbeans.modules.maven.classpath.MavenSourcesImpl.TYPE_OTHER)));
+			list.addAll(Arrays.asList(sources.getSourceGroups(org.netbeans.modules.maven.classpath.MavenSourcesImpl.TYPE_TEST_OTHER)));
+		} catch (Throwable ex) {
+			log.log(Level.FINER, "Could not add source groups for maven, maybe maven plugins are not installed or disabled", ex);
+		}
 
 		return list;
 	}
@@ -356,7 +360,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 					toFileObject = FileUtil.toFileObject(FileUtil.normalizeFile(Utilities.toFile(new URI(url))));
 				} catch (Exception ex) {
 					log.log(Level.WARNING,
-							"{0} cannot be converted to URI/File: {1}. Please see https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/55 and report to https://github.com/funfried/externalcodeformatter_for_netbeans/issues/",
+							"{0} cannot be converted to URI/File: {1}. Please report to https://github.com/funfried/eclipsecodeformatter_for_netbeans/issues/55",
 							new Object[] { url, ex.getMessage() });
 					continue;
 				}

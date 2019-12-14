@@ -200,7 +200,7 @@
 		<dependency>
 			<groupId>org.eclipse.jdt</groupId>
 			<artifactId>org.eclipse.jdt.core</artifactId>
-			<version>3.18.0</version>
+			<version>3.19.0</version>
 		</dependency>
 
 		<dependency>
@@ -232,6 +232,7 @@
 			<groupId>org.netbeans.modules</groupId>
 			<artifactId>org-netbeans-modules-maven</artifactId>
 			<version>${netbeans.version}</version>
+			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
 
