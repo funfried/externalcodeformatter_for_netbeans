@@ -3,12 +3,12 @@
 <filesystem>
 	<!-- restructure the original formatting panel to a hierarchy node -->
 	<folder name="Menu">
-        <folder name="Source">
-            <file name="org-netbeans-modules-editor-MainMenuAction$FormatAction.instance_hidden"/>
-        </folder>
-    </folder>
+		<folder name="Source">
+			<file name="org-netbeans-modules-editor-MainMenuAction$FormatAction.instance_hidden"/>
+		</folder>
+	</folder>
 
-    <folder name="Projects">
+	<folder name="Projects">
 		<folder name="org-netbeans-modules-java-j2seproject">
 			<folder name="Customizer">
 				<attr intvalue="1000" name="position"/>

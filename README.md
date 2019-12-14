@@ -48,7 +48,7 @@ Please note that this plugin only provides support for formatting. Eclipse users
 
 ## Licensing
 This plugin is licensed under the [Eclipse Public License, Version 2.0](http://funfried.github.io/externalcodeformatter_for_netbeans/licenses.html).
-This plugin uses third-party libraries, which are needed to provide this plugins functionality, please check their licenses [here](https://funfried.github.io/externalcodeformatter_for_netbeans/dependencies.html).
+This plugin uses third-party libraries, which are needed to provide its functionality, please check their licenses [here](https://funfried.github.io/externalcodeformatter_for_netbeans/dependencies.html).
 
 ## The history of this project
 * The original idea is based on http://epochcoder.blogspot.com/2013/08/import-eclipse-formatter-into-netbeans.html from [Willie Scholtz](https://github.com/epochcoder)

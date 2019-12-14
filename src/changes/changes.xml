@@ -9,23 +9,26 @@
 
 	<body>
 		<release version="1.13-SNAPSHOT" date="TBD" description="First release from funfried aka bahlef">
+			<action dev="bahlef" type="add">
+				Added Google Formatter
+			</action>
 			<action dev="bahlef" type="update">
 				Renamed the project from "Eclipse Java Code Formatter for NetBeans" to "External Java Code Formatters for NetBeans" because of adding Google Code Formatter
 			</action>
 			<action dev="bahlef" type="add">
 				Removed default formatter action and added shortcut (Ctrl + Meta/Cmd + F) for external formatter action
 			</action>
-			<action dev="bahlef" type="add">
-				Added Google Formatter
-			</action>
-			<action dev="bahlef" type="add">
+			<action dev="bahlef" type="add" issue="17">
 				Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted)
 			</action>
-			<action dev="bahlef" type="update">
+			<action dev="bahlef" type="update" issue="81">
 				Switched from ANT to Maven project
 			</action>
 			<action dev="bahlef" type="add">
 				Added editor context menu action
+			</action>
+			<action dev="bahlef" type="add" issue="95">
+				Added support for project specific formatter settings for Gradle projects (and also other Java project types)
 			</action>
 		</release>
 
