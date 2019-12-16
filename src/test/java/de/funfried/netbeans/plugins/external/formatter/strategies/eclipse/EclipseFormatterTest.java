@@ -51,6 +51,36 @@ public class EclipseFormatterTest {
 	}
 
 	@Test
+	public void testFormatUsingXML_formatterOnOff() {
+		final String text = "package foo; public class NewEmptyJUnitTest {\n" +
+				"\n" +
+				"// @formatter:off\n" +
+				"public void doSomething(String arg) {\n" +
+				"	System.out.println(\"Hello World\");\n" +
+				"}\n" +
+				"// @formatter:on\n" +
+				"\n" +
+				"public boolean doSomethingElse(Object obj) { return false; } }";
+		final String expected = "package foo;\n" +
+				"\n" +
+				"public class NewEmptyJUnitTest {\n" +
+				"\n" +
+				"// @formatter:off\n" +
+				"public void doSomething(String arg) {\n" +
+				"	System.out.println(\"Hello World\");\n" +
+				"}\n" +
+				"// @formatter:on\n" +
+				"\n" +
+				"    public boolean doSomethingElse(Object obj) {\n" +
+				"	return false;\n" +
+				"    }\n" +
+				"}";
+
+		String actual = instance.format("src/test/resources/formatteronoffsampleeclipse.xml", "eclipse-demo", text, null, null, null);
+		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
+	}
+
+	@Test
 	public void testFormatUsingEPF() {
 		final String text = "package foo;public enum NewEmptyJUnitTest { A, B, C}";
 		final String expected = "package foo;\n"
