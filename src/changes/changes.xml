@@ -30,6 +30,9 @@
 			<action dev="bahlef" type="add" issue="95">
 				Added support for project specific formatter settings for Gradle projects (and also other Java project types)
 			</action>
+			<action dev="bahlef" type="add" issue="94">
+				Unit test added to check @formatter:on/off feature of Eclipse formatter
+			</action>
 		</release>
 
 		<release version="1.12.2.46" date="2017-03-29">
