@@ -10,7 +10,6 @@
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 
 import java.util.SortedSet;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
@@ -18,14 +17,11 @@ import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
-import org.netbeans.api.project.FileOwnerQuery;
-import org.netbeans.api.project.Project;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
-import org.openide.filesystems.FileObject;
 
 import de.funfried.netbeans.plugins.external.formatter.Utils;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
@@ -45,8 +41,6 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  * </ul>
  */
 class EclipseFormatterRunnable extends AbstractFormatterRunnable {
-	private static final Logger log = Logger.getLogger(EclipseFormatterRunnable.class.getName());
-
 	private final EclipseFormatter formatter;
 
 	EclipseFormatterRunnable(StyledDocument document, EclipseFormatter formatter, int dot, int mark, SortedSet<Pair<Integer, Integer>> changedElements) {
@@ -64,13 +58,8 @@ class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 
 		Preferences pref = Settings.getActivePreferences(document);
 
-		String formatterFilePref = getFormatterFileFromProjectConfiguration(pref.getBoolean(Settings.USE_PROJECT_PREFS, true), document);
-		if (null == formatterFilePref) {
-			formatterFilePref = pref.get(Settings.ECLIPSE_FORMATTER_LOCATION, null);
-		}
-
-		final String formatterFile = formatterFilePref;
-		final String formatterProfile = pref.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
+		String formatterFile = Settings.getEclipseFormatterFile(pref, document);
+		String formatterProfile = pref.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
 		String sourceLevel = pref.get(Settings.SOURCELEVEL, "");
 		boolean preserveBreakpoints = pref.getBoolean(Settings.PRESERVE_BREAKPOINTS, true);
 		String lineFeedSetting = pref.get(Settings.LINEFEED, "");
@@ -116,25 +105,6 @@ class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 		} catch (RuntimeException ex) {
 			throw ex;
 		}
-	}
-
-	private String getFormatterFileFromProjectConfiguration(final boolean useProjectPrefs, final StyledDocument styledDoc) {
-		//use ${projectdir}/.settings/org.eclipse.jdt.core.prefs, if activated in options
-		if (useProjectPrefs) {
-			FileObject fileForDocument = NbEditorUtilities.getFileObject(styledDoc);
-			if (null != fileForDocument) {
-
-				Project project = FileOwnerQuery.getOwner(fileForDocument);
-				if (null != project) {
-					FileObject projectDirectory = project.getProjectDirectory();
-					FileObject preferenceFile = projectDirectory.getFileObject(".settings/" + Settings.PROJECT_PREF_FILE);
-					if (null != preferenceFile) {
-						return preferenceFile.getPath();
-					}
-				}
-			}
-		}
-		return null;
 	}
 
 	private String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {

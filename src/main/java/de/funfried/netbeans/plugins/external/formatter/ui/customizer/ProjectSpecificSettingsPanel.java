@@ -16,10 +16,9 @@ import java.util.prefs.Preferences;
 
 import javax.swing.event.ChangeListener;
 
-import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
-
 import org.netbeans.api.options.OptionsDisplayer;
 
+import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements VerifiableConfigPanel {
@@ -125,6 +124,10 @@ public class ProjectSpecificSettingsPanel extends javax.swing.JPanel implements 
 		for (ChangeListener changeListener : changeListeners) {
 			changeListener.stateChanged(null);
 		}
+	}
+
+	public void removeChangeListener(ChangeListener listener) {
+		changeListeners.remove(listener);
 	}
 
 	@Override

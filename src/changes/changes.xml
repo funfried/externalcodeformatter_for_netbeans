@@ -33,6 +33,11 @@
 			<action dev="bahlef" type="add" issue="94">
 				Unit test added to check @formatter:on/off feature of Eclipse formatter
 			</action>
+			<action dev="bahlef" type="add" issue="82">
+				The vertical red line in the editor is now placed according to the line wrap of the configuration of your external formatter. It is also possible to set a flag to use
+				other UI related properties of the external formatter configuration for indentation in the NetBeans editor and if you do you can also override the tab size with your
+				prefered setting. Due to this feature the plugin requires now at least NetBeans 9.0+
+			</action>
 		</release>
 
 		<release version="1.12.2.46" date="2017-03-29">

@@ -23,7 +23,7 @@ import de.funfried.netbeans.plugins.external.formatter.Utils;
  *
  * @author bahlef
  */
-public abstract class AbstractFormatterStrategy implements IFormatterStrategy {
+public abstract class AbstractJavaFormatterStrategy implements IFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */

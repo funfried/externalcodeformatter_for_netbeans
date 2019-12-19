@@ -12,8 +12,10 @@ package de.funfried.netbeans.plugins.external.formatter.ui.options;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.prefs.Preferences;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import org.netbeans.spi.options.OptionsPanelController;
 import org.openide.util.HelpCtx;
 import org.openide.util.Lookup;
@@ -72,6 +74,7 @@ public final class ExternalFormatterOptionsPanelController extends OptionsPanelC
 			panel = new ExternalFormatterPanel(globalPreferences, false);
 			panel.addChangeListener(WeakListeners.change(this, panel));
 		}
+
 		return panel;
 	}
 

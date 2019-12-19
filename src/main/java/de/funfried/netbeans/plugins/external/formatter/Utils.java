@@ -13,6 +13,7 @@ package de.funfried.netbeans.plugins.external.formatter;
 
 import javax.swing.text.Document;
 
+import org.netbeans.api.java.lexer.JavaTokenId;
 import org.netbeans.modules.editor.NbEditorUtilities;
 
 /**
@@ -32,6 +33,6 @@ public interface Utils {
 	 *         {@code false}
 	 */
 	public static boolean isJava(Document document) {
-		return "text/x-java".equals(NbEditorUtilities.getMimeType(document));
+		return JavaTokenId.language().mimeType().equals(NbEditorUtilities.getMimeType(document));
 	}
 }

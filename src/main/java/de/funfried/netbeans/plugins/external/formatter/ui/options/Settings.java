@@ -9,9 +9,11 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.ui.options;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.prefs.Preferences;
 
-import javax.swing.text.StyledDocument;
+import javax.swing.text.Document;
 
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.project.FileOwnerQuery;
@@ -22,6 +24,8 @@ import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
 import org.openide.util.NbPreferences;
+
+import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterConfig;
 
 /**
  *
@@ -38,6 +42,12 @@ public class Settings {
 	public static final String ECLIPSE_FORMATTER_LOCATION = "eclipseFormatterLocation";
 
 	public static final String ENABLE_SAVEACTION = "enableFormatAsSaveAction";
+
+	public static final String ENABLE_USE_OF_INDENTATION_SETTINGS = "enableIndentationSettings";
+
+	public static final String OVERRIDE_TAB_SIZE = "overrideTabSize";
+
+	public static final String OVERRIDE_TAB_SIZE_VALUE = "overrideTabSizeValue";
 
 	public static final String ENABLE_SAVEACTION_MODIFIEDLINESONLY = "SaveActionModifiedLinesOnly";
 
@@ -80,9 +90,9 @@ public class Settings {
 	 */
 	public static final String GOOGLE_FORMATTER_CODE_STYLE = "googleFormatterCodeStyle";
 
-	public static Preferences getActivePreferences(final StyledDocument styledDoc) {
+	public static Preferences getActivePreferences(Document document) {
 		Preferences globalPreferences = NbPreferences.forModule(ExternalFormatterPanel.class);
-		DataObject dataObj = NbEditorUtilities.getDataObject(styledDoc);
+		DataObject dataObj = NbEditorUtilities.getDataObject(document);
 		if (dataObj != null) {
 			FileObject primaryFile = dataObj.getPrimaryFile();
 			if (primaryFile != null) {
@@ -97,6 +107,35 @@ public class Settings {
 		}
 
 		return globalPreferences;
+	}
+
+	public static String getEclipseFormatterFile(Preferences preferences, Document document) {
+		String formatterFilePref = getFormatterFileFromProjectConfiguration(preferences.getBoolean(Settings.USE_PROJECT_PREFS, true), document);
+		if (null == formatterFilePref) {
+			formatterFilePref = preferences.get(Settings.ECLIPSE_FORMATTER_LOCATION, null);
+		}
+
+		return formatterFilePref;
+	}
+
+	private static String getFormatterFileFromProjectConfiguration(boolean useProjectPrefs, Document document) {
+		//use ${projectdir}/.settings/org.eclipse.jdt.core.prefs, if activated in options
+		if (useProjectPrefs) {
+			FileObject fileForDocument = NbEditorUtilities.getFileObject(document);
+			if (null != fileForDocument) {
+
+				Project project = FileOwnerQuery.getOwner(fileForDocument);
+				if (null != project) {
+					FileObject projectDirectory = project.getProjectDirectory();
+					FileObject preferenceFile = projectDirectory.getFileObject(".settings/" + Settings.PROJECT_PREF_FILE);
+					if (null != preferenceFile) {
+						return preferenceFile.getPath();
+					}
+				}
+			}
+		}
+
+		return null;
 	}
 
 	public static boolean isWorkspaceMechanicFile(String filename) {
@@ -133,5 +172,139 @@ public class Settings {
 		}
 
 		return linefeed;
+	}
+
+	public static boolean isUseFormatterIndentationSettings(Document document) {
+		if (document == null) {
+			return false;
+		}
+
+		Preferences preferences = getActivePreferences(document);
+		if (preferences.getBoolean(ECLIPSE_FORMATTER_ENABLED, true) || preferences.getBoolean(GOOGLE_FORMATTER_ENABLED, true)) {
+			return preferences.getBoolean(ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+		}
+
+		return false;
+	}
+
+	public static Integer getRightMargin(Document document) {
+		if (document == null) {
+			return null;
+		}
+
+		Integer ret = null;
+
+		Preferences preferences = getActivePreferences(document);
+		if (preferences.getBoolean(ECLIPSE_FORMATTER_ENABLED, true)) {
+			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.lineSplit");
+			if (value != null) {
+				ret = Integer.valueOf(value);
+			}
+		} else if (preferences.getBoolean(GOOGLE_FORMATTER_ENABLED, true)) {
+			// see: https://google.github.io/styleguide/javaguide.html#s4.4-column-limit
+			ret = 100;
+		}
+
+		return ret;
+	}
+
+	public static Boolean isExpandTabToSpaces(Document document) {
+		if (document == null || !isUseFormatterIndentationSettings(document)) {
+			return null;
+		}
+
+		Boolean ret = null;
+
+		Preferences preferences = getActivePreferences(document);
+		if (preferences.getBoolean(ECLIPSE_FORMATTER_ENABLED, true)) {
+			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.tabulation.char");
+			if (value != null) {
+				ret = Objects.equals(value, "space");
+			}
+		} else if (preferences.getBoolean(GOOGLE_FORMATTER_ENABLED, true)) {
+			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+			ret = false;
+		}
+
+		return ret;
+	}
+
+	public static Integer getSpacesPerTab(Document document) {
+		if (document == null || !isUseFormatterIndentationSettings(document)) {
+			return null;
+		}
+
+		Integer ret = null;
+
+		Preferences preferences = getActivePreferences(document);
+		if (preferences.getBoolean(OVERRIDE_TAB_SIZE, true)) {
+			ret = preferences.getInt(OVERRIDE_TAB_SIZE_VALUE, 4);
+		} else if (preferences.getBoolean(ECLIPSE_FORMATTER_ENABLED, true)) {
+			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.tabulation.size");
+			if (value != null) {
+				ret = Integer.valueOf(value);
+			}
+		} else if (preferences.getBoolean(GOOGLE_FORMATTER_ENABLED, true)) {
+			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+			ret = 2;
+		}
+
+		return ret;
+	}
+
+	public static Integer getIndentSize(Document document) {
+		if (document == null || !isUseFormatterIndentationSettings(document)) {
+			return null;
+		}
+
+		Integer ret = null;
+
+		Preferences preferences = getActivePreferences(document);
+		if (preferences.getBoolean(ECLIPSE_FORMATTER_ENABLED, true)) {
+			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.indentation.size");
+			if (value != null) {
+				ret = Integer.valueOf(value);
+			}
+		} else if (preferences.getBoolean(GOOGLE_FORMATTER_ENABLED, true)) {
+			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+			ret = 2;
+		}
+
+		return ret;
+	}
+
+	public static Integer getContinuationIndentSize(Document document) {
+		if (document == null || !isUseFormatterIndentationSettings(document)) {
+			return null;
+		}
+
+		Integer ret = null;
+
+		Preferences preferences = Settings.getActivePreferences(document);
+		if (preferences.getBoolean(Settings.ECLIPSE_FORMATTER_ENABLED, true)) {
+			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.continuation_indentation");
+			if (value != null) {
+				ret = Integer.valueOf(value);
+			}
+		} else if (preferences.getBoolean(GOOGLE_FORMATTER_ENABLED, true)) {
+			// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent
+			ret = 4;
+		}
+
+		return ret;
+	}
+
+	private static String getEclipseFormatterProperty(Preferences preferences, Document document, String key) {
+		if (preferences == null || document == null) {
+			return null;
+		}
+
+		String formatterFile = Settings.getEclipseFormatterFile(preferences, document);
+		String formatterProfile = preferences.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
+		String sourceLevel = preferences.get(Settings.SOURCELEVEL, "");
+
+		Map<String, String> config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);
+
+		return config.getOrDefault(key, null);
 	}
 }

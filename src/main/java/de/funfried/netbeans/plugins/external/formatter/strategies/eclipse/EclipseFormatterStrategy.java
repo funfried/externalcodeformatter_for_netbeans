@@ -17,14 +17,14 @@ import javax.swing.text.StyledDocument;
 import org.apache.commons.lang3.tuple.Pair;
 
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
-import de.funfried.netbeans.plugins.external.formatter.strategies.AbstractFormatterStrategy;
+import de.funfried.netbeans.plugins.external.formatter.strategies.AbstractJavaFormatterStrategy;
 
 /**
  *
  * @author markiewb
  * @author bahlef
  */
-public class EclipseFormatterStrategy extends AbstractFormatterStrategy {
+public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	private final EclipseFormatter formatter = new EclipseFormatter();
 
 	/**

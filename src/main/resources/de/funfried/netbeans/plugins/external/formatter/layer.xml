@@ -91,6 +91,9 @@
 				<folder name="Popup">
 					<file name="format_hidden"/>
 				</folder>
+				<file name="EditorKit.instance">
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterJavaEditorKit"/>
+				</file>
 			</folder>
 		</folder>
 	</folder>

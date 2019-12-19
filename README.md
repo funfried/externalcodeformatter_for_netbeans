@@ -1,6 +1,8 @@
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url)
 
 [![Build Status](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master)](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans)
+![GitHub All Releases](https://img.shields.io/github/downloads/funfried/externalcodeformatter_for_netbeans/total)
+![GitHub issues](https://img.shields.io/github/issues/funfried/externalcodeformatter_for_netbeans)
 
 External Java Code Formatters for NetBeans
 ========================================
@@ -35,7 +37,7 @@ source code the same way as e.g. your Eclipse co-workers do.
 * Support for Google code formatter (since 1.13)
 
 ## Compatibility
-Compatible with NetBeans 8.2+ and JDK8+.
+Compatible with NetBeans 9.0+ and JDK8+.
 
 ## Downloads
 You can find the download links [here](http://funfried.github.io/externalcodeformatter_for_netbeans/downloads.html).

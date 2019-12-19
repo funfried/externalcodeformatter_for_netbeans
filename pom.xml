@@ -104,7 +104,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<netbeans.version>RELEASE82</netbeans.version>
+		<netbeans.version>RELEASE90</netbeans.version>
 	</properties>
 
 	<dependencyManagement>
@@ -237,6 +237,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.netbeans.modules</groupId>
+			<artifactId>org-netbeans-modules-java-editor</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-netbeans-api-debugger</artifactId>
 			<version>${netbeans.version}</version>
@@ -286,6 +292,18 @@
 
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-editor-mimelookup</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-parsing-api</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-netbeans-modules-projectapi</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
@@ -298,7 +316,25 @@
 
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-java-source-base</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-netbeans-modules-java-project</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-java-lexer</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-lexer</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
 
@@ -621,6 +657,16 @@
 					<licenseFile>${basedir}/src/main/resources/de/funfried/netbeans/plugins/external/formatter/epl-v20.html</licenseFile>
 					<distributionUrl>https://github.com/funfried/eclipsecodeformatter_for_netbeans/</distributionUrl>
 					<author>Fabian Bahle (info@funfried.de) and others / original authors: benno.markiewicz@googlemail.com, geertjan.wielenga@oracle.com and williescholtz@gmail.com</author>
+					<moduleDependencies>
+						<dependency>
+							<id>org.netbeans.modules:org-netbeans-modules-java-editor</id>
+							<type>impl</type>
+						 </dependency>
+						<dependency>
+							<id>org.netbeans.api:org-netbeans-modules-java-source-base</id>
+							<type>impl</type>
+						 </dependency>
+					</moduleDependencies>
 				</configuration>
 			</plugin>
 			<plugin>

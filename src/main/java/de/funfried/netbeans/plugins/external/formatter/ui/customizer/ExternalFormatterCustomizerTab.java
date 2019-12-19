@@ -60,8 +60,8 @@ public class ExternalFormatterCustomizerTab implements ProjectCustomizer.Composi
 		category.setStoreListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				configPanel.store();
 				projectSpecificSettingsPanel.store();
+				configPanel.store();
 			}
 		});
 
