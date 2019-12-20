@@ -9,12 +9,10 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -23,14 +21,12 @@ import java.util.stream.Collectors;
 
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
-import org.openide.filesystems.FileUtil;
 import org.xml.sax.SAXException;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.Profile;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
@@ -67,24 +63,6 @@ public class EclipseFormatterConfig {
 		}
 
 		return options;
-	}
-
-	/**
-	 *
-	 * @return profile of <code>null</code> if profile with name not found
-	 */
-	private static Profile getProfileByName(List<Profile> profiles, String name) {
-		if (null == name) {
-			return null;
-		}
-
-		for (Profile profile : profiles) {
-			if (null != profile && name.equals(profile.getName())) {
-				return profile;
-			}
-		}
-
-		return null;
 	}
 
 	public static Map<String, String> parseConfig(String formatterFile, String formatterProfile, String sourceLevel)
@@ -133,19 +111,7 @@ public class EclipseFormatterConfig {
 	}
 
 	private static Map<String, String> readConfigFromFormatterXmlFile(String formatterFile, String formatterProfile) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
-		List<Profile> profiles = new ConfigReader().read(FileUtil.normalizeFile(new File(formatterFile)));
-		String name = formatterProfile;
-		if (profiles.isEmpty()) {
-			//no config found
-			throw new ProfileNotFoundException("No profile found in " + formatterFile);
-		}
-
-		Profile profile = getProfileByName(profiles, name);
-		if (null == profile) {
-			throw new ProfileNotFoundException("Profile " + name + " not found in " + formatterFile);
-		}
-
-		return profile.getSettings();
+		return ConfigReader.getProfileSettings(ConfigReader.toFileObject(formatterFile), formatterProfile);
 	}
 
 	private static Map<String, String> readConfigFromWorkspaceMechanicFile(String formatterFile) throws IOException {

@@ -263,7 +263,7 @@ public class EclipseFormatterTest {
 		try {
 			instance.format("src/test/resources/defectformattersampleeclipse.xml", "myProfile", text, null, null, null);
 		} catch (ConfigReadException e) {
-			Assert.assertEquals(true, e.getMessage().contains("No profiles found in config file"));
+			Assert.assertEquals(true, e.getMessage().contains("No <profiles> tag found in config file"));
 		}
 	}
 

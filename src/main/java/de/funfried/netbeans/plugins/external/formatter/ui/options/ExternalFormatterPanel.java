@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
@@ -39,7 +40,6 @@ import com.google.googlejavaformat.java.JavaFormatterOptions;
 
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.Profile;
 import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableConfigPanel;
 
 @Keywords(location = "Java", tabTitle = "External Formatter", keywords = { "eclipse", "google", "external", "format", "formatter", "eclipse formatter", "google formatter", "external formatter" })
@@ -719,31 +719,31 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		cbProfile.removeAllItems();
 		if (file.exists()) {
 			try {
-				final FileObject fo = FileUtil.toFileObject(FileUtil.normalizeFile(file));
+				final FileObject fo = ConfigReader.toFileObject(file);
 
 				//only xml configurations contain profiles
 				if (Settings.isXMLConfigurationFile(fo.getNameExt())) {
-					List<Profile> profiles = new ConfigReader().read(file);
+					List<String> profileNames = ConfigReader.getProfileNames(fo);
 					cbProfile.addItem(Bundle.ChooseProfile());
 
 					String entryToSelect = null;
-					for (Profile profile : profiles) {
-						cbProfile.addItem(profile.getName());
-						if (activeProfile != null && activeProfile.equals(profile.getName())) {
-							entryToSelect = profile.getName();
+					for (String profileName : profileNames) {
+						cbProfile.addItem(profileName);
+						if (activeProfile != null && activeProfile.equals(profileName)) {
+							entryToSelect = profileName;
 						}
 					}
-					selectProfileOrFallback(entryToSelect, profiles);
+					selectProfileOrFallback(entryToSelect, profileNames);
 					cbProfile.setEnabled(true);
 					lblProfile.setEnabled(true);
 				}
 			} catch (IOException | SAXException | ConfigReadException ex) {
-				Exceptions.printStackTrace(ex);
+				log.log(Level.WARNING, "Could not parse formatter config", ex);
 			}
 		}
 	}
 
-	private void selectProfileOrFallback(String entryToSelect, List<Profile> profiles) {
+	private void selectProfileOrFallback(String entryToSelect, List<String> profiles) {
 		if (null != entryToSelect) {
 			cbProfile.setSelectedItem(entryToSelect);
 		} else if (profiles.size() == 1) {
