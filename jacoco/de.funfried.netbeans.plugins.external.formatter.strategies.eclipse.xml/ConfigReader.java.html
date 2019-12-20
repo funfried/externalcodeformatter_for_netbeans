@@ -2,51 +2,205 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.digester3.Digester;
-
+import org.apache.commons.lang3.StringUtils;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
+import org.openide.xml.XMLUtil;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 
 /**
  * This class reads a config file for Eclipse code formatter.
  *
  * @author jecki
  * @author Matt Blanchette
+ * @author bahlef
  */
-<span class="fc" id="L19">public class ConfigReader {</span>
+<span class="nc" id="L35">public class ConfigReader {</span>
+	public static final String ATTRIBUTE_PROFILE_KIND = &quot;kind&quot;;
+
+	public static final String ATTRIBUTE_PROFILE_NAME = &quot;name&quot;;
+
+	public static final String ATTRIBUTE_SETTING_ID = &quot;id&quot;;
+
+	public static final String ATTRIBUTE_SETTING_VALUE = &quot;value&quot;;
+
+	public static final String TAG_NAME_PROFILES = &quot;profiles&quot;;
+
+	public static final String TAG_NAME_PROFILE = &quot;profile&quot;;
+
+	public static final String TAG_NAME_SETTING = &quot;setting&quot;;
+
+	public static final String PROFILE_KIND = &quot;CodeFormatterProfile&quot;;
+
 	/**
-	 * Read from the given {@link File} and return it's configuration settings as a
-	 * {@link List}.
+	 * Creates a {@link FileObject} from the given {@code filePath} and returns it.
+	 * 
+	 * @param filePath the path to a file which should be turned into a {@link FileObject}
 	 *
-	 * @param normalizedFile the {@link File} to read
+	 * @return a {@link FileObject} representing the given {@code filePath}
 	 *
-	 * @return return {@link List} with all the configurations read from the config file,
+	 * @throws IOException if there is an I/O issue while trying to access the given {@code filePath}
+	 */
+	public static FileObject toFileObject(String filePath) throws IOException {
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">		if (StringUtils.isBlank(filePath)) {</span>
+<span class="nc" id="L63">			throw new IOException(&quot;File path cannot be empty&quot;);</span>
+		}
+
+<span class="fc" id="L66">		return ConfigReader.toFileObject(new File(filePath));</span>
+	}
+
+	/**
+	 * Creates a {@link FileObject} from the given {@link File} and returns it.
+	 * 
+	 * @param file the {@link File} which should be turned into a {@link FileObject}
+	 *
+	 * @return a {@link FileObject} representing the given {@link File}
+	 *
+	 * @throws IOException if there is an I/O issue while trying to access the given {@link File}
+	 */
+	public static FileObject toFileObject(File file) throws IOException {
+<span class="pc bpc" id="L79" title="2 of 6 branches missed.">		if (file == null || !file.exists() || !file.canRead()) {</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">			throw new IOException(&quot;Could not access file: &quot; + (file != null ? file.getAbsolutePath() : null));</span>
+		}
+
+<span class="fc" id="L83">		file = FileUtil.normalizeFile(file);</span>
+
+<span class="fc" id="L85">		return FileUtil.toFileObject(file);</span>
+	}
+
+	/**
+	 * Parses and returns the key/value pairs from the given {@link FileObject} for the given {@code profileName} as a {@link Map}.
+	 *
+	 * @param fileObject  the {@link FileObject} to parse
+	 * @param profileName the profile name for which to get the settings
+	 *
+	 * @return a {@link Map} within all the configuration paramters of the given {@code profileName} read from the given {@link FileObject},
 	 *         or throws an exception if there's a problem reading the input, e.g.: invalid XML.
 	 *
-	 * @throws SAXException        if there are parsing issues
-	 * @throws IOException         if there is a I/O issue
-	 * @throws ConfigReadException if the given file is not a eclipse formatter template
+	 * @throws SAXException             if there are parsing issues
+	 * @throws IOException              if there is an I/O issue
+	 * @throws ConfigReadException      if the given {@link FileObject} is not a valid Eclipse formatter template
+	 * @throws ProfileNotFoundException if no profile could be found with the given {@code profileName} in the given {@link FileObject}
 	 */
 	@NotNull
-	public List&lt;Profile&gt; read(File normalizedFile) throws IOException, SAXException, ConfigReadException {
-<span class="pc bpc" id="L35" title="1 of 2 branches missed.">		if (normalizedFile == null) {</span>
-<span class="nc" id="L36">			return new ArrayList&lt;&gt;();</span>
+	public static Map&lt;String, String&gt; getProfileSettings(FileObject fileObject, String profileName) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
+<span class="fc" id="L104">		List&lt;Node&gt; profileNodes = getProfileNodes(fileObject);</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">		for (Node profileTag : profileNodes) {</span>
+<span class="fc" id="L106">			Node profileNameAttr = profileTag.getAttributes().getNamedItem(ATTRIBUTE_PROFILE_NAME);</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">			if (Objects.equals(profileName, profileNameAttr.getNodeValue())) {</span>
+<span class="fc" id="L108">				NodeList settingTagList = profileTag.getChildNodes();</span>
+<span class="fc" id="L109">				Map&lt;String, String&gt; config = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">				for (int s = 0; s &lt; settingTagList.getLength(); s++) {</span>
+<span class="fc" id="L111">					Node settingTag = settingTagList.item(s);</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">					if (TAG_NAME_SETTING.equals(settingTag.getNodeName())) {</span>
+<span class="fc" id="L113">						NamedNodeMap attributes = settingTag.getAttributes();</span>
+<span class="fc" id="L114">						Node keyAttr = attributes.getNamedItem(ATTRIBUTE_SETTING_ID);</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">						if (keyAttr != null) {</span>
+<span class="fc" id="L116">							Node valueAttr = attributes.getNamedItem(ATTRIBUTE_SETTING_VALUE);</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">							if (valueAttr != null) {</span>
+<span class="fc" id="L118">								config.put(keyAttr.getNodeValue(), valueAttr.getNodeValue());</span>
+							}
+						}
+					}
+				}
+
+<span class="fc" id="L124">				return config;</span>
+			}
+<span class="fc" id="L126">		}</span>
+
+<span class="fc" id="L128">		throw new ProfileNotFoundException(&quot;Profile &quot; + profileName + &quot; not found in &quot; + fileObject.getPath());</span>
+	}
+
+	/**
+	 * Parses the given {@link FileObject} and returns a {@link List} within all profile names found in that {@link FileObject}.
+	 *
+	 * @param fileObject the {@link FileObject} to parse
+	 *
+	 * @return a {@link List} within all profile names found in the given {@link FileObject}
+	 *
+	 * @throws SAXException        if there are parsing issues
+	 * @throws IOException         if there is an I/O issue
+	 * @throws ConfigReadException if the given {@link FileObject} is not a valid Eclipse formatter template
+	 */
+	@NotNull
+	public static List&lt;String&gt; getProfileNames(FileObject fileObject) throws ConfigReadException, IOException, SAXException {
+<span class="nc" id="L144">		List&lt;String&gt; profileNames = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L146">		List&lt;Node&gt; profileNodes = getProfileNodes(fileObject);</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">		for (Node profileTag : profileNodes) {</span>
+<span class="nc" id="L148">			Node profileNameAttr = profileTag.getAttributes().getNamedItem(ATTRIBUTE_PROFILE_NAME);</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">			if (profileNameAttr != null) {</span>
+<span class="nc" id="L150">				String profileName = profileNameAttr.getNodeValue();</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">				if (StringUtils.isNotBlank(profileName)) {</span>
+<span class="nc" id="L152">					profileNames.add(profileNameAttr.getNodeValue());</span>
+				}
+			}
+<span class="nc" id="L155">		}</span>
+
+<span class="nc" id="L157">		return profileNames;</span>
+	}
+
+	/**
+	 * Parses the given {@link FileObject} and returns a {@link List} within all profile {@link Node}s that were found in that {@link FileObject}.
+	 *
+	 * @param fileObject the {@link FileObject} to parse
+	 *
+	 * @return a {@link List} within all profile {@link Node}s that were found in the given {@link FileObject}
+	 *
+	 * @throws SAXException        if there are parsing issues
+	 * @throws IOException         if there is an I/O issue
+	 * @throws ConfigReadException if the given {@link FileObject} is not a valid Eclipse formatter template
+	 */
+	@NotNull
+	private static List&lt;Node&gt; getProfileNodes(FileObject fileObject) throws ConfigReadException, IOException, SAXException {
+<span class="fc" id="L173">		List&lt;Node&gt; profiles = new ArrayList&lt;&gt;();</span>
+
+		Document formatterDoc;
+<span class="fc" id="L176">		try (InputStream is = fileObject.getInputStream()) {</span>
+<span class="fc" id="L177">			formatterDoc = XMLUtil.parse(new InputSource(is), false, false, null, null);</span>
 		}
 
-<span class="fc" id="L39">		Digester digester = new Digester();</span>
-<span class="fc" id="L40">		digester.addRuleSet(new RuleSet());</span>
-
-<span class="fc" id="L42">		Object result = digester.parse(normalizedFile);</span>
-<span class="pc bpc" id="L43" title="1 of 4 branches missed.">		if (result == null || !(result instanceof Profiles)) {</span>
-<span class="fc" id="L44">			throw new ConfigReadException(&quot;No profiles found in config file&quot;);</span>
+<span class="fc" id="L180">		Element profilesTag = formatterDoc.getDocumentElement();</span>
+<span class="pc bpc" id="L181" title="1 of 4 branches missed.">		if (profilesTag != null &amp;&amp; TAG_NAME_PROFILES.equals(profilesTag.getNodeName())) {</span>
+<span class="fc" id="L182">			NodeList profileTagList = profilesTag.getElementsByTagName(TAG_NAME_PROFILE);</span>
+<span class="pc bpc" id="L183" title="2 of 4 branches missed.">			if (profileTagList != null &amp;&amp; profileTagList.getLength() &gt; 0) {</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">				for (int p = 0; p &lt; profileTagList.getLength(); p++) {</span>
+<span class="fc" id="L185">					Node profileTag = profileTagList.item(p);</span>
+<span class="fc" id="L186">					NamedNodeMap profileAttributes = profileTag.getAttributes();</span>
+<span class="fc" id="L187">					Node profileKindAttr = profileAttributes.getNamedItem(ATTRIBUTE_PROFILE_KIND);</span>
+<span class="pc bpc" id="L188" title="2 of 4 branches missed.">					if (profileKindAttr != null &amp;&amp; PROFILE_KIND.equals(profileKindAttr.getNodeValue())) {</span>
+<span class="fc" id="L189">						profiles.add(profileTag);</span>
+					}
+				}
+			} else {
+<span class="nc" id="L193">				throw new ConfigReadException(&quot;No &lt;profile&gt; tag found in &quot; + fileObject.getPath());</span>
+			}
+<span class="fc" id="L195">		} else {</span>
+<span class="fc" id="L196">			throw new ConfigReadException(&quot;No &lt;profiles&gt; tag found in config file&quot;);</span>
 		}
 
-<span class="fc" id="L47">		Profiles profiles = (Profiles) result;</span>
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">		if (profiles.isEmpty()) {</span>
+<span class="nc" id="L200">			throw new ConfigReadException(&quot;No valid &lt;profile&gt; tag found in &quot; + fileObject.getPath());</span>
+		}
 
-<span class="fc" id="L49">		return profiles.getProfiles();</span>
+<span class="fc" id="L203">		return profiles;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

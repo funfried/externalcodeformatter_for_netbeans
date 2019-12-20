@@ -13,6 +13,7 @@ package de.funfried.netbeans.plugins.external.formatter;
 
 import javax.swing.text.Document;
 
+import org.netbeans.api.java.lexer.JavaTokenId;
 import org.netbeans.modules.editor.NbEditorUtilities;
 
 /**
@@ -32,7 +33,7 @@ public interface Utils {
 	 *         {@code false}
 	 */
 	public static boolean isJava(Document document) {
-<span class="fc" id="L35">		return &quot;text/x-java&quot;.equals(NbEditorUtilities.getMimeType(document));</span>
+<span class="fc" id="L36">		return JavaTokenId.language().mimeType().equals(NbEditorUtilities.getMimeType(document));</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
