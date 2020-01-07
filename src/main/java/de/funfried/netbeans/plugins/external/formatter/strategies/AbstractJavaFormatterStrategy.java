@@ -21,6 +21,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import de.funfried.netbeans.plugins.external.formatter.Utils;
 
 /**
+ * Abstract base implementation of {@link AbstractFormatterRunnable} for Java formatters.
  *
  * @author bahlef
  */
@@ -49,6 +50,14 @@ public abstract class AbstractJavaFormatterStrategy implements IFormatterStrateg
 		}
 	}
 
+	/**
+	 * Formats the content of the given {@link StyledDocument} in respect to the given parameters.
+	 *
+	 * @param document        the {@link StyledDocument}
+	 * @param dot             start offset for formatting, will be ignored if {@code changedElements} are provided
+	 * @param mark            end offset for formatting, will be ignored if {@code changedElements} are provided
+	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
+	 */
 	protected abstract void format(StyledDocument document, int dot, int mark, SortedSet<Pair<Integer, Integer>> changedElements);
 
 	/**

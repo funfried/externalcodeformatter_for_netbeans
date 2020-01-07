@@ -17,6 +17,7 @@ import javax.swing.text.StyledDocument;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
+ * Pojo to keep formatter specific values together.
  *
  * @author markiewb
  * @author bahlef
