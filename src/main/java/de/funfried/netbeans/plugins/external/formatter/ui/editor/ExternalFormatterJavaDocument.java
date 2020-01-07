@@ -23,8 +23,8 @@ import org.netbeans.modules.java.ui.FmtOptions;
 import org.openide.util.Lookup;
 import org.openide.util.WeakListeners;
 
+import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPreferencesChangeSupport;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  *
@@ -79,32 +79,32 @@ public class ExternalFormatterJavaDocument extends NbEditorDocument {
 		@Override
 		public synchronized Object get(Object key) {
 			if (Objects.equals(FmtOptions.rightMargin, key)) {
-				Integer rightMargin = Settings.getRightMargin(ExternalFormatterJavaDocument.this);
+				Integer rightMargin = FormatterStrategyDispatcher.getInstance().getRightMargin(ExternalFormatterJavaDocument.this);
 				if (rightMargin != null) {
 					return rightMargin;
 				}
 			} else if (Objects.equals(FmtOptions.expandTabToSpaces, key)) {
-				Boolean expandTabToSpaces = Settings.isExpandTabToSpaces(ExternalFormatterJavaDocument.this);
+				Boolean expandTabToSpaces = FormatterStrategyDispatcher.getInstance().isExpandTabToSpaces(ExternalFormatterJavaDocument.this);
 				if (expandTabToSpaces != null) {
 					return expandTabToSpaces;
 				}
 			} else if (Objects.equals(FmtOptions.spacesPerTab, key)) {
-				Integer spacesPerTab = Settings.getSpacesPerTab(ExternalFormatterJavaDocument.this);
+				Integer spacesPerTab = FormatterStrategyDispatcher.getInstance().getSpacesPerTab(ExternalFormatterJavaDocument.this);
 				if (spacesPerTab != null) {
 					return spacesPerTab;
 				}
 			} else if (Objects.equals(FmtOptions.tabSize, key)) {
-				Integer tabSize = Settings.getSpacesPerTab(ExternalFormatterJavaDocument.this);
+				Integer tabSize = FormatterStrategyDispatcher.getInstance().getSpacesPerTab(ExternalFormatterJavaDocument.this);
 				if (tabSize != null) {
 					return tabSize;
 				}
 			} else if (Objects.equals(FmtOptions.indentSize, key)) {
-				Integer indentSize = Settings.getIndentSize(ExternalFormatterJavaDocument.this);
+				Integer indentSize = FormatterStrategyDispatcher.getInstance().getIndentSize(ExternalFormatterJavaDocument.this);
 				if (indentSize != null) {
 					return indentSize;
 				}
 			} else if (Objects.equals(FmtOptions.continuationIndentSize, key)) {
-				Integer continuationIndentSize = Settings.getContinuationIndentSize(ExternalFormatterJavaDocument.this);
+				Integer continuationIndentSize = FormatterStrategyDispatcher.getInstance().getContinuationIndentSize(ExternalFormatterJavaDocument.this);
 				if (continuationIndentSize != null) {
 					return continuationIndentSize;
 				}

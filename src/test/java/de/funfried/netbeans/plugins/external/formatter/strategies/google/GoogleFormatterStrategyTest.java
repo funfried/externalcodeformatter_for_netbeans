@@ -9,19 +9,14 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.google;
 
-import java.util.prefs.Preferences;
-
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyledDocument;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.netbeans.junit.NbTestCase;
-import org.openide.util.NbPreferences;
 
 import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  *
@@ -83,36 +78,5 @@ public class GoogleFormatterStrategyTest extends NbTestCase {
 		} catch (Exception ex) {
 			Assert.assertTrue("Formatting should not be possible for the given file type", ex.getMessage().contains("The file type 'text/xml' is not supported"));
 		}
-	}
-
-	/**
-	 * Test of {@link GoogleFormatterStrategy#isActivated(javax.swing.text.StyledDocument)} method, of class
-	 * {@link GoogleFormatterStrategy}.
-	 */
-	@Test
-	public void testIsActivated() {
-		Preferences prefs = NbPreferences.forModule(ExternalFormatterPanel.class);
-		prefs.put(Settings.GOOGLE_FORMATTER_ENABLED, "true");
-
-		StyledDocument document = new DefaultStyledDocument();
-		document.putProperty("mimeType", "text/x-java");
-
-		GoogleFormatterStrategy instance = new GoogleFormatterStrategy();
-
-		Assert.assertTrue("Google code formatter should be inactive", instance.isActivated(document));
-	}
-
-	/**
-	 * Test of {@link GoogleFormatterStrategy#isActivated(javax.swing.text.StyledDocument)} method, of class
-	 * {@link GoogleFormatterStrategy}.
-	 */
-	@Test
-	public void testIsDeactivated() {
-		StyledDocument document = new DefaultStyledDocument();
-		document.putProperty("mimeType", "text/x-java");
-
-		GoogleFormatterStrategy instance = new GoogleFormatterStrategy();
-
-		Assert.assertFalse("Google code formatter should be inactive", instance.isActivated(document));
 	}
 }

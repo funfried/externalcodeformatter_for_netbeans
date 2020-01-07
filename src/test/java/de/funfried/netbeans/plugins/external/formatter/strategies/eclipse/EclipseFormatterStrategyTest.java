@@ -9,20 +9,15 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 
-import java.util.prefs.Preferences;
-
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyledDocument;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.netbeans.junit.NbTestCase;
-import org.openide.util.NbPreferences;
 
 import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
 import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  *
@@ -80,39 +75,5 @@ public class EclipseFormatterStrategyTest extends NbTestCase {
 		} catch (Exception ex) {
 			Assert.assertTrue("Formatting should not be possible for the given file type", ex.getMessage().contains("The file type 'text/xml' is not supported"));
 		}
-	}
-
-	/**
-	 * Test of {@link EclipseFormatterStrategy#isActivated(javax.swing.text.StyledDocument)} method, of class
-	 * {@link EclipseFormatterStrategy}.
-	 *
-	 * @throws Exception if an error occurs
-	 */
-	@Test
-	public void testIsActivated() throws Exception {
-		Preferences prefs = NbPreferences.forModule(ExternalFormatterPanel.class);
-		prefs.put(Settings.ECLIPSE_FORMATTER_ENABLED, "true");
-		prefs.flush();
-
-		StyledDocument document = new DefaultStyledDocument();
-		document.putProperty("mimeType", "text/x-java");
-
-		EclipseFormatterStrategy instance = new EclipseFormatterStrategy();
-
-		Assert.assertTrue("Eclipse code formatter should be active", instance.isActivated(document));
-	}
-
-	/**
-	 * Test of {@link EclipseFormatterStrategy#isActivated(javax.swing.text.StyledDocument)} method, of class
-	 * {@link EclipseFormatterStrategy}.
-	 */
-	@Test
-	public void testIsDeactivated() {
-		StyledDocument document = new DefaultStyledDocument();
-		document.putProperty("mimeType", "text/x-java");
-
-		EclipseFormatterStrategy instance = new EclipseFormatterStrategy();
-
-		Assert.assertFalse("Eclipse code formatter should be inactive", instance.isActivated(document));
 	}
 }

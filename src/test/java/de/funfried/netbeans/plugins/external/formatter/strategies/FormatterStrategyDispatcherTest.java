@@ -19,6 +19,8 @@ import org.junit.Test;
 import org.netbeans.junit.NbTestCase;
 import org.openide.util.NbPreferences;
 
+import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterStrategy;
+import de.funfried.netbeans.plugins.external.formatter.strategies.google.GoogleFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
@@ -40,8 +42,7 @@ public class FormatterStrategyDispatcherTest extends NbTestCase {
 	@Test
 	public void testFormatWithEclipseFormatter() throws Exception {
 		Preferences prefs = NbPreferences.forModule(ExternalFormatterPanel.class);
-		prefs.put(Settings.ECLIPSE_FORMATTER_ENABLED, "true");
-		prefs.put(Settings.GOOGLE_FORMATTER_ENABLED, "false");
+		prefs.put(Settings.ENABLED_FORMATTER, EclipseFormatterStrategy.ID);
 
 		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}";
 		final String expected = "package foo;\n" +
@@ -70,8 +71,7 @@ public class FormatterStrategyDispatcherTest extends NbTestCase {
 	@Test
 	public void testFormatWithGoogleFormatter() throws Exception {
 		Preferences prefs = NbPreferences.forModule(ExternalFormatterPanel.class);
-		prefs.put(Settings.GOOGLE_FORMATTER_ENABLED, "true");
-		prefs.put(Settings.ECLIPSE_FORMATTER_ENABLED, "false");
+		prefs.put(Settings.ENABLED_FORMATTER, GoogleFormatterStrategy.ID);
 
 		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}";
 		final String expected = "package foo;\n" +

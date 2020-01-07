@@ -68,7 +68,7 @@ class GoogleFormatterRunnable extends AbstractFormatterRunnable {
 
 		try {
 			GuardedSectionManager guards = GuardedSectionManager.getInstance(document);
-			SortedSet<Pair<Integer, Integer>> regions = getFormattableSections(code, guards);
+			SortedSet<Pair<Integer, Integer>> regions = getFormatableSections(code, guards);
 
 			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);
 			// quick check for changed

@@ -12,6 +12,7 @@ package de.funfried.netbeans.plugins.external.formatter.strategies;
 import java.util.SortedSet;
 
 import javax.swing.SwingUtilities;
+import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
 
@@ -23,7 +24,7 @@ import de.funfried.netbeans.plugins.external.formatter.Utils;
  *
  * @author bahlef
  */
-public abstract class AbstractJavaFormatterStrategy implements IFormatterStrategy {
+public abstract class AbstractJavaFormatterStrategy implements IFormatterStrategyService {
 	/**
 	 * {@inheritDoc}
 	 */
@@ -54,13 +55,11 @@ public abstract class AbstractJavaFormatterStrategy implements IFormatterStrateg
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean canHandle(StyledDocument document) {
+	public boolean canHandle(Document document) {
 		if (!Utils.isJava(document)) {
 			return false;
 		}
 
-		return isActivated(document);
+		return true;
 	}
-
-	protected abstract boolean isActivated(StyledDocument document);
 }

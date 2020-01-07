@@ -51,7 +51,7 @@
 				<li>On save action: Introduced option for formatting only the changed lines (since 1.10)</li>
 				<li>Support configuration of linefeed (since 1.10)</li>
 				<li>Support for macro invocation (since 1.12)</li>
-				<li>Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted) (since 1.13)</li>
+				<li>Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted), only for Eclipse Java Code Formatter (since 1.13)</li>
 				<li>Support for Google code formatter (since 1.13)</li>
 			</ul>
 		</section>

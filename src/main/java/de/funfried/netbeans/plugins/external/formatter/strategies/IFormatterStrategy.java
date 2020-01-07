@@ -9,7 +9,7 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies;
 
-import javax.swing.text.StyledDocument;
+import javax.swing.text.Document;
 
 /**
  *
@@ -17,7 +17,7 @@ import javax.swing.text.StyledDocument;
  * @author bahlef
  */
 public interface IFormatterStrategy {
-	boolean canHandle(StyledDocument document);
+	boolean canHandle(Document document);
 
 	void format(FormatterAdvice fa);
 }

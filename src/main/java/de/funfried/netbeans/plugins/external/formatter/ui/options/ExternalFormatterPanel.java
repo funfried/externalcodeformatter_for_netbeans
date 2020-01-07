@@ -38,8 +38,11 @@ import org.xml.sax.SAXException;
 
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
+import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
+import de.funfried.netbeans.plugins.external.formatter.strategies.google.GoogleFormatterStrategy;
+import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableConfigPanel;
 
 @Keywords(location = "Java", tabTitle = "External Formatter", keywords = { "eclipse", "google", "external", "format", "formatter", "eclipse formatter", "google formatter", "external formatter" })
@@ -637,11 +640,13 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 
 	@Override
 	public void load() {
-		boolean googleFormatterEnabled = preferences.getBoolean(Settings.GOOGLE_FORMATTER_ENABLED, false);
+		String enabledFormatter = preferences.get(Settings.ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);
+
+		boolean googleFormatterEnabled = GoogleFormatterStrategy.ID.equals(enabledFormatter);
 		String googleFormatterCodeStyle = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 		String eclipseFormatterLocation = preferences.get(Settings.ECLIPSE_FORMATTER_LOCATION, "");
 		String eclipseFormatterProfile = preferences.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
-		boolean eclipseFormatterEnabled = preferences.getBoolean(Settings.ECLIPSE_FORMATTER_ENABLED, false);
+		boolean eclipseFormatterEnabled = EclipseFormatterStrategy.ID.equals(enabledFormatter);
 		boolean showNotifications = preferences.getBoolean(Settings.SHOW_NOTIFICATIONS, false);
 		boolean enableSaveAction = preferences.getBoolean(Settings.ENABLE_SAVEACTION, false);
 		boolean enableSaveActionModifiedLines = preferences.getBoolean(Settings.ENABLE_SAVEACTION_MODIFIEDLINESONLY, false);
@@ -757,10 +762,9 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 
 	@Override
 	public void store() {
-		preferences.putBoolean(Settings.GOOGLE_FORMATTER_ENABLED, rbUseGoogle.isSelected());
+		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleFormatterStrategy.ID : (rbUseEclipse.isSelected() ? EclipseFormatterStrategy.ID : NetBeansFormatterStrategy.ID));
 		preferences.put(Settings.GOOGLE_FORMATTER_CODE_STYLE, googleCodeStyleRdBtn.isSelected() ? JavaFormatterOptions.Style.GOOGLE.name() : JavaFormatterOptions.Style.AOSP.name());
 		preferences.put(Settings.ECLIPSE_FORMATTER_LOCATION, formatterLocField.getText());
-		preferences.putBoolean(Settings.ECLIPSE_FORMATTER_ENABLED, rbUseEclipse.isSelected());
 		preferences.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, useIndentationSettingsChkBox.isSelected());
 		preferences.putBoolean(Settings.OVERRIDE_TAB_SIZE, overrideTabSizeChkBox.isSelected());
 		preferences.putInt(Settings.OVERRIDE_TAB_SIZE_VALUE, Integer.valueOf(overrideTabSizeSpn.getValue().toString()));

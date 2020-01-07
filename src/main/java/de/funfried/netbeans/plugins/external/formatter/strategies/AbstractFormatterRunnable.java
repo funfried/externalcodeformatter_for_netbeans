@@ -65,6 +65,8 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 public abstract class AbstractFormatterRunnable implements Runnable {
 	private static final Logger log = Logger.getLogger(AbstractFormatterRunnable.class.getName());
 
+	private static final Level logLevel = Level.WARNING;
+
 	/** {@link SortedSet} containing document offset ranges which should be formatted. */
 	protected final SortedSet<Pair<Integer, Integer>> changedElements;
 
@@ -155,7 +157,9 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 							Exceptions.printStackTrace(ex);
 						}
 					} else {
-						log.log(Level.FINEST, "Formatted code: ''{0}''", formattedContent);
+						if (log.isLoggable(logLevel)) {
+							log.log(logLevel, "Formatted code: ''{0}''", formattedContent);
+						}
 
 						final MutableInt endFormattedCode = new MutableInt(formattedContent.length() - 1);
 
@@ -185,13 +189,17 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 								// do not use guard.getText() because it sometimes returns code without new line characters, e.g. for generated action methods
 								String guardedCode = code.substring(guard.getStartPosition().getOffset(), guard.getEndPosition().getOffset() + 1);
 
-								log.log(Level.FINEST, "Guard {0}: ''{1}''", new Object[] { guard.getName(), guardedCode });
+								if (log.isLoggable(logLevel)) {
+									log.log(logLevel, "Guard {0}: ''{1}''", new Object[] { guard.getName(), guardedCode });
+								}
 
 								// guarded code is not formatted, so it can be found
 								// by it's former formatting in the formatted code
 								guardStart = formattedContent.indexOf(guardedCode);
 								if (guardStart == -1) {
-									log.log(Level.FINEST, "Could not find guarded code ''{0}'' after reformat into ''{1}''", new Object[] { guardedCode, formattedContent });
+									if (log.isLoggable(logLevel)) {
+										log.log(logLevel, "Could not find guarded code ''{0}'', try to find trimmed version", guardedCode);
+									}
 
 									continue;
 								}
@@ -202,12 +210,16 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 
 							String formattedCodePart = formattedContent.substring(startFormattedCode, endFormattedCode.getValue() + 1);
 
-							log.log(Level.FINEST, "Formatted code part ({0}-{1}/{2}): ''{3}''", new Object[] { startFormattedCode, endFormattedCode.getValue(), formattedCodePart.length(), formattedCodePart });
+							if (log.isLoggable(logLevel)) {
+								log.log(logLevel, "Formatted code part ({0}-{1}/{2}): ''{3}''", new Object[] { startFormattedCode, endFormattedCode.getValue(), formattedCodePart.length(), formattedCodePart });
+							}
 
 							try {
 								String unformattedCodePart = document.getText(startOldCode, (endOldCode - startOldCode) + 1);
 
-								log.log(Level.FINEST, "Previous code part ({0}-{1}/{2}): ''{3}''", new Object[] { startOldCode, endOldCode, (endOldCode - startOldCode) + 1, unformattedCodePart });
+								if (log.isLoggable(logLevel)) {
+									log.log(logLevel, "Previous code part ({0}-{1}/{2}): ''{3}''", new Object[] { startOldCode, endOldCode, (endOldCode - startOldCode) + 1, unformattedCodePart });
+								}
 
 								if (!Objects.equals(unformattedCodePart, formattedCodePart)) {
 									// to avoid loosing unguarded sections before or after a guarded section,
@@ -494,7 +506,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 *         which describe the start and end offsets which can be formatted in respect to
 	 *         the given {@link GuardedSectionManager}
 	 */
-	protected SortedSet<Pair<Integer, Integer>> getFormattableSections(String code, GuardedSectionManager guards) {
+	protected SortedSet<Pair<Integer, Integer>> getFormatableSections(String code, GuardedSectionManager guards) {
 		SortedSet<Pair<Integer, Integer>> regions = changedElements;
 		if (CollectionUtils.isEmpty(changedElements)) {
 			regions = new TreeSet<>();
@@ -510,9 +522,11 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 			SortedSet<Pair<Integer, Integer>> nonGuardedSections = new TreeSet<>();
 			Iterable<GuardedSection> guardedSections = guards.getGuardedSections();
 
-			StringBuilder sb = new StringBuilder();
-			guardedSections.forEach(guard -> sb.append(guard.getStartPosition().getOffset()).append("/").append(guard.getEndPosition().getOffset()).append(" "));
-			log.log(Level.FINEST, "Guarded sections: {0}", sb.toString().trim());
+			if (log.isLoggable(logLevel)) {
+				StringBuilder sb = new StringBuilder();
+				guardedSections.forEach(guard -> sb.append(guard.getStartPosition().getOffset()).append("/").append(guard.getEndPosition().getOffset()).append(" "));
+				log.log(logLevel, "Guarded sections: {0}", sb.toString().trim());
+			}
 
 			for (Pair<Integer, Integer> changedElement : regions) {
 				nonGuardedSections.addAll(avoidGuardedSection(changedElement, guardedSections));
@@ -521,9 +535,11 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 			regions = nonGuardedSections;
 		}
 
-		StringBuilder sb = new StringBuilder();
-		regions.stream().forEach(section -> sb.append(section.getLeft()).append("/").append(section.getRight()).append(" "));
-		log.log(Level.FINEST, "Formating sections: {0}", sb.toString().trim());
+		if (log.isLoggable(logLevel)) {
+			StringBuilder sb = new StringBuilder();
+			regions.stream().forEach(section -> sb.append(section.getLeft()).append("/").append(section.getRight()).append(" "));
+			log.log(logLevel, "Formating sections: {0}", sb.toString().trim());
+		}
 
 		return regions;
 	}
@@ -551,7 +567,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 				guardedSections.forEach(guardedSection -> {
 					if (start.getValue() >= guardedSection.getStartPosition().getOffset() && start.getValue() <= guardedSection.getEndPosition().getOffset()) {
 						if (end.getValue() > guardedSection.getEndPosition().getOffset()) {
-							start.setValue(guardedSection.getEndPosition().getOffset() + 1);
+							start.setValue(guardedSection.getEndPosition().getOffset());
 						} else {
 							start.setValue(null);
 							end.setValue(null);
@@ -570,7 +586,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 					} else if (start.getValue() < guardedSection.getStartPosition().getOffset() && end.getValue() > guardedSection.getEndPosition().getOffset()) {
 						ret.add(Pair.of(start.getValue(), guardedSection.getStartPosition().getOffset() - 1));
 
-						start.setValue(guardedSection.getEndPosition().getOffset() + 1);
+						start.setValue(guardedSection.getEndPosition().getOffset());
 					}
 				});
 			} catch (BreakException ex) {

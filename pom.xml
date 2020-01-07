@@ -209,6 +209,13 @@
 			<version>3.20.0</version>
 		</dependency>
 
+		<!-- Eclipse JavaScript Formatter -->
+<!--		<dependency>
+			<groupId>net.revelc.code.formatter</groupId>
+			<artifactId>jsdt-core</artifactId>
+			<version>2.6.0</version>
+		</dependency>-->
+
 		<!-- Google Formatter -->
 		<dependency>
 			<groupId>com.google.googlejavaformat</groupId>

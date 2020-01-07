@@ -41,10 +41,17 @@ public final class GoogleFormatter {
 		Collection<Range<Integer>> characterRanges = new ArrayList<>();
 		if (!CollectionUtils.isEmpty(changedElements)) {
 			for (Pair<Integer, Integer> changedElement : changedElements) {
-				characterRanges.add(Range.closed(changedElement.getLeft(), changedElement.getRight()));
+				int start = changedElement.getLeft();
+				int end = changedElement.getRight();
+
+				if (start == end) {
+					end++;
+				}
+
+				characterRanges.add(Range.open(start, end));
 			}
 		} else {
-			characterRanges.add(Range.closed(0, code.length() - 1));
+			characterRanges.add(Range.closedOpen(0, code.length()));
 		}
 
 		try {

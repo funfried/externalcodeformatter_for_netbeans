@@ -12,19 +12,54 @@ package de.funfried.netbeans.plugins.external.formatter.strategies.google;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
+import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.editor.guards.GuardedSectionManager;
+import org.openide.util.NbBundle;
+import org.openide.util.lookup.ServiceProvider;
 
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import de.funfried.netbeans.plugins.external.formatter.strategies.AbstractJavaFormatterStrategy;
+import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStrategyService;
+import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.ENABLED_FORMATTER;
+import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.ENABLE_USE_OF_INDENTATION_SETTINGS;
+import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.OVERRIDE_TAB_SIZE;
+import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.OVERRIDE_TAB_SIZE_VALUE;
+import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.getActivePreferences;
 
 /**
  *
  * @author bahlef
  */
+@NbBundle.Messages({
+		"FormatterName=Google Java Code Formatter"
+})
+@ServiceProvider(service = IFormatterStrategyService.class)
 public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
+	public static final String ID = "google-java-formatter";
+
 	private final GoogleFormatter formatter = new GoogleFormatter();
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean canHandle(Document document) {
+		// Cannot handle guarded blocks properly due to a bug in the Google Java Code Formatter:
+		// https://github.com/google/google-java-format/issues/433
+		if (document instanceof StyledDocument) {
+			StyledDocument styledDoc = (StyledDocument) document;
+
+			if (GuardedSectionManager.getInstance(styledDoc) != null) {
+				return false;
+			}
+		}
+
+		return super.canHandle(document);
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -39,8 +74,122 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected boolean isActivated(StyledDocument document) {
-		Preferences pref = Settings.getActivePreferences(document);
-		return pref.getBoolean(Settings.GOOGLE_FORMATTER_ENABLED, false);
+	public String getDisplayName() {
+		return NbBundle.getMessage(GoogleFormatterStrategy.class, "FormatterName");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getId() {
+		return ID;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Integer getContinuationIndentSize(Document document) {
+		if (document == null) {
+			return null;
+		}
+
+		Integer ret = null;
+
+		Preferences preferences = Settings.getActivePreferences(document);
+		if (isUseFormatterIndentationSettings(preferences)) {
+			// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent
+			ret = 4;
+		}
+
+		return ret;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Integer getIndentSize(Document document) {
+		if (document == null) {
+			return null;
+		}
+
+		Integer ret = null;
+
+		Preferences preferences = getActivePreferences(document);
+		if (isUseFormatterIndentationSettings(preferences)) {
+			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+			ret = 2;
+		}
+
+		return ret;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Integer getRightMargin(Document document) {
+		if (document == null) {
+			return null;
+		}
+
+		// see: https://google.github.io/styleguide/javaguide.html#s4.4-column-limit
+
+		return 100;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Integer getSpacesPerTab(Document document) {
+		if (document == null) {
+			return null;
+		}
+
+		Integer ret = null;
+
+		Preferences preferences = getActivePreferences(document);
+		if (isUseFormatterIndentationSettings(preferences)) {
+			if (preferences.getBoolean(OVERRIDE_TAB_SIZE, true)) {
+				ret = preferences.getInt(OVERRIDE_TAB_SIZE_VALUE, 4);
+			} else {
+				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+				ret = 2;
+			}
+		}
+
+		return ret;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean isExpandTabToSpaces(Document document) {
+		if (document == null) {
+			return null;
+		}
+
+		Boolean ret = null;
+
+		Preferences preferences = getActivePreferences(document);
+		if (isUseFormatterIndentationSettings(preferences)) {
+			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+			ret = false;
+		}
+
+		return ret;
+	}
+
+	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
+		String enabledFormatter = prefs.get(ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);
+		if (ID.equals(enabledFormatter)) {
+			return prefs.getBoolean(ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+		}
+
+		return false;
 	}
 }

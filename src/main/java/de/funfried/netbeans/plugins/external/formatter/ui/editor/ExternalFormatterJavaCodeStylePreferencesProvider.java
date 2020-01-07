@@ -42,8 +42,8 @@ import org.openide.util.Lookup;
 import org.openide.util.WeakListeners;
 import org.openide.util.lookup.ServiceProvider;
 
+import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPreferencesChangeSupport;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  *
@@ -68,12 +68,20 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 	};
 
 	static {
-		temporaryPreferenceProviders.put(FmtOptions.rightMargin, document -> Integer.toString(Settings.getRightMargin(document)));
-		temporaryPreferenceProviders.put(FmtOptions.expandTabToSpaces, document -> Boolean.toString(Settings.isExpandTabToSpaces(document)));
-		temporaryPreferenceProviders.put(FmtOptions.spacesPerTab, document -> Integer.toString(Settings.getSpacesPerTab(document)));
-		temporaryPreferenceProviders.put(FmtOptions.tabSize, document -> Integer.toString(Settings.getSpacesPerTab(document)));
-		temporaryPreferenceProviders.put(FmtOptions.indentSize, document -> Integer.toString(Settings.getIndentSize(document)));
-		temporaryPreferenceProviders.put(FmtOptions.continuationIndentSize, document -> Integer.toString(Settings.getContinuationIndentSize(document)));
+		temporaryPreferenceProviders.put(FmtOptions.rightMargin, document -> toString(FormatterStrategyDispatcher.getInstance().getRightMargin(document)));
+		temporaryPreferenceProviders.put(FmtOptions.expandTabToSpaces, document -> toString(FormatterStrategyDispatcher.getInstance().isExpandTabToSpaces(document)));
+		temporaryPreferenceProviders.put(FmtOptions.spacesPerTab, document -> toString(FormatterStrategyDispatcher.getInstance().getSpacesPerTab(document)));
+		temporaryPreferenceProviders.put(FmtOptions.tabSize, document -> toString(FormatterStrategyDispatcher.getInstance().getSpacesPerTab(document)));
+		temporaryPreferenceProviders.put(FmtOptions.indentSize, document -> toString(FormatterStrategyDispatcher.getInstance().getIndentSize(document)));
+		temporaryPreferenceProviders.put(FmtOptions.continuationIndentSize, document -> toString(FormatterStrategyDispatcher.getInstance().getContinuationIndentSize(document)));
+	}
+
+	private static String toString(Object obj) {
+		if (obj != null) {
+			return obj.toString();
+		}
+
+		return null;
 	}
 
 	@Override
@@ -136,14 +144,15 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 			}
 
 			private void updateDocumentState() {
-				String tabSize = Integer.toString(Settings.getSpacesPerTab(document));
+				String tabSize = ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getSpacesPerTab(document));
 
-				firePreferenceChanged(FmtOptions.rightMargin, Integer.toString(Settings.getRightMargin(document)));
-				firePreferenceChanged(FmtOptions.expandTabToSpaces, Boolean.toString(Settings.isExpandTabToSpaces(document)));
+				firePreferenceChanged(FmtOptions.rightMargin, ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getRightMargin(document)));
+				firePreferenceChanged(FmtOptions.expandTabToSpaces, ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().isExpandTabToSpaces(document)));
 				firePreferenceChanged(FmtOptions.spacesPerTab, tabSize);
 				firePreferenceChanged(FmtOptions.tabSize, tabSize);
-				firePreferenceChanged(FmtOptions.indentSize, Integer.toString(Settings.getIndentSize(document)));
-				firePreferenceChanged(FmtOptions.continuationIndentSize, Integer.toString(Settings.getContinuationIndentSize(document)));
+				firePreferenceChanged(FmtOptions.indentSize, ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getIndentSize(document)));
+				firePreferenceChanged(FmtOptions.continuationIndentSize,
+						ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getContinuationIndentSize(document)));
 			}
 		};
 

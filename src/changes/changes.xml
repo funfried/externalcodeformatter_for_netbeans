@@ -19,7 +19,7 @@
 				Removed default formatter action and added shortcut (Ctrl + Meta/Cmd + F) for external formatter action
 			</action>
 			<action dev="bahlef" type="add" issue="17">
-				Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted)
+				Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted), ONLY SUPPORTED FOR ECLIPSE JAVA CODE FORMATTER!
 			</action>
 			<action dev="bahlef" type="update" issue="81">
 				Switched from ANT to Maven project

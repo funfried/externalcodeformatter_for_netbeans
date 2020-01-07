@@ -33,7 +33,7 @@ source code the same way as e.g. your Eclipse co-workers do.
 * Support configuration of linefeed (since 1.10)
 * Support configuration of source level (since 1.10)
 * Support for macro invocation (since 1.12)
-* Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted) (since 1.13)
+* Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted), only for Eclipse Java Code Formatter (since 1.13)
 * Support for Google code formatter (since 1.13)
 
 ## Compatibility

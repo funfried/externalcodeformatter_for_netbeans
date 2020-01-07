@@ -10,6 +10,7 @@
 package de.funfried.netbeans.plugins.external.formatter.strategies.netbeans;
 
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
 import org.netbeans.modules.editor.indent.api.Reformat;
@@ -25,8 +26,18 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStra
  * @author bahlef
  */
 public class NetBeansFormatterStrategy implements IFormatterStrategy {
+	public static final String ID = "netbeans-formatter";
+
 	/**
-	 * @param fa the {@link FormatterAdvice}
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean canHandle(Document document) {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void format(FormatterAdvice fa) {
@@ -46,10 +57,5 @@ public class NetBeansFormatterStrategy implements IFormatterStrategy {
 		} finally {
 			rf.unlock();
 		}
-	}
-
-	@Override
-	public boolean canHandle(StyledDocument document) {
-		return true;
 	}
 }
