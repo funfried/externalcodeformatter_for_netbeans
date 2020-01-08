@@ -28,6 +28,8 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBe
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
+ * Delegation class for calling the activated external formatter or the internal
+ * NetBeans formatter if the external formatters are deactivated.
  *
  * @author markiewb
  * @author bahlef
@@ -44,6 +46,11 @@ public class FormatterStrategyDispatcher {
 	private FormatterStrategyDispatcher() {
 	}
 
+	/**
+	 * Returns the singleton instance of {@link FormatterStrategyDispatcher}.
+	 *
+	 * @return the singleton instance
+	 */
 	public static FormatterStrategyDispatcher getInstance() {
 		lock.lock();
 
@@ -58,6 +65,12 @@ public class FormatterStrategyDispatcher {
 		return instance;
 	}
 
+	/**
+	 * Formats the {@link StyledDocument} given in the {@link FormatterAdvice} in regard to
+	 * the values included in that {@link FormatterAdvice}.
+	 *
+	 * @param fa the {@link FormatterAdvice} containing detailed instruction on what to format
+	 */
 	public void format(FormatterAdvice fa) {
 		try {
 			final StyledDocument styledDoc = fa.getStyledDocument();
@@ -80,6 +93,18 @@ public class FormatterStrategyDispatcher {
 		}
 	}
 
+	/**
+	 * Returns the continuation indent size configured by the formatter which is
+	 * activated for the given {@link Document}, or {@code null} if the internal
+	 * NetBeans code formatter is used for the given {@code document}.
+	 * 
+	 * @param document the {@link Document} for which the continuation indent size
+	 *                 is requested
+	 *
+	 * @return the continuation indent size configured by the formatter which is
+	 *         activated for the given {@link Document}, or {@code null} if the
+	 *         internal NetBeans code formatter is used for the given {@code document}
+	 */
 	public Integer getContinuationIndentSize(Document document) {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
@@ -93,6 +118,17 @@ public class FormatterStrategyDispatcher {
 		return null;
 	}
 
+	/**
+	 * Returns the indent size configured by the formatter which is activated for
+	 * the given {@link Document}, or {@code null} if the internal NetBeans code
+	 * formatter is used for the given {@code document}.
+	 * 
+	 * @param document the {@link Document} for which the indent size is requested
+	 *
+	 * @return the indent size configured by the formatter which is activated for
+	 *         the given {@link Document}, or {@code null} if the internal NetBeans
+	 *         code formatter is used for the given {@code document}
+	 */
 	public Integer getIndentSize(Document document) {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
@@ -106,6 +142,19 @@ public class FormatterStrategyDispatcher {
 		return null;
 	}
 
+	/**
+	 * Returns the right margin (position of the red line in the editor) configured
+	 * by the formatter which is activated for the given {@link Document}, or
+	 * {@code null} if the internal NetBeans code formatter is used for the given
+	 * {@code document}.
+	 * 
+	 * @param document the {@link Document} for which the right margin is requested
+	 *
+	 * @return the right margin (position of the red line in the editor) configured
+	 *         by the formatter which is activated for the given {@link Document},
+	 *         or {@code null} if the internal NetBeans code formatter is used for
+	 *         the given {@code document}
+	 */
 	public Integer getRightMargin(Document document) {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
@@ -119,6 +168,17 @@ public class FormatterStrategyDispatcher {
 		return null;
 	}
 
+	/**
+	 * Returns the spaces per tab configured by the formatter which is activated
+	 * for the given {@link Document}, or {@code null} if the internal NetBeans
+	 * code formatter is used for the given {@code document}.
+	 * 
+	 * @param document the {@link Document} for which the spaces per tab is requested
+	 *
+	 * @return the spaces per tab configured by the formatter which is activated
+	 *         for the given {@link Document}, or {@code null} if the internal
+	 *         NetBeans code formatter is used for the given {@code document}
+	 */
 	public Integer getSpacesPerTab(Document document) {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
@@ -146,6 +206,18 @@ public class FormatterStrategyDispatcher {
 		return null;
 	}
 
+	/**
+	 * Returns the expand tab to spaces flag configured by the formatter which is
+	 * activated for the given {@link Document}, or {@code null} if the internal
+	 * NetBeans code formatter is used for the given {@code document}.
+	 * 
+	 * @param document the {@link Document} for which the expand tab to spaces flag is requested
+	 *
+	 * @return the expand tab to spaces flag configured by the formatter which is
+	 *         activated for the given {@link Document}, or {@code null} if the
+	 *         internal NetBeans code formatter is used for the given
+	 *         {@code document}
+	 */
 	public Boolean isExpandTabToSpaces(Document document) {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
