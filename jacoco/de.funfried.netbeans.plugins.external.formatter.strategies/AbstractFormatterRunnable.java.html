@@ -65,6 +65,8 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 public abstract class AbstractFormatterRunnable implements Runnable {
 <span class="fc" id="L66">	private static final Logger log = Logger.getLogger(AbstractFormatterRunnable.class.getName());</span>
 
+<span class="fc" id="L68">	private static final Level logLevel = Level.FINER;</span>
+
 	/** {@link SortedSet} containing document offset ranges which should be formatted. */
 	protected final SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements;
 
@@ -85,18 +87,18 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 * @param endOffset       the end offset, will be set to the documents length minus one if equal to {@code startOffset}
 	 * @param changedElements {@link SortedSet} containing document offset ranges which should be formatted or {@code null} to format the whole document
 	 */
-<span class="fc" id="L88">	protected AbstractFormatterRunnable(StyledDocument document, int startOffset, int endOffset, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {</span>
-<span class="fc" id="L89">		this.document = document;</span>
-<span class="fc" id="L90">		this.changedElements = changedElements;</span>
+<span class="fc" id="L90">	protected AbstractFormatterRunnable(StyledDocument document, int startOffset, int endOffset, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {</span>
+<span class="fc" id="L91">		this.document = document;</span>
+<span class="fc" id="L92">		this.changedElements = changedElements;</span>
 
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">		if (startOffset != endOffset) {</span>
-<span class="nc" id="L93">			this.startOffset = Math.min(endOffset, startOffset);</span>
-<span class="nc" id="L94">			this.endOffset = Math.max(endOffset, startOffset);</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">		if (startOffset != endOffset) {</span>
+<span class="nc" id="L95">			this.startOffset = Math.min(endOffset, startOffset);</span>
+<span class="nc" id="L96">			this.endOffset = Math.max(endOffset, startOffset);</span>
 		} else {
-<span class="fc" id="L96">			this.startOffset = 0;</span>
-<span class="fc" id="L97">			this.endOffset = document.getLength() - 1;</span>
+<span class="fc" id="L98">			this.startOffset = 0;</span>
+<span class="fc" id="L99">			this.endOffset = document.getLength() - 1;</span>
 		}
-<span class="fc" id="L99">	}</span>
+<span class="fc" id="L101">	}</span>
 
 	/**
 	 * Applies the given {@code formattedContent} to the {@code document}. If
@@ -117,128 +119,138 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 */
 	protected boolean setFormattedCode(String code, String formattedContent, boolean preserveBreakpoints) {
 		// quick check for changed
-<span class="pc bpc" id="L120" title="2 of 4 branches missed.">		if (formattedContent != null &amp;&amp; /* does not support changes of EOL */ !formattedContent.equals(code)) {</span>
-<span class="fc" id="L121">			DebuggerManager debuggerManager = DebuggerManager.getDebuggerManager();</span>
-<span class="fc" id="L122">			List&lt;Breakpoint&gt; breakpoint2Keep = Collections.emptyList();</span>
-<span class="pc bpc" id="L123" title="1 of 2 branches missed.">			if (preserveBreakpoints) {</span>
-<span class="fc" id="L124">				Breakpoint[] breakpoints = debuggerManager.getBreakpoints();</span>
+<span class="pc bpc" id="L122" title="2 of 4 branches missed.">		if (formattedContent != null &amp;&amp; /* does not support changes of EOL */ !formattedContent.equals(code)) {</span>
+<span class="fc" id="L123">			DebuggerManager debuggerManager = DebuggerManager.getDebuggerManager();</span>
+<span class="fc" id="L124">			List&lt;Breakpoint&gt; breakpoint2Keep = Collections.emptyList();</span>
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">			if (preserveBreakpoints) {</span>
+<span class="fc" id="L126">				Breakpoint[] breakpoints = debuggerManager.getBreakpoints();</span>
 				//a) remove all line breakpoints before replacing the text in the editor
 				//b) hold all other breakpoints from the current file, so that they can be reattached
 				//FIXME guess the main class by its filepath relative to src/com/foo/Bar.java -&gt; com.foo.Bar
-<span class="fc" id="L128">				FileObject fileObject = NbEditorUtilities.getFileObject(document);</span>
-<span class="fc" id="L129">				String classNameOfTopMostTypeInFile = getFQNOfTopMostType(fileObject);</span>
-<span class="fc" id="L130">				int lineStart = NbDocument.findLineNumber(document, startOffset);</span>
-<span class="fc" id="L131">				int lineEnd = NbDocument.findLineNumber(document, endOffset);</span>
-<span class="fc" id="L132">				List&lt;LineBreakpoint&gt; lineBreakPoints = getLineBreakpoints(breakpoints, fileObject, lineStart, lineEnd);</span>
-<span class="pc bpc" id="L133" title="1 of 2 branches missed.">				for (LineBreakpoint breakpoint : lineBreakPoints) {</span>
-<span class="nc" id="L134">					debuggerManager.removeBreakpoint(breakpoint);</span>
-<span class="nc" id="L135">				}</span>
+<span class="fc" id="L130">				FileObject fileObject = NbEditorUtilities.getFileObject(document);</span>
+<span class="fc" id="L131">				String classNameOfTopMostTypeInFile = getFQNOfTopMostType(fileObject);</span>
+<span class="fc" id="L132">				int lineStart = NbDocument.findLineNumber(document, startOffset);</span>
+<span class="fc" id="L133">				int lineEnd = NbDocument.findLineNumber(document, endOffset);</span>
+<span class="fc" id="L134">				List&lt;LineBreakpoint&gt; lineBreakPoints = getLineBreakpoints(breakpoints, fileObject, lineStart, lineEnd);</span>
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">				for (LineBreakpoint breakpoint : lineBreakPoints) {</span>
+<span class="nc" id="L136">					debuggerManager.removeBreakpoint(breakpoint);</span>
+<span class="nc" id="L137">				}</span>
 
-<span class="fc" id="L137">				breakpoint2Keep = getPreserveableBreakpoints(breakpoints, classNameOfTopMostTypeInFile);</span>
+<span class="fc" id="L139">				breakpoint2Keep = getPreserveableBreakpoints(breakpoints, classNameOfTopMostTypeInFile);</span>
 
 				//Remove all breakpoints from the current file (else they would be invalided)
-<span class="pc bpc" id="L140" title="1 of 2 branches missed.">				for (Breakpoint breakpoint : breakpoint2Keep) {</span>
-<span class="nc" id="L141">					debuggerManager.removeBreakpoint(breakpoint);</span>
-<span class="nc" id="L142">				}</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">				for (Breakpoint breakpoint : breakpoint2Keep) {</span>
+<span class="nc" id="L143">					debuggerManager.removeBreakpoint(breakpoint);</span>
+<span class="nc" id="L144">				}</span>
 			}
 
 			try {
-<span class="fc" id="L146">				GuardedSectionManager guards = GuardedSectionManager.getInstance(document);</span>
+<span class="fc" id="L148">				GuardedSectionManager guards = GuardedSectionManager.getInstance(document);</span>
 
 				//runAtomicAsUser, so that removal and insert is only one undo step
-<span class="fc" id="L149">				NbDocument.runAtomicAsUser(document, () -&gt; {</span>
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">					if (guards == null) {</span>
+<span class="fc" id="L151">				NbDocument.runAtomicAsUser(document, () -&gt; {</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">					if (guards == null) {</span>
 						try {
-<span class="fc" id="L152">							document.remove(0, code.length());</span>
-<span class="fc" id="L153">							document.insertString(0, formattedContent, null);</span>
-<span class="nc" id="L154">						} catch (BadLocationException ex) {</span>
-<span class="nc" id="L155">							Exceptions.printStackTrace(ex);</span>
-<span class="pc" id="L156">						}</span>
+<span class="fc" id="L154">							document.remove(0, code.length());</span>
+<span class="fc" id="L155">							document.insertString(0, formattedContent, null);</span>
+<span class="nc" id="L156">						} catch (BadLocationException ex) {</span>
+<span class="nc" id="L157">							Exceptions.printStackTrace(ex);</span>
+<span class="pc" id="L158">						}</span>
 					} else {
-<span class="nc" id="L158">						log.log(Level.FINEST, &quot;Formatted code: ''{0}''&quot;, formattedContent);</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">						if (log.isLoggable(logLevel)) {</span>
+<span class="nc" id="L161">							log.log(logLevel, &quot;Formatted code: ''{0}''&quot;, formattedContent);</span>
+						}
 
-<span class="nc" id="L160">						final MutableInt endFormattedCode = new MutableInt(formattedContent.length() - 1);</span>
+<span class="nc" id="L164">						final MutableInt endFormattedCode = new MutableInt(formattedContent.length() - 1);</span>
 
-<span class="nc" id="L162">						List&lt;GuardedSection&gt; guardsList = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L163">						Iterable&lt;GuardedSection&gt; guardedSections = guards.getGuardedSections();</span>
-<span class="nc" id="L164">						guardedSections.forEach(guard -&gt; guardsList.add(guard));</span>
+<span class="nc" id="L166">						List&lt;GuardedSection&gt; guardsList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L167">						Iterable&lt;GuardedSection&gt; guardedSections = guards.getGuardedSections();</span>
+<span class="nc" id="L168">						guardedSections.forEach(guard -&gt; guardsList.add(guard));</span>
 
-<span class="nc bnc" id="L166" title="All 2 branches missed.">						for (int i = guardsList.size() - 1; i &gt;= -1; i--) {</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">						for (int i = guardsList.size() - 1; i &gt;= -1; i--) {</span>
 							// find code between guards an replace it ...
-<span class="nc" id="L168">							GuardedSection guard = null;</span>
-<span class="nc bnc" id="L169" title="All 2 branches missed.">							if (i &gt;= 0) {</span>
-<span class="nc" id="L170">								guard = guardsList.get(i);</span>
+<span class="nc" id="L172">							GuardedSection guard = null;</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">							if (i &gt;= 0) {</span>
+<span class="nc" id="L174">								guard = guardsList.get(i);</span>
 							}
 
-<span class="nc" id="L173">							int startNextGuard = code.length();</span>
-<span class="nc bnc" id="L174" title="All 2 branches missed.">							if (i + 1 &lt; guardsList.size()) {</span>
-<span class="nc" id="L175">								startNextGuard = guardsList.get(i + 1).getStartPosition().getOffset();</span>
+<span class="nc" id="L177">							int startNextGuard = code.length();</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">							if (i + 1 &lt; guardsList.size()) {</span>
+<span class="nc" id="L179">								startNextGuard = guardsList.get(i + 1).getStartPosition().getOffset();</span>
 							}
 
-<span class="nc" id="L178">							int endOldCode = startNextGuard - 1;</span>
+<span class="nc" id="L182">							int endOldCode = startNextGuard - 1;</span>
 
-<span class="nc" id="L180">							int guardStart = -1;</span>
-<span class="nc" id="L181">							int startFormattedCode = 0;</span>
-<span class="nc" id="L182">							int startOldCode = 0;</span>
+<span class="nc" id="L184">							int guardStart = -1;</span>
+<span class="nc" id="L185">							int startFormattedCode = 0;</span>
+<span class="nc" id="L186">							int startOldCode = 0;</span>
 
-<span class="nc bnc" id="L184" title="All 2 branches missed.">							if (guard != null) {</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">							if (guard != null) {</span>
 								// do not use guard.getText() because it sometimes returns code without new line characters, e.g. for generated action methods
-<span class="nc" id="L186">								String guardedCode = code.substring(guard.getStartPosition().getOffset(), guard.getEndPosition().getOffset() + 1);</span>
+<span class="nc" id="L190">								String guardedCode = code.substring(guard.getStartPosition().getOffset(), guard.getEndPosition().getOffset() + 1);</span>
 
-<span class="nc" id="L188">								log.log(Level.FINEST, &quot;Guard {0}: ''{1}''&quot;, new Object[] { guard.getName(), guardedCode });</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
+<span class="nc" id="L193">									log.log(logLevel, &quot;Guard {0}: ''{1}''&quot;, new Object[] { guard.getName(), guardedCode });</span>
+								}
 
 								// guarded code is not formatted, so it can be found
 								// by it's former formatting in the formatted code
-<span class="nc" id="L192">								guardStart = formattedContent.indexOf(guardedCode);</span>
-<span class="nc bnc" id="L193" title="All 2 branches missed.">								if (guardStart == -1) {</span>
-<span class="nc" id="L194">									log.log(Level.FINEST, &quot;Could not find guarded code ''{0}'' after reformat into ''{1}''&quot;, new Object[] { guardedCode, formattedContent });</span>
+<span class="nc" id="L198">								guardStart = formattedContent.indexOf(guardedCode);</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">								if (guardStart == -1) {</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">									if (log.isLoggable(logLevel)) {</span>
+<span class="nc" id="L201">										log.log(logLevel, &quot;Could not find guarded code ''{0}'', try to find trimmed version&quot;, guardedCode);</span>
+									}
 
-<span class="nc" id="L196">									continue;</span>
+									continue;
 								}
 
-<span class="nc" id="L199">								startFormattedCode = guardStart + guardedCode.length();</span>
-<span class="nc" id="L200">								startOldCode = guard.getEndPosition().getOffset() + 1;</span>
+<span class="nc" id="L207">								startFormattedCode = guardStart + guardedCode.length();</span>
+<span class="nc" id="L208">								startOldCode = guard.getEndPosition().getOffset() + 1;</span>
 							}
 
-<span class="nc" id="L203">							String formattedCodePart = formattedContent.substring(startFormattedCode, endFormattedCode.getValue() + 1);</span>
+<span class="nc" id="L211">							String formattedCodePart = formattedContent.substring(startFormattedCode, endFormattedCode.getValue() + 1);</span>
 
-<span class="nc" id="L205">							log.log(Level.FINEST, &quot;Formatted code part ({0}-{1}/{2}): ''{3}''&quot;, new Object[] { startFormattedCode, endFormattedCode.getValue(), formattedCodePart.length(), formattedCodePart });</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">							if (log.isLoggable(logLevel)) {</span>
+<span class="nc" id="L214">								log.log(logLevel, &quot;Formatted code part ({0}-{1}/{2}): ''{3}''&quot;, new Object[] { startFormattedCode, endFormattedCode.getValue(), formattedCodePart.length(), formattedCodePart });</span>
+							}
 
 							try {
-<span class="nc" id="L208">								String unformattedCodePart = document.getText(startOldCode, (endOldCode - startOldCode) + 1);</span>
+<span class="nc" id="L218">								String unformattedCodePart = document.getText(startOldCode, (endOldCode - startOldCode) + 1);</span>
 
-<span class="nc" id="L210">								log.log(Level.FINEST, &quot;Previous code part ({0}-{1}/{2}): ''{3}''&quot;, new Object[] { startOldCode, endOldCode, (endOldCode - startOldCode) + 1, unformattedCodePart });</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
+<span class="nc" id="L221">									log.log(logLevel, &quot;Previous code part ({0}-{1}/{2}): ''{3}''&quot;, new Object[] { startOldCode, endOldCode, (endOldCode - startOldCode) + 1, unformattedCodePart });</span>
+								}
 
-<span class="nc bnc" id="L212" title="All 2 branches missed.">								if (!Objects.equals(unformattedCodePart, formattedCodePart)) {</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">								if (!Objects.equals(unformattedCodePart, formattedCodePart)) {</span>
 									// to avoid loosing unguarded sections before or after a guarded section,
 									// we insert the formatted code first and then remove the old one
-<span class="nc" id="L215">									document.insertString(startOldCode, formattedCodePart, null);</span>
-<span class="nc" id="L216">									document.remove(startOldCode + formattedCodePart.length(), (endOldCode - startOldCode) + 1);</span>
+<span class="nc" id="L227">									document.insertString(startOldCode, formattedCodePart, null);</span>
+<span class="nc" id="L228">									document.remove(startOldCode + formattedCodePart.length(), (endOldCode - startOldCode) + 1);</span>
 								}
-<span class="nc" id="L218">							} catch (BadLocationException ex) {</span>
-<span class="nc" id="L219">								Exceptions.printStackTrace(ex);</span>
-<span class="nc" id="L220">							}</span>
+<span class="nc" id="L230">							} catch (BadLocationException ex) {</span>
+<span class="nc" id="L231">								Exceptions.printStackTrace(ex);</span>
+<span class="nc" id="L232">							}</span>
 
-<span class="nc" id="L222">							endFormattedCode.setValue(guardStart - 1);</span>
+<span class="nc" id="L234">							endFormattedCode.setValue(guardStart - 1);</span>
 						}
 					}
-<span class="fc" id="L225">				});</span>
-<span class="nc" id="L226">			} catch (BadLocationException ex) {</span>
-<span class="nc" id="L227">				Exceptions.printStackTrace(ex);</span>
-<span class="nc" id="L228">				return false;</span>
-<span class="fc" id="L229">			}</span>
+<span class="fc" id="L237">				});</span>
+<span class="nc" id="L238">			} catch (BadLocationException ex) {</span>
+<span class="nc" id="L239">				Exceptions.printStackTrace(ex);</span>
+<span class="nc" id="L240">				return false;</span>
+<span class="fc" id="L241">			}</span>
 
-<span class="pc bpc" id="L231" title="1 of 2 branches missed.">			if (preserveBreakpoints) {</span>
+<span class="pc bpc" id="L243" title="1 of 2 branches missed.">			if (preserveBreakpoints) {</span>
 				//Reattach breakpoints where possible
-<span class="pc bpc" id="L233" title="1 of 2 branches missed.">				for (Breakpoint breakpoint : breakpoint2Keep) {</span>
-<span class="nc" id="L234">					debuggerManager.addBreakpoint(breakpoint);</span>
-<span class="nc" id="L235">				}</span>
+<span class="pc bpc" id="L245" title="1 of 2 branches missed.">				for (Breakpoint breakpoint : breakpoint2Keep) {</span>
+<span class="nc" id="L246">					debuggerManager.addBreakpoint(breakpoint);</span>
+<span class="nc" id="L247">				}</span>
 			}
 
-<span class="fc" id="L238">			return true;</span>
+<span class="fc" id="L250">			return true;</span>
 		}
 
-<span class="nc" id="L241">		return false;</span>
+<span class="nc" id="L253">		return false;</span>
 	}
 
 	/**
@@ -252,23 +264,23 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 */
 	@NotNull
 	protected List&lt;SourceGroup&gt; getAllSourceGroups(Project p) {
-<span class="nc" id="L255">		Sources sources = ProjectUtils.getSources(p);</span>
+<span class="nc" id="L267">		Sources sources = ProjectUtils.getSources(p);</span>
 
-<span class="nc" id="L257">		List&lt;SourceGroup&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L258">		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA)));</span>
-<span class="nc" id="L259">		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_RESOURCES)));</span>
-<span class="nc" id="L260">		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_HINT_TEST)));</span>
-<span class="nc" id="L261">		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_HINT_MAIN)));</span>
+<span class="nc" id="L269">		List&lt;SourceGroup&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L270">		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA)));</span>
+<span class="nc" id="L271">		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_TYPE_RESOURCES)));</span>
+<span class="nc" id="L272">		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_HINT_TEST)));</span>
+<span class="nc" id="L273">		list.addAll(Arrays.asList(sources.getSourceGroups(JavaProjectConstants.SOURCES_HINT_MAIN)));</span>
 
 		try {
-<span class="nc" id="L264">			list.addAll(Arrays.asList(sources.getSourceGroups(org.netbeans.modules.maven.classpath.MavenSourcesImpl.TYPE_GEN_SOURCES)));</span>
-<span class="nc" id="L265">			list.addAll(Arrays.asList(sources.getSourceGroups(org.netbeans.modules.maven.classpath.MavenSourcesImpl.TYPE_OTHER)));</span>
-<span class="nc" id="L266">			list.addAll(Arrays.asList(sources.getSourceGroups(org.netbeans.modules.maven.classpath.MavenSourcesImpl.TYPE_TEST_OTHER)));</span>
-<span class="nc" id="L267">		} catch (Throwable ex) {</span>
-<span class="nc" id="L268">			log.log(Level.FINER, &quot;Could not add source groups for maven, maybe maven plugins are not installed or disabled&quot;, ex);</span>
-<span class="nc" id="L269">		}</span>
+<span class="nc" id="L276">			list.addAll(Arrays.asList(sources.getSourceGroups(org.netbeans.modules.maven.classpath.MavenSourcesImpl.TYPE_GEN_SOURCES)));</span>
+<span class="nc" id="L277">			list.addAll(Arrays.asList(sources.getSourceGroups(org.netbeans.modules.maven.classpath.MavenSourcesImpl.TYPE_OTHER)));</span>
+<span class="nc" id="L278">			list.addAll(Arrays.asList(sources.getSourceGroups(org.netbeans.modules.maven.classpath.MavenSourcesImpl.TYPE_TEST_OTHER)));</span>
+<span class="nc" id="L279">		} catch (Throwable ex) {</span>
+<span class="nc" id="L280">			log.log(Level.FINER, &quot;Could not add source groups for maven, maybe maven plugins are not installed or disabled&quot;, ex);</span>
+<span class="nc" id="L281">		}</span>
 
-<span class="nc" id="L271">		return list;</span>
+<span class="nc" id="L283">		return list;</span>
 	}
 
 	/**
@@ -279,36 +291,36 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 * @return The fully qualified name of the top most type of the given {@link FileObject}
 	 */
 	protected String getFQNOfTopMostType(FileObject fo) {
-<span class="pc bpc" id="L282" title="1 of 2 branches missed.">		if (null == fo) {</span>
-<span class="fc" id="L283">			return &quot;&quot;;</span>
+<span class="pc bpc" id="L294" title="1 of 2 branches missed.">		if (null == fo) {</span>
+<span class="fc" id="L295">			return &quot;&quot;;</span>
 		}
 
-<span class="nc" id="L286">		Project p = FileOwnerQuery.getOwner(fo);</span>
-<span class="nc bnc" id="L287" title="All 2 branches missed.">		if (null == p) {</span>
-<span class="nc" id="L288">			return &quot;&quot;;</span>
+<span class="nc" id="L298">		Project p = FileOwnerQuery.getOwner(fo);</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">		if (null == p) {</span>
+<span class="nc" id="L300">			return &quot;&quot;;</span>
 		}
 
-<span class="nc bnc" id="L291" title="All 2 branches missed.">		for (SourceGroup sourceGroup : getAllSourceGroups(p)) {</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">		for (SourceGroup sourceGroup : getAllSourceGroups(p)) {</span>
 			//SourceGroup: c:/myprojects/project/src/main/java/
 			//OriginFolder: c:/myprojects/project/src/main/java/com/foo/impl
 			//Result: com/foo/impl (!=null so we found the source root)
-<span class="nc" id="L295">			final FileObject rootFolder = sourceGroup.getRootFolder();</span>
-<span class="nc bnc" id="L296" title="All 2 branches missed.">			if (null == rootFolder) {</span>
-<span class="nc" id="L297">				continue;</span>
+<span class="nc" id="L307">			final FileObject rootFolder = sourceGroup.getRootFolder();</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">			if (null == rootFolder) {</span>
+<span class="nc" id="L309">				continue;</span>
 			}
 
-<span class="nc" id="L300">			String relative = FileUtil.getRelativePath(rootFolder, fo);</span>
-<span class="nc bnc" id="L301" title="All 2 branches missed.">			if (null != relative) {</span>
-<span class="nc" id="L302">				String result = relative.replaceAll(&quot;/&quot;, &quot;.&quot;);</span>
-<span class="nc bnc" id="L303" title="All 2 branches missed.">				if (result.toLowerCase().endsWith(&quot;.java&quot;)) {</span>
-<span class="nc" id="L304">					result = result.substring(0, result.length() - &quot;.java&quot;.length());</span>
+<span class="nc" id="L312">			String relative = FileUtil.getRelativePath(rootFolder, fo);</span>
+<span class="nc bnc" id="L313" title="All 2 branches missed.">			if (null != relative) {</span>
+<span class="nc" id="L314">				String result = relative.replaceAll(&quot;/&quot;, &quot;.&quot;);</span>
+<span class="nc bnc" id="L315" title="All 2 branches missed.">				if (result.toLowerCase().endsWith(&quot;.java&quot;)) {</span>
+<span class="nc" id="L316">					result = result.substring(0, result.length() - &quot;.java&quot;.length());</span>
 				}
 
-<span class="nc" id="L307">				return result;</span>
+<span class="nc" id="L319">				return result;</span>
 			}
-<span class="nc" id="L309">		}</span>
+<span class="nc" id="L321">		}</span>
 
-<span class="nc" id="L311">		return &quot;&quot;;</span>
+<span class="nc" id="L323">		return &quot;&quot;;</span>
 	}
 
 	/**
@@ -326,8 +338,8 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 *         {@code lineStart} and {@code lineEnd}
 	 */
 	protected List&lt;LineBreakpoint&gt; getLineBreakpoints(Breakpoint[] breakpoints, FileObject fileOfCurrentClass, int lineStart, int lineEnd) {
-<span class="fc" id="L329">		List&lt;LineBreakpoint&gt; result = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L330" title="1 of 2 branches missed.">		for (Breakpoint breakpoint : breakpoints) {</span>
+<span class="fc" id="L341">		List&lt;LineBreakpoint&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L342" title="1 of 2 branches missed.">		for (Breakpoint breakpoint : breakpoints) {</span>
 			/**
 			 * NOTE: ExceptionBreakpoint/ThreadBreakpoint have no annotation in
 			 * file, so they cannot be removed by the formatter
@@ -336,46 +348,46 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 			 * Remove LineBreakpoints, because setting the new text for the
 			 * document invalidates the breakpoints
 			 */
-<span class="nc bnc" id="L339" title="All 2 branches missed.">			if (breakpoint instanceof LineBreakpoint) {</span>
-<span class="nc" id="L340">				LineBreakpoint lineBreakpoint = (LineBreakpoint) breakpoint;</span>
-<span class="nc" id="L341">				String url = lineBreakpoint.getURL();</span>
-<span class="nc bnc" id="L342" title="All 2 branches missed.">				if (null == url) {</span>
-<span class="nc" id="L343">					continue;</span>
+<span class="nc bnc" id="L351" title="All 2 branches missed.">			if (breakpoint instanceof LineBreakpoint) {</span>
+<span class="nc" id="L352">				LineBreakpoint lineBreakpoint = (LineBreakpoint) breakpoint;</span>
+<span class="nc" id="L353">				String url = lineBreakpoint.getURL();</span>
+<span class="nc bnc" id="L354" title="All 2 branches missed.">				if (null == url) {</span>
+<span class="nc" id="L355">					continue;</span>
 				}
 
-<span class="nc" id="L346">				int current = lineBreakpoint.getLineNumber();</span>
-<span class="nc bnc" id="L347" title="All 4 branches missed.">				final boolean isBreakpointInSelection = lineStart &lt;= current &amp;&amp; current &lt;= lineEnd;</span>
-<span class="nc bnc" id="L348" title="All 2 branches missed.">				if (!isBreakpointInSelection) {</span>
-<span class="nc" id="L349">					continue;</span>
+<span class="nc" id="L358">				int current = lineBreakpoint.getLineNumber();</span>
+<span class="nc bnc" id="L359" title="All 4 branches missed.">				final boolean isBreakpointInSelection = lineStart &lt;= current &amp;&amp; current &lt;= lineEnd;</span>
+<span class="nc bnc" id="L360" title="All 2 branches missed.">				if (!isBreakpointInSelection) {</span>
+<span class="nc" id="L361">					continue;</span>
 				}
 
-<span class="nc bnc" id="L352" title="All 2 branches missed.">				if (url.startsWith(&quot;jar:file:&quot;)) {</span>
+<span class="nc bnc" id="L364" title="All 2 branches missed.">				if (url.startsWith(&quot;jar:file:&quot;)) {</span>
 					//https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/80 
 					//prevent URI is not hierarchical.
-<span class="nc" id="L355">					continue;</span>
+<span class="nc" id="L367">					continue;</span>
 				}
 
 				FileObject toFileObject;
 				try {
-<span class="nc" id="L360">					toFileObject = FileUtil.toFileObject(FileUtil.normalizeFile(Utilities.toFile(new URI(url))));</span>
-<span class="nc" id="L361">				} catch (Exception ex) {</span>
-<span class="nc" id="L362">					log.log(Level.WARNING,</span>
+<span class="nc" id="L372">					toFileObject = FileUtil.toFileObject(FileUtil.normalizeFile(Utilities.toFile(new URI(url))));</span>
+<span class="nc" id="L373">				} catch (Exception ex) {</span>
+<span class="nc" id="L374">					log.log(Level.WARNING,</span>
 							&quot;{0} cannot be converted to URI/File: {1}. Please report to https://github.com/funfried/eclipsecodeformatter_for_netbeans/issues/55&quot;,
-<span class="nc" id="L364">							new Object[] { url, ex.getMessage() });</span>
-<span class="nc" id="L365">					continue;</span>
-<span class="nc" id="L366">				}</span>
+<span class="nc" id="L376">							new Object[] { url, ex.getMessage() });</span>
+<span class="nc" id="L377">					continue;</span>
+<span class="nc" id="L378">				}</span>
 
-<span class="nc bnc" id="L368" title="All 2 branches missed.">				if (null == toFileObject) {</span>
-<span class="nc" id="L369">					continue;</span>
+<span class="nc bnc" id="L380" title="All 2 branches missed.">				if (null == toFileObject) {</span>
+<span class="nc" id="L381">					continue;</span>
 				}
 
-<span class="nc bnc" id="L372" title="All 2 branches missed.">				if (toFileObject.equals(fileOfCurrentClass)) {</span>
-<span class="nc" id="L373">					result.add(lineBreakpoint);</span>
+<span class="nc bnc" id="L384" title="All 2 branches missed.">				if (toFileObject.equals(fileOfCurrentClass)) {</span>
+<span class="nc" id="L385">					result.add(lineBreakpoint);</span>
 				}
 			}
 		}
 
-<span class="fc" id="L378">		return result;</span>
+<span class="fc" id="L390">		return result;</span>
 	}
 
 	/**
@@ -392,26 +404,26 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 *         array
 	 */
 	protected List&lt;Breakpoint&gt; getPreserveableBreakpoints(Breakpoint[] breakpoints, String currentClassName) {
-<span class="fc" id="L395">		List&lt;Breakpoint&gt; result = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L396" title="1 of 2 branches missed.">		for (Breakpoint breakpoint : breakpoints) {</span>
-<span class="nc bnc" id="L397" title="All 2 branches missed.">			if (breakpoint instanceof ClassLoadUnloadBreakpoint) {</span>
-<span class="nc bnc" id="L398" title="All 2 branches missed.">				for (String classname : ((ClassLoadUnloadBreakpoint) breakpoint).getClassFilters()) {</span>
-<span class="nc bnc" id="L399" title="All 2 branches missed.">					if (isSameTypeOrInnerType(classname, currentClassName)) {</span>
-<span class="nc" id="L400">						result.add(breakpoint);</span>
+<span class="fc" id="L407">		List&lt;Breakpoint&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L408" title="1 of 2 branches missed.">		for (Breakpoint breakpoint : breakpoints) {</span>
+<span class="nc bnc" id="L409" title="All 2 branches missed.">			if (breakpoint instanceof ClassLoadUnloadBreakpoint) {</span>
+<span class="nc bnc" id="L410" title="All 2 branches missed.">				for (String classname : ((ClassLoadUnloadBreakpoint) breakpoint).getClassFilters()) {</span>
+<span class="nc bnc" id="L411" title="All 2 branches missed.">					if (isSameTypeOrInnerType(classname, currentClassName)) {</span>
+<span class="nc" id="L412">						result.add(breakpoint);</span>
 					}
 				}
 			}
 
-<span class="nc bnc" id="L405" title="All 2 branches missed.">			if (breakpoint instanceof FieldBreakpoint) {</span>
-<span class="nc bnc" id="L406" title="All 2 branches missed.">				if (isSameTypeOrInnerType(((FieldBreakpoint) breakpoint).getClassName(), currentClassName)) {</span>
-<span class="nc" id="L407">					result.add(breakpoint);</span>
+<span class="nc bnc" id="L417" title="All 2 branches missed.">			if (breakpoint instanceof FieldBreakpoint) {</span>
+<span class="nc bnc" id="L418" title="All 2 branches missed.">				if (isSameTypeOrInnerType(((FieldBreakpoint) breakpoint).getClassName(), currentClassName)) {</span>
+<span class="nc" id="L419">					result.add(breakpoint);</span>
 				}
 			}
 
-<span class="nc bnc" id="L411" title="All 2 branches missed.">			if (breakpoint instanceof MethodBreakpoint) {</span>
-<span class="nc bnc" id="L412" title="All 2 branches missed.">				for (String className : ((MethodBreakpoint) breakpoint).getClassFilters()) {</span>
-<span class="nc bnc" id="L413" title="All 2 branches missed.">					if (isSameTypeOrInnerType(className, currentClassName)) {</span>
-<span class="nc" id="L414">						result.add(breakpoint);</span>
+<span class="nc bnc" id="L423" title="All 2 branches missed.">			if (breakpoint instanceof MethodBreakpoint) {</span>
+<span class="nc bnc" id="L424" title="All 2 branches missed.">				for (String className : ((MethodBreakpoint) breakpoint).getClassFilters()) {</span>
+<span class="nc bnc" id="L425" title="All 2 branches missed.">					if (isSameTypeOrInnerType(className, currentClassName)) {</span>
+<span class="nc" id="L426">						result.add(breakpoint);</span>
 					}
 				}
 			}
@@ -425,7 +437,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 			 */
 		}
 
-<span class="fc" id="L428">		return result;</span>
+<span class="fc" id="L440">		return result;</span>
 	}
 
 	/**
@@ -440,20 +452,20 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 *         type of the given {@code fqnOfTopMostType}
 	 */
 	protected static boolean isSameTypeOrInnerType(String className, String fqnOfTopMostType) {
-<span class="nc bnc" id="L443" title="All 2 branches missed.">		if (null == className) {</span>
-<span class="nc" id="L444">			return false;</span>
+<span class="nc bnc" id="L455" title="All 2 branches missed.">		if (null == className) {</span>
+<span class="nc" id="L456">			return false;</span>
 		}
 
-<span class="nc bnc" id="L447" title="All 2 branches missed.">		if (null == fqnOfTopMostType) {</span>
-<span class="nc" id="L448">			return false;</span>
+<span class="nc bnc" id="L459" title="All 2 branches missed.">		if (null == fqnOfTopMostType) {</span>
+<span class="nc" id="L460">			return false;</span>
 		}
 
-<span class="nc bnc" id="L451" title="All 2 branches missed.">		if (className.equals(fqnOfTopMostType)) {</span>
-<span class="nc" id="L452">			return true;</span>
+<span class="nc bnc" id="L463" title="All 2 branches missed.">		if (className.equals(fqnOfTopMostType)) {</span>
+<span class="nc" id="L464">			return true;</span>
 		}
 
 		//Support innerTypes like com.company.Foo$InnerClass
-<span class="nc" id="L456">		return className.startsWith(fqnOfTopMostType + &quot;$&quot;);</span>
+<span class="nc" id="L468">		return className.startsWith(fqnOfTopMostType + &quot;$&quot;);</span>
 	}
 
 	/**
@@ -467,18 +479,18 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 */
 	protected String getCode(String lineFeedSetting) {
 		//save with configured linefeed
-<span class="fc" id="L470">		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
-<span class="fc bfc" id="L471" title="All 2 branches covered.">		if (null != lineFeedSetting) {</span>
-<span class="fc" id="L472">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
-<span class="fc" id="L473">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
+<span class="fc" id="L482">		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
+<span class="fc bfc" id="L483" title="All 2 branches covered.">		if (null != lineFeedSetting) {</span>
+<span class="fc" id="L484">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
+<span class="fc" id="L485">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
 		}
 
 		try {
-<span class="fc" id="L477">			return document.getText(0, document.getLength());</span>
-<span class="nc" id="L478">		} catch (BadLocationException ex) {</span>
-<span class="nc" id="L479">			Exceptions.printStackTrace(ex);</span>
+<span class="fc" id="L489">			return document.getText(0, document.getLength());</span>
+<span class="nc" id="L490">		} catch (BadLocationException ex) {</span>
+<span class="nc" id="L491">			Exceptions.printStackTrace(ex);</span>
 
-<span class="nc" id="L481">			throw new UnsupportedOperationException(ex);</span>
+<span class="nc" id="L493">			throw new UnsupportedOperationException(ex);</span>
 		}
 	}
 
@@ -494,38 +506,42 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 *         which describe the start and end offsets which can be formatted in respect to
 	 *         the given {@link GuardedSectionManager}
 	 */
-	protected SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; getFormattableSections(String code, GuardedSectionManager guards) {
-<span class="fc" id="L498">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = changedElements;</span>
-<span class="pc bpc" id="L499" title="1 of 2 branches missed.">		if (CollectionUtils.isEmpty(changedElements)) {</span>
-<span class="fc" id="L500">			regions = new TreeSet&lt;&gt;();</span>
+	protected SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; getFormatableSections(String code, GuardedSectionManager guards) {
+<span class="fc" id="L510">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = changedElements;</span>
+<span class="pc bpc" id="L511" title="1 of 2 branches missed.">		if (CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="fc" id="L512">			regions = new TreeSet&lt;&gt;();</span>
 
-<span class="pc bpc" id="L502" title="2 of 4 branches missed.">			if (this.startOffset &gt; -1 &amp;&amp; this.endOffset &gt; -1) {</span>
-<span class="fc" id="L503">				regions.add(Pair.of(this.startOffset, this.endOffset));</span>
+<span class="pc bpc" id="L514" title="2 of 4 branches missed.">			if (this.startOffset &gt; -1 &amp;&amp; this.endOffset &gt; -1) {</span>
+<span class="fc" id="L515">				regions.add(Pair.of(this.startOffset, this.endOffset));</span>
 			} else {
-<span class="nc" id="L505">				regions.add(Pair.of(0, code.length() - 1));</span>
+<span class="nc" id="L517">				regions.add(Pair.of(0, code.length() - 1));</span>
 			}
 		}
 
-<span class="pc bpc" id="L509" title="1 of 2 branches missed.">		if (guards != null) {</span>
-<span class="nc" id="L510">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; nonGuardedSections = new TreeSet&lt;&gt;();</span>
-<span class="nc" id="L511">			Iterable&lt;GuardedSection&gt; guardedSections = guards.getGuardedSections();</span>
+<span class="pc bpc" id="L521" title="1 of 2 branches missed.">		if (guards != null) {</span>
+<span class="nc" id="L522">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; nonGuardedSections = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L523">			Iterable&lt;GuardedSection&gt; guardedSections = guards.getGuardedSections();</span>
 
-<span class="nc" id="L513">			StringBuilder sb = new StringBuilder();</span>
-<span class="nc" id="L514">			guardedSections.forEach(guard -&gt; sb.append(guard.getStartPosition().getOffset()).append(&quot;/&quot;).append(guard.getEndPosition().getOffset()).append(&quot; &quot;));</span>
-<span class="nc" id="L515">			log.log(Level.FINEST, &quot;Guarded sections: {0}&quot;, sb.toString().trim());</span>
+<span class="nc bnc" id="L525" title="All 2 branches missed.">			if (log.isLoggable(logLevel)) {</span>
+<span class="nc" id="L526">				StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L527">				guardedSections.forEach(guard -&gt; sb.append(guard.getStartPosition().getOffset()).append(&quot;/&quot;).append(guard.getEndPosition().getOffset()).append(&quot; &quot;));</span>
+<span class="nc" id="L528">				log.log(logLevel, &quot;Guarded sections: {0}&quot;, sb.toString().trim());</span>
+			}
 
-<span class="nc bnc" id="L517" title="All 2 branches missed.">			for (Pair&lt;Integer, Integer&gt; changedElement : regions) {</span>
-<span class="nc" id="L518">				nonGuardedSections.addAll(avoidGuardedSection(changedElement, guardedSections));</span>
-<span class="nc" id="L519">			}</span>
+<span class="nc bnc" id="L531" title="All 2 branches missed.">			for (Pair&lt;Integer, Integer&gt; changedElement : regions) {</span>
+<span class="nc" id="L532">				nonGuardedSections.addAll(avoidGuardedSection(changedElement, guardedSections));</span>
+<span class="nc" id="L533">			}</span>
 
-<span class="nc" id="L521">			regions = nonGuardedSections;</span>
+<span class="nc" id="L535">			regions = nonGuardedSections;</span>
 		}
 
-<span class="fc" id="L524">		StringBuilder sb = new StringBuilder();</span>
-<span class="fc" id="L525">		regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
-<span class="fc" id="L526">		log.log(Level.FINEST, &quot;Formating sections: {0}&quot;, sb.toString().trim());</span>
+<span class="pc bpc" id="L538" title="1 of 2 branches missed.">		if (log.isLoggable(logLevel)) {</span>
+<span class="nc" id="L539">			StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L540">			regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
+<span class="nc" id="L541">			log.log(logLevel, &quot;Formating sections: {0}&quot;, sb.toString().trim());</span>
+		}
 
-<span class="fc" id="L528">		return regions;</span>
+<span class="fc" id="L544">		return regions;</span>
 	}
 
 	/**
@@ -541,55 +557,55 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 *         {@code guardedSections}
 	 */
 	protected SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; avoidGuardedSection(Pair&lt;Integer, Integer&gt; section, Iterable&lt;GuardedSection&gt; guardedSections) {
-<span class="nc" id="L544">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; ret = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L560">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; ret = new TreeSet&lt;&gt;();</span>
 
-<span class="nc" id="L546">		MutableInt start = new MutableInt(section.getLeft());</span>
-<span class="nc" id="L547">		MutableInt end = new MutableInt(section.getRight());</span>
+<span class="nc" id="L562">		MutableInt start = new MutableInt(section.getLeft());</span>
+<span class="nc" id="L563">		MutableInt end = new MutableInt(section.getRight());</span>
 
-<span class="nc bnc" id="L549" title="All 2 branches missed.">		if (guardedSections != null) {</span>
+<span class="nc bnc" id="L565" title="All 2 branches missed.">		if (guardedSections != null) {</span>
 			try {
-<span class="nc" id="L551">				guardedSections.forEach(guardedSection -&gt; {</span>
-<span class="nc bnc" id="L552" title="All 4 branches missed.">					if (start.getValue() &gt;= guardedSection.getStartPosition().getOffset() &amp;&amp; start.getValue() &lt;= guardedSection.getEndPosition().getOffset()) {</span>
-<span class="nc bnc" id="L553" title="All 2 branches missed.">						if (end.getValue() &gt; guardedSection.getEndPosition().getOffset()) {</span>
-<span class="nc" id="L554">							start.setValue(guardedSection.getEndPosition().getOffset() + 1);</span>
+<span class="nc" id="L567">				guardedSections.forEach(guardedSection -&gt; {</span>
+<span class="nc bnc" id="L568" title="All 4 branches missed.">					if (start.getValue() &gt;= guardedSection.getStartPosition().getOffset() &amp;&amp; start.getValue() &lt;= guardedSection.getEndPosition().getOffset()) {</span>
+<span class="nc bnc" id="L569" title="All 2 branches missed.">						if (end.getValue() &gt; guardedSection.getEndPosition().getOffset()) {</span>
+<span class="nc" id="L570">							start.setValue(guardedSection.getEndPosition().getOffset());</span>
 						} else {
-<span class="nc" id="L556">							start.setValue(null);</span>
-<span class="nc" id="L557">							end.setValue(null);</span>
+<span class="nc" id="L572">							start.setValue(null);</span>
+<span class="nc" id="L573">							end.setValue(null);</span>
 
-<span class="nc" id="L559">							throw new BreakException();</span>
+<span class="nc" id="L575">							throw new BreakException();</span>
 						}
-<span class="nc bnc" id="L561" title="All 4 branches missed.">					} else if (end.getValue() &gt; guardedSection.getStartPosition().getOffset() &amp;&amp; end.getValue() &lt;= guardedSection.getEndPosition().getOffset()) {</span>
-<span class="nc bnc" id="L562" title="All 2 branches missed.">						if (start.getValue() &lt;= guardedSection.getStartPosition().getOffset()) {</span>
-<span class="nc" id="L563">							end.setValue(guardedSection.getStartPosition().getOffset() - 1);</span>
+<span class="nc bnc" id="L577" title="All 4 branches missed.">					} else if (end.getValue() &gt; guardedSection.getStartPosition().getOffset() &amp;&amp; end.getValue() &lt;= guardedSection.getEndPosition().getOffset()) {</span>
+<span class="nc bnc" id="L578" title="All 2 branches missed.">						if (start.getValue() &lt;= guardedSection.getStartPosition().getOffset()) {</span>
+<span class="nc" id="L579">							end.setValue(guardedSection.getStartPosition().getOffset() - 1);</span>
 						} else {
-<span class="nc" id="L565">							start.setValue(null);</span>
-<span class="nc" id="L566">							end.setValue(null);</span>
+<span class="nc" id="L581">							start.setValue(null);</span>
+<span class="nc" id="L582">							end.setValue(null);</span>
 
-<span class="nc" id="L568">							throw new BreakException();</span>
+<span class="nc" id="L584">							throw new BreakException();</span>
 						}
-<span class="nc bnc" id="L570" title="All 4 branches missed.">					} else if (start.getValue() &lt; guardedSection.getStartPosition().getOffset() &amp;&amp; end.getValue() &gt; guardedSection.getEndPosition().getOffset()) {</span>
-<span class="nc" id="L571">						ret.add(Pair.of(start.getValue(), guardedSection.getStartPosition().getOffset() - 1));</span>
+<span class="nc bnc" id="L586" title="All 4 branches missed.">					} else if (start.getValue() &lt; guardedSection.getStartPosition().getOffset() &amp;&amp; end.getValue() &gt; guardedSection.getEndPosition().getOffset()) {</span>
+<span class="nc" id="L587">						ret.add(Pair.of(start.getValue(), guardedSection.getStartPosition().getOffset() - 1));</span>
 
-<span class="nc" id="L573">						start.setValue(guardedSection.getEndPosition().getOffset() + 1);</span>
+<span class="nc" id="L589">						start.setValue(guardedSection.getEndPosition().getOffset());</span>
 					}
-<span class="nc" id="L575">				});</span>
-<span class="nc" id="L576">			} catch (BreakException ex) {</span>
+<span class="nc" id="L591">				});</span>
+<span class="nc" id="L592">			} catch (BreakException ex) {</span>
 				// found no better solution to break a forEach
-<span class="nc" id="L578">			}</span>
+<span class="nc" id="L594">			}</span>
 		}
 
-<span class="nc bnc" id="L581" title="All 4 branches missed.">		if (start.getValue() != null &amp;&amp; end.getValue() != null) {</span>
-<span class="nc" id="L582">			ret.add(Pair.of(start.getValue(), end.getValue()));</span>
+<span class="nc bnc" id="L597" title="All 4 branches missed.">		if (start.getValue() != null &amp;&amp; end.getValue() != null) {</span>
+<span class="nc" id="L598">			ret.add(Pair.of(start.getValue(), end.getValue()));</span>
 		}
 
-<span class="nc" id="L585">		return ret;</span>
+<span class="nc" id="L601">		return ret;</span>
 	}
 
 	/**
 	 * {@link RuntimeException} which is used as a {@code break} condition inside
 	 * a {@link Iterable#forEach(java.util.function.Consumer)}.
 	 */
-<span class="nc" id="L592">	protected static class BreakException extends RuntimeException {</span>
+<span class="nc" id="L608">	protected static class BreakException extends RuntimeException {</span>
 		private static final long serialVersionUID = 1L;
 	}
 }

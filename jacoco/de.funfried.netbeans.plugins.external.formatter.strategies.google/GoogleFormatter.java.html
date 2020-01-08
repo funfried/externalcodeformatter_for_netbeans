@@ -41,17 +41,24 @@ public final class GoogleFormatter {
 <span class="fc" id="L41">		Collection&lt;Range&lt;Integer&gt;&gt; characterRanges = new ArrayList&lt;&gt;();</span>
 <span class="fc bfc" id="L42" title="All 2 branches covered.">		if (!CollectionUtils.isEmpty(changedElements)) {</span>
 <span class="fc bfc" id="L43" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
-<span class="fc" id="L44">				characterRanges.add(Range.closed(changedElement.getLeft(), changedElement.getRight()));</span>
-<span class="fc" id="L45">			}</span>
+<span class="fc" id="L44">				int start = changedElement.getLeft();</span>
+<span class="fc" id="L45">				int end = changedElement.getRight();</span>
+
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">				if (start == end) {</span>
+<span class="nc" id="L48">					end++;</span>
+				}
+
+<span class="fc" id="L51">				characterRanges.add(Range.open(start, end));</span>
+<span class="fc" id="L52">			}</span>
 		} else {
-<span class="fc" id="L47">			characterRanges.add(Range.closed(0, code.length() - 1));</span>
+<span class="fc" id="L54">			characterRanges.add(Range.closedOpen(0, code.length()));</span>
 		}
 
 		try {
-<span class="fc" id="L51">			Formatter formatter = new Formatter(JavaFormatterOptions.builder().style(codeStyle).build());</span>
-<span class="fc" id="L52">			return formatter.formatSource(code, characterRanges);</span>
-<span class="fc" id="L53">		} catch (FormatterException ex) {</span>
-<span class="fc" id="L54">			throw new RuntimeException(ex);</span>
+<span class="fc" id="L58">			Formatter formatter = new Formatter(JavaFormatterOptions.builder().style(codeStyle).build());</span>
+<span class="fc" id="L59">			return formatter.formatSource(code, characterRanges);</span>
+<span class="fc" id="L60">		} catch (FormatterException ex) {</span>
+<span class="fc" id="L61">			throw new RuntimeException(ex);</span>
 		}
 	}
 }

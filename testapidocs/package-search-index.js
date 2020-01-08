@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"de.funfried.netbeans.plugins.external.formatter.strategies"},{"l":"de.funfried.netbeans.plugins.external.formatter.strategies.eclipse"},{"l":"de.funfried.netbeans.plugins.external.formatter.strategies.google"}]

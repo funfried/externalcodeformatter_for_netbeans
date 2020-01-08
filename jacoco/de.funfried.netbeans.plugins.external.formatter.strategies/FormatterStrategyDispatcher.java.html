@@ -10,18 +10,22 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies;
 
+import java.util.Collection;
+import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 
+import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
 import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FileTypeNotSupportedException;
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterStrategy;
-import de.funfried.netbeans.plugins.external.formatter.strategies.google.GoogleFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  *
@@ -29,11 +33,7 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBe
  * @author bahlef
  */
 public class FormatterStrategyDispatcher {
-<span class="fc" id="L32">	private static final Logger log = Logger.getLogger(FormatterStrategyDispatcher.class.getName());</span>
-
-<span class="fc" id="L34">	private final EclipseFormatterStrategy eclipseStrategy = new EclipseFormatterStrategy();</span>
-
-<span class="fc" id="L36">	private final GoogleFormatterStrategy googleStrategy = new GoogleFormatterStrategy();</span>
+<span class="fc" id="L36">	private static final Logger log = Logger.getLogger(FormatterStrategyDispatcher.class.getName());</span>
 
 <span class="fc" id="L38">	private final NetBeansFormatterStrategy netbeansStrategy = new NetBeansFormatterStrategy();</span>
 
@@ -62,30 +62,101 @@ public class FormatterStrategyDispatcher {
 		try {
 <span class="fc" id="L63">			final StyledDocument styledDoc = fa.getStyledDocument();</span>
 
-<span class="fc bfc" id="L65" title="All 2 branches covered.">			if (eclipseStrategy.canHandle(styledDoc)) {</span>
+<span class="fc" id="L65">			IFormatterStrategyService formatterStrategyService = getActiveFormatterStrategyService(styledDoc);</span>
+<span class="pc bpc" id="L66" title="2 of 4 branches missed.">			if (formatterStrategyService != null &amp;&amp; formatterStrategyService.canHandle(styledDoc)) {</span>
 				try {
-<span class="fc" id="L67">					eclipseStrategy.format(fa);</span>
-<span class="nc" id="L68">				} catch (FileTypeNotSupportedException ex) {</span>
-<span class="nc" id="L69">					log.log(Level.FINE, &quot;Could not use Eclipse formatter for given document&quot;, ex);</span>
+<span class="fc" id="L68">					formatterStrategyService.format(fa);</span>
+<span class="nc" id="L69">				} catch (FileTypeNotSupportedException ex) {</span>
+<span class="nc" id="L70">					log.log(Level.FINE, &quot;Could not use &quot; + formatterStrategyService.getDisplayName() + &quot; for given document&quot;, ex);</span>
 
-					// fallback to NetBeans formatter, but should not be possible because of canHandle call before
-<span class="nc" id="L72">					netbeansStrategy.format(fa);</span>
-<span class="pc" id="L73">				}</span>
-<span class="pc bpc" id="L74" title="1 of 2 branches missed.">			} else if (googleStrategy.canHandle(styledDoc)) {</span>
-				try {
-<span class="fc" id="L76">					googleStrategy.format(fa);</span>
-<span class="nc" id="L77">				} catch (FileTypeNotSupportedException ex) {</span>
-<span class="nc" id="L78">					log.log(Level.FINE, &quot;Could not use Google formatter for given document&quot;, ex);</span>
-
-					// fallback to NetBeans formatter, but should not be possible because of canHandle call before
-<span class="nc" id="L81">					netbeansStrategy.format(fa);</span>
-<span class="pc" id="L82">				}</span>
+					// fallback to NetBeans formatter, but should never happen because of canHandle call before
+<span class="nc" id="L73">					netbeansStrategy.format(fa);</span>
+<span class="pc" id="L74">				}</span>
 			} else {
-<span class="nc" id="L84">				netbeansStrategy.format(fa);</span>
+<span class="nc" id="L76">				netbeansStrategy.format(fa);</span>
 			}
-<span class="nc" id="L86">		} catch (Exception e) {</span>
-<span class="nc" id="L87">			Exceptions.printStackTrace(e);</span>
-<span class="fc" id="L88">		}</span>
-<span class="fc" id="L89">	}</span>
+<span class="nc" id="L78">		} catch (Exception e) {</span>
+<span class="nc" id="L79">			Exceptions.printStackTrace(e);</span>
+<span class="fc" id="L80">		}</span>
+<span class="fc" id="L81">	}</span>
+
+	public Integer getContinuationIndentSize(Document document) {
+		try {
+<span class="nc" id="L85">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
+<span class="nc bnc" id="L86" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
+<span class="nc" id="L87">				formatterStrategy.getContinuationIndentSize(document);</span>
+			}
+<span class="nc" id="L89">		} catch (Exception e) {</span>
+<span class="nc" id="L90">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L91">		}</span>
+
+<span class="nc" id="L93">		return null;</span>
+	}
+
+	public Integer getIndentSize(Document document) {
+		try {
+<span class="nc" id="L98">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
+<span class="nc" id="L100">				formatterStrategy.getIndentSize(document);</span>
+			}
+<span class="nc" id="L102">		} catch (Exception e) {</span>
+<span class="nc" id="L103">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L104">		}</span>
+
+<span class="nc" id="L106">		return null;</span>
+	}
+
+	public Integer getRightMargin(Document document) {
+		try {
+<span class="nc" id="L111">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
+<span class="nc bnc" id="L112" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
+<span class="nc" id="L113">				formatterStrategy.getRightMargin(document);</span>
+			}
+<span class="nc" id="L115">		} catch (Exception e) {</span>
+<span class="nc" id="L116">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L117">		}</span>
+
+<span class="nc" id="L119">		return null;</span>
+	}
+
+	public Integer getSpacesPerTab(Document document) {
+		try {
+<span class="nc" id="L124">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
+<span class="nc bnc" id="L125" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
+<span class="nc" id="L126">				formatterStrategy.getSpacesPerTab(document);</span>
+			}
+<span class="nc" id="L128">		} catch (Exception e) {</span>
+<span class="nc" id="L129">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L130">		}</span>
+
+<span class="nc" id="L132">		return null;</span>
+	}
+
+	private IFormatterStrategyService getActiveFormatterStrategyService(Document document) {
+<span class="fc" id="L136">		Preferences prefs = Settings.getActivePreferences(document);</span>
+<span class="fc" id="L137">		String activeFormatterStrategyId = prefs.get(Settings.ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);</span>
+
+<span class="fc" id="L139">		Collection&lt;? extends IFormatterStrategyService&gt; formatterStrategyServices = Lookup.getDefault().lookupAll(IFormatterStrategyService.class);</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">		for (IFormatterStrategyService formatterStrategyService : formatterStrategyServices) {</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">			if (Objects.equals(activeFormatterStrategyId, formatterStrategyService.getId())) {</span>
+<span class="fc" id="L142">				return formatterStrategyService;</span>
+			}
+<span class="fc" id="L144">		}</span>
+
+<span class="nc" id="L146">		return null;</span>
+	}
+
+	public Boolean isExpandTabToSpaces(Document document) {
+		try {
+<span class="nc" id="L151">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
+<span class="nc bnc" id="L152" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
+<span class="nc" id="L153">				formatterStrategy.isExpandTabToSpaces(document);</span>
+			}
+<span class="nc" id="L155">		} catch (Exception e) {</span>
+<span class="nc" id="L156">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L157">		}</span>
+
+<span class="nc" id="L159">		return null;</span>
+	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

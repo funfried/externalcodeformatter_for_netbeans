@@ -9,40 +9,200 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
+import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.openide.util.NbBundle;
+import org.openide.util.lookup.ServiceProvider;
 
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import de.funfried.netbeans.plugins.external.formatter.strategies.AbstractJavaFormatterStrategy;
+import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStrategyService;
+import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.ENABLED_FORMATTER;
+import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.ENABLE_USE_OF_INDENTATION_SETTINGS;
+import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.OVERRIDE_TAB_SIZE;
+import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.OVERRIDE_TAB_SIZE_VALUE;
+import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.getActivePreferences;
 
 /**
  *
  * @author markiewb
  * @author bahlef
  */
-<span class="fc" id="L27">public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {</span>
-<span class="fc" id="L28">	private final EclipseFormatter formatter = new EclipseFormatter();</span>
+@NbBundle.Messages({
+		&quot;FormatterName=Eclipse Java Code Formatter&quot;
+})
+@ServiceProvider(service = IFormatterStrategyService.class)
+<span class="fc" id="L43">public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {</span>
+	public static final String ID = &quot;eclipse-java-formatter&quot;;
+
+<span class="fc" id="L46">	private final EclipseFormatter formatter = new EclipseFormatter();</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected void format(StyledDocument document, int dot, int mark, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L35">		EclipseFormatterRunnable formatterRunnable = new EclipseFormatterRunnable(document, formatter, dot, mark, changedElements);</span>
-<span class="fc" id="L36">		formatterRunnable.run();</span>
-<span class="fc" id="L37">	}</span>
+<span class="fc" id="L53">		EclipseFormatterRunnable formatterRunnable = new EclipseFormatterRunnable(document, formatter, dot, mark, changedElements);</span>
+<span class="fc" id="L54">		formatterRunnable.run();</span>
+<span class="fc" id="L55">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected boolean isActivated(StyledDocument document) {
-<span class="fc" id="L44">		Preferences pref = Settings.getActivePreferences(document);</span>
-<span class="fc" id="L45">		return pref.getBoolean(Settings.ECLIPSE_FORMATTER_ENABLED, false);</span>
+	public String getDisplayName() {
+<span class="nc" id="L62">		return NbBundle.getMessage(EclipseFormatterStrategy.class, &quot;FormatterName&quot;);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getId() {
+<span class="fc" id="L70">		return ID;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Integer getContinuationIndentSize(Document document) {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L79">			return null;</span>
+		}
+
+<span class="nc" id="L82">		Integer ret = null;</span>
+
+<span class="nc" id="L84">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="nc" id="L86">			String value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.jdt.core.formatter.continuation_indentation&quot;);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">			if (value != null) {</span>
+<span class="nc" id="L88">				ret = Integer.valueOf(value);</span>
+			}
+		}
+
+<span class="nc" id="L92">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Integer getIndentSize(Document document) {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L101">			return null;</span>
+		}
+
+<span class="nc" id="L104">		Integer ret = null;</span>
+
+<span class="nc" id="L106">		Preferences preferences = getActivePreferences(document);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="nc" id="L108">			String value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.jdt.core.formatter.indentation.size&quot;);</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">			if (value != null) {</span>
+<span class="nc" id="L110">				ret = Integer.valueOf(value);</span>
+			}
+		}
+
+<span class="nc" id="L114">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Integer getRightMargin(Document document) {
+<span class="nc bnc" id="L122" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L123">			return null;</span>
+		}
+
+<span class="nc" id="L126">		Integer ret = null;</span>
+
+<span class="nc" id="L128">		Preferences preferences = getActivePreferences(document);</span>
+<span class="nc" id="L129">		String value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.jdt.core.formatter.lineSplit&quot;);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">		if (value != null) {</span>
+<span class="nc" id="L131">			ret = Integer.valueOf(value);</span>
+		}
+
+<span class="nc" id="L134">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Integer getSpacesPerTab(Document document) {
+<span class="nc bnc" id="L142" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L143">			return null;</span>
+		}
+
+<span class="nc" id="L146">		Integer ret = null;</span>
+
+<span class="nc" id="L148">		Preferences preferences = getActivePreferences(document);</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">			if (preferences.getBoolean(OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="nc" id="L151">				ret = preferences.getInt(OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+			} else {
+<span class="nc" id="L153">				String value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.jdt.core.formatter.tabulation.size&quot;);</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">				if (value != null) {</span>
+<span class="nc" id="L155">					ret = Integer.valueOf(value);</span>
+				}
+			}
+		}
+
+<span class="nc" id="L160">		return ret;</span>
+	}
+
+	private String getEclipseFormatterProperty(Preferences preferences, Document document, String key) {
+<span class="nc bnc" id="L164" title="All 4 branches missed.">		if (preferences == null || document == null) {</span>
+<span class="nc" id="L165">			return null;</span>
+		}
+
+<span class="nc" id="L168">		String formatterFile = Settings.getEclipseFormatterFile(preferences, document);</span>
+<span class="nc" id="L169">		String formatterProfile = preferences.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
+<span class="nc" id="L170">		String sourceLevel = preferences.get(Settings.SOURCELEVEL, &quot;&quot;);</span>
+
+<span class="nc" id="L172">		Map&lt;String, String&gt; config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);</span>
+
+<span class="nc" id="L174">		return config.getOrDefault(key, null);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean isExpandTabToSpaces(Document document) {
+<span class="nc bnc" id="L182" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L183">			return null;</span>
+		}
+
+<span class="nc" id="L186">		Boolean ret = null;</span>
+
+<span class="nc" id="L188">		Preferences preferences = getActivePreferences(document);</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="nc" id="L190">			String value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.jdt.core.formatter.tabulation.char&quot;);</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">			if (value != null) {</span>
+<span class="nc" id="L192">				ret = Objects.equals(value, &quot;space&quot;);</span>
+			}
+		}
+
+<span class="nc" id="L196">		return ret;</span>
+	}
+
+	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
+<span class="nc" id="L200">		String enabledFormatter = prefs.get(ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">		if (ID.equals(enabledFormatter)) {</span>
+<span class="nc" id="L202">			return prefs.getBoolean(ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+		}
+
+<span class="nc" id="L205">		return false;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

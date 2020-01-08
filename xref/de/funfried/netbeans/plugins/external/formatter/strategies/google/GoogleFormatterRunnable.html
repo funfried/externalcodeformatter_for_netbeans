@@ -76,7 +76,7 @@
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  			GuardedSectionManager guards = GuardedSectionManager.getInstance(document);
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormattableSections(code, guards);
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code, guards);
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>  
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  			<em class="jxr_comment">// quick check for changed</em>
@@ -96,6 +96,6 @@
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2019. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2019&#x2013;2020. All rights reserved.</div>
 </body>
 </html>

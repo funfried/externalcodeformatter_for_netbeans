@@ -69,7 +69,7 @@ class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 
 		try {
 <span class="fc" id="L71">			GuardedSectionManager guards = GuardedSectionManager.getInstance(document);</span>
-<span class="fc" id="L72">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormattableSections(code, guards);</span>
+<span class="fc" id="L72">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code, guards);</span>
 
 <span class="fc" id="L74">			String formattedContent = formatter.format(formatterFile, formatterProfile, code, lineFeed, sourceLevel, regions);</span>
 			// quick check for changed
