@@ -9,9 +9,9 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies;
 
-import javax.annotation.Nullable;
 import javax.swing.text.Document;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 /**
  * Service interface for external formatter implementations.
@@ -29,7 +29,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 * @return the continuation indent size configured for the given {@link Document},
 	 *         or {@code null} if it should not affect the editor behavior
 	 */
-	@Nullable
+	@Null
 	Integer getContinuationIndentSize(Document document);
 
 	/**
@@ -57,7 +57,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 * @return the indent size configured for the given {@link Document}, or
 	 *         {@code null} if it should not affect the editor behavior
 	 */
-	@Nullable
+	@Null
 	Integer getIndentSize(Document document);
 
 	/**
@@ -71,7 +71,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 *         for the given {@link Document}, or {@code null} if it should not
 	 *         affect the editor behavior
 	 */
-	@Nullable
+	@Null
 	Integer getRightMargin(Document document);
 
 	/**
@@ -84,7 +84,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 * @return the spaces per tab configured for the given {@link Document}, or
 	 *         {@code null} if it should not affect the editor behavior
 	 */
-	@Nullable
+	@Null
 	Integer getSpacesPerTab(Document document);
 
 	/**
@@ -98,6 +98,6 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 *         {@link Document}, or {@code null} if it should not affect the editor
 	 *         behavior
 	 */
-	@Nullable
+	@Null
 	Boolean isExpandTabToSpaces(Document document);
 }

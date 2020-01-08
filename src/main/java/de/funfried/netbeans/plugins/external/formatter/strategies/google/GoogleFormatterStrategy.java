@@ -12,10 +12,10 @@ package de.funfried.netbeans.plugins.external.formatter.strategies.google;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
-import javax.annotation.Nullable;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
@@ -88,7 +88,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Nullable
+	@Null
 	@Override
 	public Integer getContinuationIndentSize(Document document) {
 		if (document == null) {
@@ -109,7 +109,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Nullable
+	@Null
 	@Override
 	public Integer getIndentSize(Document document) {
 		if (document == null) {
@@ -130,7 +130,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Nullable
+	@Null
 	@Override
 	public Integer getRightMargin(Document document) {
 		if (document == null) {
@@ -145,7 +145,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Nullable
+	@Null
 	@Override
 	public Integer getSpacesPerTab(Document document) {
 		if (document == null) {
@@ -170,7 +170,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Nullable
+	@Null
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
 		if (document == null) {
