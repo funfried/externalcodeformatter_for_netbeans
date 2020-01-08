@@ -32,7 +32,7 @@ public interface Utils {
 	 * @return {@code true} if the mime type is {@code text/x-java}, otherwise
 	 *         {@code false}
 	 */
-	public static boolean isJava(Document document) {
+	static boolean isJava(Document document) {
 		return JavaTokenId.language().mimeType().equals(NbEditorUtilities.getMimeType(document));
 	}
 }

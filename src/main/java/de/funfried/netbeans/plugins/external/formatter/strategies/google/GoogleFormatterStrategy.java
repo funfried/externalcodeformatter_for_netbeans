@@ -12,8 +12,10 @@ package de.funfried.netbeans.plugins.external.formatter.strategies.google;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
+import javax.annotation.Nullable;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
@@ -24,11 +26,6 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.AbstractJavaFo
 import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStrategyService;
 import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
-import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.ENABLED_FORMATTER;
-import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.ENABLE_USE_OF_INDENTATION_SETTINGS;
-import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.OVERRIDE_TAB_SIZE;
-import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.OVERRIDE_TAB_SIZE_VALUE;
-import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.getActivePreferences;
 
 /**
  *
@@ -73,6 +70,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@NotNull
 	@Override
 	public String getDisplayName() {
 		return NbBundle.getMessage(GoogleFormatterStrategy.class, "FormatterName");
@@ -81,6 +79,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@NotNull
 	@Override
 	public String getId() {
 		return ID;
@@ -89,6 +88,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Nullable
 	@Override
 	public Integer getContinuationIndentSize(Document document) {
 		if (document == null) {
@@ -109,6 +109,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Nullable
 	@Override
 	public Integer getIndentSize(Document document) {
 		if (document == null) {
@@ -117,7 +118,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 
 		Integer ret = null;
 
-		Preferences preferences = getActivePreferences(document);
+		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
 			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
 			ret = 2;
@@ -129,6 +130,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Nullable
 	@Override
 	public Integer getRightMargin(Document document) {
 		if (document == null) {
@@ -143,6 +145,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Nullable
 	@Override
 	public Integer getSpacesPerTab(Document document) {
 		if (document == null) {
@@ -151,10 +154,10 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 
 		Integer ret = null;
 
-		Preferences preferences = getActivePreferences(document);
+		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			if (preferences.getBoolean(OVERRIDE_TAB_SIZE, true)) {
-				ret = preferences.getInt(OVERRIDE_TAB_SIZE_VALUE, 4);
+			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
+				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
 			} else {
 				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
 				ret = 2;
@@ -167,6 +170,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Nullable
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
 		if (document == null) {
@@ -175,7 +179,7 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 
 		Boolean ret = null;
 
-		Preferences preferences = getActivePreferences(document);
+		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
 			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
 			ret = false;
@@ -185,9 +189,9 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	}
 
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-		String enabledFormatter = prefs.get(ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);
+		String enabledFormatter = prefs.get(Settings.ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);
 		if (ID.equals(enabledFormatter)) {
-			return prefs.getBoolean(ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+			return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 		}
 
 		return false;

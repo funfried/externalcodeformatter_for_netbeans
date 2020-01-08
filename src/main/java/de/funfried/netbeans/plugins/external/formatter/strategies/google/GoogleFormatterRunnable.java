@@ -10,7 +10,6 @@
 package de.funfried.netbeans.plugins.external.formatter.strategies.google;
 
 import java.util.SortedSet;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
@@ -42,8 +41,6 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  * @author bahlef
  */
 class GoogleFormatterRunnable extends AbstractFormatterRunnable {
-	private static final Logger log = Logger.getLogger(GoogleFormatterRunnable.class.getName());
-
 	private final GoogleFormatter formatter;
 
 	GoogleFormatterRunnable(StyledDocument document, GoogleFormatter formatter, int dot, int mark, SortedSet<Pair<Integer, Integer>> changedElements) {

@@ -14,8 +14,10 @@ import java.util.Objects;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
+import javax.annotation.Nullable;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.openide.util.NbBundle;
@@ -25,11 +27,6 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.AbstractJavaFo
 import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStrategyService;
 import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
-import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.ENABLED_FORMATTER;
-import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.ENABLE_USE_OF_INDENTATION_SETTINGS;
-import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.OVERRIDE_TAB_SIZE;
-import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.OVERRIDE_TAB_SIZE_VALUE;
-import static de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.getActivePreferences;
 
 /**
  *
@@ -57,6 +54,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@NotNull
 	@Override
 	public String getDisplayName() {
 		return NbBundle.getMessage(EclipseFormatterStrategy.class, "FormatterName");
@@ -65,6 +63,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@NotNull
 	@Override
 	public String getId() {
 		return ID;
@@ -73,6 +72,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Nullable
 	@Override
 	public Integer getContinuationIndentSize(Document document) {
 		if (document == null) {
@@ -95,6 +95,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Nullable
 	@Override
 	public Integer getIndentSize(Document document) {
 		if (document == null) {
@@ -103,7 +104,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 
 		Integer ret = null;
 
-		Preferences preferences = getActivePreferences(document);
+		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
 			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.indentation.size");
 			if (value != null) {
@@ -117,6 +118,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Nullable
 	@Override
 	public Integer getRightMargin(Document document) {
 		if (document == null) {
@@ -125,7 +127,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 
 		Integer ret = null;
 
-		Preferences preferences = getActivePreferences(document);
+		Preferences preferences = Settings.getActivePreferences(document);
 		String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.lineSplit");
 		if (value != null) {
 			ret = Integer.valueOf(value);
@@ -137,6 +139,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Nullable
 	@Override
 	public Integer getSpacesPerTab(Document document) {
 		if (document == null) {
@@ -145,10 +148,10 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 
 		Integer ret = null;
 
-		Preferences preferences = getActivePreferences(document);
+		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			if (preferences.getBoolean(OVERRIDE_TAB_SIZE, true)) {
-				ret = preferences.getInt(OVERRIDE_TAB_SIZE_VALUE, 4);
+			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
+				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
 			} else {
 				String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.tabulation.size");
 				if (value != null) {
@@ -177,6 +180,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Nullable
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
 		if (document == null) {
@@ -185,7 +189,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 
 		Boolean ret = null;
 
-		Preferences preferences = getActivePreferences(document);
+		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
 			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.tabulation.char");
 			if (value != null) {
@@ -197,9 +201,9 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	}
 
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-		String enabledFormatter = prefs.get(ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);
+		String enabledFormatter = prefs.get(Settings.ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);
 		if (ID.equals(enabledFormatter)) {
-			return prefs.getBoolean(ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+			return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 		}
 
 		return false;

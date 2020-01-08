@@ -9,7 +9,9 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies;
 
+import javax.annotation.Nullable;
 import javax.swing.text.Document;
+import javax.validation.constraints.NotNull;
 
 /**
  * Service interface for external formatter implementations.
@@ -27,6 +29,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 * @return the continuation indent size configured for the given {@link Document},
 	 *         or {@code null} if it should not affect the editor behavior
 	 */
+	@Nullable
 	Integer getContinuationIndentSize(Document document);
 
 	/**
@@ -34,6 +37,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 *
 	 * @return the display name of this formatter implementation
 	 */
+	@NotNull
 	String getDisplayName();
 
 	/**
@@ -41,6 +45,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 *
 	 * @return the unique identifier of this formatter implementation
 	 */
+	@NotNull
 	String getId();
 
 	/**
@@ -52,6 +57,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 * @return the indent size configured for the given {@link Document}, or
 	 *         {@code null} if it should not affect the editor behavior
 	 */
+	@Nullable
 	Integer getIndentSize(Document document);
 
 	/**
@@ -65,6 +71,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 *         for the given {@link Document}, or {@code null} if it should not
 	 *         affect the editor behavior
 	 */
+	@Nullable
 	Integer getRightMargin(Document document);
 
 	/**
@@ -77,6 +84,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 * @return the spaces per tab configured for the given {@link Document}, or
 	 *         {@code null} if it should not affect the editor behavior
 	 */
+	@Nullable
 	Integer getSpacesPerTab(Document document);
 
 	/**
@@ -90,5 +98,6 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 *         {@link Document}, or {@code null} if it should not affect the editor
 	 *         behavior
 	 */
+	@Nullable
 	Boolean isExpandTabToSpaces(Document document);
 }

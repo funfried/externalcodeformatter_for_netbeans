@@ -767,7 +767,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		preferences.put(Settings.ECLIPSE_FORMATTER_LOCATION, formatterLocField.getText());
 		preferences.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, useIndentationSettingsChkBox.isSelected());
 		preferences.putBoolean(Settings.OVERRIDE_TAB_SIZE, overrideTabSizeChkBox.isSelected());
-		preferences.putInt(Settings.OVERRIDE_TAB_SIZE_VALUE, Integer.valueOf(overrideTabSizeSpn.getValue().toString()));
+		preferences.putInt(Settings.OVERRIDE_TAB_SIZE_VALUE, Integer.parseInt(overrideTabSizeSpn.getValue().toString()));
 		preferences.putBoolean(Settings.SHOW_NOTIFICATIONS, cbShowNotifications.isSelected());
 		preferences.putBoolean(Settings.ENABLE_SAVEACTION, cbEnableSaveAction.isSelected());
 		if (Settings.FEATURE_FORMAT_CHANGED_LINES_ONLY) {
