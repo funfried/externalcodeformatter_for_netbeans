@@ -30,8 +30,9 @@ public interface IFormatterStrategy {
 	boolean canHandle(Document document);
 
 	/**
-	 * Formats the {@link StyledDocument} given in the {@link FormatterAdvice} in
-	 * regard to the values included in that {@link FormatterAdvice}.
+	 * Formats the {@link javax.swing.text.StyledDocument} given in the
+	 * {@link FormatterAdvice} in regard to the values included in that
+	 * {@link FormatterAdvice}.
 	 *
 	 * @param fa the {@link FormatterAdvice} containing detailed instruction on
 	 *           what to format
