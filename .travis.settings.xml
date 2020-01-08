@@ -3,18 +3,18 @@
     <servers>
         <server>
             <id>github</id>
-            <username>${github_username}</username>
-            <password>${github_token}</password>
+            <username>${env.github_username}</username>
+            <password>${env.github_token}</password>
         </server>
         <server>
             <id>sonatype-nexus-staging</id>
-            <username>${sonatype_username}</username>
-            <password>${sonatype_password}</password>
+            <username>${env.sonatype_username}</username>
+            <password>${env.sonatype_password}</password>
         </server>
         <server>
             <id>sonatype-nexus-snapshots</id>
-            <username>${sonatype_username}</username>
-            <password>${sonatype_password}</password>
+            <username>${env.sonatype_username}</username>
+            <password>${env.sonatype_password}</password>
         </server>
     </servers>
 
@@ -26,7 +26,7 @@
         <profile>
             <id>travis</id>
 			<properties>
-				<gpg.passphrase>${signing_keypass}</gpg.passphrase>
+				<gpg.passphrase>${env.signing_keypass}</gpg.passphrase>
 			</properties>
             <repositories>
                 <repository>
