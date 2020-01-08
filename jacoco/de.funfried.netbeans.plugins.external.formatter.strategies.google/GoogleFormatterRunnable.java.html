@@ -10,7 +10,6 @@
 package de.funfried.netbeans.plugins.external.formatter.strategies.google;
 
 import java.util.SortedSet;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
@@ -42,48 +41,46 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  * @author bahlef
  */
 class GoogleFormatterRunnable extends AbstractFormatterRunnable {
-<span class="fc" id="L45">	private static final Logger log = Logger.getLogger(GoogleFormatterRunnable.class.getName());</span>
-
 	private final GoogleFormatter formatter;
 
 	GoogleFormatterRunnable(StyledDocument document, GoogleFormatter formatter, int dot, int mark, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L50">		super(document, dot, mark, changedElements);</span>
+<span class="fc" id="L47">		super(document, dot, mark, changedElements);</span>
 
-<span class="fc" id="L52">		this.formatter = formatter;</span>
-<span class="fc" id="L53">	}</span>
+<span class="fc" id="L49">		this.formatter = formatter;</span>
+<span class="fc" id="L50">	}</span>
 
 	@Override
 	public void run() {
-<span class="fc" id="L57">		boolean isJava = Utils.isJava(document);</span>
-<span class="fc bfc" id="L58" title="All 2 branches covered.">		if (!isJava) {</span>
-<span class="fc" id="L59">			throw new FileTypeNotSupportedException(&quot;The file type '&quot; + NbEditorUtilities.getMimeType(document) + &quot;' is not supported by the Goolge Java Code Formatter&quot;);</span>
+<span class="fc" id="L54">		boolean isJava = Utils.isJava(document);</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">		if (!isJava) {</span>
+<span class="fc" id="L56">			throw new FileTypeNotSupportedException(&quot;The file type '&quot; + NbEditorUtilities.getMimeType(document) + &quot;' is not supported by the Goolge Java Code Formatter&quot;);</span>
 		}
 
-<span class="fc" id="L62">		Preferences pref = Settings.getActivePreferences(document);</span>
+<span class="fc" id="L59">		Preferences pref = Settings.getActivePreferences(document);</span>
 
-<span class="fc" id="L64">		boolean preserveBreakpoints = pref.getBoolean(Settings.PRESERVE_BREAKPOINTS, true);</span>
-<span class="fc" id="L65">		String codeStylePref = pref.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="fc" id="L61">		boolean preserveBreakpoints = pref.getBoolean(Settings.PRESERVE_BREAKPOINTS, true);</span>
+<span class="fc" id="L62">		String codeStylePref = pref.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
 
-<span class="fc" id="L67">		String code = getCode(null);</span>
+<span class="fc" id="L64">		String code = getCode(null);</span>
 
 		try {
-<span class="fc" id="L70">			GuardedSectionManager guards = GuardedSectionManager.getInstance(document);</span>
-<span class="fc" id="L71">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code, guards);</span>
+<span class="fc" id="L67">			GuardedSectionManager guards = GuardedSectionManager.getInstance(document);</span>
+<span class="fc" id="L68">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code, guards);</span>
 
-<span class="fc" id="L73">			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);</span>
+<span class="fc" id="L70">			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);</span>
 			// quick check for changed
-<span class="pc bpc" id="L75" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent, preserveBreakpoints)) {</span>
-<span class="fc" id="L76">				SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="pc bpc" id="L77" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
-<span class="nc" id="L78">						NotificationDisplayer.getDefault().notify(&quot;Format using Goolge formatter&quot;, Icons.ICON_GOOGLE, null, null);</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent, preserveBreakpoints)) {</span>
+<span class="fc" id="L73">				SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L75">						NotificationDisplayer.getDefault().notify(&quot;Format using Goolge formatter&quot;, Icons.ICON_GOOGLE, null, null);</span>
 					}
 
-<span class="fc" id="L81">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Goolge formatter&quot;);</span>
-<span class="fc" id="L82">				});</span>
+<span class="fc" id="L78">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Goolge formatter&quot;);</span>
+<span class="fc" id="L79">				});</span>
 			}
-<span class="nc" id="L84">		} catch (RuntimeException ex) {</span>
-<span class="nc" id="L85">			throw ex;</span>
-<span class="fc" id="L86">		}</span>
-<span class="fc" id="L87">	}</span>
+<span class="nc" id="L81">		} catch (RuntimeException ex) {</span>
+<span class="nc" id="L82">			throw ex;</span>
+<span class="fc" id="L83">		}</span>
+<span class="fc" id="L84">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

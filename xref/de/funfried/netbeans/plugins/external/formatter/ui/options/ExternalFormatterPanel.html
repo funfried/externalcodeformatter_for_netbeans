@@ -775,7 +775,7 @@
 <a class="jxr_linenumber" name="L767" href="#L767">767</a> 		preferences.put(Settings.ECLIPSE_FORMATTER_LOCATION, formatterLocField.getText());
 <a class="jxr_linenumber" name="L768" href="#L768">768</a> 		preferences.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, useIndentationSettingsChkBox.isSelected());
 <a class="jxr_linenumber" name="L769" href="#L769">769</a> 		preferences.putBoolean(Settings.OVERRIDE_TAB_SIZE, overrideTabSizeChkBox.isSelected());
-<a class="jxr_linenumber" name="L770" href="#L770">770</a> 		preferences.putInt(Settings.OVERRIDE_TAB_SIZE_VALUE, Integer.valueOf(overrideTabSizeSpn.getValue().toString()));
+<a class="jxr_linenumber" name="L770" href="#L770">770</a> 		preferences.putInt(Settings.OVERRIDE_TAB_SIZE_VALUE, Integer.parseInt(overrideTabSizeSpn.getValue().toString()));
 <a class="jxr_linenumber" name="L771" href="#L771">771</a> 		preferences.putBoolean(Settings.SHOW_NOTIFICATIONS, cbShowNotifications.isSelected());
 <a class="jxr_linenumber" name="L772" href="#L772">772</a> 		preferences.putBoolean(Settings.ENABLE_SAVEACTION, cbEnableSaveAction.isSelected());
 <a class="jxr_linenumber" name="L773" href="#L773">773</a> 		<strong class="jxr_keyword">if</strong> (Settings.FEATURE_FORMAT_CHANGED_LINES_ONLY) {

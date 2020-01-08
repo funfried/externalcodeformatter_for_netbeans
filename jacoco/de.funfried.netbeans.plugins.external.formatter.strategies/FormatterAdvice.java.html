@@ -37,50 +37,102 @@ public class FormatterAdvice {
 
 	private final JTextComponent editor;
 
+	/**
+	 * Creates a new {@link FormatterAdvice}.
+	 *
+	 * @param styledDocument the {@link StyledDocument} which should be formatted
+	 * @param selectionStart offset where the selection starts, or {@code -1} if there is no selection
+	 * @param selectionEnd   offset where the selection ends, or {@code -1} if there is no selection
+	 * @param caret          the caret position when the formatting was invoked
+	 * @param editor         the {@link JTextComponent} holding the given {@link StyledDocument}
+	 */
 	public FormatterAdvice(StyledDocument styledDocument, int selectionStart, int selectionEnd, int caret, JTextComponent editor) {
-<span class="nc" id="L41">		this(styledDocument, null, false, selectionStart, selectionEnd, caret, editor);</span>
-<span class="nc" id="L42">	}</span>
+<span class="nc" id="L50">		this(styledDocument, null, false, selectionStart, selectionEnd, caret, editor);</span>
+<span class="nc" id="L51">	}</span>
 
+	/**
+	 * Creates a new {@link FormatterAdvice}.
+	 *
+	 * @param styledDocument  the {@link StyledDocument} which should be formatted
+	 * @param changedElements a {@link SortedSet} of {@link Pair} objects as ranges which should be formatted, leaving everything outside of the ranges unformatted
+	 * @param caret           the caret position when the formatting was invoked
+	 * @param editor          the {@link JTextComponent} holding the given {@link StyledDocument}
+	 */
 	public FormatterAdvice(StyledDocument styledDocument, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements, int caret, JTextComponent editor) {
-<span class="fc" id="L45">		this(styledDocument, changedElements, true, -1, -1, caret, editor);</span>
-<span class="fc" id="L46">	}</span>
+<span class="fc" id="L62">		this(styledDocument, changedElements, true, -1, -1, caret, editor);</span>
+<span class="fc" id="L63">	}</span>
 
-<span class="fc" id="L48">	private FormatterAdvice(StyledDocument styledDocument, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements, boolean forSave, int selectionStart, int selectionEnd, int caret, JTextComponent editor) {</span>
-<span class="fc" id="L49">		this.styledDocument = styledDocument;</span>
-<span class="fc" id="L50">		this.changedElements = changedElements;</span>
-<span class="fc" id="L51">		this.forSave = forSave;</span>
-<span class="fc" id="L52">		this.selectionStart = selectionStart;</span>
-<span class="fc" id="L53">		this.selectionEnd = selectionEnd;</span>
-<span class="fc" id="L54">		this.caret = caret;</span>
-<span class="fc" id="L55">		this.editor = editor;</span>
-<span class="fc" id="L56">	}</span>
+<span class="fc" id="L65">	private FormatterAdvice(StyledDocument styledDocument, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements, boolean forSave, int selectionStart, int selectionEnd, int caret, JTextComponent editor) {</span>
+<span class="fc" id="L66">		this.styledDocument = styledDocument;</span>
+<span class="fc" id="L67">		this.changedElements = changedElements;</span>
+<span class="fc" id="L68">		this.forSave = forSave;</span>
+<span class="fc" id="L69">		this.selectionStart = selectionStart;</span>
+<span class="fc" id="L70">		this.selectionEnd = selectionEnd;</span>
+<span class="fc" id="L71">		this.caret = caret;</span>
+<span class="fc" id="L72">		this.editor = editor;</span>
+<span class="fc" id="L73">	}</span>
 
+	/**
+	 * Returns the {@link StyledDocument}.
+	 *
+	 * @return the {@link StyledDocument}
+	 */
 	public StyledDocument getStyledDocument() {
-<span class="fc" id="L59">		return styledDocument;</span>
+<span class="fc" id="L81">		return styledDocument;</span>
 	}
 
+	/**
+	 * Returns the {@link SortedSet} of {@link Pair} ranges.
+	 *
+	 * @return the {@link SortedSet} of {@link Pair} ranges
+	 */
 	public SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; getChangedElements() {
-<span class="fc" id="L63">		return changedElements;</span>
+<span class="fc" id="L90">		return changedElements;</span>
 	}
 
+	/**
+	 * Return the {@code forSave} flag.
+	 *
+	 * @return the {@code forSave} flag
+	 */
 	public boolean isForSave() {
-<span class="fc" id="L67">		return forSave;</span>
+<span class="fc" id="L99">		return forSave;</span>
 	}
 
+	/**
+	 * Returns the offset of the selection start.
+	 *
+	 * @return the offset of the selection start
+	 */
 	public int getSelectionStart() {
-<span class="nc" id="L71">		return selectionStart;</span>
+<span class="nc" id="L108">		return selectionStart;</span>
 	}
 
+	/**
+	 * Returns the offset of the selection end.
+	 *
+	 * @return the offset of the selection end
+	 */
 	public int getSelectionEnd() {
-<span class="nc" id="L75">		return selectionEnd;</span>
+<span class="nc" id="L117">		return selectionEnd;</span>
 	}
 
+	/**
+	 * Returns the caret position.
+	 *
+	 * @return the caret position
+	 */
 	public int getCaret() {
-<span class="nc" id="L79">		return caret;</span>
+<span class="nc" id="L126">		return caret;</span>
 	}
 
+	/**
+	 * Returns the {@link JTextComponent}.
+	 *
+	 * @return the {@link JTextComponent}
+	 */
 	public JTextComponent getEditor() {
-<span class="fc" id="L83">		return editor;</span>
+<span class="fc" id="L135">		return editor;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
