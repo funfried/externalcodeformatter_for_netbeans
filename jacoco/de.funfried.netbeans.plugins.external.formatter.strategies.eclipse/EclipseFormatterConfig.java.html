@@ -25,112 +25,127 @@ import org.xml.sax.SAXException;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
+ * Class used for parsing an Eclipse code formatter configuration.
  *
  * @author bahlef
  */
 public class EclipseFormatterConfig {
-<span class="fc" id="L37">	private static final Logger log = Logger.getLogger(EclipseFormatterConfig.class.getName());</span>
+<span class="fc" id="L38">	private static final Logger log = Logger.getLogger(EclipseFormatterConfig.class.getName());</span>
 
 	private static final String WORKSPACE_MECHANIC_PREFIX = &quot;/instance/org.eclipse.jdt.core/&quot;;
 
 	@SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L42">	private static final Map&lt;String, String&gt; ECLIPSE_JAVA_FORMATTER_DEFAULTS = DefaultCodeFormatterConstants.getJavaConventionsSettings();</span>
+<span class="fc" id="L43">	private static final Map&lt;String, String&gt; ECLIPSE_JAVA_FORMATTER_DEFAULTS = DefaultCodeFormatterConstants.getJavaConventionsSettings();</span>
 
-<span class="fc" id="L44">	private static final Map&lt;String, String&gt; SOURCE_LEVEL_DEFAULTS = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L45">	private static final Map&lt;String, String&gt; SOURCE_LEVEL_DEFAULTS = new LinkedHashMap&lt;&gt;();</span>
 
 	static {
-<span class="fc" id="L47">		String level = JavaCore.VERSION_1_6;</span>
-<span class="fc" id="L48">		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_COMPLIANCE, level);</span>
-<span class="fc" id="L49">		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, level);</span>
-<span class="fc" id="L50">		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_SOURCE, level);</span>
-<span class="fc" id="L51">	}</span>
+<span class="fc" id="L48">		String level = JavaCore.VERSION_1_6;</span>
+<span class="fc" id="L49">		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_COMPLIANCE, level);</span>
+<span class="fc" id="L50">		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, level);</span>
+<span class="fc" id="L51">		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_SOURCE, level);</span>
+<span class="fc" id="L52">	}</span>
 
 	private EclipseFormatterConfig() {
 	}
 
 	private static Map&lt;String, String&gt; getSourceLevelOptions(String sourceLevel) {
-<span class="fc" id="L57">		Map&lt;String, String&gt; options = new HashMap&lt;&gt;();</span>
-<span class="fc bfc" id="L58" title="All 4 branches covered.">		if (null != sourceLevel &amp;&amp; !&quot;&quot;.equals(sourceLevel)) {</span>
-<span class="fc" id="L59">			String level = sourceLevel;</span>
-<span class="fc" id="L60">			options.put(JavaCore.COMPILER_COMPLIANCE, level);</span>
-<span class="fc" id="L61">			options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, level);</span>
-<span class="fc" id="L62">			options.put(JavaCore.COMPILER_SOURCE, level);</span>
+<span class="fc" id="L58">		Map&lt;String, String&gt; options = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L59" title="All 4 branches covered.">		if (null != sourceLevel &amp;&amp; !&quot;&quot;.equals(sourceLevel)) {</span>
+<span class="fc" id="L60">			String level = sourceLevel;</span>
+<span class="fc" id="L61">			options.put(JavaCore.COMPILER_COMPLIANCE, level);</span>
+<span class="fc" id="L62">			options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, level);</span>
+<span class="fc" id="L63">			options.put(JavaCore.COMPILER_SOURCE, level);</span>
 		}
 
-<span class="fc" id="L65">		return options;</span>
+<span class="fc" id="L66">		return options;</span>
 	}
 
+	/**
+	 * Parses the configuration parameters from the given {@code profile} of the
+	 * given formatter configuration file.
+	 *
+	 * @param formatterFile    the path to the formatter configuration file
+	 * @param formatterProfile the name of the formatter configuration profile
+	 * @param sourceLevel      the source level to use for formatting
+	 *
+	 * @return
+	 *
+	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
+	 */
 	public static Map&lt;String, String&gt; parseConfig(String formatterFile, String formatterProfile, String sourceLevel)
 			throws ProfileNotFoundException, ConfigReadException, CannotLoadConfigurationException {
-<span class="fc" id="L70">		Map&lt;String, String&gt; allConfig = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L85">		Map&lt;String, String&gt; allConfig = new HashMap&lt;&gt;();</span>
 		try {
 			Map&lt;String, String&gt; configFromFile;
-<span class="fc bfc" id="L73" title="All 2 branches covered.">			if (Settings.isWorkspaceMechanicFile(formatterFile)) {</span>
-<span class="fc" id="L74">				configFromFile = readConfigFromWorkspaceMechanicFile(formatterFile);</span>
-<span class="fc bfc" id="L75" title="All 2 branches covered.">			} else if (Settings.isXMLConfigurationFile(formatterFile)) {</span>
-<span class="fc" id="L76">				configFromFile = readConfigFromFormatterXmlFile(formatterFile, formatterProfile);</span>
-<span class="fc bfc" id="L77" title="All 2 branches covered.">			} else if (Settings.isProjectSetting(formatterFile)) {</span>
-<span class="fc" id="L78">				configFromFile = readConfigFromProjectSettings(formatterFile);</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">			if (Settings.isWorkspaceMechanicFile(formatterFile)) {</span>
+<span class="fc" id="L89">				configFromFile = readConfigFromWorkspaceMechanicFile(formatterFile);</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">			} else if (Settings.isXMLConfigurationFile(formatterFile)) {</span>
+<span class="fc" id="L91">				configFromFile = readConfigFromFormatterXmlFile(formatterFile, formatterProfile);</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">			} else if (Settings.isProjectSetting(formatterFile)) {</span>
+<span class="fc" id="L93">				configFromFile = readConfigFromProjectSettings(formatterFile);</span>
 			} else {
-<span class="fc" id="L80">				configFromFile = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L95">				configFromFile = new LinkedHashMap&lt;&gt;();</span>
 			}
 
-<span class="fc" id="L83">			allConfig.putAll(ECLIPSE_JAVA_FORMATTER_DEFAULTS);</span>
-<span class="fc" id="L84">			allConfig.putAll(SOURCE_LEVEL_DEFAULTS);</span>
-<span class="fc" id="L85">			allConfig.putAll(configFromFile);</span>
-<span class="fc" id="L86">			allConfig.putAll(getSourceLevelOptions(sourceLevel));</span>
+<span class="fc" id="L98">			allConfig.putAll(ECLIPSE_JAVA_FORMATTER_DEFAULTS);</span>
+<span class="fc" id="L99">			allConfig.putAll(SOURCE_LEVEL_DEFAULTS);</span>
+<span class="fc" id="L100">			allConfig.putAll(configFromFile);</span>
+<span class="fc" id="L101">			allConfig.putAll(getSourceLevelOptions(sourceLevel));</span>
 
 			// https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77
 			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=449262
-<span class="fc bfc" id="L90" title="All 2 branches covered.">			if (org.eclipse.jdt.core.JavaCore.DEFAULT_JAVA_FORMATTER.equals(allConfig.get(&quot;org.eclipse.jdt.core.javaFormatter&quot;))) {</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">			if (org.eclipse.jdt.core.JavaCore.DEFAULT_JAVA_FORMATTER.equals(allConfig.get(&quot;org.eclipse.jdt.core.javaFormatter&quot;))) {</span>
 				//ignore default formatter as configured extension point
-<span class="fc" id="L92">				allConfig.remove(&quot;org.eclipse.jdt.core.javaFormatter&quot;);</span>
+<span class="fc" id="L107">				allConfig.remove(&quot;org.eclipse.jdt.core.javaFormatter&quot;);</span>
 			}
 
-<span class="fc bfc" id="L95" title="All 2 branches covered.">			if (null != allConfig.get(&quot;org.eclipse.jdt.core.javaFormatter&quot;)) {</span>
-<span class="fc" id="L96">				throw new UnsupportedOperationException(&quot;The use of third-party Java code formatters is not supported by this plugin.\n&quot;</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">			if (null != allConfig.get(&quot;org.eclipse.jdt.core.javaFormatter&quot;)) {</span>
+<span class="fc" id="L111">				throw new UnsupportedOperationException(&quot;The use of third-party Java code formatters is not supported by this plugin.\n&quot;</span>
 						+ &quot;See https://github.com/markiewb/eclipsecodeformatter_for_netbeans/issues/77\n&quot;
 						+ &quot;Try to remove the entry 'org.eclipse.jdt.core.javaFormatter' from the configuration.&quot;);
 			}
-<span class="fc" id="L100">		} catch (ConfigReadException | ProfileNotFoundException ex) {</span>
-<span class="fc" id="L101">			log.log(Level.WARNING, &quot;Could not load configuration: &quot; + formatterFile, ex);</span>
+<span class="fc" id="L115">		} catch (ConfigReadException | ProfileNotFoundException ex) {</span>
+<span class="fc" id="L116">			log.log(Level.WARNING, &quot;Could not load configuration: &quot; + formatterFile, ex);</span>
 
-<span class="fc" id="L103">			throw ex;</span>
-<span class="fc" id="L104">		} catch (Exception ex) {</span>
-<span class="fc" id="L105">			log.log(Level.WARNING, &quot;Could not load configuration: &quot; + formatterFile, ex);</span>
+<span class="fc" id="L118">			throw ex;</span>
+<span class="fc" id="L119">		} catch (Exception ex) {</span>
+<span class="fc" id="L120">			log.log(Level.WARNING, &quot;Could not load configuration: &quot; + formatterFile, ex);</span>
 
-<span class="fc" id="L107">			throw new CannotLoadConfigurationException(ex);</span>
-<span class="fc" id="L108">		}</span>
+<span class="fc" id="L122">			throw new CannotLoadConfigurationException(ex);</span>
+<span class="fc" id="L123">		}</span>
 
-<span class="fc" id="L110">		return allConfig;</span>
+<span class="fc" id="L125">		return allConfig;</span>
 	}
 
 	private static Map&lt;String, String&gt; readConfigFromFormatterXmlFile(String formatterFile, String formatterProfile) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
-<span class="fc" id="L114">		return ConfigReader.getProfileSettings(ConfigReader.toFileObject(formatterFile), formatterProfile);</span>
+<span class="fc" id="L129">		return ConfigReader.getProfileSettings(ConfigReader.toFileObject(formatterFile), formatterProfile);</span>
 	}
 
 	private static Map&lt;String, String&gt; readConfigFromWorkspaceMechanicFile(String formatterFile) throws IOException {
-<span class="fc" id="L118">		Properties properties = new Properties();</span>
-<span class="fc" id="L119">		try (FileInputStream is = new FileInputStream(formatterFile)) {</span>
-<span class="fc" id="L120">			properties.load(is);</span>
+<span class="fc" id="L133">		Properties properties = new Properties();</span>
+<span class="fc" id="L134">		try (FileInputStream is = new FileInputStream(formatterFile)) {</span>
+<span class="fc" id="L135">			properties.load(is);</span>
 		}
 
-<span class="fc" id="L123">		return properties.keySet().stream().filter(key -&gt; ((String) key).startsWith(WORKSPACE_MECHANIC_PREFIX))</span>
-<span class="fc" id="L124">				.collect(Collectors.toMap(key -&gt; ((String) key).substring(WORKSPACE_MECHANIC_PREFIX.length()), key -&gt; properties.getProperty((String) key)));</span>
+<span class="fc" id="L138">		return properties.keySet().stream().filter(key -&gt; ((String) key).startsWith(WORKSPACE_MECHANIC_PREFIX))</span>
+<span class="fc" id="L139">				.collect(Collectors.toMap(key -&gt; ((String) key).substring(WORKSPACE_MECHANIC_PREFIX.length()), key -&gt; properties.getProperty((String) key)));</span>
 	}
 
 	private static Map&lt;String, String&gt; readConfigFromProjectSettings(final String formatterFile) throws IOException {
-<span class="fc" id="L128">		Properties properties = new Properties();</span>
-<span class="fc" id="L129">		try (FileInputStream is = new FileInputStream(formatterFile)) {</span>
-<span class="fc" id="L130">			properties.load(is);</span>
+<span class="fc" id="L143">		Properties properties = new Properties();</span>
+<span class="fc" id="L144">		try (FileInputStream is = new FileInputStream(formatterFile)) {</span>
+<span class="fc" id="L145">			properties.load(is);</span>
 		}
 
-<span class="fc" id="L133">		return properties.keySet().stream().collect(Collectors.toMap(key -&gt; (String) key, key -&gt; properties.getProperty((String) key)));</span>
+<span class="fc" id="L148">		return properties.keySet().stream().collect(Collectors.toMap(key -&gt; (String) key, key -&gt; properties.getProperty((String) key)));</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

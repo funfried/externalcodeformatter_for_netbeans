@@ -22,43 +22,57 @@ import com.google.googlejavaformat.java.FormatterException;
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
 /**
+ * Delegation class to the Google formatter implementation.
  *
  * @author bahlef
  */
 public final class GoogleFormatter {
-<span class="fc" id="L29">	GoogleFormatter() {</span>
-<span class="fc" id="L30">	}</span>
+<span class="fc" id="L30">	GoogleFormatter() {</span>
+<span class="fc" id="L31">	}</span>
 
+	/**
+	 * Formats the given {@code code} with the given configurations and returns
+	 * the formatted code.
+	 *
+	 * @param code            the unformatted code
+	 * @param codeStyle       the code {@link JavaFormatterOptions.Style} to use,
+	 *                        if {@code null} the {@link JavaFormatterOptions.Style#GOOGLE}
+	 *                        style will be used
+	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair}
+	 *                        objects defining the offsets which should be formatted
+	 *
+	 * @return the formatted code
+	 */
 	public String format(String code, JavaFormatterOptions.Style codeStyle, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc bfc" id="L33" title="All 2 branches covered.">		if (code == null) {</span>
-<span class="fc" id="L34">			return null;</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">		if (code == null) {</span>
+<span class="fc" id="L48">			return null;</span>
 		}
 
-<span class="fc bfc" id="L37" title="All 2 branches covered.">		if (codeStyle == null) {</span>
-<span class="fc" id="L38">			codeStyle = JavaFormatterOptions.Style.GOOGLE;</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">		if (codeStyle == null) {</span>
+<span class="fc" id="L52">			codeStyle = JavaFormatterOptions.Style.GOOGLE;</span>
 		}
 
-<span class="fc" id="L41">		Collection&lt;Range&lt;Integer&gt;&gt; characterRanges = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L42" title="All 2 branches covered.">		if (!CollectionUtils.isEmpty(changedElements)) {</span>
-<span class="fc bfc" id="L43" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
-<span class="fc" id="L44">				int start = changedElement.getLeft();</span>
-<span class="fc" id="L45">				int end = changedElement.getRight();</span>
+<span class="fc" id="L55">		Collection&lt;Range&lt;Integer&gt;&gt; characterRanges = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">		if (!CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
+<span class="fc" id="L58">				int start = changedElement.getLeft();</span>
+<span class="fc" id="L59">				int end = changedElement.getRight();</span>
 
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">				if (start == end) {</span>
-<span class="nc" id="L48">					end++;</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">				if (start == end) {</span>
+<span class="nc" id="L62">					end++;</span>
 				}
 
-<span class="fc" id="L51">				characterRanges.add(Range.open(start, end));</span>
-<span class="fc" id="L52">			}</span>
+<span class="fc" id="L65">				characterRanges.add(Range.open(start, end));</span>
+<span class="fc" id="L66">			}</span>
 		} else {
-<span class="fc" id="L54">			characterRanges.add(Range.closedOpen(0, code.length()));</span>
+<span class="fc" id="L68">			characterRanges.add(Range.closedOpen(0, code.length()));</span>
 		}
 
 		try {
-<span class="fc" id="L58">			Formatter formatter = new Formatter(JavaFormatterOptions.builder().style(codeStyle).build());</span>
-<span class="fc" id="L59">			return formatter.formatSource(code, characterRanges);</span>
-<span class="fc" id="L60">		} catch (FormatterException ex) {</span>
-<span class="fc" id="L61">			throw new RuntimeException(ex);</span>
+<span class="fc" id="L72">			Formatter formatter = new Formatter(JavaFormatterOptions.builder().style(codeStyle).build());</span>
+<span class="fc" id="L73">			return formatter.formatSource(code, characterRanges);</span>
+<span class="fc" id="L74">		} catch (FormatterException ex) {</span>
+<span class="fc" id="L75">			throw new RuntimeException(ex);</span>
 		}
 	}
 }

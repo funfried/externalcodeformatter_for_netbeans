@@ -23,8 +23,11 @@ import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
+ * NetBeans formatter {@link Runnable} implementation to format a given document
+ * using the internal NetBeans formatter.
  *
  * @author markiewb
+ * @author bahlef
  */
 class NetBeansFormatterRunnable implements Runnable {
 	private final StyledDocument document;
@@ -35,43 +38,46 @@ class NetBeansFormatterRunnable implements Runnable {
 
 	private final int endOffset;
 
-<span class="nc" id="L38">	NetBeansFormatterRunnable(StyledDocument document, Reformat rf, int dot, int mark) {</span>
-<span class="nc" id="L39">		this.document = document;</span>
-<span class="nc" id="L40">		this.rf = rf;</span>
+<span class="nc" id="L41">	NetBeansFormatterRunnable(StyledDocument document, Reformat rf, int dot, int mark) {</span>
+<span class="nc" id="L42">		this.document = document;</span>
+<span class="nc" id="L43">		this.rf = rf;</span>
 
-<span class="nc bnc" id="L42" title="All 2 branches missed.">		if (dot != mark) {</span>
-<span class="nc" id="L43">			startOffset = Math.min(mark, dot);</span>
-<span class="nc" id="L44">			endOffset = Math.max(mark, dot);</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">		if (dot != mark) {</span>
+<span class="nc" id="L46">			startOffset = Math.min(mark, dot);</span>
+<span class="nc" id="L47">			endOffset = Math.max(mark, dot);</span>
 		} else {
-<span class="nc" id="L46">			startOffset = 0;</span>
-<span class="nc" id="L47">			endOffset = document.getLength();</span>
+<span class="nc" id="L49">			startOffset = 0;</span>
+<span class="nc" id="L50">			endOffset = document.getLength();</span>
 		}
-<span class="nc" id="L49">	}</span>
+<span class="nc" id="L52">	}</span>
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void run() {
 		try {
-<span class="nc" id="L54">			rf.reformat(startOffset, endOffset);</span>
+<span class="nc" id="L60">			rf.reformat(startOffset, endOffset);</span>
 
-<span class="nc" id="L56">			Preferences pref = Settings.getActivePreferences(document);</span>
-<span class="nc bnc" id="L57" title="All 2 branches missed.">			if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
-<span class="nc" id="L58">				String detail = getNotificationMessageForNetBeans(Utils.isJava(document));</span>
+<span class="nc" id="L62">			Preferences pref = Settings.getActivePreferences(document);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">			if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L64">				String detail = getNotificationMessageForNetBeans(Utils.isJava(document));</span>
 
-<span class="nc" id="L60">				NotificationDisplayer.getDefault().notify(&quot;Format using NetBeans formatter&quot;, Icons.ICON_NETBEANS, detail, null);</span>
+<span class="nc" id="L66">				NotificationDisplayer.getDefault().notify(&quot;Format using NetBeans formatter&quot;, Icons.ICON_NETBEANS, detail, null);</span>
 			}
 
-<span class="nc" id="L63">			StatusDisplayer.getDefault().setStatusText(&quot;Format using NetBeans formatter&quot;);</span>
-<span class="nc" id="L64">		} catch (BadLocationException ex) {</span>
-<span class="nc" id="L65">			throw new RuntimeException(ex);</span>
-<span class="nc" id="L66">		}</span>
-<span class="nc" id="L67">	}</span>
+<span class="nc" id="L69">			StatusDisplayer.getDefault().setStatusText(&quot;Format using NetBeans formatter&quot;);</span>
+<span class="nc" id="L70">		} catch (BadLocationException ex) {</span>
+<span class="nc" id="L71">			throw new RuntimeException(ex);</span>
+<span class="nc" id="L72">		}</span>
+<span class="nc" id="L73">	}</span>
 
 	private String getNotificationMessageForNetBeans(boolean isJava) {
-<span class="nc" id="L70">		String detail = &quot;&quot;;</span>
-<span class="nc bnc" id="L71" title="All 2 branches missed.">		if (!isJava) {</span>
-<span class="nc" id="L72">			detail += &quot;Because file isn't a Java file. &quot;;</span>
+<span class="nc" id="L76">		String detail = &quot;&quot;;</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">		if (!isJava) {</span>
+<span class="nc" id="L78">			detail += &quot;Because file isn't a Java file. &quot;;</span>
 		}
-<span class="nc" id="L74">		return detail;</span>
+<span class="nc" id="L80">		return detail;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

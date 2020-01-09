@@ -21,11 +21,12 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvic
 import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStrategy;
 
 /**
+ * NetBeans implementation of the {@link IFormatterStrategy}.
  *
  * @author markiewb
  * @author bahlef
  */
-<span class="fc" id="L28">public class NetBeansFormatterStrategy implements IFormatterStrategy {</span>
+<span class="fc" id="L29">public class NetBeansFormatterStrategy implements IFormatterStrategy {</span>
 	public static final String ID = &quot;netbeans-formatter&quot;;
 
 	/**
@@ -33,7 +34,7 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStra
 	 */
 	@Override
 	public boolean canHandle(Document document) {
-<span class="nc" id="L36">		return true;</span>
+<span class="nc" id="L37">		return true;</span>
 	}
 
 	/**
@@ -41,22 +42,22 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStra
 	 */
 	@Override
 	public void format(FormatterAdvice fa) {
-<span class="nc" id="L44">		StyledDocument document = fa.getStyledDocument();</span>
+<span class="nc" id="L45">		StyledDocument document = fa.getStyledDocument();</span>
 
-<span class="nc" id="L46">		Reformat rf = Reformat.get(document);</span>
-<span class="nc" id="L47">		rf.lock();</span>
+<span class="nc" id="L47">		Reformat rf = Reformat.get(document);</span>
+<span class="nc" id="L48">		rf.lock();</span>
 
 		// only care about selection if reformatting on menu action and not on file save
-<span class="nc bnc" id="L50" title="All 2 branches missed.">		int _dot = !fa.isForSave() ? fa.getSelectionStart() : -1;</span>
-<span class="nc bnc" id="L51" title="All 2 branches missed.">		int _mark = !fa.isForSave() ? fa.getSelectionEnd() : -1;</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">		int _dot = !fa.isForSave() ? fa.getSelectionStart() : -1;</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">		int _mark = !fa.isForSave() ? fa.getSelectionEnd() : -1;</span>
 
 		try {
-<span class="nc" id="L54">			NbDocument.runAtomicAsUser(document, new NetBeansFormatterRunnable(document, rf, _dot, _mark));</span>
-<span class="nc" id="L55">		} catch (BadLocationException ex) {</span>
-<span class="nc" id="L56">			Exceptions.printStackTrace(ex);</span>
+<span class="nc" id="L55">			NbDocument.runAtomicAsUser(document, new NetBeansFormatterRunnable(document, rf, _dot, _mark));</span>
+<span class="nc" id="L56">		} catch (BadLocationException ex) {</span>
+<span class="nc" id="L57">			Exceptions.printStackTrace(ex);</span>
 		} finally {
-<span class="nc" id="L58">			rf.unlock();</span>
+<span class="nc" id="L59">			rf.unlock();</span>
 		}
-<span class="nc" id="L60">	}</span>
+<span class="nc" id="L61">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
