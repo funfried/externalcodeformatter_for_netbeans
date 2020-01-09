@@ -16,10 +16,10 @@ package de.funfried.netbeans.plugins.external.formatter.ui.customizer;
  */
 public interface VerifiableConfigPanel {
 	/**
-	 * Returns {@link true} if and only if the configuration is valid, otherwise
+	 * Returns {@code true} if and only if the configuration is valid, otherwise
 	 * {@code false}.
 	 *
-	 * @return {@link true} if and only if the configuration is valid, otherwise
+	 * @return {@code true} if and only if the configuration is valid, otherwise
 	 *         {@code false}
 	 */
 	boolean valid();

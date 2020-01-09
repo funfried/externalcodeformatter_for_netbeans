@@ -24,8 +24,8 @@ import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 import org.xml.sax.SAXException;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
-import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
@@ -68,13 +68,14 @@ public class EclipseFormatterConfig {
 
 	/**
 	 * Parses the configuration parameters from the given {@code profile} of the
-	 * given formatter configuration file.
+	 * given formatter configuration file and returns it as a {@link Map}
+	 * containing the configuration as key value pairs.
 	 *
 	 * @param formatterFile    the path to the formatter configuration file
 	 * @param formatterProfile the name of the formatter configuration profile
 	 * @param sourceLevel      the source level to use for formatting
 	 *
-	 * @return
+	 * @return a {@link Map} containing the configuration as key value pairs
 	 *
 	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
 	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
