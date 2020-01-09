@@ -30,7 +30,8 @@ import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * Formats the given document using the google formatter. LineBreakpoints get
+ * Google formatter implementation of the {@link AbstractFormatterRunnable} to
+ * format a given document using the {@link GoogleFormatter}. LineBreakpoints get
  * removed and the following breakpoints are getting reattached:
  * <ul>
  * <li>ClassLoadUnloadBreakpoint</li>
@@ -49,6 +50,9 @@ class GoogleFormatterRunnable extends AbstractFormatterRunnable {
 		this.formatter = formatter;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void run() {
 		boolean isJava = Utils.isJava(document);

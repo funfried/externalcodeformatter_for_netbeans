@@ -19,7 +19,7 @@ import org.junit.Test;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**

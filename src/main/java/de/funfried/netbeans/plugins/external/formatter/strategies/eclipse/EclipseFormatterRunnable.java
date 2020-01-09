@@ -32,13 +32,17 @@ import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * Formats the given document using the eclipse formatter. LineBreakpoints get
+ * Eclipse formatter implementation of the {@link AbstractFormatterRunnable} to
+ * format a given document using the {@link EclipseFormatter}. LineBreakpoints get
  * removed and the following breakpoints are getting reattached:
  * <ul>
  * <li>ClassLoadUnloadBreakpoint</li>
  * <li>FieldBreakpoint</li>
  * <li>MethodBreakpoint</li>
  * </ul>
+ *
+ * @author markiewb
+ * @author bahlef
  */
 class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 	private final EclipseFormatter formatter;
@@ -49,6 +53,9 @@ class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 		this.formatter = formatter;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void run() {
 		boolean isJava = Utils.isJava(document);

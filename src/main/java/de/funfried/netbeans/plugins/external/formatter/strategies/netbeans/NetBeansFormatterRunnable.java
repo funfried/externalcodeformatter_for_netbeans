@@ -23,8 +23,11 @@ import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
+ * NetBeans formatter {@link Runnable} implementation to format a given document
+ * using the internal NetBeans formatter.
  *
  * @author markiewb
+ * @author bahlef
  */
 class NetBeansFormatterRunnable implements Runnable {
 	private final StyledDocument document;
@@ -48,6 +51,9 @@ class NetBeansFormatterRunnable implements Runnable {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void run() {
 		try {

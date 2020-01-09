@@ -25,11 +25,12 @@ import org.xml.sax.SAXException;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
+ * Class used for parsing an Eclipse code formatter configuration.
  *
  * @author bahlef
  */
@@ -65,6 +66,20 @@ public class EclipseFormatterConfig {
 		return options;
 	}
 
+	/**
+	 * Parses the configuration parameters from the given {@code profile} of the
+	 * given formatter configuration file.
+	 *
+	 * @param formatterFile    the path to the formatter configuration file
+	 * @param formatterProfile the name of the formatter configuration profile
+	 * @param sourceLevel      the source level to use for formatting
+	 *
+	 * @return
+	 *
+	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
+	 */
 	public static Map<String, String> parseConfig(String formatterFile, String formatterProfile, String sourceLevel)
 			throws ProfileNotFoundException, ConfigReadException, CannotLoadConfigurationException {
 		Map<String, String> allConfig = new HashMap<>();

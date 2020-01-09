@@ -30,8 +30,13 @@ import org.eclipse.text.edits.TextEdit;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 
+/**
+ * Delegation class to the Eclipse formatter implementation.
+ *
+ * @author bahlef
+ */
 public final class EclipseFormatter {
 	private static final Logger log = Logger.getLogger(EclipseFormatter.class.getName());
 
@@ -40,6 +45,23 @@ public final class EclipseFormatter {
 	EclipseFormatter() {
 	}
 
+	/**
+	 * Formats the given {@code code} with the given configurations and returns
+	 * the formatted code.
+	 *
+	 * @param formatterFile    the path to the formatter configuration file
+	 * @param formatterProfile the name of the formatter configuration profile
+	 * @param code             the unformatted code
+	 * @param lineFeed         the line feed to use for formatting
+	 * @param sourceLevel      the source level to use for formatting
+	 * @param changedElements  a {@link SortedSet} containing ranges as {@link Pair} objects defining the offsets which should be formatted
+	 *
+	 * @return the formatted code
+	 *
+	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
+	 */
 	public String format(String formatterFile, String formatterProfile, String code, String lineFeed, String sourceLevel, SortedSet<Pair<Integer, Integer>> changedElements)
 			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException {
 		if (code == null) {

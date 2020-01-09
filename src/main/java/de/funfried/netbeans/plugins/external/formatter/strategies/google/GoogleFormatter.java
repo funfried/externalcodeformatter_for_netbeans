@@ -22,6 +22,7 @@ import com.google.googlejavaformat.java.FormatterException;
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
 /**
+ * Delegation class to the Google formatter implementation.
  *
  * @author bahlef
  */
@@ -29,6 +30,19 @@ public final class GoogleFormatter {
 	GoogleFormatter() {
 	}
 
+	/**
+	 * Formats the given {@code code} with the given configurations and returns
+	 * the formatted code.
+	 *
+	 * @param code            the unformatted code
+	 * @param codeStyle       the code {@link JavaFormatterOptions.Style} to use,
+	 *                        if {@code null} the {@link JavaFormatterOptions.Style#GOOGLE}
+	 *                        style will be used
+	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair}
+	 *                        objects defining the offsets which should be formatted
+	 *
+	 * @return the formatted code
+	 */
 	public String format(String code, JavaFormatterOptions.Style codeStyle, SortedSet<Pair<Integer, Integer>> changedElements) {
 		if (code == null) {
 			return null;

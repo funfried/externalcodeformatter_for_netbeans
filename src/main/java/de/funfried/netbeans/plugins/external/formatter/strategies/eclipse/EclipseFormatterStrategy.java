@@ -29,6 +29,7 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBe
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
+ * Eclipse implementation of the {@link AbstractJavaFormatterStrategy}.
  *
  * @author markiewb
  * @author bahlef

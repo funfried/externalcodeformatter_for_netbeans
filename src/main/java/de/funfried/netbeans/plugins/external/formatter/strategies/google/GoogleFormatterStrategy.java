@@ -28,6 +28,7 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBe
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
+ * Google implementation of the {@link AbstractJavaFormatterStrategy}.
  *
  * @author bahlef
  */

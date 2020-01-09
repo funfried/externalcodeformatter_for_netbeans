@@ -23,7 +23,7 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvic
 import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
 
 /**
- * Registration analog to
+ * Format action. Registration analog to
  * http://hg.netbeans.org/jet-main/file/01c13d4da2da/java.hints/src/org/netbeans/modules/java/hints/OrganizeMembers.java
  *
  * @author markiewb
@@ -34,8 +34,14 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrat
 public class FormatAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Action ID.
+	 */
 	public static final String MACRONAME = "external-format";
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e, JTextComponent component) {
 		if (component == null || !component.isEditable() || !component.isEnabled()) {

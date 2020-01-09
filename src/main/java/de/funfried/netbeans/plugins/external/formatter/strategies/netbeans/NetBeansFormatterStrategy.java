@@ -21,6 +21,7 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvic
 import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStrategy;
 
 /**
+ * NetBeans implementation of the {@link IFormatterStrategy}.
  *
  * @author markiewb
  * @author bahlef
