@@ -38,8 +38,8 @@ import org.xml.sax.SAXException;
 
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.strategies.google.GoogleFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
@@ -65,16 +65,25 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		updateEnabledState();
 
 		formatterLocField.getDocument().addDocumentListener(new DocumentListener() {
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				fireChangedListener();
 			}
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				fireChangedListener();
 			}
 
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				fireChangedListener();
@@ -82,6 +91,9 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		});
 
 		cbSourceLevel.addActionListener(new ActionListener() {
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				fireChangedListener();
@@ -537,6 +549,9 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		final FileNameExtensionFilter fileNameExtensionFilterXML = new FileNameExtensionFilter("Eclipse formatter (*.xml)", "xml");
 		final FileNameExtensionFilter fileNameExtensionFilterEPF = new FileNameExtensionFilter("Workspace mechanic (*.epf)", "epf");
 		final FileFilter fileNameExtensionFilterProjectSetting = new FileFilter() {
+	/**
+	 * {@inheritDoc}
+	 */
 			@Override
 			public boolean accept(File f) {
 				if (f.isDirectory()) {
@@ -545,6 +560,9 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 				return Settings.PROJECT_PREF_FILE.equals(f.getName());
 			}
 
+	/**
+	 * {@inheritDoc}
+	 */
 			@Override
 			public String getDescription() {
 				return "Eclipse project settings (" + Settings.PROJECT_PREF_FILE + ")";
@@ -638,6 +656,9 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void load() {
 		String enabledFormatter = preferences.get(Settings.ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);
@@ -760,6 +781,9 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void store() {
 		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleFormatterStrategy.ID : (rbUseEclipse.isSelected() ? EclipseFormatterStrategy.ID : NetBeansFormatterStrategy.ID));
@@ -791,6 +815,9 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean valid() {
 		errorLabel.setText(" ");

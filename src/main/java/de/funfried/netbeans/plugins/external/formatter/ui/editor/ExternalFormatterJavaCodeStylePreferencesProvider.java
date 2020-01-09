@@ -84,11 +84,17 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Preferences forFile(FileObject file, String mimeType) {
 		return getTemporaryDocumentPreferences(Source.create(file).getDocument(false), mimeType);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Preferences forDocument(Document doc, String mimeType) {
 		return getTemporaryDocumentPreferences(doc, mimeType);
@@ -130,6 +136,9 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 		private static final Logger log = Logger.getLogger(TemporaryDocumentPreferences.class.getName());
 
 		private final ChangeListener cl = new ChangeListener() {
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				Runnable run = () -> {
@@ -177,11 +186,17 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 			}
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void put(String key, String value) {
 			delegate.put(key, value);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public String get(String key, String def) {
 			if (!this.flush.get()) {
@@ -199,126 +214,201 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 			return delegate.get(key, def);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void remove(String key) {
 			delegate.remove(key);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void clear() throws BackingStoreException {
 			delegate.clear();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void putInt(String key, int value) {
 			delegate.putInt(key, value);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public int getInt(String key, int def) {
 			return delegate.getInt(key, def);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void putLong(String key, long value) {
 			delegate.putLong(key, value);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public long getLong(String key, long def) {
 			return delegate.getLong(key, def);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void putBoolean(String key, boolean value) {
 			delegate.putBoolean(key, value);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public boolean getBoolean(String key, boolean def) {
 			return delegate.getBoolean(key, def);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void putFloat(String key, float value) {
 			delegate.putFloat(key, value);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public float getFloat(String key, float def) {
 			return delegate.getFloat(key, def);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void putDouble(String key, double value) {
 			delegate.putDouble(key, value);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public double getDouble(String key, double def) {
 			return delegate.getDouble(key, def);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void putByteArray(String key, byte[] value) {
 			delegate.putByteArray(key, value);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public byte[] getByteArray(String key, byte[] def) {
 			return delegate.getByteArray(key, def);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public String[] keys() throws BackingStoreException {
 			return delegate.keys();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public String[] childrenNames() throws BackingStoreException {
 			return delegate.childrenNames();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public Preferences parent() {
 			return delegate.parent();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public Preferences node(String pathName) {
 			return delegate.node(pathName);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public boolean nodeExists(String pathName) throws BackingStoreException {
 			return delegate.nodeExists(pathName);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void removeNode() throws BackingStoreException {
 			delegate.removeNode();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public String name() {
 			return delegate.name();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public String absolutePath() {
 			return delegate.absolutePath();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public boolean isUserNode() {
 			return delegate.isUserNode();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public String toString() {
 			return delegate.toString();
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void flush() throws BackingStoreException {
 			this.flush.set(true);
@@ -330,6 +420,9 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 			}
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void sync() throws BackingStoreException {
 			this.flush.set(true);
@@ -341,11 +434,17 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 			}
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void addPreferenceChangeListener(PreferenceChangeListener pcl) {
 			delegate.addPreferenceChangeListener(pcl);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void removePreferenceChangeListener(PreferenceChangeListener pcl) {
 			delegate.removePreferenceChangeListener(pcl);
@@ -372,21 +471,33 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 			}
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void addNodeChangeListener(NodeChangeListener ncl) {
 			delegate.addNodeChangeListener(ncl);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void removeNodeChangeListener(NodeChangeListener ncl) {
 			delegate.removeNodeChangeListener(ncl);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void exportNode(OutputStream os) throws IOException, BackingStoreException {
 			delegate.exportNode(os);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void exportSubtree(OutputStream os) throws IOException, BackingStoreException {
 			delegate.exportSubtree(os);

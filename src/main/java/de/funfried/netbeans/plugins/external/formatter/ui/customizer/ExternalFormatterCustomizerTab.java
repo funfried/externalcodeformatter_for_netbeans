@@ -30,6 +30,13 @@ import org.openide.util.WeakListeners;
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
 
+/**
+ * {@link ProjectCustomizer.CompositeCategoryProvider} implementation for project
+ * specific external formatting properties tab provider.
+ *
+ * @author markiewb
+ * @author bahlef
+ */
 @NbBundle.Messages({ "LBL_Config=External Formatting" })
 @ProjectCustomizer.CompositeCategoryProvider.Registrations({
 		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-j2ee-clientproject", position = 1000),
@@ -44,11 +51,17 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormat
 		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-apisupport-project", position = 1000)
 })
 public class ExternalFormatterCustomizerTab implements ProjectCustomizer.CompositeCategoryProvider {
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Category createCategory(Lookup lkp) {
 		return ProjectCustomizer.Category.create("external-format", Bundle.LBL_Config(), ImageUtilities.loadImage(Icons.EXTERNAL_FORMATTER_ICON_PATH, false));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public JComponent createComponent(final Category category, final Lookup lkp) {
 		Preferences projectPreferences = ProjectUtils.getPreferences(lkp.lookup(Project.class), ExternalFormatterPanel.class, true);
@@ -58,6 +71,9 @@ public class ExternalFormatterCustomizerTab implements ProjectCustomizer.Composi
 		projectSpecificSettingsPanel.load();
 
 		category.setStoreListener(new ActionListener() {
+			/**
+			 * {@inheritDoc}
+			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				projectSpecificSettingsPanel.store();
@@ -68,6 +84,7 @@ public class ExternalFormatterCustomizerTab implements ProjectCustomizer.Composi
 		ValidationListener listener = new ValidationListener(category, projectSpecificSettingsPanel);
 		configPanel.addChangeListener(WeakListeners.change(listener, configPanel));
 		projectSpecificSettingsPanel.addChangeListener(WeakListeners.change(listener, projectSpecificSettingsPanel));
+
 		return projectSpecificSettingsPanel;
 	}
 
@@ -81,6 +98,9 @@ public class ExternalFormatterCustomizerTab implements ProjectCustomizer.Composi
 			this.projectSpecificPanel = projectSpecificPanel;
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void stateChanged(ChangeEvent e) {
 			category.setValid(projectSpecificPanel.valid());

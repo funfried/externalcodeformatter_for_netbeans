@@ -18,6 +18,9 @@ import org.netbeans.modules.editor.java.JavaKit;
  * @author bahlef
  */
 public class ExternalFormatterJavaEditorKit extends JavaKit {
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Document createDefaultDocument() {
 		return new ExternalFormatterJavaDocument();

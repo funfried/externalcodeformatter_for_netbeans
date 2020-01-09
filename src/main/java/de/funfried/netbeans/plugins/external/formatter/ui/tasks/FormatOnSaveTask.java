@@ -10,9 +10,6 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.ui.tasks;
 
-import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
-import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
-
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.locks.ReentrantLock;
@@ -32,6 +29,8 @@ import org.netbeans.spi.editor.document.OnSaveTask;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
 
+import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
+import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 public class FormatOnSaveTask implements OnSaveTask {
@@ -74,6 +73,9 @@ public class FormatOnSaveTask implements OnSaveTask {
 		return changedElements;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void performTask() {
 		final StyledDocument styledDoc = (StyledDocument) this.context.getDocument();
@@ -95,6 +97,9 @@ public class FormatOnSaveTask implements OnSaveTask {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void runLocked(Runnable run) {
 		if (run != null) {
@@ -108,6 +113,9 @@ public class FormatOnSaveTask implements OnSaveTask {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean cancel() {
 		return true;
@@ -115,6 +123,9 @@ public class FormatOnSaveTask implements OnSaveTask {
 
 	@MimeRegistration(mimeType = "text/x-java", service = OnSaveTask.Factory.class, position = 1500)
 	public static final class FactoryImpl implements Factory {
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public OnSaveTask createTask(Context context) {
 			return new FormatOnSaveTask(context);

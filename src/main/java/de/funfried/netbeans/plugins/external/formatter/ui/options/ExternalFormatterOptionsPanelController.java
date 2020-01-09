@@ -31,38 +31,59 @@ public final class ExternalFormatterOptionsPanelController extends OptionsPanelC
 
 	private boolean changed;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void update() {
 		createOrGetPanel().load();
 		changed = false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void applyChanges() {
 		createOrGetPanel().store();
 		changed = false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void cancel() {
 		// need not do anything special, if no changes have been persisted yet
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean isValid() {
 		return createOrGetPanel().valid();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean isChanged() {
 		return changed;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public HelpCtx getHelpCtx() {
-		return null; // new HelpCtx("...ID") if you have a help set
+		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ExternalFormatterPanel getComponent(Lookup masterLookup) {
 		return createOrGetPanel();
@@ -78,20 +99,24 @@ public final class ExternalFormatterOptionsPanelController extends OptionsPanelC
 		return panel;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener l) {
 		pcs.addPropertyChangeListener(l);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener l) {
 		pcs.removePropertyChangeListener(l);
 	}
 
 	/**
-	 * Something in the panel has changed, so inform the listeners of this controller too.
-	 * 
-	 * @param e the {@link ChangeEvent}
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
@@ -99,6 +124,7 @@ public final class ExternalFormatterOptionsPanelController extends OptionsPanelC
 			changed = true;
 			pcs.firePropertyChange(OptionsPanelController.PROP_CHANGED, false, true);
 		}
+
 		pcs.firePropertyChange(OptionsPanelController.PROP_VALID, null, null);
 	}
 }

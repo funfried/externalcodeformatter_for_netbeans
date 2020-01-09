@@ -48,6 +48,9 @@ public class ExternalFormatterJavaDocument extends NbEditorDocument {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Dictionary<Object, Object> getDocumentProperties() {
 		Dictionary<Object, Object> documentProperties = super.getDocumentProperties();
@@ -76,6 +79,9 @@ public class ExternalFormatterJavaDocument extends NbEditorDocument {
 			}
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public synchronized Object get(Object key) {
 			if (Objects.equals(FmtOptions.rightMargin, key)) {
@@ -113,6 +119,9 @@ public class ExternalFormatterJavaDocument extends NbEditorDocument {
 			return super.get(key);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public Object put(Object key, Object value) {
 			if (key == PropertyChangeSupport.class && value instanceof PropertyChangeSupport) {

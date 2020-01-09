@@ -10,15 +10,27 @@
 package de.funfried.netbeans.plugins.external.formatter.ui.customizer;
 
 /**
+ * Interface to define a verifiable configuration panel.
  *
  * @author markiewb
  */
 public interface VerifiableConfigPanel {
-
+	/**
+	 * Returns {@link true} if and only if the configuration is valid, otherwise
+	 * {@code false}.
+	 *
+	 * @return {@link true} if and only if the configuration is valid, otherwise
+	 *         {@code false}
+	 */
 	boolean valid();
 
+	/**
+	 * Loads the configuration and sets the values to the UI components.
+	 */
 	void load();
 
+	/**
+	 * Stores the configuration from the current state of UI components.
+	 */
 	void store();
-
 }
