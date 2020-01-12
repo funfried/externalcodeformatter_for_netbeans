@@ -22,9 +22,10 @@ import org.netbeans.api.editor.guards.GuardedSectionManager;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
+import com.google.googlejavaformat.java.JavaFormatterOptions;
+
 import de.funfried.netbeans.plugins.external.formatter.strategies.AbstractJavaFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStrategyService;
-import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
@@ -100,8 +101,15 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent
-			ret = 4;
+			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
+			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
+				// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent
+				ret = 4;
+			} else {
+				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
+				ret = 8;
+			}
 		}
 
 		return ret;
@@ -121,8 +129,15 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-			ret = 2;
+			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
+			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
+				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+				ret = 2;
+			} else {
+				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
+				ret = 4;
+			}
 		}
 
 		return ret;
@@ -138,9 +153,20 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 			return null;
 		}
 
-		// see: https://google.github.io/styleguide/javaguide.html#s4.4-column-limit
+		Integer ret;
 
-		return 100;
+		Preferences preferences = Settings.getActivePreferences(document);
+		String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+		JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
+		if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
+			// see: https://google.github.io/styleguide/javaguide.html#s4.4-column-limit
+			ret = 100;
+		} else {
+			// see: https://source.android.com/setup/contribute/code-style#limit-line-length
+			ret = 100;
+		}
+
+		return ret;
 	}
 
 	/**
@@ -160,8 +186,15 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
 				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
 			} else {
-				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-				ret = 2;
+				String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+				JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
+				if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
+					// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+					ret = 2;
+				} else {
+					// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
+					ret = 4;
+				}
 			}
 		}
 
@@ -182,19 +215,21 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-			ret = false;
+			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
+			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
+				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+				ret = false;
+			} else {
+				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
+				ret = false;
+			}
 		}
 
 		return ret;
 	}
 
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-		String enabledFormatter = prefs.get(Settings.ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);
-		if (ID.equals(enabledFormatter)) {
-			return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
-		}
-
-		return false;
+		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 	}
 }
