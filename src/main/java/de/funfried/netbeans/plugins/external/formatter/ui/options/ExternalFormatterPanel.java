@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import javax.swing.event.ChangeListener;
@@ -805,6 +806,12 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 			preferences.put(Settings.SOURCELEVEL, "" + cbSourceLevel.getSelectedItem());
 		} else {
 			preferences.put(Settings.SOURCELEVEL, "");
+		}
+
+		try {
+			preferences.flush();
+		} catch (BackingStoreException ex) {
+			log.log(Level.WARNING, "Could not flush formatter settings", ex);
 		}
 
 		ExternalFormatterPreferencesChangeSupport changeSupport = Lookup.getDefault().lookup(ExternalFormatterPreferencesChangeSupport.class);

@@ -9,10 +9,13 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.ui.editor;
 
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Dictionary;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,13 +32,13 @@ import java.util.prefs.Preferences;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.Document;
 
 import org.netbeans.api.editor.mimelookup.MimeLookup;
 import org.netbeans.api.editor.mimelookup.MimePath;
 import org.netbeans.api.java.lexer.JavaTokenId;
 import org.netbeans.modules.editor.indent.spi.CodeStylePreferences;
-import org.netbeans.modules.java.ui.FmtOptions;
 import org.netbeans.modules.parsing.api.Source;
 import org.openide.filesystems.FileObject;
 import org.openide.util.Lookup;
@@ -68,12 +71,12 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 	};
 
 	static {
-		temporaryPreferenceProviders.put(FmtOptions.rightMargin, document -> toString(FormatterStrategyDispatcher.getInstance().getRightMargin(document)));
-		temporaryPreferenceProviders.put(FmtOptions.expandTabToSpaces, document -> toString(FormatterStrategyDispatcher.getInstance().isExpandTabToSpaces(document)));
-		temporaryPreferenceProviders.put(FmtOptions.spacesPerTab, document -> toString(FormatterStrategyDispatcher.getInstance().getSpacesPerTab(document)));
-		temporaryPreferenceProviders.put(FmtOptions.tabSize, document -> toString(FormatterStrategyDispatcher.getInstance().getSpacesPerTab(document)));
-		temporaryPreferenceProviders.put(FmtOptions.indentSize, document -> toString(FormatterStrategyDispatcher.getInstance().getIndentSize(document)));
-		temporaryPreferenceProviders.put(FmtOptions.continuationIndentSize, document -> toString(FormatterStrategyDispatcher.getInstance().getContinuationIndentSize(document)));
+		temporaryPreferenceProviders.put(EditorConstants.TEXT_LIMIT_WIDTH, document -> toString(FormatterStrategyDispatcher.getInstance().getRightMargin(document)));
+		temporaryPreferenceProviders.put(EditorConstants.EXPAND_TABS, document -> toString(FormatterStrategyDispatcher.getInstance().isExpandTabToSpaces(document)));
+		temporaryPreferenceProviders.put(EditorConstants.SPACES_PER_TAB, document -> toString(FormatterStrategyDispatcher.getInstance().getSpacesPerTab(document)));
+		temporaryPreferenceProviders.put(EditorConstants.TAB_SIZE, document -> toString(FormatterStrategyDispatcher.getInstance().getSpacesPerTab(document)));
+		temporaryPreferenceProviders.put(EditorConstants.INDENT_SHIFT_WIDTH, document -> toString(FormatterStrategyDispatcher.getInstance().getIndentSize(document)));
+		temporaryPreferenceProviders.put(EditorConstants.CONTINUATION_INDENT_SIZE, document -> toString(FormatterStrategyDispatcher.getInstance().getContinuationIndentSize(document)));
 	}
 
 	private static String toString(Object obj) {
@@ -155,13 +158,28 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 			private void updateDocumentState() {
 				String tabSize = ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getSpacesPerTab(document));
 
-				firePreferenceChanged(FmtOptions.rightMargin, ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getRightMargin(document)));
-				firePreferenceChanged(FmtOptions.expandTabToSpaces, ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().isExpandTabToSpaces(document)));
-				firePreferenceChanged(FmtOptions.spacesPerTab, tabSize);
-				firePreferenceChanged(FmtOptions.tabSize, tabSize);
-				firePreferenceChanged(FmtOptions.indentSize, ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getIndentSize(document)));
-				firePreferenceChanged(FmtOptions.continuationIndentSize,
+				firePreferenceChanged(EditorConstants.TEXT_LIMIT_WIDTH, ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getRightMargin(document)));
+				firePreferenceChanged(EditorConstants.EXPAND_TABS, ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().isExpandTabToSpaces(document)));
+				firePreferenceChanged(EditorConstants.SPACES_PER_TAB, tabSize);
+				firePreferenceChanged(EditorConstants.TAB_SIZE, tabSize);
+				firePreferenceChanged(EditorConstants.INDENT_SHIFT_WIDTH, ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getIndentSize(document)));
+				firePreferenceChanged(EditorConstants.CONTINUATION_INDENT_SIZE,
 						ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getContinuationIndentSize(document)));
+
+				if (document instanceof AbstractDocument) {
+					AbstractDocument doc = (AbstractDocument) document;
+					Dictionary<Object, Object> properties = doc.getDocumentProperties();
+					Enumeration<Object> keys = properties.keys();
+					while (keys.hasMoreElements()) {
+						Object key = keys.nextElement();
+						if (key == PropertyChangeSupport.class) {
+							Object value = properties.get(key);
+							if (value instanceof PropertyChangeSupport) {
+								((PropertyChangeSupport) value).firePropertyChange(null, false, true);
+							}
+						}
+					}
+				}
 			}
 		};
 

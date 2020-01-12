@@ -25,7 +25,6 @@ import org.openide.util.lookup.ServiceProvider;
 
 import de.funfried.netbeans.plugins.external.formatter.strategies.AbstractJavaFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.strategies.IFormatterStrategyService;
-import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
@@ -202,11 +201,6 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	}
 
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-		String enabledFormatter = prefs.get(Settings.ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);
-		if (ID.equals(enabledFormatter)) {
-			return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
-		}
-
-		return false;
+		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 	}
 }
