@@ -104,7 +104,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<netbeans.version>RELEASE90</netbeans.version>
+		<netbeans.version>RELEASE82</netbeans.version>
 	</properties>
 
 	<dependencyManagement>
@@ -242,6 +242,26 @@
 			<version>${netbeans.version}</version>
 			<optional>true</optional>
 			<scope>provided</scope>
+		</dependency>
+
+		<!--
+		 Only needed by NetBeans 8.2, if NetBeans 8.2 is not
+		 supported anymore, this dependency can be removed
+		-->
+		<dependency>
+			<groupId>org.netbeans.external</groupId>
+			<artifactId>nb-javac-api</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<!--
+		 Only needed by NetBeans 8.2, if NetBeans 8.2 is not
+		 supported anymore, this dependency can be removed
+		-->
+		<dependency>
+			<groupId>org.netbeans.external</groupId>
+			<artifactId>nb-javac-impl</artifactId>
+			<version>${netbeans.version}</version>
 		</dependency>
 
 		<dependency>
@@ -701,6 +721,8 @@
 						<configuration>
 							<failOnWarning>true</failOnWarning>
 							<ignoredUnusedDeclaredDependencies>
+								<ignored>org.netbeans.external:nb-javac-api</ignored>
+								<ignored>org.netbeans.external:nb-javac-impl</ignored>
 								<ignored>javax.annotation:javax.annotation-api</ignored>
 								<ignored>org.hibernate.validator:hibernate-validator</ignored>
 							</ignoredUnusedDeclaredDependencies>
