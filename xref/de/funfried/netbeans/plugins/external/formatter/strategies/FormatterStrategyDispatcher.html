@@ -117,7 +117,7 @@
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> 			<strong class="jxr_keyword">if</strong> (formatterStrategy != <strong class="jxr_keyword">null</strong> &amp;&amp; formatterStrategy.canHandle(document)) {
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> 				formatterStrategy.getContinuationIndentSize(document);
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 				<strong class="jxr_keyword">return</strong> formatterStrategy.getContinuationIndentSize(document);
 <a class="jxr_linenumber" name="L113" href="#L113">113</a> 			}
 <a class="jxr_linenumber" name="L114" href="#L114">114</a> 		} <strong class="jxr_keyword">catch</strong> (Exception e) {
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> 			Exceptions.printStackTrace(e);
@@ -141,7 +141,7 @@
 <a class="jxr_linenumber" name="L133" href="#L133">133</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L134" href="#L134">134</a> 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
 <a class="jxr_linenumber" name="L135" href="#L135">135</a> 			<strong class="jxr_keyword">if</strong> (formatterStrategy != <strong class="jxr_keyword">null</strong> &amp;&amp; formatterStrategy.canHandle(document)) {
-<a class="jxr_linenumber" name="L136" href="#L136">136</a> 				formatterStrategy.getIndentSize(document);
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 				<strong class="jxr_keyword">return</strong> formatterStrategy.getIndentSize(document);
 <a class="jxr_linenumber" name="L137" href="#L137">137</a> 			}
 <a class="jxr_linenumber" name="L138" href="#L138">138</a> 		} <strong class="jxr_keyword">catch</strong> (Exception e) {
 <a class="jxr_linenumber" name="L139" href="#L139">139</a> 			Exceptions.printStackTrace(e);
@@ -167,7 +167,7 @@
 <a class="jxr_linenumber" name="L159" href="#L159">159</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L160" href="#L160">160</a> 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
 <a class="jxr_linenumber" name="L161" href="#L161">161</a> 			<strong class="jxr_keyword">if</strong> (formatterStrategy != <strong class="jxr_keyword">null</strong> &amp;&amp; formatterStrategy.canHandle(document)) {
-<a class="jxr_linenumber" name="L162" href="#L162">162</a> 				formatterStrategy.getRightMargin(document);
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 				<strong class="jxr_keyword">return</strong> formatterStrategy.getRightMargin(document);
 <a class="jxr_linenumber" name="L163" href="#L163">163</a> 			}
 <a class="jxr_linenumber" name="L164" href="#L164">164</a> 		} <strong class="jxr_keyword">catch</strong> (Exception e) {
 <a class="jxr_linenumber" name="L165" href="#L165">165</a> 			Exceptions.printStackTrace(e);
@@ -191,7 +191,7 @@
 <a class="jxr_linenumber" name="L183" href="#L183">183</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L184" href="#L184">184</a> 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
 <a class="jxr_linenumber" name="L185" href="#L185">185</a> 			<strong class="jxr_keyword">if</strong> (formatterStrategy != <strong class="jxr_keyword">null</strong> &amp;&amp; formatterStrategy.canHandle(document)) {
-<a class="jxr_linenumber" name="L186" href="#L186">186</a> 				formatterStrategy.getSpacesPerTab(document);
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> 				<strong class="jxr_keyword">return</strong> formatterStrategy.getSpacesPerTab(document);
 <a class="jxr_linenumber" name="L187" href="#L187">187</a> 			}
 <a class="jxr_linenumber" name="L188" href="#L188">188</a> 		} <strong class="jxr_keyword">catch</strong> (Exception e) {
 <a class="jxr_linenumber" name="L189" href="#L189">189</a> 			Exceptions.printStackTrace(e);
@@ -230,7 +230,7 @@
 <a class="jxr_linenumber" name="L222" href="#L222">222</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L223" href="#L223">223</a> 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
 <a class="jxr_linenumber" name="L224" href="#L224">224</a> 			<strong class="jxr_keyword">if</strong> (formatterStrategy != <strong class="jxr_keyword">null</strong> &amp;&amp; formatterStrategy.canHandle(document)) {
-<a class="jxr_linenumber" name="L225" href="#L225">225</a> 				formatterStrategy.isExpandTabToSpaces(document);
+<a class="jxr_linenumber" name="L225" href="#L225">225</a> 				<strong class="jxr_keyword">return</strong> formatterStrategy.isExpandTabToSpaces(document);
 <a class="jxr_linenumber" name="L226" href="#L226">226</a> 			}
 <a class="jxr_linenumber" name="L227" href="#L227">227</a> 		} <strong class="jxr_keyword">catch</strong> (Exception e) {
 <a class="jxr_linenumber" name="L228" href="#L228">228</a> 			Exceptions.printStackTrace(e);

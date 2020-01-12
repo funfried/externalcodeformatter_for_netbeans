@@ -109,7 +109,7 @@ public class FormatterStrategyDispatcher {
 		try {
 <span class="nc" id="L110">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
 <span class="nc bnc" id="L111" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
-<span class="nc" id="L112">				formatterStrategy.getContinuationIndentSize(document);</span>
+<span class="nc" id="L112">				return formatterStrategy.getContinuationIndentSize(document);</span>
 			}
 <span class="nc" id="L114">		} catch (Exception e) {</span>
 <span class="nc" id="L115">			Exceptions.printStackTrace(e);</span>
@@ -133,7 +133,7 @@ public class FormatterStrategyDispatcher {
 		try {
 <span class="nc" id="L134">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
 <span class="nc bnc" id="L135" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
-<span class="nc" id="L136">				formatterStrategy.getIndentSize(document);</span>
+<span class="nc" id="L136">				return formatterStrategy.getIndentSize(document);</span>
 			}
 <span class="nc" id="L138">		} catch (Exception e) {</span>
 <span class="nc" id="L139">			Exceptions.printStackTrace(e);</span>
@@ -159,7 +159,7 @@ public class FormatterStrategyDispatcher {
 		try {
 <span class="nc" id="L160">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
 <span class="nc bnc" id="L161" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
-<span class="nc" id="L162">				formatterStrategy.getRightMargin(document);</span>
+<span class="nc" id="L162">				return formatterStrategy.getRightMargin(document);</span>
 			}
 <span class="nc" id="L164">		} catch (Exception e) {</span>
 <span class="nc" id="L165">			Exceptions.printStackTrace(e);</span>
@@ -183,7 +183,7 @@ public class FormatterStrategyDispatcher {
 		try {
 <span class="nc" id="L184">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
 <span class="nc bnc" id="L185" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
-<span class="nc" id="L186">				formatterStrategy.getSpacesPerTab(document);</span>
+<span class="nc" id="L186">				return formatterStrategy.getSpacesPerTab(document);</span>
 			}
 <span class="nc" id="L188">		} catch (Exception e) {</span>
 <span class="nc" id="L189">			Exceptions.printStackTrace(e);</span>
@@ -222,7 +222,7 @@ public class FormatterStrategyDispatcher {
 		try {
 <span class="nc" id="L223">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
 <span class="nc bnc" id="L224" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
-<span class="nc" id="L225">				formatterStrategy.isExpandTabToSpaces(document);</span>
+<span class="nc" id="L225">				return formatterStrategy.isExpandTabToSpaces(document);</span>
 			}
 <span class="nc" id="L227">		} catch (Exception e) {</span>
 <span class="nc" id="L228">			Exceptions.printStackTrace(e);</span>
