@@ -109,7 +109,7 @@ public class FormatterStrategyDispatcher {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
 			if (formatterStrategy != null && formatterStrategy.canHandle(document)) {
-				formatterStrategy.getContinuationIndentSize(document);
+				return formatterStrategy.getContinuationIndentSize(document);
 			}
 		} catch (Exception e) {
 			Exceptions.printStackTrace(e);
@@ -133,7 +133,7 @@ public class FormatterStrategyDispatcher {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
 			if (formatterStrategy != null && formatterStrategy.canHandle(document)) {
-				formatterStrategy.getIndentSize(document);
+				return formatterStrategy.getIndentSize(document);
 			}
 		} catch (Exception e) {
 			Exceptions.printStackTrace(e);
@@ -159,7 +159,7 @@ public class FormatterStrategyDispatcher {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
 			if (formatterStrategy != null && formatterStrategy.canHandle(document)) {
-				formatterStrategy.getRightMargin(document);
+				return formatterStrategy.getRightMargin(document);
 			}
 		} catch (Exception e) {
 			Exceptions.printStackTrace(e);
@@ -183,7 +183,7 @@ public class FormatterStrategyDispatcher {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
 			if (formatterStrategy != null && formatterStrategy.canHandle(document)) {
-				formatterStrategy.getSpacesPerTab(document);
+				return formatterStrategy.getSpacesPerTab(document);
 			}
 		} catch (Exception e) {
 			Exceptions.printStackTrace(e);
@@ -222,7 +222,7 @@ public class FormatterStrategyDispatcher {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
 			if (formatterStrategy != null && formatterStrategy.canHandle(document)) {
-				formatterStrategy.isExpandTabToSpaces(document);
+				return formatterStrategy.isExpandTabToSpaces(document);
 			}
 		} catch (Exception e) {
 			Exceptions.printStackTrace(e);
