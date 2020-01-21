@@ -19,7 +19,6 @@ import javax.swing.event.ChangeListener;
 
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
-import org.netbeans.modules.maven.api.NbMavenProject;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer.Category;
 import org.openide.util.ImageUtilities;
@@ -42,12 +41,12 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormat
 		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-j2ee-clientproject", position = 1000),
 		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-j2ee-ejbjarproject", position = 1000),
 		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-java-j2seproject", position = 1000),
-		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-j2ee-ejbjarproject", position = 1000),
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-java-j2semodule", position = 1000),
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-j2ee-earproject", position = 1000),
 		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-ant-freeform", position = 1000),
 		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-web-project", position = 1000),
-		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-maven/" + NbMavenProject.TYPE_OSGI, position = 1000),
 		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-maven", position = 1000),
-		@ProjectCustomizer.CompositeCategoryProvider.Registration(projectType = "org-netbeans-modules-gradle", position = 1000),
+		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-gradle", position = 1000),
 		@ProjectCustomizer.CompositeCategoryProvider.Registration(category = "Formatting", projectType = "org-netbeans-modules-apisupport-project", position = 1000)
 })
 public class ExternalFormatterCustomizerTab implements ProjectCustomizer.CompositeCategoryProvider {

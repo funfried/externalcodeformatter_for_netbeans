@@ -63,15 +63,6 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-	protected void format(StyledDocument document, int dot, int mark, SortedSet<Pair<Integer, Integer>> changedElements) {
-		GoogleFormatterRunnable formatterRunnable = new GoogleFormatterRunnable(document, formatter, dot, mark, changedElements);
-		formatterRunnable.run();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	@NotNull
 	@Override
 	public String getDisplayName() {
@@ -167,6 +158,14 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 		}
 
 		return ret;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Runnable getRunnable(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
+		return new GoogleFormatterRunnable(document, formatter, changedElements);
 	}
 
 	/**

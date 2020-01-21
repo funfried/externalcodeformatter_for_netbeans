@@ -13,10 +13,10 @@ import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.netbeans.api.editor.guards.GuardedSectionManager;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
@@ -31,21 +31,15 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  * Google formatter implementation of the {@link AbstractFormatterRunnable} to
- * format a given document using the {@link GoogleFormatter}. LineBreakpoints get
- * removed and the following breakpoints are getting reattached:
- * <ul>
- * <li>ClassLoadUnloadBreakpoint</li>
- * <li>FieldBreakpoint</li>
- * <li>MethodBreakpoint</li>
- * </ul>
+ * format a given document using the {@link GoogleFormatter}.
  *
  * @author bahlef
  */
 class GoogleFormatterRunnable extends AbstractFormatterRunnable {
 	private final GoogleFormatter formatter;
 
-	GoogleFormatterRunnable(StyledDocument document, GoogleFormatter formatter, int dot, int mark, SortedSet<Pair<Integer, Integer>> changedElements) {
-		super(document, dot, mark, changedElements);
+	GoogleFormatterRunnable(StyledDocument document, GoogleFormatter formatter, SortedSet<Pair<Integer, Integer>> changedElements) {
+		super(document, changedElements);
 
 		this.formatter = formatter;
 	}
@@ -62,18 +56,16 @@ class GoogleFormatterRunnable extends AbstractFormatterRunnable {
 
 		Preferences pref = Settings.getActivePreferences(document);
 
-		boolean preserveBreakpoints = pref.getBoolean(Settings.PRESERVE_BREAKPOINTS, true);
 		String codeStylePref = pref.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 
 		String code = getCode(null);
 
 		try {
-			GuardedSectionManager guards = GuardedSectionManager.getInstance(document);
-			SortedSet<Pair<Integer, Integer>> regions = getFormatableSections(code, guards);
+			SortedSet<Pair<Integer, Integer>> regions = getFormatableSections(code);
 
 			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);
 			// quick check for changed
-			if (setFormattedCode(code, formattedContent, preserveBreakpoints)) {
+			if (setFormattedCode(code, formattedContent)) {
 				SwingUtilities.invokeLater(() -> {
 					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
 						NotificationDisplayer.getDefault().notify("Format using Goolge formatter", Icons.ICON_GOOGLE, null, null);
@@ -82,6 +74,8 @@ class GoogleFormatterRunnable extends AbstractFormatterRunnable {
 					StatusDisplayer.getDefault().setStatusText("Format using Goolge formatter");
 				});
 			}
+		} catch (BadLocationException ex) {
+			throw new RuntimeException(ex);
 		} catch (RuntimeException ex) {
 			throw ex;
 		}

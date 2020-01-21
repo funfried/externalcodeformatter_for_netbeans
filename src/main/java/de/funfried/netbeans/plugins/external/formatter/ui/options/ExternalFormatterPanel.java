@@ -43,7 +43,6 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadExce
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.strategies.google.GoogleFormatterStrategy;
-import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableConfigPanel;
 
 @Keywords(location = "Java", tabTitle = "External Formatter", keywords = { "eclipse", "google", "external", "format", "formatter", "eclipse formatter", "google formatter", "external formatter" })
@@ -100,9 +99,6 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 				fireChangedListener();
 			}
 		});
-
-		this.cbEnableSaveActionModifiedLinesOnly.setVisible(Settings.FEATURE_FORMAT_CHANGED_LINES_ONLY);
-		this.cbEnableSaveActionModifiedLinesOnly.setEnabled(Settings.FEATURE_FORMAT_CHANGED_LINES_ONLY);
 	}
 
 	public Preferences getPreferences() {
@@ -148,13 +144,9 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
         rbUseEclipse = new javax.swing.JRadioButton();
         txtProjectSpecificHint = new javax.swing.JLabel();
         cbShowNotifications = new javax.swing.JCheckBox();
-        cbEnableSaveAction = new javax.swing.JCheckBox();
         btnDonate = new javax.swing.JLabel();
         btnVisitHomePage = new javax.swing.JLabel();
-        cbEnableSaveActionModifiedLinesOnly = new javax.swing.JCheckBox();
         rbUseGoogle = new javax.swing.JRadioButton();
-        cbPreserveBreakpoints = new javax.swing.JCheckBox();
-        jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         googleCodeStyleRdBtn = new javax.swing.JRadioButton();
         aospRdBtn = new javax.swing.JRadioButton();
@@ -328,14 +320,6 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(cbEnableSaveAction, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbEnableSaveAction.text")); // NOI18N
-        cbEnableSaveAction.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbEnableSaveAction.toolTipText")); // NOI18N
-        cbEnableSaveAction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbEnableSaveActionActionPerformed(evt);
-            }
-        });
-
         btnDonate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         org.openide.awt.Mnemonics.setLocalizedText(btnDonate, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.btnDonate.text")); // NOI18N
         btnDonate.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.btnDonate.toolTipText")); // NOI18N
@@ -355,14 +339,6 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(cbEnableSaveActionModifiedLinesOnly, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbEnableSaveActionModifiedLinesOnly.text")); // NOI18N
-        cbEnableSaveActionModifiedLinesOnly.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbEnableSaveActionModifiedLinesOnly.toolTipText")); // NOI18N
-        cbEnableSaveActionModifiedLinesOnly.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbEnableSaveActionModifiedLinesOnlyActionPerformed(evt);
-            }
-        });
-
         formatterBtnGrp.add(rbUseGoogle);
         org.openide.awt.Mnemonics.setLocalizedText(rbUseGoogle, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.rbUseGoogle.text")); // NOI18N
         rbUseGoogle.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.rbUseGoogle.toolTipText")); // NOI18N
@@ -371,18 +347,6 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
                 rbUseGoogleActionPerformed(evt);
             }
         });
-
-        cbPreserveBreakpoints.setSelected(true);
-        org.openide.awt.Mnemonics.setLocalizedText(cbPreserveBreakpoints, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbPreserveBreakpoints.text")); // NOI18N
-        cbPreserveBreakpoints.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbPreserveBreakpoints.toolTipText")); // NOI18N
-        cbPreserveBreakpoints.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbPreserveBreakpointsActionPerformed(evt);
-            }
-        });
-
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel4, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.jLabel4.text")); // NOI18N
-        jLabel4.setEnabled(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -456,14 +420,8 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cbEnableSaveAction)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbEnableSaveActionModifiedLinesOnly)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDonate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(rbUseNetBeans)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtProjectSpecificHint))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
@@ -471,24 +429,21 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cbShowNotifications)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbShowNotifications)
                             .addComponent(rbUseGoogle)
-                            .addComponent(cbPreserveBreakpoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(rbUseEclipse)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(useIndentationSettingsChkBox)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(overrideTabSizeChkBox)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(overrideTabSizeSpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(36, 36, 36))
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(useIndentationSettingsChkBox)
+                                .addGap(18, 18, 18)
+                                .addComponent(overrideTabSizeChkBox)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(overrideTabSizeSpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDonate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -506,24 +461,16 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cbPreserveBreakpoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(useIndentationSettingsChkBox)
                     .addComponent(overrideTabSizeSpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(overrideTabSizeChkBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbShowNotifications)
+                .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbShowNotifications)
+                    .addComponent(btnDonate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDonate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cbEnableSaveAction)
-                        .addComponent(cbEnableSaveActionModifiedLinesOnly)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -599,22 +546,9 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
         fireChangedListener();
     }//GEN-LAST:event_cbShowNotificationsActionPerformed
 
-    private void cbEnableSaveActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEnableSaveActionActionPerformed
-        fireChangedListener();
-		cbEnableSaveActionModifiedLinesOnly.setEnabled(cbEnableSaveAction.isSelected());
-    }//GEN-LAST:event_cbEnableSaveActionActionPerformed
-
-    private void cbEnableSaveActionModifiedLinesOnlyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEnableSaveActionModifiedLinesOnlyActionPerformed
-        fireChangedListener();
-    }//GEN-LAST:event_cbEnableSaveActionModifiedLinesOnlyActionPerformed
-
     private void cbProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProfileActionPerformed
         fireChangedListener();
     }//GEN-LAST:event_cbProfileActionPerformed
-
-    private void cbPreserveBreakpointsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPreserveBreakpointsActionPerformed
-        fireChangedListener();
-    }//GEN-LAST:event_cbPreserveBreakpointsActionPerformed
 
     private void cbLinefeedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbLinefeedActionPerformed
         fireChangedListener();
@@ -662,7 +596,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 	 */
 	@Override
 	public void load() {
-		String enabledFormatter = preferences.get(Settings.ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);
+		String enabledFormatter = preferences.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
 
 		boolean googleFormatterEnabled = GoogleFormatterStrategy.ID.equals(enabledFormatter);
 		String googleFormatterCodeStyle = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
@@ -670,25 +604,21 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		String eclipseFormatterProfile = preferences.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
 		boolean eclipseFormatterEnabled = EclipseFormatterStrategy.ID.equals(enabledFormatter);
 		boolean showNotifications = preferences.getBoolean(Settings.SHOW_NOTIFICATIONS, false);
-		boolean enableSaveAction = preferences.getBoolean(Settings.ENABLE_SAVEACTION, false);
-		boolean enableSaveActionModifiedLines = preferences.getBoolean(Settings.ENABLE_SAVEACTION_MODIFIEDLINESONLY, false);
 		boolean useIndentationSettings = preferences.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 		boolean overrideTabSize = preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 		int overrideTabSizeValue = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
-		boolean preserveBreakpoints = preferences.getBoolean(Settings.PRESERVE_BREAKPOINTS, true);
 		boolean useProjectPrefs = preferences.getBoolean(Settings.USE_PROJECT_PREFS, true);
 		String lineFeed = preferences.get(Settings.LINEFEED, "");
 		String sourceLevel = preferences.get(Settings.SOURCELEVEL, "");
 
-		loadOptionsWindowUI(googleFormatterEnabled, googleFormatterCodeStyle, eclipseFormatterEnabled, eclipseFormatterLocation, eclipseFormatterProfile, showNotifications, enableSaveAction,
-				preserveBreakpoints, useProjectPrefs, enableSaveActionModifiedLines, useIndentationSettings, overrideTabSize, overrideTabSizeValue, lineFeed, sourceLevel);
+		loadOptionsWindowUI(googleFormatterEnabled, googleFormatterCodeStyle, eclipseFormatterEnabled, eclipseFormatterLocation, eclipseFormatterProfile, showNotifications, useProjectPrefs,
+				useIndentationSettings, overrideTabSize, overrideTabSizeValue, lineFeed, sourceLevel);
 
 		fireChangedListener();
 	}
 
 	private void loadOptionsWindowUI(boolean googleFormatterEnabled, String googleFormatterCodeStyle, boolean eclipseFormatterEnabled, String formatterFile, String profile, boolean showNotifications,
-			boolean enableSaveAction, boolean preserveBreakpoints, boolean useProjectPrefs, boolean enableSaveActionModifiedLines, boolean useIndentationSettings, boolean overrideTabSize,
-			int overrideTabSizeValue, String lineFeed, String sourceLevel) {
+			boolean useProjectPrefs, boolean useIndentationSettings, boolean overrideTabSize, int overrideTabSizeValue, String lineFeed, String sourceLevel) {
 		loadEclipseFormatterFileForPreview(formatterFile, profile);
 
 		if (eclipseFormatterEnabled) {
@@ -710,12 +640,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		overrideTabSizeSpn.setValue(overrideTabSizeValue);
 
 		cbShowNotifications.setSelected(showNotifications);
-		cbEnableSaveAction.setSelected(enableSaveAction);
-		//depends on cbEnableSaveAction
-		cbEnableSaveActionModifiedLinesOnly.setSelected(enableSaveActionModifiedLines);
 
-		cbEnableSaveActionModifiedLinesOnly.setEnabled(enableSaveAction);
-		cbPreserveBreakpoints.setSelected(preserveBreakpoints);
 		cbUseProjectPref.setSelected(useProjectPrefs);
 
 		if (null == lineFeed || "".equals(lineFeed)) {
@@ -787,19 +712,14 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 	 */
 	@Override
 	public void store() {
-		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleFormatterStrategy.ID : (rbUseEclipse.isSelected() ? EclipseFormatterStrategy.ID : NetBeansFormatterStrategy.ID));
+		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleFormatterStrategy.ID : (rbUseEclipse.isSelected() ? EclipseFormatterStrategy.ID : Settings.DEFAULT_FORMATTER));
 		preferences.put(Settings.GOOGLE_FORMATTER_CODE_STYLE, googleCodeStyleRdBtn.isSelected() ? JavaFormatterOptions.Style.GOOGLE.name() : JavaFormatterOptions.Style.AOSP.name());
 		preferences.put(Settings.ECLIPSE_FORMATTER_LOCATION, formatterLocField.getText());
 		preferences.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, useIndentationSettingsChkBox.isSelected());
 		preferences.putBoolean(Settings.OVERRIDE_TAB_SIZE, overrideTabSizeChkBox.isSelected());
 		preferences.putInt(Settings.OVERRIDE_TAB_SIZE_VALUE, Integer.parseInt(overrideTabSizeSpn.getValue().toString()));
 		preferences.putBoolean(Settings.SHOW_NOTIFICATIONS, cbShowNotifications.isSelected());
-		preferences.putBoolean(Settings.ENABLE_SAVEACTION, cbEnableSaveAction.isSelected());
-		if (Settings.FEATURE_FORMAT_CHANGED_LINES_ONLY) {
-			preferences.putBoolean(Settings.ENABLE_SAVEACTION_MODIFIEDLINESONLY, cbEnableSaveActionModifiedLinesOnly.isSelected());
-		}
 		preferences.put(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, getSelectedProfile());
-		preferences.putBoolean(Settings.PRESERVE_BREAKPOINTS, cbPreserveBreakpoints.isSelected());
 		preferences.putBoolean(Settings.USE_PROJECT_PREFS, cbUseProjectPref.isSelected());
 		preferences.put(Settings.LINEFEED, getLinefeed());
 		if (cbSourceLevel.getSelectedIndex() >= 1) {
@@ -859,10 +779,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
     private javax.swing.JButton browseButton;
     private javax.swing.JLabel btnDonate;
     private javax.swing.JLabel btnVisitHomePage;
-    private javax.swing.JCheckBox cbEnableSaveAction;
-    private javax.swing.JCheckBox cbEnableSaveActionModifiedLinesOnly;
     private javax.swing.JComboBox<String> cbLinefeed;
-    private javax.swing.JCheckBox cbPreserveBreakpoints;
     private javax.swing.JComboBox<String> cbProfile;
     private javax.swing.JCheckBox cbShowNotifications;
     private javax.swing.JComboBox<String> cbSourceLevel;
@@ -874,7 +791,6 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
     private javax.swing.JLabel googleCodeStyleLbl;
     private javax.swing.JRadioButton googleCodeStyleRdBtn;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblFormatterFile;
@@ -919,7 +835,6 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		googleCodeStyleLbl.setEnabled(isGoogleFormatterEnabled);
 		googleCodeStyleRdBtn.setEnabled(isGoogleFormatterEnabled);
 		aospRdBtn.setEnabled(isGoogleFormatterEnabled);
-		cbPreserveBreakpoints.setEnabled(isEclipseFormatterEnabled || isGoogleFormatterEnabled);
 
 		txtProjectSpecificHint.setVisible(!showsProjectSettings);
 	}

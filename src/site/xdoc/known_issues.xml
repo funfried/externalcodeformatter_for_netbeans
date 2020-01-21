@@ -12,8 +12,7 @@
 		<section name="Known issues">
 			<ul>
 				<li>
-					When the Eclipse or Google formatter is used the line-breakpoints at the formatted lines
-					are lost. Class, method and field breakpoints will be preserved.
+					Preserved breakpoints cannot be undone.
 				</li>
 				<li>
 					Guarded blocks are only supported when using the Eclipse Java Code Formatter, but not for

@@ -45,15 +45,6 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-	protected void format(StyledDocument document, int dot, int mark, SortedSet<Pair<Integer, Integer>> changedElements) {
-		EclipseFormatterRunnable formatterRunnable = new EclipseFormatterRunnable(document, formatter, dot, mark, changedElements);
-		formatterRunnable.run();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	@NotNull
 	@Override
 	public String getDisplayName() {
@@ -134,6 +125,14 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 		}
 
 		return ret;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Runnable getRunnable(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
+		return new EclipseFormatterRunnable(document, formatter, changedElements);
 	}
 
 	/**

@@ -99,6 +99,7 @@
 	</distributionManagement>
 
 	<properties>
+		<maven.compiler.release>8</maven.compiler.release>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -235,15 +236,6 @@
 			<version>28.1-jre</version>
 		</dependency>
 
-		<!-- NetBeans API -->
-		<dependency>
-			<groupId>org.netbeans.modules</groupId>
-			<artifactId>org-netbeans-modules-maven</artifactId>
-			<version>${netbeans.version}</version>
-			<optional>true</optional>
-			<scope>provided</scope>
-		</dependency>
-
 		<!--
 		 Only needed by NetBeans 8.2, if NetBeans 8.2 is not
 		 supported anymore, this dependency can be removed
@@ -266,18 +258,6 @@
 
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
-			<artifactId>org-netbeans-api-debugger</artifactId>
-			<version>${netbeans.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.netbeans.api</groupId>
-			<artifactId>org-netbeans-api-debugger-jpda</artifactId>
-			<version>${netbeans.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-netbeans-modules-options-api</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
@@ -290,13 +270,13 @@
 
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
-			<artifactId>org-netbeans-modules-editor-lib2</artifactId>
+			<artifactId>org-netbeans-modules-editor</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
-			<artifactId>org-netbeans-modules-editor</artifactId>
+			<artifactId>org-netbeans-modules-editor-document</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
 
@@ -320,6 +300,12 @@
 
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-diff</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-netbeans-modules-parsing-api</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
@@ -333,12 +319,6 @@
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-netbeans-modules-projectuiapi</artifactId>
-			<version>${netbeans.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.netbeans.api</groupId>
-			<artifactId>org-netbeans-modules-java-project</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
 
@@ -418,6 +398,12 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
 			<version>4.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
 		</dependency>
 
 		<dependency>

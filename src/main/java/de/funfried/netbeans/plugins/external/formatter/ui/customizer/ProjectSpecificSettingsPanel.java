@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
 
 import org.netbeans.api.options.OptionsDisplayer;
+import org.openide.util.NbBundle;
 
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
@@ -29,6 +30,8 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  * @author markiewb
  * @author bahlef
  */
+@NbBundle.Messages({ "ProjectSpecificSettingsPanel.cbOverrideGlobalSettings.text=Override global settings",
+		"ProjectSpecificSettingsPanel.lblJumpToGlobalOptions.text=<html><a href=\"#\">Configure global options...</a>" })
 public class ProjectSpecificSettingsPanel extends JPanel implements VerifiableConfigPanel {
 	private static final long serialVersionUID = 1L;
 

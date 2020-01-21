@@ -29,31 +29,25 @@ import org.openide.util.NbPreferences;
  * @author bahlef
  */
 public class Settings {
-	public static final boolean FEATURE_FORMAT_CHANGED_LINES_ONLY = true;
-
 	/**
 	 * @since 1.13
 	 */
 	public static final String ENABLED_FORMATTER = "enabledFormatter";
 
+	/**
+	 * @since 1.13
+	 */
+	public static final String DEFAULT_FORMATTER = "netbeans-formatter";
+
 	public static final String ECLIPSE_FORMATTER_ACTIVE_PROFILE = "eclipseFormatterActiveProfile";
 
 	public static final String ECLIPSE_FORMATTER_LOCATION = "eclipseFormatterLocation";
-
-	public static final String ENABLE_SAVEACTION = "enableFormatAsSaveAction";
 
 	public static final String ENABLE_USE_OF_INDENTATION_SETTINGS = "enableIndentationSettings";
 
 	public static final String OVERRIDE_TAB_SIZE = "overrideTabSize";
 
 	public static final String OVERRIDE_TAB_SIZE_VALUE = "overrideTabSizeValue";
-
-	public static final String ENABLE_SAVEACTION_MODIFIEDLINESONLY = "SaveActionModifiedLinesOnly";
-
-	/**
-	 * @since 1.8
-	 */
-	public static final String PRESERVE_BREAKPOINTS = "preserveBreakPoints";
 
 	public static final String SHOW_NOTIFICATIONS = "showNotifications";
 

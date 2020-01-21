@@ -9,12 +9,12 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 
-import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyledDocument;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.netbeans.junit.NbTestCase;
+import org.netbeans.modules.editor.NbEditorDocument;
 
 import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
 import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
@@ -24,8 +24,8 @@ import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrat
  * @author bahlef
  */
 public class EclipseFormatterStrategyTest extends NbTestCase {
-	public EclipseFormatterStrategyTest() {
-		super(EclipseFormatterStrategyTest.class.getSimpleName());
+	public EclipseFormatterStrategyTest(String name) {
+		super(name);
 	}
 
 	/**
@@ -35,19 +35,19 @@ public class EclipseFormatterStrategyTest extends NbTestCase {
 	 */
 	@Test
 	public void testFormat() throws Exception {
-		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}";
+		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
 		final String expected = "package foo;\n" +
 				"\n" +
 				"public enum NewEmptyJUnitTest {\n" +
 				"    A, B, C\n" +
-				"}";
+				"}\n" +
+				"";
 
-		StyledDocument document = new DefaultStyledDocument();
-		document.putProperty("mimeType", "text/x-java");
+		StyledDocument document = new NbEditorDocument("text/x-java");
 		document.insertString(0, text, null);
 
 		EclipseFormatterStrategy instance = new EclipseFormatterStrategy();
-		instance.format(new FormatterAdvice(document, null, -1, null));
+		instance.format(new FormatterAdvice(document, null));
 
 		String actual = document.getText(0, document.getLength());
 
@@ -62,16 +62,15 @@ public class EclipseFormatterStrategyTest extends NbTestCase {
 	 */
 	@Test
 	public void testUnsupportedFileType() throws Exception {
-		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}";
+		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
 
-		StyledDocument document = new DefaultStyledDocument();
-		document.putProperty("mimeType", "text/xml");
+		StyledDocument document = new NbEditorDocument("text/xml");
 		document.insertString(0, text, null);
 
 		EclipseFormatterStrategy instance = new EclipseFormatterStrategy();
 
 		try {
-			instance.format(new FormatterAdvice(document, null, -1, null));
+			instance.format(new FormatterAdvice(document, null));
 		} catch (Exception ex) {
 			Assert.assertTrue("Formatting should not be possible for the given file type", ex.getMessage().contains("The file type 'text/xml' is not supported"));
 		}

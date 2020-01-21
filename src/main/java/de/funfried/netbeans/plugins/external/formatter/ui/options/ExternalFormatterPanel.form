@@ -26,15 +26,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="cbEnableSaveAction" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="cbEnableSaveActionModifiedLinesOnly" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnDonate" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <Component id="rbUseNetBeans" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="29" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="txtProjectSpecificHint" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -44,29 +37,25 @@
                           <Component id="jPanel1" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="cbShowNotifications" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnVisitHomePage" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="cbShowNotifications" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="rbUseGoogle" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbPreserveBreakpoints" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="rbUseEclipse" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="useIndentationSettingsChkBox" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="overrideTabSizeChkBox" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="overrideTabSizeSpn" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="useIndentationSettingsChkBox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="overrideTabSizeChkBox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="overrideTabSizeSpn" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="btnVisitHomePage" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnDonate" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -89,27 +78,17 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="cbPreserveBreakpoints" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="useIndentationSettingsChkBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="overrideTabSizeSpn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="overrideTabSizeChkBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="cbShowNotifications" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="cbShowNotifications" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnDonate" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnVisitHomePage" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnDonate" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="cbEnableSaveAction" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbEnableSaveActionModifiedLinesOnly" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -434,19 +413,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbShowNotificationsActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="cbEnableSaveAction">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.cbEnableSaveAction.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.cbEnableSaveAction.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbEnableSaveActionActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="btnDonate">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -478,19 +444,6 @@
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnVisitHomePageMouseClicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="cbEnableSaveActionModifiedLinesOnly">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.cbEnableSaveActionModifiedLinesOnly.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.cbEnableSaveActionModifiedLinesOnly.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbEnableSaveActionModifiedLinesOnlyActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JRadioButton" name="rbUseGoogle">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
@@ -506,28 +459,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbUseGoogleActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JCheckBox" name="cbPreserveBreakpoints">
-      <Properties>
-        <Property name="selected" type="boolean" value="true"/>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.cbPreserveBreakpoints.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.cbPreserveBreakpoints.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbPreserveBreakpointsActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.jLabel4.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="enabled" type="boolean" value="false"/>
-      </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel2">
       <Properties>

@@ -13,10 +13,10 @@ import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.netbeans.api.editor.guards.GuardedSectionManager;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -33,13 +33,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  * Eclipse formatter implementation of the {@link AbstractFormatterRunnable} to
- * format a given document using the {@link EclipseFormatter}. LineBreakpoints get
- * removed and the following breakpoints are getting reattached:
- * <ul>
- * <li>ClassLoadUnloadBreakpoint</li>
- * <li>FieldBreakpoint</li>
- * <li>MethodBreakpoint</li>
- * </ul>
+ * format a given document using the {@link EclipseFormatter}.
  *
  * @author markiewb
  * @author bahlef
@@ -47,8 +41,8 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 	private final EclipseFormatter formatter;
 
-	EclipseFormatterRunnable(StyledDocument document, EclipseFormatter formatter, int dot, int mark, SortedSet<Pair<Integer, Integer>> changedElements) {
-		super(document, dot, mark, changedElements);
+	EclipseFormatterRunnable(StyledDocument document, EclipseFormatter formatter, SortedSet<Pair<Integer, Integer>> changedElements) {
+		super(document, changedElements);
 
 		this.formatter = formatter;
 	}
@@ -68,19 +62,17 @@ class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 		String formatterFile = Settings.getEclipseFormatterFile(pref, document);
 		String formatterProfile = pref.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
 		String sourceLevel = pref.get(Settings.SOURCELEVEL, "");
-		boolean preserveBreakpoints = pref.getBoolean(Settings.PRESERVE_BREAKPOINTS, true);
 		String lineFeedSetting = pref.get(Settings.LINEFEED, "");
 		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty("line.separator"));
 
 		String code = getCode(lineFeedSetting);
 
 		try {
-			GuardedSectionManager guards = GuardedSectionManager.getInstance(document);
-			SortedSet<Pair<Integer, Integer>> regions = getFormatableSections(code, guards);
+			SortedSet<Pair<Integer, Integer>> regions = getFormatableSections(code);
 
 			String formattedContent = formatter.format(formatterFile, formatterProfile, code, lineFeed, sourceLevel, regions);
 			// quick check for changed
-			if (setFormattedCode(code, formattedContent, preserveBreakpoints)) {
+			if (setFormattedCode(code, formattedContent)) {
 				String msg = getNotificationMessageForEclipseFormatterConfigurationFileType(formatterFile, formatterProfile);
 
 				SwingUtilities.invokeLater(() -> {
@@ -109,6 +101,8 @@ class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 			});
 
 			throw ex;
+		} catch (BadLocationException ex) {
+			throw new RuntimeException(ex);
 		} catch (RuntimeException ex) {
 			throw ex;
 		}

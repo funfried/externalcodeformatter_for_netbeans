@@ -24,20 +24,17 @@ import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FileTypeNotSupportedException;
-import de.funfried.netbeans.plugins.external.formatter.strategies.netbeans.NetBeansFormatterStrategy;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * Delegation class for calling the activated external formatter or the internal
- * NetBeans formatter if the external formatters are deactivated.
+ * Delegation class for calling the activated external formatter, if no external formatter is
+ * activated nothing will be done.
  *
  * @author markiewb
  * @author bahlef
  */
 public class FormatterStrategyDispatcher {
 	private static final Logger log = Logger.getLogger(FormatterStrategyDispatcher.class.getName());
-
-	private final NetBeansFormatterStrategy netbeansStrategy = new NetBeansFormatterStrategy();
 
 	private static final ReentrantLock lock = new ReentrantLock();
 
@@ -70,8 +67,12 @@ public class FormatterStrategyDispatcher {
 	 * the values included in that {@link FormatterAdvice}.
 	 *
 	 * @param fa the {@link FormatterAdvice} containing detailed instruction on what to format
+	 *
+	 * @return {@code true} if and only if a external formatter was found to handle the given
+	 *         {@link FormatterAdvice} even if there was an error while formatting, otherwise
+	 *         {@code false}
 	 */
-	public void format(FormatterAdvice fa) {
+	public boolean format(FormatterAdvice fa) {
 		try {
 			final StyledDocument styledDoc = fa.getStyledDocument();
 
@@ -80,24 +81,24 @@ public class FormatterStrategyDispatcher {
 				try {
 					formatterStrategyService.format(fa);
 				} catch (FileTypeNotSupportedException ex) {
-					log.log(Level.FINE, "Could not use " + formatterStrategyService.getDisplayName() + " for given document", ex);
-
-					// fallback to NetBeans formatter, but should never happen because of canHandle call before
-					netbeansStrategy.format(fa);
+					// Should never be thrown, should already be checked by canHandle call
+					log.log(Level.WARNING, "Could not use " + formatterStrategyService.getDisplayName() + " for given document", ex);
 				}
-			} else {
-				netbeansStrategy.format(fa);
+
+				return true;
 			}
 		} catch (Exception e) {
 			Exceptions.printStackTrace(e);
 		}
+
+		return false;
 	}
 
 	/**
 	 * Returns the continuation indent size configured by the formatter which is
 	 * activated for the given {@link Document}, or {@code null} if the internal
 	 * NetBeans code formatter is used for the given {@code document}.
-	 * 
+	 *
 	 * @param document the {@link Document} for which the continuation indent size
 	 *                 is requested
 	 *
@@ -122,7 +123,7 @@ public class FormatterStrategyDispatcher {
 	 * Returns the indent size configured by the formatter which is activated for
 	 * the given {@link Document}, or {@code null} if the internal NetBeans code
 	 * formatter is used for the given {@code document}.
-	 * 
+	 *
 	 * @param document the {@link Document} for which the indent size is requested
 	 *
 	 * @return the indent size configured by the formatter which is activated for
@@ -147,7 +148,7 @@ public class FormatterStrategyDispatcher {
 	 * by the formatter which is activated for the given {@link Document}, or
 	 * {@code null} if the internal NetBeans code formatter is used for the given
 	 * {@code document}.
-	 * 
+	 *
 	 * @param document the {@link Document} for which the right margin is requested
 	 *
 	 * @return the right margin (position of the red line in the editor) configured
@@ -172,7 +173,7 @@ public class FormatterStrategyDispatcher {
 	 * Returns the spaces per tab configured by the formatter which is activated
 	 * for the given {@link Document}, or {@code null} if the internal NetBeans
 	 * code formatter is used for the given {@code document}.
-	 * 
+	 *
 	 * @param document the {@link Document} for which the spaces per tab is requested
 	 *
 	 * @return the spaces per tab configured by the formatter which is activated
@@ -194,7 +195,7 @@ public class FormatterStrategyDispatcher {
 
 	private IFormatterStrategyService getActiveFormatterStrategyService(Document document) {
 		Preferences prefs = Settings.getActivePreferences(document);
-		String activeFormatterStrategyId = prefs.get(Settings.ENABLED_FORMATTER, NetBeansFormatterStrategy.ID);
+		String activeFormatterStrategyId = prefs.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
 
 		Collection<? extends IFormatterStrategyService> formatterStrategyServices = Lookup.getDefault().lookupAll(IFormatterStrategyService.class);
 		for (IFormatterStrategyService formatterStrategyService : formatterStrategyServices) {
@@ -210,7 +211,7 @@ public class FormatterStrategyDispatcher {
 	 * Returns the expand tab to spaces flag configured by the formatter which is
 	 * activated for the given {@link Document}, or {@code null} if the internal
 	 * NetBeans code formatter is used for the given {@code document}.
-	 * 
+	 *
 	 * @param document the {@link Document} for which the expand tab to spaces flag is requested
 	 *
 	 * @return the expand tab to spaces flag configured by the formatter which is
