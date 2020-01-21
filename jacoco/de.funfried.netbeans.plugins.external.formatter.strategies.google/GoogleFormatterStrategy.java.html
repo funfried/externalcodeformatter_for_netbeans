@@ -49,25 +49,16 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	public boolean canHandle(Document document) {
 		// Cannot handle guarded blocks properly due to a bug in the Google Java Code Formatter:
 		// https://github.com/google/google-java-format/issues/433
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">		if (document instanceof StyledDocument) {</span>
-<span class="fc" id="L53">			StyledDocument styledDoc = (StyledDocument) document;</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">		if (document instanceof StyledDocument) {</span>
+<span class="nc" id="L53">			StyledDocument styledDoc = (StyledDocument) document;</span>
 
-<span class="pc bpc" id="L55" title="1 of 2 branches missed.">			if (GuardedSectionManager.getInstance(styledDoc) != null) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">			if (GuardedSectionManager.getInstance(styledDoc) != null) {</span>
 <span class="nc" id="L56">				return false;</span>
 			}
 		}
 
-<span class="fc" id="L60">		return super.canHandle(document);</span>
+<span class="nc" id="L60">		return super.canHandle(document);</span>
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void format(StyledDocument document, int dot, int mark, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L68">		GoogleFormatterRunnable formatterRunnable = new GoogleFormatterRunnable(document, formatter, dot, mark, changedElements);</span>
-<span class="fc" id="L69">		formatterRunnable.run();</span>
-<span class="fc" id="L70">	}</span>
 
 	/**
 	 * {@inheritDoc}
@@ -75,7 +66,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@NotNull
 	@Override
 	public String getDisplayName() {
-<span class="nc" id="L78">		return NbBundle.getMessage(GoogleFormatterStrategy.class, &quot;FormatterName&quot;);</span>
+<span class="nc" id="L69">		return NbBundle.getMessage(GoogleFormatterStrategy.class, &quot;FormatterName&quot;);</span>
 	}
 
 	/**
@@ -84,7 +75,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@NotNull
 	@Override
 	public String getId() {
-<span class="fc" id="L87">		return ID;</span>
+<span class="nc" id="L78">		return ID;</span>
 	}
 
 	/**
@@ -93,26 +84,26 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@Null
 	@Override
 	public Integer getContinuationIndentSize(Document document) {
-<span class="nc bnc" id="L96" title="All 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L97">			return null;</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L88">			return null;</span>
 		}
 
-<span class="nc" id="L100">		Integer ret = null;</span>
+<span class="nc" id="L91">		Integer ret = null;</span>
 
-<span class="nc" id="L102">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="nc bnc" id="L103" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="nc" id="L104">			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
-<span class="nc" id="L105">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
-<span class="nc bnc" id="L106" title="All 2 branches missed.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
+<span class="nc" id="L93">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="nc" id="L95">			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="nc" id="L96">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
 				// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent
-<span class="nc" id="L108">				ret = 4;</span>
+<span class="nc" id="L99">				ret = 4;</span>
 			} else {
 				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-<span class="nc" id="L111">				ret = 8;</span>
+<span class="nc" id="L102">				ret = 8;</span>
 			}
 		}
 
-<span class="nc" id="L115">		return ret;</span>
+<span class="nc" id="L106">		return ret;</span>
 	}
 
 	/**
@@ -121,26 +112,26 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@Null
 	@Override
 	public Integer getIndentSize(Document document) {
-<span class="nc bnc" id="L124" title="All 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L125">			return null;</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L116">			return null;</span>
 		}
 
-<span class="nc" id="L128">		Integer ret = null;</span>
+<span class="nc" id="L119">		Integer ret = null;</span>
 
-<span class="nc" id="L130">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="nc bnc" id="L131" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="nc" id="L132">			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
-<span class="nc" id="L133">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
-<span class="nc bnc" id="L134" title="All 2 branches missed.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
+<span class="nc" id="L121">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="nc" id="L123">			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="nc" id="L124">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
 				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-<span class="nc" id="L136">				ret = 2;</span>
+<span class="nc" id="L127">				ret = 2;</span>
 			} else {
 				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-<span class="nc" id="L139">				ret = 4;</span>
+<span class="nc" id="L130">				ret = 4;</span>
 			}
 		}
 
-<span class="nc" id="L143">		return ret;</span>
+<span class="nc" id="L134">		return ret;</span>
 	}
 
 	/**
@@ -149,24 +140,32 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@Null
 	@Override
 	public Integer getRightMargin(Document document) {
-<span class="nc bnc" id="L152" title="All 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L153">			return null;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L144">			return null;</span>
 		}
 
 		Integer ret;
 
-<span class="nc" id="L158">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="nc" id="L159">		String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
-<span class="nc" id="L160">		JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
-<span class="nc bnc" id="L161" title="All 2 branches missed.">		if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
+<span class="nc" id="L149">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="nc" id="L150">		String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="nc" id="L151">		JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">		if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
 			// see: https://google.github.io/styleguide/javaguide.html#s4.4-column-limit
-<span class="nc" id="L163">			ret = 100;</span>
+<span class="nc" id="L154">			ret = 100;</span>
 		} else {
 			// see: https://source.android.com/setup/contribute/code-style#limit-line-length
-<span class="nc" id="L166">			ret = 100;</span>
+<span class="nc" id="L157">			ret = 100;</span>
 		}
 
-<span class="nc" id="L169">		return ret;</span>
+<span class="nc" id="L160">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Runnable getRunnable(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
+<span class="fc" id="L168">		return new GoogleFormatterRunnable(document, formatter, changedElements);</span>
 	}
 
 	/**
@@ -175,30 +174,30 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@Null
 	@Override
 	public Integer getSpacesPerTab(Document document) {
-<span class="nc bnc" id="L178" title="All 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L179">			return null;</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L178">			return null;</span>
 		}
 
-<span class="nc" id="L182">		Integer ret = null;</span>
+<span class="nc" id="L181">		Integer ret = null;</span>
 
-<span class="nc" id="L184">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="nc bnc" id="L185" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="nc bnc" id="L186" title="All 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
-<span class="nc" id="L187">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+<span class="nc" id="L183">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="nc" id="L186">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
 			} else {
-<span class="nc" id="L189">				String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
-<span class="nc" id="L190">				JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
-<span class="nc bnc" id="L191" title="All 2 branches missed.">				if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
+<span class="nc" id="L188">				String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="nc" id="L189">				JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">				if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
 					// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-<span class="nc" id="L193">					ret = 2;</span>
+<span class="nc" id="L192">					ret = 2;</span>
 				} else {
 					// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-<span class="nc" id="L196">					ret = 4;</span>
+<span class="nc" id="L195">					ret = 4;</span>
 				}
 			}
 		}
 
-<span class="nc" id="L201">		return ret;</span>
+<span class="nc" id="L200">		return ret;</span>
 	}
 
 	/**
@@ -207,30 +206,30 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@Null
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
-<span class="nc bnc" id="L210" title="All 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L211">			return null;</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L210">			return null;</span>
 		}
 
-<span class="nc" id="L214">		Boolean ret = null;</span>
+<span class="nc" id="L213">		Boolean ret = null;</span>
 
-<span class="nc" id="L216">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="nc bnc" id="L217" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="nc" id="L218">			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
-<span class="nc" id="L219">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
-<span class="nc bnc" id="L220" title="All 2 branches missed.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
+<span class="nc" id="L215">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="nc" id="L217">			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="nc" id="L218">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
 				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-<span class="nc" id="L222">				ret = false;</span>
+<span class="nc" id="L221">				ret = false;</span>
 			} else {
 				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-<span class="nc" id="L225">				ret = false;</span>
+<span class="nc" id="L224">				ret = false;</span>
 			}
 		}
 
-<span class="nc" id="L229">		return ret;</span>
+<span class="nc" id="L228">		return ret;</span>
 	}
 
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="nc" id="L233">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="nc" id="L232">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

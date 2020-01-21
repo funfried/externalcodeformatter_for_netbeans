@@ -11,9 +11,7 @@ package de.funfried.netbeans.plugins.external.formatter.strategies;
 
 import java.util.SortedSet;
 
-import javax.swing.SwingUtilities;
 import javax.swing.text.Document;
-import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -25,51 +23,33 @@ import de.funfried.netbeans.plugins.external.formatter.Utils;
  *
  * @author bahlef
  */
-<span class="fc" id="L28">public abstract class AbstractJavaFormatterStrategy implements IFormatterStrategyService {</span>
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void format(FormatterAdvice fa) {
-<span class="pc bpc" id="L34" title="1 of 2 branches missed.">		int _dot = !fa.isForSave() ? fa.getSelectionStart() : -1;</span>
-<span class="pc bpc" id="L35" title="1 of 2 branches missed.">		int _mark = !fa.isForSave() ? fa.getSelectionEnd() : -1;</span>
-
-<span class="fc" id="L37">		format(fa.getStyledDocument(), _dot, _mark, fa.getChangedElements());</span>
-
-<span class="fc" id="L39">		JTextComponent editor = fa.getEditor();</span>
-<span class="pc bpc" id="L40" title="1 of 2 branches missed.">		if (editor != null) {</span>
-<span class="nc" id="L41">			SwingUtilities.invokeLater(() -&gt; {</span>
-				//Set caret after the formatting, if possible
-<span class="nc bnc" id="L43" title="All 2 branches missed.">				if (fa.getCaret() &gt; 0) {</span>
-<span class="nc" id="L44">					final int car = Math.max(0, Math.min(fa.getCaret(), editor.getDocument().getLength()));</span>
-<span class="nc" id="L45">					editor.setCaretPosition(car);</span>
-<span class="nc" id="L46">					editor.requestFocus();</span>
-<span class="nc" id="L47">					editor.requestFocusInWindow();</span>
-				}
-<span class="nc" id="L49">			});</span>
-		}
-<span class="fc" id="L51">	}</span>
-
-	/**
-	 * Formats the content of the given {@link StyledDocument} in respect to the given parameters.
-	 *
-	 * @param document        the {@link StyledDocument}
-	 * @param dot             start offset for formatting, will be ignored if {@code changedElements} are provided
-	 * @param mark            end offset for formatting, will be ignored if {@code changedElements} are provided
-	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
-	 */
-	protected abstract void format(StyledDocument document, int dot, int mark, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements);
-
+<span class="fc" id="L26">public abstract class AbstractJavaFormatterStrategy implements IFormatterStrategyService {</span>
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean canHandle(Document document) {
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">		if (!Utils.isJava(document)) {</span>
-<span class="nc" id="L69">			return false;</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">		if (!Utils.isJava(document)) {</span>
+<span class="nc" id="L33">			return false;</span>
 		}
 
-<span class="fc" id="L72">		return true;</span>
+<span class="nc" id="L36">		return true;</span>
 	}
+
+	/**
+	 * Returns the runnable which implements the format logic.
+	 *
+	 * @param document        the {@link StyledDocument} which should be formatted
+	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
+	 */
+	protected abstract Runnable getRunnable(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements);
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void format(FormatterAdvice fa) {
+<span class="fc" id="L52">		getRunnable(fa.getStyledDocument(), fa.getChangedElements()).run();</span>
+<span class="fc" id="L53">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -4,10 +4,8 @@ de.funfried.netbeans.plugins.external.formatter.strategies
 de.funfried.netbeans.plugins.external.formatter.strategies.eclipse
 de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml
 de.funfried.netbeans.plugins.external.formatter.strategies.google
-de.funfried.netbeans.plugins.external.formatter.strategies.netbeans
 de.funfried.netbeans.plugins.external.formatter.ui
-de.funfried.netbeans.plugins.external.formatter.ui.actions
 de.funfried.netbeans.plugins.external.formatter.ui.customizer
 de.funfried.netbeans.plugins.external.formatter.ui.editor
+de.funfried.netbeans.plugins.external.formatter.ui.editor.diff
 de.funfried.netbeans.plugins.external.formatter.ui.options
-de.funfried.netbeans.plugins.external.formatter.ui.tasks
