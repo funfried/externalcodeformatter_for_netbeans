@@ -40,8 +40,6 @@ public abstract class AbstractJavaFormatterStrategy implements IFormatterStrateg
 	 * Returns the runnable which implements the format logic.
 	 *
 	 * @param document        the {@link StyledDocument} which should be formatted
-	 * @param dot             start offset for formatting, will be ignored if {@code changedElements} are provided
-	 * @param mark            end offset for formatting, will be ignored if {@code changedElements} are provided
 	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
 	 */
 	protected abstract Runnable getRunnable(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements);

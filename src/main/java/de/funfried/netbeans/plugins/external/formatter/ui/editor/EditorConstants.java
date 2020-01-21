@@ -42,8 +42,8 @@ public interface EditorConstants {
 
 	/**
 	 * Shift-width says how many spaces should the formatter use
-	 * to indent the more inner level of code. This setting is independent of <tt>TAB_SIZE</tt>
-	 * and <tt>SPACES_PER_TAB</tt>.
+	 * to indent the more inner level of code. This setting is independent of TAB_SIZE
+	 * and SPACES_PER_TAB.
 	 * Values: java.lang.Integer instances
 	 */
 	public static final String INDENT_SHIFT_WIDTH = "indent-shift-width";
@@ -51,7 +51,7 @@ public interface EditorConstants {
 	/**
 	 * Continuation ident size says how many spaces should the formatter use
 	 * to indent after a new line of the more inner level of code. This setting
-	 * is independent of <tt>TAB_SIZE</tt> and <tt>SPACES_PER_TAB</tt>.
+	 * is independent of TAB_SIZE and SPACES_PER_TAB.
 	 * Values: java.lang.Integer instances
 	 */
 	public static final String CONTINUATION_INDENT_SIZE = "continuationIndentSize";
