@@ -26,8 +26,9 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormat
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * @Todo Fix test:
- *       It seems none og the IFormatterStrategyServices is registered in the default lookup while the tests are running
+ * Todo: Fix test
+ * It seems none og the IFormatterStrategyServices is registered in the default
+ * lookup while the tests are running.
  *
  * @author bahlef
  */
