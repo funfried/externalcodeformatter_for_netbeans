@@ -46,7 +46,6 @@ public class Diff {
 	/**
 	 * @param r1      {@link Reader} from the first source
 	 * @param r2      {@link Reader} from the second source
-	 * @param options additional paremeters for the diff algorithm
 	 *
 	 * @return computed diff
 	 *
@@ -59,7 +58,7 @@ public class Diff {
 	/**
 	 * @param lines1  array of lines from the first source
 	 * @param lines2  array of lines from the second source
-	 * @param options additional paremeters for the diff algorithm
+	 *
 	 * @return computed diff
 	 */
 	public static Difference[] diff(String[] lines1, String[] lines2) {

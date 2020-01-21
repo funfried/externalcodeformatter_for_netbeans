@@ -34,21 +34,14 @@ import de.funfried.netbeans.plugins.external.formatter.ui.editor.diff.Diff;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * Abstract implementation of the formatter {@link Runnable}. The following breakpoints
- * are getting reattached if configured:
- * <ul>
- * <li>{@link ClassLoadUnloadBreakpoint}</li>
- * <li>{@link FieldBreakpoint}</li>
- * <li>{@link MethodBreakpoint}</li>
- * <li>{@link LineBreakpoint}</li>
- * </ul>
+ * Abstract implementation of the formatter {@link Runnable}.
  *
  * @author bahlef
  */
 public abstract class AbstractFormatterRunnable implements Runnable {
 	private static final Logger log = Logger.getLogger(AbstractFormatterRunnable.class.getName());
 
-	private static final Level logLevel = Level.WARNING;
+	private static final Level logLevel = Level.FINER;
 
 	/** {@link SortedSet} containing document offset ranges which should be formatted. */
 	protected final SortedSet<Pair<Integer, Integer>> changedElements;
@@ -60,8 +53,6 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 * Constructor which has to be used by subclasses.
 	 *
 	 * @param document        the {@link StyledDocument} from which the content should be formatted
-	 * @param startOffset     the start offset, will be set to zero if equal to {@code endOffset}
-	 * @param endOffset       the end offset, will be set to the documents length minus one if equal to {@code startOffset}
 	 * @param changedElements {@link SortedSet} containing document offset ranges which should be formatted or {@code null} to format the whole document
 	 */
 	protected AbstractFormatterRunnable(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
@@ -70,10 +61,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	}
 
 	/**
-	 * Applies the given {@code formattedContent} to the {@code document}. If
-	 * {@code preserveBreakpoints} is {@code true} the {@link ClassLoadUnloadBreakpoint},
-	 * {@link FieldBreakpoint}, {@link MethodBreakpoint} and {@link LineBreakpoint} will
-	 * be preserved.
+	 * Applies the given {@code formattedContent} to the {@code document}.
 	 *
 	 * @param code             the previous (unformatted) content
 	 * @param formattedContent the formatted code
@@ -93,17 +81,12 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 				Difference[] differences = Diff.diff(original, formatted);
 				if (differences != null) {
 					for (Difference d : differences) {
-						log.log(logLevel, "DIFF {0}: {1} => {2} ({3}-{4} => {5}-{6})",
-								new Object[] { d.getType(), d.getFirstText(), d.getSecondText(), d.getFirstStart(), d.getFirstEnd(), d.getSecondStart(), d.getSecondEnd() });
-
 						switch (d.getType()) {
 							case Difference.ADD: {
 								int startLine = d.getSecondStart();
 								int start = NbDocument.findLineOffset(document, startLine - 1);
 
 								String addText = d.getSecondText();
-
-								log.log(logLevel, "ADD: " + start + " - " + addText.length() + " (" + startLine + ")");
 
 								document.insertString(start, addText, null);
 
@@ -113,8 +96,6 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 								int startLine = d.getSecondStart();
 								int start = NbDocument.findLineOffset(document, startLine - 1);
 								int length = d.getFirstText().length();
-
-								log.log(logLevel, "CHANGE: " + start + " - " + length + " (" + startLine + ")");
 
 								String addText = d.getSecondText();
 
@@ -127,8 +108,6 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 								int startLine = d.getSecondStart();
 								int start = NbDocument.findLineOffset(document, startLine - 1);
 								int length = d.getFirstText().length();
-
-								log.log(logLevel, "DELETE: " + start + " - " + length + " (" + startLine + ")");
 
 								document.remove(start, length);
 
@@ -175,15 +154,12 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 
 	/**
 	 * Returns a {@link SortedSet} within ranges as {@link Pair}s of {@link Integer}s
-	 * which describe the start and end offsets which can be formatted in respect to
-	 * the given {@link GuardedSectionManager}.
+	 * which describe the start and end offsets which can be formatted.
 	 *
 	 * @param code   the current unformatted content of the {@link document}
-	 * @param guards the {@link GuardedSectionManager} of the {@link document}
 	 *
 	 * @return A {@link SortedSet} within ranges as {@link Pair}s of {@link Integer}s
-	 *         which describe the start and end offsets which can be formatted in respect to
-	 *         the given {@link GuardedSectionManager}
+	 *         which describe the start and end offsets which can be formatted
 	 */
 	protected SortedSet<Pair<Integer, Integer>> getFormatableSections(String code) {
 		SortedSet<Pair<Integer, Integer>> regions = changedElements;
