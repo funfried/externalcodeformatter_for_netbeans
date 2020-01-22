@@ -3,7 +3,7 @@
 [![Linux Build Status](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master)](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans)
 [![Windows Build status](https://ci.appveyor.com/api/projects/status/j3cd0dwqlyu0iv2y?svg=true)](https://ci.appveyor.com/project/funfried/externalcodeformatter_for_netbeans)
 [![Coverage Status](https://coveralls.io/repos/github/funfried/externalcodeformatter_for_netbeans/badge.svg?branch=master)](https://coveralls.io/github/funfried/externalcodeformatter_for_netbeans?branch=master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter_for_netbeans/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter_for_netbeans/)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/)
 ![GitHub All Releases](https://img.shields.io/github/downloads/funfried/externalcodeformatter_for_netbeans/total)
 ![GitHub issues](https://img.shields.io/github/issues/funfried/externalcodeformatter_for_netbeans)
 [![Eclipse Public License, Version 2.0](https://img.shields.io/badge/license-EPL%20v2.0-green)](http://funfried.github.io/externalcodeformatter_for_netbeans/licenses.html)
