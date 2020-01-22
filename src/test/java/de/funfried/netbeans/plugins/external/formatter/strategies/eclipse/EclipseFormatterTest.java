@@ -9,6 +9,7 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 
+import java.io.File;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -18,8 +19,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
-import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
@@ -274,7 +275,7 @@ public class EclipseFormatterTest {
 		try {
 			instance.format("src/test/resources/notexistent.xml", "myProfile", text, null, null, null);
 		} catch (CannotLoadConfigurationException e) {
-			Assert.assertEquals(true, e.getMessage().contains("src/test/resources/notexistent.xml"));
+			Assert.assertEquals(true, e.getMessage().contains("src" + File.separator + "test" + File.separator + "resources" + File.separator + "notexistent.xml"));
 		}
 	}
 
