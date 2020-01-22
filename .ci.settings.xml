@@ -26,6 +26,7 @@
 		<profile>
 			<id>ci</id>
 			<properties>
+				<repoToken>${env.repoToken}</repoToken>
 				<gpg.passphrase>${env.signing_keypass}</gpg.passphrase>
 			</properties>
 			<repositories>
