@@ -1,7 +1,7 @@
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url)
 
 [![Linux Build Status](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master)](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans)
-[![Windows Build status](https://ci.appveyor.com/api/projects/status/j3cd0dwqlyu0iv2y?svg=true)](https://ci.appveyor.com/project/funfried/externalcodeformatter_for_netbeans)
+[![Windows Build Status](https://ci.appveyor.com/api/projects/status/kva6pnb5se94t1wu?svg=true)](https://ci.appveyor.com/project/funfried/externalcodeformatter-for-netbeans)
 [![Coverage Status](https://coveralls.io/repos/github/funfried/externalcodeformatter_for_netbeans/badge.svg?branch=master)](https://coveralls.io/github/funfried/externalcodeformatter_for_netbeans?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/)
 ![GitHub All Releases](https://img.shields.io/github/downloads/funfried/externalcodeformatter_for_netbeans/total)
