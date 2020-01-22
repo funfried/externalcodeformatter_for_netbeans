@@ -842,6 +842,15 @@
 					<plugin>
 						<groupId>org.eluder.coveralls</groupId>
 						<artifactId>coveralls-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>deploy-report</id>
+								<phase>deploy</phase>
+								<goals>
+									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
 						<configuration>
 							<scanForSources>true</scanForSources>
 							<sourceDirectories>
