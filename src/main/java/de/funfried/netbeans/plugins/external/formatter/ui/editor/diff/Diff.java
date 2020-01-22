@@ -295,26 +295,22 @@ public class Diff {
 	}
 
 	private static class Line {
-		public int lineNo;
+		private final int lineNo;
 
-		public String line;
-
-		public int hash;
+		private final String line;
 
 		public Line(int lineNo, String line) {
 			this.lineNo = lineNo;
 			this.line = line;
-			this.hash = line.hashCode();
 		}
-
 	}
 
 	private static class Candidate {
-		private int a;
+		private final int a;
 
-		private int b;
+		private final int b;
 
-		private Candidate c;
+		private final Candidate c;
 
 		public Candidate(int a, int b, Candidate c) {
 			this.a = a;
