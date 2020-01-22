@@ -25,4 +25,4 @@ install:
   - cmd: mvn --version
   - cmd: java -version
 build_script:
-  - cp .travis.settings.xml $HOME/.m2/settings.xml && mvn clean package site
+  - cp .travis.settings.xml %HOMEPATH%/.m2/settings.xml && mvn clean package site
