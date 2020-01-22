@@ -9,3 +9,4 @@ before_install:
 - echo $signing_ownertrust | base64 --decode | gpg --import-ownertrust
 install: echo "Skipping pre-fetch of maven dependencies"
 script: cp .ci.settings.xml $HOME/.m2/settings.xml && mvn --no-transfer-progress -Prelease-commons,sonatype-oss-release clean deploy site site:stage scm-publish:publish-scm && mvn --no-transfer-progress -Prelease-commons,github deploy
+after_success: mvn -Ptravis jacoco:merge jacoco:report coveralls:report
