@@ -8,4 +8,4 @@ before_install:
 - echo $signing_secret_key | base64 --decode | gpg --import
 - echo $signing_ownertrust | base64 --decode | gpg --import-ownertrust
 install: echo "Skipping pre-fetch of maven dependencies"
-script: cp .ci.settings.xml $HOME/.m2/settings.xml && mvn -Prelease-commons,sonatype-oss-release clean deploy site site:stage scm-publish:publish-scm && mvn -Prelease-commons,github deploy
+script: cp .ci.settings.xml $HOME/.m2/settings.xml && mvn --no-transfer-progress -Prelease-commons,sonatype-oss-release clean deploy site site:stage scm-publish:publish-scm && mvn --no-transfer-progress -Prelease-commons,github deploy
