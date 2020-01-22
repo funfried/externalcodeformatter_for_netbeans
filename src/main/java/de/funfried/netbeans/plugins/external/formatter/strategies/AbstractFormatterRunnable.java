@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2016 markiewb.
+ * Copyright (c) 2020 bahlef.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -34,13 +34,16 @@ import de.funfried.netbeans.plugins.external.formatter.ui.editor.diff.Diff;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * Abstract implementation of the formatter {@link Runnable}.
+ * Abstract implementation of the formatter {@link Runnable} which is called by the
+ * {@link IFormatterStrategy} where this implementation belongs to.
  *
  * @author bahlef
  */
 public abstract class AbstractFormatterRunnable implements Runnable {
+	/** {@link Logger} of this class. */
 	private static final Logger log = Logger.getLogger(AbstractFormatterRunnable.class.getName());
 
+	/** Log {@link Level} for fast switching while investigating issues. */
 	private static final Level logLevel = Level.FINER;
 
 	/** {@link SortedSet} containing document offset ranges which should be formatted. */
@@ -154,9 +157,10 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 
 	/**
 	 * Returns a {@link SortedSet} within ranges as {@link Pair}s of {@link Integer}s
-	 * which describe the start and end offsets which can be formatted.
+	 * which describe the start and end offsets which can be formatted, it automatically
+	 * checks for guarded sections and removes them before returning the {@link SortedSet}.
 	 *
-	 * @param code   the current unformatted content of the {@link document}
+	 * @param code the current unformatted content of the {@link document}
 	 *
 	 * @return A {@link SortedSet} within ranges as {@link Pair}s of {@link Integer}s
 	 *         which describe the start and end offsets which can be formatted

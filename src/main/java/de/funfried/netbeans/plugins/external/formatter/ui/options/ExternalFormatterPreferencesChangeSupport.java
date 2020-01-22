@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 bahlef.
+ * Copyright (c) 2020 bahlef.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ import org.openide.util.ChangeSupport;
 import org.openide.util.lookup.ServiceProvider;
 
 /**
+ * Holder of a {@link ChangeSupport} to fire and listen on property changes.
  *
  * @author bahlef
  */

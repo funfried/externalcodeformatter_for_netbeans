@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 bahlef.
+ * Copyright (c) 2020 bahlef.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -136,6 +136,7 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 	}
 
 	private static class TemporaryDocumentPreferences extends Preferences {
+		/** {@link Logger} of this class. */
 		private static final Logger log = Logger.getLogger(TemporaryDocumentPreferences.class.getName());
 
 		private final ChangeListener cl = new ChangeListener() {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2016 markiewb.
+ * Copyright (c) 2020 bahlef.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -38,8 +38,10 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 })
 @ServiceProvider(service = IFormatterStrategyService.class)
 public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
+	/** The ID of this formatter strategy. */
 	public static final String ID = "google-java-formatter";
 
+	/** The {@link GoogleFormatter} implementation. */
 	private final GoogleFormatter formatter = new GoogleFormatter();
 
 	/**
@@ -228,6 +230,15 @@ public class GoogleFormatterStrategy extends AbstractJavaFormatterStrategy {
 		return ret;
 	}
 
+	/**
+	 * Returns {@code true} if using the formatter indentation settings from the external
+	 * formatter is activated, otherwise {@code false}.
+	 *
+	 * @param prefs the {@link Preferences} where to check
+	 *
+	 * @return {@code true} if using the formatter indentation settings from the external
+	 *         formatter is activated, otherwise {@code false}
+	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
 		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 	}

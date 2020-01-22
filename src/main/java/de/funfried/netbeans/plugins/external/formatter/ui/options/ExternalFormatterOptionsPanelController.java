@@ -22,6 +22,11 @@ import org.openide.util.Lookup;
 import org.openide.util.NbPreferences;
 import org.openide.util.WeakListeners;
 
+/**
+ * {@link OptionsPanelController} implementation for the {@link ExternalFormatterPanel}.
+ *
+ * @author markiewb
+ */
 @OptionsPanelController.SubRegistration(id = "de.funfried.netbeans.plugins.external.formatter.ui.options", location = "Java", displayName = "#AdvancedOption_DisplayName_ExternalFormatter", keywords = "#AdvancedOption_Keywords_ExternalFormatter", keywordsCategory = "Java/ExternalFormatter")
 @org.openide.util.NbBundle.Messages({ "AdvancedOption_DisplayName_ExternalFormatter=External Formatter", "AdvancedOption_Keywords_ExternalFormatter=External Formatter" })
 public final class ExternalFormatterOptionsPanelController extends OptionsPanelController implements ChangeListener {
@@ -89,6 +94,11 @@ public final class ExternalFormatterOptionsPanelController extends OptionsPanelC
 		return createOrGetPanel();
 	}
 
+	/**
+	 * Returns the cached {@link ExternalFormatterPanel} or creates a new one and caches it for the next call.
+	 *
+	 * @return the cached {@link ExternalFormatterPanel} or creates a new one and caches it for the next call
+	 */
 	private ExternalFormatterPanel createOrGetPanel() {
 		if (null == panel) {
 			Preferences globalPreferences = NbPreferences.forModule(ExternalFormatterPanel.class);

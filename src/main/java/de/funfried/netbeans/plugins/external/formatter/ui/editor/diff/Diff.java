@@ -25,6 +25,9 @@ import org.netbeans.api.diff.Difference;
  * @author bahlef
  */
 public class Diff {
+	/**
+	 * Private constructor due to static methods.
+	 */
 	private Diff() {
 	}
 
@@ -44,8 +47,8 @@ public class Diff {
 	}
 
 	/**
-	 * @param r1      {@link Reader} from the first source
-	 * @param r2      {@link Reader} from the second source
+	 * @param r1 {@link Reader} from the first source
+	 * @param r2 {@link Reader} from the second source
 	 *
 	 * @return computed diff
 	 *
@@ -56,8 +59,8 @@ public class Diff {
 	}
 
 	/**
-	 * @param lines1  array of lines from the first source
-	 * @param lines2  array of lines from the second source
+	 * @param lines1 array of lines from the first source
+	 * @param lines2 array of lines from the second source
 	 *
 	 * @return computed diff
 	 */

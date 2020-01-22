@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2016 markiewb.
+ * Copyright (c) 2020 bahlef.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -36,8 +36,16 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  * @author bahlef
  */
 class GoogleFormatterRunnable extends AbstractFormatterRunnable {
+	/** The {@link EclipGoogleFormatterseFormatter} implementation. */
 	private final GoogleFormatter formatter;
 
+	/**
+	 * Package private constructor to create a new instance of {@link GoogleFormatterRunnable}.
+	 *
+	 * @param document        the {@link StyledDocument} which sould be formatted
+	 * @param formatter       the {@link GoogleFormatter} to use
+	 * @param changedElements the ranges which should be formatted
+	 */
 	GoogleFormatterRunnable(StyledDocument document, GoogleFormatter formatter, SortedSet<Pair<Integer, Integer>> changedElements) {
 		super(document, changedElements);
 

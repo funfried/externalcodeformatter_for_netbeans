@@ -22,8 +22,10 @@ import org.apache.commons.lang3.tuple.Pair;
  * @author bahlef
  */
 public class FormatterAdvice {
+	/** The {@link StyledDocument} which should be formatted. */
 	private final StyledDocument styledDocument;
 
+	/** Defines ranges of offsets which should be formatted in the given document. */
 	private final SortedSet<Pair<Integer, Integer>> changedElements;
 
 	/**

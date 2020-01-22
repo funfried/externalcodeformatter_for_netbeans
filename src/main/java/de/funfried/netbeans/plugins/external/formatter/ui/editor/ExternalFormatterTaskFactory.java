@@ -17,13 +17,13 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.WeakHashMap;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.editor.mimelookup.MimeLookup;
@@ -40,12 +40,13 @@ import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
+ * Custom implementation of the {@link ReformatTask.Factory} which delegates the formatting
+ * tasks to the configured external formatter or to the internal NetBeans formatter.
  *
  * @author bahlef
  */
 public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
-	private static final Logger log = Logger.getLogger(ExternalFormatterTaskFactory.class.getName());
-
+	/** {@link Map} which acts as a cache for default implementations of the {@link ReformatTask.Factory}. */
 	private static final Map<MimePath, Reference<ReformatTask.Factory>> cache = new WeakHashMap<MimePath, Reference<ReformatTask.Factory>>();
 
 	/**
@@ -61,6 +62,9 @@ public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
 		Preferences prefs = Settings.getActivePreferences(document);
 		if (Settings.DEFAULT_FORMATTER.equals(prefs.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER))) {
 			ReformatTask wrapper = new ReformatTask() {
+				/**
+				 * {@inheritDoc}
+				 */
 				@Override
 				public void reformat() throws BadLocationException {
 					netbeansDefaultTask.reformat();
@@ -76,6 +80,9 @@ public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
 					});
 				}
 
+				/**
+				 * {@inheritDoc}
+				 */
 				@Override
 				public ExtraLock reformatLock() {
 					return netbeansDefaultTask.reformatLock();
@@ -136,6 +143,16 @@ public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
 
 	}
 
+	/**
+	 * Returns the cached default implementation of {@link ReformatTask.Factory}
+	 * for the given {@code mimePath}.
+	 *
+	 * @param mimePath the mime path for which to get the {@link ReformatTask.Factory}
+	 *
+	 * @return the cached default implementation of {@link ReformatTask.Factory}
+	 *         for the given {@code mimePath}
+	 */
+	@NotNull
 	private ReformatTask.Factory getDefaultForMimePath(String mimePath) {
 		MimePath mp = MimePath.get(mimePath);
 		Reference<ReformatTask.Factory> ref = cache.get(mp);

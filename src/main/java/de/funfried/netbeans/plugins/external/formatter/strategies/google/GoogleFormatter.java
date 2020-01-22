@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 markiewb.
+ * Copyright (c) 2020 bahlef.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -27,6 +27,9 @@ import com.google.googlejavaformat.java.JavaFormatterOptions;
  * @author bahlef
  */
 public final class GoogleFormatter {
+	/**
+	 * Package private Constructor for creating a new instance of {@link GoogleFormatter}.
+	 */
 	GoogleFormatter() {
 	}
 

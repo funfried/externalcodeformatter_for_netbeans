@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document xmlns="http://maven.apache.org/XDOC/2.0"
-			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
 	<properties>
 		<title>About</title>
@@ -39,16 +39,13 @@
 		</section>
 		<section name="Current features">
 			<ul>
+				<li>Makes use of the internal NetBeans formatting API, which makes it possible to reuse built-in features like the format on save action or format only selected lines, ... (since 1.13)</li>
 				<li>Global configuration and project specific configuration</li>
-				<li>On save action (Disabled by default)</li>
 				<li>Shows the used formatter in a notification (Disabled by default)</li>
 				<li>Supports Eclipse formatter profiles (since 1.6)</li>
-				<li>Supports format of selected text (since 1.7)</li>
-				<li>Preserve breakpoints (experimental) (since 1.8)</li>
 				<li>Code templates for @formatter:on/off (since 1.9)</li>
 				<li>Supports <a href="https://code.google.com/a/eclipselabs.org/p/workspacemechanic/">Workspace Mechanic</a> configuration file (since 1.10)</li>
 				<li>Support configuration from .settings/org.eclipse.jdt.core.prefs (absolute and relative paths) (since 1.10)</li>
-				<li>On save action: Introduced option for formatting only the changed lines (since 1.10)</li>
 				<li>Support configuration of linefeed (since 1.10)</li>
 				<li>Support for macro invocation (since 1.12)</li>
 				<li>Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted), only for Eclipse Java Code Formatter (since 1.13)</li>
@@ -69,7 +66,7 @@
 					that idea and
 					<a href="https://blogs.oracle.com/geertjan/entry/eclipse_formatter_for_netbeans_ide">
 						put everything together</a> to create a first NetBeans Plugin out of this idea
-					</li>
+				</li>
 				<li>
 					This was then <a href="https://github.com/markiewb/eclipsecodeformatter_for_netbeans/">forked</a>
 					by <a href="https://github.com/markiewb">Benno Markiewicz</a>

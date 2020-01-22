@@ -24,6 +24,7 @@ import org.openide.loaders.DataObject;
 import org.openide.util.NbPreferences;
 
 /**
+ * Settings utility class.
  *
  * @author markiewb
  * @author bahlef

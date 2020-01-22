@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 bahlef.
+ * Copyright (c) 2020 bahlef.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 import org.xml.sax.SAXException;
@@ -34,14 +35,18 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  *
  * @author bahlef
  */
-public class EclipseFormatterConfig {
+public final class EclipseFormatterConfig {
+	/** {@link Logger} of this class. */
 	private static final Logger log = Logger.getLogger(EclipseFormatterConfig.class.getName());
 
+	/** Prefix for workspace mechanic files. */
 	private static final String WORKSPACE_MECHANIC_PREFIX = "/instance/org.eclipse.jdt.core/";
 
+	/** Default configuration of the Eclipse Java formatter. */
 	@SuppressWarnings("unchecked")
 	private static final Map<String, String> ECLIPSE_JAVA_FORMATTER_DEFAULTS = DefaultCodeFormatterConstants.getJavaConventionsSettings();
 
+	/** {@link Map} holding the source level defaults for the Eclipse Java formatter. */
 	private static final Map<String, String> SOURCE_LEVEL_DEFAULTS = new LinkedHashMap<>();
 
 	static {
@@ -51,16 +56,25 @@ public class EclipseFormatterConfig {
 		SOURCE_LEVEL_DEFAULTS.put(JavaCore.COMPILER_SOURCE, level);
 	}
 
+	/**
+	 * Private constructor due to static methods only.
+	 */
 	private EclipseFormatterConfig() {
 	}
 
+	/**
+	 * Returns the source level options as a {@link Map}.
+	 *
+	 * @param sourceLevel the source level for which to get the options
+	 *
+	 * @return {@link IRegion}
+	 */
 	private static Map<String, String> getSourceLevelOptions(String sourceLevel) {
 		Map<String, String> options = new HashMap<>();
-		if (null != sourceLevel && !"".equals(sourceLevel)) {
-			String level = sourceLevel;
-			options.put(JavaCore.COMPILER_COMPLIANCE, level);
-			options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, level);
-			options.put(JavaCore.COMPILER_SOURCE, level);
+		if (StringUtils.isNotBlank(sourceLevel)) {
+			options.put(JavaCore.COMPILER_COMPLIANCE, sourceLevel);
+			options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, sourceLevel);
+			options.put(JavaCore.COMPILER_SOURCE, sourceLevel);
 		}
 
 		return options;
@@ -126,10 +140,35 @@ public class EclipseFormatterConfig {
 		return allConfig;
 	}
 
+	/**
+	 * Parses and returns the properties of the given {@code formatterProfile} inside the
+	 * given {@code formatterFile} into a key value {@link Map}.
+	 *
+	 * @param formatterFile    the configuration file
+	 * @param formatterProfile the profile which should be read from the configuration file
+	 * @return the properties of the given {@code formatterProfile} inside the
+	 *         given {@code formatterFile} as a key value {@link Map}
+	 *
+	 * @throws ConfigReadException      if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException if the given {@code profile} could not be found
+	 * @throws IOException              if there is an issue accessing the given configuration file
+	 * @throws SAXException             if there are parsing issues
+	 */
 	private static Map<String, String> readConfigFromFormatterXmlFile(String formatterFile, String formatterProfile) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
 		return ConfigReader.getProfileSettings(ConfigReader.toFileObject(formatterFile), formatterProfile);
 	}
 
+	/**
+	 * Parses and returns properties of the given workspace mechanic {@code formatterFile}
+	 * into a key value {@link Map}.
+	 *
+	 * @param formatterFile the workspace mechanic configuration file
+	 *
+	 * @return properties of the given workspace mechanic {@code formatterFile}
+	 *         as a key value {@link Map}
+	 *
+	 * @throws IOException if there is an issue accessing the given workspace mechanic configuration file
+	 */
 	private static Map<String, String> readConfigFromWorkspaceMechanicFile(String formatterFile) throws IOException {
 		Properties properties = new Properties();
 		try (FileInputStream is = new FileInputStream(formatterFile)) {
@@ -140,6 +179,17 @@ public class EclipseFormatterConfig {
 				.collect(Collectors.toMap(key -> ((String) key).substring(WORKSPACE_MECHANIC_PREFIX.length()), key -> properties.getProperty((String) key)));
 	}
 
+	/**
+	 * Parses and returns properties of the given project settings into a key
+	 * value {@link Map}.
+	 *
+	 * @param formatterFile the project settings file
+	 *
+	 * @return properties of the given project settings as a key value
+	 *         {@link Map}
+	 *
+	 * @throws IOException if there is an issue accessing the given project settings file
+	 */
 	private static Map<String, String> readConfigFromProjectSettings(final String formatterFile) throws IOException {
 		Properties properties = new Properties();
 		try (FileInputStream is = new FileInputStream(formatterFile)) {

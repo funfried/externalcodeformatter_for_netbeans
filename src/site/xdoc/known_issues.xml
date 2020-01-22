@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document xmlns="http://maven.apache.org/XDOC/2.0"
-			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
 	<properties>
 		<title>Known issues</title>
@@ -12,7 +12,8 @@
 		<section name="Known issues">
 			<ul>
 				<li>
-					Preserved breakpoints cannot be undone.
+					Updating the breakpoints after formatting acts not exactly the same way as for the internal
+					NetBeans formatter, but it's pretty close.
 				</li>
 				<li>
 					Guarded blocks are only supported when using the Eclipse Java Code Formatter, but not for

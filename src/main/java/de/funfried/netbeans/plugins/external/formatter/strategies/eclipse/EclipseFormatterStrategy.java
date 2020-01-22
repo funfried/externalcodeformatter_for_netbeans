@@ -38,8 +38,10 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 })
 @ServiceProvider(service = IFormatterStrategyService.class)
 public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
+	/** The ID of this formatter strategy. */
 	public static final String ID = "eclipse-java-formatter";
 
+	/** The {@link EclipseFormatter} implementation. */
 	private final EclipseFormatter formatter = new EclipseFormatter();
 
 	/**
@@ -118,8 +120,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 
 		Integer ret = null;
 
-		Preferences preferences = Settings.getActivePreferences(document);
-		String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.lineSplit");
+		String value = getEclipseFormatterProperty(null, document, "org.eclipse.jdt.core.formatter.lineSplit");
 		if (value != null) {
 			ret = Integer.valueOf(value);
 		}
@@ -162,9 +163,25 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 		return ret;
 	}
 
+	/**
+	 * Reads the configuration value of the Eclipse formatter configuration from a given
+	 * {@link Document} for the given {@code  key}.
+	 *
+	 * @param preferences the {@link Preferences} of the {@link Document} if already loaded
+	 *                    or {@code null} to read the preferences of the given {@link Document}
+	 * @param document    the {@link Document} where to read the value from
+	 * @param key         the key of the value which should be read
+	 *
+	 * @return the configuration value of the Eclipse formatter configuration from a given
+	 *         {@link Document} for the given {@code  key}
+	 */
 	private String getEclipseFormatterProperty(Preferences preferences, Document document, String key) {
-		if (preferences == null || document == null) {
+		if (document == null) {
 			return null;
+		}
+
+		if (preferences == null) {
+			preferences = Settings.getActivePreferences(document);
 		}
 
 		String formatterFile = Settings.getEclipseFormatterFile(preferences, document);
@@ -199,6 +216,15 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 		return ret;
 	}
 
+	/**
+	 * Returns {@code true} if using the formatter indentation settings from the external
+	 * formatter is activated, otherwise {@code false}.
+	 *
+	 * @param prefs the {@link Preferences} where to check
+	 *
+	 * @return {@code true} if using the formatter indentation settings from the external
+	 *         formatter is activated, otherwise {@code false}
+	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
 		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 	}

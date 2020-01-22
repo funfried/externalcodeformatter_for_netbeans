@@ -87,11 +87,22 @@ public class ExternalFormatterCustomizerTab implements ProjectCustomizer.Composi
 		return projectSpecificSettingsPanel;
 	}
 
+	/**
+	 * {@link ChangeListener} to keep track on validation changes.
+	 */
 	private static class ValidationListener implements ChangeListener {
+		/** The {@link Category} where to update the validation. */
 		private final Category category;
 
+		/** The {@link ProjectSpecificSettingsPanel} where to check the validation. */
 		private final ProjectSpecificSettingsPanel projectSpecificPanel;
 
+		/**
+		 * Creates a new instance of the {@link ValidationListener}.
+		 *
+		 * @param category             the {@link Category} where to update the validation
+		 * @param projectSpecificPanel the {@link ProjectSpecificSettingsPanel} where to check the validation
+		 */
 		private ValidationListener(Category category, ProjectSpecificSettingsPanel projectSpecificPanel) {
 			this.category = category;
 			this.projectSpecificPanel = projectSpecificPanel;

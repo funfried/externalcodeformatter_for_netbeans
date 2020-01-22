@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document xmlns="http://maven.apache.org/XDOC/2.0"
-			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
 	<properties>
 		<title>Downloads</title>
@@ -11,16 +11,26 @@
 	<body>
 		<section name="Download">
 			<p>
-				You can either download the latest version directly from maven central
-				<a href="https://oss.sonatype.org/content/repositories/snapshots/de/funfried/netbeans/plugins/externalcodeformatter/1.13.0-SNAPSHOT/">here</a>
+				You can either download the latest version directly from
+				<a href="https://oss.sonatype.org/content/repositories/snapshots/de/funfried/netbeans/plugins/externalcodeformatter/1.13.0-SNAPSHOT/">maven central</a>,
+				<a href="https://github.com/funfried/externalcodeformatter_for_netbeans/releases">GitHub</a>
 				or the last official release from the <a href="http://netbeans-vm.apache.org/pluginportal/">NetBeans Plugin Center</a>
-				(not yet released).
+				(NOTE: not yet released!).
 			</p>
 			<subsection name="Former releases">
 				<ul>
-					<li><a href="http://plugins.netbeans.org/plugin/70382">Eclipse Java Code Formatter (Eclipse Neon 4.6)</a></li>
-					<li><a href="http://plugins.netbeans.org/plugin/50877">Eclipse Java Code Formatter (Eclipse Mars 4.5)</a></li>
-					<li><a href="http://plugins.netbeans.org/plugin/64061">Eclipse Java Code Formatter (Eclipse Luna 4.4)</a></li>
+					<li>
+						<a href="http://plugins.netbeans.org/plugin/70382">Eclipse Java Code Formatter (Eclipse Neon 4.6)</a>
+					</li>
+					<li>
+						<a href="http://plugins.netbeans.org/plugin/50877">Eclipse Java Code Formatter (Eclipse Mars 4.5)</a>
+					</li>
+					<li>
+						<a href="http://plugins.netbeans.org/plugin/64061">Eclipse Java Code Formatter (Eclipse Luna 4.4)</a>
+					</li>
+					<li>
+						<a href="https://github.com/funfried/externalcodeformatter_for_netbeans/releases">GitHub releases archive</a>
+					</li>
 				</ul>
 			</subsection>
 		</section>

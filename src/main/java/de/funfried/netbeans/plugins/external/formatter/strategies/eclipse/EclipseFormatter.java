@@ -1,12 +1,11 @@
 /*
- * Copyright (c) 2013 markiewb.
+ * Copyright (c) 2020 bahlef.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  * Contributors:
- * markiewb - initial API and implementation and/or initial documentation
- * Saad Mufti <saad.mufti@teamaol.com>
+ * bahlef - initial API and implementation and/or initial documentation
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 
@@ -17,6 +16,8 @@ import java.util.Objects;
 import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.validation.constraints.Null;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -29,8 +30,8 @@ import org.eclipse.jface.text.Region;
 import org.eclipse.text.edits.TextEdit;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
-import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 
 /**
  * Delegation class to the Eclipse formatter implementation.
@@ -38,10 +39,15 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadExce
  * @author bahlef
  */
 public final class EclipseFormatter {
+	/** {@link Logger} of this class. */
 	private static final Logger log = Logger.getLogger(EclipseFormatter.class.getName());
 
+	/** Use to specify the kind of the code snippet to format. */
 	private static final int FORMATTER_OPTS = CodeFormatter.K_COMPILATION_UNIT | CodeFormatter.F_INCLUDE_COMMENTS /* + CodeFormatter.K_CLASS_BODY_DECLARATIONS + CodeFormatter.K_STATEMENTS */;
 
+	/**
+	 * Package private Constructor for creating a new instance of {@link EclipseFormatter}.
+	 */
 	EclipseFormatter() {
 	}
 
@@ -62,6 +68,7 @@ public final class EclipseFormatter {
 	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
 	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
 	 */
+	@Null
 	public String format(String formatterFile, String formatterProfile, String code, String lineFeed, String sourceLevel, SortedSet<Pair<Integer, Integer>> changedElements)
 			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException {
 		if (code == null) {
@@ -85,6 +92,22 @@ public final class EclipseFormatter {
 		return format(formatter, code, regions.toArray(new IRegion[regions.size()]), lineFeed);
 	}
 
+	/**
+	 * Formats the given {@code code} with the given configurations and returns
+	 * the formatted code.
+	 *
+	 * @param formatter the {@link CodeFormatter}
+	 * @param code      the unformatted code
+	 * @param lineFeed  the line feed to use for formatting
+	 * @param regions   an array containing {@link IRegion} objects defining the offsets which should be formatted
+	 *
+	 * @return the formatted code
+	 *
+	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
+	 */
+	@Null
 	private String format(CodeFormatter formatter, String code, IRegion[] regions, String lineFeed) {
 		String formattedCode = null;
 

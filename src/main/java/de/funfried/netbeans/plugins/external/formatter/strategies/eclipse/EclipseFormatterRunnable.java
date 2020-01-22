@@ -39,8 +39,16 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  * @author bahlef
  */
 class EclipseFormatterRunnable extends AbstractFormatterRunnable {
+	/** The {@link EclipseFormatter} implementation. */
 	private final EclipseFormatter formatter;
 
+	/**
+	 * Package private constructor to create a new instance of {@link EclipseFormatterRunnable}.
+	 *
+	 * @param document        the {@link StyledDocument} which sould be formatted
+	 * @param formatter       the {@link EclipseFormatter} to use
+	 * @param changedElements the ranges which should be formatted
+	 */
 	EclipseFormatterRunnable(StyledDocument document, EclipseFormatter formatter, SortedSet<Pair<Integer, Integer>> changedElements) {
 		super(document, changedElements);
 
@@ -108,6 +116,14 @@ class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 		}
 	}
 
+	/**
+	 * Returns the message which should be shown in a notification after the formatting is done.
+	 *
+	 * @param formatterFile    the used formatter configuration file
+	 * @param formatterProfile the used formatter profile
+	 *
+	 * @return the message which should be shown in a notification after the formatting is done
+	 */
 	private String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
 		String msg = "";
 		if (Settings.isWorkspaceMechanicFile(formatterFile)) {
@@ -120,6 +136,7 @@ class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 			//org.eclipse.jdt.core.prefs
 			msg = String.format("Using %s", formatterFile);
 		}
+
 		return msg;
 	}
 }
