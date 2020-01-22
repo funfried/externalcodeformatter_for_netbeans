@@ -22,8 +22,10 @@ import org.apache.commons.lang3.tuple.Pair;
  * @author bahlef
  */
 public class FormatterAdvice {
+	/** The {@link StyledDocument} which should be formatted. */
 	private final StyledDocument styledDocument;
 
+	/** Defines ranges of offsets which should be formatted in the given document. */
 	private final SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements;
 
 	/**
@@ -32,10 +34,10 @@ public class FormatterAdvice {
 	 * @param styledDocument  the {@link StyledDocument} which should be formatted
 	 * @param changedElements a {@link SortedSet} of {@link Pair} objects as ranges which should be formatted, leaving everything outside of the ranges unformatted
 	 */
-<span class="fc" id="L35">	public FormatterAdvice(StyledDocument styledDocument, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {</span>
-<span class="fc" id="L36">		this.styledDocument = styledDocument;</span>
-<span class="fc" id="L37">		this.changedElements = changedElements;</span>
-<span class="fc" id="L38">	}</span>
+<span class="fc" id="L37">	public FormatterAdvice(StyledDocument styledDocument, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {</span>
+<span class="fc" id="L38">		this.styledDocument = styledDocument;</span>
+<span class="fc" id="L39">		this.changedElements = changedElements;</span>
+<span class="fc" id="L40">	}</span>
 
 	/**
 	 * Returns the {@link StyledDocument}.
@@ -43,7 +45,7 @@ public class FormatterAdvice {
 	 * @return the {@link StyledDocument}
 	 */
 	public StyledDocument getStyledDocument() {
-<span class="fc" id="L46">		return styledDocument;</span>
+<span class="fc" id="L48">		return styledDocument;</span>
 	}
 
 	/**
@@ -52,7 +54,7 @@ public class FormatterAdvice {
 	 * @return the {@link SortedSet} of {@link Pair} ranges
 	 */
 	public SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; getChangedElements() {
-<span class="fc" id="L55">		return changedElements;</span>
+<span class="fc" id="L57">		return changedElements;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

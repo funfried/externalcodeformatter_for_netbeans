@@ -19,6 +19,8 @@ import java.util.prefs.Preferences;
 
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
@@ -27,19 +29,26 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FileTypeNotSup
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * Delegation class for calling the activated external formatter, if no external formatter is
- * activated nothing will be done.
+ * Singleton delegation class for calling the activated external formatter, if no external formatter is
+ * activated nothing will be done by this implementation. There is no fallback to the internal NetBeans
+ * formatter in here!
  *
  * @author markiewb
  * @author bahlef
  */
 public class FormatterStrategyDispatcher {
-<span class="nc" id="L37">	private static final Logger log = Logger.getLogger(FormatterStrategyDispatcher.class.getName());</span>
+	/** {@link Logger} of this class. */
+<span class="nc" id="L41">	private static final Logger log = Logger.getLogger(FormatterStrategyDispatcher.class.getName());</span>
 
-<span class="nc" id="L39">	private static final ReentrantLock lock = new ReentrantLock();</span>
+	/** {@link ReentrantLock} to synchronize the singleton instance creation. */
+<span class="nc" id="L44">	private static final ReentrantLock lock = new ReentrantLock();</span>
 
-<span class="nc" id="L41">	private static FormatterStrategyDispatcher instance = null;</span>
+	/** Singleton instance of {@link FormatterStrategyDispatcher}. */
+<span class="nc" id="L47">	private static FormatterStrategyDispatcher instance = null;</span>
 
+	/**
+	 * Private contructor due to singleton pattern.
+	 */
 	private FormatterStrategyDispatcher() {
 	}
 
@@ -48,18 +57,19 @@ public class FormatterStrategyDispatcher {
 	 *
 	 * @return the singleton instance
 	 */
+	@NotNull
 	public static FormatterStrategyDispatcher getInstance() {
-<span class="nc" id="L52">		lock.lock();</span>
+<span class="nc" id="L62">		lock.lock();</span>
 
 		try {
-<span class="nc bnc" id="L55" title="All 2 branches missed.">			if (instance == null) {</span>
-<span class="nc" id="L56">				instance = new FormatterStrategyDispatcher();</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">			if (instance == null) {</span>
+<span class="nc" id="L66">				instance = new FormatterStrategyDispatcher();</span>
 			}
 		} finally {
-<span class="nc" id="L59">			lock.unlock();</span>
+<span class="nc" id="L69">			lock.unlock();</span>
 		}
 
-<span class="nc" id="L62">		return instance;</span>
+<span class="nc" id="L72">		return instance;</span>
 	}
 
 	/**
@@ -74,24 +84,24 @@ public class FormatterStrategyDispatcher {
 	 */
 	public boolean format(FormatterAdvice fa) {
 		try {
-<span class="nc" id="L77">			final StyledDocument styledDoc = fa.getStyledDocument();</span>
+<span class="nc" id="L87">			final StyledDocument styledDoc = fa.getStyledDocument();</span>
 
-<span class="nc" id="L79">			IFormatterStrategyService formatterStrategyService = getActiveFormatterStrategyService(styledDoc);</span>
-<span class="nc bnc" id="L80" title="All 4 branches missed.">			if (formatterStrategyService != null &amp;&amp; formatterStrategyService.canHandle(styledDoc)) {</span>
+<span class="nc" id="L89">			IFormatterStrategyService formatterStrategyService = getActiveFormatterStrategyService(styledDoc);</span>
+<span class="nc bnc" id="L90" title="All 4 branches missed.">			if (formatterStrategyService != null &amp;&amp; formatterStrategyService.canHandle(styledDoc)) {</span>
 				try {
-<span class="nc" id="L82">					formatterStrategyService.format(fa);</span>
-<span class="nc" id="L83">				} catch (FileTypeNotSupportedException ex) {</span>
+<span class="nc" id="L92">					formatterStrategyService.format(fa);</span>
+<span class="nc" id="L93">				} catch (FileTypeNotSupportedException ex) {</span>
 					// Should never be thrown, should already be checked by canHandle call
-<span class="nc" id="L85">					log.log(Level.WARNING, &quot;Could not use &quot; + formatterStrategyService.getDisplayName() + &quot; for given document&quot;, ex);</span>
-<span class="nc" id="L86">				}</span>
+<span class="nc" id="L95">					log.log(Level.WARNING, &quot;Could not use &quot; + formatterStrategyService.getDisplayName() + &quot; for given document&quot;, ex);</span>
+<span class="nc" id="L96">				}</span>
 
-<span class="nc" id="L88">				return true;</span>
+<span class="nc" id="L98">				return true;</span>
 			}
-<span class="nc" id="L90">		} catch (Exception e) {</span>
-<span class="nc" id="L91">			Exceptions.printStackTrace(e);</span>
-<span class="nc" id="L92">		}</span>
+<span class="nc" id="L100">		} catch (Exception e) {</span>
+<span class="nc" id="L101">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L102">		}</span>
 
-<span class="nc" id="L94">		return false;</span>
+<span class="nc" id="L104">		return false;</span>
 	}
 
 	/**
@@ -106,17 +116,18 @@ public class FormatterStrategyDispatcher {
 	 *         activated for the given {@link Document}, or {@code null} if the
 	 *         internal NetBeans code formatter is used for the given {@code document}
 	 */
+	@Null
 	public Integer getContinuationIndentSize(Document document) {
 		try {
-<span class="nc" id="L111">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
-<span class="nc bnc" id="L112" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
-<span class="nc" id="L113">				return formatterStrategy.getContinuationIndentSize(document);</span>
+<span class="nc" id="L122">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
+<span class="nc bnc" id="L123" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
+<span class="nc" id="L124">				return formatterStrategy.getContinuationIndentSize(document);</span>
 			}
-<span class="nc" id="L115">		} catch (Exception e) {</span>
-<span class="nc" id="L116">			Exceptions.printStackTrace(e);</span>
-<span class="nc" id="L117">		}</span>
+<span class="nc" id="L126">		} catch (Exception e) {</span>
+<span class="nc" id="L127">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L128">		}</span>
 
-<span class="nc" id="L119">		return null;</span>
+<span class="nc" id="L130">		return null;</span>
 	}
 
 	/**
@@ -130,17 +141,18 @@ public class FormatterStrategyDispatcher {
 	 *         the given {@link Document}, or {@code null} if the internal NetBeans
 	 *         code formatter is used for the given {@code document}
 	 */
+	@Null
 	public Integer getIndentSize(Document document) {
 		try {
-<span class="nc" id="L135">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
-<span class="nc bnc" id="L136" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
-<span class="nc" id="L137">				return formatterStrategy.getIndentSize(document);</span>
+<span class="nc" id="L147">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
+<span class="nc bnc" id="L148" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
+<span class="nc" id="L149">				return formatterStrategy.getIndentSize(document);</span>
 			}
-<span class="nc" id="L139">		} catch (Exception e) {</span>
-<span class="nc" id="L140">			Exceptions.printStackTrace(e);</span>
-<span class="nc" id="L141">		}</span>
+<span class="nc" id="L151">		} catch (Exception e) {</span>
+<span class="nc" id="L152">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L153">		}</span>
 
-<span class="nc" id="L143">		return null;</span>
+<span class="nc" id="L155">		return null;</span>
 	}
 
 	/**
@@ -156,17 +168,18 @@ public class FormatterStrategyDispatcher {
 	 *         or {@code null} if the internal NetBeans code formatter is used for
 	 *         the given {@code document}
 	 */
+	@Null
 	public Integer getRightMargin(Document document) {
 		try {
-<span class="nc" id="L161">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
-<span class="nc bnc" id="L162" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
-<span class="nc" id="L163">				return formatterStrategy.getRightMargin(document);</span>
+<span class="nc" id="L174">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
+<span class="nc bnc" id="L175" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
+<span class="nc" id="L176">				return formatterStrategy.getRightMargin(document);</span>
 			}
-<span class="nc" id="L165">		} catch (Exception e) {</span>
-<span class="nc" id="L166">			Exceptions.printStackTrace(e);</span>
-<span class="nc" id="L167">		}</span>
+<span class="nc" id="L178">		} catch (Exception e) {</span>
+<span class="nc" id="L179">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L180">		}</span>
 
-<span class="nc" id="L169">		return null;</span>
+<span class="nc" id="L182">		return null;</span>
 	}
 
 	/**
@@ -180,31 +193,46 @@ public class FormatterStrategyDispatcher {
 	 *         for the given {@link Document}, or {@code null} if the internal
 	 *         NetBeans code formatter is used for the given {@code document}
 	 */
+	@Null
 	public Integer getSpacesPerTab(Document document) {
 		try {
-<span class="nc" id="L185">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
-<span class="nc bnc" id="L186" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
-<span class="nc" id="L187">				return formatterStrategy.getSpacesPerTab(document);</span>
+<span class="nc" id="L199">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
+<span class="nc bnc" id="L200" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
+<span class="nc" id="L201">				return formatterStrategy.getSpacesPerTab(document);</span>
 			}
-<span class="nc" id="L189">		} catch (Exception e) {</span>
-<span class="nc" id="L190">			Exceptions.printStackTrace(e);</span>
-<span class="nc" id="L191">		}</span>
-
-<span class="nc" id="L193">		return null;</span>
-	}
-
-	private IFormatterStrategyService getActiveFormatterStrategyService(Document document) {
-<span class="nc" id="L197">		Preferences prefs = Settings.getActivePreferences(document);</span>
-<span class="nc" id="L198">		String activeFormatterStrategyId = prefs.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);</span>
-
-<span class="nc" id="L200">		Collection&lt;? extends IFormatterStrategyService&gt; formatterStrategyServices = Lookup.getDefault().lookupAll(IFormatterStrategyService.class);</span>
-<span class="nc bnc" id="L201" title="All 2 branches missed.">		for (IFormatterStrategyService formatterStrategyService : formatterStrategyServices) {</span>
-<span class="nc bnc" id="L202" title="All 2 branches missed.">			if (Objects.equals(activeFormatterStrategyId, formatterStrategyService.getId())) {</span>
-<span class="nc" id="L203">				return formatterStrategyService;</span>
-			}
+<span class="nc" id="L203">		} catch (Exception e) {</span>
+<span class="nc" id="L204">			Exceptions.printStackTrace(e);</span>
 <span class="nc" id="L205">		}</span>
 
 <span class="nc" id="L207">		return null;</span>
+	}
+
+	/**
+	 * Returns the currently configured {@link IFormatterStrategyService} implementation
+	 * for the given {@code document}. If the internal NetBeans formatter is configured
+	 * or the implementation of the configured {@link IFormatterStrategyService} could
+	 * not be found {@code null} will be returned.
+	 *
+	 * @param document the {@link Document} for which the {@link IFormatterStrategyService} is requested
+	 *
+	 * @return the currently configured {@link IFormatterStrategyService} implementation
+	 *         for the given {@code document}. If the internal NetBeans formatter is configured
+	 *         or the implementation of the configured {@link IFormatterStrategyService} could
+	 *         not be found {@code null} will be returned
+	 */
+	@Null
+	private IFormatterStrategyService getActiveFormatterStrategyService(Document document) {
+<span class="nc" id="L225">		Preferences prefs = Settings.getActivePreferences(document);</span>
+<span class="nc" id="L226">		String activeFormatterStrategyId = prefs.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);</span>
+
+<span class="nc" id="L228">		Collection&lt;? extends IFormatterStrategyService&gt; formatterStrategyServices = Lookup.getDefault().lookupAll(IFormatterStrategyService.class);</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">		for (IFormatterStrategyService formatterStrategyService : formatterStrategyServices) {</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">			if (Objects.equals(activeFormatterStrategyId, formatterStrategyService.getId())) {</span>
+<span class="nc" id="L231">				return formatterStrategyService;</span>
+			}
+<span class="nc" id="L233">		}</span>
+
+<span class="nc" id="L235">		return null;</span>
 	}
 
 	/**
@@ -219,17 +247,18 @@ public class FormatterStrategyDispatcher {
 	 *         internal NetBeans code formatter is used for the given
 	 *         {@code document}
 	 */
+	@Null
 	public Boolean isExpandTabToSpaces(Document document) {
 		try {
-<span class="nc" id="L224">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
-<span class="nc bnc" id="L225" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
-<span class="nc" id="L226">				return formatterStrategy.isExpandTabToSpaces(document);</span>
+<span class="nc" id="L253">			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);</span>
+<span class="nc bnc" id="L254" title="All 4 branches missed.">			if (formatterStrategy != null &amp;&amp; formatterStrategy.canHandle(document)) {</span>
+<span class="nc" id="L255">				return formatterStrategy.isExpandTabToSpaces(document);</span>
 			}
-<span class="nc" id="L228">		} catch (Exception e) {</span>
-<span class="nc" id="L229">			Exceptions.printStackTrace(e);</span>
-<span class="nc" id="L230">		}</span>
+<span class="nc" id="L257">		} catch (Exception e) {</span>
+<span class="nc" id="L258">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L259">		}</span>
 
-<span class="nc" id="L232">		return null;</span>
+<span class="nc" id="L261">		return null;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

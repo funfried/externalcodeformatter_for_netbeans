@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GoogleFormatterRunnable.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Java Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.strategies.google</a> &gt; <span class="el_source">GoogleFormatterRunnable.java</span></div><h1>GoogleFormatterRunnable.java</h1><pre class="source lang-java linenums">/*
- * Copyright (c) 2013-2016 markiewb.
+ * Copyright (c) 2020 bahlef.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -36,49 +36,57 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  * @author bahlef
  */
 class GoogleFormatterRunnable extends AbstractFormatterRunnable {
+	/** The {@link EclipGoogleFormatterseFormatter} implementation. */
 	private final GoogleFormatter formatter;
 
+	/**
+	 * Package private constructor to create a new instance of {@link GoogleFormatterRunnable}.
+	 *
+	 * @param document        the {@link StyledDocument} which sould be formatted
+	 * @param formatter       the {@link GoogleFormatter} to use
+	 * @param changedElements the ranges which should be formatted
+	 */
 	GoogleFormatterRunnable(StyledDocument document, GoogleFormatter formatter, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L42">		super(document, changedElements);</span>
+<span class="fc" id="L50">		super(document, changedElements);</span>
 
-<span class="fc" id="L44">		this.formatter = formatter;</span>
-<span class="fc" id="L45">	}</span>
+<span class="fc" id="L52">		this.formatter = formatter;</span>
+<span class="fc" id="L53">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void run() {
-<span class="fc" id="L52">		boolean isJava = Utils.isJava(document);</span>
-<span class="fc bfc" id="L53" title="All 2 branches covered.">		if (!isJava) {</span>
-<span class="fc" id="L54">			throw new FileTypeNotSupportedException(&quot;The file type '&quot; + NbEditorUtilities.getMimeType(document) + &quot;' is not supported by the Goolge Java Code Formatter&quot;);</span>
+<span class="fc" id="L60">		boolean isJava = Utils.isJava(document);</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		if (!isJava) {</span>
+<span class="fc" id="L62">			throw new FileTypeNotSupportedException(&quot;The file type '&quot; + NbEditorUtilities.getMimeType(document) + &quot;' is not supported by the Goolge Java Code Formatter&quot;);</span>
 		}
 
-<span class="fc" id="L57">		Preferences pref = Settings.getActivePreferences(document);</span>
+<span class="fc" id="L65">		Preferences pref = Settings.getActivePreferences(document);</span>
 
-<span class="fc" id="L59">		String codeStylePref = pref.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="fc" id="L67">		String codeStylePref = pref.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
 
-<span class="fc" id="L61">		String code = getCode(null);</span>
+<span class="fc" id="L69">		String code = getCode(null);</span>
 
 		try {
-<span class="fc" id="L64">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
+<span class="fc" id="L72">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
 
-<span class="fc" id="L66">			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);</span>
+<span class="fc" id="L74">			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);</span>
 			// quick check for changed
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
-<span class="fc" id="L69">				SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="pc bpc" id="L70" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
-<span class="nc" id="L71">						NotificationDisplayer.getDefault().notify(&quot;Format using Goolge formatter&quot;, Icons.ICON_GOOGLE, null, null);</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
+<span class="fc" id="L77">				SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L79">						NotificationDisplayer.getDefault().notify(&quot;Format using Goolge formatter&quot;, Icons.ICON_GOOGLE, null, null);</span>
 					}
 
-<span class="fc" id="L74">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Goolge formatter&quot;);</span>
-<span class="fc" id="L75">				});</span>
+<span class="fc" id="L82">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Goolge formatter&quot;);</span>
+<span class="fc" id="L83">				});</span>
 			}
-<span class="nc" id="L77">		} catch (BadLocationException ex) {</span>
-<span class="nc" id="L78">			throw new RuntimeException(ex);</span>
-<span class="nc" id="L79">		} catch (RuntimeException ex) {</span>
-<span class="nc" id="L80">			throw ex;</span>
-<span class="fc" id="L81">		}</span>
-<span class="fc" id="L82">	}</span>
+<span class="nc" id="L85">		} catch (BadLocationException ex) {</span>
+<span class="nc" id="L86">			throw new RuntimeException(ex);</span>
+<span class="nc" id="L87">		} catch (RuntimeException ex) {</span>
+<span class="nc" id="L88">			throw ex;</span>
+<span class="fc" id="L89">		}</span>
+<span class="fc" id="L90">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -13,8 +13,8 @@ External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies.google,GoogleFormatter,1,79,1,9,1,19,1,6,0,2
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies.google,GoogleFormatterRunnable,16,75,2,4,5,18,2,4,0,3
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies.eclipse,EclipseFormatterRunnable,102,122,5,7,21,28,7,5,2,4
-External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies.eclipse,EclipseFormatterConfig,0,236,0,14,0,49,0,18,0,11
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies.eclipse,EclipseFormatterConfig,0,230,0,12,0,48,0,17,0,11
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies.eclipse,EclipseFormatter,10,116,2,10,4,23,2,8,0,4
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies.eclipse,Bundle,4,0,0,0,1,0,1,0,1,0
-External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies.eclipse,EclipseFormatterStrategy,182,16,34,0,56,3,26,2,9,2
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies.eclipse,EclipseFormatterStrategy,182,16,34,0,57,3,26,2,9,2
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,Utils,0,6,0,0,0,1,0,1,0,1
