@@ -839,28 +839,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>org.eluder.coveralls</groupId>
-						<artifactId>coveralls-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>deploy-report</id>
-								<phase>deploy</phase>
-								<goals>
-									<goal>report</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<scanForSources>true</scanForSources>
-							<sourceDirectories>
-								<sourceDirectory>${project.basedir}</sourceDirectory>
-							</sourceDirectories>
-							<jacocoReports>
-								<report>${project.build.directory}/site/jacoco/jacoco.xml</report>
-							</jacocoReports>
-						</configuration>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -893,6 +871,7 @@
 						<artifactId>coveralls-maven-plugin</artifactId>
 						<configuration>
 							<scanForSources>true</scanForSources>
+							<timestampFormat>EpochMillis</timestampFormat>
 							<sourceDirectories>
 								<sourceDirectory>${project.basedir}</sourceDirectory>
 							</sourceDirectories>
