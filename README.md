@@ -7,6 +7,7 @@
 ![GitHub All Releases](https://img.shields.io/github/downloads/funfried/externalcodeformatter_for_netbeans/total)
 ![GitHub issues](https://img.shields.io/github/issues/funfried/externalcodeformatter_for_netbeans)
 [![Eclipse Public License, Version 2.0](https://img.shields.io/badge/license-EPL%20v2.0-green)](http://funfried.github.io/externalcodeformatter_for_netbeans/licenses.html)
+![Follow Me On Twitter](https://img.shields.io/twitter/follow/funfried84?style=social)
 
 External Java Code Formatters for NetBeans
 ========================================
