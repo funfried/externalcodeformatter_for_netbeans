@@ -857,7 +857,7 @@
 								<sourceDirectory>${project.basedir}</sourceDirectory>
 							</sourceDirectories>
 							<jacocoReports>
-								<report>${project.build.directory}/coverage-reports/jacoco.xml</report>
+								<report>${project.build.directory}/site/jacoco/jacoco.xml</report>
 							</jacocoReports>
 						</configuration>
 					</plugin>
