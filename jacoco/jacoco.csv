@@ -2,7 +2,7 @@ GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies,FormatterAdvice,0,15,0,0,0,6,0,3,0,3
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies,FormatterStrategyDispatcher,196,0,30,0,63,0,24,0,9,0
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies,AbstractJavaFormatterStrategy,7,11,2,0,3,3,2,2,1,2
-External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies,AbstractFormatterRunnable,311,240,30,22,46,55,26,8,2,5
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies,AbstractFormatterRunnable,187,364,29,23,33,68,24,10,0,7
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml,ConfigReader,73,208,18,26,14,41,17,11,2,4
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.exceptions,CannotLoadConfigurationException,9,4,0,0,4,2,2,1,2,1
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.exceptions,ProfileNotFoundException,9,4,0,0,4,2,2,1,2,1
