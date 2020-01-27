@@ -23,18 +23,34 @@ import org.openide.util.lookup.ServiceProvider;
 public class ExternalFormatterPreferencesChangeSupport {
 	private final ChangeSupport cs;
 
+	/**
+	 * Creates a new instance of the {@link ExternalFormatterPreferencesChangeSupport}.
+	 */
 	public ExternalFormatterPreferencesChangeSupport() {
 		cs = new ChangeSupport(this);
 	}
 
+	/**
+	 * Registers a {@link ChangeListener} to this {@link ExternalFormatterPreferencesChangeSupport}.
+	 *
+	 * @param listener the {@link ChangeListener} to register
+	 */
 	public void addChangeListener(ChangeListener listener) {
 		cs.addChangeListener(listener);
 	}
 
+	/**
+	 * Notifies about changes to all registered {@link ChangeListener}s.
+	 */
 	public void fireChange() {
 		cs.fireChange();
 	}
 
+	/**
+	 * Unregisters a {@link ChangeListener} from this {@link ExternalFormatterPreferencesChangeSupport}.
+	 *
+	 * @param listener the {@link ChangeListener} to unregister
+	 */
 	public void removeChangeListener(ChangeListener listener) {
 		cs.removeChangeListener(listener);
 	}

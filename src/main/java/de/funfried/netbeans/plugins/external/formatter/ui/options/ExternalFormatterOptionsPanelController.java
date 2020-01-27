@@ -30,10 +30,13 @@ import org.openide.util.WeakListeners;
 @OptionsPanelController.SubRegistration(id = "de.funfried.netbeans.plugins.external.formatter.ui.options", location = "Java", displayName = "#AdvancedOption_DisplayName_ExternalFormatter", keywords = "#AdvancedOption_Keywords_ExternalFormatter", keywordsCategory = "Java/ExternalFormatter")
 @org.openide.util.NbBundle.Messages({ "AdvancedOption_DisplayName_ExternalFormatter=External Formatter", "AdvancedOption_Keywords_ExternalFormatter=External Formatter" })
 public final class ExternalFormatterOptionsPanelController extends OptionsPanelController implements ChangeListener {
+	/** Holder of the {@link ExternalFormatterPanel}. */
 	private ExternalFormatterPanel panel;
 
+	/** Holder of the {@link PropertyChangeSupport}. */
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
+	/** Flag which determines if options were changed. */
 	private boolean changed;
 
 	/**
