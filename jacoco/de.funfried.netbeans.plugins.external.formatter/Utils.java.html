@@ -33,7 +33,11 @@ public interface Utils {
 	 *         {@code false}
 	 */
 	static boolean isJava(Document document) {
-<span class="fc" id="L36">		return JavaTokenId.language().mimeType().equals(NbEditorUtilities.getMimeType(document));</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L37">			return false;</span>
+		}
+
+<span class="fc" id="L40">		return JavaTokenId.language().mimeType().equals(NbEditorUtilities.getMimeType(document));</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

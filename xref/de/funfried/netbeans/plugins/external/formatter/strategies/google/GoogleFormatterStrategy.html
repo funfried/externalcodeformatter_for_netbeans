@@ -22,10 +22,10 @@
 <a class="jxr_linenumber" name="L14" href="#L14">14</a>  
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> javax.swing.text.Document;
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> javax.swing.text.StyledDocument;
-<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> javax.validation.constraints.NotNull;
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> javax.validation.constraints.Null;
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.tuple.Pair;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.tuple.Pair;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.netbeans.api.annotations.common.CheckForNull;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.netbeans.api.annotations.common.NonNull;
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.netbeans.api.editor.guards.GuardedSectionManager;
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.openide.util.NbBundle;
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.openide.util.lookup.ServiceProvider;
@@ -73,7 +73,7 @@
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  	@NotNull
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  	@NonNull
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  	@Override
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  	<strong class="jxr_keyword">public</strong> String getDisplayName() {
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  		<strong class="jxr_keyword">return</strong> NbBundle.getMessage(GoogleFormatterStrategy.<strong class="jxr_keyword">class</strong>, <span class="jxr_string">"FormatterName"</span>);
@@ -82,7 +82,7 @@
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>  <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>  	@NotNull
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  	@NonNull
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>  	@Override
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>  	<strong class="jxr_keyword">public</strong> String getId() {
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>  		<strong class="jxr_keyword">return</strong> ID;
@@ -91,7 +91,7 @@
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>  	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>  <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>  	@Null
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  	@CheckForNull
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>  	@Override
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>  	<strong class="jxr_keyword">public</strong> Integer getContinuationIndentSize(Document document) {
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>  		<strong class="jxr_keyword">if</strong> (document == <strong class="jxr_keyword">null</strong>) {
@@ -119,7 +119,7 @@
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> 	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L112" href="#L112">112</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
 <a class="jxr_linenumber" name="L113" href="#L113">113</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L114" href="#L114">114</a> 	@Null
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 	@CheckForNull
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> 	@Override
 <a class="jxr_linenumber" name="L116" href="#L116">116</a> 	<strong class="jxr_keyword">public</strong> Integer getIndentSize(Document document) {
 <a class="jxr_linenumber" name="L117" href="#L117">117</a> 		<strong class="jxr_keyword">if</strong> (document == <strong class="jxr_keyword">null</strong>) {
@@ -147,7 +147,7 @@
 <a class="jxr_linenumber" name="L139" href="#L139">139</a> 	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L140" href="#L140">140</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
 <a class="jxr_linenumber" name="L141" href="#L141">141</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L142" href="#L142">142</a> 	@Null
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 	@CheckForNull
 <a class="jxr_linenumber" name="L143" href="#L143">143</a> 	@Override
 <a class="jxr_linenumber" name="L144" href="#L144">144</a> 	<strong class="jxr_keyword">public</strong> Integer getRightMargin(Document document) {
 <a class="jxr_linenumber" name="L145" href="#L145">145</a> 		<strong class="jxr_keyword">if</strong> (document == <strong class="jxr_keyword">null</strong>) {
@@ -181,7 +181,7 @@
 <a class="jxr_linenumber" name="L173" href="#L173">173</a> 	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L174" href="#L174">174</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
 <a class="jxr_linenumber" name="L175" href="#L175">175</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L176" href="#L176">176</a> 	@Null
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> 	@CheckForNull
 <a class="jxr_linenumber" name="L177" href="#L177">177</a> 	@Override
 <a class="jxr_linenumber" name="L178" href="#L178">178</a> 	<strong class="jxr_keyword">public</strong> Integer getSpacesPerTab(Document document) {
 <a class="jxr_linenumber" name="L179" href="#L179">179</a> 		<strong class="jxr_keyword">if</strong> (document == <strong class="jxr_keyword">null</strong>) {
@@ -213,7 +213,7 @@
 <a class="jxr_linenumber" name="L205" href="#L205">205</a> 	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L206" href="#L206">206</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
 <a class="jxr_linenumber" name="L207" href="#L207">207</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L208" href="#L208">208</a> 	@Null
+<a class="jxr_linenumber" name="L208" href="#L208">208</a> 	@CheckForNull
 <a class="jxr_linenumber" name="L209" href="#L209">209</a> 	@Override
 <a class="jxr_linenumber" name="L210" href="#L210">210</a> 	<strong class="jxr_keyword">public</strong> Boolean isExpandTabToSpaces(Document document) {
 <a class="jxr_linenumber" name="L211" href="#L211">211</a> 		<strong class="jxr_keyword">if</strong> (document == <strong class="jxr_keyword">null</strong>) {

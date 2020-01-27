@@ -17,8 +17,6 @@ import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.validation.constraints.Null;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.jdt.core.ToolFactory;
@@ -28,6 +26,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.text.edits.TextEdit;
+import org.netbeans.api.annotations.common.CheckForNull;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
@@ -40,7 +39,7 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoun
  */
 public final class EclipseFormatter {
 	/** {@link Logger} of this class. */
-<span class="fc" id="L43">	private static final Logger log = Logger.getLogger(EclipseFormatter.class.getName());</span>
+<span class="fc" id="L42">	private static final Logger log = Logger.getLogger(EclipseFormatter.class.getName());</span>
 
 	/** Use to specify the kind of the code snippet to format. */
 	private static final int FORMATTER_OPTS = CodeFormatter.K_COMPILATION_UNIT | CodeFormatter.F_INCLUDE_COMMENTS /* + CodeFormatter.K_CLASS_BODY_DECLARATIONS + CodeFormatter.K_STATEMENTS */;
@@ -48,8 +47,8 @@ public final class EclipseFormatter {
 	/**
 	 * Package private Constructor for creating a new instance of {@link EclipseFormatter}.
 	 */
-<span class="fc" id="L51">	EclipseFormatter() {</span>
-<span class="fc" id="L52">	}</span>
+<span class="fc" id="L50">	EclipseFormatter() {</span>
+<span class="fc" id="L51">	}</span>
 
 	/**
 	 * Formats the given {@code code} with the given configurations and returns
@@ -68,28 +67,31 @@ public final class EclipseFormatter {
 	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
 	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
 	 */
-	@Null
+	@CheckForNull
 	public String format(String formatterFile, String formatterProfile, String code, String lineFeed, String sourceLevel, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements)
 			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException {
-<span class="fc bfc" id="L74" title="All 2 branches covered.">		if (code == null) {</span>
-<span class="fc" id="L75">			return null;</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">		if (code == null) {</span>
+<span class="fc" id="L74">			return null;</span>
 		}
 
-<span class="fc" id="L78">		Map&lt;String, String&gt; allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);</span>
+<span class="fc" id="L77">		List&lt;IRegion&gt; regions = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		if (changedElements == null) {</span>
+<span class="fc" id="L79">			regions.add(new Region(0, code.length()));</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">		} else if (!CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
+<span class="fc" id="L82">				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));</span>
+<span class="fc" id="L83">			}</span>
+		} else {
+			// empty changed elements means nothing's left which can be formatted due to guarded sections
+<span class="nc" id="L86">			return code;</span>
+		}
 
-<span class="fc" id="L80">		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);</span>
+<span class="fc" id="L89">		Map&lt;String, String&gt; allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);</span>
+
+<span class="fc" id="L91">		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);</span>
 		//see http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FCodeFormatter.html&amp;anchor=format(int,
 
-<span class="fc" id="L83">		List&lt;IRegion&gt; regions = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L84" title="All 2 branches covered.">		if (!CollectionUtils.isEmpty(changedElements)) {</span>
-<span class="fc bfc" id="L85" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
-<span class="fc" id="L86">				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));</span>
-<span class="fc" id="L87">			}</span>
-		} else {
-<span class="fc" id="L89">			regions.add(new Region(0, code.length()));</span>
-		}
-
-<span class="fc" id="L92">		return format(formatter, code, regions.toArray(new IRegion[regions.size()]), lineFeed);</span>
+<span class="fc" id="L94">		return format(formatter, code, regions.toArray(new IRegion[regions.size()]), lineFeed);</span>
 	}
 
 	/**
@@ -107,28 +109,28 @@ public final class EclipseFormatter {
 	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
 	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
 	 */
-	@Null
+	@CheckForNull
 	private String format(CodeFormatter formatter, String code, IRegion[] regions, String lineFeed) {
-<span class="fc" id="L112">		String formattedCode = null;</span>
+<span class="fc" id="L114">		String formattedCode = null;</span>
 
-<span class="fc" id="L114">		TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);</span>
-<span class="pc bpc" id="L115" title="1 of 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
+<span class="fc" id="L116">		TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);</span>
+<span class="pc bpc" id="L117" title="1 of 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
 			try {
-<span class="fc" id="L117">				IDocument dc = new Document(code);</span>
-<span class="fc" id="L118">				te.apply(dc);</span>
+<span class="fc" id="L119">				IDocument dc = new Document(code);</span>
+<span class="fc" id="L120">				te.apply(dc);</span>
 
-<span class="fc" id="L120">				formattedCode = dc.get();</span>
+<span class="fc" id="L122">				formattedCode = dc.get();</span>
 
-<span class="pc bpc" id="L122" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
-<span class="nc" id="L123">					return null;</span>
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
+<span class="nc" id="L125">					return null;</span>
 				}
-<span class="nc" id="L125">			} catch (Exception ex) {</span>
-<span class="nc" id="L126">				log.log(Level.WARNING, &quot;Code could not be formatted!&quot;, ex);</span>
-<span class="nc" id="L127">				return null;</span>
-<span class="fc" id="L128">			}</span>
+<span class="nc" id="L127">			} catch (Exception ex) {</span>
+<span class="nc" id="L128">				log.log(Level.WARNING, &quot;Code could not be formatted!&quot;, ex);</span>
+<span class="nc" id="L129">				return null;</span>
+<span class="fc" id="L130">			}</span>
 		}
 
-<span class="fc" id="L131">		return formattedCode;</span>
+<span class="fc" id="L133">		return formattedCode;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

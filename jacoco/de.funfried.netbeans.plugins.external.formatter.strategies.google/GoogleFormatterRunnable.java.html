@@ -72,21 +72,20 @@ class GoogleFormatterRunnable extends AbstractFormatterRunnable {
 <span class="fc" id="L72">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
 
 <span class="fc" id="L74">			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);</span>
-			// quick check for changed
-<span class="pc bpc" id="L76" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
-<span class="fc" id="L77">				SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="pc bpc" id="L78" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
-<span class="nc" id="L79">						NotificationDisplayer.getDefault().notify(&quot;Format using Goolge formatter&quot;, Icons.ICON_GOOGLE, null, null);</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
+<span class="fc" id="L76">				SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L78">						NotificationDisplayer.getDefault().notify(&quot;Format using Goolge formatter&quot;, Icons.ICON_GOOGLE, null, null);</span>
 					}
 
-<span class="fc" id="L82">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Goolge formatter&quot;);</span>
-<span class="fc" id="L83">				});</span>
+<span class="fc" id="L81">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Goolge formatter&quot;);</span>
+<span class="fc" id="L82">				});</span>
 			}
-<span class="nc" id="L85">		} catch (BadLocationException ex) {</span>
-<span class="nc" id="L86">			throw new RuntimeException(ex);</span>
-<span class="nc" id="L87">		} catch (RuntimeException ex) {</span>
-<span class="nc" id="L88">			throw ex;</span>
-<span class="fc" id="L89">		}</span>
-<span class="fc" id="L90">	}</span>
+<span class="nc" id="L84">		} catch (BadLocationException ex) {</span>
+<span class="nc" id="L85">			throw new RuntimeException(ex);</span>
+<span class="nc" id="L86">		} catch (RuntimeException ex) {</span>
+<span class="nc" id="L87">			throw ex;</span>
+<span class="fc" id="L88">		}</span>
+<span class="fc" id="L89">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

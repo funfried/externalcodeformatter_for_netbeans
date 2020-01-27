@@ -16,10 +16,10 @@ import java.util.prefs.Preferences;
 
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -47,7 +47,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	/**
 	 * {@inheritDoc}
 	 */
-	@NotNull
+	@NonNull
 	@Override
 	public String getDisplayName() {
 <span class="nc" id="L53">		return NbBundle.getMessage(EclipseFormatterStrategy.class, &quot;FormatterName&quot;);</span>
@@ -56,7 +56,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	/**
 	 * {@inheritDoc}
 	 */
-	@NotNull
+	@NonNull
 	@Override
 	public String getId() {
 <span class="nc" id="L62">		return ID;</span>
@@ -65,7 +65,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	/**
 	 * {@inheritDoc}
 	 */
-	@Null
+	@CheckForNull
 	@Override
 	public Integer getContinuationIndentSize(Document document) {
 <span class="nc bnc" id="L71" title="All 2 branches missed.">		if (document == null) {</span>
@@ -88,7 +88,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	/**
 	 * {@inheritDoc}
 	 */
-	@Null
+	@CheckForNull
 	@Override
 	public Integer getIndentSize(Document document) {
 <span class="nc bnc" id="L94" title="All 2 branches missed.">		if (document == null) {</span>
@@ -111,7 +111,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	/**
 	 * {@inheritDoc}
 	 */
-	@Null
+	@CheckForNull
 	@Override
 	public Integer getRightMargin(Document document) {
 <span class="nc bnc" id="L117" title="All 2 branches missed.">		if (document == null) {</span>
@@ -139,7 +139,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	/**
 	 * {@inheritDoc}
 	 */
-	@Null
+	@CheckForNull
 	@Override
 	public Integer getSpacesPerTab(Document document) {
 <span class="nc bnc" id="L145" title="All 2 branches missed.">		if (document == null) {</span>
@@ -196,7 +196,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	/**
 	 * {@inheritDoc}
 	 */
-	@Null
+	@CheckForNull
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
 <span class="nc bnc" id="L202" title="All 2 branches missed.">		if (document == null) {</span>
