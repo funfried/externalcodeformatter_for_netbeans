@@ -17,8 +17,6 @@ import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.validation.constraints.Null;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.jdt.core.ToolFactory;
@@ -28,6 +26,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.text.edits.TextEdit;
+import org.netbeans.api.annotations.common.CheckForNull;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
@@ -68,26 +67,29 @@ public final class EclipseFormatter {
 	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
 	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
 	 */
-	@Null
+	@CheckForNull
 	public String format(String formatterFile, String formatterProfile, String code, String lineFeed, String sourceLevel, SortedSet<Pair<Integer, Integer>> changedElements)
 			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException {
 		if (code == null) {
 			return null;
 		}
 
-		Map<String, String> allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);
-
-		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);
-		//see http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FCodeFormatter.html&anchor=format(int,
-
 		List<IRegion> regions = new ArrayList<>();
-		if (!CollectionUtils.isEmpty(changedElements)) {
+		if (changedElements == null) {
+			regions.add(new Region(0, code.length()));
+		} else if (!CollectionUtils.isEmpty(changedElements)) {
 			for (Pair<Integer, Integer> changedElement : changedElements) {
 				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));
 			}
 		} else {
-			regions.add(new Region(0, code.length()));
+			// empty changed elements means nothing's left which can be formatted due to guarded sections
+			return code;
 		}
+
+		Map<String, String> allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);
+
+		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);
+		//see http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FCodeFormatter.html&anchor=format(int,
 
 		return format(formatter, code, regions.toArray(new IRegion[regions.size()]), lineFeed);
 	}
@@ -107,7 +109,7 @@ public final class EclipseFormatter {
 	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
 	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
 	 */
-	@Null
+	@CheckForNull
 	private String format(CodeFormatter formatter, String code, IRegion[] regions, String lineFeed) {
 		String formattedCode = null;
 

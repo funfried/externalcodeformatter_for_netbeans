@@ -16,10 +16,10 @@ import java.util.prefs.Preferences;
 
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -47,7 +47,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@NotNull
+	@NonNull
 	@Override
 	public String getDisplayName() {
 		return NbBundle.getMessage(EclipseFormatterStrategy.class, "FormatterName");
@@ -56,7 +56,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@NotNull
+	@NonNull
 	@Override
 	public String getId() {
 		return ID;
@@ -65,7 +65,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Null
+	@CheckForNull
 	@Override
 	public Integer getContinuationIndentSize(Document document) {
 		if (document == null) {
@@ -88,7 +88,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Null
+	@CheckForNull
 	@Override
 	public Integer getIndentSize(Document document) {
 		if (document == null) {
@@ -111,7 +111,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Null
+	@CheckForNull
 	@Override
 	public Integer getRightMargin(Document document) {
 		if (document == null) {
@@ -139,7 +139,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Null
+	@CheckForNull
 	@Override
 	public Integer getSpacesPerTab(Document document) {
 		if (document == null) {
@@ -196,7 +196,7 @@ public class EclipseFormatterStrategy extends AbstractJavaFormatterStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Null
+	@CheckForNull
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
 		if (document == null) {

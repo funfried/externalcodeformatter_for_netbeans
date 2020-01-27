@@ -79,7 +79,6 @@ class EclipseFormatterRunnable extends AbstractFormatterRunnable {
 			SortedSet<Pair<Integer, Integer>> regions = getFormatableSections(code);
 
 			String formattedContent = formatter.format(formatterFile, formatterProfile, code, lineFeed, sourceLevel, regions);
-			// quick check for changed
 			if (setFormattedCode(code, formattedContent)) {
 				String msg = getNotificationMessageForEclipseFormatterConfigurationFileType(formatterFile, formatterProfile);
 

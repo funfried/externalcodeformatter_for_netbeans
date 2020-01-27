@@ -81,15 +81,17 @@ public class Settings {
 
 	public static Preferences getActivePreferences(Document document) {
 		Preferences globalPreferences = NbPreferences.forModule(ExternalFormatterPanel.class);
-		DataObject dataObj = NbEditorUtilities.getDataObject(document);
-		if (dataObj != null) {
-			FileObject primaryFile = dataObj.getPrimaryFile();
-			if (primaryFile != null) {
-				Project project = FileOwnerQuery.getOwner(primaryFile);
-				if (null != project) {
-					Preferences projectPreferences = ProjectUtils.getPreferences(project, ExternalFormatterPanel.class, true);
-					if (projectPreferences.getBoolean(USE_PROJECT_SETTINGS, false)) {
-						return projectPreferences;
+		if (document != null) {
+			DataObject dataObj = NbEditorUtilities.getDataObject(document);
+			if (dataObj != null) {
+				FileObject primaryFile = dataObj.getPrimaryFile();
+				if (primaryFile != null) {
+					Project project = FileOwnerQuery.getOwner(primaryFile);
+					if (null != project) {
+						Preferences projectPreferences = ProjectUtils.getPreferences(project, ExternalFormatterPanel.class, true);
+						if (projectPreferences.getBoolean(USE_PROJECT_SETTINGS, false)) {
+							return projectPreferences;
+						}
 					}
 				}
 			}

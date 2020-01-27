@@ -21,11 +21,10 @@ import javax.swing.text.StyledDocument;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.diff.Difference;
 import org.netbeans.api.editor.document.LineDocumentUtils;
 import org.netbeans.api.editor.guards.DocumentGuards;
-import org.netbeans.api.editor.guards.GuardedSection;
-import org.netbeans.api.editor.guards.GuardedSectionManager;
 import org.netbeans.editor.BaseDocument;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
@@ -82,25 +81,38 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 			try (StringReader original = new StringReader(code);
 					StringReader formatted = new StringReader(formattedContent)) {
 				Difference[] differences = Diff.diff(original, formatted);
-				if (differences != null) {
+				if (differences != null && differences.length != 0) {
+					if (log.isLoggable(logLevel)) {
+						log.log(logLevel, "Unformatted: ''{0}''", code);
+						log.log(logLevel, "Formatted: ''{0}''", formattedContent);
+					}
+
 					for (Difference d : differences) {
+						int startLine = d.getSecondStart();
+
 						switch (d.getType()) {
 							case Difference.ADD: {
-								int startLine = d.getSecondStart();
 								int start = NbDocument.findLineOffset(document, startLine - 1);
-
 								String addText = d.getSecondText();
+
+								if (log.isLoggable(logLevel)) {
+									log.log(logLevel, "ADD: {0} / Line {1}: {2}", new Object[] { start, startLine, addText });
+								}
 
 								document.insertString(start, addText, null);
 
 								break;
 							}
 							case Difference.CHANGE: {
-								int startLine = d.getSecondStart();
 								int start = NbDocument.findLineOffset(document, startLine - 1);
-								int length = d.getFirstText().length();
+								String removeText = d.getFirstText();
+								int length = removeText.length();
 
 								String addText = d.getSecondText();
+
+								if (log.isLoggable(logLevel)) {
+									log.log(logLevel, "CHANGE: {0} - {1} / Line {2}: ''{3}'' => ''{4}'' ({5})", new Object[] { start, length, startLine, addText, document.getText(start, length), removeText });
+								}
 
 								document.remove(start, length);
 								document.insertString(start, addText, null);
@@ -108,9 +120,13 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 								break;
 							}
 							case Difference.DELETE: {
-								int startLine = d.getSecondStart();
-								int start = NbDocument.findLineOffset(document, startLine - 1);
-								int length = d.getFirstText().length();
+								int start = NbDocument.findLineOffset(document, startLine);
+								String removeText = d.getFirstText();
+								int length = removeText.length();
+
+								if (log.isLoggable(logLevel)) {
+									log.log(logLevel, "DELETE: {0} - {1} / Line {2}: ''{3}'' ({4})", new Object[] { start, length, startLine, document.getText(start, length), removeText });
+								}
 
 								document.remove(start, length);
 
@@ -118,12 +134,12 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 							}
 						}
 					}
+
+					return true;
 				}
 			} catch (IOException ex) {
 				log.log(Level.WARNING, "Could not create diff", ex);
 			}
-
-			return true;
 		}
 
 		return false;
@@ -157,14 +173,18 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 
 	/**
 	 * Returns a {@link SortedSet} within ranges as {@link Pair}s of {@link Integer}s
-	 * which describe the start and end offsets which can be formatted, it automatically
-	 * checks for guarded sections and removes them before returning the {@link SortedSet}.
+	 * which describe the start and end offsets that can be formatted, it automatically
+	 * checks for guarded sections and removes them before returning the {@link SortedSet},
+	 * this means if an empty {@link SortedSet} was removed nothing can be formatted,
+	 * because all ranges in the {@code changedElements} are in guarded sections.
 	 *
 	 * @param code the current unformatted content of the {@link document}
 	 *
 	 * @return A {@link SortedSet} within ranges as {@link Pair}s of {@link Integer}s
-	 *         which describe the start and end offsets which can be formatted
+	 *         which describe the start and end offsets which can be formatted or an empty
+	 *         {@link SortedSet} if nothing of the {@code changedElements} can be formatted
 	 */
+	@NonNull
 	protected SortedSet<Pair<Integer, Integer>> getFormatableSections(String code) {
 		SortedSet<Pair<Integer, Integer>> regions = changedElements;
 		if (CollectionUtils.isEmpty(changedElements)) {
@@ -176,17 +196,27 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		DocumentGuards guards = LineDocumentUtils.as(document, DocumentGuards.class);
 		if (guards != null) {
 			if (log.isLoggable(logLevel)) {
-				GuardedSectionManager guardMgmr = GuardedSectionManager.getInstance(document);
-				if (guardMgmr != null) {
-					Iterable<GuardedSection> guardedSections = guardMgmr.getGuardedSections();
+				StringBuilder sb = new StringBuilder();
+				regions.stream().forEach(section -> sb.append(section.getLeft()).append("/").append(section.getRight()).append(" "));
+				log.log(logLevel, "Formating sections before guards: {0}", sb.toString().trim());
+			}
 
-					StringBuilder sb = new StringBuilder();
-					guardedSections.forEach(guard -> sb.append(guard.getStartPosition().getOffset()).append("/").append(guard.getEndPosition().getOffset()).append(" "));
-					log.log(logLevel, "Guarded sections: {0}", sb.toString().trim());
+			if (log.isLoggable(logLevel)) {
+				StringBuilder sb = new StringBuilder();
+				int nextGuardStart = guards.findNextBlock(0, true);
+				while (nextGuardStart != -1) {
+					int guardEnd = guards.adjustPosition(nextGuardStart, true);
+
+					sb.append(nextGuardStart).append("/").append(guardEnd).append(" ");
+
+					nextGuardStart = guards.findNextBlock(guardEnd + 1, true);
 				}
+
+				log.log(logLevel, "Guarded sections: {0}", sb.toString().trim());
 			}
 
 			SortedSet<Pair<Integer, Integer>> nonGuardedSections = new TreeSet<>();
+
 			for (Pair<Integer, Integer> changedElement : regions) {
 				int start = changedElement.getLeft();
 				int end = changedElement.getRight();

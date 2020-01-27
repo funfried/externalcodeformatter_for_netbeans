@@ -19,9 +19,9 @@ import java.util.prefs.Preferences;
 
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
@@ -57,7 +57,7 @@ public class FormatterStrategyDispatcher {
 	 *
 	 * @return the singleton instance
 	 */
-	@NotNull
+	@NonNull
 	public static FormatterStrategyDispatcher getInstance() {
 		lock.lock();
 
@@ -116,7 +116,7 @@ public class FormatterStrategyDispatcher {
 	 *         activated for the given {@link Document}, or {@code null} if the
 	 *         internal NetBeans code formatter is used for the given {@code document}
 	 */
-	@Null
+	@CheckForNull
 	public Integer getContinuationIndentSize(Document document) {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
@@ -141,7 +141,7 @@ public class FormatterStrategyDispatcher {
 	 *         the given {@link Document}, or {@code null} if the internal NetBeans
 	 *         code formatter is used for the given {@code document}
 	 */
-	@Null
+	@CheckForNull
 	public Integer getIndentSize(Document document) {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
@@ -168,7 +168,7 @@ public class FormatterStrategyDispatcher {
 	 *         or {@code null} if the internal NetBeans code formatter is used for
 	 *         the given {@code document}
 	 */
-	@Null
+	@CheckForNull
 	public Integer getRightMargin(Document document) {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
@@ -193,7 +193,7 @@ public class FormatterStrategyDispatcher {
 	 *         for the given {@link Document}, or {@code null} if the internal
 	 *         NetBeans code formatter is used for the given {@code document}
 	 */
-	@Null
+	@CheckForNull
 	public Integer getSpacesPerTab(Document document) {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);
@@ -220,7 +220,7 @@ public class FormatterStrategyDispatcher {
 	 *         or the implementation of the configured {@link IFormatterStrategyService} could
 	 *         not be found {@code null} will be returned
 	 */
-	@Null
+	@CheckForNull
 	private IFormatterStrategyService getActiveFormatterStrategyService(Document document) {
 		Preferences prefs = Settings.getActivePreferences(document);
 		String activeFormatterStrategyId = prefs.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
@@ -247,7 +247,7 @@ public class FormatterStrategyDispatcher {
 	 *         internal NetBeans code formatter is used for the given
 	 *         {@code document}
 	 */
-	@Null
+	@CheckForNull
 	public Boolean isExpandTabToSpaces(Document document) {
 		try {
 			IFormatterStrategyService formatterStrategy = getActiveFormatterStrategyService(document);

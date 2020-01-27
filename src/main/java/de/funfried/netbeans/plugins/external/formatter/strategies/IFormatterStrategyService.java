@@ -10,8 +10,9 @@
 package de.funfried.netbeans.plugins.external.formatter.strategies;
 
 import javax.swing.text.Document;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
+
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
 
 /**
  * Service interface for external formatter implementations.
@@ -29,7 +30,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 * @return the continuation indent size configured for the given {@link Document},
 	 *         or {@code null} if it should not affect the editor behavior
 	 */
-	@Null
+	@CheckForNull
 	Integer getContinuationIndentSize(Document document);
 
 	/**
@@ -37,7 +38,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 *
 	 * @return the display name of this formatter implementation
 	 */
-	@NotNull
+	@NonNull
 	String getDisplayName();
 
 	/**
@@ -45,7 +46,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 *
 	 * @return the unique identifier of this formatter implementation
 	 */
-	@NotNull
+	@NonNull
 	String getId();
 
 	/**
@@ -57,7 +58,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 * @return the indent size configured for the given {@link Document}, or
 	 *         {@code null} if it should not affect the editor behavior
 	 */
-	@Null
+	@CheckForNull
 	Integer getIndentSize(Document document);
 
 	/**
@@ -71,7 +72,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 *         for the given {@link Document}, or {@code null} if it should not
 	 *         affect the editor behavior
 	 */
-	@Null
+	@CheckForNull
 	Integer getRightMargin(Document document);
 
 	/**
@@ -84,7 +85,7 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 * @return the spaces per tab configured for the given {@link Document}, or
 	 *         {@code null} if it should not affect the editor behavior
 	 */
-	@Null
+	@CheckForNull
 	Integer getSpacesPerTab(Document document);
 
 	/**
@@ -98,6 +99,6 @@ public interface IFormatterStrategyService extends IFormatterStrategy {
 	 *         {@link Document}, or {@code null} if it should not affect the editor
 	 *         behavior
 	 */
-	@Null
+	@CheckForNull
 	Boolean isExpandTabToSpaces(Document document);
 }

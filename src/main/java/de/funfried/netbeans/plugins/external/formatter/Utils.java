@@ -33,6 +33,10 @@ public interface Utils {
 	 *         {@code false}
 	 */
 	static boolean isJava(Document document) {
+		if (document == null) {
+			return false;
+		}
+
 		return JavaTokenId.language().mimeType().equals(NbEditorUtilities.getMimeType(document));
 	}
 }

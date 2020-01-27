@@ -35,6 +35,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.Document;
 
+import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.editor.mimelookup.MimeLookup;
 import org.netbeans.api.editor.mimelookup.MimePath;
 import org.netbeans.api.java.lexer.JavaTokenId;
@@ -92,7 +93,17 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 	 */
 	@Override
 	public Preferences forFile(FileObject file, String mimeType) {
-		return getTemporaryDocumentPreferences(Source.create(file).getDocument(false), mimeType);
+		if (StringUtils.isNotBlank(mimeType) && file != null) {
+			Source source = Source.create(file);
+			if (source != null) {
+				Document document = source.getDocument(false);
+				if (document != null) {
+					return getTemporaryDocumentPreferences(document, mimeType);
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -100,7 +111,11 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 	 */
 	@Override
 	public Preferences forDocument(Document doc, String mimeType) {
-		return getTemporaryDocumentPreferences(doc, mimeType);
+		if (StringUtils.isNotBlank(mimeType) && doc != null) {
+			return getTemporaryDocumentPreferences(doc, mimeType);
+		}
+
+		return null;
 	}
 
 	private TemporaryDocumentPreferences getTemporaryDocumentPreferences(Document doc, String mimeType) {

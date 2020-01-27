@@ -56,7 +56,9 @@ public final class GoogleFormatter {
 		}
 
 		Collection<Range<Integer>> characterRanges = new ArrayList<>();
-		if (!CollectionUtils.isEmpty(changedElements)) {
+		if (changedElements == null) {
+			characterRanges.add(Range.closedOpen(0, code.length()));
+		} else if (!CollectionUtils.isEmpty(changedElements)) {
 			for (Pair<Integer, Integer> changedElement : changedElements) {
 				int start = changedElement.getLeft();
 				int end = changedElement.getRight();
@@ -68,7 +70,8 @@ public final class GoogleFormatter {
 				characterRanges.add(Range.open(start, end));
 			}
 		} else {
-			characterRanges.add(Range.closedOpen(0, code.length()));
+			// empty changed elements means nothing's left which can be formatted due to guarded sections
+			return code;
 		}
 
 		try {

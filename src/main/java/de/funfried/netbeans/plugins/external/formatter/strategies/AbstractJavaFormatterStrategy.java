@@ -29,11 +29,11 @@ public abstract class AbstractJavaFormatterStrategy implements IFormatterStrateg
 	 */
 	@Override
 	public boolean canHandle(Document document) {
-		if (!Utils.isJava(document)) {
-			return false;
+		if (Utils.isJava(document)) {
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**

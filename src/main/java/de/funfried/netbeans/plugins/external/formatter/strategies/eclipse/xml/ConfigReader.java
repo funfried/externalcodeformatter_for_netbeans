@@ -18,9 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.lang3.StringUtils;
+import org.netbeans.api.annotations.common.NonNull;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.xml.XMLUtil;
@@ -107,7 +106,7 @@ public class ConfigReader {
 	 * @throws ConfigReadException      if the given {@link FileObject} is not a valid Eclipse formatter template
 	 * @throws ProfileNotFoundException if no profile could be found with the given {@code profileName} in the given {@link FileObject}
 	 */
-	@NotNull
+	@NonNull
 	public static Map<String, String> getProfileSettings(FileObject fileObject, String profileName) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
 		List<Node> profileNodes = getProfileNodes(fileObject);
 		for (Node profileTag : profileNodes) {
@@ -147,7 +146,7 @@ public class ConfigReader {
 	 * @throws IOException         if there is an I/O issue
 	 * @throws ConfigReadException if the given {@link FileObject} is not a valid Eclipse formatter template
 	 */
-	@NotNull
+	@NonNull
 	public static List<String> getProfileNames(FileObject fileObject) throws ConfigReadException, IOException, SAXException {
 		List<String> profileNames = new ArrayList<>();
 
@@ -176,7 +175,7 @@ public class ConfigReader {
 	 * @throws IOException         if there is an I/O issue
 	 * @throws ConfigReadException if the given {@link FileObject} is not a valid Eclipse formatter template
 	 */
-	@NotNull
+	@NonNull
 	private static List<Node> getProfileNodes(FileObject fileObject) throws ConfigReadException, IOException, SAXException {
 		List<Node> profiles = new ArrayList<>();
 

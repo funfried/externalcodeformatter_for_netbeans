@@ -72,7 +72,6 @@ class GoogleFormatterRunnable extends AbstractFormatterRunnable {
 			SortedSet<Pair<Integer, Integer>> regions = getFormatableSections(code);
 
 			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);
-			// quick check for changed
 			if (setFormattedCode(code, formattedContent)) {
 				SwingUtilities.invokeLater(() -> {
 					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {

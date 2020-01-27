@@ -23,16 +23,19 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
-import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.editor.mimelookup.MimeLookup;
 import org.netbeans.api.editor.mimelookup.MimePath;
+import org.netbeans.modules.editor.NbEditorUtilities;
 import org.netbeans.modules.editor.indent.spi.Context;
 import org.netbeans.modules.editor.indent.spi.ExtraLock;
 import org.netbeans.modules.editor.indent.spi.ReformatTask;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
+import org.openide.loaders.DataObject;
+import org.openide.text.NbDocument;
 
 import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
 import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
@@ -67,17 +70,7 @@ public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
 				 */
 				@Override
 				public void reformat() throws BadLocationException {
-					netbeansDefaultTask.reformat();
-
-					Preferences pref = Settings.getActivePreferences(document);
-
-					SwingUtilities.invokeLater(() -> {
-						if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-							NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Icons.ICON_NETBEANS, null, null);
-						}
-
-						StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
-					});
+					formatWithNetBeansFormatter(netbeansDefaultTask, document);
 				}
 
 				/**
@@ -117,18 +110,19 @@ public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
 					changedElements.add(Pair.of(start, end));
 				}
 
-				if (!FormatterStrategyDispatcher.getInstance().format(new FormatterAdvice((StyledDocument) document, changedElements))) {
-					netbeansDefaultTask.reformat();
+				StyledDocument styledDocument = null;
 
-					Preferences pref = Settings.getActivePreferences(document);
+				if (document instanceof StyledDocument) {
+					styledDocument = (StyledDocument) document;
+				} else {
+					DataObject dataObject = NbEditorUtilities.getDataObject(document);
+					if (dataObject != null) {
+						styledDocument = NbDocument.getDocument(dataObject);
+					}
+				}
 
-					SwingUtilities.invokeLater(() -> {
-						if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-							NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Icons.ICON_NETBEANS, null, null);
-						}
-
-						StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
-					});
+				if (!FormatterStrategyDispatcher.getInstance().format(new FormatterAdvice(styledDocument, changedElements))) {
+					formatWithNetBeansFormatter(netbeansDefaultTask, document);
 				}
 			}
 
@@ -140,7 +134,6 @@ public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
 				return netbeansDefaultTask.reformatLock();
 			}
 		};
-
 	}
 
 	/**
@@ -152,7 +145,7 @@ public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
 	 * @return the cached default implementation of {@link ReformatTask.Factory}
 	 *         for the given {@code mimePath}
 	 */
-	@NotNull
+	@NonNull
 	private ReformatTask.Factory getDefaultForMimePath(String mimePath) {
 		MimePath mp = MimePath.get(mimePath);
 		Reference<ReformatTask.Factory> ref = cache.get(mp);
@@ -175,5 +168,19 @@ public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
 		}
 
 		return factory;
+	}
+
+	private void formatWithNetBeansFormatter(ReformatTask netbeansDefaultTask, Document document) throws BadLocationException {
+		netbeansDefaultTask.reformat();
+
+		Preferences pref = Settings.getActivePreferences(document);
+
+		SwingUtilities.invokeLater(() -> {
+			if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
+				NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Icons.ICON_NETBEANS, null, null);
+			}
+
+			StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
+		});
 	}
 }
