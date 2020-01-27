@@ -257,6 +257,12 @@
 
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-api-annotations-common</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-netbeans-modules-options-api</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
@@ -403,18 +409,6 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.6</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>2.0.1.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate.validator</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>6.1.0.Final</version>
 		</dependency>
 
 		<dependency>
@@ -714,7 +708,6 @@
 								<ignored>org.netbeans.external:nb-javac-api</ignored>
 								<ignored>org.netbeans.external:nb-javac-impl</ignored>
 								<ignored>javax.annotation:javax.annotation-api</ignored>
-								<ignored>org.hibernate.validator:hibernate-validator</ignored>
 							</ignoredUnusedDeclaredDependencies>
 						</configuration>
 					</execution>
@@ -808,6 +801,10 @@
 					<name>GitHub funfried Apache Maven Packages</name>
 					<url>https://maven.pkg.github.com/funfried/externalcodeformatter_for_netbeans</url>
 				</repository>
+				<snapshotRepository>
+					<id>github</id>
+					<url>https://maven.pkg.github.com/funfried/externalcodeformatter_for_netbeans</url>
+				</snapshotRepository>
 			</distributionManagement>
 		</profile>
 		<profile>
