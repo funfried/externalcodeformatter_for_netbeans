@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  * Contributors:
- * bahlef - initial API and implementation and/or initial documentation
+ * markiewb - initial API and implementation and/or initial documentation
  */
 package de.funfried.netbeans.plugins.external.formatter.strategies.eclipse;
 

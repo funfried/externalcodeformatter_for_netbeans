@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 bahlef.
+ * Copyright (c) 2020 bahlef.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -27,7 +27,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  * Todo: Fix test
- * It seems none og the IFormatterStrategyServices is registered in the default
+ * It seems none of the IFormatterStrategyServices is registered in the default
  * lookup while the tests are running.
  *
  * @author bahlef
