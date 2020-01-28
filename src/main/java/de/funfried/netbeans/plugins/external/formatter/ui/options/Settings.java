@@ -102,6 +102,12 @@ public class Settings {
 	public static final String GOOGLE_FORMATTER_CODE_STYLE = "googleFormatterCodeStyle";
 
 	/**
+	 * Private contructor because of static methods only.
+	 */
+	private Settings() {
+	}
+
+	/**
 	 * Returns the active {@link Preferences} object for the given {@link Document}, either the global
 	 * preferences are returned or if the {@link Project} has a separate configuration it will return
 	 * the project specific {@link Preferences}.
