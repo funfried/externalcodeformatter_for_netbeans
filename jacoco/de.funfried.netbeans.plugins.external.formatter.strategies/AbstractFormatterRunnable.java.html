@@ -44,7 +44,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 <span class="fc" id="L44">	private static final Logger log = Logger.getLogger(AbstractFormatterRunnable.class.getName());</span>
 
 	/** Log {@link Level} for fast switching while investigating issues. */
-<span class="fc" id="L47">	private static final Level logLevel = Level.WARNING;</span>
+<span class="fc" id="L47">	private static final Level logLevel = Level.FINER;</span>
 
 	/** {@link SortedSet} containing document offset ranges which should be formatted. */
 	protected final SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements;
@@ -84,8 +84,8 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 <span class="fc" id="L84">				Difference[] differences = Diff.diff(original, formatted);</span>
 <span class="pc bpc" id="L85" title="2 of 4 branches missed.">				if (differences != null &amp;&amp; differences.length != 0) {</span>
 <span class="pc bpc" id="L86" title="1 of 2 branches missed.">					if (log.isLoggable(logLevel)) {</span>
-<span class="fc" id="L87">						log.log(logLevel, &quot;Unformatted: ''{0}''&quot;, code);</span>
-<span class="fc" id="L88">						log.log(logLevel, &quot;Formatted: ''{0}''&quot;, formattedContent);</span>
+<span class="nc" id="L87">						log.log(logLevel, &quot;Unformatted: ''{0}''&quot;, code);</span>
+<span class="nc" id="L88">						log.log(logLevel, &quot;Formatted: ''{0}''&quot;, formattedContent);</span>
 					}
 
 <span class="fc bfc" id="L91" title="All 2 branches covered.">					for (Difference d : differences) {</span>
@@ -112,7 +112,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 <span class="fc" id="L112">								String addText = d.getSecondText();</span>
 
 <span class="pc bpc" id="L114" title="1 of 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
-<span class="fc" id="L115">									log.log(logLevel, &quot;CHANGE: {0} - {1} / Line {2}: ''{3}'' =&gt; ''{4}'' ({5})&quot;, new Object[] { start, length, startLine, addText, document.getText(start, length), removeText });</span>
+<span class="nc" id="L115">									log.log(logLevel, &quot;CHANGE: {0} - {1} / Line {2}: ''{3}'' =&gt; ''{4}'' ({5})&quot;, new Object[] { start, length, startLine, addText, document.getText(start, length), removeText });</span>
 								}
 
 <span class="fc" id="L118">								document.remove(start, length);</span>
@@ -221,9 +221,9 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		}
 
 <span class="pc bpc" id="L223" title="1 of 2 branches missed.">		if (log.isLoggable(logLevel)) {</span>
-<span class="fc" id="L224">			StringBuilder sb = new StringBuilder();</span>
-<span class="fc" id="L225">			regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
-<span class="fc" id="L226">			log.log(logLevel, &quot;Formating sections: {0}&quot;, sb.toString().trim());</span>
+<span class="nc" id="L224">			StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L225">			regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
+<span class="nc" id="L226">			log.log(logLevel, &quot;Formating sections: {0}&quot;, sb.toString().trim());</span>
 		}
 
 <span class="fc" id="L229">		return regions;</span>
