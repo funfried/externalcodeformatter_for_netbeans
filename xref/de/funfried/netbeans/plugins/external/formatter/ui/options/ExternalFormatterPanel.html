@@ -47,9 +47,9 @@
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> com.google.googlejavaformat.java.JavaFormatterOptions;
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
-<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterStrategy;
-<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.strategies.google.GoogleFormatterStrategy;
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.java.eclipse.EclipseJavaFormatterService;
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.java.eclipse.xml.ConfigReader;
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.java.google.GoogleJavaFormatterService;
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableConfigPanel;
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment">/**</em>
@@ -613,11 +613,11 @@
 <a class="jxr_linenumber" name="L605" href="#L605">605</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> load() {
 <a class="jxr_linenumber" name="L606" href="#L606">606</a> 		String enabledFormatter = preferences.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
 <a class="jxr_linenumber" name="L607" href="#L607">607</a> 
-<a class="jxr_linenumber" name="L608" href="#L608">608</a> 		<strong class="jxr_keyword">boolean</strong> googleFormatterEnabled = GoogleFormatterStrategy.ID.equals(enabledFormatter);
+<a class="jxr_linenumber" name="L608" href="#L608">608</a> 		<strong class="jxr_keyword">boolean</strong> googleFormatterEnabled = GoogleJavaFormatterService.ID.equals(enabledFormatter);
 <a class="jxr_linenumber" name="L609" href="#L609">609</a> 		String googleFormatterCodeStyle = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 <a class="jxr_linenumber" name="L610" href="#L610">610</a> 		String eclipseFormatterLocation = preferences.get(Settings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, <span class="jxr_string">""</span>);
 <a class="jxr_linenumber" name="L611" href="#L611">611</a> 		String eclipseFormatterProfile = preferences.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, <span class="jxr_string">""</span>);
-<a class="jxr_linenumber" name="L612" href="#L612">612</a> 		<strong class="jxr_keyword">boolean</strong> eclipseFormatterEnabled = EclipseFormatterStrategy.ID.equals(enabledFormatter);
+<a class="jxr_linenumber" name="L612" href="#L612">612</a> 		<strong class="jxr_keyword">boolean</strong> eclipseFormatterEnabled = EclipseJavaFormatterService.ID.equals(enabledFormatter);
 <a class="jxr_linenumber" name="L613" href="#L613">613</a> 		<strong class="jxr_keyword">boolean</strong> showNotifications = preferences.getBoolean(Settings.SHOW_NOTIFICATIONS, false);
 <a class="jxr_linenumber" name="L614" href="#L614">614</a> 		<strong class="jxr_keyword">boolean</strong> useIndentationSettings = preferences.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, <strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="L615" href="#L615">615</a> 		<strong class="jxr_keyword">boolean</strong> overrideTabSize = preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, false);
@@ -727,7 +727,7 @@
 <a class="jxr_linenumber" name="L719" href="#L719">719</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L720" href="#L720">720</a> 	@Override
 <a class="jxr_linenumber" name="L721" href="#L721">721</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> store() {
-<a class="jxr_linenumber" name="L722" href="#L722">722</a> 		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleFormatterStrategy.ID : (rbUseEclipse.isSelected() ? EclipseFormatterStrategy.ID : Settings.DEFAULT_FORMATTER));
+<a class="jxr_linenumber" name="L722" href="#L722">722</a> 		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleJavaFormatterService.ID : (rbUseEclipse.isSelected() ? EclipseJavaFormatterService.ID : Settings.DEFAULT_FORMATTER));
 <a class="jxr_linenumber" name="L723" href="#L723">723</a> 		preferences.put(Settings.GOOGLE_FORMATTER_CODE_STYLE, googleCodeStyleRdBtn.isSelected() ? JavaFormatterOptions.Style.GOOGLE.name() : JavaFormatterOptions.Style.AOSP.name());
 <a class="jxr_linenumber" name="L724" href="#L724">724</a> 		preferences.put(Settings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, formatterLocField.getText());
 <a class="jxr_linenumber" name="L725" href="#L725">725</a> 		preferences.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, useIndentationSettingsChkBox.isSelected());
