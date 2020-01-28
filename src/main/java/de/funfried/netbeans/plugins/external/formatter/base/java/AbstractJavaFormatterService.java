@@ -22,7 +22,7 @@ import de.funfried.netbeans.plugins.external.formatter.base.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
 
 /**
- * Abstract base implementation of {@link AbstractFormatterRunnable} for Java formatters.
+ * Abstract base implementation of {@link FormatterService} for Java formatters.
  *
  * @author bahlef
  */

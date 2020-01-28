@@ -40,7 +40,7 @@ class GoogleFormatJob extends AbstractFormatJob {
 	private final GoogleJavaFormatterWrapper formatter;
 
 	/**
-	 * Package private constructor to create a new instance of {@link GoogleFormatterRunnable}.
+	 * Package private constructor to create a new instance of {@link GoogleFormatJob}.
 	 *
 	 * @param document        the {@link StyledDocument} which sould be formatted
 	 * @param formatter       the {@link GoogleJavaFormatterWrapper} to use

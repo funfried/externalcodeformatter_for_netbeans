@@ -39,11 +39,11 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  * @author bahlef
  */
 class EclipseFormatJob extends AbstractFormatJob {
-	/** *  The {@link EclipseJavaFormatterWrapper} implementation. */
+	/** * The {@link EclipseJavaFormatterWrapper} implementation. */
 	private final EclipseJavaFormatterWrapper formatter;
 
 	/**
-	 * Package private constructor to create a new instance of {@link EclipseFormatterRunnable}.
+	 * Package private constructor to create a new instance of {@link EclipseFormatJob}.
 	 *
 	 * @param document        the {@link StyledDocument} which sould be formatted
 	 * @param formatter       the {@link EclipseJavaFormatterWrapper} to use
