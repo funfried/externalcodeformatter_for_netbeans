@@ -44,7 +44,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	private static final Logger log = Logger.getLogger(AbstractFormatterRunnable.class.getName());
 
 	/** Log {@link Level} for fast switching while investigating issues. */
-	private static final Level logLevel = Level.WARNING;
+	private static final Level logLevel = Level.FINER;
 
 	/** {@link SortedSet} containing document offset ranges which should be formatted. */
 	protected final SortedSet<Pair<Integer, Integer>> changedElements;
