@@ -20,11 +20,12 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.diff.Difference;
-import org.netbeans.api.editor.document.LineDocumentUtils;
-import org.netbeans.api.editor.guards.DocumentGuards;
+import org.netbeans.api.editor.guards.GuardedSection;
+import org.netbeans.api.editor.guards.GuardedSectionManager;
 import org.netbeans.editor.BaseDocument;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
@@ -40,10 +41,10 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  */
 public abstract class AbstractFormatterRunnable implements Runnable {
 	/** {@link Logger} of this class. */
-<span class="fc" id="L43">	private static final Logger log = Logger.getLogger(AbstractFormatterRunnable.class.getName());</span>
+<span class="fc" id="L44">	private static final Logger log = Logger.getLogger(AbstractFormatterRunnable.class.getName());</span>
 
 	/** Log {@link Level} for fast switching while investigating issues. */
-<span class="fc" id="L46">	private static final Level logLevel = Level.FINER;</span>
+<span class="fc" id="L47">	private static final Level logLevel = Level.WARNING;</span>
 
 	/** {@link SortedSet} containing document offset ranges which should be formatted. */
 	protected final SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements;
@@ -57,10 +58,10 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 * @param document        the {@link StyledDocument} from which the content should be formatted
 	 * @param changedElements {@link SortedSet} containing document offset ranges which should be formatted or {@code null} to format the whole document
 	 */
-<span class="fc" id="L60">	protected AbstractFormatterRunnable(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {</span>
-<span class="fc" id="L61">		this.document = document;</span>
-<span class="fc" id="L62">		this.changedElements = changedElements;</span>
-<span class="fc" id="L63">	}</span>
+<span class="fc" id="L61">	protected AbstractFormatterRunnable(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {</span>
+<span class="fc" id="L62">		this.document = document;</span>
+<span class="fc" id="L63">		this.changedElements = changedElements;</span>
+<span class="fc" id="L64">	}</span>
 
 	/**
 	 * Applies the given {@code formattedContent} to the {@code document}.
@@ -77,72 +78,72 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 */
 	protected boolean setFormattedCode(String code, String formattedContent) throws BadLocationException {
 		// quick check for changed
-<span class="pc bpc" id="L80" title="2 of 4 branches missed.">		if (formattedContent != null &amp;&amp; /* does not support changes of EOL */ !formattedContent.equals(code)) {</span>
-<span class="fc" id="L81">			try (StringReader original = new StringReader(code);</span>
-<span class="fc" id="L82">					StringReader formatted = new StringReader(formattedContent)) {</span>
-<span class="fc" id="L83">				Difference[] differences = Diff.diff(original, formatted);</span>
-<span class="pc bpc" id="L84" title="2 of 4 branches missed.">				if (differences != null &amp;&amp; differences.length != 0) {</span>
-<span class="pc bpc" id="L85" title="1 of 2 branches missed.">					if (log.isLoggable(logLevel)) {</span>
-<span class="nc" id="L86">						log.log(logLevel, &quot;Unformatted: ''{0}''&quot;, code);</span>
-<span class="nc" id="L87">						log.log(logLevel, &quot;Formatted: ''{0}''&quot;, formattedContent);</span>
+<span class="pc bpc" id="L81" title="2 of 4 branches missed.">		if (formattedContent != null &amp;&amp; /* does not support changes of EOL */ !formattedContent.equals(code)) {</span>
+<span class="fc" id="L82">			try (StringReader original = new StringReader(code);</span>
+<span class="fc" id="L83">					StringReader formatted = new StringReader(formattedContent)) {</span>
+<span class="fc" id="L84">				Difference[] differences = Diff.diff(original, formatted);</span>
+<span class="pc bpc" id="L85" title="2 of 4 branches missed.">				if (differences != null &amp;&amp; differences.length != 0) {</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">					if (log.isLoggable(logLevel)) {</span>
+<span class="fc" id="L87">						log.log(logLevel, &quot;Unformatted: ''{0}''&quot;, code);</span>
+<span class="fc" id="L88">						log.log(logLevel, &quot;Formatted: ''{0}''&quot;, formattedContent);</span>
 					}
 
-<span class="fc bfc" id="L90" title="All 2 branches covered.">					for (Difference d : differences) {</span>
-<span class="fc" id="L91">						int startLine = d.getSecondStart();</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">					for (Difference d : differences) {</span>
+<span class="fc" id="L92">						int startLine = d.getSecondStart();</span>
 
-<span class="pc bpc" id="L93" title="3 of 4 branches missed.">						switch (d.getType()) {</span>
+<span class="pc bpc" id="L94" title="3 of 4 branches missed.">						switch (d.getType()) {</span>
 							case Difference.ADD: {
-<span class="nc" id="L95">								int start = NbDocument.findLineOffset(document, startLine - 1);</span>
-<span class="nc" id="L96">								String addText = d.getSecondText();</span>
+<span class="nc" id="L96">								int start = NbDocument.findLineOffset(document, startLine - 1);</span>
+<span class="nc" id="L97">								String addText = d.getSecondText();</span>
 
-<span class="nc bnc" id="L98" title="All 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
-<span class="nc" id="L99">									log.log(logLevel, &quot;ADD: {0} / Line {1}: {2}&quot;, new Object[] { start, startLine, addText });</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
+<span class="nc" id="L100">									log.log(logLevel, &quot;ADD: {0} / Line {1}: {2}&quot;, new Object[] { start, startLine, addText });</span>
 								}
 
-<span class="nc" id="L102">								document.insertString(start, addText, null);</span>
+<span class="nc" id="L103">								document.insertString(start, addText, null);</span>
 
-<span class="nc" id="L104">								break;</span>
+<span class="nc" id="L105">								break;</span>
 							}
 							case Difference.CHANGE: {
-<span class="fc" id="L107">								int start = NbDocument.findLineOffset(document, startLine - 1);</span>
-<span class="fc" id="L108">								String removeText = d.getFirstText();</span>
-<span class="fc" id="L109">								int length = removeText.length();</span>
+<span class="fc" id="L108">								int start = NbDocument.findLineOffset(document, startLine - 1);</span>
+<span class="fc" id="L109">								String removeText = d.getFirstText();</span>
+<span class="fc" id="L110">								int length = removeText.length();</span>
 
-<span class="fc" id="L111">								String addText = d.getSecondText();</span>
+<span class="fc" id="L112">								String addText = d.getSecondText();</span>
 
-<span class="pc bpc" id="L113" title="1 of 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
-<span class="nc" id="L114">									log.log(logLevel, &quot;CHANGE: {0} - {1} / Line {2}: ''{3}'' =&gt; ''{4}'' ({5})&quot;, new Object[] { start, length, startLine, addText, document.getText(start, length), removeText });</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
+<span class="fc" id="L115">									log.log(logLevel, &quot;CHANGE: {0} - {1} / Line {2}: ''{3}'' =&gt; ''{4}'' ({5})&quot;, new Object[] { start, length, startLine, addText, document.getText(start, length), removeText });</span>
 								}
 
-<span class="fc" id="L117">								document.remove(start, length);</span>
-<span class="fc" id="L118">								document.insertString(start, addText, null);</span>
+<span class="fc" id="L118">								document.remove(start, length);</span>
+<span class="fc" id="L119">								document.insertString(start, addText, null);</span>
 
-<span class="fc" id="L120">								break;</span>
+<span class="fc" id="L121">								break;</span>
 							}
 							case Difference.DELETE: {
-<span class="nc" id="L123">								int start = NbDocument.findLineOffset(document, startLine);</span>
-<span class="nc" id="L124">								String removeText = d.getFirstText();</span>
-<span class="nc" id="L125">								int length = removeText.length();</span>
+<span class="nc" id="L124">								int start = NbDocument.findLineOffset(document, startLine);</span>
+<span class="nc" id="L125">								String removeText = d.getFirstText();</span>
+<span class="nc" id="L126">								int length = removeText.length();</span>
 
-<span class="nc bnc" id="L127" title="All 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
-<span class="nc" id="L128">									log.log(logLevel, &quot;DELETE: {0} - {1} / Line {2}: ''{3}'' ({4})&quot;, new Object[] { start, length, startLine, document.getText(start, length), removeText });</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
+<span class="nc" id="L129">									log.log(logLevel, &quot;DELETE: {0} - {1} / Line {2}: ''{3}'' ({4})&quot;, new Object[] { start, length, startLine, document.getText(start, length), removeText });</span>
 								}
 
-<span class="nc" id="L131">								document.remove(start, length);</span>
+<span class="nc" id="L132">								document.remove(start, length);</span>
 
-<span class="nc" id="L133">								break;</span>
+<span class="nc" id="L134">								break;</span>
 							}
 						}
 					}
 
-<span class="fc" id="L138">					return true;</span>
+<span class="fc" id="L139">					return true;</span>
 				}
-<span class="nc" id="L140">			} catch (IOException ex) {</span>
-<span class="nc" id="L141">				log.log(Level.WARNING, &quot;Could not create diff&quot;, ex);</span>
-<span class="nc" id="L142">			}</span>
+<span class="nc" id="L141">			} catch (IOException ex) {</span>
+<span class="nc" id="L142">				log.log(Level.WARNING, &quot;Could not create diff&quot;, ex);</span>
+<span class="nc" id="L143">			}</span>
 		}
 
-<span class="nc" id="L145">		return false;</span>
+<span class="nc" id="L146">		return false;</span>
 	}
 
 	/**
@@ -156,18 +157,18 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 */
 	protected String getCode(String lineFeedSetting) {
 		//save with configured linefeed
-<span class="fc" id="L159">		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
-<span class="fc bfc" id="L160" title="All 2 branches covered.">		if (null != lineFeedSetting) {</span>
-<span class="fc" id="L161">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
-<span class="fc" id="L162">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
+<span class="fc" id="L160">		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">		if (null != lineFeedSetting) {</span>
+<span class="fc" id="L162">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
+<span class="fc" id="L163">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
 		}
 
 		try {
-<span class="fc" id="L166">			return document.getText(0, document.getLength());</span>
-<span class="nc" id="L167">		} catch (BadLocationException ex) {</span>
-<span class="nc" id="L168">			Exceptions.printStackTrace(ex);</span>
+<span class="fc" id="L167">			return document.getText(0, document.getLength());</span>
+<span class="nc" id="L168">		} catch (BadLocationException ex) {</span>
+<span class="nc" id="L169">			Exceptions.printStackTrace(ex);</span>
 
-<span class="nc" id="L170">			throw new UnsupportedOperationException(ex);</span>
+<span class="nc" id="L171">			throw new UnsupportedOperationException(ex);</span>
 		}
 	}
 
@@ -186,81 +187,111 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	 */
 	@NonNull
 	protected SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; getFormatableSections(String code) {
-<span class="fc" id="L189">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = changedElements;</span>
-<span class="pc bpc" id="L190" title="1 of 2 branches missed.">		if (CollectionUtils.isEmpty(changedElements)) {</span>
-<span class="fc" id="L191">			regions = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L190">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = changedElements;</span>
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">		if (CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="fc" id="L192">			regions = new TreeSet&lt;&gt;();</span>
 
-<span class="fc" id="L193">			regions.add(Pair.of(0, code.length() - 1));</span>
+<span class="fc" id="L194">			regions.add(Pair.of(0, code.length() - 1));</span>
 		}
 
-<span class="fc" id="L196">		DocumentGuards guards = LineDocumentUtils.as(document, DocumentGuards.class);</span>
-<span class="pc bpc" id="L197" title="1 of 2 branches missed.">		if (guards != null) {</span>
-<span class="pc bpc" id="L198" title="1 of 2 branches missed.">			if (log.isLoggable(logLevel)) {</span>
-<span class="nc" id="L199">				StringBuilder sb = new StringBuilder();</span>
-<span class="nc" id="L200">				regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
-<span class="nc" id="L201">				log.log(logLevel, &quot;Formating sections before guards: {0}&quot;, sb.toString().trim());</span>
+<span class="fc" id="L197">		GuardedSectionManager guards = GuardedSectionManager.getInstance(document);</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">		if (guards != null) {</span>
+<span class="nc" id="L199">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; nonGuardedSections = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L200">			Iterable&lt;GuardedSection&gt; guardedSections = guards.getGuardedSections();</span>
+
+<span class="nc bnc" id="L202" title="All 2 branches missed.">			if (log.isLoggable(logLevel)) {</span>
+				{
+<span class="nc" id="L204">					StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L205">					regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
+<span class="nc" id="L206">					log.log(logLevel, &quot;Formating sections before guards: {0}&quot;, sb.toString().trim());</span>
+				}
+
+				{
+<span class="nc" id="L210">					StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L211">					guardedSections.forEach(guard -&gt; sb.append(guard.getStartPosition().getOffset()).append(&quot;/&quot;).append(guard.getEndPosition().getOffset()).append(&quot; &quot;));</span>
+<span class="nc" id="L212">					log.log(logLevel, &quot;Guarded sections: {0}&quot;, sb.toString().trim());</span>
+				}
 			}
 
-<span class="pc bpc" id="L204" title="1 of 2 branches missed.">			if (log.isLoggable(logLevel)) {</span>
-<span class="nc" id="L205">				StringBuilder sb = new StringBuilder();</span>
-<span class="nc" id="L206">				int nextGuardStart = guards.findNextBlock(0, true);</span>
-<span class="nc bnc" id="L207" title="All 2 branches missed.">				while (nextGuardStart != -1) {</span>
-<span class="nc" id="L208">					int guardEnd = guards.adjustPosition(nextGuardStart, true);</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">			for (Pair&lt;Integer, Integer&gt; changedElement : regions) {</span>
+<span class="nc" id="L217">				nonGuardedSections.addAll(avoidGuardedSection(changedElement, guardedSections));</span>
+<span class="nc" id="L218">			}</span>
 
-<span class="nc" id="L210">					sb.append(nextGuardStart).append(&quot;/&quot;).append(guardEnd).append(&quot; &quot;);</span>
+<span class="nc" id="L220">			regions = nonGuardedSections;</span>
+		}
 
-<span class="nc" id="L212">					nextGuardStart = guards.findNextBlock(guardEnd + 1, true);</span>
-<span class="nc" id="L213">				}</span>
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">		if (log.isLoggable(logLevel)) {</span>
+<span class="fc" id="L224">			StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L225">			regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
+<span class="fc" id="L226">			log.log(logLevel, &quot;Formating sections: {0}&quot;, sb.toString().trim());</span>
+		}
 
-<span class="nc" id="L215">				log.log(logLevel, &quot;Guarded sections: {0}&quot;, sb.toString().trim());</span>
-			}
+<span class="fc" id="L229">		return regions;</span>
+	}
 
-<span class="fc" id="L218">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; nonGuardedSections = new TreeSet&lt;&gt;();</span>
+	/**
+	 * Checks if a given {@code section} interferes with the given {@code guardedSections}
+	 * and if so splits the given {@code section} into multiple sections and returns them
+	 * as a {@link SortedSet}.
+	 *
+	 * @param section         the section that should be checked
+	 * @param guardedSections the guarded sections of the {@code document}
+	 *
+	 * @return A {@link SortedSet} containing the splitted sections or just the initial
+	 *         {@code section} itself if there was no interference with the given
+	 *         {@code guardedSections}
+	 */
+	protected SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; avoidGuardedSection(Pair&lt;Integer, Integer&gt; section, Iterable&lt;GuardedSection&gt; guardedSections) {
+<span class="nc" id="L245">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; ret = new TreeSet&lt;&gt;();</span>
 
-<span class="fc bfc" id="L220" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : regions) {</span>
-<span class="fc" id="L221">				int start = changedElement.getLeft();</span>
-<span class="fc" id="L222">				int end = changedElement.getRight();</span>
+<span class="nc" id="L247">		MutableInt start = new MutableInt(section.getLeft());</span>
+<span class="nc" id="L248">		MutableInt end = new MutableInt(section.getRight());</span>
 
-<span class="fc" id="L224">				boolean startGuarded = guards.isPositionGuarded(start, true);</span>
-<span class="fc" id="L225">				boolean endGuarded = guards.isPositionGuarded(end, true);</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">		if (guardedSections != null) {</span>
+			try {
+<span class="nc" id="L252">				guardedSections.forEach(guardedSection -&gt; {</span>
+<span class="nc bnc" id="L253" title="All 4 branches missed.">					if (start.getValue() &gt;= guardedSection.getStartPosition().getOffset() &amp;&amp; start.getValue() &lt;= guardedSection.getEndPosition().getOffset()) {</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">						if (end.getValue() &gt; guardedSection.getEndPosition().getOffset()) {</span>
+<span class="nc" id="L255">							start.setValue(guardedSection.getEndPosition().getOffset());</span>
+						} else {
+<span class="nc" id="L257">							start.setValue(-1);</span>
+<span class="nc" id="L258">							end.setValue(-1);</span>
 
-<span class="fc" id="L227">				int startAdjusted = start;</span>
-<span class="fc" id="L228">				int endAdjusted = end;</span>
+<span class="nc" id="L260">							throw new BreakException();</span>
+						}
+<span class="nc bnc" id="L262" title="All 4 branches missed.">					} else if (end.getValue() &gt;= guardedSection.getStartPosition().getOffset() &amp;&amp; end.getValue() &lt;= guardedSection.getEndPosition().getOffset()) {</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">						if (start.getValue() &lt; guardedSection.getStartPosition().getOffset()) {</span>
+<span class="nc" id="L264">							end.setValue(guardedSection.getStartPosition().getOffset() - 1);</span>
+						} else {
+<span class="nc" id="L266">							start.setValue(-1);</span>
+<span class="nc" id="L267">							end.setValue(-1);</span>
 
-<span class="pc bpc" id="L230" title="3 of 4 branches missed.">				if (startGuarded &amp;&amp; endGuarded) {</span>
-<span class="nc" id="L231">					startAdjusted = guards.adjustPosition(start, true);</span>
-<span class="nc" id="L232">					endAdjusted = guards.adjustPosition(end, false);</span>
+<span class="nc" id="L269">							throw new BreakException();</span>
+						}
+<span class="nc bnc" id="L271" title="All 4 branches missed.">					} else if (start.getValue() &lt; guardedSection.getStartPosition().getOffset() &amp;&amp; end.getValue() &gt; guardedSection.getEndPosition().getOffset()) {</span>
+<span class="nc" id="L272">						ret.add(Pair.of(start.getValue(), guardedSection.getStartPosition().getOffset() - 1));</span>
 
-<span class="nc bnc" id="L234" title="All 2 branches missed.">					if (startAdjusted &gt;= endAdjusted) {</span>
-<span class="nc" id="L235">						continue;</span>
+<span class="nc" id="L274">						start.setValue(guardedSection.getEndPosition().getOffset());</span>
 					}
-<span class="pc bpc" id="L237" title="1 of 2 branches missed.">				} else if (startGuarded) {</span>
-<span class="nc" id="L238">					startAdjusted = guards.adjustPosition(start, true);</span>
-<span class="pc bpc" id="L239" title="1 of 2 branches missed.">				} else if (endGuarded) {</span>
-<span class="nc" id="L240">					endAdjusted = guards.adjustPosition(end, false);</span>
-				}
-
-<span class="fc" id="L243">				int nextGuard = guards.findNextBlock(startAdjusted, true);</span>
-<span class="pc bpc" id="L244" title="3 of 4 branches missed.">				while (nextGuard != -1 &amp;&amp; nextGuard &lt; endAdjusted) {</span>
-<span class="nc" id="L245">					nonGuardedSections.add(Pair.of(startAdjusted, guards.adjustPosition(nextGuard, false)));</span>
-
-<span class="nc" id="L247">					startAdjusted = guards.adjustPosition(nextGuard, true);</span>
-<span class="nc" id="L248">					nextGuard = guards.findNextBlock(startAdjusted, true);</span>
-				}
-
-<span class="fc" id="L251">				nonGuardedSections.add(Pair.of(startAdjusted, endAdjusted));</span>
-<span class="fc" id="L252">			}</span>
-
-<span class="fc" id="L254">			regions = nonGuardedSections;</span>
+<span class="nc" id="L276">				});</span>
+<span class="nc" id="L277">			} catch (BreakException ex) {</span>
+				// found no better solution to break a forEach
+<span class="nc" id="L279">			}</span>
 		}
 
-<span class="pc bpc" id="L257" title="1 of 2 branches missed.">		if (log.isLoggable(logLevel)) {</span>
-<span class="nc" id="L258">			StringBuilder sb = new StringBuilder();</span>
-<span class="nc" id="L259">			regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
-<span class="nc" id="L260">			log.log(logLevel, &quot;Formating sections: {0}&quot;, sb.toString().trim());</span>
+<span class="nc bnc" id="L282" title="All 4 branches missed.">		if (start.getValue() &gt; -1 &amp;&amp; end.getValue() &gt; -1) {</span>
+<span class="nc" id="L283">			ret.add(Pair.of(start.getValue(), end.getValue()));</span>
 		}
 
-<span class="fc" id="L263">		return regions;</span>
+<span class="nc" id="L286">		return ret;</span>
+	}
+
+	/**
+	 * {@link RuntimeException} which is used as a {@code break} condition inside
+	 * a {@link Iterable#forEach(java.util.function.Consumer)}.
+	 */
+<span class="nc" id="L293">	protected static class BreakException extends RuntimeException {</span>
+		private static final long serialVersionUID = 1L;
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

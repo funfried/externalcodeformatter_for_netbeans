@@ -116,7 +116,7 @@
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> 
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> cbOverrideGlobalSettingsActionPerformed(java.awt.event.ActionEvent evt) {<em class="jxr_comment">//GEN-FIRST:event_cbOverrideGlobalSettingsActionPerformed</em>
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> 		innerPanel.setVisible(cbOverrideGlobalSettings.isSelected());
-<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		fireChangedListener();
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		fireStateChanged();
 <a class="jxr_linenumber" name="L112" href="#L112">112</a> 	}<em class="jxr_comment">//GEN-LAST:event_cbOverrideGlobalSettingsActionPerformed</em>
 <a class="jxr_linenumber" name="L113" href="#L113">113</a> 
 <a class="jxr_linenumber" name="L114" href="#L114">114</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> lblJumpToGlobalOptionsMouseClicked(java.awt.event.MouseEvent evt) {<em class="jxr_comment">//GEN-FIRST:event_lblJumpToGlobalOptionsMouseClicked</em>
@@ -159,10 +159,10 @@
 <a class="jxr_linenumber" name="L151" href="#L151">151</a> 		changeListeners.add(listener);
 <a class="jxr_linenumber" name="L152" href="#L152">152</a> 	}
 <a class="jxr_linenumber" name="L153" href="#L153">153</a> 
-<a class="jxr_linenumber" name="L154" href="#L154">154</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> fireChangedListener() {
-<a class="jxr_linenumber" name="L155" href="#L155">155</a> 		<strong class="jxr_keyword">for</strong> (ChangeListener changeListener : changeListeners) {
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> fireStateChanged() {
+<a class="jxr_linenumber" name="L155" href="#L155">155</a> 		changeListeners.forEach((changeListener) -&gt; {
 <a class="jxr_linenumber" name="L156" href="#L156">156</a> 			changeListener.stateChanged(<strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L157" href="#L157">157</a> 		}
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> 		});
 <a class="jxr_linenumber" name="L158" href="#L158">158</a> 	}
 <a class="jxr_linenumber" name="L159" href="#L159">159</a> 
 <a class="jxr_linenumber" name="L160" href="#L160">160</a> 	<em class="jxr_javadoccomment">/**</em>
