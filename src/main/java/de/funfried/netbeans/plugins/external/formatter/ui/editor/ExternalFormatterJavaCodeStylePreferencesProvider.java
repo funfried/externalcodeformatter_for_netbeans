@@ -18,6 +18,7 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
@@ -46,10 +47,11 @@ import org.openide.util.Lookup;
 import org.openide.util.WeakListeners;
 import org.openide.util.lookup.ServiceProvider;
 
-import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
+import de.funfried.netbeans.plugins.external.formatter.base.FormatterServiceDelegate;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPreferencesChangeSupport;
 
 /**
+ * Implementation of the {@link CodeStylePreferences.Provider} to provide custom properties to the NetBeans editor.
  *
  * @author bahlef
  */
@@ -72,20 +74,12 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 	};
 
 	static {
-		temporaryPreferenceProviders.put(EditorConstants.TEXT_LIMIT_WIDTH, document -> toString(FormatterStrategyDispatcher.getInstance().getRightMargin(document)));
-		temporaryPreferenceProviders.put(EditorConstants.EXPAND_TABS, document -> toString(FormatterStrategyDispatcher.getInstance().isExpandTabToSpaces(document)));
-		temporaryPreferenceProviders.put(EditorConstants.SPACES_PER_TAB, document -> toString(FormatterStrategyDispatcher.getInstance().getSpacesPerTab(document)));
-		temporaryPreferenceProviders.put(EditorConstants.TAB_SIZE, document -> toString(FormatterStrategyDispatcher.getInstance().getSpacesPerTab(document)));
-		temporaryPreferenceProviders.put(EditorConstants.INDENT_SHIFT_WIDTH, document -> toString(FormatterStrategyDispatcher.getInstance().getIndentSize(document)));
-		temporaryPreferenceProviders.put(EditorConstants.CONTINUATION_INDENT_SIZE, document -> toString(FormatterStrategyDispatcher.getInstance().getContinuationIndentSize(document)));
-	}
-
-	private static String toString(Object obj) {
-		if (obj != null) {
-			return obj.toString();
-		}
-
-		return null;
+		temporaryPreferenceProviders.put(EditorConstants.TEXT_LIMIT_WIDTH, document -> Objects.toString(FormatterServiceDelegate.getInstance().getRightMargin(document)));
+		temporaryPreferenceProviders.put(EditorConstants.EXPAND_TABS, document -> Objects.toString(FormatterServiceDelegate.getInstance().isExpandTabToSpaces(document)));
+		temporaryPreferenceProviders.put(EditorConstants.SPACES_PER_TAB, document -> Objects.toString(FormatterServiceDelegate.getInstance().getSpacesPerTab(document)));
+		temporaryPreferenceProviders.put(EditorConstants.TAB_SIZE, document -> Objects.toString(FormatterServiceDelegate.getInstance().getSpacesPerTab(document)));
+		temporaryPreferenceProviders.put(EditorConstants.INDENT_SHIFT_WIDTH, document -> Objects.toString(FormatterServiceDelegate.getInstance().getIndentSize(document)));
+		temporaryPreferenceProviders.put(EditorConstants.CONTINUATION_INDENT_SIZE, document -> Objects.toString(FormatterServiceDelegate.getInstance().getContinuationIndentSize(document)));
 	}
 
 	/**
@@ -172,15 +166,14 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 			}
 
 			private void updateDocumentState() {
-				String tabSize = ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getSpacesPerTab(document));
+				String tabSize = Objects.toString(FormatterServiceDelegate.getInstance().getSpacesPerTab(document));
 
-				firePreferenceChanged(EditorConstants.TEXT_LIMIT_WIDTH, ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getRightMargin(document)));
-				firePreferenceChanged(EditorConstants.EXPAND_TABS, ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().isExpandTabToSpaces(document)));
+				firePreferenceChanged(EditorConstants.TEXT_LIMIT_WIDTH, Objects.toString(FormatterServiceDelegate.getInstance().getRightMargin(document)));
+				firePreferenceChanged(EditorConstants.EXPAND_TABS, Objects.toString(FormatterServiceDelegate.getInstance().isExpandTabToSpaces(document)));
 				firePreferenceChanged(EditorConstants.SPACES_PER_TAB, tabSize);
 				firePreferenceChanged(EditorConstants.TAB_SIZE, tabSize);
-				firePreferenceChanged(EditorConstants.INDENT_SHIFT_WIDTH, ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getIndentSize(document)));
-				firePreferenceChanged(EditorConstants.CONTINUATION_INDENT_SIZE,
-						ExternalFormatterJavaCodeStylePreferencesProvider.toString(FormatterStrategyDispatcher.getInstance().getContinuationIndentSize(document)));
+				firePreferenceChanged(EditorConstants.INDENT_SHIFT_WIDTH, Objects.toString(FormatterServiceDelegate.getInstance().getIndentSize(document)));
+				firePreferenceChanged(EditorConstants.CONTINUATION_INDENT_SIZE, Objects.toString(FormatterServiceDelegate.getInstance().getContinuationIndentSize(document)));
 
 				if (document instanceof AbstractDocument) {
 					AbstractDocument doc = (AbstractDocument) document;

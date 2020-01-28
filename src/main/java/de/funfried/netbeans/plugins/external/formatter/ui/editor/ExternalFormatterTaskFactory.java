@@ -37,8 +37,7 @@ import org.openide.awt.StatusDisplayer;
 import org.openide.loaders.DataObject;
 import org.openide.text.NbDocument;
 
-import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterAdvice;
-import de.funfried.netbeans.plugins.external.formatter.strategies.FormatterStrategyDispatcher;
+import de.funfried.netbeans.plugins.external.formatter.base.FormatterServiceDelegate;
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
@@ -121,7 +120,7 @@ public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
 					}
 				}
 
-				if (!FormatterStrategyDispatcher.getInstance().format(new FormatterAdvice(styledDocument, changedElements))) {
+				if (!FormatterServiceDelegate.getInstance().format(styledDocument, changedElements)) {
 					formatWithNetBeansFormatter(netbeansDefaultTask, document);
 				}
 			}

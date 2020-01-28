@@ -39,9 +39,9 @@ import org.xml.sax.SAXException;
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.EclipseFormatterStrategy;
-import de.funfried.netbeans.plugins.external.formatter.strategies.eclipse.xml.ConfigReader;
-import de.funfried.netbeans.plugins.external.formatter.strategies.google.GoogleFormatterStrategy;
+import de.funfried.netbeans.plugins.external.formatter.java.eclipse.EclipseJavaFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.java.eclipse.xml.ConfigReader;
+import de.funfried.netbeans.plugins.external.formatter.java.google.GoogleJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableConfigPanel;
 
 /**
@@ -605,11 +605,11 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 	public void load() {
 		String enabledFormatter = preferences.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
 
-		boolean googleFormatterEnabled = GoogleFormatterStrategy.ID.equals(enabledFormatter);
+		boolean googleFormatterEnabled = GoogleJavaFormatterService.ID.equals(enabledFormatter);
 		String googleFormatterCodeStyle = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 		String eclipseFormatterLocation = preferences.get(Settings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, "");
 		String eclipseFormatterProfile = preferences.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
-		boolean eclipseFormatterEnabled = EclipseFormatterStrategy.ID.equals(enabledFormatter);
+		boolean eclipseFormatterEnabled = EclipseJavaFormatterService.ID.equals(enabledFormatter);
 		boolean showNotifications = preferences.getBoolean(Settings.SHOW_NOTIFICATIONS, false);
 		boolean useIndentationSettings = preferences.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 		boolean overrideTabSize = preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, false);
@@ -719,7 +719,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 	 */
 	@Override
 	public void store() {
-		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleFormatterStrategy.ID : (rbUseEclipse.isSelected() ? EclipseFormatterStrategy.ID : Settings.DEFAULT_FORMATTER));
+		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleJavaFormatterService.ID : (rbUseEclipse.isSelected() ? EclipseJavaFormatterService.ID : Settings.DEFAULT_FORMATTER));
 		preferences.put(Settings.GOOGLE_FORMATTER_CODE_STYLE, googleCodeStyleRdBtn.isSelected() ? JavaFormatterOptions.Style.GOOGLE.name() : JavaFormatterOptions.Style.AOSP.name());
 		preferences.put(Settings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, formatterLocField.getText());
 		preferences.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, useIndentationSettingsChkBox.isSelected());
