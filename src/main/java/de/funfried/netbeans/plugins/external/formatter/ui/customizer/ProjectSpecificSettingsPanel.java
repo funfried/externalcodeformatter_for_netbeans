@@ -108,7 +108,7 @@ public class ProjectSpecificSettingsPanel extends JPanel implements VerifiableCo
 
 	private void cbOverrideGlobalSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOverrideGlobalSettingsActionPerformed
 		innerPanel.setVisible(cbOverrideGlobalSettings.isSelected());
-		fireChangedListener();
+		fireStateChanged();
 	}//GEN-LAST:event_cbOverrideGlobalSettingsActionPerformed
 
 	private void lblJumpToGlobalOptionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJumpToGlobalOptionsMouseClicked
@@ -151,10 +151,10 @@ public class ProjectSpecificSettingsPanel extends JPanel implements VerifiableCo
 		changeListeners.add(listener);
 	}
 
-	private void fireChangedListener() {
-		for (ChangeListener changeListener : changeListeners) {
+	private void fireStateChanged() {
+		changeListeners.forEach((changeListener) -> {
 			changeListener.stateChanged(null);
-		}
+		});
 	}
 
 	/**
