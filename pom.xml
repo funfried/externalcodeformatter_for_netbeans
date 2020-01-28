@@ -281,12 +281,6 @@
 
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
-			<artifactId>org-netbeans-modules-editor-document</artifactId>
-			<version>${netbeans.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-netbeans-modules-editor-guards</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>

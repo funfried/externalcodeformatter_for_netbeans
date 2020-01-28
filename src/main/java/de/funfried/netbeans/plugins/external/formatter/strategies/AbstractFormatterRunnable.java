@@ -20,11 +20,12 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.diff.Difference;
-import org.netbeans.api.editor.document.LineDocumentUtils;
-import org.netbeans.api.editor.guards.DocumentGuards;
+import org.netbeans.api.editor.guards.GuardedSection;
+import org.netbeans.api.editor.guards.GuardedSectionManager;
 import org.netbeans.editor.BaseDocument;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
@@ -43,7 +44,7 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 	private static final Logger log = Logger.getLogger(AbstractFormatterRunnable.class.getName());
 
 	/** Log {@link Level} for fast switching while investigating issues. */
-	private static final Level logLevel = Level.FINER;
+	private static final Level logLevel = Level.WARNING;
 
 	/** {@link SortedSet} containing document offset ranges which should be formatted. */
 	protected final SortedSet<Pair<Integer, Integer>> changedElements;
@@ -193,62 +194,27 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 			regions.add(Pair.of(0, code.length() - 1));
 		}
 
-		DocumentGuards guards = LineDocumentUtils.as(document, DocumentGuards.class);
+		GuardedSectionManager guards = GuardedSectionManager.getInstance(document);
 		if (guards != null) {
-			if (log.isLoggable(logLevel)) {
-				StringBuilder sb = new StringBuilder();
-				regions.stream().forEach(section -> sb.append(section.getLeft()).append("/").append(section.getRight()).append(" "));
-				log.log(logLevel, "Formating sections before guards: {0}", sb.toString().trim());
-			}
+			SortedSet<Pair<Integer, Integer>> nonGuardedSections = new TreeSet<>();
+			Iterable<GuardedSection> guardedSections = guards.getGuardedSections();
 
 			if (log.isLoggable(logLevel)) {
-				StringBuilder sb = new StringBuilder();
-				int nextGuardStart = guards.findNextBlock(0, true);
-				while (nextGuardStart != -1) {
-					int guardEnd = guards.adjustPosition(nextGuardStart, true);
-
-					sb.append(nextGuardStart).append("/").append(guardEnd).append(" ");
-
-					nextGuardStart = guards.findNextBlock(guardEnd + 1, true);
+				{
+					StringBuilder sb = new StringBuilder();
+					regions.stream().forEach(section -> sb.append(section.getLeft()).append("/").append(section.getRight()).append(" "));
+					log.log(logLevel, "Formating sections before guards: {0}", sb.toString().trim());
 				}
 
-				log.log(logLevel, "Guarded sections: {0}", sb.toString().trim());
+				{
+					StringBuilder sb = new StringBuilder();
+					guardedSections.forEach(guard -> sb.append(guard.getStartPosition().getOffset()).append("/").append(guard.getEndPosition().getOffset()).append(" "));
+					log.log(logLevel, "Guarded sections: {0}", sb.toString().trim());
+				}
 			}
-
-			SortedSet<Pair<Integer, Integer>> nonGuardedSections = new TreeSet<>();
 
 			for (Pair<Integer, Integer> changedElement : regions) {
-				int start = changedElement.getLeft();
-				int end = changedElement.getRight();
-
-				boolean startGuarded = guards.isPositionGuarded(start, true);
-				boolean endGuarded = guards.isPositionGuarded(end, true);
-
-				int startAdjusted = start;
-				int endAdjusted = end;
-
-				if (startGuarded && endGuarded) {
-					startAdjusted = guards.adjustPosition(start, true);
-					endAdjusted = guards.adjustPosition(end, false);
-
-					if (startAdjusted >= endAdjusted) {
-						continue;
-					}
-				} else if (startGuarded) {
-					startAdjusted = guards.adjustPosition(start, true);
-				} else if (endGuarded) {
-					endAdjusted = guards.adjustPosition(end, false);
-				}
-
-				int nextGuard = guards.findNextBlock(startAdjusted, true);
-				while (nextGuard != -1 && nextGuard < endAdjusted) {
-					nonGuardedSections.add(Pair.of(startAdjusted, guards.adjustPosition(nextGuard, false)));
-
-					startAdjusted = guards.adjustPosition(nextGuard, true);
-					nextGuard = guards.findNextBlock(startAdjusted, true);
-				}
-
-				nonGuardedSections.add(Pair.of(startAdjusted, endAdjusted));
+				nonGuardedSections.addAll(avoidGuardedSection(changedElement, guardedSections));
 			}
 
 			regions = nonGuardedSections;
@@ -261,5 +227,70 @@ public abstract class AbstractFormatterRunnable implements Runnable {
 		}
 
 		return regions;
+	}
+
+	/**
+	 * Checks if a given {@code section} interferes with the given {@code guardedSections}
+	 * and if so splits the given {@code section} into multiple sections and returns them
+	 * as a {@link SortedSet}.
+	 *
+	 * @param section         the section that should be checked
+	 * @param guardedSections the guarded sections of the {@code document}
+	 *
+	 * @return A {@link SortedSet} containing the splitted sections or just the initial
+	 *         {@code section} itself if there was no interference with the given
+	 *         {@code guardedSections}
+	 */
+	protected SortedSet<Pair<Integer, Integer>> avoidGuardedSection(Pair<Integer, Integer> section, Iterable<GuardedSection> guardedSections) {
+		SortedSet<Pair<Integer, Integer>> ret = new TreeSet<>();
+
+		MutableInt start = new MutableInt(section.getLeft());
+		MutableInt end = new MutableInt(section.getRight());
+
+		if (guardedSections != null) {
+			try {
+				guardedSections.forEach(guardedSection -> {
+					if (start.getValue() >= guardedSection.getStartPosition().getOffset() && start.getValue() <= guardedSection.getEndPosition().getOffset()) {
+						if (end.getValue() > guardedSection.getEndPosition().getOffset()) {
+							start.setValue(guardedSection.getEndPosition().getOffset());
+						} else {
+							start.setValue(-1);
+							end.setValue(-1);
+
+							throw new BreakException();
+						}
+					} else if (end.getValue() >= guardedSection.getStartPosition().getOffset() && end.getValue() <= guardedSection.getEndPosition().getOffset()) {
+						if (start.getValue() < guardedSection.getStartPosition().getOffset()) {
+							end.setValue(guardedSection.getStartPosition().getOffset() - 1);
+						} else {
+							start.setValue(-1);
+							end.setValue(-1);
+
+							throw new BreakException();
+						}
+					} else if (start.getValue() < guardedSection.getStartPosition().getOffset() && end.getValue() > guardedSection.getEndPosition().getOffset()) {
+						ret.add(Pair.of(start.getValue(), guardedSection.getStartPosition().getOffset() - 1));
+
+						start.setValue(guardedSection.getEndPosition().getOffset());
+					}
+				});
+			} catch (BreakException ex) {
+				// found no better solution to break a forEach
+			}
+		}
+
+		if (start.getValue() > -1 && end.getValue() > -1) {
+			ret.add(Pair.of(start.getValue(), end.getValue()));
+		}
+
+		return ret;
+	}
+
+	/**
+	 * {@link RuntimeException} which is used as a {@code break} condition inside
+	 * a {@link Iterable#forEach(java.util.function.Consumer)}.
+	 */
+	protected static class BreakException extends RuntimeException {
+		private static final long serialVersionUID = 1L;
 	}
 }
