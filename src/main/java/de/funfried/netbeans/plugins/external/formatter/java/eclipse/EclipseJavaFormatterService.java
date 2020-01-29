@@ -185,9 +185,9 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 			preferences = Settings.getActivePreferences(document);
 		}
 
-		String formatterFile = Settings.getEclipseFormatterFile(preferences, document);
-		String formatterProfile = preferences.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
-		String sourceLevel = preferences.get(Settings.SOURCELEVEL, "");
+		String formatterFile = EclipseJavaFormatterSettings.getEclipseFormatterFile(preferences, document);
+		String formatterProfile = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
+		String sourceLevel = preferences.get(EclipseJavaFormatterSettings.SOURCELEVEL, "");
 
 		Map<String, String> config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);
 

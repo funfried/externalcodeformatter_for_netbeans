@@ -40,8 +40,10 @@ import com.google.googlejavaformat.java.JavaFormatterOptions;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.java.eclipse.EclipseJavaFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.java.eclipse.EclipseJavaFormatterSettings;
 import de.funfried.netbeans.plugins.external.formatter.java.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.java.google.GoogleJavaFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.java.google.GoogleJavaFormatterSettings;
 import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableConfigPanel;
 
 /**
@@ -512,7 +514,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 				if (f.isDirectory()) {
 					return true;
 				}
-				return Settings.PROJECT_PREF_FILE.equals(f.getName());
+				return EclipseJavaFormatterSettings.PROJECT_PREF_FILE.equals(f.getName());
 			}
 
 			/**
@@ -520,7 +522,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 			 */
 			@Override
 			public String getDescription() {
-				return "Eclipse project settings (" + Settings.PROJECT_PREF_FILE + ")";
+				return "Eclipse project settings (" + EclipseJavaFormatterSettings.PROJECT_PREF_FILE + ")";
 			}
 		};
 		//Now build a file chooser and invoke the dialog in one line of code
@@ -606,17 +608,17 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		String enabledFormatter = preferences.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
 
 		boolean googleFormatterEnabled = GoogleJavaFormatterService.ID.equals(enabledFormatter);
-		String googleFormatterCodeStyle = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
-		String eclipseFormatterLocation = preferences.get(Settings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, "");
-		String eclipseFormatterProfile = preferences.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
+		String googleFormatterCodeStyle = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+		String eclipseFormatterLocation = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, "");
+		String eclipseFormatterProfile = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
 		boolean eclipseFormatterEnabled = EclipseJavaFormatterService.ID.equals(enabledFormatter);
 		boolean showNotifications = preferences.getBoolean(Settings.SHOW_NOTIFICATIONS, false);
 		boolean useIndentationSettings = preferences.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 		boolean overrideTabSize = preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 		int overrideTabSizeValue = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
-		boolean useProjectPrefs = preferences.getBoolean(Settings.USE_PROJECT_PREFS, true);
-		String lineFeed = preferences.get(Settings.LINEFEED, "");
-		String sourceLevel = preferences.get(Settings.SOURCELEVEL, "");
+		boolean useProjectPrefs = preferences.getBoolean(EclipseJavaFormatterSettings.USE_PROJECT_PREFS, true);
+		String lineFeed = preferences.get(EclipseJavaFormatterSettings.LINEFEED, "");
+		String sourceLevel = preferences.get(EclipseJavaFormatterSettings.SOURCELEVEL, "");
 
 		loadOptionsWindowUI(googleFormatterEnabled, googleFormatterCodeStyle, eclipseFormatterEnabled, eclipseFormatterLocation, eclipseFormatterProfile, showNotifications, useProjectPrefs,
 				useIndentationSettings, overrideTabSize, overrideTabSizeValue, lineFeed, sourceLevel);
@@ -681,7 +683,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 				final FileObject fo = ConfigReader.toFileObject(file);
 
 				//only xml configurations contain profiles
-				if (Settings.isXMLConfigurationFile(fo.getNameExt())) {
+				if (EclipseJavaFormatterSettings.isXMLConfigurationFile(fo.getNameExt())) {
 					List<String> profileNames = ConfigReader.getProfileNames(fo);
 					cbProfile.addItem(Bundle.ChooseProfile());
 
@@ -720,19 +722,19 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 	@Override
 	public void store() {
 		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleJavaFormatterService.ID : (rbUseEclipse.isSelected() ? EclipseJavaFormatterService.ID : Settings.DEFAULT_FORMATTER));
-		preferences.put(Settings.GOOGLE_FORMATTER_CODE_STYLE, googleCodeStyleRdBtn.isSelected() ? JavaFormatterOptions.Style.GOOGLE.name() : JavaFormatterOptions.Style.AOSP.name());
-		preferences.put(Settings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, formatterLocField.getText());
+		preferences.put(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, googleCodeStyleRdBtn.isSelected() ? JavaFormatterOptions.Style.GOOGLE.name() : JavaFormatterOptions.Style.AOSP.name());
+		preferences.put(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, formatterLocField.getText());
 		preferences.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, useIndentationSettingsChkBox.isSelected());
 		preferences.putBoolean(Settings.OVERRIDE_TAB_SIZE, overrideTabSizeChkBox.isSelected());
 		preferences.putInt(Settings.OVERRIDE_TAB_SIZE_VALUE, Integer.parseInt(overrideTabSizeSpn.getValue().toString()));
 		preferences.putBoolean(Settings.SHOW_NOTIFICATIONS, cbShowNotifications.isSelected());
-		preferences.put(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, getSelectedProfile());
-		preferences.putBoolean(Settings.USE_PROJECT_PREFS, cbUseProjectPref.isSelected());
-		preferences.put(Settings.LINEFEED, getLinefeed());
+		preferences.put(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, getSelectedProfile());
+		preferences.putBoolean(EclipseJavaFormatterSettings.USE_PROJECT_PREFS, cbUseProjectPref.isSelected());
+		preferences.put(EclipseJavaFormatterSettings.LINEFEED, getLinefeed());
 		if (cbSourceLevel.getSelectedIndex() >= 1) {
-			preferences.put(Settings.SOURCELEVEL, "" + cbSourceLevel.getSelectedItem());
+			preferences.put(EclipseJavaFormatterSettings.SOURCELEVEL, "" + cbSourceLevel.getSelectedItem());
 		} else {
-			preferences.put(Settings.SOURCELEVEL, "");
+			preferences.put(EclipseJavaFormatterSettings.SOURCELEVEL, "");
 		}
 
 		try {
@@ -758,9 +760,9 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		if (rbUseEclipse.isSelected()) {
 			final String fileName = formatterLocField.getText();
 			final File file = new File(fileName);
-			final boolean isXML = de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.isXMLConfigurationFile(file.getName());
-			final boolean isEPF = de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.isWorkspaceMechanicFile(file.getName());
-			final boolean isProjectSetting = de.funfried.netbeans.plugins.external.formatter.ui.options.Settings.isProjectSetting(file.getName());
+			final boolean isXML = EclipseJavaFormatterSettings.isXMLConfigurationFile(file.getName());
+			final boolean isEPF = EclipseJavaFormatterSettings.isWorkspaceMechanicFile(file.getName());
+			final boolean isProjectSetting = EclipseJavaFormatterSettings.isProjectSetting(file.getName());
 			if (isXML && cbProfile.getSelectedIndex() == 0) {
 				//"choose profile" entry is selected
 				return false;

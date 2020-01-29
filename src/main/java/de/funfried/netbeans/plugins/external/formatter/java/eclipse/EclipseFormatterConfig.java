@@ -28,7 +28,6 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConf
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 import de.funfried.netbeans.plugins.external.formatter.java.eclipse.xml.ConfigReader;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  * Class used for parsing an Eclipse code formatter configuration.
@@ -100,11 +99,11 @@ public final class EclipseFormatterConfig {
 		Map<String, String> allConfig = new HashMap<>();
 		try {
 			Map<String, String> configFromFile;
-			if (Settings.isWorkspaceMechanicFile(formatterFile)) {
+			if (EclipseJavaFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {
 				configFromFile = readConfigFromWorkspaceMechanicFile(formatterFile);
-			} else if (Settings.isXMLConfigurationFile(formatterFile)) {
+			} else if (EclipseJavaFormatterSettings.isXMLConfigurationFile(formatterFile)) {
 				configFromFile = readConfigFromFormatterXmlFile(formatterFile, formatterProfile);
-			} else if (Settings.isProjectSetting(formatterFile)) {
+			} else if (EclipseJavaFormatterSettings.isProjectSetting(formatterFile)) {
 				configFromFile = readConfigFromProjectSettings(formatterFile);
 			} else {
 				configFromFile = new LinkedHashMap<>();

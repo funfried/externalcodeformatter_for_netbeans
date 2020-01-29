@@ -17,6 +17,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.editor.BaseDocument;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -67,13 +68,19 @@ class EclipseFormatJob extends AbstractFormatJob {
 
 		Preferences pref = Settings.getActivePreferences(document);
 
-		String formatterFile = Settings.getEclipseFormatterFile(pref, document);
-		String formatterProfile = pref.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
-		String sourceLevel = pref.get(Settings.SOURCELEVEL, "");
-		String lineFeedSetting = pref.get(Settings.LINEFEED, "");
-		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty("line.separator"));
+		String formatterFile = EclipseJavaFormatterSettings.getEclipseFormatterFile(pref, document);
+		String formatterProfile = pref.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
+		String sourceLevel = pref.get(EclipseJavaFormatterSettings.SOURCELEVEL, "");
+		String lineFeedSetting = pref.get(EclipseJavaFormatterSettings.LINEFEED, "");
+		String lineFeed = EclipseJavaFormatterSettings.getLineFeed(lineFeedSetting, System.getProperty("line.separator"));
 
-		String code = getCode(lineFeedSetting);
+		//save with configured linefeed
+		if (null != lineFeed) {
+			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);
+			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);
+		}
+
+		String code = getCode();
 
 		try {
 			SortedSet<Pair<Integer, Integer>> regions = getFormatableSections(code);
@@ -121,13 +128,13 @@ class EclipseFormatJob extends AbstractFormatJob {
 	 */
 	private String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
 		String msg = "";
-		if (Settings.isWorkspaceMechanicFile(formatterFile)) {
+		if (EclipseJavaFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {
 			//Workspace mechanic file
 			msg = String.format("Using %s", formatterFile);
-		} else if (Settings.isXMLConfigurationFile(formatterFile)) {
+		} else if (EclipseJavaFormatterSettings.isXMLConfigurationFile(formatterFile)) {
 			//XML file
 			msg = String.format("Using profile '%s' from %s", formatterProfile, formatterFile);
-		} else if (Settings.isProjectSetting(formatterFile)) {
+		} else if (EclipseJavaFormatterSettings.isProjectSetting(formatterFile)) {
 			//org.eclipse.jdt.core.prefs
 			msg = String.format("Using %s", formatterFile);
 		}

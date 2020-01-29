@@ -26,12 +26,10 @@ import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.diff.Difference;
 import org.netbeans.api.editor.guards.GuardedSection;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
-import org.netbeans.editor.BaseDocument;
 import org.openide.text.NbDocument;
 import org.openide.util.Exceptions;
 
 import de.funfried.netbeans.plugins.external.formatter.ui.editor.diff.Diff;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  * Abstract base implementation of a {@link FormatJob} which is called by the
@@ -147,22 +145,11 @@ public abstract class AbstractFormatJob implements FormatJob {
 	}
 
 	/**
-	 * Returns the content of the {@code document} in respect to the given
-	 * {@code lineFeedSetting}.
+	 * Returns the content of the {@code document}.
 	 *
-	 * @param lineFeedSetting the line feed setting
-	 *
-	 * @return The content of the {@code document} in respect to the given
-	 *         {@code lineFeedSetting}
+	 * @return The content of the {@code document}
 	 */
-	protected String getCode(String lineFeedSetting) {
-		//save with configured linefeed
-		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty("line.separator"));
-		if (null != lineFeedSetting) {
-			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);
-			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);
-		}
-
+	protected String getCode() {
 		try {
 			return document.getText(0, document.getLength());
 		} catch (BadLocationException ex) {

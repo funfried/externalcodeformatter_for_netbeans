@@ -95,7 +95,7 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 				// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent
@@ -123,7 +123,7 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
@@ -150,7 +150,7 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 		Integer ret;
 
 		Preferences preferences = Settings.getActivePreferences(document);
-		String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+		String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 		JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 		if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 			// see: https://google.github.io/styleguide/javaguide.html#s4.4-column-limit
@@ -188,7 +188,7 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
 				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
 			} else {
-				String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+				String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 				JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 				if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 					// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
@@ -217,7 +217,7 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
