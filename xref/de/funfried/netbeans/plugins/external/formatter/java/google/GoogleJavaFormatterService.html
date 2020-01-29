@@ -103,7 +103,7 @@
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>  
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>  		Preferences preferences = Settings.getActivePreferences(document);
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>  		<strong class="jxr_keyword">if</strong> (isUseFormatterIndentationSettings(preferences)) {
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>  			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 <a class="jxr_linenumber" name="L99" href="#L99">99</a>  			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 <a class="jxr_linenumber" name="L100" href="#L100">100</a> 			<strong class="jxr_keyword">if</strong> (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 <a class="jxr_linenumber" name="L101" href="#L101">101</a> 				<em class="jxr_comment">// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent</em>
@@ -131,7 +131,7 @@
 <a class="jxr_linenumber" name="L123" href="#L123">123</a> 
 <a class="jxr_linenumber" name="L124" href="#L124">124</a> 		Preferences preferences = Settings.getActivePreferences(document);
 <a class="jxr_linenumber" name="L125" href="#L125">125</a> 		<strong class="jxr_keyword">if</strong> (isUseFormatterIndentationSettings(preferences)) {
-<a class="jxr_linenumber" name="L126" href="#L126">126</a> 			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 <a class="jxr_linenumber" name="L127" href="#L127">127</a> 			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 <a class="jxr_linenumber" name="L128" href="#L128">128</a> 			<strong class="jxr_keyword">if</strong> (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 <a class="jxr_linenumber" name="L129" href="#L129">129</a> 				<em class="jxr_comment">// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation</em>
@@ -158,7 +158,7 @@
 <a class="jxr_linenumber" name="L150" href="#L150">150</a> 		Integer ret;
 <a class="jxr_linenumber" name="L151" href="#L151">151</a> 
 <a class="jxr_linenumber" name="L152" href="#L152">152</a> 		Preferences preferences = Settings.getActivePreferences(document);
-<a class="jxr_linenumber" name="L153" href="#L153">153</a> 		String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+<a class="jxr_linenumber" name="L153" href="#L153">153</a> 		String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 <a class="jxr_linenumber" name="L154" href="#L154">154</a> 		JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> 		<strong class="jxr_keyword">if</strong> (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 <a class="jxr_linenumber" name="L156" href="#L156">156</a> 			<em class="jxr_comment">// see: https://google.github.io/styleguide/javaguide.html#s4.4-column-limit</em>
@@ -196,7 +196,7 @@
 <a class="jxr_linenumber" name="L188" href="#L188">188</a> 			<strong class="jxr_keyword">if</strong> (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, <strong class="jxr_keyword">true</strong>)) {
 <a class="jxr_linenumber" name="L189" href="#L189">189</a> 				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
 <a class="jxr_linenumber" name="L190" href="#L190">190</a> 			} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L191" href="#L191">191</a> 				String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> 				String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 <a class="jxr_linenumber" name="L192" href="#L192">192</a> 				JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 <a class="jxr_linenumber" name="L193" href="#L193">193</a> 				<strong class="jxr_keyword">if</strong> (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 <a class="jxr_linenumber" name="L194" href="#L194">194</a> 					<em class="jxr_comment">// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation</em>
@@ -225,7 +225,7 @@
 <a class="jxr_linenumber" name="L217" href="#L217">217</a> 
 <a class="jxr_linenumber" name="L218" href="#L218">218</a> 		Preferences preferences = Settings.getActivePreferences(document);
 <a class="jxr_linenumber" name="L219" href="#L219">219</a> 		<strong class="jxr_keyword">if</strong> (isUseFormatterIndentationSettings(preferences)) {
-<a class="jxr_linenumber" name="L220" href="#L220">220</a> 			String codeStylePref = preferences.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+<a class="jxr_linenumber" name="L220" href="#L220">220</a> 			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 <a class="jxr_linenumber" name="L221" href="#L221">221</a> 			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 <a class="jxr_linenumber" name="L222" href="#L222">222</a> 			<strong class="jxr_keyword">if</strong> (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 <a class="jxr_linenumber" name="L223" href="#L223">223</a> 				<em class="jxr_comment">// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation</em>

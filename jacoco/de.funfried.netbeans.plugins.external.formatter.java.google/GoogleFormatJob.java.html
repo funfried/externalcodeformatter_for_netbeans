@@ -64,9 +64,9 @@ class GoogleFormatJob extends AbstractFormatJob {
 
 <span class="fc" id="L65">		Preferences pref = Settings.getActivePreferences(document);</span>
 
-<span class="fc" id="L67">		String codeStylePref = pref.get(Settings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="fc" id="L67">		String codeStylePref = pref.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
 
-<span class="fc" id="L69">		String code = getCode(null);</span>
+<span class="fc" id="L69">		String code = getCode();</span>
 
 <span class="fc" id="L71">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
 

@@ -185,9 +185,9 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 <span class="nc" id="L185">			preferences = Settings.getActivePreferences(document);</span>
 		}
 
-<span class="nc" id="L188">		String formatterFile = Settings.getEclipseFormatterFile(preferences, document);</span>
-<span class="nc" id="L189">		String formatterProfile = preferences.get(Settings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
-<span class="nc" id="L190">		String sourceLevel = preferences.get(Settings.SOURCELEVEL, &quot;&quot;);</span>
+<span class="nc" id="L188">		String formatterFile = EclipseJavaFormatterSettings.getEclipseFormatterFile(preferences, document);</span>
+<span class="nc" id="L189">		String formatterProfile = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
+<span class="nc" id="L190">		String sourceLevel = preferences.get(EclipseJavaFormatterSettings.SOURCELEVEL, &quot;&quot;);</span>
 
 <span class="nc" id="L192">		Map&lt;String, String&gt; config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);</span>
 
