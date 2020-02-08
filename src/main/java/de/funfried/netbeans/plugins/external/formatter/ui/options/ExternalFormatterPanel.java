@@ -742,7 +742,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 	 */
 	@Override
 	public void store() {
-		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleJavaFormatterService.ID : (rbUseEclipse.isSelected() ? EclipseJavaFormatterService.ID : Settings.DEFAULT_FORMATTER));
+		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleJavaFormatterService.ID : rbUseEclipse.isSelected() ? EclipseJavaFormatterService.ID : Settings.DEFAULT_FORMATTER);
 		preferences.put(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, googleCodeStyleRdBtn.isSelected() ? JavaFormatterOptions.Style.GOOGLE.name() : JavaFormatterOptions.Style.AOSP.name());
 		preferences.put(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, formatterLocField.getText());
 		preferences.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, useIndentationSettingsChkBox.isSelected());

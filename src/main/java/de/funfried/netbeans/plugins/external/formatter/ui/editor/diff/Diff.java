@@ -96,7 +96,7 @@ public class Diff {
 		for (int i = 1; i <= n; i++) {
 			Line l = l2s[i];
 			equvalenceLines[i] = l.lineNo;
-			equivalence[i] = (i == n) || !l.line.equals(l2s[i + 1].line);//((Line) l2s.get(i)).line);
+			equivalence[i] = i == n || !l.line.equals(l2s[i + 1].line);//((Line) l2s.get(i)).line);
 		}
 		equvalenceLines[0] = 0;
 		equivalence[0] = true;
@@ -240,7 +240,7 @@ public class Diff {
 					String line = lines2[i - 1];
 					addedLines.add(line);
 				}
-				differences.add(new Difference2(Difference.ADD, (start1 - 1), 0, start2, (end2 - 1),
+				differences.add(new Difference2(Difference.ADD, start1 - 1, 0, start2, end2 - 1,
 						null, addedLines.toArray(new String[addedLines.size()])));
 				start2 = end2;
 			}
@@ -264,30 +264,27 @@ public class Diff {
 		Difference2 last = null;
 		for (int i = 0; i < diffs.size(); i++) {
 			Difference2 diff = diffs.get(i);
-			if (last != null) {
-				if (diff.getType() == Difference.ADD && last.getType() == Difference.DELETE ||
-						diff.getType() == Difference.DELETE && last.getType() == Difference.ADD) {
-
-					Difference2 add;
-					Difference2 del;
-					if (Difference.ADD == diff.getType()) {
-						add = diff;
-						del = last;
-					} else {
-						add = last;
-						del = diff;
-					}
-					int d1f1l1 = add.getFirstStart() - (del.getFirstEnd() - del.getFirstStart());
-					int d2f1l1 = del.getFirstStart();
-					if (d1f1l1 == d2f1l1) {
-						Difference2 newDiff = new Difference2(Difference.CHANGE,
-								d1f1l1, del.getFirstEnd(), add.getSecondStart(), add.getSecondEnd(),
-								del.getFirstLines(), add.getSecondLines());
-						diffs.set(i - 1, newDiff);
-						diffs.remove(i);
-						i--;
-						diff = newDiff;
-					}
+			if (last != null && (diff.getType() == Difference.ADD && last.getType() == Difference.DELETE ||
+					diff.getType() == Difference.DELETE && last.getType() == Difference.ADD)) {
+				Difference2 add;
+				Difference2 del;
+				if (Difference.ADD == diff.getType()) {
+					add = diff;
+					del = last;
+				} else {
+					add = last;
+					del = diff;
+				}
+				int d1f1l1 = add.getFirstStart() - (del.getFirstEnd() - del.getFirstStart());
+				int d2f1l1 = del.getFirstStart();
+				if (d1f1l1 == d2f1l1) {
+					Difference2 newDiff = new Difference2(Difference.CHANGE,
+							d1f1l1, del.getFirstEnd(), add.getSecondStart(), add.getSecondEnd(),
+							del.getFirstLines(), add.getSecondLines());
+					diffs.set(i - 1, newDiff);
+					diffs.remove(i);
+					i--;
+					diff = newDiff;
 				}
 			}
 			last = diff;
