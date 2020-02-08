@@ -59,10 +59,13 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 	/** {@link Logger} of this class. */
 	private static final Logger log = Logger.getLogger(ExternalFormatterPanel.class.getName());
 
+	/** {@link ChangeSupport} to notify about changed preference components. */
 	private transient final ChangeSupport changeSupport;
 
+	/** The {@link Preferences} modified by this options dialog. */
 	private transient final Preferences preferences;
 
+	/** Flag which defines whether or not this dialog is shown globally or project specific. */
 	private final boolean showsProjectSettings;
 
 	/**
@@ -111,18 +114,37 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		});
 	}
 
+	/**
+	 * Returns the {@link Preferences} modified by this option dialog.
+	 *
+	 * @return the {@link Preferences} modified by this option dialog
+	 */
 	public Preferences getPreferences() {
 		return preferences;
 	}
 
+	/**
+	 * Adds a given {@link ChangeListener} to this option dialog, which will be notified as
+	 * soon as an user has changed the state of the components inside this options dialog.
+	 *
+	 * @param listener the {@link ChangeListener} to add
+	 */
 	public void addChangeListener(ChangeListener listener) {
 		changeSupport.addChangeListener(listener);
 	}
 
+	/**
+	 * REmoves a given {@link ChangeListener} from this option dialog.
+	 *
+	 * @param listener the {@link ChangeListener} which should be removed
+	 */
 	public void removeChangeListener(ChangeListener listener) {
 		changeSupport.removeChangeListener(listener);
 	}
 
+	/**
+	 * Fires a change event to all registered {@link ChangeListener}s.
+	 */
 	private void fireChangedListener() {
 		changeSupport.fireChange();
 	}
@@ -592,6 +614,11 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		fireChangedListener();
     }//GEN-LAST:event_overrideTabSizeChkBoxActionPerformed
 
+	/**
+	 * Returns the selected Eclipse formatter profile.
+	 *
+	 * @return the selected Eclipse formatter profile
+	 */
 	private String getSelectedProfile() {
 		if (null != cbProfile.getSelectedItem()) {
 			return cbProfile.getSelectedItem().toString();
@@ -620,15 +647,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		String lineFeed = preferences.get(EclipseJavaFormatterSettings.LINEFEED, "");
 		String sourceLevel = preferences.get(EclipseJavaFormatterSettings.SOURCELEVEL, "");
 
-		loadOptionsWindowUI(googleFormatterEnabled, googleFormatterCodeStyle, eclipseFormatterEnabled, eclipseFormatterLocation, eclipseFormatterProfile, showNotifications, useProjectPrefs,
-				useIndentationSettings, overrideTabSize, overrideTabSizeValue, lineFeed, sourceLevel);
-
-		fireChangedListener();
-	}
-
-	private void loadOptionsWindowUI(boolean googleFormatterEnabled, String googleFormatterCodeStyle, boolean eclipseFormatterEnabled, String formatterFile, String profile, boolean showNotifications,
-			boolean useProjectPrefs, boolean useIndentationSettings, boolean overrideTabSize, int overrideTabSizeValue, String lineFeed, String sourceLevel) {
-		loadEclipseFormatterFileForPreview(formatterFile, profile);
+		loadEclipseFormatterFileForPreview(eclipseFormatterLocation, eclipseFormatterProfile);
 
 		if (eclipseFormatterEnabled) {
 			formatterBtnGrp.setSelected(rbUseEclipse.getModel(), true);
@@ -667,6 +686,8 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		}
 
 		updateEnabledState();
+
+		fireChangedListener();
 	}
 
 	@NbBundle.Messages("ChooseProfile=--Choose profile--")

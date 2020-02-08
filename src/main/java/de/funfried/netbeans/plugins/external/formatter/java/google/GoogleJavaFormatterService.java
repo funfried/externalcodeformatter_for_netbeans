@@ -147,20 +147,9 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 			return null;
 		}
 
-		Integer ret;
-
-		Preferences preferences = Settings.getActivePreferences(document);
-		String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
-		JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
-		if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
-			// see: https://google.github.io/styleguide/javaguide.html#s4.4-column-limit
-			ret = 100;
-		} else {
-			// see: https://source.android.com/setup/contribute/code-style#limit-line-length
-			ret = 100;
-		}
-
-		return ret;
+		// see: https://google.github.io/styleguide/javaguide.html#s4.4-column-limit
+		// and https://source.android.com/setup/contribute/code-style#limit-line-length
+		return 100;
 	}
 
 	/**
@@ -217,15 +206,9 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
-			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
-			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
-				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-				ret = false;
-			} else {
-				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-				ret = false;
-			}
+			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+			// and https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
+			ret = false;
 		}
 
 		return ret;
