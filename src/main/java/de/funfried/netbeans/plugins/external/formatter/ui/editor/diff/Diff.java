@@ -19,7 +19,7 @@ import org.apache.commons.io.IOUtils;
 import org.netbeans.api.diff.Difference;
 
 /**
- * Implementation based on NetBeans' {@link org.netbeans.modules.diff.builtin.provider.HuntDiff}
+ * Implementation based on NetBeans' org.netbeans.modules.diff.builtin.provider.HuntDiff
  * but without options, it always takes whitespaces into account.
  *
  * @author bahlef
