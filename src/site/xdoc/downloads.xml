@@ -12,7 +12,7 @@
 		<section name="Download">
 			<p>
 				You can either download the latest version directly from
-				<a href="https://oss.sonatype.org/content/repositories/snapshots/de/funfried/netbeans/plugins/externalcodeformatter/1.13.0-SNAPSHOT/">maven central</a>,
+				<a href="https://oss.sonatype.org/content/repositories/snapshots/de/funfried/netbeans/plugins/externalcodeformatter/1.13.0/">maven central</a>,
 				<a href="https://github.com/funfried/externalcodeformatter_for_netbeans/releases">GitHub</a>
 				or the last official release from the <a href="http://netbeans-vm.apache.org/pluginportal/">NetBeans Plugin Center</a>
 				(NOTE: not yet released!).
