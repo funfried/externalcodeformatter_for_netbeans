@@ -10,8 +10,6 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.base;
 
-import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
-
 import java.util.Collection;
 import java.util.Objects;
 import java.util.SortedSet;
@@ -48,7 +46,7 @@ public class FormatterServiceDelegate {
 	/** {@link ReentrantLock} to synchronize the singleton instance creation. */
 	private static final ReentrantLock lock = new ReentrantLock();
 
-	/** *  Singleton instance of {@link FormatterServiceDelegate}. */
+	/** * Singleton instance of {@link FormatterServiceDelegate}. */
 	private static FormatterServiceDelegate instance = null;
 
 	/**

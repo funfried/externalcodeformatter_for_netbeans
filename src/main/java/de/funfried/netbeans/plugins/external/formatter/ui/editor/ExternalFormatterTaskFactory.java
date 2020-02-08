@@ -152,7 +152,7 @@ public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
 		if (factory == null) {
 			Collection<? extends ReformatTask.Factory> reformatTasks = MimeLookup.getLookup(mp).lookupAll(ReformatTask.Factory.class);
 			for (ReformatTask.Factory rtf : reformatTasks) {
-				if (!ExternalFormatterTaskFactory.this.equals(rtf)) {
+				if (!this.equals(rtf)) {
 					factory = rtf;
 
 					break;

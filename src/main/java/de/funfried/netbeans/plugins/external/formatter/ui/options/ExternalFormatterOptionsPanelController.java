@@ -86,7 +86,7 @@ public final class ExternalFormatterOptionsPanelController extends OptionsPanelC
 	 */
 	@Override
 	public HelpCtx getHelpCtx() {
-		return null;
+		return new HelpCtx("de.funfried.netbeans.plugins.externalcodeformatter.about");
 	}
 
 	/**
