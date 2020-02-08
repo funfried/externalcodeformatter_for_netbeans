@@ -14,7 +14,6 @@ import java.util.prefs.Preferences;
 import javax.swing.text.StyledDocument;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.netbeans.junit.NbTestCase;
 import org.netbeans.modules.editor.NbEditorDocument;
@@ -26,12 +25,9 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormat
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * Todo: Fix test
- * It seems none of the FormatterServices is registered in the default lookup while the tests are running.
  *
  * @author bahlef
  */
-@Ignore
 public class FormatterServiceDelegateTest extends NbTestCase {
 	public FormatterServiceDelegateTest(String name) {
 		super(name);
