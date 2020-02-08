@@ -1,11 +1,12 @@
 /*
- * Copyright (c) 2013 markiewb.
+ * Copyright (c) 2020 bahlef.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  * Contributors:
- * bahlef - initial API and implementation and/or initial documentation
+ * markiewb - initial API and implementation and/or initial documentation
+ * bahlef
  */
 package de.funfried.netbeans.plugins.external.formatter.exceptions;
 
@@ -29,7 +30,7 @@ public class FileTypeNotSupportedException extends RuntimeException {
 
 	/**
 	 * Creates a new instance of {@link FileTypeNotSupportedException}.
-	 * 
+	 *
 	 * @param cause the original cause of the exceptio
 	 */
 	public FileTypeNotSupportedException(Throwable cause) {
