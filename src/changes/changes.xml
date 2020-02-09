@@ -8,6 +8,9 @@
 	</properties>
 
 	<body>
+		<release version="1.14.0-SNAPSHOT" date="TBD" description="">
+		</release>
+
 		<release version="1.13.0" date="2020-01-09" description="First release from funfried aka bahlef aka fbahle">
 			<action dev="bahlef" type="add">
 				Added Google Formatter
