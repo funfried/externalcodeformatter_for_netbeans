@@ -40,6 +40,7 @@ source code the same way as e.g. your Eclipse co-workers do.
 * Support for macro invocation (since 1.12)
 * Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted), only for Eclipse Java Code Formatter (since 1.13)
 * Support for Google code formatter (since 1.13)
+* Support for Spring Java formatter (since 1.14)
 
 ## Compatibility
 Compatible with NetBeans 8.2+ and JDK8+.
