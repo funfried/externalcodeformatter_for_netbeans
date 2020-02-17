@@ -54,8 +54,8 @@ public class SpringJavaFormatterServiceTest extends NbTestCase {
 	}
 
 	/**
-	 * Test of {@link EclipseJavaFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
-	 * method, of class {@link EclipseJavaFormatterService}.
+	 * Test of {@link SpringJavaFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
+	 * method, of class {@link SpringJavaFormatterService}.
 	 *
 	 * @throws Exception if an error occurs
 	 */
