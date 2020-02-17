@@ -12,10 +12,10 @@ External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterSettings,19,58,8,14,6,12,6,10,0,5
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterWrapper,12,119,3,11,5,24,3,8,0,4
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,Utils,2,8,1,1,1,2,1,1,0,1
-External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,SpringJavaFormatterService,277,13,38,0,81,3,29,2,10,2
-External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,SpringFormatJob,96,0,8,0,22,0,7,0,3,0
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,SpringJavaFormatterService,269,21,38,0,80,4,28,3,9,3
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,SpringFormatJob,7,89,3,5,1,21,3,4,0,3
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,Bundle,4,0,0,0,1,0,1,0,1,0
-External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,SpringJavaFormatterWrapper,112,13,14,0,24,4,9,2,2,2
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,SpringJavaFormatterWrapper,12,113,4,10,5,23,4,7,0,4
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.base,AbstractFormatJob.BreakException,3,0,0,0,1,0,1,0,1,0
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.base,AbstractFormatJob,434,149,42,12,65,33,32,6,5,5
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.base,FormatterServiceDelegate,139,70,23,7,44,20,18,6,5,4

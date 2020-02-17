@@ -167,13 +167,14 @@
 <p>
 				This is the project page of the <a class="externalLink" href="https://netbeans.apache.org">NetBeans IDE</a> plugin
 				<i>External Java Code Formatters for NetBeans</i>. This plugin helps you to apply to a common
-				code style in a team of Eclipse JDT, IntelliJ and NetBeans IDE users. Either you can use the
-				<a class="externalLink" href="https://github.com/google/google-java-format">Google Code Formatter</a> or the
+				code style in a team of Eclipse JDT, IntelliJ and NetBeans IDE users. You can either use the
+				<a class="externalLink" href="https://github.com/google/google-java-format">Google Code Formatter</a>, the
 				<a class="externalLink" href="https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Fguide%2Fjdt_api_codeformatter.htm">
 					Eclipse Java Code Formatter
-				</a> inside the NetBeans IDE, depending on whatever your co-workers use. The original
-				formatting engine of Eclipse and the Google Code Formatter are embedded and allow you to format
-				the source code the same way as e.g. your Eclipse co-workers do.
+				</a> or the <a class="externalLink" href="https://github.com/spring-io/spring-javaformat">Spring Java Formatter</a>
+				inside the NetBeans IDE, depending on whatever your co-workers use. The original formatting
+				engine of Eclipse, the Google Code Formatter and the Spring Java Formatter are embedded and
+				allow you to format the source code the same way as e.g. your Eclipse co-workers do.
 			</p>
 			<section>
 <h3><a name="Note"></a>Note</h3>
@@ -181,7 +182,7 @@
 <p>
 					Please note that this plugin only provides support for formatting. Eclipse users may miss
 					the application of save-actions like &quot;adding @Override annotations&quot; or &quot;member sort order&quot;.
-					Such AST-based transformations are not provided by this plugin.
+					Such AST-based transformations are not (yet) provided by this plugin.
 				</p>
 			</section>
 			<section>
@@ -218,6 +219,8 @@
 <li>Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted), only for Eclipse Java Code Formatter (since 1.13)</li>
 				
 <li>Support for Google code formatter (since 1.13)</li>
+				
+<li>Support for Spring Java formatter (since 1.14)</li>
 			</ul>
 		</section>
 		<section>

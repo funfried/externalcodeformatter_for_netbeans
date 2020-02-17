@@ -290,28 +290,26 @@
 <a class="jxr_linenumber" name="L282" href="#L282">282</a> 
 <a class="jxr_linenumber" name="L283" href="#L283">283</a> 	@Test
 <a class="jxr_linenumber" name="L284" href="#L284">284</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testNullCode() {
-<a class="jxr_linenumber" name="L285" href="#L285">285</a> 		<strong class="jxr_keyword">final</strong> String expected = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L286" href="#L286">286</a> 
-<a class="jxr_linenumber" name="L287" href="#L287">287</a> 		String actual = instance.format(<span class="jxr_string">"src/test/resources/formattersampleeclipse.xml"</span>, <span class="jxr_string">"eclipse-demo"</span>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L288" href="#L288">288</a> 		Assert.assertEquals(<span class="jxr_string">"Formatting should change the code"</span>, expected, actual);
-<a class="jxr_linenumber" name="L289" href="#L289">289</a> 	}
-<a class="jxr_linenumber" name="L290" href="#L290">290</a> 
-<a class="jxr_linenumber" name="L291" href="#L291">291</a> 	@Test
-<a class="jxr_linenumber" name="L292" href="#L292">292</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testIllegalChangedElementsCode() {
-<a class="jxr_linenumber" name="L293" href="#L293">293</a> 		<strong class="jxr_keyword">final</strong> String text = <span class="jxr_string">"package foo;public enum NewEmptyJUnitTest {A,B,C}"</span>;
-<a class="jxr_linenumber" name="L294" href="#L294">294</a> 
-<a class="jxr_linenumber" name="L295" href="#L295">295</a> 		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = <strong class="jxr_keyword">new</strong> TreeSet&lt;&gt;();
-<a class="jxr_linenumber" name="L296" href="#L296">296</a> 		regions.add(Pair.of(1200, 1230));
-<a class="jxr_linenumber" name="L297" href="#L297">297</a> 
-<a class="jxr_linenumber" name="L298" href="#L298">298</a> 		<strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L299" href="#L299">299</a> 			instance.format(<span class="jxr_string">"src/test/resources/formattersampleeclipse.xml"</span>, <span class="jxr_string">"eclipse-demo"</span>, text, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, regions);
-<a class="jxr_linenumber" name="L300" href="#L300">300</a> 
-<a class="jxr_linenumber" name="L301" href="#L301">301</a> 			Assert.assertFalse(<span class="jxr_string">"Should have thrown an IllegalArgumentException"</span>, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L302" href="#L302">302</a> 		} <strong class="jxr_keyword">catch</strong> (IllegalArgumentException ex) {
-<a class="jxr_linenumber" name="L303" href="#L303">303</a> 			Assert.assertTrue(<strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L304" href="#L304">304</a> 		}
-<a class="jxr_linenumber" name="L305" href="#L305">305</a> 	}
-<a class="jxr_linenumber" name="L306" href="#L306">306</a> }
+<a class="jxr_linenumber" name="L285" href="#L285">285</a> 		String actual = instance.format(<span class="jxr_string">"src/test/resources/formattersampleeclipse.xml"</span>, <span class="jxr_string">"eclipse-demo"</span>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L286" href="#L286">286</a> 		Assert.assertNull(<span class="jxr_string">"Formatting shouldn't change the code, should still be null"</span>, actual);
+<a class="jxr_linenumber" name="L287" href="#L287">287</a> 	}
+<a class="jxr_linenumber" name="L288" href="#L288">288</a> 
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> 	@Test
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testIllegalChangedElementsCode() {
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> 		<strong class="jxr_keyword">final</strong> String text = <span class="jxr_string">"package foo;public enum NewEmptyJUnitTest {A,B,C}"</span>;
+<a class="jxr_linenumber" name="L292" href="#L292">292</a> 
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> 		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = <strong class="jxr_keyword">new</strong> TreeSet&lt;&gt;();
+<a class="jxr_linenumber" name="L294" href="#L294">294</a> 		regions.add(Pair.of(1200, 1230));
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> 
+<a class="jxr_linenumber" name="L296" href="#L296">296</a> 		<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> 			instance.format(<span class="jxr_string">"src/test/resources/formattersampleeclipse.xml"</span>, <span class="jxr_string">"eclipse-demo"</span>, text, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>, regions);
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> 
+<a class="jxr_linenumber" name="L299" href="#L299">299</a> 			Assert.assertFalse(<span class="jxr_string">"Should have thrown an IllegalArgumentException"</span>, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L300" href="#L300">300</a> 		} <strong class="jxr_keyword">catch</strong> (IllegalArgumentException ex) {
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> 			Assert.assertTrue(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L302" href="#L302">302</a> 		}
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> 	}
+<a class="jxr_linenumber" name="L304" href="#L304">304</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2019&#x2013;2020. All rights reserved.</div>

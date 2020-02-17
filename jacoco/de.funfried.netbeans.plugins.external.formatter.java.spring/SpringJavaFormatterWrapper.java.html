@@ -61,23 +61,23 @@ public final class SpringJavaFormatterWrapper {
 	 * @return the formatted code
 	 */
 	public String format(String code, String lineFeed, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="nc bnc" id="L64" title="All 2 branches missed.">		if (code == null) {</span>
-<span class="nc" id="L65">			return null;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">		if (code == null) {</span>
+<span class="fc" id="L65">			return null;</span>
 		}
 
-<span class="nc" id="L68">		List&lt;IRegion&gt; regions = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L69" title="All 2 branches missed.">		if (changedElements == null) {</span>
-<span class="nc" id="L70">			regions.add(new Region(0, code.length()));</span>
-<span class="nc bnc" id="L71" title="All 2 branches missed.">		} else if (!CollectionUtils.isEmpty(changedElements)) {</span>
-<span class="nc bnc" id="L72" title="All 2 branches missed.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
-<span class="nc" id="L73">				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));</span>
-<span class="nc" id="L74">			}</span>
+<span class="fc" id="L68">		List&lt;IRegion&gt; regions = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		if (changedElements == null) {</span>
+<span class="fc" id="L70">			regions.add(new Region(0, code.length()));</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">		} else if (!CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
+<span class="fc" id="L73">				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));</span>
+<span class="fc" id="L74">			}</span>
 		} else {
 			// empty changed elements means nothing's left which can be formatted due to guarded sections
 <span class="nc" id="L77">			return code;</span>
 		}
 
-<span class="nc" id="L80">		return format(code, regions.toArray(new IRegion[regions.size()]), lineFeed);</span>
+<span class="fc" id="L80">		return format(code, regions.toArray(new IRegion[regions.size()]), lineFeed);</span>
 	}
 
 	/**
@@ -97,26 +97,26 @@ public final class SpringJavaFormatterWrapper {
 	 */
 	@CheckForNull
 	private String format(String code, IRegion[] regions, String lineFeed) {
-<span class="nc" id="L100">		String formattedCode = null;</span>
+<span class="fc" id="L100">		String formattedCode = null;</span>
 
-<span class="nc" id="L102">		TextEdit te = formatter.format(code, regions, lineFeed);</span>
-<span class="nc bnc" id="L103" title="All 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
+<span class="fc" id="L102">		TextEdit te = formatter.format(code, regions, lineFeed);</span>
+<span class="pc bpc" id="L103" title="2 of 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
 			try {
-<span class="nc" id="L105">				IDocument dc = new Document(code);</span>
-<span class="nc" id="L106">				te.apply(dc);</span>
+<span class="fc" id="L105">				IDocument dc = new Document(code);</span>
+<span class="fc" id="L106">				te.apply(dc);</span>
 
-<span class="nc" id="L108">				formattedCode = dc.get();</span>
+<span class="fc" id="L108">				formattedCode = dc.get();</span>
 
-<span class="nc bnc" id="L110" title="All 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
 <span class="nc" id="L111">					return null;</span>
 				}
 <span class="nc" id="L113">			} catch (Exception ex) {</span>
 <span class="nc" id="L114">				log.log(Level.WARNING, &quot;Code could not be formatted!&quot;, ex);</span>
 <span class="nc" id="L115">				return null;</span>
-<span class="nc" id="L116">			}</span>
+<span class="fc" id="L116">			}</span>
 		}
 
-<span class="nc" id="L119">		return formattedCode;</span>
+<span class="fc" id="L119">		return formattedCode;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
