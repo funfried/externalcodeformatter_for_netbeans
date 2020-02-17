@@ -15,11 +15,12 @@ External Java Code Formatters for NetBeans
 
 ## What is External Java Code Formatters Plugin for NetBeans?
 This plugin helps you to apply to a common code style in a team of Eclipse JDT, IntelliJ
-and NetBeans IDE users. Either you can use the [Google Code Formatter](https://github.com/google/google-java-format)
-or the [Eclipse Java Code Formatter](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Fguide%2Fjdt_api_codeformatter.htm)
-inside the NetBeans IDE, depending on whatever your co-workers use. The original formatting
-engine of Eclipse and the Google Code Formatter are embedded and allow you to format the
-source code the same way as e.g. your Eclipse co-workers do.
+and NetBeans IDE users. You can either use the [Google Code Formatter](https://github.com/google/google-java-format),
+the [Eclipse Java Code Formatter](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Fguide%2Fjdt_api_codeformatter.htm),
+or the [Spring Java Formatter](https://github.com/spring-io/spring-javaformat) inside the
+NetBeans IDE, depending on whatever your co-workers use. The original formatting engine
+of Eclipse, the Google Code Formatter and the Spring Java formatter are embedded and
+allow you to format the source code the same way as e.g. your Eclipse co-workers do.
 
 ![Global settings](/src/site/resources/imgs/global.png)
 ![Project settings](/src/site/resources/imgs/project.png)
