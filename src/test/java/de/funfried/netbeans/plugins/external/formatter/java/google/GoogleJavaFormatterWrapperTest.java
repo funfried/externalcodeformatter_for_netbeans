@@ -258,10 +258,8 @@ public class GoogleJavaFormatterWrapperTest {
 
 	@Test
 	public void testNullCode() {
-		final String expected = null;
-
 		String actual = instance.format(null, JavaFormatterOptions.Style.AOSP, null);
-		Assert.assertEquals("Formatting should change the code", expected, actual);
+		Assert.assertNull("Formatting shouldn't change the code, should still be null", actual);
 	}
 
 	@Test
