@@ -27,6 +27,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.netbeans.spi.options.OptionsPanelController.Keywords;
 import org.openide.awt.HtmlBrowser;
 import org.openide.filesystems.FileChooserBuilder;
@@ -45,6 +46,8 @@ import de.funfried.netbeans.plugins.external.formatter.java.eclipse.EclipseJavaF
 import de.funfried.netbeans.plugins.external.formatter.java.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.java.google.GoogleJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.google.GoogleJavaFormatterSettings;
+import de.funfried.netbeans.plugins.external.formatter.java.spring.SpringJavaFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.java.spring.SpringJavaFormatterSettings;
 import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableConfigPanel;
 
 /**
@@ -186,6 +189,11 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
         useIndentationSettingsChkBox = new javax.swing.JCheckBox();
         overrideTabSizeSpn = new javax.swing.JSpinner();
         overrideTabSizeChkBox = new javax.swing.JCheckBox();
+        rbUseSpring = new javax.swing.JRadioButton();
+        jPanel3 = new javax.swing.JPanel();
+        errorLabel1 = new javax.swing.JLabel();
+        lblSpringLinefeed = new javax.swing.JLabel();
+        cbSpringLinefeed = new javax.swing.JComboBox<>();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -258,41 +266,41 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(lblLinefeed, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbLinefeed, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblSourceLevel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbSourceLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblLinefeed, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbLinefeed, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblSourceLevel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbSourceLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(formatterLocField)
-                                        .addGap(12, 12, 12)
-                                        .addComponent(browseButton))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(browseButton))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(cbUseProjectPref)
                                             .addComponent(cbProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE))))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(lblFormatterFile)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addContainerGap())))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(lblFormatterFile)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -444,23 +452,71 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
             }
         });
 
+        formatterBtnGrp.add(rbUseSpring);
+        org.openide.awt.Mnemonics.setLocalizedText(rbUseSpring, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.rbUseSpring.text")); // NOI18N
+        rbUseSpring.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.rbUseSpring.toolTipText")); // NOI18N
+        rbUseSpring.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbUseSpringActionPerformed(evt);
+            }
+        });
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        errorLabel1.setForeground(new java.awt.Color(255, 51, 51));
+        org.openide.awt.Mnemonics.setLocalizedText(errorLabel1, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.errorLabel1.text")); // NOI18N
+        errorLabel1.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.errorLabel1.toolTipText")); // NOI18N
+
+        lblSpringLinefeed.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSpringLinefeed.setLabelFor(cbLinefeed);
+        org.openide.awt.Mnemonics.setLocalizedText(lblSpringLinefeed, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.lblSpringLinefeed.text")); // NOI18N
+        lblSpringLinefeed.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.lblSpringLinefeed.toolTipText")); // NOI18N
+
+        cbSpringLinefeed.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "System", "\\n", "\\r\\n", "\\r" }));
+        cbSpringLinefeed.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbSpringLinefeed.toolTipText")); // NOI18N
+        cbSpringLinefeed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSpringLinefeedActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblSpringLinefeed)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbSpringLinefeed, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(455, 455, 455)
+                        .addComponent(errorLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSpringLinefeed)
+                    .addComponent(cbSpringLinefeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(rbUseNetBeans)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtProjectSpecificHint))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbShowNotifications)
                             .addComponent(rbUseGoogle)
@@ -470,12 +526,24 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
                                 .addGap(18, 18, 18)
                                 .addComponent(overrideTabSizeChkBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(overrideTabSizeSpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(overrideTabSizeSpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(rbUseSpring)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(rbUseNetBeans)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                                .addComponent(txtProjectSpecificHint))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDonate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDonate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(27, 27, 27)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -492,6 +560,10 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
                 .addComponent(rbUseEclipse)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rbUseSpring)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(useIndentationSettingsChkBox)
@@ -615,6 +687,15 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		fireChangedListener();
     }//GEN-LAST:event_overrideTabSizeChkBoxActionPerformed
 
+    private void rbUseSpringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbUseSpringActionPerformed
+        updateEnabledState();
+		fireChangedListener();
+    }//GEN-LAST:event_rbUseSpringActionPerformed
+
+    private void cbSpringLinefeedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSpringLinefeedActionPerformed
+        fireChangedListener();
+    }//GEN-LAST:event_cbSpringLinefeedActionPerformed
+
 	/**
 	 * Returns the selected Eclipse formatter profile.
 	 *
@@ -645,8 +726,10 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		boolean overrideTabSize = preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 		int overrideTabSizeValue = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
 		boolean useProjectPrefs = preferences.getBoolean(EclipseJavaFormatterSettings.USE_PROJECT_PREFS, true);
-		String lineFeed = preferences.get(EclipseJavaFormatterSettings.LINEFEED, "");
+		String eclipseLineFeed = preferences.get(EclipseJavaFormatterSettings.LINEFEED, "");
 		String sourceLevel = preferences.get(EclipseJavaFormatterSettings.SOURCELEVEL, "");
+		boolean springFormatterEnabled = SpringJavaFormatterService.ID.equals(enabledFormatter);
+		String springLineFeed = preferences.get(SpringJavaFormatterSettings.LINEFEED, "");
 
 		loadEclipseFormatterFileForPreview(eclipseFormatterLocation, eclipseFormatterProfile);
 
@@ -654,6 +737,8 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 			formatterBtnGrp.setSelected(rbUseEclipse.getModel(), true);
 		} else if (googleFormatterEnabled) {
 			formatterBtnGrp.setSelected(rbUseGoogle.getModel(), true);
+		} else if (springFormatterEnabled) {
+			formatterBtnGrp.setSelected(rbUseSpring.getModel(), true);
 		} else {
 			formatterBtnGrp.setSelected(rbUseNetBeans.getModel(), true);
 		}
@@ -672,18 +757,25 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 
 		cbUseProjectPref.setSelected(useProjectPrefs);
 
-		if (null == lineFeed || "".equals(lineFeed)) {
+		if (StringUtils.isBlank(eclipseLineFeed)) {
 			//default = system-dependend LF
 			cbLinefeed.setSelectedIndex(0);
 		} else {
-			cbLinefeed.setSelectedItem(lineFeed);
+			cbLinefeed.setSelectedItem(eclipseLineFeed);
 		}
 
-		if (null == sourceLevel || "".equals(sourceLevel)) {
+		if (StringUtils.isBlank(sourceLevel)) {
 			//default = No override
 			cbSourceLevel.setSelectedIndex(0);
 		} else {
 			cbSourceLevel.setSelectedItem(sourceLevel);
+		}
+
+		if (StringUtils.isBlank(springLineFeed)) {
+			//default = system-dependend LF
+			cbSpringLinefeed.setSelectedIndex(0);
+		} else {
+			cbSpringLinefeed.setSelectedItem(springLineFeed);
 		}
 
 		updateEnabledState();
@@ -743,7 +835,8 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 	 */
 	@Override
 	public void store() {
-		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleJavaFormatterService.ID : rbUseEclipse.isSelected() ? EclipseJavaFormatterService.ID : Settings.DEFAULT_FORMATTER);
+		preferences.put(Settings.ENABLED_FORMATTER, rbUseGoogle.isSelected() ? GoogleJavaFormatterService.ID
+				: rbUseEclipse.isSelected() ? EclipseJavaFormatterService.ID : rbUseSpring.isSelected() ? SpringJavaFormatterService.ID : Settings.DEFAULT_FORMATTER);
 		preferences.put(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, googleCodeStyleRdBtn.isSelected() ? JavaFormatterOptions.Style.GOOGLE.name() : JavaFormatterOptions.Style.AOSP.name());
 		preferences.put(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, formatterLocField.getText());
 		preferences.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, useIndentationSettingsChkBox.isSelected());
@@ -752,12 +845,9 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		preferences.putBoolean(Settings.SHOW_NOTIFICATIONS, cbShowNotifications.isSelected());
 		preferences.put(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, getSelectedProfile());
 		preferences.putBoolean(EclipseJavaFormatterSettings.USE_PROJECT_PREFS, cbUseProjectPref.isSelected());
-		preferences.put(EclipseJavaFormatterSettings.LINEFEED, getLinefeed());
-		if (cbSourceLevel.getSelectedIndex() >= 1) {
-			preferences.put(EclipseJavaFormatterSettings.SOURCELEVEL, "" + cbSourceLevel.getSelectedItem());
-		} else {
-			preferences.put(EclipseJavaFormatterSettings.SOURCELEVEL, "");
-		}
+		preferences.put(EclipseJavaFormatterSettings.LINEFEED, getEclipseLinefeed());
+		preferences.put(EclipseJavaFormatterSettings.SOURCELEVEL, getEclipseSourceLevel());
+		preferences.put(SpringJavaFormatterSettings.LINEFEED, getSpringLinefeed());
 
 		try {
 			preferences.flush();
@@ -814,8 +904,10 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
     private javax.swing.JComboBox<String> cbProfile;
     private javax.swing.JCheckBox cbShowNotifications;
     private javax.swing.JComboBox<String> cbSourceLevel;
+    private javax.swing.JComboBox<String> cbSpringLinefeed;
     private javax.swing.JCheckBox cbUseProjectPref;
     private javax.swing.JLabel errorLabel;
+    private javax.swing.JLabel errorLabel1;
     private javax.swing.ButtonGroup formatterBtnGrp;
     private javax.swing.JTextField formatterLocField;
     private javax.swing.ButtonGroup googleCodeStyleBtnGrp;
@@ -824,22 +916,30 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblFormatterFile;
     private javax.swing.JLabel lblLinefeed;
     private javax.swing.JLabel lblProfile;
     private javax.swing.JLabel lblSourceLevel;
+    private javax.swing.JLabel lblSpringLinefeed;
     private javax.swing.JCheckBox overrideTabSizeChkBox;
     private javax.swing.JSpinner overrideTabSizeSpn;
     private javax.swing.JRadioButton rbUseEclipse;
     private javax.swing.JRadioButton rbUseGoogle;
     private javax.swing.JRadioButton rbUseNetBeans;
+    private javax.swing.JRadioButton rbUseSpring;
     private javax.swing.JLabel txtProjectSpecificHint;
     private javax.swing.JCheckBox useIndentationSettingsChkBox;
     // End of variables declaration//GEN-END:variables
 
 	private void updateEnabledState() {
-		boolean isEclipseFormatterEnabled = rbUseEclipse.isSelected();
 		boolean isGoogleFormatterEnabled = rbUseGoogle.isSelected();
+		boolean isEclipseFormatterEnabled = rbUseEclipse.isSelected();
+		boolean isSpringFormatterEnabled = rbUseSpring.isSelected();
+
+		googleCodeStyleLbl.setEnabled(isGoogleFormatterEnabled);
+		googleCodeStyleRdBtn.setEnabled(isGoogleFormatterEnabled);
+		aospRdBtn.setEnabled(isGoogleFormatterEnabled);
 
 		lblFormatterFile.setEnabled(isEclipseFormatterEnabled);
 		browseButton.setEnabled(isEclipseFormatterEnabled);
@@ -853,7 +953,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 			cbProfile.setEnabled(false);
 		}
 
-		useIndentationSettingsChkBox.setEnabled(isEclipseFormatterEnabled || isGoogleFormatterEnabled);
+		useIndentationSettingsChkBox.setEnabled(isGoogleFormatterEnabled || isEclipseFormatterEnabled || isSpringFormatterEnabled);
 		overrideTabSizeChkBox.setEnabled(useIndentationSettingsChkBox.isEnabled() && useIndentationSettingsChkBox.isSelected());
 		overrideTabSizeSpn.setEnabled(overrideTabSizeChkBox.isEnabled() && overrideTabSizeChkBox.isSelected());
 
@@ -863,18 +963,30 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		cbSourceLevel.setEnabled(isEclipseFormatterEnabled);
 		lblSourceLevel.setEnabled(isEclipseFormatterEnabled);
 
-		googleCodeStyleLbl.setEnabled(isGoogleFormatterEnabled);
-		googleCodeStyleRdBtn.setEnabled(isGoogleFormatterEnabled);
-		aospRdBtn.setEnabled(isGoogleFormatterEnabled);
+		cbSpringLinefeed.setEnabled(isSpringFormatterEnabled);
 
 		txtProjectSpecificHint.setVisible(!showsProjectSettings);
 	}
 
-	private String getLinefeed() {
+	private String getEclipseLinefeed() {
 		if (0 == cbLinefeed.getSelectedIndex()) {
 			return "";
 		}
 		return cbLinefeed.getSelectedItem().toString();
 	}
 
+	private String getEclipseSourceLevel() {
+		if (cbSourceLevel.getSelectedIndex() >= 1) {
+			return "" + cbSourceLevel.getSelectedItem();
+		} else {
+			return "";
+		}
+	}
+
+	private String getSpringLinefeed() {
+		if (0 == cbSpringLinefeed.getSelectedIndex()) {
+			return "";
+		}
+		return cbSpringLinefeed.getSelectedItem().toString();
+	}
 }

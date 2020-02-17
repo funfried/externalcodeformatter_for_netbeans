@@ -73,7 +73,7 @@ class EclipseFormatJob extends AbstractFormatJob {
 		String formatterProfile = pref.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
 		String sourceLevel = pref.get(EclipseJavaFormatterSettings.SOURCELEVEL, "");
 		String lineFeedSetting = pref.get(EclipseJavaFormatterSettings.LINEFEED, "");
-		String lineFeed = EclipseJavaFormatterSettings.getLineFeed(lineFeedSetting, System.getProperty("line.separator"));
+		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty("line.separator"));
 
 		//save with configured linefeed
 		if (null != lineFeed) {

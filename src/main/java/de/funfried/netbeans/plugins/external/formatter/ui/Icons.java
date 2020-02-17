@@ -39,6 +39,12 @@ public interface Icons {
 	static final String GOOGLE_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/google.gif";
 
 	/**
+	 * Path to the Spring icon.
+	 */
+	@StaticResource
+	static final String SPRING_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/spring.gif";
+
+	/**
 	 * Path to the NetBeans icon.
 	 */
 	@StaticResource
@@ -58,6 +64,11 @@ public interface Icons {
 	 * Google icon.
 	 */
 	static final Icon ICON_GOOGLE = ImageUtilities.image2Icon(ImageUtilities.loadImage(GOOGLE_ICON_PATH));
+
+	/**
+	 * Spring icon.
+	 */
+	static final Icon ICON_SPRING = ImageUtilities.image2Icon(ImageUtilities.loadImage(SPRING_ICON_PATH));
 
 	/**
 	 * NetBeans icon.

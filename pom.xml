@@ -216,6 +216,13 @@
 			<version>2.6.0</version>
 		</dependency>-->
 
+		<!-- Spring Formatter -->
+		<dependency>
+			<groupId>io.spring.javaformat</groupId>
+			<artifactId>spring-javaformat-formatter</artifactId>
+			<version>0.0.20</version>
+		</dependency>
+
 		<!-- Google Formatter -->
 		<dependency>
 			<groupId>com.google.googlejavaformat</groupId>

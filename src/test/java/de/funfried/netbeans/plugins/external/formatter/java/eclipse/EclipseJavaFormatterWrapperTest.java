@@ -22,6 +22,7 @@ import org.junit.Test;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  *
@@ -154,7 +155,7 @@ public class EclipseJavaFormatterWrapperTest {
 				+ "				   C\r"
 				+ "}";
 
-		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, EclipseJavaFormatterSettings.getLineFeed("\\r", null), null, null);
+		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\r", null), null, null);
 		Assert.assertEquals("Formatting should change the code", expected, actual);
 	}
 
@@ -169,7 +170,7 @@ public class EclipseJavaFormatterWrapperTest {
 				+ "				   C\n"
 				+ "}";
 
-		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, EclipseJavaFormatterSettings.getLineFeed("\\n", null), null, null);
+		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), null, null);
 		Assert.assertEquals("Formatting should change the code", expected, actual);
 	}
 
@@ -184,7 +185,7 @@ public class EclipseJavaFormatterWrapperTest {
 				+ "				   C\r\n"
 				+ "}";
 
-		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, EclipseJavaFormatterSettings.getLineFeed("\\r\\n", null), null, null);
+		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\r\\n", null), null, null);
 		Assert.assertEquals("Formatting should change the code", expected, actual);
 	}
 
@@ -193,7 +194,7 @@ public class EclipseJavaFormatterWrapperTest {
 		final String text = "package foo;public enum NewEmptyJUnitTest { A, B, C}";
 		final String expected = null;
 
-		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, EclipseJavaFormatterSettings.getLineFeed("\\n", null), "1.3", null);
+		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), "1.3", null);
 		Assert.assertEquals("Invalid source code for 1.3 - enum is not a keyword", expected, actual);
 	}
 
@@ -202,7 +203,7 @@ public class EclipseJavaFormatterWrapperTest {
 		final String text = "package foo;public enum NewEmptyJUnitTest { A, B, C}";
 		final String expected = null;
 
-		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, EclipseJavaFormatterSettings.getLineFeed("\\n", null), "1.4", null);
+		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), "1.4", null);
 		Assert.assertEquals("Invalid source code for 1.4 - enum is not a keyword", expected, actual);
 	}
 
@@ -217,7 +218,7 @@ public class EclipseJavaFormatterWrapperTest {
 				+ "				   C\n"
 				+ "}";
 
-		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, EclipseJavaFormatterSettings.getLineFeed("\\n", null), "1.5", null);
+		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), "1.5", null);
 		Assert.assertEquals("Invalid source code for 1.4 - enum is not a keyword", expected, actual);
 	}
 

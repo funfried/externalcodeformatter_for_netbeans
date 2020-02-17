@@ -17,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
-import org.netbeans.editor.BaseDocument;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.filesystems.FileObject;
 
@@ -154,38 +153,5 @@ public class EclipseJavaFormatterSettings {
 	 */
 	public static boolean isProjectSetting(String filename) {
 		return filename != null && filename.endsWith(PROJECT_PREF_FILE);
-	}
-
-	/**
-	 * Returns the real line feed characters for the given escaped line feed characters.
-	 *
-	 * @param lineFeedSetting escaped line feed characters, e.g. {@code \\n}
-	 * @param fallback        if the escaped line feed characters could not be matched to a real line feed setting
-	 *
-	 * @return the real line feed characters for the given escaped line feed characters, or the given
-	 *         {@code fallback} if the escaped characters could not be matched to a real line feed setting
-	 */
-	public static String getLineFeed(String lineFeedSetting, String fallback) {
-		String linefeed = fallback;
-
-		boolean usePlatformLinefeed = StringUtils.isBlank(lineFeedSetting);
-		if (!usePlatformLinefeed) {
-			switch (lineFeedSetting) {
-				case "\\n":
-					linefeed = BaseDocument.LS_LF;
-					break;
-				case "\\r":
-					linefeed = BaseDocument.LS_CR;
-					break;
-				case "\\r\\n":
-					linefeed = BaseDocument.LS_CRLF;
-					break;
-				default:
-					linefeed = null;
-					break;
-			}
-		}
-
-		return linefeed;
 	}
 }

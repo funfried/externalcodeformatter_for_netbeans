@@ -28,7 +28,7 @@ import com.google.googlejavaformat.java.JavaFormatterOptions;
  */
 public final class GoogleJavaFormatterWrapper {
 	/**
-	 * Package private Constructor for creating a new instance of {@link GoogleFormatter}.
+	 * Package private Constructor for creating a new instance of {@link GoogleJavaFormatterWrapper}.
 	 */
 	GoogleJavaFormatterWrapper() {
 	}

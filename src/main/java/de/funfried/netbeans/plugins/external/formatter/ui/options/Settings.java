@@ -14,9 +14,11 @@ import java.util.prefs.Preferences;
 
 import javax.swing.text.Document;
 
+import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
+import org.netbeans.editor.BaseDocument;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
@@ -59,13 +61,6 @@ public class Settings {
 	public static final String USE_PROJECT_SETTINGS = "useProjectSettings";
 
 	/**
-	 * Property key which defines which code style should be used for the Google formatter.
-	 *
-	 * @since 1.13
-	 */
-	public static final String GOOGLE_FORMATTER_CODE_STYLE = "googleFormatterCodeStyle";
-
-	/**
 	 * Private contructor because of static methods only.
 	 */
 	private Settings() {
@@ -101,5 +96,38 @@ public class Settings {
 		}
 
 		return globalPreferences;
+	}
+
+	/**
+	 * Returns the real line feed characters for the given escaped line feed characters.
+	 *
+	 * @param lineFeedSetting escaped line feed characters, e.g. {@code \\n}
+	 * @param fallback        if the escaped line feed characters could not be matched to a real line feed setting
+	 *
+	 * @return the real line feed characters for the given escaped line feed characters, or the given
+	 *         {@code fallback} if the escaped characters could not be matched to a real line feed setting
+	 */
+	public static String getLineFeed(String lineFeedSetting, String fallback) {
+		String linefeed = fallback;
+
+		boolean usePlatformLinefeed = StringUtils.isBlank(lineFeedSetting);
+		if (!usePlatformLinefeed) {
+			switch (lineFeedSetting) {
+				case "\\n":
+					linefeed = BaseDocument.LS_LF;
+					break;
+				case "\\r":
+					linefeed = BaseDocument.LS_CR;
+					break;
+				case "\\r\\n":
+					linefeed = BaseDocument.LS_CRLF;
+					break;
+				default:
+					linefeed = null;
+					break;
+			}
+		}
+
+		return linefeed;
 	}
 }
