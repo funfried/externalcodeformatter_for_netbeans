@@ -73,7 +73,7 @@ class EclipseFormatJob extends AbstractFormatJob {
 <span class="fc" id="L73">		String formatterProfile = pref.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
 <span class="fc" id="L74">		String sourceLevel = pref.get(EclipseJavaFormatterSettings.SOURCELEVEL, &quot;&quot;);</span>
 <span class="fc" id="L75">		String lineFeedSetting = pref.get(EclipseJavaFormatterSettings.LINEFEED, &quot;&quot;);</span>
-<span class="fc" id="L76">		String lineFeed = EclipseJavaFormatterSettings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
+<span class="fc" id="L76">		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
 
 		//save with configured linefeed
 <span class="pc bpc" id="L79" title="1 of 2 branches missed.">		if (null != lineFeed) {</span>

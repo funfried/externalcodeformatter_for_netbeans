@@ -81,7 +81,7 @@
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  		String formatterProfile = pref.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, <span class="jxr_string">""</span>);
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  		String sourceLevel = pref.get(EclipseJavaFormatterSettings.SOURCELEVEL, <span class="jxr_string">""</span>);
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>  		String lineFeedSetting = pref.get(EclipseJavaFormatterSettings.LINEFEED, <span class="jxr_string">""</span>);
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>  		String lineFeed = EclipseJavaFormatterSettings.getLineFeed(lineFeedSetting, System.getProperty(<span class="jxr_string">"line.separator"</span>));
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(<span class="jxr_string">"line.separator"</span>));
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>  		<em class="jxr_comment">//save with configured linefeed</em>
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>  		<strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">null</strong> != lineFeed) {

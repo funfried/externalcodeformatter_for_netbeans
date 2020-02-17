@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SpringFormatJob.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Java Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.java.spring</a> &gt; <span class="el_source">SpringFormatJob.java</span></div><h1>SpringFormatJob.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2020 bahlef.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * bahlef - initial API and implementation and/or initial documentation
+ */
+package de.funfried.netbeans.plugins.external.formatter.java.spring;
+
+import java.util.SortedSet;
+import java.util.prefs.Preferences;
+
+import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.editor.BaseDocument;
+import org.netbeans.modules.editor.NbEditorUtilities;
+import org.openide.awt.NotificationDisplayer;
+import org.openide.awt.StatusDisplayer;
+
+import de.funfried.netbeans.plugins.external.formatter.Utils;
+import de.funfried.netbeans.plugins.external.formatter.base.AbstractFormatJob;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FileTypeNotSupportedException;
+import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+
+/**
+ * Spring formatter implementation of the {@link AbstractFormatJob} to
+ * format a given document using the {@link SpringJavaFormatterWrapper}.
+ *
+ * @author bahlef
+ */
+class SpringFormatJob extends AbstractFormatJob {
+	/** The {@link SpringJavaFormatterWrapper} implementation. */
+	private final SpringJavaFormatterWrapper formatter;
+
+	/**
+	 * Package private constructor to create a new instance of {@link SpringFormatJob}.
+	 *
+	 * @param document        the {@link StyledDocument} which sould be formatted
+	 * @param formatter       the {@link SpringJavaFormatterWrapper} to use
+	 * @param changedElements the ranges which should be formatted
+	 */
+	SpringFormatJob(StyledDocument document, SpringJavaFormatterWrapper formatter, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
+<span class="nc" id="L49">		super(document, changedElements);</span>
+
+<span class="nc" id="L51">		this.formatter = formatter;</span>
+<span class="nc" id="L52">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void format() throws BadLocationException {
+<span class="nc" id="L59">		boolean isJava = Utils.isJava(document);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">		if (!isJava) {</span>
+<span class="nc" id="L61">			throw new FileTypeNotSupportedException(&quot;The file type '&quot; + NbEditorUtilities.getMimeType(document) + &quot;' is not supported by the Goolge Java Code Formatter&quot;);</span>
+		}
+
+<span class="nc" id="L64">		Preferences pref = Settings.getActivePreferences(document);</span>
+
+<span class="nc" id="L66">		String lineFeedSetting = pref.get(SpringJavaFormatterSettings.LINEFEED, &quot;&quot;);</span>
+<span class="nc" id="L67">		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
+
+		//save with configured linefeed
+<span class="nc bnc" id="L70" title="All 2 branches missed.">		if (null != lineFeed) {</span>
+<span class="nc" id="L71">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
+<span class="nc" id="L72">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
+		}
+
+<span class="nc" id="L75">		String code = getCode();</span>
+
+<span class="nc" id="L77">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
+
+<span class="nc" id="L79">		String formattedContent = formatter.format(code, lineFeed, regions);</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">		if (setFormattedCode(code, formattedContent)) {</span>
+<span class="nc" id="L81">			SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L83">					NotificationDisplayer.getDefault().notify(&quot;Format using Spring formatter&quot;, Icons.ICON_SPRING, null, null);</span>
+				}
+
+<span class="nc" id="L86">				StatusDisplayer.getDefault().setStatusText(&quot;Format using Spring formatter&quot;);</span>
+<span class="nc" id="L87">			});</span>
+		}
+<span class="nc" id="L89">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
