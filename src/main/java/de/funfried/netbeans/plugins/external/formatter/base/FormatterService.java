@@ -19,6 +19,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
 
+import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
+
 /**
  * Service interface for external formatter implementations.
  *
@@ -86,6 +88,17 @@ public interface FormatterService {
 	 */
 	@CheckForNull
 	Integer getIndentSize(Document document);
+
+	/**
+	 * Returns the {@link FormatterOptionsPanel} for this formatter which
+	 * will be displayed in the overall options dialog underneath this
+	 * formatters selection.
+	 *
+	 * @return the {@link FormatterOptionsPanel} for this formatter, or
+	 *         {@code null} if there are no options a user could make for
+	 *         this formatter
+	 */
+	FormatterOptionsPanel getOptionsPanel();
 
 	/**
 	 * Returns the right margin (position of the red line in the editor) configured

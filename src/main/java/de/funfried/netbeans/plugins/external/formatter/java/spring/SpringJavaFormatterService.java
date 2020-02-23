@@ -30,6 +30,7 @@ import org.openide.util.lookup.ServiceProvider;
 import de.funfried.netbeans.plugins.external.formatter.base.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.base.java.AbstractJavaFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import io.spring.javaformat.formatter.Formatter;
 
@@ -41,7 +42,7 @@ import io.spring.javaformat.formatter.Formatter;
 @NbBundle.Messages({
 		"FormatterName=Spring Java Code Formatter"
 })
-@ServiceProvider(service = FormatterService.class)
+@ServiceProvider(service = FormatterService.class, position = 1500)
 public class SpringJavaFormatterService extends AbstractJavaFormatterService {
 	/** {@link Logger} of this class. */
 	private static final Logger log = Logger.getLogger(SpringJavaFormatterService.class.getName());
@@ -68,6 +69,14 @@ public class SpringJavaFormatterService extends AbstractJavaFormatterService {
 	@Override
 	public String getId() {
 		return ID;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public FormatterOptionsPanel getOptionsPanel() {
+		return new SpringJavaFormatterOptionsPanel();
 	}
 
 	/**

@@ -27,6 +27,7 @@ import com.google.googlejavaformat.java.JavaFormatterOptions;
 import de.funfried.netbeans.plugins.external.formatter.base.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.base.java.AbstractJavaFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
@@ -37,7 +38,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 @NbBundle.Messages({
 		"FormatterName=Google Java Code Formatter"
 })
-@ServiceProvider(service = FormatterService.class)
+@ServiceProvider(service = FormatterService.class, position = 500)
 public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 	/** The ID of this formatter service. */
 	public static final String ID = "google-java-formatter";
@@ -79,6 +80,14 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 	@Override
 	public String getId() {
 		return ID;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public FormatterOptionsPanel getOptionsPanel() {
+		return new GoogleJavaFormatterOptionsPanel();
 	}
 
 	/**
