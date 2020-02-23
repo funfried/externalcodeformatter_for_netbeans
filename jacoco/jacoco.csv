@@ -5,21 +5,34 @@ External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.exceptions,FileTypeNotSupportedException,9,4,0,0,4,2,2,1,2,1
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.exceptions,ConfigReadException,0,4,0,0,0,2,0,1,0,1
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse.xml,ConfigReader,73,208,18,26,14,41,17,11,2,4
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterOptionsPanel.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterOptionsPanel.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseFormatterConfig,0,230,0,12,0,48,0,17,0,11
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterOptionsPanel.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterOptionsPanel.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterOptionsPanel.new DocumentListener() {...},18,0,0,0,7,0,4,0,4,0
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterOptionsPanel.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,Bundle,4,0,0,0,1,0,1,0,1,0
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterOptionsPanel.new FileFilter() {...},18,0,2,0,5,0,4,0,3,0
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseFormatJob,93,134,6,8,17,31,8,5,2,4
-External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterService,180,18,34,0,56,4,25,3,8,3
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterService,184,18,34,0,57,4,26,3,9,3
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterSettings,19,58,8,14,6,12,6,10,0,5
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterOptionsPanel,954,0,42,0,211,0,39,0,18,0
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterWrapper,12,119,3,11,5,24,3,8,0,4
-External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,Utils,2,8,1,1,1,2,1,1,0,1
-External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,SpringJavaFormatterService,269,21,38,0,80,4,28,3,9,3
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,Utils,0,10,0,2,0,3,0,2,0,1
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,SpringJavaFormatterService,273,21,38,0,81,4,29,3,10,3
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,SpringFormatJob,7,89,3,5,1,21,3,4,0,3
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,SpringJavaFormatterOptionsPanel,169,0,4,0,42,0,9,0,7,0
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,Bundle,4,0,0,0,1,0,1,0,1,0
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,SpringJavaFormatterOptionsPanel.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.spring,SpringJavaFormatterWrapper,12,113,4,10,5,23,4,7,0,4
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.base,AbstractFormatJob.BreakException,3,0,0,0,1,0,1,0,1,0
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.base,AbstractFormatJob,434,149,42,12,65,33,32,6,5,5
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.base,FormatterServiceDelegate,139,70,23,7,44,20,18,6,5,4
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.google,GoogleFormatJob,7,73,2,4,1,17,2,4,0,3
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.google,GoogleJavaFormatterWrapper,3,82,2,10,2,20,2,6,0,2
-External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.google,GoogleJavaFormatterService,153,31,28,2,48,8,22,4,7,4
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.google,GoogleJavaFormatterService,157,31,28,2,49,8,23,4,8,4
 External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.google,Bundle,4,0,0,0,1,0,1,0,1,0
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.google,GoogleJavaFormatterOptionsPanel.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.google,GoogleJavaFormatterOptionsPanel.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+External Java Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.google,GoogleJavaFormatterOptionsPanel,199,0,6,0,51,0,11,0,8,0

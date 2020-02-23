@@ -30,6 +30,7 @@ import org.openide.util.lookup.ServiceProvider;
 import de.funfried.netbeans.plugins.external.formatter.base.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.base.java.AbstractJavaFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import io.spring.javaformat.formatter.Formatter;
 
@@ -41,16 +42,16 @@ import io.spring.javaformat.formatter.Formatter;
 @NbBundle.Messages({
 		&quot;FormatterName=Spring Java Code Formatter&quot;
 })
-@ServiceProvider(service = FormatterService.class)
-<span class="fc" id="L45">public class SpringJavaFormatterService extends AbstractJavaFormatterService {</span>
+@ServiceProvider(service = FormatterService.class, position = 1500)
+<span class="fc" id="L46">public class SpringJavaFormatterService extends AbstractJavaFormatterService {</span>
 	/** {@link Logger} of this class. */
-<span class="fc" id="L47">	private static final Logger log = Logger.getLogger(SpringJavaFormatterService.class.getName());</span>
+<span class="fc" id="L48">	private static final Logger log = Logger.getLogger(SpringJavaFormatterService.class.getName());</span>
 
 	/** The ID of this formatter service. */
 	public static final String ID = &quot;spring-java-formatter&quot;;
 
 	/** * The {@link SpringJavaFormatterWrapper} implementation. */
-<span class="fc" id="L53">	private final SpringJavaFormatterWrapper formatter = new SpringJavaFormatterWrapper();</span>
+<span class="fc" id="L54">	private final SpringJavaFormatterWrapper formatter = new SpringJavaFormatterWrapper();</span>
 
 	/**
 	 * {@inheritDoc}
@@ -58,7 +59,7 @@ import io.spring.javaformat.formatter.Formatter;
 	@NonNull
 	@Override
 	public String getDisplayName() {
-<span class="nc" id="L61">		return NbBundle.getMessage(SpringJavaFormatterService.class, &quot;FormatterName&quot;);</span>
+<span class="nc" id="L62">		return NbBundle.getMessage(SpringJavaFormatterService.class, &quot;FormatterName&quot;);</span>
 	}
 
 	/**
@@ -67,7 +68,15 @@ import io.spring.javaformat.formatter.Formatter;
 	@NonNull
 	@Override
 	public String getId() {
-<span class="nc" id="L70">		return ID;</span>
+<span class="nc" id="L71">		return ID;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public FormatterOptionsPanel getOptionsPanel() {
+<span class="nc" id="L79">		return new SpringJavaFormatterOptionsPanel();</span>
 	}
 
 	/**
@@ -76,30 +85,30 @@ import io.spring.javaformat.formatter.Formatter;
 	@CheckForNull
 	@Override
 	public Integer getContinuationIndentSize(Document document) {
-<span class="nc bnc" id="L79" title="All 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L80">			return null;</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L89">			return null;</span>
 		}
 
-<span class="nc" id="L83">		Integer ret = null;</span>
+<span class="nc" id="L92">		Integer ret = null;</span>
 
-<span class="nc" id="L85">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="nc bnc" id="L86" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="nc" id="L87">			String propKey = &quot;org.eclipse.jdt.core.formatter.continuation_indentation&quot;;</span>
-<span class="nc" id="L88">			String prop = this.getSpringFormatterProperty(propKey);</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">			if (prop != null) {</span>
+<span class="nc" id="L94">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="nc" id="L96">			String propKey = &quot;org.eclipse.jdt.core.formatter.continuation_indentation&quot;;</span>
+<span class="nc" id="L97">			String prop = this.getSpringFormatterProperty(propKey);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">			if (prop != null) {</span>
 				try {
-<span class="nc" id="L91">					ret = Integer.parseInt(prop);</span>
-<span class="nc" id="L92">				} catch (NumberFormatException ex) {</span>
-<span class="nc" id="L93">					log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
-<span class="nc" id="L94">				}</span>
+<span class="nc" id="L100">					ret = Integer.parseInt(prop);</span>
+<span class="nc" id="L101">				} catch (NumberFormatException ex) {</span>
+<span class="nc" id="L102">					log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
+<span class="nc" id="L103">				}</span>
 			}
 
-<span class="nc bnc" id="L97" title="All 2 branches missed.">			if (ret == null) {</span>
-<span class="nc" id="L98">				ret = 2;</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">			if (ret == null) {</span>
+<span class="nc" id="L107">				ret = 2;</span>
 			}
 		}
 
-<span class="nc" id="L102">		return ret;</span>
+<span class="nc" id="L111">		return ret;</span>
 	}
 
 	/**
@@ -108,30 +117,30 @@ import io.spring.javaformat.formatter.Formatter;
 	@CheckForNull
 	@Override
 	public Integer getIndentSize(Document document) {
-<span class="nc bnc" id="L111" title="All 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L112">			return null;</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L121">			return null;</span>
 		}
 
-<span class="nc" id="L115">		Integer ret = null;</span>
+<span class="nc" id="L124">		Integer ret = null;</span>
 
-<span class="nc" id="L117">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="nc bnc" id="L118" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="nc" id="L119">			String propKey = &quot;org.eclipse.jdt.core.formatter.indentation.size&quot;;</span>
-<span class="nc" id="L120">			String prop = this.getSpringFormatterProperty(propKey);</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">			if (prop != null) {</span>
+<span class="nc" id="L126">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="nc" id="L128">			String propKey = &quot;org.eclipse.jdt.core.formatter.indentation.size&quot;;</span>
+<span class="nc" id="L129">			String prop = this.getSpringFormatterProperty(propKey);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">			if (prop != null) {</span>
 				try {
-<span class="nc" id="L123">					ret = Integer.parseInt(prop);</span>
-<span class="nc" id="L124">				} catch (NumberFormatException ex) {</span>
-<span class="nc" id="L125">					log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
-<span class="nc" id="L126">				}</span>
+<span class="nc" id="L132">					ret = Integer.parseInt(prop);</span>
+<span class="nc" id="L133">				} catch (NumberFormatException ex) {</span>
+<span class="nc" id="L134">					log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
+<span class="nc" id="L135">				}</span>
 			}
 
-<span class="nc bnc" id="L129" title="All 2 branches missed.">			if (ret == null) {</span>
-<span class="nc" id="L130">				ret = 4;</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">			if (ret == null) {</span>
+<span class="nc" id="L139">				ret = 4;</span>
 			}
 		}
 
-<span class="nc" id="L134">		return ret;</span>
+<span class="nc" id="L143">		return ret;</span>
 	}
 
 	/**
@@ -140,23 +149,23 @@ import io.spring.javaformat.formatter.Formatter;
 	@CheckForNull
 	@Override
 	public Integer getRightMargin(Document document) {
-<span class="nc bnc" id="L143" title="All 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L144">			return null;</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L153">			return null;</span>
 		}
 
-<span class="nc" id="L147">		Integer ret = 120;</span>
+<span class="nc" id="L156">		Integer ret = 120;</span>
 
-<span class="nc" id="L149">		String propKey = &quot;org.eclipse.jdt.core.formatter.lineSplit&quot;;</span>
-<span class="nc" id="L150">		String prop = this.getSpringFormatterProperty(propKey);</span>
-<span class="nc bnc" id="L151" title="All 2 branches missed.">		if (prop != null) {</span>
+<span class="nc" id="L158">		String propKey = &quot;org.eclipse.jdt.core.formatter.lineSplit&quot;;</span>
+<span class="nc" id="L159">		String prop = this.getSpringFormatterProperty(propKey);</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">		if (prop != null) {</span>
 			try {
-<span class="nc" id="L153">				ret = Integer.parseInt(prop);</span>
-<span class="nc" id="L154">			} catch (NumberFormatException ex) {</span>
-<span class="nc" id="L155">				log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
-<span class="nc" id="L156">			}</span>
+<span class="nc" id="L162">				ret = Integer.parseInt(prop);</span>
+<span class="nc" id="L163">			} catch (NumberFormatException ex) {</span>
+<span class="nc" id="L164">				log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
+<span class="nc" id="L165">			}</span>
 		}
 
-<span class="nc" id="L159">		return ret;</span>
+<span class="nc" id="L168">		return ret;</span>
 	}
 
 	/**
@@ -164,7 +173,7 @@ import io.spring.javaformat.formatter.Formatter;
 	 */
 	@Override
 	protected FormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L167">		return new SpringFormatJob(document, formatter, changedElements);</span>
+<span class="fc" id="L176">		return new SpringFormatJob(document, formatter, changedElements);</span>
 	}
 
 	/**
@@ -173,34 +182,34 @@ import io.spring.javaformat.formatter.Formatter;
 	@CheckForNull
 	@Override
 	public Integer getSpacesPerTab(Document document) {
-<span class="nc bnc" id="L176" title="All 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L177">			return null;</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L186">			return null;</span>
 		}
 
-<span class="nc" id="L180">		Integer ret = null;</span>
+<span class="nc" id="L189">		Integer ret = null;</span>
 
-<span class="nc" id="L182">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="nc bnc" id="L183" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="nc bnc" id="L184" title="All 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
-<span class="nc" id="L185">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+<span class="nc" id="L191">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="nc" id="L194">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
 			} else {
-<span class="nc" id="L187">				String propKey = &quot;org.eclipse.jdt.core.formatter.tabulation.size&quot;;</span>
-<span class="nc" id="L188">				String prop = this.getSpringFormatterProperty(propKey);</span>
-<span class="nc bnc" id="L189" title="All 2 branches missed.">				if (prop != null) {</span>
+<span class="nc" id="L196">				String propKey = &quot;org.eclipse.jdt.core.formatter.tabulation.size&quot;;</span>
+<span class="nc" id="L197">				String prop = this.getSpringFormatterProperty(propKey);</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">				if (prop != null) {</span>
 					try {
-<span class="nc" id="L191">						ret = Integer.parseInt(prop);</span>
-<span class="nc" id="L192">					} catch (NumberFormatException ex) {</span>
-<span class="nc" id="L193">						log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
-<span class="nc" id="L194">					}</span>
+<span class="nc" id="L200">						ret = Integer.parseInt(prop);</span>
+<span class="nc" id="L201">					} catch (NumberFormatException ex) {</span>
+<span class="nc" id="L202">						log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
+<span class="nc" id="L203">					}</span>
 				}
 
-<span class="nc bnc" id="L197" title="All 2 branches missed.">				if (ret == null) {</span>
-<span class="nc" id="L198">					ret = 4;</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">				if (ret == null) {</span>
+<span class="nc" id="L207">					ret = 4;</span>
 				}
 			}
 		}
 
-<span class="nc" id="L203">		return ret;</span>
+<span class="nc" id="L212">		return ret;</span>
 	}
 
 	/**
@@ -213,14 +222,14 @@ import io.spring.javaformat.formatter.Formatter;
 	 *         the given {@code  key}
 	 */
 	private String getSpringFormatterProperty(String key) {
-<span class="nc" id="L216">		Properties props = new Properties();</span>
-<span class="nc" id="L217">		try (InputStream is = Formatter.class.getResourceAsStream(&quot;formatter.prefs&quot;)) {</span>
-<span class="nc" id="L218">			props.load(is);</span>
-<span class="nc" id="L219">		} catch (IOException ex) {</span>
-<span class="nc" id="L220">			log.log(Level.SEVERE, &quot;Could not read internal Spring formatter configuration&quot;, ex);</span>
-<span class="nc" id="L221">		}</span>
+<span class="nc" id="L225">		Properties props = new Properties();</span>
+<span class="nc" id="L226">		try (InputStream is = Formatter.class.getResourceAsStream(&quot;formatter.prefs&quot;)) {</span>
+<span class="nc" id="L227">			props.load(is);</span>
+<span class="nc" id="L228">		} catch (IOException ex) {</span>
+<span class="nc" id="L229">			log.log(Level.SEVERE, &quot;Could not read internal Spring formatter configuration&quot;, ex);</span>
+<span class="nc" id="L230">		}</span>
 
-<span class="nc" id="L223">		return props.getProperty(key);</span>
+<span class="nc" id="L232">		return props.getProperty(key);</span>
 	}
 
 	/**
@@ -229,26 +238,26 @@ import io.spring.javaformat.formatter.Formatter;
 	@CheckForNull
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
-<span class="nc bnc" id="L232" title="All 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L233">			return null;</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L242">			return null;</span>
 		}
 
-<span class="nc" id="L236">		Boolean ret = null;</span>
+<span class="nc" id="L245">		Boolean ret = null;</span>
 
-<span class="nc" id="L238">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="nc bnc" id="L239" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="nc" id="L240">			String propKey = &quot;org.eclipse.jdt.core.formatter.tabulation.size&quot;;</span>
-<span class="nc" id="L241">			String prop = this.getSpringFormatterProperty(propKey);</span>
-<span class="nc bnc" id="L242" title="All 2 branches missed.">			if (prop != null) {</span>
-<span class="nc" id="L243">				ret = Objects.equals(prop, &quot;space&quot;);</span>
+<span class="nc" id="L247">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="nc" id="L249">			String propKey = &quot;org.eclipse.jdt.core.formatter.tabulation.size&quot;;</span>
+<span class="nc" id="L250">			String prop = this.getSpringFormatterProperty(propKey);</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">			if (prop != null) {</span>
+<span class="nc" id="L252">				ret = Objects.equals(prop, &quot;space&quot;);</span>
 			}
 
-<span class="nc bnc" id="L246" title="All 2 branches missed.">			if (ret == null) {</span>
-<span class="nc" id="L247">				ret = false;</span>
+<span class="nc bnc" id="L255" title="All 2 branches missed.">			if (ret == null) {</span>
+<span class="nc" id="L256">				ret = false;</span>
 			}
 		}
 
-<span class="nc" id="L251">		return ret;</span>
+<span class="nc" id="L260">		return ret;</span>
 	}
 
 	/**
@@ -261,7 +270,7 @@ import io.spring.javaformat.formatter.Formatter;
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="nc" id="L264">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="nc" id="L273">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
