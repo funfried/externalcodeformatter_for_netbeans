@@ -53,7 +53,7 @@
         </Property>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/java/google/Bundle.properties" key="GoogleJavaFormatterOptionsPanel.googleCodeStyleRdBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/java/google/ui/Bundle.properties" key="GoogleJavaFormatterOptionsPanel.googleCodeStyleRdBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
@@ -66,7 +66,7 @@
           <ComponentRef name="googleCodeStyleBtnGrp"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/java/google/Bundle.properties" key="GoogleJavaFormatterOptionsPanel.aospRdBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/java/google/ui/Bundle.properties" key="GoogleJavaFormatterOptionsPanel.aospRdBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
@@ -76,7 +76,7 @@
     <Component class="javax.swing.JLabel" name="googleCodeStyleLbl">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/java/google/Bundle.properties" key="GoogleJavaFormatterOptionsPanel.googleCodeStyleLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/java/google/ui/Bundle.properties" key="GoogleJavaFormatterOptionsPanel.googleCodeStyleLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>

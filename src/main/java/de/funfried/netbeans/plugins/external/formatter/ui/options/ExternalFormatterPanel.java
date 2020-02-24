@@ -10,7 +10,11 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.ui.options;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
@@ -24,14 +28,23 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.GroupLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.LayoutStyle;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.spi.options.OptionsPanelController.Keywords;
 import org.openide.awt.HtmlBrowser;
+import org.openide.awt.Mnemonics;
 import org.openide.util.ChangeSupport;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
@@ -49,9 +62,11 @@ import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableC
  * The options panel for this plugin.
  *
  * @author markiewb
+ * @author bahlef
  */
-@Keywords(location = "Java", tabTitle = "External Formatter", keywords = { "eclipse", "google", "external", "format", "formatter", "eclipse formatter", "google formatter", "external formatter" })
-public class ExternalFormatterPanel extends javax.swing.JPanel implements VerifiableConfigPanel, ChangeListener {
+@Keywords(location = "Editor", tabTitle = "External Formatter", keywords = { "eclipse", "google", "spring", "java", "external", "format", "formatter", "eclipse formatter", "google formatter",
+		"spring formatter", "external formatter" })
+public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPanel, ChangeListener {
 	/** The unique serial version ID. */
 	private static final long serialVersionUID = 1L;
 
@@ -195,125 +210,123 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        formatterBtnGrp = new javax.swing.ButtonGroup();
-        rbUseNetBeans = new javax.swing.JRadioButton();
-        txtProjectSpecificHint = new javax.swing.JLabel();
-        cbShowNotifications = new javax.swing.JCheckBox();
-        btnDonate = new javax.swing.JLabel();
-        btnVisitHomePage = new javax.swing.JLabel();
-        useIndentationSettingsChkBox = new javax.swing.JCheckBox();
-        overrideTabSizeSpn = new javax.swing.JSpinner();
-        overrideTabSizeChkBox = new javax.swing.JCheckBox();
-        formatterOptionsPanel = new javax.swing.JPanel();
+        formatterBtnGrp = new ButtonGroup();
+        rbUseNetBeans = new JRadioButton();
+        txtProjectSpecificHint = new JLabel();
+        cbShowNotifications = new JCheckBox();
+        btnDonate = new JLabel();
+        btnVisitHomePage = new JLabel();
+        useIndentationSettingsChkBox = new JCheckBox();
+        overrideTabSizeSpn = new JSpinner();
+        overrideTabSizeChkBox = new JCheckBox();
+        formatterOptionsPanel = new JPanel();
 
         formatterBtnGrp.add(rbUseNetBeans);
         rbUseNetBeans.setSelected(true);
-        org.openide.awt.Mnemonics.setLocalizedText(rbUseNetBeans, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.rbUseNetBeans.text")); // NOI18N
-        rbUseNetBeans.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.rbUseNetBeans.toolTipText")); // NOI18N
-        rbUseNetBeans.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        Mnemonics.setLocalizedText(rbUseNetBeans, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.rbUseNetBeans.text")); // NOI18N
+        rbUseNetBeans.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.rbUseNetBeans.toolTipText")); // NOI18N
+        rbUseNetBeans.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 rbUseNetBeansActionPerformed(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(txtProjectSpecificHint, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.txtProjectSpecificHint.text")); // NOI18N
+        Mnemonics.setLocalizedText(txtProjectSpecificHint, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.txtProjectSpecificHint.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(cbShowNotifications, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbShowNotifications.text")); // NOI18N
-        cbShowNotifications.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbShowNotifications.toolTipText")); // NOI18N
-        cbShowNotifications.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        Mnemonics.setLocalizedText(cbShowNotifications, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbShowNotifications.text")); // NOI18N
+        cbShowNotifications.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbShowNotifications.toolTipText")); // NOI18N
+        cbShowNotifications.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 cbShowNotificationsActionPerformed(evt);
             }
         });
 
-        btnDonate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        org.openide.awt.Mnemonics.setLocalizedText(btnDonate, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.btnDonate.text")); // NOI18N
-        btnDonate.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.btnDonate.toolTipText")); // NOI18N
-        btnDonate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnDonate.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        btnDonate.setHorizontalAlignment(SwingConstants.RIGHT);
+        Mnemonics.setLocalizedText(btnDonate, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.btnDonate.text")); // NOI18N
+        btnDonate.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.btnDonate.toolTipText")); // NOI18N
+        btnDonate.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnDonate.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
                 btnDonateMouseClicked(evt);
             }
         });
 
-        btnVisitHomePage.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        org.openide.awt.Mnemonics.setLocalizedText(btnVisitHomePage, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.btnVisitHomePage.text")); // NOI18N
-        btnVisitHomePage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnVisitHomePage.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        btnVisitHomePage.setHorizontalAlignment(SwingConstants.RIGHT);
+        Mnemonics.setLocalizedText(btnVisitHomePage, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.btnVisitHomePage.text")); // NOI18N
+        btnVisitHomePage.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnVisitHomePage.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
                 btnVisitHomePageMouseClicked(evt);
             }
         });
 
-        org.openide.awt.Mnemonics.setLocalizedText(useIndentationSettingsChkBox, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.useIndentationSettingsChkBox.text")); // NOI18N
-        useIndentationSettingsChkBox.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.useIndentationSettingsChkBox.toolTipText")); // NOI18N
-        useIndentationSettingsChkBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        Mnemonics.setLocalizedText(useIndentationSettingsChkBox, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.useIndentationSettingsChkBox.text")); // NOI18N
+        useIndentationSettingsChkBox.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.useIndentationSettingsChkBox.toolTipText")); // NOI18N
+        useIndentationSettingsChkBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 useIndentationSettingsChkBoxActionPerformed(evt);
             }
         });
 
-        overrideTabSizeSpn.setModel(new javax.swing.SpinnerNumberModel(4, 1, 20, 1));
-        overrideTabSizeSpn.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeSpn.toolTipText")); // NOI18N
+        overrideTabSizeSpn.setModel(new SpinnerNumberModel(4, 1, 20, 1));
+        overrideTabSizeSpn.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeSpn.toolTipText")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(overrideTabSizeChkBox, org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeChkBox.text")); // NOI18N
-        overrideTabSizeChkBox.setToolTipText(org.openide.util.NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeChkBox.toolTipText")); // NOI18N
-        overrideTabSizeChkBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        Mnemonics.setLocalizedText(overrideTabSizeChkBox, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeChkBox.text")); // NOI18N
+        overrideTabSizeChkBox.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeChkBox.toolTipText")); // NOI18N
+        overrideTabSizeChkBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 overrideTabSizeChkBoxActionPerformed(evt);
             }
         });
 
         formatterOptionsPanel.setLayout(null);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(cbShowNotifications)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(useIndentationSettingsChkBox)
                         .addGap(18, 18, 18)
                         .addComponent(overrideTabSizeChkBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(overrideTabSizeSpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(overrideTabSizeSpn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(rbUseNetBeans)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtProjectSpecificHint))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDonate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(formatterOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnVisitHomePage, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDonate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(formatterOptionsPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(rbUseNetBeans)
                     .addComponent(txtProjectSpecificHint))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(formatterOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(formatterOptionsPanel, GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(useIndentationSettingsChkBox)
-                    .addComponent(overrideTabSizeSpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(overrideTabSizeSpn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(overrideTabSizeChkBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbShowNotifications)
                 .addGap(13, 13, 13)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDonate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVisitHomePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDonate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVisitHomePage, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-	private void btnDonateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDonateMouseClicked
+	private void btnDonateMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnDonateMouseClicked
 		try {
 			HtmlBrowser.URLDisplayer.getDefault().showURLExternal(new URL("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url"));
 		} catch (MalformedURLException ex) {
@@ -321,7 +334,7 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		}
 	}//GEN-LAST:event_btnDonateMouseClicked
 
-	private void btnVisitHomePageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVisitHomePageMouseClicked
+	private void btnVisitHomePageMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnVisitHomePageMouseClicked
 		try {
 			HtmlBrowser.URLDisplayer.getDefault().showURLExternal(new URL("https://github.com/funfried/externalcodeformatter_for_netbeans/"));
 		} catch (MalformedURLException ex) {
@@ -329,20 +342,20 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 		}
 	}//GEN-LAST:event_btnVisitHomePageMouseClicked
 
-    private void rbUseNetBeansActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbUseNetBeansActionPerformed
+    private void rbUseNetBeansActionPerformed(ActionEvent evt) {//GEN-FIRST:event_rbUseNetBeansActionPerformed
 		setActiveFormatter(Settings.DEFAULT_FORMATTER);
     }//GEN-LAST:event_rbUseNetBeansActionPerformed
 
-    private void cbShowNotificationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbShowNotificationsActionPerformed
+    private void cbShowNotificationsActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cbShowNotificationsActionPerformed
 		fireChangedListener();
     }//GEN-LAST:event_cbShowNotificationsActionPerformed
 
-    private void useIndentationSettingsChkBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useIndentationSettingsChkBoxActionPerformed
+    private void useIndentationSettingsChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_useIndentationSettingsChkBoxActionPerformed
 		updateEnabledState();
 		fireChangedListener();
     }//GEN-LAST:event_useIndentationSettingsChkBoxActionPerformed
 
-    private void overrideTabSizeChkBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_overrideTabSizeChkBoxActionPerformed
+    private void overrideTabSizeChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_overrideTabSizeChkBoxActionPerformed
 		updateEnabledState();
 		fireChangedListener();
     }//GEN-LAST:event_overrideTabSizeChkBoxActionPerformed
@@ -424,16 +437,16 @@ public class ExternalFormatterPanel extends javax.swing.JPanel implements Verifi
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnDonate;
-    private javax.swing.JLabel btnVisitHomePage;
-    private javax.swing.JCheckBox cbShowNotifications;
-    private javax.swing.ButtonGroup formatterBtnGrp;
-    private javax.swing.JPanel formatterOptionsPanel;
-    private javax.swing.JCheckBox overrideTabSizeChkBox;
-    private javax.swing.JSpinner overrideTabSizeSpn;
-    private javax.swing.JRadioButton rbUseNetBeans;
-    private javax.swing.JLabel txtProjectSpecificHint;
-    private javax.swing.JCheckBox useIndentationSettingsChkBox;
+    private JLabel btnDonate;
+    private JLabel btnVisitHomePage;
+    private JCheckBox cbShowNotifications;
+    private ButtonGroup formatterBtnGrp;
+    private JPanel formatterOptionsPanel;
+    private JCheckBox overrideTabSizeChkBox;
+    private JSpinner overrideTabSizeSpn;
+    private JRadioButton rbUseNetBeans;
+    private JLabel txtProjectSpecificHint;
+    private JCheckBox useIndentationSettingsChkBox;
     // End of variables declaration//GEN-END:variables
 
 	/**

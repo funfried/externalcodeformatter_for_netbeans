@@ -10,6 +10,8 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.java.eclipse;
 
+import de.funfried.netbeans.plugins.external.formatter.java.eclipse.ui.EclipseJavaFormatterOptionsPanel;
+
 import java.util.Map;
 import java.util.Objects;
 import java.util.SortedSet;

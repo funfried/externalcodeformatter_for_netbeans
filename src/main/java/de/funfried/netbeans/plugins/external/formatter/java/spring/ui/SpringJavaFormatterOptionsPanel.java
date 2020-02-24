@@ -8,7 +8,7 @@
  * bahlef - initial API and implementation and/or initial documentation
  */
 
-package de.funfried.netbeans.plugins.external.formatter.java.spring;
+package de.funfried.netbeans.plugins.external.formatter.java.spring.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openide.awt.Mnemonics;
 import org.openide.util.NbBundle;
 
+import de.funfried.netbeans.plugins.external.formatter.java.spring.SpringJavaFormatterSettings;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormatterOptionsPanel;
 
 /**

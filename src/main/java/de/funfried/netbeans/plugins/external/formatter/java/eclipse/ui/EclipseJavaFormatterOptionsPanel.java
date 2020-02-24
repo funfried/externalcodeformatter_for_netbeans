@@ -8,7 +8,7 @@
  * bahlef - initial API and implementation and/or initial documentation
  */
 
-package de.funfried.netbeans.plugins.external.formatter.java.eclipse;
+package de.funfried.netbeans.plugins.external.formatter.java.eclipse.ui;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -42,6 +42,7 @@ import org.openide.util.NbBundle;
 import org.xml.sax.SAXException;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.java.eclipse.EclipseJavaFormatterSettings;
 import de.funfried.netbeans.plugins.external.formatter.java.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormatterOptionsPanel;
 

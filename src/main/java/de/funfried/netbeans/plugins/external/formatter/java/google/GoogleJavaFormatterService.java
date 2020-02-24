@@ -9,6 +9,8 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.java.google;
 
+import de.funfried.netbeans.plugins.external.formatter.java.google.ui.GoogleJavaFormatterOptionsPanel;
+
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 

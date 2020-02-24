@@ -554,7 +554,7 @@
 					<version>0.8.5</version>
 					<configuration>
 						<excludes>
-							<exclude>de/funfried/netbeans/plugins/external/formatter/ui/**/*</exclude>
+							<exclude>de/funfried/netbeans/plugins/external/formatter/**/ui/**/*</exclude>
 						</excludes>
 					</configuration>
 				</plugin>

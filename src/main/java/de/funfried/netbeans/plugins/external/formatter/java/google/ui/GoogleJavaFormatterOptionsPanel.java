@@ -8,7 +8,7 @@
  * bahlef - initial API and implementation and/or initial documentation
  */
 
-package de.funfried.netbeans.plugins.external.formatter.java.google;
+package de.funfried.netbeans.plugins.external.formatter.java.google.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +25,7 @@ import org.openide.util.NbBundle;
 
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
+import de.funfried.netbeans.plugins.external.formatter.java.google.GoogleJavaFormatterSettings;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormatterOptionsPanel;
 
 /**

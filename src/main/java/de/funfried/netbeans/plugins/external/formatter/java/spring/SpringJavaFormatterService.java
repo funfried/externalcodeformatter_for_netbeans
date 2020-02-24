@@ -9,6 +9,8 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.java.spring;
 
+import de.funfried.netbeans.plugins.external.formatter.java.spring.ui.SpringJavaFormatterOptionsPanel;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
