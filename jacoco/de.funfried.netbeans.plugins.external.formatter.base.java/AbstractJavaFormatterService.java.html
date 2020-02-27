@@ -12,12 +12,11 @@ package de.funfried.netbeans.plugins.external.formatter.base.java;
 import java.util.SortedSet;
 
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.java.lexer.JavaTokenId;
 
-import de.funfried.netbeans.plugins.external.formatter.Utils;
 import de.funfried.netbeans.plugins.external.formatter.base.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
 
@@ -26,19 +25,7 @@ import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
  *
  * @author bahlef
  */
-<span class="fc" id="L29">public abstract class AbstractJavaFormatterService implements FormatterService {</span>
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canHandle(Document document) {
-<span class="pc bpc" id="L35" title="1 of 2 branches missed.">		if (Utils.isJava(document)) {</span>
-<span class="fc" id="L36">			return true;</span>
-		}
-
-<span class="nc" id="L39">		return false;</span>
-	}
-
+<span class="fc" id="L28">public abstract class AbstractJavaFormatterService implements FormatterService {</span>
 	/**
 	 * Returns the {@link FormatJob}.
 	 *
@@ -52,7 +39,15 @@ import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
 	 */
 	@Override
 	public void format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException {
-<span class="fc" id="L55">		getFormatJob(document, changedElements).format();</span>
-<span class="fc" id="L56">	}</span>
+<span class="fc" id="L42">		getFormatJob(document, changedElements).format();</span>
+<span class="fc" id="L43">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getSupportedMimeType() {
+<span class="fc" id="L50">		return JavaTokenId.language().mimeType();</span>
+	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

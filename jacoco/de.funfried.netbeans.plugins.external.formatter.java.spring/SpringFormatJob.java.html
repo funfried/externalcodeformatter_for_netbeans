@@ -18,13 +18,10 @@ import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.editor.BaseDocument;
-import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
 
-import de.funfried.netbeans.plugins.external.formatter.Utils;
 import de.funfried.netbeans.plugins.external.formatter.base.AbstractFormatJob;
-import de.funfried.netbeans.plugins.external.formatter.exceptions.FileTypeNotSupportedException;
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
@@ -46,46 +43,41 @@ class SpringFormatJob extends AbstractFormatJob {
 	 * @param changedElements the ranges which should be formatted
 	 */
 	SpringFormatJob(StyledDocument document, SpringJavaFormatterWrapper formatter, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L49">		super(document, changedElements);</span>
+<span class="fc" id="L46">		super(document, changedElements);</span>
 
-<span class="fc" id="L51">		this.formatter = formatter;</span>
-<span class="fc" id="L52">	}</span>
+<span class="fc" id="L48">		this.formatter = formatter;</span>
+<span class="fc" id="L49">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void format() throws BadLocationException {
-<span class="fc" id="L59">		boolean isJava = Utils.isJava(document);</span>
-<span class="fc bfc" id="L60" title="All 2 branches covered.">		if (!isJava) {</span>
-<span class="fc" id="L61">			throw new FileTypeNotSupportedException(&quot;The file type '&quot; + NbEditorUtilities.getMimeType(document) + &quot;' is not supported by the Goolge Java Code Formatter&quot;);</span>
-		}
+<span class="fc" id="L56">		Preferences pref = Settings.getActivePreferences(document);</span>
 
-<span class="fc" id="L64">		Preferences pref = Settings.getActivePreferences(document);</span>
-
-<span class="fc" id="L66">		String lineFeedSetting = pref.get(SpringJavaFormatterSettings.LINEFEED, &quot;&quot;);</span>
-<span class="fc" id="L67">		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
+<span class="fc" id="L58">		String lineFeedSetting = pref.get(SpringJavaFormatterSettings.LINEFEED, &quot;&quot;);</span>
+<span class="fc" id="L59">		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
 
 		//save with configured linefeed
-<span class="pc bpc" id="L70" title="1 of 2 branches missed.">		if (null != lineFeed) {</span>
-<span class="fc" id="L71">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
-<span class="fc" id="L72">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">		if (null != lineFeed) {</span>
+<span class="fc" id="L63">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
+<span class="fc" id="L64">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
 		}
 
-<span class="fc" id="L75">		String code = getCode();</span>
+<span class="fc" id="L67">		String code = getCode();</span>
 
-<span class="fc" id="L77">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
+<span class="fc" id="L69">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
 
-<span class="fc" id="L79">		String formattedContent = formatter.format(code, lineFeed, regions);</span>
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">		if (setFormattedCode(code, formattedContent)) {</span>
-<span class="fc" id="L81">			SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="pc bpc" id="L82" title="1 of 2 branches missed.">				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
-<span class="nc" id="L83">					NotificationDisplayer.getDefault().notify(&quot;Format using Spring formatter&quot;, Icons.ICON_SPRING, null, null);</span>
+<span class="fc" id="L71">		String formattedContent = formatter.format(code, lineFeed, regions);</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">		if (setFormattedCode(code, formattedContent)) {</span>
+<span class="fc" id="L73">			SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L75">					NotificationDisplayer.getDefault().notify(&quot;Format using Spring formatter&quot;, Icons.ICON_SPRING, null, null);</span>
 				}
 
-<span class="fc" id="L86">				StatusDisplayer.getDefault().setStatusText(&quot;Format using Spring formatter&quot;);</span>
-<span class="fc" id="L87">			});</span>
+<span class="fc" id="L78">				StatusDisplayer.getDefault().setStatusText(&quot;Format using Spring formatter&quot;);</span>
+<span class="fc" id="L79">			});</span>
 		}
-<span class="fc" id="L89">	}</span>
+<span class="fc" id="L81">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
