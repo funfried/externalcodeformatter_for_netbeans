@@ -29,7 +29,6 @@ import org.netbeans.api.annotations.common.NonNull;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
-import de.funfried.netbeans.plugins.external.formatter.exceptions.FileTypeNotSupportedException;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
@@ -92,9 +91,6 @@ public class FormatterServiceDelegate {
 			if (formatterService != null && formatterService.canHandle(document)) {
 				try {
 					formatterService.format(document, changedElements);
-				} catch (FileTypeNotSupportedException ex) {
-					// Should never be thrown, should already be checked by canHandle call
-					log.log(Level.WARNING, "Could not use " + formatterService.getDisplayName() + " for given document", ex);
 				} catch (BadLocationException ex) {
 					log.log(Level.SEVERE, formatterService.getDisplayName() + " failed to format the code", ex);
 				}

@@ -10,30 +10,37 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.ui.options;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.GroupLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.LayoutStyle;
 import javax.swing.SpinnerNumberModel;
@@ -41,7 +48,8 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.StringUtils;
+import org.netbeans.api.java.lexer.JavaTokenId;
 import org.netbeans.spi.options.OptionsPanelController.Keywords;
 import org.openide.awt.HtmlBrowser;
 import org.openide.awt.Mnemonics;
@@ -49,11 +57,6 @@ import org.openide.util.ChangeSupport;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
-import org.openide.util.WeakListeners;
-
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.RowSpec;
 
 import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableConfigPanel;
@@ -73,14 +76,14 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	/** {@link Logger} of this class. */
 	private static final Logger log = Logger.getLogger(ExternalFormatterPanel.class.getName());
 
-	/**
-	 * Holds all shown {@link FormatterOptionsPanel} together with their created {@link JRadioButton}
-	 * and with their {@link FormatterService} ID as the key.
-	 */
-	private transient final Map<String, Pair<FormatterOptionsPanel, JRadioButton>> formatterOptions = new HashMap<>();
+	/** Holds all {@link FormatterOptionsPanel}s with thier fromatter ID in their supported mime type. */
+	private transient final Map<String, Map<String, FormatterOptionsPanel>> formatterOptions = new HashMap<>();
 
-	/** {@link CellConstraints} for the dynamically build {@link FormLayout}. */
-	private transient final CellConstraints cc = new CellConstraints();
+	/** Holds all {@link FormatterService}s in a {@link Map} with their supported mime type as the key. */
+	private transient final Map<String, List<FormatterService>> formatterIdsPerMimeType = new HashMap<>();
+
+	/** Holder of the currently active formatter ID per mimeType. */
+	private transient final Map<String, String> activeFormatterId = new HashMap<>();
 
 	/** {@link ChangeSupport} to notify about changed preference components. */
 	private transient final ChangeSupport changeSupport;
@@ -91,8 +94,8 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	/** Flag which defines whether or not this dialog is shown globally or project specific. */
 	private final boolean showsProjectSettings;
 
-	/** Holder of the currently active formatter ID. */
-	private transient String activeFormatterId = null;
+	/** Internal flag which defines whether or not the selection of another formatter should be handled or not. */
+	private transient boolean formatterSelectionActive = true;
 
 	/**
 	 * Creates a new instance of {@link ExternalFormatterPanel}.
@@ -106,8 +109,22 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
 		this.changeSupport = new ChangeSupport(this);
 
+		Collection<? extends FormatterService> formatterServices = Lookup.getDefault().lookupAll(FormatterService.class);
+		for (FormatterService formatterService : formatterServices) {
+			String mimeType = formatterService.getSupportedMimeType();
+
+			List<FormatterService> formatterServicesOfMimeType = formatterIdsPerMimeType.get(mimeType);
+			if (formatterServicesOfMimeType == null) {
+				formatterServicesOfMimeType = new ArrayList<>();
+			}
+
+			formatterServicesOfMimeType.add(formatterService);
+
+			formatterIdsPerMimeType.put(formatterService.getSupportedMimeType(), formatterServicesOfMimeType);
+		}
+
 		initComponents();
-		initFormatterOptions();
+		initMimeTypes();
 
 		updateEnabledState();
 	}
@@ -148,59 +165,81 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	}
 
 	/**
-	 * Initializes the individual formatter options panels.
+	 * Initializes the mime type items of the {@link #chooseMimeTypeCmbBox}
+	 * {@link JComboBox}.
 	 */
-	private void initFormatterOptions() {
-		FormLayout formLayout = new FormLayout("28px,pref:grow", "");
+	private void initMimeTypes() {
+		chooseMimeTypeCmbBox.removeAllItems();
 
-		formatterOptionsPanel.setLayout(formLayout);
-
-		int row = 1;
-
-		Collection<? extends FormatterService> formatterServices = Lookup.getDefault().lookupAll(FormatterService.class);
-		for (FormatterService formatterService : formatterServices) {
-			if (row > 1) {
-				formLayout.appendRow(RowSpec.decode("3dlu"));
-			}
-
-			formLayout.appendRow(RowSpec.decode("pref"));
-			formLayout.appendRow(RowSpec.decode("2dlu"));
-			formLayout.appendRow(RowSpec.decode("pref"));
-
-			FormatterOptionsPanel optionsPanel = formatterService.getOptionsPanel();
-
-			JRadioButton rdBtn = new JRadioButton(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.use") + " " + formatterService.getDisplayName());
-			rdBtn.addActionListener((ActionEvent e) -> {
-				setActiveFormatter(formatterService.getId());
-			});
-
-			formatterOptions.put(formatterService.getId(), Pair.of(optionsPanel, rdBtn));
-
-			optionsPanel.addChangeListener(WeakListeners.change(this, optionsPanel));
-
-			formatterBtnGrp.add(rdBtn);
-
-			JPanel formatterPanel = optionsPanel.getComponent();
-			formatterPanel.setBorder(BorderFactory.createEtchedBorder());
-
-			formatterOptionsPanel.add(rdBtn, cc.xyw(1, row, 2));
-			formatterOptionsPanel.add(formatterPanel, cc.xy(2, row + 2));
-
-			row += 4;
+		for (String mimeType : formatterIdsPerMimeType.keySet()) {
+			chooseMimeTypeCmbBox.addItem(new ExtValue(mimeType, mimeType));
 		}
+
+		chooseMimeTypeCmbBox.setSelectedIndex(0);
 	}
 
-	private void setActiveFormatter(String formatterId) {
-		activeFormatterId = formatterId;
+	/**
+	 * Sets the currently active formatter for the given {@code mimeType}.
+	 *
+	 * @param mimeType    the mime type
+	 * @param formatterId the formatter service ID
+	 */
+	private void setActiveFormatter(String mimeType, String formatterId) {
+		activeFormatterId.put(mimeType, formatterId);
 
-		Set<String> formatterIds = formatterOptions.keySet();
-		for (String id : formatterIds) {
-			Pair<FormatterOptionsPanel, JRadioButton> optionsPair = formatterOptions.get(id);
-			optionsPair.getLeft().setActive(Objects.equals(activeFormatterId, id));
+		FormatterOptionsPanel activatedOptionsPanel = getFormatterOptionsPanel(mimeType, formatterId);
+		if (activatedOptionsPanel != null) {
+			activatedOptionsPanel.setActive(true);
 		}
 
-		updateEnabledState();
+		Map<String, FormatterOptionsPanel> formatterOptionPanels = formatterOptions.get(mimeType);
+		for (String id : formatterOptionPanels.keySet()) {
+			FormatterOptionsPanel optionsPanel = formatterOptionPanels.get(id);
+			if (optionsPanel != null && !Objects.equals(formatterId, id)) {
+				optionsPanel.setActive(false);
+			}
+		}
+
 		fireChangedListener();
+	}
+
+	/**
+	 * Returns the {@link FormatterOptionsPanel} for the given {@code mimeType} and {@code formatterId},
+	 * if this {@link FormatterOptionsPanel} is requested for the first time the preferences will also be
+	 * loaded.
+	 *
+	 * @param mimeType    the mime type
+	 * @param formatterId the formatter service ID
+	 *
+	 * @return the {@link FormatterOptionsPanel} for the given {@code mimeType} and {@code formatterId},
+	 *         or {@code null} if it cannot be found
+	 */
+	private synchronized FormatterOptionsPanel getFormatterOptionsPanel(String mimeType, String formatterId) {
+		Map<String, FormatterOptionsPanel> formatterOptionPanels = formatterOptions.get(mimeType);
+		if (formatterOptionPanels == null) {
+			formatterOptionPanels = new HashMap<>();
+
+			formatterOptions.put(mimeType, formatterOptionPanels);
+		}
+
+		FormatterOptionsPanel optionsPanel = formatterOptionPanels.get(formatterId);
+		if (optionsPanel == null) {
+			List<FormatterService> formatterServices = formatterIdsPerMimeType.get(mimeType);
+			if (formatterServices != null) {
+				for (FormatterService formatterService : formatterServices) {
+					if (formatterService != null && Objects.equals(formatterId, formatterService.getId())) {
+						optionsPanel = formatterService.getOptionsPanel();
+						optionsPanel.load(preferences);
+
+						formatterOptionPanels.put(formatterId, optionsPanel);
+
+						formatterOptions.put(mimeType, formatterOptionPanels);
+					}
+				}
+			}
+		}
+
+		return optionsPanel;
 	}
 
 	/**
@@ -210,8 +249,6 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        formatterBtnGrp = new ButtonGroup();
-        rbUseNetBeans = new JRadioButton();
         txtProjectSpecificHint = new JLabel();
         cbShowNotifications = new JCheckBox();
         btnDonate = new JLabel();
@@ -220,26 +257,15 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
         overrideTabSizeSpn = new JSpinner();
         overrideTabSizeChkBox = new JCheckBox();
         formatterOptionsPanel = new JPanel();
-
-        formatterBtnGrp.add(rbUseNetBeans);
-        rbUseNetBeans.setSelected(true);
-        Mnemonics.setLocalizedText(rbUseNetBeans, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.rbUseNetBeans.text")); // NOI18N
-        rbUseNetBeans.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.rbUseNetBeans.toolTipText")); // NOI18N
-        rbUseNetBeans.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                rbUseNetBeansActionPerformed(evt);
-            }
-        });
+        chooseLanguageLbl = new JLabel();
+        chooseMimeTypeCmbBox = new JComboBox<>();
+        useFormatterLbl = new JLabel();
+        chooseFormatterCmbBox = new JComboBox<>();
 
         Mnemonics.setLocalizedText(txtProjectSpecificHint, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.txtProjectSpecificHint.text")); // NOI18N
 
         Mnemonics.setLocalizedText(cbShowNotifications, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbShowNotifications.text")); // NOI18N
         cbShowNotifications.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbShowNotifications.toolTipText")); // NOI18N
-        cbShowNotifications.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                cbShowNotificationsActionPerformed(evt);
-            }
-        });
 
         btnDonate.setHorizontalAlignment(SwingConstants.RIGHT);
         Mnemonics.setLocalizedText(btnDonate, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.btnDonate.text")); // NOI18N
@@ -270,16 +296,30 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
         overrideTabSizeSpn.setModel(new SpinnerNumberModel(4, 1, 20, 1));
         overrideTabSizeSpn.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeSpn.toolTipText")); // NOI18N
+        overrideTabSizeSpn.setEnabled(false);
 
         Mnemonics.setLocalizedText(overrideTabSizeChkBox, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeChkBox.text")); // NOI18N
         overrideTabSizeChkBox.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeChkBox.toolTipText")); // NOI18N
-        overrideTabSizeChkBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                overrideTabSizeChkBoxActionPerformed(evt);
+        overrideTabSizeChkBox.setEnabled(false);
+
+        formatterOptionsPanel.setLayout(new BorderLayout());
+
+        Mnemonics.setLocalizedText(chooseLanguageLbl, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.chooseLanguageLbl.text")); // NOI18N
+
+        chooseMimeTypeCmbBox.setRenderer(new MimeTypesListCellRenderer());
+        chooseMimeTypeCmbBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                chooseMimeTypeCmbBoxItemStateChanged(evt);
             }
         });
 
-        formatterOptionsPanel.setLayout(null);
+        Mnemonics.setLocalizedText(useFormatterLbl, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.useFormatterLbl.text")); // NOI18N
+
+        chooseFormatterCmbBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                chooseFormatterCmbBoxItemStateChanged(evt);
+            }
+        });
 
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
@@ -287,30 +327,46 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(cbShowNotifications)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(useIndentationSettingsChkBox)
-                        .addGap(18, 18, 18)
-                        .addComponent(overrideTabSizeChkBox)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(overrideTabSizeSpn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(formatterOptionsPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(rbUseNetBeans)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(txtProjectSpecificHint))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnVisitHomePage, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDonate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addComponent(formatterOptionsPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(cbShowNotifications)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(useIndentationSettingsChkBox)
+                                .addGap(18, 18, 18)
+                                .addComponent(overrideTabSizeChkBox)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(overrideTabSizeSpn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(chooseLanguageLbl)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(chooseMimeTypeCmbBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(useFormatterLbl)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(chooseFormatterCmbBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 115, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbUseNetBeans)
-                    .addComponent(txtProjectSpecificHint))
+                .addComponent(txtProjectSpecificHint)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(formatterOptionsPanel, GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(chooseLanguageLbl)
+                    .addComponent(chooseMimeTypeCmbBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(useFormatterLbl)
+                    .addComponent(chooseFormatterCmbBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(formatterOptionsPanel, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(useIndentationSettingsChkBox)
@@ -342,42 +398,95 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 		}
 	}//GEN-LAST:event_btnVisitHomePageMouseClicked
 
-    private void rbUseNetBeansActionPerformed(ActionEvent evt) {//GEN-FIRST:event_rbUseNetBeansActionPerformed
-		setActiveFormatter(Settings.DEFAULT_FORMATTER);
-    }//GEN-LAST:event_rbUseNetBeansActionPerformed
-
-    private void cbShowNotificationsActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cbShowNotificationsActionPerformed
-		fireChangedListener();
-    }//GEN-LAST:event_cbShowNotificationsActionPerformed
-
     private void useIndentationSettingsChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_useIndentationSettingsChkBoxActionPerformed
 		updateEnabledState();
-		fireChangedListener();
     }//GEN-LAST:event_useIndentationSettingsChkBoxActionPerformed
 
-    private void overrideTabSizeChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_overrideTabSizeChkBoxActionPerformed
-		updateEnabledState();
-		fireChangedListener();
-    }//GEN-LAST:event_overrideTabSizeChkBoxActionPerformed
+    private void chooseMimeTypeCmbBoxItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_chooseMimeTypeCmbBoxItemStateChanged
+		if (ItemEvent.SELECTED == evt.getStateChange()) {
+			chooseFormatterCmbBox.removeAllItems();
+
+			formatterSelectionActive = false;
+
+			String selectedMimeType = getSelectedValue(chooseMimeTypeCmbBox);
+
+			List<FormatterService> formatterServices = formatterIdsPerMimeType.get(selectedMimeType);
+			if (formatterServices != null) {
+				ExtValue selected = new ExtValue(Settings.DEFAULT_FORMATTER, "Internal NetBeans formatter");
+				chooseFormatterCmbBox.addItem(selected);
+
+				for (FormatterService formatterService : formatterServices) {
+					String formatterId = formatterService.getId();
+					ExtValue value = new ExtValue(formatterId, formatterService.getDisplayName());
+
+					chooseFormatterCmbBox.addItem(value);
+
+					if(Objects.equals(activeFormatterId.get(selectedMimeType), formatterId)) {
+						selected = value;
+					}
+				}
+
+				formatterSelectionActive = true;
+
+				chooseFormatterCmbBox.setSelectedItem(selected);
+			} else {
+				formatterSelectionActive = true;
+			}
+		}
+    }//GEN-LAST:event_chooseMimeTypeCmbBoxItemStateChanged
+
+    private void chooseFormatterCmbBoxItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_chooseFormatterCmbBoxItemStateChanged
+        if (!formatterSelectionActive) {
+			return;
+		}
+
+		if (ItemEvent.DESELECTED == evt.getStateChange()) {
+			formatterOptionsPanel.setBorder(null);
+			formatterOptionsPanel.removeAll();
+		}
+		else if (ItemEvent.SELECTED == evt.getStateChange()) {
+			String selectedMimeType = getSelectedValue(chooseMimeTypeCmbBox);
+			String selectedFormatterId = getSelectedValue(chooseFormatterCmbBox);
+
+			FormatterOptionsPanel optionsPanel = getFormatterOptionsPanel(selectedMimeType, selectedFormatterId);
+			if(optionsPanel != null) {
+				formatterOptionsPanel.setBorder(BorderFactory.createEtchedBorder());
+				formatterOptionsPanel.add(optionsPanel.getComponent(), BorderLayout.CENTER);
+			}
+
+			setActiveFormatter(selectedMimeType, selectedFormatterId);
+		}
+    }//GEN-LAST:event_chooseFormatterCmbBoxItemStateChanged
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void load() {
-		activeFormatterId = preferences.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
+		formatterOptions.clear();
+
+		String selectedMimeType = getSelectedValue(chooseMimeTypeCmbBox);
+		String javaMimeType = JavaTokenId.language().mimeType();
+
+		for (String mimeType : formatterIdsPerMimeType.keySet()) {
+			String activeFormatter = preferences.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType, Settings.DEFAULT_FORMATTER);
+			if (Settings.DEFAULT_FORMATTER.equals(activeFormatter) && javaMimeType.equals(mimeType)) {
+				activeFormatter = preferences.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
+
+				preferences.remove(Settings.ENABLED_FORMATTER);
+			}
+
+			setActiveFormatter(mimeType, activeFormatter);
+
+			if (Objects.equals(selectedMimeType, mimeType)) {
+				chooseFormatterCmbBox.setSelectedItem(new ExtValue(activeFormatter, null));
+			}
+		}
 
 		boolean showNotifications = preferences.getBoolean(Settings.SHOW_NOTIFICATIONS, false);
 		boolean useIndentationSettings = preferences.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 		boolean overrideTabSize = preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 		int overrideTabSizeValue = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
-
-		Pair<FormatterOptionsPanel, JRadioButton> activePair = formatterOptions.get(activeFormatterId);
-		if (activePair != null) {
-			formatterBtnGrp.setSelected(activePair.getRight().getModel(), true);
-		} else {
-			formatterBtnGrp.setSelected(rbUseNetBeans.getModel(), true);
-		}
 
 		useIndentationSettingsChkBox.setSelected(useIndentationSettings);
 		overrideTabSizeChkBox.setSelected(overrideTabSize);
@@ -385,12 +494,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
 		cbShowNotifications.setSelected(showNotifications);
 
-		Collection<Pair<FormatterOptionsPanel, JRadioButton>> options = formatterOptions.values();
-		for (Pair<FormatterOptionsPanel, JRadioButton> option : options) {
-			option.getLeft().load(preferences);
-		}
-
-		setActiveFormatter(activeFormatterId);
+		updateEnabledState();
 	}
 
 	/**
@@ -398,16 +502,21 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 */
 	@Override
 	public void store() {
-		preferences.put(Settings.ENABLED_FORMATTER, activeFormatterId);
+		for (String mimeType : formatterIdsPerMimeType.keySet()) {
+			preferences.put(Settings.ENABLED_FORMATTER_PREFIX + mimeType, activeFormatterId.get(mimeType));
+
+			Map<String, FormatterOptionsPanel> options = formatterOptions.get(mimeType);
+			if (options != null) {
+				for (FormatterOptionsPanel option : options.values()) {
+					option.store(preferences);
+				}
+			}
+		}
+
 		preferences.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, useIndentationSettingsChkBox.isSelected());
 		preferences.putBoolean(Settings.OVERRIDE_TAB_SIZE, overrideTabSizeChkBox.isSelected());
 		preferences.putInt(Settings.OVERRIDE_TAB_SIZE_VALUE, Integer.parseInt(overrideTabSizeSpn.getValue().toString()));
 		preferences.putBoolean(Settings.SHOW_NOTIFICATIONS, cbShowNotifications.isSelected());
-
-		Collection<Pair<FormatterOptionsPanel, JRadioButton>> optionsPanels = formatterOptions.values();
-		for (Pair<FormatterOptionsPanel, JRadioButton> optionsPanel : optionsPanels) {
-			optionsPanel.getLeft().store(preferences);
-		}
 
 		try {
 			preferences.flush();
@@ -428,9 +537,14 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 */
 	@Override
 	public boolean valid() {
-		Pair<FormatterOptionsPanel, JRadioButton> optionsPanel = formatterOptions.get(activeFormatterId);
-		if (optionsPanel != null) {
-			return optionsPanel.getLeft().valid();
+		for (String mimeType : formatterOptions.keySet()) {
+			String activeId = activeFormatterId.get(mimeType);
+			if (StringUtils.isNotBlank(activeId) && !Objects.equals(Settings.DEFAULT_FORMATTER, activeId)) {
+				FormatterOptionsPanel optionsPanel = getFormatterOptionsPanel(mimeType, activeId);
+				if (optionsPanel != null && !optionsPanel.valid()) {
+					return false;
+				}
+			}
 		}
 
 		return true;
@@ -440,12 +554,14 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
     private JLabel btnDonate;
     private JLabel btnVisitHomePage;
     private JCheckBox cbShowNotifications;
-    private ButtonGroup formatterBtnGrp;
+    private JComboBox<ExtValue> chooseFormatterCmbBox;
+    private JLabel chooseLanguageLbl;
+    private JComboBox<ExtValue> chooseMimeTypeCmbBox;
     private JPanel formatterOptionsPanel;
     private JCheckBox overrideTabSizeChkBox;
     private JSpinner overrideTabSizeSpn;
-    private JRadioButton rbUseNetBeans;
     private JLabel txtProjectSpecificHint;
+    private JLabel useFormatterLbl;
     private JCheckBox useIndentationSettingsChkBox;
     // End of variables declaration//GEN-END:variables
 
@@ -453,11 +569,32 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 * Updates the enabled state of all components regarding the lastest selections made by the user.
 	 */
 	private void updateEnabledState() {
-		useIndentationSettingsChkBox.setEnabled(!rbUseNetBeans.isSelected());
-		overrideTabSizeChkBox.setEnabled(useIndentationSettingsChkBox.isEnabled() && useIndentationSettingsChkBox.isSelected());
+		overrideTabSizeChkBox.setEnabled(useIndentationSettingsChkBox.isSelected());
 		overrideTabSizeSpn.setEnabled(overrideTabSizeChkBox.isEnabled() && overrideTabSizeChkBox.isSelected());
 
 		txtProjectSpecificHint.setVisible(!showsProjectSettings);
+	}
+
+	/**
+	 * Returns the selected item of a given {@link JComboBox}. If the selected item is an instance
+	 * of {@link ExtValue} the {@link ExtValue#getValue()} will be returned.
+	 *
+	 * @param comboBox the {@link JComboBox}
+	 *
+	 * @return the selected item of a given {@link JComboBox}. If the selected item is an instance
+	 *         of {@link ExtValue} the {@link ExtValue#getValue()} will be returned
+	 */
+	private String getSelectedValue(JComboBox comboBox) {
+		Object selectedItem = comboBox.getSelectedItem();
+		if (selectedItem != null) {
+			if (selectedItem instanceof ExtValue) {
+				return ((ExtValue) selectedItem).getValue();
+			} else {
+				return selectedItem.toString();
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -466,5 +603,121 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		fireChangedListener();
+	}
+
+	/**
+	 * A renderer for the {@link #chooseMimeTypeCmbBox} which shows every entry
+	 * in bold which has an external formatter select.
+	 */
+	private class MimeTypesListCellRenderer extends DefaultListCellRenderer {
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+			Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+			if (value != null) {
+				String mimeType = value.toString();
+				if (value instanceof ExtValue) {
+					mimeType = ((ExtValue) value).getValue();
+				}
+
+				if (!Objects.equals(Settings.DEFAULT_FORMATTER, activeFormatterId.get(mimeType))) {
+					Font standardFont = comp.getFont();
+
+					comp.setFont(new Font(standardFont.getName(), Font.BOLD, standardFont.getSize()));
+				}
+			}
+
+			return comp;
+		}
+	}
+
+	/**
+	 * A Java bean for separating between visual and logical values.
+	 */
+	private static class ExtValue {
+		/** Holder of the logical value. */
+		private final String value;
+
+		/** Holder of the visual value. */
+		private final String visualValue;
+
+		/**
+		 * Constructor of this class.
+		 *
+		 * @param value       logical value
+		 * @param visualValue visual value
+		 */
+		public ExtValue(String value, String visualValue) {
+			this.value = value;
+			this.visualValue = visualValue;
+		}
+
+		/**
+		 * Returns the logical value.
+		 *
+		 * @return the logical value
+		 */
+		public String getValue() {
+			return value;
+		}
+
+		/**
+		 * Returns the visual value.
+		 *
+		 * @return the visual value
+		 *
+		 * @see #toString()
+		 */
+		public String getVisualValue() {
+			return visualValue;
+		}
+
+		/**
+		 * Returns the {@link #visualValue} if not {@code null}, otherwise
+		 * the logical {@link #value}.
+		 *
+		 * @return the {@link #visualValue} if not {@code null}, otherwise
+		 *         the logical {@link #value}
+		 */
+		@Override
+		public String toString() {
+			return StringUtils.isBlank(visualValue) ? value : visualValue;
+		}
+
+		/**
+		 * Returns {@code true} if {@code obj} is also an {@link ExtValue} with
+		 * the same logical value or if {@code obj} is a String with the same
+		 * characters as the logical {@link #value}, otherwise {@code false}.
+		 *
+		 * @return {@code true} if {@code obj} is also an {@link ExtValue} with
+		 *         the same logical value or if {@code obj} is a String with the
+		 *         same characters as the logical {@link #value}, otherwise
+		 *         {@code false}
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null) {
+				return false;
+			} else if (obj instanceof ExtValue) {
+				ExtValue other = (ExtValue) obj;
+
+				return Objects.equals(this.value, other.value);
+			} else {
+				return Objects.equals(this.value, obj);
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public int hashCode() {
+			int hash = 7;
+			hash = 97 * hash + Objects.hashCode(this.value);
+			return hash;
+		}
 	}
 }

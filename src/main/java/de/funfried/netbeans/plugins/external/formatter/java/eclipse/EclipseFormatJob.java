@@ -19,16 +19,13 @@ import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.editor.BaseDocument;
-import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
 
-import de.funfried.netbeans.plugins.external.formatter.Utils;
 import de.funfried.netbeans.plugins.external.formatter.base.AbstractFormatJob;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
-import de.funfried.netbeans.plugins.external.formatter.exceptions.FileTypeNotSupportedException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
@@ -62,11 +59,6 @@ class EclipseFormatJob extends AbstractFormatJob {
 	 */
 	@Override
 	public void format() throws BadLocationException {
-		boolean isJava = Utils.isJava(document);
-		if (!isJava) {
-			throw new FileTypeNotSupportedException("The file type '" + NbEditorUtilities.getMimeType(document) + "' is not supported by the Eclipse Java Code Formatter");
-		}
-
 		Preferences pref = Settings.getActivePreferences(document);
 
 		String formatterFile = EclipseJavaFormatterSettings.getEclipseFormatterFile(pref, document);

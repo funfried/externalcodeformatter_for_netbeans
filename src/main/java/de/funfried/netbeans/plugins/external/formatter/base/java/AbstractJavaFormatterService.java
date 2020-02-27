@@ -12,12 +12,11 @@ package de.funfried.netbeans.plugins.external.formatter.base.java;
 import java.util.SortedSet;
 
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.java.lexer.JavaTokenId;
 
-import de.funfried.netbeans.plugins.external.formatter.Utils;
 import de.funfried.netbeans.plugins.external.formatter.base.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
 
@@ -27,18 +26,6 @@ import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
  * @author bahlef
  */
 public abstract class AbstractJavaFormatterService implements FormatterService {
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canHandle(Document document) {
-		if (Utils.isJava(document)) {
-			return true;
-		}
-
-		return false;
-	}
-
 	/**
 	 * Returns the {@link FormatJob}.
 	 *
@@ -53,5 +40,13 @@ public abstract class AbstractJavaFormatterService implements FormatterService {
 	@Override
 	public void format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException {
 		getFormatJob(document, changedElements).format();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getSupportedMimeType() {
+		return JavaTokenId.language().mimeType();
 	}
 }

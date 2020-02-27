@@ -32,10 +32,20 @@ import org.openide.util.NbPreferences;
  */
 public class Settings {
 	/**
+	 * Property key prefix for the enabled formatter per mime type.
+	 *
+	 * @since 1.14
+	 */
+	public static final String ENABLED_FORMATTER_PREFIX = Settings.ENABLED_FORMATTER + ".";
+
+	/**
 	 * Property key which defines the enabled formatter.
 	 *
 	 * @since 1.13
+	 *
+	 * @deprecated Use {@link #ENABLED_FORMATTER_PREFIX} instead
 	 */
+	@Deprecated
 	public static final String ENABLED_FORMATTER = "enabledFormatter";
 
 	/**

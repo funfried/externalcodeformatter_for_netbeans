@@ -9,6 +9,7 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.base;
 
+import java.util.Objects;
 import java.util.SortedSet;
 
 import javax.swing.text.BadLocationException;
@@ -18,6 +19,7 @@ import javax.swing.text.StyledDocument;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
+import org.netbeans.modules.editor.NbEditorUtilities;
 
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 
@@ -36,7 +38,13 @@ public interface FormatterService {
 	 * @return {@code true} if and only if this implementation would be able to
 	 *         format the given {@link Document}, otherwise {@code false}
 	 */
-	boolean canHandle(Document document);
+	default boolean canHandle(Document document) {
+		if (document == null) {
+			return false;
+		}
+
+		return Objects.equals(NbEditorUtilities.getMimeType(document), getSupportedMimeType());
+	}
 
 	/**
 	 * Formats the given {@link StyledDocument} in regard to the given {@code changedElements}.
@@ -126,6 +134,14 @@ public interface FormatterService {
 	 */
 	@CheckForNull
 	Integer getSpacesPerTab(Document document);
+
+	/**
+	 * Returns the supported mime type for this {@link FormatterService}, e.g. text/x-java.
+	 *
+	 * @return the supported mime type for this {@link FormatterService}
+	 */
+	@NonNull
+	String getSupportedMimeType();
 
 	/**
 	 * Returns the expand tab to spaces flag configured for the given
