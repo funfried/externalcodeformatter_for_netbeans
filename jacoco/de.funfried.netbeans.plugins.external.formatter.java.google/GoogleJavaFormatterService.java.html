@@ -26,9 +26,9 @@ import org.openide.util.lookup.ServiceProvider;
 
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
-import de.funfried.netbeans.plugins.external.formatter.base.FormatJob;
-import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
-import de.funfried.netbeans.plugins.external.formatter.base.java.AbstractJavaFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.FormatJob;
+import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 

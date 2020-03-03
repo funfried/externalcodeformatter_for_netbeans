@@ -21,6 +21,8 @@ import com.google.googlejavaformat.java.Formatter;
 import com.google.googlejavaformat.java.FormatterException;
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
+
 /**
  * Delegation class to the Google formatter implementation.
  *
@@ -30,8 +32,8 @@ public final class GoogleJavaFormatterWrapper {
 	/**
 	 * Package private Constructor for creating a new instance of {@link GoogleJavaFormatterWrapper}.
 	 */
-<span class="fc" id="L33">	GoogleJavaFormatterWrapper() {</span>
-<span class="fc" id="L34">	}</span>
+<span class="fc" id="L35">	GoogleJavaFormatterWrapper() {</span>
+<span class="fc" id="L36">	}</span>
 
 	/**
 	 * Formats the given {@code code} with the given configurations and returns
@@ -45,40 +47,42 @@ public final class GoogleJavaFormatterWrapper {
 	 *                        objects defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
+	 *
+	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
-	public String format(String code, JavaFormatterOptions.Style codeStyle, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc bfc" id="L50" title="All 2 branches covered.">		if (code == null) {</span>
-<span class="fc" id="L51">			return null;</span>
+	public String format(String code, JavaFormatterOptions.Style codeStyle, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws FormattingFailedException {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		if (code == null) {</span>
+<span class="fc" id="L55">			return null;</span>
 		}
 
-<span class="fc bfc" id="L54" title="All 2 branches covered.">		if (codeStyle == null) {</span>
-<span class="fc" id="L55">			codeStyle = JavaFormatterOptions.Style.GOOGLE;</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		if (codeStyle == null) {</span>
+<span class="fc" id="L59">			codeStyle = JavaFormatterOptions.Style.GOOGLE;</span>
 		}
 
-<span class="fc" id="L58">		Collection&lt;Range&lt;Integer&gt;&gt; characterRanges = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L59" title="All 2 branches covered.">		if (changedElements == null) {</span>
-<span class="fc" id="L60">			characterRanges.add(Range.closedOpen(0, code.length()));</span>
-<span class="pc bpc" id="L61" title="1 of 2 branches missed.">		} else if (!CollectionUtils.isEmpty(changedElements)) {</span>
-<span class="fc bfc" id="L62" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
-<span class="fc" id="L63">				int start = changedElement.getLeft();</span>
-<span class="fc" id="L64">				int end = changedElement.getRight();</span>
+<span class="fc" id="L62">		Collection&lt;Range&lt;Integer&gt;&gt; characterRanges = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		if (changedElements == null) {</span>
+<span class="fc" id="L64">			characterRanges.add(Range.closedOpen(0, code.length()));</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">		} else if (!CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
+<span class="fc" id="L67">				int start = changedElement.getLeft();</span>
+<span class="fc" id="L68">				int end = changedElement.getRight();</span>
 
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">				if (start == end) {</span>
-<span class="nc" id="L67">					end++;</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">				if (start == end) {</span>
+<span class="nc" id="L71">					end++;</span>
 				}
 
-<span class="fc" id="L70">				characterRanges.add(Range.open(start, end));</span>
-<span class="fc" id="L71">			}</span>
+<span class="fc" id="L74">				characterRanges.add(Range.open(start, end));</span>
+<span class="fc" id="L75">			}</span>
 		} else {
 			// empty changed elements means nothing's left which can be formatted due to guarded sections
-<span class="nc" id="L74">			return code;</span>
+<span class="nc" id="L78">			return code;</span>
 		}
 
 		try {
-<span class="fc" id="L78">			Formatter formatter = new Formatter(JavaFormatterOptions.builder().style(codeStyle).build());</span>
-<span class="fc" id="L79">			return formatter.formatSource(code, characterRanges);</span>
-<span class="fc" id="L80">		} catch (FormatterException ex) {</span>
-<span class="fc" id="L81">			throw new RuntimeException(ex);</span>
+<span class="fc" id="L82">			Formatter formatter = new Formatter(JavaFormatterOptions.builder().style(codeStyle).build());</span>
+<span class="fc" id="L83">			return formatter.formatSource(code, characterRanges);</span>
+<span class="fc" id="L84">		} catch (FormatterException ex) {</span>
+<span class="fc" id="L85">			throw new FormattingFailedException(ex);</span>
 		}
 	}
 }

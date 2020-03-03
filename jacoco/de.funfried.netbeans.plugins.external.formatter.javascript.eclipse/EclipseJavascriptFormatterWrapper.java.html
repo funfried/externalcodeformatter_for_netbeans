@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EclipseJavascriptFormatterWrapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Java Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.javascript.eclipse</a> &gt; <span class="el_source">EclipseJavascriptFormatterWrapper.java</span></div><h1>EclipseJavascriptFormatterWrapper.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2020 bahlef.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * bahlef - initial API and implementation and/or initial documentation
+ */
+package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
+
+import java.util.Map;
+import java.util.Objects;
+
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.text.edits.TextEdit;
+import org.eclipse.wst.jsdt.core.ToolFactory;
+import org.eclipse.wst.jsdt.core.formatter.CodeFormatter;
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
+
+import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
+
+/**
+ * Wrapper class to the Eclipse formatter implementation.
+ *
+ * @author bahlef
+ */
+public final class EclipseJavascriptFormatterWrapper {
+	/** Use to specify the kind of the code snippet to format. */
+	private static final int FORMATTER_OPTS = CodeFormatter.K_JAVASCRIPT_UNIT;
+
+	/**
+	 * Package private Constructor for creating a new instance of {@link EclipseJavascriptFormatterWrapper}.
+	 */
+<span class="fc" id="L41">	EclipseJavascriptFormatterWrapper() {</span>
+<span class="fc" id="L42">	}</span>
+
+	/**
+	 * Formats the given {@code code} with the given configurations and returns
+	 * the formatted code.
+	 *
+	 * @param formatterFile    the path to the formatter configuration file
+	 * @param formatterProfile the name of the formatter configuration profile
+	 * @param code             the unformatted code
+	 * @param lineFeed         the line feed to use for formatting
+	 *
+	 * @return the formatted code
+	 *
+	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
+	 * @throws FormattingFailedException        if the external formatter failed to format the given code
+	 */
+	@CheckForNull
+	public String format(String formatterFile, String formatterProfile, String code, String lineFeed)
+			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException, FormattingFailedException {
+<span class="nc bnc" id="L63" title="All 2 branches missed.">		if (code == null) {</span>
+<span class="nc" id="L64">			return null;</span>
+		}
+
+<span class="nc" id="L67">		Map&lt;String, String&gt; allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, null);</span>
+
+<span class="nc" id="L69">		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);</span>
+
+<span class="nc" id="L71">		return format(formatter, code, lineFeed);</span>
+	}
+
+	/**
+	 * Formats the given {@code code} with the given configurations and returns
+	 * the formatted code.
+	 *
+	 * @param formatter the {@link CodeFormatter}
+	 * @param code      the unformatted code
+	 * @param lineFeed  the line feed to use for formatting
+	 * @param regions   an array containing {@link IRegion} objects defining the offsets which should be formatted
+	 *
+	 * @return the formatted code
+	 *
+	 * @throws FormattingFailedException if the external formatter failed to format the given code
+	 */
+	@CheckForNull
+	private String format(@NonNull CodeFormatter formatter, @NonNull String code, String lineFeed) throws FormattingFailedException {
+<span class="nc" id="L89">		String formattedCode = null;</span>
+
+<span class="nc" id="L91">		TextEdit te = formatter.format(FORMATTER_OPTS, code, 0, code.length(), 0, lineFeed);</span>
+<span class="nc bnc" id="L92" title="All 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
+			try {
+<span class="nc" id="L94">				IDocument dc = new Document(code);</span>
+<span class="nc" id="L95">				te.apply(dc);</span>
+
+<span class="nc" id="L97">				formattedCode = dc.get();</span>
+
+<span class="nc bnc" id="L99" title="All 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
+<span class="nc" id="L100">					return null;</span>
+				}
+<span class="nc" id="L102">			} catch (Exception ex) {</span>
+<span class="nc" id="L103">				throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
+<span class="nc" id="L104">			}</span>
+		} else {
+<span class="nc" id="L106">			throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
+		}
+
+<span class="nc" id="L109">		return formattedCode;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

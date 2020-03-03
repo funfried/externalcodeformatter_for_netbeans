@@ -21,7 +21,8 @@ import org.netbeans.editor.BaseDocument;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
 
-import de.funfried.netbeans.plugins.external.formatter.base.AbstractFormatJob;
+import de.funfried.netbeans.plugins.external.formatter.AbstractFormatJob;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
@@ -43,41 +44,49 @@ class SpringFormatJob extends AbstractFormatJob {
 	 * @param changedElements the ranges which should be formatted
 	 */
 	SpringFormatJob(StyledDocument document, SpringJavaFormatterWrapper formatter, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L46">		super(document, changedElements);</span>
+<span class="fc" id="L47">		super(document, changedElements);</span>
 
-<span class="fc" id="L48">		this.formatter = formatter;</span>
-<span class="fc" id="L49">	}</span>
+<span class="fc" id="L49">		this.formatter = formatter;</span>
+<span class="fc" id="L50">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void format() throws BadLocationException {
-<span class="fc" id="L56">		Preferences pref = Settings.getActivePreferences(document);</span>
+<span class="fc" id="L57">		Preferences pref = Settings.getActivePreferences(document);</span>
 
-<span class="fc" id="L58">		String lineFeedSetting = pref.get(SpringJavaFormatterSettings.LINEFEED, &quot;&quot;);</span>
-<span class="fc" id="L59">		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
+<span class="fc" id="L59">		String lineFeedSetting = pref.get(SpringJavaFormatterSettings.LINEFEED, &quot;&quot;);</span>
+<span class="fc" id="L60">		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
 
 		//save with configured linefeed
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">		if (null != lineFeed) {</span>
-<span class="fc" id="L63">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
-<span class="fc" id="L64">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">		if (null != lineFeed) {</span>
+<span class="fc" id="L64">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
+<span class="fc" id="L65">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
 		}
 
-<span class="fc" id="L67">		String code = getCode();</span>
+<span class="fc" id="L68">		String code = getCode();</span>
 
-<span class="fc" id="L69">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
+<span class="fc" id="L70">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
 
-<span class="fc" id="L71">		String formattedContent = formatter.format(code, lineFeed, regions);</span>
-<span class="pc bpc" id="L72" title="1 of 2 branches missed.">		if (setFormattedCode(code, formattedContent)) {</span>
-<span class="fc" id="L73">			SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="pc bpc" id="L74" title="1 of 2 branches missed.">				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
-<span class="nc" id="L75">					NotificationDisplayer.getDefault().notify(&quot;Format using Spring formatter&quot;, Icons.ICON_SPRING, null, null);</span>
-				}
+		try {
+<span class="fc" id="L73">			String formattedContent = formatter.format(code, lineFeed, regions);</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
+<span class="fc" id="L75">				SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L77">						NotificationDisplayer.getDefault().notify(&quot;Format using Spring formatter&quot;, Icons.ICON_SPRING, null, null);</span>
+					}
 
-<span class="fc" id="L78">				StatusDisplayer.getDefault().setStatusText(&quot;Format using Spring formatter&quot;);</span>
-<span class="fc" id="L79">			});</span>
-		}
-<span class="fc" id="L81">	}</span>
+<span class="fc" id="L80">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Spring formatter&quot;);</span>
+<span class="fc" id="L81">				});</span>
+			}
+<span class="nc" id="L83">		} catch (FormattingFailedException ex) {</span>
+<span class="nc" id="L84">			SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L85">				StatusDisplayer.getDefault().setStatusText(&quot;Failed to format using Spring formatter: &quot; + ex.getMessage());</span>
+<span class="nc" id="L86">			});</span>
+
+<span class="nc" id="L88">			throw ex;</span>
+<span class="fc" id="L89">		}</span>
+<span class="fc" id="L90">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
