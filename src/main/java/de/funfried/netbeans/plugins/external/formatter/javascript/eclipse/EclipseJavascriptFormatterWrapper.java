@@ -7,23 +7,17 @@
  * Contributors:
  * bahlef - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.java.eclipse;
+package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.SortedSet;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.tuple.Pair;
-import org.eclipse.jdt.core.ToolFactory;
-import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.Region;
 import org.eclipse.text.edits.TextEdit;
+import org.eclipse.wst.jsdt.core.ToolFactory;
+import org.eclipse.wst.jsdt.core.formatter.CodeFormatter;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
 
@@ -37,14 +31,14 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoun
  *
  * @author bahlef
  */
-public final class EclipseJavaFormatterWrapper {
+public final class EclipseJavascriptFormatterWrapper {
 	/** Use to specify the kind of the code snippet to format. */
-	private static final int FORMATTER_OPTS = CodeFormatter.K_COMPILATION_UNIT | CodeFormatter.F_INCLUDE_COMMENTS /* + CodeFormatter.K_CLASS_BODY_DECLARATIONS + CodeFormatter.K_STATEMENTS */;
+	private static final int FORMATTER_OPTS = CodeFormatter.K_JAVASCRIPT_UNIT;
 
 	/**
-	 * Package private Constructor for creating a new instance of {@link EclipseJavaFormatterWrapper}.
+	 * Package private Constructor for creating a new instance of {@link EclipseJavascriptFormatterWrapper}.
 	 */
-	EclipseJavaFormatterWrapper() {
+	EclipseJavascriptFormatterWrapper() {
 	}
 
 	/**
@@ -55,8 +49,6 @@ public final class EclipseJavaFormatterWrapper {
 	 * @param formatterProfile the name of the formatter configuration profile
 	 * @param code             the unformatted code
 	 * @param lineFeed         the line feed to use for formatting
-	 * @param sourceLevel      the source level to use for formatting
-	 * @param changedElements  a {@link SortedSet} containing ranges as {@link Pair} objects defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
 	 *
@@ -66,30 +58,17 @@ public final class EclipseJavaFormatterWrapper {
 	 * @throws FormattingFailedException        if the external formatter failed to format the given code
 	 */
 	@CheckForNull
-	public String format(String formatterFile, String formatterProfile, String code, String lineFeed, String sourceLevel, SortedSet<Pair<Integer, Integer>> changedElements)
+	public String format(String formatterFile, String formatterProfile, String code, String lineFeed)
 			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException, FormattingFailedException {
 		if (code == null) {
 			return null;
 		}
 
-		List<IRegion> regions = new ArrayList<>();
-		if (changedElements == null) {
-			regions.add(new Region(0, code.length()));
-		} else if (!CollectionUtils.isEmpty(changedElements)) {
-			for (Pair<Integer, Integer> changedElement : changedElements) {
-				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));
-			}
-		} else {
-			// empty changed elements means nothing's left which can be formatted due to guarded sections
-			return code;
-		}
-
-		Map<String, String> allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);
+		Map<String, String> allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, null);
 
 		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);
-		//see http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FCodeFormatter.html&anchor=format(int,
 
-		return format(formatter, code, regions.toArray(new IRegion[regions.size()]), lineFeed);
+		return format(formatter, code, lineFeed);
 	}
 
 	/**
@@ -106,10 +85,10 @@ public final class EclipseJavaFormatterWrapper {
 	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
 	@CheckForNull
-	private String format(@NonNull CodeFormatter formatter, @NonNull String code, @NonNull IRegion[] regions, String lineFeed) throws FormattingFailedException {
+	private String format(@NonNull CodeFormatter formatter, @NonNull String code, String lineFeed) throws FormattingFailedException {
 		String formattedCode = null;
 
-		TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);
+		TextEdit te = formatter.format(FORMATTER_OPTS, code, 0, code.length(), 0, lineFeed);
 		if (te != null && te.getChildrenSize() > 0) {
 			try {
 				IDocument dc = new Document(code);

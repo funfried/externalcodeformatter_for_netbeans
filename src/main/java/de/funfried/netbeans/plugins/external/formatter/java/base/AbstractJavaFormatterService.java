@@ -7,7 +7,7 @@
  * Contributors:
  * bahlef - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.base.java;
+package de.funfried.netbeans.plugins.external.formatter.java.base;
 
 import java.util.SortedSet;
 
@@ -17,8 +17,8 @@ import javax.swing.text.StyledDocument;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.java.lexer.JavaTokenId;
 
-import de.funfried.netbeans.plugins.external.formatter.base.FormatJob;
-import de.funfried.netbeans.plugins.external.formatter.base.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.FormatJob;
+import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 
 /**
  * Abstract base implementation of {@link FormatterService} for Java formatters.

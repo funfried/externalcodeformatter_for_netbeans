@@ -8,7 +8,7 @@
  * bahlef - initial API and implementation and/or initial documentation
  */
 
-package de.funfried.netbeans.plugins.external.formatter.java.eclipse.ui;
+package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse.ui;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -42,23 +42,23 @@ import org.openide.util.NbBundle;
 import org.xml.sax.SAXException;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
-import de.funfried.netbeans.plugins.external.formatter.java.eclipse.EclipseJavaFormatterSettings;
 import de.funfried.netbeans.plugins.external.formatter.java.eclipse.xml.ConfigReader;
+import de.funfried.netbeans.plugins.external.formatter.javascript.eclipse.EclipseJavascriptFormatterSettings;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormatterOptionsPanel;
 
 /**
  *
  * @author bahlef
  */
-public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
+public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
 	/** {@link Logger} of this class. */
-	private static final Logger log = Logger.getLogger(EclipseJavaFormatterOptionsPanel.class.getName());
+	private static final Logger log = Logger.getLogger(EclipseJavascriptFormatterOptionsPanel.class.getName());
 
 	/** Flag which holds the active flag information. */
 	private boolean active = false;
 
 	/** Creates new form EclipseJavaFormatterOptionsPanel. */
-	public EclipseJavaFormatterOptionsPanel() {
+	public EclipseJavascriptFormatterOptionsPanel() {
 		initComponents();
 	}
 
@@ -82,14 +82,12 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
         cbUseProjectPref = new JCheckBox();
         lblLinefeed = new JLabel();
         cbLinefeed = new JComboBox<>();
-        lblSourceLevel = new JLabel();
-        cbSourceLevel = new JComboBox<>();
 
         lblFormatterFile.setHorizontalAlignment(SwingConstants.RIGHT);
-        Mnemonics.setLocalizedText(lblFormatterFile, NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.lblFormatterFile.text")); // NOI18N
-        lblFormatterFile.setToolTipText(NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.lblFormatterFile.toolTipText")); // NOI18N
+        Mnemonics.setLocalizedText(lblFormatterFile, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.lblFormatterFile.text")); // NOI18N
+        lblFormatterFile.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.lblFormatterFile.toolTipText")); // NOI18N
 
-        formatterLocField.setText(NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.formatterLocField.text")); // NOI18N
+        formatterLocField.setText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.formatterLocField.text")); // NOI18N
         formatterLocField.setPreferredSize(formatterLocField.getMinimumSize());
         formatterLocField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -97,8 +95,8 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
             }
         });
 
-        Mnemonics.setLocalizedText(browseButton, NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.browseButton.text")); // NOI18N
-        browseButton.setToolTipText(NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.browseButton.toolTipText")); // NOI18N
+        Mnemonics.setLocalizedText(browseButton, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.browseButton.text")); // NOI18N
+        browseButton.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.browseButton.toolTipText")); // NOI18N
         browseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 browseButtonActionPerformed(evt);
@@ -106,13 +104,13 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
         });
 
         errorLabel.setForeground(new Color(255, 51, 51));
-        Mnemonics.setLocalizedText(errorLabel, NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.errorLabel.text")); // NOI18N
-        errorLabel.setToolTipText(NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.errorLabel.toolTipText")); // NOI18N
+        Mnemonics.setLocalizedText(errorLabel, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.errorLabel.text")); // NOI18N
+        errorLabel.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.errorLabel.toolTipText")); // NOI18N
 
-        Mnemonics.setLocalizedText(jLabel2, NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.jLabel2.text")); // NOI18N
+        Mnemonics.setLocalizedText(jLabel2, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.jLabel2.text")); // NOI18N
         jLabel2.setEnabled(false);
 
-        cbProfile.setToolTipText(NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.cbProfile.toolTipText")); // NOI18N
+        cbProfile.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.cbProfile.toolTipText")); // NOI18N
         cbProfile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cbProfileActionPerformed(evt);
@@ -120,30 +118,20 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
         });
 
         lblProfile.setHorizontalAlignment(SwingConstants.RIGHT);
-        Mnemonics.setLocalizedText(lblProfile, NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.lblProfile.text")); // NOI18N
+        Mnemonics.setLocalizedText(lblProfile, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.lblProfile.text")); // NOI18N
 
-        Mnemonics.setLocalizedText(cbUseProjectPref, NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.cbUseProjectPref.text")); // NOI18N
-        cbUseProjectPref.setToolTipText(NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.cbUseProjectPref.toolTipText")); // NOI18N
+        Mnemonics.setLocalizedText(cbUseProjectPref, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.cbUseProjectPref.text")); // NOI18N
+        cbUseProjectPref.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.cbUseProjectPref.toolTipText")); // NOI18N
 
         lblLinefeed.setHorizontalAlignment(SwingConstants.RIGHT);
-        Mnemonics.setLocalizedText(lblLinefeed, NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.lblLinefeed.text")); // NOI18N
-        lblLinefeed.setToolTipText(NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.lblLinefeed.toolTipText")); // NOI18N
+        Mnemonics.setLocalizedText(lblLinefeed, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.lblLinefeed.text")); // NOI18N
+        lblLinefeed.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.lblLinefeed.toolTipText")); // NOI18N
 
         cbLinefeed.setModel(new DefaultComboBoxModel<>(new String[] { "System", "\\n", "\\r\\n", "\\r" }));
-        cbLinefeed.setToolTipText(NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.cbLinefeed.toolTipText")); // NOI18N
+        cbLinefeed.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.cbLinefeed.toolTipText")); // NOI18N
         cbLinefeed.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cbLinefeedActionPerformed(evt);
-            }
-        });
-
-        Mnemonics.setLocalizedText(lblSourceLevel, NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.lblSourceLevel.text")); // NOI18N
-
-        cbSourceLevel.setModel(new DefaultComboBoxModel<>(new String[] { "No override", "1.9", "1.8", "1.7", "1.6", "1.5", "1.4" }));
-        cbSourceLevel.setToolTipText(NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.cbSourceLevel.toolTipText")); // NOI18N
-        cbSourceLevel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                cbSourceLevelActionPerformed(evt);
             }
         });
 
@@ -159,24 +147,20 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(errorLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(formatterLocField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(browseButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(cbLinefeed, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblSourceLevel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbSourceLevel, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbLinefeed, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbUseProjectPref)
                             .addComponent(cbProfile, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(errorLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -198,9 +182,7 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(cbLinefeed, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblLinefeed)
-                    .addComponent(lblSourceLevel)
-                    .addComponent(cbSourceLevel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblLinefeed))
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -250,7 +232,7 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
                 if (f.isDirectory()) {
                     return true;
                 }
-                return EclipseJavaFormatterSettings.PROJECT_PREF_FILE.equals(f.getName());
+                return EclipseJavascriptFormatterSettings.PROJECT_PREF_FILE.equals(f.getName());
             }
 
             /**
@@ -258,7 +240,7 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
             */
             @Override
             public String getDescription() {
-                return "Eclipse project settings (" + EclipseJavaFormatterSettings.PROJECT_PREF_FILE + ")";
+                return "Eclipse project settings (" + EclipseJavascriptFormatterSettings.PROJECT_PREF_FILE + ")";
             }
         };
         //Now build a file chooser and invoke the dialog in one line of code
@@ -280,15 +262,10 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
         fireChangedListener();
     }//GEN-LAST:event_cbLinefeedActionPerformed
 
-    private void cbSourceLevelActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cbSourceLevelActionPerformed
-        fireChangedListener();
-    }//GEN-LAST:event_cbSourceLevelActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JButton browseButton;
     private JComboBox<String> cbLinefeed;
     private JComboBox<String> cbProfile;
-    private JComboBox<String> cbSourceLevel;
     private JCheckBox cbUseProjectPref;
     private JLabel errorLabel;
     private JTextField formatterLocField;
@@ -296,7 +273,6 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
     private JLabel lblFormatterFile;
     private JLabel lblLinefeed;
     private JLabel lblProfile;
-    private JLabel lblSourceLevel;
     // End of variables declaration//GEN-END:variables
 
 	private String getLinefeed() {
@@ -319,24 +295,15 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
 		}
 	}
 
-	private String getSourceLevel() {
-		if (cbSourceLevel.getSelectedIndex() >= 1) {
-			return "" + cbSourceLevel.getSelectedItem();
-		} else {
-			return "";
-		}
-	}
-
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void load(Preferences preferences) {
-		String eclipseFormatterLocation = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, "");
-		String eclipseFormatterProfile = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
-		boolean useProjectPrefs = preferences.getBoolean(EclipseJavaFormatterSettings.USE_PROJECT_PREFS, true);
-		String eclipseLineFeed = preferences.get(EclipseJavaFormatterSettings.LINEFEED, "");
-		String sourceLevel = preferences.get(EclipseJavaFormatterSettings.SOURCELEVEL, "");
+		String eclipseFormatterLocation = preferences.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, "");
+		String eclipseFormatterProfile = preferences.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
+		boolean useProjectPrefs = preferences.getBoolean(EclipseJavascriptFormatterSettings.USE_PROJECT_PREFS, true);
+		String eclipseLineFeed = preferences.get(EclipseJavascriptFormatterSettings.LINEFEED, "");
 
 		loadEclipseFormatterFileForPreview(eclipseFormatterLocation, eclipseFormatterProfile);
 
@@ -347,13 +314,6 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
 			cbLinefeed.setSelectedIndex(0);
 		} else {
 			cbLinefeed.setSelectedItem(eclipseLineFeed);
-		}
-
-		if (StringUtils.isBlank(sourceLevel)) {
-			//default = No override
-			cbSourceLevel.setSelectedIndex(0);
-		} else {
-			cbSourceLevel.setSelectedItem(sourceLevel);
 		}
 
 		updateEnabledState();
@@ -372,9 +332,9 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
 				final FileObject fo = ConfigReader.toFileObject(file);
 
 				//only xml configurations contain profiles
-				if (EclipseJavaFormatterSettings.isXMLConfigurationFile(fo.getNameExt())) {
+				if (EclipseJavascriptFormatterSettings.isXMLConfigurationFile(fo.getNameExt())) {
 					List<String> profileNames = ConfigReader.getProfileNames(fo);
-					cbProfile.addItem(NbBundle.getMessage(EclipseJavaFormatterOptionsPanel.class, "EclipseJavaFormatterOptionsPanel.chooseProfile"));
+					cbProfile.addItem(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.chooseProfile"));
 
 					String entryToSelect = null;
 					for (String profileName : profileNames) {
@@ -420,11 +380,10 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
 	 */
 	@Override
 	public void store(Preferences preferences) {
-		preferences.put(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, formatterLocField.getText());
-		preferences.put(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, getSelectedProfile());
-		preferences.putBoolean(EclipseJavaFormatterSettings.USE_PROJECT_PREFS, cbUseProjectPref.isSelected());
-		preferences.put(EclipseJavaFormatterSettings.LINEFEED, getLinefeed());
-		preferences.put(EclipseJavaFormatterSettings.SOURCELEVEL, getSourceLevel());
+		preferences.put(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, formatterLocField.getText());
+		preferences.put(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, getSelectedProfile());
+		preferences.putBoolean(EclipseJavascriptFormatterSettings.USE_PROJECT_PREFS, cbUseProjectPref.isSelected());
+		preferences.put(EclipseJavascriptFormatterSettings.LINEFEED, getLinefeed());
 	}
 
 	/**
@@ -440,14 +399,14 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
 		}
 
 		String fileName = formatterLocField.getText();
-		boolean isXML = EclipseJavaFormatterSettings.isXMLConfigurationFile(fileName);
+		boolean isXML = EclipseJavascriptFormatterSettings.isXMLConfigurationFile(fileName);
 		if (isXML && cbProfile.getSelectedIndex() == 0) {
 			// "choose profile" entry is selected
 			return false;
 		}
 
-		boolean isEPF = EclipseJavaFormatterSettings.isWorkspaceMechanicFile(fileName);
-		boolean isProjectSetting = EclipseJavaFormatterSettings.isProjectSetting(fileName);
+		boolean isEPF = EclipseJavascriptFormatterSettings.isWorkspaceMechanicFile(fileName);
+		boolean isProjectSetting = EclipseJavascriptFormatterSettings.isProjectSetting(fileName);
 
 		if (new File(fileName).exists() && (isXML || isEPF || isProjectSetting)) {
 			return true;
@@ -473,7 +432,5 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
 		cbUseProjectPref.setEnabled(this.active);
 		cbLinefeed.setEnabled(this.active);
 		lblLinefeed.setEnabled(this.active);
-		cbSourceLevel.setEnabled(this.active);
-		lblSourceLevel.setEnabled(this.active);
 	}
 }

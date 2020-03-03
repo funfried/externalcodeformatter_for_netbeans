@@ -8,19 +8,15 @@
  * markiewb - initial API and implementation and/or initial documentation
  * bahlef
  */
-package de.funfried.netbeans.plugins.external.formatter.java.eclipse;
-
-import de.funfried.netbeans.plugins.external.formatter.java.eclipse.ui.EclipseJavaFormatterOptionsPanel;
+package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
 import org.openide.util.NbBundle;
@@ -28,26 +24,26 @@ import org.openide.util.lookup.ServiceProvider;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
-import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.javascript.base.AbstractJavascriptFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.javascript.eclipse.ui.EclipseJavascriptFormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * Eclipse implementation of the {@link AbstractJavaFormatterService}.
+ * Eclipse implementation of the {@link AbstractJavascriptFormatterService}.
  *
- * @author markiewb
  * @author bahlef
  */
 @NbBundle.Messages({
-		"FormatterName=Eclipse Java Code Formatter"
+		"FormatterName=Eclipse Javascript Code Formatter"
 })
 @ServiceProvider(service = FormatterService.class, position = 1000)
-public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
+public class EclipseJavascriptFormatterService extends AbstractJavascriptFormatterService {
 	/** The ID of this formatter service. */
-	public static final String ID = "eclipse-java-formatter";
+	public static final String ID = "eclipse-javascript-formatter";
 
-	/** * The {@link EclipseJavaFormatterWrapper} implementation. */
-	private final EclipseJavaFormatterWrapper formatter = new EclipseJavaFormatterWrapper();
+	/** * The {@link EclipseJavascriptFormatterWrapper} implementation. */
+	private final EclipseJavascriptFormatterWrapper formatter = new EclipseJavascriptFormatterWrapper();
 
 	/**
 	 * {@inheritDoc}
@@ -55,7 +51,7 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 	@NonNull
 	@Override
 	public String getDisplayName() {
-		return NbBundle.getMessage(EclipseJavaFormatterService.class, "FormatterName");
+		return NbBundle.getMessage(EclipseJavascriptFormatterService.class, "FormatterName");
 	}
 
 	/**
@@ -72,7 +68,7 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 	 */
 	@Override
 	public FormatterOptionsPanel getOptionsPanel() {
-		return new EclipseJavaFormatterOptionsPanel();
+		return new EclipseJavascriptFormatterOptionsPanel();
 	}
 
 	/**
@@ -89,7 +85,7 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.continuation_indentation");
+			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.wst.jsdt.core.formatter.continuation_indentation");
 			if (value != null) {
 				ret = Integer.valueOf(value);
 			}
@@ -112,7 +108,7 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.indentation.size");
+			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.wst.jsdt.core.formatter.indentation.size");
 			if (value != null) {
 				ret = Integer.valueOf(value);
 			}
@@ -133,7 +129,7 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 
 		Integer ret = null;
 
-		String value = getEclipseFormatterProperty(null, document, "org.eclipse.jdt.core.formatter.lineSplit");
+		String value = getEclipseFormatterProperty(null, document, "org.eclipse.wst.jsdt.core.formatter.lineSplit");
 		if (value != null) {
 			ret = Integer.valueOf(value);
 		}
@@ -145,8 +141,8 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected FormatJob getFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
-		return new EclipseFormatJob(document, formatter, changedElements);
+	protected FormatJob getFormatJob(StyledDocument document) {
+		return new EclipseFormatJob(document, formatter);
 	}
 
 	/**
@@ -166,7 +162,7 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
 				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
 			} else {
-				String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.tabulation.size");
+				String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.wst.jsdt.core.formatter.tabulation.size");
 				if (value != null) {
 					ret = Integer.valueOf(value);
 				}
@@ -197,11 +193,10 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 			preferences = Settings.getActivePreferences(document);
 		}
 
-		String formatterFile = EclipseJavaFormatterSettings.getEclipseFormatterFile(preferences, document);
-		String formatterProfile = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
-		String sourceLevel = preferences.get(EclipseJavaFormatterSettings.SOURCELEVEL, "");
+		String formatterFile = EclipseJavascriptFormatterSettings.getEclipseFormatterFile(preferences, document);
+		String formatterProfile = preferences.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
 
-		Map<String, String> config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);
+		Map<String, String> config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, null);
 
 		return config.getOrDefault(key, null);
 	}
@@ -220,7 +215,7 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.tabulation.char");
+			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.wst.jsdt.core.formatter.tabulation.char");
 			if (value != null) {
 				ret = Objects.equals(value, "space");
 			}

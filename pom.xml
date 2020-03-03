@@ -210,11 +210,11 @@
 		</dependency>
 
 		<!-- Eclipse JavaScript Formatter -->
-		<!--		<dependency>
+		<dependency>
 			<groupId>net.revelc.code.formatter</groupId>
 			<artifactId>jsdt-core</artifactId>
-			<version>2.6.0</version>
-		</dependency>-->
+			<version>2.7.0</version>
+		</dependency>
 
 		<!-- Spring Formatter -->
 		<dependency>
@@ -234,12 +234,6 @@
 					<artifactId>guava</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>28.2-jre</version>
 		</dependency>
 
 		<!--
@@ -277,6 +271,12 @@
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-netbeans-modules-editor-lib</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-editor-util</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
 
@@ -339,6 +339,12 @@
 			<artifactId>org-netbeans-modules-lexer</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
+
+		<!--		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-csl-api</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>-->
 
 		<dependency>
 			<groupId>org.netbeans.api</groupId>

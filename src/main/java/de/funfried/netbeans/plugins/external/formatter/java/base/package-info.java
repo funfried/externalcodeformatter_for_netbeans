@@ -11,4 +11,4 @@
 /**
  * Package containing classes for common Java formatter logic.
  */
-package de.funfried.netbeans.plugins.external.formatter.base.java;
+package de.funfried.netbeans.plugins.external.formatter.java.base;

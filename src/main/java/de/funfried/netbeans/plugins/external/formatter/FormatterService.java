@@ -7,7 +7,7 @@
  * Contributors:
  * bahlef - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.base;
+package de.funfried.netbeans.plugins.external.formatter;
 
 import java.util.Objects;
 import java.util.SortedSet;

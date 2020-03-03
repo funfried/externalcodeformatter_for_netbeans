@@ -17,8 +17,10 @@ import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
@@ -39,7 +41,6 @@ import javax.swing.text.Document;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.editor.mimelookup.MimeLookup;
 import org.netbeans.api.editor.mimelookup.MimePath;
-import org.netbeans.api.java.lexer.JavaTokenId;
 import org.netbeans.modules.editor.indent.spi.CodeStylePreferences;
 import org.netbeans.modules.parsing.api.Source;
 import org.openide.filesystems.FileObject;
@@ -47,7 +48,8 @@ import org.openide.util.Lookup;
 import org.openide.util.WeakListeners;
 import org.openide.util.lookup.ServiceProvider;
 
-import de.funfried.netbeans.plugins.external.formatter.base.FormatterServiceDelegate;
+import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.FormatterServiceDelegate;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPreferencesChangeSupport;
 
 /**
@@ -56,10 +58,8 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormat
  * @author bahlef
  */
 @ServiceProvider(service = CodeStylePreferences.Provider.class, position = 1)
-public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeStylePreferences.Provider {
+public class ExternalFormatterCodeStylePreferencesProvider implements CodeStylePreferences.Provider {
 	private static final Map<String, Function<Document, String>> temporaryPreferenceProviders = new HashMap<>();
-
-	private final Map<Document, TemporaryDocumentPreferences> preferencesCache = new ConcurrentHashMap<>();
 
 	private static final CodeStylePreferences.Provider defaultProvider = new CodeStylePreferences.Provider() {
 		@Override
@@ -80,6 +80,19 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 		temporaryPreferenceProviders.put(EditorConstants.TAB_SIZE, document -> Objects.toString(FormatterServiceDelegate.getInstance().getSpacesPerTab(document)));
 		temporaryPreferenceProviders.put(EditorConstants.INDENT_SHIFT_WIDTH, document -> Objects.toString(FormatterServiceDelegate.getInstance().getIndentSize(document)));
 		temporaryPreferenceProviders.put(EditorConstants.CONTINUATION_INDENT_SIZE, document -> Objects.toString(FormatterServiceDelegate.getInstance().getContinuationIndentSize(document)));
+	}
+
+	private final Map<Document, TemporaryDocumentPreferences> preferencesCache = new ConcurrentHashMap<>();
+
+	private final Set<String> availableMimeTypes = new HashSet<>();
+
+	public ExternalFormatterCodeStylePreferencesProvider() {
+		Collection<? extends FormatterService> formatterServices = Lookup.getDefault().lookupAll(FormatterService.class);
+		for (FormatterService formatterService : formatterServices) {
+			String mimeType = formatterService.getSupportedMimeType();
+
+			availableMimeTypes.add(mimeType);
+		}
 	}
 
 	/**
@@ -113,7 +126,7 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 	}
 
 	private TemporaryDocumentPreferences getTemporaryDocumentPreferences(Document doc, String mimeType) {
-		if (JavaTokenId.language().mimeType().equals(mimeType)) {
+		if (availableMimeTypes.contains(mimeType)) {
 			TemporaryDocumentPreferences tempDocPrefs = preferencesCache.get(doc);
 			if (tempDocPrefs == null) {
 				Collection<? extends CodeStylePreferences.Provider> providers = Lookup.getDefault().lookupAll(CodeStylePreferences.Provider.class);
@@ -121,7 +134,7 @@ public class ExternalFormatterJavaCodeStylePreferencesProvider implements CodeSt
 				Preferences original = null;
 
 				for (CodeStylePreferences.Provider p : providers) {
-					if (p != null && !(p instanceof ExternalFormatterJavaCodeStylePreferencesProvider)) {
+					if (p != null && !(p instanceof ExternalFormatterCodeStylePreferencesProvider)) {
 						original = p.forDocument(doc, mimeType);
 						if (original != null) {
 							break;

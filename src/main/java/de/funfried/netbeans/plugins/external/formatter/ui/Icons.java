@@ -24,54 +24,54 @@ public interface Icons {
 	 * Path to the external icon.
 	 */
 	@StaticResource
-	static final String EXTERNAL_FORMATTER_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/external.gif";
+	String EXTERNAL_FORMATTER_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/external.gif";
 
 	/**
 	 * Path to the Eclipse icon.
 	 */
 	@StaticResource
-	static final String ECLIPSE_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/eclipse.gif";
+	String ECLIPSE_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/eclipse.gif";
 
 	/**
 	 * Path to the Google icon.
 	 */
 	@StaticResource
-	static final String GOOGLE_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/google.gif";
+	String GOOGLE_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/google.gif";
 
 	/**
 	 * Path to the Spring icon.
 	 */
 	@StaticResource
-	static final String SPRING_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/spring.gif";
+	String SPRING_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/spring.gif";
 
 	/**
 	 * Path to the NetBeans icon.
 	 */
 	@StaticResource
-	static final String NETBEANS_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/netbeans.gif";
+	String NETBEANS_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/netbeans.gif";
 
 	/**
 	 * External icon.
 	 */
-	static final Icon ICON_EXTERNAL = ImageUtilities.image2Icon(ImageUtilities.loadImage(EXTERNAL_FORMATTER_ICON_PATH));
+	Icon ICON_EXTERNAL = ImageUtilities.image2Icon(ImageUtilities.loadImage(EXTERNAL_FORMATTER_ICON_PATH));
 
 	/**
 	 * Eclipse icon.
 	 */
-	static final Icon ICON_ECLIPSE = ImageUtilities.image2Icon(ImageUtilities.loadImage(ECLIPSE_ICON_PATH));
+	Icon ICON_ECLIPSE = ImageUtilities.image2Icon(ImageUtilities.loadImage(ECLIPSE_ICON_PATH));
 
 	/**
 	 * Google icon.
 	 */
-	static final Icon ICON_GOOGLE = ImageUtilities.image2Icon(ImageUtilities.loadImage(GOOGLE_ICON_PATH));
+	Icon ICON_GOOGLE = ImageUtilities.image2Icon(ImageUtilities.loadImage(GOOGLE_ICON_PATH));
 
 	/**
 	 * Spring icon.
 	 */
-	static final Icon ICON_SPRING = ImageUtilities.image2Icon(ImageUtilities.loadImage(SPRING_ICON_PATH));
+	Icon ICON_SPRING = ImageUtilities.image2Icon(ImageUtilities.loadImage(SPRING_ICON_PATH));
 
 	/**
 	 * NetBeans icon.
 	 */
-	static final Icon ICON_NETBEANS = ImageUtilities.image2Icon(ImageUtilities.loadImage(NETBEANS_ICON_PATH));
+	Icon ICON_NETBEANS = ImageUtilities.image2Icon(ImageUtilities.loadImage(NETBEANS_ICON_PATH));
 }

@@ -167,6 +167,15 @@
 
 	<folder name="Editors">
 		<folder name="text">
+			<folder name="javascript">
+				<file name="org-netbeans-modules-csl-core-GsfReformatTaskFactory.instance">
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterTaskFactory"/>
+					<attr name="instanceOf" stringvalue="org.netbeans.modules.editor.indent.spi.ReformatTask$Factory"/>
+				</file>
+				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.csl.core.GsfReformatTaskFactory"/>
+				</file>
+			</folder>
 			<folder name="x-java">
 				<folder name="CodeTemplates">
 					<file name="eclipse-formatter-templates.xml" url="eclipse-formatter-templates.xml"/>

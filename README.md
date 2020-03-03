@@ -14,16 +14,23 @@ External Java Code Formatters for NetBeans
 (formerly known as Eclipse Java Code Formatter for NetBeans)
 
 ## What is External Java Code Formatters Plugin for NetBeans?
-This plugin helps you to apply to a common code style in a team of Eclipse JDT, IntelliJ
-and NetBeans IDE users. You can either use the [Google Code Formatter](https://github.com/google/google-java-format),
-the [Eclipse Java Code Formatter](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Fguide%2Fjdt_api_codeformatter.htm),
-or the [Spring Java Formatter](https://github.com/spring-io/spring-javaformat) inside the
-NetBeans IDE, depending on whatever your co-workers use. The original formatting engine
-of Eclipse, the Google Code Formatter and the Spring Java formatter are embedded and
-allow you to format the source code the same way as e.g. your Eclipse co-workers do.
+This plugin helps you to apply to a common code style in a team of Eclipse,
+IntelliJ and NetBeans IDE users. You can use several external code formatters
+inside the NetBeans IDE (see below), depending on whatever your co-workers use.
+The original formatting engine of Eclipse, the Google Code Formatter, the Spring
+Java Formatter or any other are embedded and allow you to format the source code
+the same way as e.g. your co-workers do with their Eclipse IDE.
 
 ![Global settings](/src/site/resources/imgs/global.png)
 ![Project settings](/src/site/resources/imgs/project.png)
+
+### Supported formatters
+* Java
+** [Google Code Formatter](https://github.com/google/google-java-format)
+** [Eclipse Java Code Formatter](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Fguide%2Fjdt_api_codeformatter.htm)
+** [Spring Java Formatter](https://github.com/spring-io/spring-javaformat)
+* Javascript
+** [Eclipse Javascript Code Formatter](https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.wst.jsdt.doc%2Fstarted%2Foverview.html&cp%3D52_0)
 
 ### Features
 * Global configuration and project specific configuration
@@ -42,6 +49,7 @@ allow you to format the source code the same way as e.g. your Eclipse co-workers
 * Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted), only for Eclipse Java Code Formatter (since 1.13)
 * Support for Google code formatter (since 1.13)
 * Support for Spring Java formatter (since 1.14)
+* Support for Eclipse Javascript formatter (since 1.14)
 
 ## Compatibility
 Compatible with NetBeans 8.2+ and JDK8+.

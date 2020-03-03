@@ -12,6 +12,9 @@
 			<action dev="bahlef" type="add" issue="101">
 				Added Spring Java Formatter
 			</action>
+			<action dev="bahlef" type="add" issue="36">
+				Added Eclipse Javascript Formatter
+			</action>
 		</release>
 
 		<release version="1.13.0" date="2020-01-09" description="First release from funfried aka bahlef aka fbahle">

@@ -20,7 +20,7 @@ public interface EditorConstants {
 	 * per one typed tab is determined by SPACES_PER_TAB setting.
 	 * Values: java.lang.Boolean instances
 	 */
-	static final String EXPAND_TABS = "expand-tabs";
+	String EXPAND_TABS = "expand-tabs";
 
 	/**
 	 * Number of spaces to draw when the '\t' character
@@ -29,7 +29,7 @@ public interface EditorConstants {
 	 * of TAB_SIZE and continues drawing from that position.
 	 * Values: java.lang.Integer instances
 	 */
-	static final String TAB_SIZE = "tab-size";
+	String TAB_SIZE = "tab-size";
 
 	/**
 	 * How many spaces substitute per one typed tab. This parameter has
@@ -38,7 +38,7 @@ public interface EditorConstants {
 	 * the existing tabs are displayed.
 	 * Values: java.lang.Integer instances
 	 */
-	static final String SPACES_PER_TAB = "spaces-per-tab";
+	String SPACES_PER_TAB = "spaces-per-tab";
 
 	/**
 	 * Shift-width says how many spaces should the formatter use
@@ -46,7 +46,7 @@ public interface EditorConstants {
 	 * and SPACES_PER_TAB.
 	 * Values: java.lang.Integer instances
 	 */
-	static final String INDENT_SHIFT_WIDTH = "indent-shift-width";
+	String INDENT_SHIFT_WIDTH = "indent-shift-width";
 
 	/**
 	 * Continuation ident size says how many spaces should the formatter use
@@ -54,11 +54,11 @@ public interface EditorConstants {
 	 * is independent of TAB_SIZE and SPACES_PER_TAB.
 	 * Values: java.lang.Integer instances
 	 */
-	static final String CONTINUATION_INDENT_SIZE = "continuationIndentSize";
+	String CONTINUATION_INDENT_SIZE = "continuationIndentSize";
 
 	/**
 	 * After how many characters the text limit line should be displayed.
 	 * Values: java.awt.Integer instances
 	 */
-	static final String TEXT_LIMIT_WIDTH = "text-limit-width";
+	String TEXT_LIMIT_WIDTH = "text-limit-width";
 }

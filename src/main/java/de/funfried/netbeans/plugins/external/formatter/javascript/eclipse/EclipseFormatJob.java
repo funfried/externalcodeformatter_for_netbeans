@@ -8,16 +8,14 @@
  * markiewb - initial API and implementation and/or initial documentation
  * bahlef
  */
-package de.funfried.netbeans.plugins.external.formatter.java.eclipse;
+package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
 
-import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.editor.BaseDocument;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -33,24 +31,23 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  * Eclipse formatter implementation of the {@link AbstractFormatJob} to
- * format a given document using the {@link EclipseJavaFormatterWrapper}.
+ * format a given document using the {@link EclipseJavascriptFormatterWrapper}.
  *
  * @author markiewb
  * @author bahlef
  */
 class EclipseFormatJob extends AbstractFormatJob {
-	/** * The {@link EclipseJavaFormatterWrapper} implementation. */
-	private final EclipseJavaFormatterWrapper formatter;
+	/** * The {@link EclipseJavascriptFormatterWrapper} implementation. */
+	private final EclipseJavascriptFormatterWrapper formatter;
 
 	/**
 	 * Package private constructor to create a new instance of {@link EclipseFormatJob}.
 	 *
-	 * @param document        the {@link StyledDocument} which sould be formatted
-	 * @param formatter       the {@link EclipseJavaFormatterWrapper} to use
-	 * @param changedElements the ranges which should be formatted
+	 * @param document  the {@link StyledDocument} which sould be formatted
+	 * @param formatter the {@link EclipseJavascriptFormatterWrapper} to use
 	 */
-	EclipseFormatJob(StyledDocument document, EclipseJavaFormatterWrapper formatter, SortedSet<Pair<Integer, Integer>> changedElements) {
-		super(document, changedElements);
+	EclipseFormatJob(StyledDocument document, EclipseJavascriptFormatterWrapper formatter) {
+		super(document, null);
 
 		this.formatter = formatter;
 	}
@@ -62,10 +59,9 @@ class EclipseFormatJob extends AbstractFormatJob {
 	public void format() throws BadLocationException {
 		Preferences pref = Settings.getActivePreferences(document);
 
-		String formatterFile = EclipseJavaFormatterSettings.getEclipseFormatterFile(pref, document);
-		String formatterProfile = pref.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
-		String sourceLevel = pref.get(EclipseJavaFormatterSettings.SOURCELEVEL, "");
-		String lineFeedSetting = pref.get(EclipseJavaFormatterSettings.LINEFEED, "");
+		String formatterFile = EclipseJavascriptFormatterSettings.getEclipseFormatterFile(pref, document);
+		String formatterProfile = pref.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
+		String lineFeedSetting = pref.get(EclipseJavascriptFormatterSettings.LINEFEED, "");
 		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty("line.separator"));
 
 		//save with configured linefeed
@@ -77,9 +73,7 @@ class EclipseFormatJob extends AbstractFormatJob {
 		String code = getCode();
 
 		try {
-			SortedSet<Pair<Integer, Integer>> regions = getFormatableSections(code);
-
-			String formattedContent = formatter.format(formatterFile, formatterProfile, code, lineFeed, sourceLevel, regions);
+			String formattedContent = formatter.format(formatterFile, formatterProfile, code, lineFeed);
 			if (setFormattedCode(code, formattedContent)) {
 				String msg = getNotificationMessageForEclipseFormatterConfigurationFileType(formatterFile, formatterProfile);
 
@@ -132,13 +126,13 @@ class EclipseFormatJob extends AbstractFormatJob {
 	 */
 	private String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
 		String msg = "";
-		if (EclipseJavaFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {
+		if (EclipseJavascriptFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {
 			//Workspace mechanic file
 			msg = String.format("Using %s", formatterFile);
-		} else if (EclipseJavaFormatterSettings.isXMLConfigurationFile(formatterFile)) {
+		} else if (EclipseJavascriptFormatterSettings.isXMLConfigurationFile(formatterFile)) {
 			//XML file
 			msg = String.format("Using profile '%s' from %s", formatterProfile, formatterFile);
-		} else if (EclipseJavaFormatterSettings.isProjectSetting(formatterFile)) {
+		} else if (EclipseJavascriptFormatterSettings.isProjectSetting(formatterFile)) {
 			//org.eclipse.jdt.core.prefs
 			msg = String.format("Using %s", formatterFile);
 		}

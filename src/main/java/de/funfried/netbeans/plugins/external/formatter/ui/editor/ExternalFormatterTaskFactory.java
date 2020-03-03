@@ -37,7 +37,7 @@ import org.openide.awt.StatusDisplayer;
 import org.openide.loaders.DataObject;
 import org.openide.text.NbDocument;
 
-import de.funfried.netbeans.plugins.external.formatter.base.FormatterServiceDelegate;
+import de.funfried.netbeans.plugins.external.formatter.FormatterServiceDelegate;
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
@@ -62,7 +62,7 @@ public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
 		ReformatTask netbeansDefaultTask = netbeansDefaultFactory.createTask(context);
 
 		Preferences prefs = Settings.getActivePreferences(document);
-		if (Settings.DEFAULT_FORMATTER.equals(prefs.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER))) {
+		if (Settings.DEFAULT_FORMATTER.equals(prefs.get(Settings.ENABLED_FORMATTER_PREFIX + NbEditorUtilities.getMimeType(document), Settings.DEFAULT_FORMATTER))) {
 			ReformatTask wrapper = new ReformatTask() {
 				/**
 				 * {@inheritDoc}

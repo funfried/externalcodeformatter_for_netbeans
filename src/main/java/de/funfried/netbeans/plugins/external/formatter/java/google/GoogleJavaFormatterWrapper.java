@@ -21,6 +21,8 @@ import com.google.googlejavaformat.java.Formatter;
 import com.google.googlejavaformat.java.FormatterException;
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
+
 /**
  * Delegation class to the Google formatter implementation.
  *
@@ -45,8 +47,10 @@ public final class GoogleJavaFormatterWrapper {
 	 *                        objects defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
+	 *
+	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
-	public String format(String code, JavaFormatterOptions.Style codeStyle, SortedSet<Pair<Integer, Integer>> changedElements) {
+	public String format(String code, JavaFormatterOptions.Style codeStyle, SortedSet<Pair<Integer, Integer>> changedElements) throws FormattingFailedException {
 		if (code == null) {
 			return null;
 		}
@@ -78,7 +82,7 @@ public final class GoogleJavaFormatterWrapper {
 			Formatter formatter = new Formatter(JavaFormatterOptions.builder().style(codeStyle).build());
 			return formatter.formatSource(code, characterRanges);
 		} catch (FormatterException ex) {
-			throw new RuntimeException(ex);
+			throw new FormattingFailedException(ex);
 		}
 	}
 }

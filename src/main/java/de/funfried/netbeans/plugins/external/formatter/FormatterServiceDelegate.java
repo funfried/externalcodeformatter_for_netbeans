@@ -9,7 +9,7 @@
  * Saad Mufti <saad.mufti@teamaol.com>
  * bahlef
  */
-package de.funfried.netbeans.plugins.external.formatter.base;
+package de.funfried.netbeans.plugins.external.formatter;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -26,9 +26,11 @@ import javax.swing.text.StyledDocument;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
+import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
@@ -93,6 +95,8 @@ public class FormatterServiceDelegate {
 					formatterService.format(document, changedElements);
 				} catch (BadLocationException ex) {
 					log.log(Level.SEVERE, formatterService.getDisplayName() + " failed to format the code", ex);
+				} catch (FormattingFailedException ex) {
+					log.log(Level.INFO, formatterService.getDisplayName() + " failed to format the code", ex);
 				}
 
 				return true;
@@ -219,11 +223,13 @@ public class FormatterServiceDelegate {
 	 *         for the given {@code document}. If the internal NetBeans formatter is configured
 	 *         or the implementation of the configured {@link FormatterService} could
 	 *         not be found {@code null} will be returned
+	 *
+	 * @throws Exception if an error occurs
 	 */
 	@CheckForNull
-	private FormatterService getActiveFormatterService(Document document) {
+	private FormatterService getActiveFormatterService(Document document) throws Exception {
 		Preferences prefs = Settings.getActivePreferences(document);
-		String activeFormatterId = prefs.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
+		String activeFormatterId = prefs.get(Settings.ENABLED_FORMATTER_PREFIX + NbEditorUtilities.getMimeType(document), Settings.DEFAULT_FORMATTER);
 
 		Collection<? extends FormatterService> formatterServices = Lookup.getDefault().lookupAll(FormatterService.class);
 		for (FormatterService formatterService : formatterServices) {

@@ -21,7 +21,8 @@ import org.netbeans.editor.BaseDocument;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
 
-import de.funfried.netbeans.plugins.external.formatter.base.AbstractFormatJob;
+import de.funfried.netbeans.plugins.external.formatter.AbstractFormatJob;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
@@ -68,15 +69,23 @@ class SpringFormatJob extends AbstractFormatJob {
 
 		SortedSet<Pair<Integer, Integer>> regions = getFormatableSections(code);
 
-		String formattedContent = formatter.format(code, lineFeed, regions);
-		if (setFormattedCode(code, formattedContent)) {
-			SwingUtilities.invokeLater(() -> {
-				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-					NotificationDisplayer.getDefault().notify("Format using Spring formatter", Icons.ICON_SPRING, null, null);
-				}
+		try {
+			String formattedContent = formatter.format(code, lineFeed, regions);
+			if (setFormattedCode(code, formattedContent)) {
+				SwingUtilities.invokeLater(() -> {
+					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
+						NotificationDisplayer.getDefault().notify("Format using Spring formatter", Icons.ICON_SPRING, null, null);
+					}
 
-				StatusDisplayer.getDefault().setStatusText("Format using Spring formatter");
+					StatusDisplayer.getDefault().setStatusText("Format using Spring formatter");
+				});
+			}
+		} catch (FormattingFailedException ex) {
+			SwingUtilities.invokeLater(() -> {
+				StatusDisplayer.getDefault().setStatusText("Failed to format using Spring formatter: " + ex.getMessage());
 			});
+
+			throw ex;
 		}
 	}
 }

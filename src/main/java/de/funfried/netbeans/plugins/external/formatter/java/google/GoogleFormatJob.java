@@ -22,7 +22,8 @@ import org.openide.awt.StatusDisplayer;
 
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
-import de.funfried.netbeans.plugins.external.formatter.base.AbstractFormatJob;
+import de.funfried.netbeans.plugins.external.formatter.AbstractFormatJob;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
@@ -62,15 +63,23 @@ class GoogleFormatJob extends AbstractFormatJob {
 
 		SortedSet<Pair<Integer, Integer>> regions = getFormatableSections(code);
 
-		String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);
-		if (setFormattedCode(code, formattedContent)) {
-			SwingUtilities.invokeLater(() -> {
-				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-					NotificationDisplayer.getDefault().notify("Format using Goolge formatter", Icons.ICON_GOOGLE, null, null);
-				}
+		try {
+			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);
+			if (setFormattedCode(code, formattedContent)) {
+				SwingUtilities.invokeLater(() -> {
+					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
+						NotificationDisplayer.getDefault().notify("Format using Goolge formatter", Icons.ICON_GOOGLE, null, null);
+					}
 
-				StatusDisplayer.getDefault().setStatusText("Format using Goolge formatter");
+					StatusDisplayer.getDefault().setStatusText("Format using Goolge formatter");
+				});
+			}
+		} catch (FormattingFailedException ex) {
+			SwingUtilities.invokeLater(() -> {
+				StatusDisplayer.getDefault().setStatusText("Failed to format using Google formatter: " + ex.getMessage());
 			});
+
+			throw ex;
 		}
 	}
 }

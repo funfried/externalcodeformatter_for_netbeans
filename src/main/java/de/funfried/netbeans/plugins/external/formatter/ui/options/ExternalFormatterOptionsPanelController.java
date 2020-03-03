@@ -29,7 +29,7 @@ import org.openide.util.WeakListeners;
  * @author markiewb
  * @author bahlef
  */
-@OptionsPanelController.SubRegistration(id = "de.funfried.netbeans.plugins.external.formatter.ui.options", location = "Editor", displayName = "#AdvancedOption_DisplayName_ExternalFormatter", keywords = "#AdvancedOption_Keywords_ExternalFormatter", keywordsCategory = "Editor/ExternalFormatter")
+@OptionsPanelController.SubRegistration(id = "de.funfried.netbeans.plugins.external.formatter.ui.options", location = "Editor", position = 201, displayName = "#AdvancedOption_DisplayName_ExternalFormatter", keywords = "#AdvancedOption_Keywords_ExternalFormatter", keywordsCategory = "Editor/ExternalFormatter")
 @org.openide.util.NbBundle.Messages({ "AdvancedOption_DisplayName_ExternalFormatter=External Formatter", "AdvancedOption_Keywords_ExternalFormatter=External Formatter" })
 public final class ExternalFormatterOptionsPanelController extends OptionsPanelController implements ChangeListener {
 	/** Holder of the {@link ExternalFormatterPanel}. */

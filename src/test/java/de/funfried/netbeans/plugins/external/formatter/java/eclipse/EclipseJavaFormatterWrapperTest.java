@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
@@ -194,7 +195,16 @@ public class EclipseJavaFormatterWrapperTest {
 		final String text = "package foo;public enum NewEmptyJUnitTest { A, B, C}";
 		final String expected = null;
 
-		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), "1.3", null);
+		String actual = null;
+
+		try {
+			actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), "1.3", null);
+
+			Assert.assertFalse("FormattingFailedException should have been thrown", true);
+		} catch (Exception ex) {
+			Assert.assertEquals("FormattingFailedException should have been thrown", FormattingFailedException.class, ex.getClass());
+		}
+
 		Assert.assertEquals("Invalid source code for 1.3 - enum is not a keyword", expected, actual);
 	}
 
@@ -203,7 +213,16 @@ public class EclipseJavaFormatterWrapperTest {
 		final String text = "package foo;public enum NewEmptyJUnitTest { A, B, C}";
 		final String expected = null;
 
-		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), "1.4", null);
+		String actual = null;
+
+		try {
+			actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), "1.4", null);
+
+			Assert.assertFalse("FormattingFailedException should have been thrown", true);
+		} catch (Exception ex) {
+			Assert.assertEquals("FormattingFailedException should have been thrown", FormattingFailedException.class, ex.getClass());
+		}
+
 		Assert.assertEquals("Invalid source code for 1.4 - enum is not a keyword", expected, actual);
 	}
 
@@ -219,7 +238,7 @@ public class EclipseJavaFormatterWrapperTest {
 				+ "}";
 
 		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), "1.5", null);
-		Assert.assertEquals("Invalid source code for 1.4 - enum is not a keyword", expected, actual);
+		Assert.assertEquals("Formatting should change the code", expected, actual);
 	}
 
 	@Test

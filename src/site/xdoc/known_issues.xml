@@ -16,9 +16,9 @@
 					NetBeans formatter, but it's pretty close.
 				</li>
 				<li>
-					Guarded blocks are only supported when using the Eclipse Java Code Formatter, but not for
-					the Google Java Code Formatter. There seems to be a bug in the Google Java Code Formatter
-					which prevents this feature to work. Further details on this bug can be watched here:
+					Guarded blocks are not supported for the Google Java Code Formatter. There seems to be a bug
+					in the Google Java Code Formatter which prevents this feature to work. Further details on
+					this bug can be watched here:
 					<a href="https://github.com/google/google-java-format/issues/433">https://github.com/google/google-java-format/issues/433</a>
 				</li>
 			</ul>

@@ -7,7 +7,7 @@
  * Contributors:
  * bahlef - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.base;
+package de.funfried.netbeans.plugins.external.formatter;
 
 import java.util.prefs.Preferences;
 
@@ -19,6 +19,7 @@ import org.netbeans.junit.NbTestCase;
 import org.netbeans.modules.editor.NbEditorDocument;
 import org.openide.util.NbPreferences;
 
+import de.funfried.netbeans.plugins.external.formatter.FormatterServiceDelegate;
 import de.funfried.netbeans.plugins.external.formatter.java.eclipse.EclipseJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.google.GoogleJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
@@ -41,8 +42,9 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 	 */
 	@Test
 	public void testFormatWithEclipseFormatter() throws Exception {
+		String mimeType = "text/x-java";
 		Preferences prefs = NbPreferences.forModule(ExternalFormatterPanel.class);
-		prefs.put(Settings.ENABLED_FORMATTER, EclipseJavaFormatterService.ID);
+		prefs.put(Settings.ENABLED_FORMATTER_PREFIX + mimeType, EclipseJavaFormatterService.ID);
 
 		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
 		final String expected = "package foo;\n" +
@@ -52,7 +54,7 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 				"}\n" +
 				"";
 
-		StyledDocument document = new NbEditorDocument("text/x-java");
+		StyledDocument document = new NbEditorDocument(mimeType);
 		document.insertString(0, text, null);
 
 		FormatterServiceDelegate.getInstance().format(document, null);
@@ -70,8 +72,9 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 	 */
 	@Test
 	public void testFormatWithGoogleFormatter() throws Exception {
+		String mimeType = "text/x-java";
 		Preferences prefs = NbPreferences.forModule(ExternalFormatterPanel.class);
-		prefs.put(Settings.ENABLED_FORMATTER, GoogleJavaFormatterService.ID);
+		prefs.put(Settings.ENABLED_FORMATTER_PREFIX + mimeType, GoogleJavaFormatterService.ID);
 
 		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
 		final String expected = "package foo;\n" +
@@ -83,7 +86,7 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 				"}\n"
 				+ "";
 
-		StyledDocument document = new NbEditorDocument("text/x-java");
+		StyledDocument document = new NbEditorDocument(mimeType);
 		document.insertString(0, text, null);
 
 		FormatterServiceDelegate.getInstance().format(document, null);

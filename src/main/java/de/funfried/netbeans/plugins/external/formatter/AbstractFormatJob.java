@@ -7,7 +7,7 @@
  * Contributors:
  * bahlef - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.base;
+package de.funfried.netbeans.plugins.external.formatter;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -20,14 +20,15 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.diff.Difference;
 import org.netbeans.api.editor.guards.GuardedSection;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
+import org.netbeans.lib.editor.util.swing.DocumentUtilities;
 import org.openide.text.NbDocument;
-import org.openide.util.Exceptions;
 
 import de.funfried.netbeans.plugins.external.formatter.ui.editor.diff.Diff;
 
@@ -150,13 +151,7 @@ public abstract class AbstractFormatJob implements FormatJob {
 	 * @return The content of the {@code document}
 	 */
 	protected String getCode() {
-		try {
-			return document.getText(0, document.getLength());
-		} catch (BadLocationException ex) {
-			Exceptions.printStackTrace(ex);
-
-			throw new UnsupportedOperationException(ex);
-		}
+		return StringUtils.trim(DocumentUtilities.getText(document).toString());
 	}
 
 	/**

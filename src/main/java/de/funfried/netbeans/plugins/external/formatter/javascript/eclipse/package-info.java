@@ -9,6 +9,6 @@
  */
 
 /**
- * Package containing classes for common formatter logic.
+ * Package containing classes for Eclipse javascript formatter stragegy logic.
  */
-package de.funfried.netbeans.plugins.external.formatter.base;
+package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;

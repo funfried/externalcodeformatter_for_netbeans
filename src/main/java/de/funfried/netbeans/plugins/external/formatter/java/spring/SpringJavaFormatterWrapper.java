@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.SortedSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -25,10 +23,9 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.text.edits.TextEdit;
 import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
 
-import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
-import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
-import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import io.spring.javaformat.formatter.Formatter;
 
 /**
@@ -37,9 +34,6 @@ import io.spring.javaformat.formatter.Formatter;
  * @author bahlef
  */
 public final class SpringJavaFormatterWrapper {
-	/** {@link Logger} of this class. */
-	private static final Logger log = Logger.getLogger(SpringJavaFormatterWrapper.class.getName());
-
 	/** The Spring {@link Formatter}. */
 	private final Formatter formatter = new Formatter();
 
@@ -59,8 +53,10 @@ public final class SpringJavaFormatterWrapper {
 	 *                        objects defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
+	 *
+	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
-	public String format(String code, String lineFeed, SortedSet<Pair<Integer, Integer>> changedElements) {
+	public String format(String code, String lineFeed, SortedSet<Pair<Integer, Integer>> changedElements) throws FormattingFailedException {
 		if (code == null) {
 			return null;
 		}
@@ -91,12 +87,10 @@ public final class SpringJavaFormatterWrapper {
 	 *
 	 * @return the formatted code
 	 *
-	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
-	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
-	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
+	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
 	@CheckForNull
-	private String format(String code, IRegion[] regions, String lineFeed) {
+	private String format(@NonNull String code, @NonNull IRegion[] regions, String lineFeed) throws FormattingFailedException {
 		String formattedCode = null;
 
 		TextEdit te = formatter.format(code, regions, lineFeed);
@@ -111,9 +105,10 @@ public final class SpringJavaFormatterWrapper {
 					return null;
 				}
 			} catch (Exception ex) {
-				log.log(Level.WARNING, "Code could not be formatted!", ex);
-				return null;
+				throw new FormattingFailedException("Failed to format the given code.", ex);
 			}
+		} else {
+			throw new FormattingFailedException("Formatting the given code ended in a null result.");
 		}
 
 		return formattedCode;

@@ -11,14 +11,24 @@
 package de.funfried.netbeans.plugins.external.formatter.ui.customizer;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.prefs.Preferences;
 
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeListener;
 
 import org.netbeans.api.options.OptionsDisplayer;
+import org.openide.awt.Mnemonics;
 import org.openide.util.NbBundle;
 
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
@@ -67,62 +77,62 @@ public class ProjectSpecificSettingsPanel extends JPanel implements VerifiableCo
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        scrollPane = new javax.swing.JScrollPane();
-        scrollContainer = new javax.swing.JPanel();
-        headerPanel = new javax.swing.JPanel();
-        cbOverrideGlobalSettings = new javax.swing.JCheckBox();
-        lblJumpToGlobalOptions = new javax.swing.JLabel();
-        innerPanel = new javax.swing.JPanel();
+        scrollPane = new JScrollPane();
+        scrollContainer = new JPanel();
+        headerPanel = new JPanel();
+        cbOverrideGlobalSettings = new JCheckBox();
+        lblJumpToGlobalOptions = new JLabel();
+        innerPanel = new JPanel();
 
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new BorderLayout());
 
-        scrollPane.setPreferredSize(new java.awt.Dimension(100, 200));
+        scrollPane.setPreferredSize(new Dimension(100, 200));
 
-        scrollContainer.setLayout(new java.awt.BorderLayout());
+        scrollContainer.setLayout(new BorderLayout());
 
-        headerPanel.setLayout(new java.awt.BorderLayout());
+        headerPanel.setLayout(new BorderLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(cbOverrideGlobalSettings, org.openide.util.NbBundle.getMessage(ProjectSpecificSettingsPanel.class, "ProjectSpecificSettingsPanel.cbOverrideGlobalSettings.text")); // NOI18N
-        cbOverrideGlobalSettings.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        Mnemonics.setLocalizedText(cbOverrideGlobalSettings, NbBundle.getMessage(ProjectSpecificSettingsPanel.class, "ProjectSpecificSettingsPanel.cbOverrideGlobalSettings.text")); // NOI18N
+        cbOverrideGlobalSettings.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 cbOverrideGlobalSettingsActionPerformed(evt);
             }
         });
-        headerPanel.add(cbOverrideGlobalSettings, java.awt.BorderLayout.WEST);
+        headerPanel.add(cbOverrideGlobalSettings, BorderLayout.WEST);
 
-        lblJumpToGlobalOptions.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        org.openide.awt.Mnemonics.setLocalizedText(lblJumpToGlobalOptions, org.openide.util.NbBundle.getMessage(ProjectSpecificSettingsPanel.class, "ProjectSpecificSettingsPanel.lblJumpToGlobalOptions.text")); // NOI18N
-        lblJumpToGlobalOptions.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        lblJumpToGlobalOptions.setHorizontalAlignment(SwingConstants.RIGHT);
+        Mnemonics.setLocalizedText(lblJumpToGlobalOptions, NbBundle.getMessage(ProjectSpecificSettingsPanel.class, "ProjectSpecificSettingsPanel.lblJumpToGlobalOptions.text")); // NOI18N
+        lblJumpToGlobalOptions.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
                 lblJumpToGlobalOptionsMouseClicked(evt);
             }
         });
-        headerPanel.add(lblJumpToGlobalOptions, java.awt.BorderLayout.CENTER);
+        headerPanel.add(lblJumpToGlobalOptions, BorderLayout.CENTER);
 
-        scrollContainer.add(headerPanel, java.awt.BorderLayout.NORTH);
-        scrollContainer.add(innerPanel, java.awt.BorderLayout.CENTER);
+        scrollContainer.add(headerPanel, BorderLayout.NORTH);
+        scrollContainer.add(innerPanel, BorderLayout.CENTER);
 
         scrollPane.setViewportView(scrollContainer);
 
-        add(scrollPane, java.awt.BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-	private void cbOverrideGlobalSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbOverrideGlobalSettingsActionPerformed
+	private void cbOverrideGlobalSettingsActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cbOverrideGlobalSettingsActionPerformed
 		innerPanel.setVisible(cbOverrideGlobalSettings.isSelected());
 		fireStateChanged();
 	}//GEN-LAST:event_cbOverrideGlobalSettingsActionPerformed
 
-	private void lblJumpToGlobalOptionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblJumpToGlobalOptionsMouseClicked
+	private void lblJumpToGlobalOptionsMouseClicked(MouseEvent evt) {//GEN-FIRST:event_lblJumpToGlobalOptionsMouseClicked
 		OptionsDisplayer.getDefault().open("Java" + "/de.funfried.netbeans.plugins.external.formatter.ui.options");
 	}//GEN-LAST:event_lblJumpToGlobalOptionsMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox cbOverrideGlobalSettings;
-    private javax.swing.JPanel headerPanel;
-    private javax.swing.JPanel innerPanel;
-    private javax.swing.JLabel lblJumpToGlobalOptions;
-    private javax.swing.JPanel scrollContainer;
-    private javax.swing.JScrollPane scrollPane;
+    private JCheckBox cbOverrideGlobalSettings;
+    private JPanel headerPanel;
+    private JPanel innerPanel;
+    private JLabel lblJumpToGlobalOptions;
+    private JPanel scrollContainer;
+    private JScrollPane scrollPane;
     // End of variables declaration//GEN-END:variables
 
 	/**
