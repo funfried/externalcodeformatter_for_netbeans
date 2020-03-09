@@ -18,7 +18,7 @@ jobs:
     - name: build
       script: mvn --no-transfer-progress -Prelease-commons,sonatype-oss-release clean package site
     - name: deploy
-      if: branch = master
+      if: (NOT type IN (pull_request)) AND (branch = master)
       script:
       - mvn --no-transfer-progress -Prelease-commons,sonatype-oss-release deploy site site:stage scm-publish:publish-scm
       - mvn -Ptravis coveralls:report && mvn --no-transfer-progress -Prelease-commons,github deploy
