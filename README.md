@@ -14,8 +14,8 @@ External Code Formatters for NetBeans
 =====================================
 (formerly known as Eclipse Java Code Formatter for NetBeans)
 
-What is External Code Formatters Plugin for NetBeans?
------------------------------------------------------
+What is External Code Formatters Plugin for NetBeans
+----------------------------------------------------
 This plugin helps you to apply to a common code style in a team of Eclipse,
 IntelliJ and NetBeans IDE users. You can use several external code formatters
 inside the NetBeans IDE (see below), depending on whatever your co-workers use.
@@ -27,31 +27,31 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 ![Project settings](/src/site/resources/imgs/project.png)
 
 ### Supported formatters
-  * Java
+* Java
     * [Google Code Formatter](https://github.com/google/google-java-format)
     * [Eclipse Java Code Formatter](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Fguide%2Fjdt_api_codeformatter.htm)
     * [Spring Java Formatter](https://github.com/spring-io/spring-javaformat)
-  * Javascript
+* Javascript
     * [Eclipse Javascript Code Formatter](https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.wst.jsdt.doc%2Fstarted%2Foverview.html&cp%3D52_0)
 
 ### Features
-  * Global configuration and project specific configuration
-  * On save action (Disabled by default)
-  * Shows the used formatter in a notification (Disabled by default)
-  * Supports profiles (since 1.6)
-  * Supports format of selected text (since 1.7)
-  * Preserve breakpoints (experimental) (since 1.8)
-  * Code templates for @formatter:on/off (since 1.9)
-  * Supports [Workspace Mechanic](https://code.google.com/a/eclipselabs.org/p/workspacemechanic/) configuration file (since 1.10)
-  * Support configuration from .settings/org.eclipse.jdt.core.prefs (absolute and relative paths) (since 1.10)
-  * On save action: Introduced option for formatting only the changed lines (since 1.10)
-  * Support configuration of linefeed (since 1.10)
-  * Support configuration of source level (since 1.10)
-  * Support for macro invocation (since 1.12)
-  * Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted), only for Eclipse Java Code Formatter (since 1.13)
-  * Support for Google code formatter (since 1.13)
-  * Support for Spring Java formatter (since 1.14)
-  * Support for Eclipse Javascript formatter (since 1.14)
+* Global configuration and project specific configuration
+* On save action (Disabled by default)
+* Shows the used formatter in a notification (Disabled by default)
+* Supports profiles (since 1.6)
+* Supports format of selected text (since 1.7)
+* Preserve breakpoints (experimental) (since 1.8)
+* Code templates for @formatter:on/off (since 1.9)
+* Supports [Workspace Mechanic](https://code.google.com/a/eclipselabs.org/p/workspacemechanic/) configuration file (since 1.10)
+* Support configuration from .settings/org.eclipse.jdt.core.prefs (absolute and relative paths) (since 1.10)
+* On save action: Introduced option for formatting only the changed lines (since 1.10)
+* Support configuration of linefeed (since 1.10)
+* Support configuration of source level (since 1.10)
+* Support for macro invocation (since 1.12)
+* Support for guarded documents (documents that are created by the NetBeans GUI builder, guarded blocks are skipped of course, but everything in between can be formatted), only for Eclipse Java Code Formatter (since 1.13)
+* Support for Google code formatter (since 1.13)
+* Support for Spring Java formatter (since 1.14)
+* Support for Eclipse Javascript formatter (since 1.14)
 
 Compatibility
 -------------
