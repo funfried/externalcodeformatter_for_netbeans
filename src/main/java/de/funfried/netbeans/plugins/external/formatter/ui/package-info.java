@@ -9,6 +9,6 @@
  */
 
 /**
- * Main UI package for External Java Code Formatters.
+ * Main UI package for External Code Formatters.
  */
 package de.funfried.netbeans.plugins.external.formatter.ui;

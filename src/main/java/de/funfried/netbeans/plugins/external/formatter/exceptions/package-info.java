@@ -9,6 +9,6 @@
  */
 
 /**
- * Exceptions package for External Java Code Formatters.
+ * Exceptions package for External Code Formatters.
  */
 package de.funfried.netbeans.plugins.external.formatter.exceptions;
