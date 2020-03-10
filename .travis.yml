@@ -8,9 +8,18 @@ jdk:
 cache:
   directories:
     - $HOME/.m2
-before_install:
-- echo $signing_secret_key | base64 --decode | gpg --import
-- echo $signing_ownertrust | base64 --decode | gpg --import-ownertrust
-install: echo "Skipping pre-fetch of maven dependencies"
-script: cp .ci.settings.xml $HOME/.m2/settings.xml && mvn --no-transfer-progress -Prelease-commons,sonatype-oss-release clean deploy site site:stage scm-publish:publish-scm
-after_success: mvn -Ptravis coveralls:report && mvn --no-transfer-progress -Prelease-commons,github deploy
+jobs:
+  include:
+    - name: setup
+      script:
+      - cp .ci.settings.xml $HOME/.m2/settings.xml
+    - name: build
+      script: mvn --no-transfer-progress -Prelease-commons,sonatype-oss-release clean package site
+    - name: deploy
+      if: (NOT type IN (pull_request)) AND (branch = master)
+      before_install:
+      - echo $signing_secret_key | base64 --decode | gpg --import
+      - echo $signing_ownertrust | base64 --decode | gpg --import-ownertrust
+      script:
+      - mvn --no-transfer-progress -Prelease-commons,sonatype-oss-release deploy site site:stage scm-publish:publish-scm
+      - mvn -Ptravis coveralls:report && mvn --no-transfer-progress -Prelease-commons,github deploy
