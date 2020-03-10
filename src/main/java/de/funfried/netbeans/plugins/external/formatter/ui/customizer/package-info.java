@@ -9,6 +9,6 @@
  */
 
 /**
- * Package containing project customization classes for External Java Code Formatters.
+ * Package containing project customization classes for External Code Formatters.
  */
 package de.funfried.netbeans.plugins.external.formatter.ui.customizer;
