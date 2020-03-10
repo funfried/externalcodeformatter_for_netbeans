@@ -3,7 +3,7 @@
 		  xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
 
 	<properties>
-		<title>Changes External Java Code Formatters</title>
+		<title>Changes External Code Formatters</title>
 		<author email="info@funfried.de">Fabian Bahle</author>
 	</properties>
 
@@ -14,6 +14,9 @@
 			</action>
 			<action dev="bahlef" type="add" issue="36">
 				Added Eclipse Javascript Formatter
+			</action>
+			<action dev="bahlef" type="update">
+				Renamed the project from "External Java Code Formatters for NetBeans" to "External Code Formatters for NetBeans" because of adding Eclipse Javascript Formatter
 			</action>
 		</release>
 
