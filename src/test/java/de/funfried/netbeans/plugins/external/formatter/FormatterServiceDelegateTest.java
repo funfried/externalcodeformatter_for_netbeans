@@ -19,7 +19,6 @@ import org.netbeans.junit.NbTestCase;
 import org.netbeans.modules.editor.NbEditorDocument;
 import org.openide.util.NbPreferences;
 
-import de.funfried.netbeans.plugins.external.formatter.FormatterServiceDelegate;
 import de.funfried.netbeans.plugins.external.formatter.java.eclipse.EclipseJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.google.GoogleJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
@@ -56,6 +55,25 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 
 		StyledDocument document = new NbEditorDocument(mimeType);
 		document.insertString(0, text, null);
+
+		Assert.assertEquals((long) 120L, (long) FormatterServiceDelegate.getInstance().getRightMargin(document));
+
+		Assert.assertEquals((long) 2L, (long) FormatterServiceDelegate.getInstance().getContinuationIndentSize(document));
+		Assert.assertEquals((long) 4L, (long) FormatterServiceDelegate.getInstance().getIndentSize(document));
+		Assert.assertEquals((long) 4L, (long) FormatterServiceDelegate.getInstance().getSpacesPerTab(document));
+		Assert.assertFalse(FormatterServiceDelegate.getInstance().isExpandTabToSpaces(document));
+
+		Assert.assertNull(FormatterServiceDelegate.getInstance().getContinuationIndentSize(null));
+		Assert.assertNull(FormatterServiceDelegate.getInstance().getIndentSize(null));
+		Assert.assertNull(FormatterServiceDelegate.getInstance().getSpacesPerTab(null));
+		Assert.assertNull(FormatterServiceDelegate.getInstance().isExpandTabToSpaces(null));
+
+		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, false);
+
+		Assert.assertNull(FormatterServiceDelegate.getInstance().getContinuationIndentSize(document));
+		Assert.assertNull(FormatterServiceDelegate.getInstance().getIndentSize(document));
+		Assert.assertNull(FormatterServiceDelegate.getInstance().getSpacesPerTab(document));
+		Assert.assertNull(FormatterServiceDelegate.getInstance().isExpandTabToSpaces(document));
 
 		FormatterServiceDelegate.getInstance().format(document, null);
 
