@@ -9,12 +9,16 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.java.spring;
 
+import java.util.prefs.Preferences;
+
 import javax.swing.text.StyledDocument;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.netbeans.junit.NbTestCase;
 import org.netbeans.modules.editor.NbEditorDocument;
+
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  *
@@ -46,6 +50,29 @@ public class SpringJavaFormatterServiceTest extends NbTestCase {
 		document.insertString(0, text, null);
 
 		SpringJavaFormatterService instance = new SpringJavaFormatterService();
+		Assert.assertEquals("Spring Java Code Formatter", instance.getDisplayName());
+		Assert.assertNotNull(instance.getOptionsPanel());
+		Assert.assertEquals((long) 120L, (long) instance.getRightMargin(document));
+
+		Assert.assertEquals((long) 2L, (long) instance.getContinuationIndentSize(document));
+		Assert.assertEquals((long) 4L, (long) instance.getIndentSize(document));
+		Assert.assertEquals((long) 4L, (long) instance.getSpacesPerTab(document));
+		Assert.assertFalse(instance.isExpandTabToSpaces(document));
+
+		Assert.assertNull(instance.getContinuationIndentSize(null));
+		Assert.assertNull(instance.getIndentSize(null));
+		Assert.assertNull(instance.getSpacesPerTab(null));
+		Assert.assertNull(instance.isExpandTabToSpaces(null));
+
+		Preferences prefs = Settings.getActivePreferences(document);
+		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, false);
+		prefs.flush();
+
+		Assert.assertNull(instance.getContinuationIndentSize(document));
+		Assert.assertNull(instance.getIndentSize(document));
+		Assert.assertNull(instance.getSpacesPerTab(document));
+		Assert.assertNull(instance.isExpandTabToSpaces(document));
+
 		instance.format(document, null);
 
 		String actual = document.getText(0, document.getLength());
