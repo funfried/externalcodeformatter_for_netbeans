@@ -9,6 +9,6 @@
  */
 
 /**
- * Package containing classes for the External Java Formatter option panel.
+ * Package containing classes for the External Formatter option panel.
  */
 package de.funfried.netbeans.plugins.external.formatter.ui.options;

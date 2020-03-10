@@ -30,7 +30,7 @@
 	<publishDate position="right" />
 
 	<bannerLeft>
-		<name>External Java Code Formatters for NetBeans</name>
+		<name>External Code Formatters for NetBeans</name>
 		<src>imgs/logos/externalcodeformatter.png</src>
 		<href>https://funfried.github.io/externalcodeformatter_for_netbeans/</href>
 	</bannerLeft>
@@ -42,8 +42,15 @@
 	</bannerRight>
 
 	<poweredBy>
-		<logo name="Maven" href="https://maven.apache.org/" img="https://maven.apache.org/images/logos/maven-feather.png" />
+		<logo name="Donate via PayPal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=926F5XBCTK2LQ&amp;source=url" img="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" />
 		<logo name="Apache NetBeans" href="https://netbeans.apache.org/" img="imgs/logos/netbeans_small.png" />
+		<logo name="Maven" href="https://maven.apache.org/" img="https://maven.apache.org/images/logos/maven-feather.png" />
+		<logo name="Maven Central" href="https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/" img="https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/badge.svg" />
+		<logo name="Linux Build Status" href="https://travis-ci.com/funfried/externalcodeformatter_for_netbeans" img="https://travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master" />
+		<logo name="Windows Build Status" href="https://ci.appveyor.com/project/funfried/externalcodeformatter-for-netbeans" img="https://ci.appveyor.com/api/projects/status/kva6pnb5se94t1wu?svg=true" />
+		<logo name="Coverage Status" href="https://coveralls.io/github/funfried/externalcodeformatter_for_netbeans?branch=master" img="https://coveralls.io/repos/github/funfried/externalcodeformatter_for_netbeans/badge.svg?branch=master" />
+		<logo name="Codacy Badge" href="https://www.codacy.com/manual/funfried/externalcodeformatter_for_netbeans?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=funfried/externalcodeformatter_for_netbeans&amp;utm_campaign=Badge_Grade" img="https://api.codacy.com/project/badge/Grade/7d825731274a4f4783e4203eb7cbf811" />
+		<logo name="Follow Me On Twitter" img="https://img.shields.io/twitter/follow/funfried84?style=social" />
 	</poweredBy>
 
 	<body>

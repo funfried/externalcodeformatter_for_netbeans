@@ -4,8 +4,8 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>External Java Code Formatters for NetBeans</name>
-	<description>External (Eclipse and Google) Java Code Formatters Integration for NetBeans</description>
+	<name>External Code Formatters for NetBeans</name>
+	<description>Several external (e.g. Eclipse, Google, Spring, ...) code formatters integration for NetBeans</description>
 	<url>https://funfried.github.io/externalcodeformatter_for_netbeans/</url>
 	<inceptionYear>2019</inceptionYear>
 	<licenses>

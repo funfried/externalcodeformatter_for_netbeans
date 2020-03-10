@@ -9,6 +9,6 @@
  */
 
 /**
- * Main UI package for External Code Formatters.
+ * Test package containing test classes for Eclipse Javascript formatter.
  */
-package de.funfried.netbeans.plugins.external.formatter.ui;
+package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;

@@ -7,7 +7,7 @@
  * Contributors:
  * bahlef - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.java.spring;
+package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
 
 import java.util.prefs.Preferences;
 
@@ -24,43 +24,40 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  *
  * @author bahlef
  */
-public class SpringJavaFormatterServiceTest extends NbTestCase {
-	public SpringJavaFormatterServiceTest(String name) {
+public class EclipseJavascriptFormatterServiceTest extends NbTestCase {
+	public EclipseJavascriptFormatterServiceTest(String name) {
 		super(name);
 	}
 
 	/**
-	 * Test of format method, of class {@link SpringJavaFormatterService}.
+	 * Test of format method, of class {@link EclipseJavascriptFormatterService}.
 	 *
 	 * @throws Exception if an error occurs
 	 */
 	@Test
 	public void testFormat() throws Exception {
-		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
-		final String expected = "package foo;\n" +
-				"\n" +
-				"public enum NewEmptyJUnitTest {\n" +
-				"\n" +
-				"	A, B, C\n" +
-				"\n" +
-				"}\n" +
-				"";
+		final String text = "function foo(bar) { return Str('', { '' : bar }, []); }\n";
+		final String expected = "function foo(bar) {\n"
+				+ "    return Str('', {\n"
+				+ "        '' : bar\n"
+				+ "    }, []);\n"
+				+ "}\n";
 
-		StyledDocument document = new NbEditorDocument("text/x-java");
+		StyledDocument document = new NbEditorDocument("text/javascript");
 		document.insertString(0, text, null);
 
 		Preferences prefs = Settings.getActivePreferences(document);
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 
-		SpringJavaFormatterService instance = new SpringJavaFormatterService();
-		Assert.assertEquals("Spring Java Code Formatter", instance.getDisplayName());
+		EclipseJavascriptFormatterService instance = new EclipseJavascriptFormatterService();
+		Assert.assertEquals("Eclipse Javascript Code Formatter", instance.getDisplayName());
 		Assert.assertNotNull(instance.getOptionsPanel());
-		Assert.assertEquals((long) 120L, (long) instance.getRightMargin(document));
+		Assert.assertEquals((long) 80L, (long) instance.getRightMargin(document));
 
 		Assert.assertEquals((long) 2L, (long) instance.getContinuationIndentSize(document));
 		Assert.assertEquals((long) 4L, (long) instance.getIndentSize(document));
 		Assert.assertEquals((long) 4L, (long) instance.getSpacesPerTab(document));
-		Assert.assertFalse(instance.isExpandTabToSpaces(document));
+		Assert.assertTrue(instance.isExpandTabToSpaces(document));
 
 		Assert.assertNull(instance.getContinuationIndentSize(null));
 		Assert.assertNull(instance.getIndentSize(null));
@@ -82,19 +79,19 @@ public class SpringJavaFormatterServiceTest extends NbTestCase {
 	}
 
 	/**
-	 * Test of {@link SpringJavaFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
-	 * method, of class {@link SpringJavaFormatterService}.
+	 * Test of {@link EclipseJavascriptFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
+	 * method, of class {@link EclipseJavascriptFormatterService}.
 	 *
 	 * @throws Exception if an error occurs
 	 */
 	@Test
 	public void testUnsupportedFileType() throws Exception {
-		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
+		final String text = "function foo(bar) { return Str('', { '' : bar }, []); }\n";
 
 		StyledDocument document = new NbEditorDocument("text/xml");
 		document.insertString(0, text, null);
 
-		SpringJavaFormatterService instance = new SpringJavaFormatterService();
+		EclipseJavascriptFormatterService instance = new EclipseJavascriptFormatterService();
 
 		try {
 			instance.format(document, null);
