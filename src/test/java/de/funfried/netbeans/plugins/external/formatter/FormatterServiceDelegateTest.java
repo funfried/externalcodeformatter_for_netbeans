@@ -44,6 +44,7 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 		String mimeType = "text/x-java";
 		Preferences prefs = NbPreferences.forModule(ExternalFormatterPanel.class);
 		prefs.put(Settings.ENABLED_FORMATTER_PREFIX + mimeType, EclipseJavaFormatterService.ID);
+		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 
 		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
 		final String expected = "package foo;\n" +

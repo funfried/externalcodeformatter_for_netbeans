@@ -46,6 +46,9 @@ public class EclipseJavascriptFormatterServiceTest extends NbTestCase {
 		StyledDocument document = new NbEditorDocument("text/javascript");
 		document.insertString(0, text, null);
 
+		Preferences prefs = Settings.getActivePreferences(document);
+		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+
 		EclipseJavascriptFormatterService instance = new EclipseJavascriptFormatterService();
 		Assert.assertEquals("Eclipse Javascript Code Formatter", instance.getDisplayName());
 		Assert.assertNotNull(instance.getOptionsPanel());
@@ -61,9 +64,7 @@ public class EclipseJavascriptFormatterServiceTest extends NbTestCase {
 		Assert.assertNull(instance.getSpacesPerTab(null));
 		Assert.assertNull(instance.isExpandTabToSpaces(null));
 
-		Preferences prefs = Settings.getActivePreferences(document);
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, false);
-		prefs.flush();
 
 		Assert.assertNull(instance.getContinuationIndentSize(document));
 		Assert.assertNull(instance.getIndentSize(document));
