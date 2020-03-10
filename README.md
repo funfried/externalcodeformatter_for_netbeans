@@ -65,7 +65,7 @@ Known issues
 ------------
 Please check the open [GitHub Issues](/../../issues) and see [here](http://funfried.github.io/externalcodeformatter_for_netbeans/known_issues.html)
 
-### Note:
+### Note
 Please note that this plugin only provides support for formatting. Eclipse users may miss the application of save-actions like "adding @Override annotations" or "member sort order". Such AST-based transformations are not provided by this plugin.
 
 Licensing
@@ -75,11 +75,11 @@ This plugin uses third-party libraries, which are needed to provide its function
 
 The history of this project
 ---------------------------
-  * The original idea is based on http://epochcoder.blogspot.com/2013/08/import-eclipse-formatter-into-netbeans.html from [Willie Scholtz](https://github.com/epochcoder)
-  * [Geertjan Wielenga](https://github.com/geertjanw) made further investigations on that idea and [put everything together](https://blogs.oracle.com/geertjan/entry/eclipse_formatter_for_netbeans_ide) to create a first NetBeans Plugin out of this idea
-  * This was then [forked](https://github.com/markiewb/eclipsecodeformatter_for_netbeans/) by [Benno Markiewicz](https://github.com/markiewb)
-  * [Benno Markiewicz](https://github.com/markiewb) stopped the development on the plugin and so [Geertjan Wielenga](https://github.com/geertjanw) forked it again and was looking for someone who wanted to take it over
-  * I think I used this plugin since I use NetBeans, because in every company I was so far, I had exactly this circumstance that the formatting configuration was always there for Eclipse, but not for NetBeans. And because I prefer NetBeans over Eclipse I had to find a way to use NetBeans but the code style configuration from Eclipse. I'm happy that I can give back something to the community now by continuing the development of this plugin.
+* The original idea is based on http://epochcoder.blogspot.com/2013/08/import-eclipse-formatter-into-netbeans.html from [Willie Scholtz](https://github.com/epochcoder)
+* [Geertjan Wielenga](https://github.com/geertjanw) made further investigations on that idea and [put everything together](https://blogs.oracle.com/geertjan/entry/eclipse_formatter_for_netbeans_ide) to create a first NetBeans Plugin out of this idea
+* This was then [forked](https://github.com/markiewb/eclipsecodeformatter_for_netbeans/) by [Benno Markiewicz](https://github.com/markiewb)
+* [Benno Markiewicz](https://github.com/markiewb) stopped the development on the plugin and so [Geertjan Wielenga](https://github.com/geertjanw) forked it again and was looking for someone who wanted to take it over
+* I think I used this plugin since I use NetBeans, because in every company I was so far, I had exactly this circumstance that the formatting configuration was always there for Eclipse, but not for NetBeans. And because I prefer NetBeans over Eclipse I had to find a way to use NetBeans but the code style configuration from Eclipse. I'm happy that I can give back something to the community now by continuing the development of this plugin.
 
 Feedback
 --------
