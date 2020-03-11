@@ -29,14 +29,12 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 
 ### Supported formatters
 *   Java
-  *   [Google Code Formatter](https://github.com/google/google-java-format)
-  *   [Eclipse Java Code Formatter](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Fguide%2Fjdt_api_codeformatter.htm)
-  *   [Spring Java Formatter](https://github.com/spring-io/spring-javaformat)
-
+    * [Google Code Formatter](https://github.com/google/google-java-format)
+    * [Eclipse Java Code Formatter](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Fguide%2Fjdt_api_codeformatter.htm)
+    * [Spring Java Formatter](https://github.com/spring-io/spring-javaformat)
 
 *   Javascript
-  *   [Eclipse Javascript Code Formatter](https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.wst.jsdt.doc%2Fstarted%2Foverview.html&cp%3D52_0)
-
+    * [Eclipse Javascript Code Formatter](https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.wst.jsdt.doc%2Fstarted%2Foverview.html&cp%3D52_0)
 
 ### Features
 *   Global configuration and project specific configuration
