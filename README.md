@@ -3,6 +3,7 @@
 [![Linux Build Status](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master)](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/kva6pnb5se94t1wu?svg=true)](https://ci.appveyor.com/project/funfried/externalcodeformatter-for-netbeans)
 [![Coverage Status](https://coveralls.io/repos/github/funfried/externalcodeformatter_for_netbeans/badge.svg?branch=master)](https://coveralls.io/github/funfried/externalcodeformatter_for_netbeans?branch=master)
+[![Code Coverage](https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans/branch/master/graph/badge.svg)](https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7d825731274a4f4783e4203eb7cbf811)](https://www.codacy.com/manual/funfried/externalcodeformatter_for_netbeans?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=funfried/externalcodeformatter_for_netbeans&amp;utm_campaign=Badge_Grade)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/)
 ![GitHub All Releases](https://img.shields.io/github/downloads/funfried/externalcodeformatter_for_netbeans/total)

@@ -3,6 +3,9 @@ branches:
   - master
   - /^release/.*$/
 language: java
+env:
+  global:
+    - CODECOV_TOKEN=:uuid-repo-token
 jdk:
   - openjdk8
 cache:
@@ -23,3 +26,5 @@ jobs:
       script:
       - mvn --no-transfer-progress -Prelease-commons,sonatype-oss-release deploy site site:stage scm-publish:publish-scm
       - mvn -Ptravis coveralls:report && mvn --no-transfer-progress -Prelease-commons,github deploy
+      after_success:
+      - bash <(curl -s https://codecov.io/bash)
