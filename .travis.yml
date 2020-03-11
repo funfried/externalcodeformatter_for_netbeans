@@ -3,9 +3,6 @@ branches:
   - master
   - /^release/.*$/
 language: java
-env:
-  global:
-    - CODECOV_TOKEN=:uuid-repo-token
 jdk:
   - openjdk8
 cache:
