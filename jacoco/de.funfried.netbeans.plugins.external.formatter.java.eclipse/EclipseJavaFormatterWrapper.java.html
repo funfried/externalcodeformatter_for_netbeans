@@ -72,24 +72,31 @@ public final class EclipseJavaFormatterWrapper {
 <span class="fc" id="L72">			return null;</span>
 		}
 
-<span class="fc" id="L75">		List&lt;IRegion&gt; regions = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L76" title="All 2 branches covered.">		if (changedElements == null) {</span>
-<span class="fc" id="L77">			regions.add(new Region(0, code.length()));</span>
-<span class="pc bpc" id="L78" title="1 of 2 branches missed.">		} else if (!CollectionUtils.isEmpty(changedElements)) {</span>
-<span class="fc bfc" id="L79" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
-<span class="fc" id="L80">				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));</span>
-<span class="fc" id="L81">			}</span>
+<span class="fc" id="L75">		int codeLength = code.length();</span>
+
+<span class="fc" id="L77">		List&lt;IRegion&gt; regions = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		if (changedElements == null) {</span>
+<span class="fc" id="L79">			regions.add(new Region(0, codeLength));</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">		} else if (!CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
+<span class="fc" id="L82">				int length = (changedElement.getRight() - changedElement.getLeft()) + 1;</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">				if (length &gt; codeLength) {</span>
+<span class="nc" id="L84">					length = codeLength;</span>
+				}
+
+<span class="fc" id="L87">				regions.add(new Region(changedElement.getLeft(), length));</span>
+<span class="fc" id="L88">			}</span>
 		} else {
 			// empty changed elements means nothing's left which can be formatted due to guarded sections
-<span class="nc" id="L84">			return code;</span>
+<span class="nc" id="L91">			return code;</span>
 		}
 
-<span class="fc" id="L87">		Map&lt;String, String&gt; allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);</span>
+<span class="fc" id="L94">		Map&lt;String, String&gt; allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);</span>
 
-<span class="fc" id="L89">		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);</span>
+<span class="fc" id="L96">		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);</span>
 		//see http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FCodeFormatter.html&amp;anchor=format(int,
 
-<span class="fc" id="L92">		return format(formatter, code, regions.toArray(new IRegion[regions.size()]), lineFeed);</span>
+<span class="fc" id="L99">		return format(formatter, code, regions.toArray(new IRegion[regions.size()]), lineFeed);</span>
 	}
 
 	/**
@@ -107,27 +114,27 @@ public final class EclipseJavaFormatterWrapper {
 	 */
 	@CheckForNull
 	private String format(@NonNull CodeFormatter formatter, @NonNull String code, @NonNull IRegion[] regions, String lineFeed) throws FormattingFailedException {
-<span class="fc" id="L110">		String formattedCode = null;</span>
+<span class="fc" id="L117">		String formattedCode = null;</span>
 
-<span class="fc" id="L112">		TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);</span>
-<span class="pc bpc" id="L113" title="1 of 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
+<span class="fc" id="L119">		TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);</span>
+<span class="pc bpc" id="L120" title="1 of 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
 			try {
-<span class="fc" id="L115">				IDocument dc = new Document(code);</span>
-<span class="fc" id="L116">				te.apply(dc);</span>
+<span class="fc" id="L122">				IDocument dc = new Document(code);</span>
+<span class="fc" id="L123">				te.apply(dc);</span>
 
-<span class="fc" id="L118">				formattedCode = dc.get();</span>
+<span class="fc" id="L125">				formattedCode = dc.get();</span>
 
-<span class="pc bpc" id="L120" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
-<span class="nc" id="L121">					return null;</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
+<span class="nc" id="L128">					return null;</span>
 				}
-<span class="nc" id="L123">			} catch (Exception ex) {</span>
-<span class="nc" id="L124">				throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
-<span class="fc" id="L125">			}</span>
+<span class="nc" id="L130">			} catch (Exception ex) {</span>
+<span class="nc" id="L131">				throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
+<span class="fc" id="L132">			}</span>
 		} else {
-<span class="fc" id="L127">			throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
+<span class="fc" id="L134">			throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
 		}
 
-<span class="fc" id="L130">		return formattedCode;</span>
+<span class="fc" id="L137">		return formattedCode;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

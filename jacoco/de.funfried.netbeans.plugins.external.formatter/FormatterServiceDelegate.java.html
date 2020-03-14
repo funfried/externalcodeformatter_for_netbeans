@@ -228,17 +228,20 @@ public class FormatterServiceDelegate {
 	 */
 	@CheckForNull
 	private FormatterService getActiveFormatterService(Document document) throws Exception {
-<span class="fc" id="L231">		Preferences prefs = Settings.getActivePreferences(document);</span>
-<span class="fc" id="L232">		String activeFormatterId = prefs.get(Settings.ENABLED_FORMATTER_PREFIX + NbEditorUtilities.getMimeType(document), Settings.DEFAULT_FORMATTER);</span>
+<span class="fc" id="L231">		MimeType mimeType = MimeType.getByMimeType(NbEditorUtilities.getMimeType(document));</span>
+<span class="pc bpc" id="L232" title="1 of 2 branches missed.">		if (mimeType != null) {</span>
+<span class="fc" id="L233">			Preferences prefs = Settings.getActivePreferences(document);</span>
+<span class="fc" id="L234">			String activeFormatterId = prefs.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), Settings.DEFAULT_FORMATTER);</span>
 
-<span class="fc" id="L234">		Collection&lt;? extends FormatterService&gt; formatterServices = Lookup.getDefault().lookupAll(FormatterService.class);</span>
-<span class="pc bpc" id="L235" title="1 of 2 branches missed.">		for (FormatterService formatterService : formatterServices) {</span>
-<span class="fc bfc" id="L236" title="All 2 branches covered.">			if (Objects.equals(activeFormatterId, formatterService.getId())) {</span>
-<span class="fc" id="L237">				return formatterService;</span>
-			}
-<span class="fc" id="L239">		}</span>
+<span class="fc" id="L236">			Collection&lt;? extends FormatterService&gt; formatterServices = Lookup.getDefault().lookupAll(FormatterService.class);</span>
+<span class="pc bpc" id="L237" title="1 of 2 branches missed.">			for (FormatterService formatterService : formatterServices) {</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">				if (Objects.equals(activeFormatterId, formatterService.getId())) {</span>
+<span class="fc" id="L239">					return formatterService;</span>
+				}
+<span class="fc" id="L241">			}</span>
+		}
 
-<span class="nc" id="L241">		return null;</span>
+<span class="nc" id="L244">		return null;</span>
 	}
 
 	/**
@@ -256,15 +259,15 @@ public class FormatterServiceDelegate {
 	@CheckForNull
 	public Boolean isExpandTabToSpaces(Document document) {
 		try {
-<span class="fc" id="L259">			FormatterService formatterService = getActiveFormatterService(document);</span>
-<span class="pc bpc" id="L260" title="2 of 4 branches missed.">			if (formatterService != null &amp;&amp; formatterService.canHandle(document)) {</span>
-<span class="fc" id="L261">				return formatterService.isExpandTabToSpaces(document);</span>
+<span class="fc" id="L262">			FormatterService formatterService = getActiveFormatterService(document);</span>
+<span class="pc bpc" id="L263" title="2 of 4 branches missed.">			if (formatterService != null &amp;&amp; formatterService.canHandle(document)) {</span>
+<span class="fc" id="L264">				return formatterService.isExpandTabToSpaces(document);</span>
 			}
-<span class="fc" id="L263">		} catch (Exception e) {</span>
-<span class="fc" id="L264">			Exceptions.printStackTrace(e);</span>
-<span class="nc" id="L265">		}</span>
+<span class="fc" id="L266">		} catch (Exception e) {</span>
+<span class="fc" id="L267">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L268">		}</span>
 
-<span class="fc" id="L267">		return null;</span>
+<span class="fc" id="L270">		return null;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

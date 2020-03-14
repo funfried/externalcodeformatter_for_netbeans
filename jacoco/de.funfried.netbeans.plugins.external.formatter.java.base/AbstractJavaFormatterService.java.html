@@ -15,17 +15,19 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.netbeans.api.java.lexer.JavaTokenId;
+import org.netbeans.modules.editor.NbEditorUtilities;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.MimeType;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 
 /**
  * Abstract base implementation of {@link FormatterService} for Java formatters.
  *
  * @author bahlef
  */
-<span class="fc" id="L28">public abstract class AbstractJavaFormatterService implements FormatterService {</span>
+<span class="fc" id="L30">public abstract class AbstractJavaFormatterService implements FormatterService {</span>
 	/**
 	 * Returns the {@link FormatJob}.
 	 *
@@ -38,16 +40,20 @@ import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException {
-<span class="fc" id="L42">		getFormatJob(document, changedElements).format();</span>
-<span class="fc" id="L43">	}</span>
+	public void format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException, FormattingFailedException {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
+<span class="fc" id="L45">			throw new FormattingFailedException(&quot;The file type '&quot; + NbEditorUtilities.getMimeType(document) + &quot;' is not supported&quot;);</span>
+		}
+
+<span class="fc" id="L48">		getFormatJob(document, changedElements).format();</span>
+<span class="fc" id="L49">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getSupportedMimeType() {
-<span class="fc" id="L50">		return JavaTokenId.language().mimeType();</span>
+	public MimeType getSupportedMimeType() {
+<span class="fc" id="L56">		return MimeType.JAVA;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

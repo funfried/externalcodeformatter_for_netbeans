@@ -185,7 +185,7 @@ public abstract class AbstractFormatJob implements FormatJob {
 				{
 <span class="nc" id="L186">					StringBuilder sb = new StringBuilder();</span>
 <span class="nc" id="L187">					regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
-<span class="nc" id="L188">					log.log(logLevel, &quot;Formating sections before guards: {0}&quot;, sb.toString().trim());</span>
+<span class="nc" id="L188">					log.log(logLevel, &quot;Formatting sections before guards: {0}&quot;, sb.toString().trim());</span>
 				}
 
 				{
@@ -205,7 +205,7 @@ public abstract class AbstractFormatJob implements FormatJob {
 <span class="pc bpc" id="L205" title="1 of 2 branches missed.">		if (log.isLoggable(logLevel)) {</span>
 <span class="nc" id="L206">			StringBuilder sb = new StringBuilder();</span>
 <span class="nc" id="L207">			regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
-<span class="nc" id="L208">			log.log(logLevel, &quot;Formating sections: {0}&quot;, sb.toString().trim());</span>
+<span class="nc" id="L208">			log.log(logLevel, &quot;Formatting sections: {0}&quot;, sb.toString().trim());</span>
 		}
 
 <span class="fc" id="L211">		return regions;</span>

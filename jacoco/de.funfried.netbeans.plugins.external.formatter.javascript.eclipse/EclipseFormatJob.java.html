@@ -37,7 +37,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  * @author bahlef
  */
 class EclipseFormatJob extends AbstractFormatJob {
-	/** * The {@link EclipseJavascriptFormatterWrapper} implementation. */
+	/** The {@link EclipseJavascriptFormatterWrapper} implementation. */
 	private final EclipseJavascriptFormatterWrapper formatter;
 
 	/**

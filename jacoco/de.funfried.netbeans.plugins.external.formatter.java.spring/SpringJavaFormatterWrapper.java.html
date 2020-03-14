@@ -56,24 +56,25 @@ public final class SpringJavaFormatterWrapper {
 	 *
 	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
+	@CheckForNull
 	public String format(String code, String lineFeed, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws FormattingFailedException {
-<span class="fc bfc" id="L60" title="All 2 branches covered.">		if (code == null) {</span>
-<span class="fc" id="L61">			return null;</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		if (code == null) {</span>
+<span class="fc" id="L62">			return null;</span>
 		}
 
-<span class="fc" id="L64">		List&lt;IRegion&gt; regions = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L65" title="All 2 branches covered.">		if (changedElements == null) {</span>
-<span class="fc" id="L66">			regions.add(new Region(0, code.length()));</span>
-<span class="pc bpc" id="L67" title="1 of 2 branches missed.">		} else if (!CollectionUtils.isEmpty(changedElements)) {</span>
-<span class="fc bfc" id="L68" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
-<span class="fc" id="L69">				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));</span>
-<span class="fc" id="L70">			}</span>
+<span class="fc" id="L65">		List&lt;IRegion&gt; regions = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		if (changedElements == null) {</span>
+<span class="fc" id="L67">			regions.add(new Region(0, code.length()));</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">		} else if (!CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
+<span class="fc" id="L70">				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));</span>
+<span class="fc" id="L71">			}</span>
 		} else {
 			// empty changed elements means nothing's left which can be formatted due to guarded sections
-<span class="nc" id="L73">			return code;</span>
+<span class="nc" id="L74">			return code;</span>
 		}
 
-<span class="fc" id="L76">		return format(code, regions.toArray(new IRegion[regions.size()]), lineFeed);</span>
+<span class="fc" id="L77">		return format(code, regions.toArray(new IRegion[regions.size()]), lineFeed);</span>
 	}
 
 	/**
@@ -91,27 +92,27 @@ public final class SpringJavaFormatterWrapper {
 	 */
 	@CheckForNull
 	private String format(@NonNull String code, @NonNull IRegion[] regions, String lineFeed) throws FormattingFailedException {
-<span class="fc" id="L94">		String formattedCode = null;</span>
+<span class="fc" id="L95">		String formattedCode = null;</span>
 
-<span class="fc" id="L96">		TextEdit te = formatter.format(code, regions, lineFeed);</span>
-<span class="pc bpc" id="L97" title="2 of 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
+<span class="fc" id="L97">		TextEdit te = formatter.format(code, regions, lineFeed);</span>
+<span class="pc bpc" id="L98" title="2 of 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
 			try {
-<span class="fc" id="L99">				IDocument dc = new Document(code);</span>
-<span class="fc" id="L100">				te.apply(dc);</span>
+<span class="fc" id="L100">				IDocument dc = new Document(code);</span>
+<span class="fc" id="L101">				te.apply(dc);</span>
 
-<span class="fc" id="L102">				formattedCode = dc.get();</span>
+<span class="fc" id="L103">				formattedCode = dc.get();</span>
 
-<span class="pc bpc" id="L104" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
-<span class="nc" id="L105">					return null;</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
+<span class="nc" id="L106">					return null;</span>
 				}
-<span class="nc" id="L107">			} catch (Exception ex) {</span>
-<span class="nc" id="L108">				throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
-<span class="fc" id="L109">			}</span>
+<span class="nc" id="L108">			} catch (Exception ex) {</span>
+<span class="nc" id="L109">				throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
+<span class="fc" id="L110">			}</span>
 		} else {
-<span class="nc" id="L111">			throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
+<span class="nc" id="L112">			throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
 		}
 
-<span class="fc" id="L114">		return formattedCode;</span>
+<span class="fc" id="L115">		return formattedCode;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

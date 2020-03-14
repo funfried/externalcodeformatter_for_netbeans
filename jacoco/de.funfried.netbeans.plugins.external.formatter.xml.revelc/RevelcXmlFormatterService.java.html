@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RevelcXmlFormatterService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.xml.revelc</a> &gt; <span class="el_source">RevelcXmlFormatterService.java</span></div><h1>RevelcXmlFormatterService.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2020 bahlef.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * markiewb - initial API and implementation and/or initial documentation
+ * bahlef
+ */
+package de.funfried.netbeans.plugins.external.formatter.xml.revelc;
+
+import java.util.prefs.Preferences;
+
+import javax.swing.text.Document;
+import javax.swing.text.StyledDocument;
+
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
+import org.openide.util.NbBundle;
+import org.openide.util.lookup.ServiceProvider;
+
+import de.funfried.netbeans.plugins.external.formatter.FormatJob;
+import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+import de.funfried.netbeans.plugins.external.formatter.xml.base.AbstractXmlFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.xml.revelc.ui.RevelcXmlFormatterOptionsPanel;
+
+/**
+ * revelc.net XML implementation of the {@link AbstractXmlFormatterService}.
+ *
+ * @author bahlef
+ */
+@NbBundle.Messages({
+		&quot;FormatterName=revelc.net XML Code Formatter&quot;
+})
+@ServiceProvider(service = FormatterService.class, position = 1000)
+<span class="fc" id="L39">public class RevelcXmlFormatterService extends AbstractXmlFormatterService {</span>
+	/** The ID of this formatter service. */
+	public static final String ID = &quot;revelc-xml-formatter&quot;;
+
+	/** * The {@link RevelcXmlFormatterWrapper} implementation. */
+<span class="fc" id="L44">	private final RevelcXmlFormatterWrapper formatter = new RevelcXmlFormatterWrapper();</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@NonNull
+	@Override
+	public String getDisplayName() {
+<span class="fc" id="L52">		return NbBundle.getMessage(RevelcXmlFormatterService.class, &quot;FormatterName&quot;);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@NonNull
+	@Override
+	public String getId() {
+<span class="nc" id="L61">		return ID;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public FormatterOptionsPanel getOptionsPanel() {
+<span class="fc" id="L69">		return new RevelcXmlFormatterOptionsPanel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getContinuationIndentSize(Document document) {
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L79">			return null;</span>
+		}
+
+<span class="fc" id="L82">		Integer ret = null;</span>
+
+<span class="fc" id="L84">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L86">			ret = preferences.getInt(RevelcXmlFormatterSettings.TAB_WIDTH, 4);</span>
+		}
+
+<span class="fc" id="L89">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getIndentSize(Document document) {
+<span class="fc bfc" id="L98" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L99">			return null;</span>
+		}
+
+<span class="fc" id="L102">		Integer ret = null;</span>
+
+<span class="fc" id="L104">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L106">			ret = preferences.getInt(RevelcXmlFormatterSettings.TAB_WIDTH, 4);</span>
+		}
+
+<span class="fc" id="L109">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getRightMargin(Document document) {
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L119">			return null;</span>
+		}
+
+<span class="fc" id="L122">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc" id="L123">		return preferences.getInt(RevelcXmlFormatterSettings.MAX_LINE_LENGTH, 120);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected FormatJob getFormatJob(StyledDocument document) {
+<span class="fc" id="L131">		return new RevelcFormatJob(document, formatter);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getSpacesPerTab(Document document) {
+<span class="fc bfc" id="L140" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L141">			return null;</span>
+		}
+
+<span class="fc" id="L144">		Integer ret = null;</span>
+
+<span class="fc" id="L146">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="fc" id="L149">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+			} else {
+<span class="nc" id="L151">				ret = preferences.getInt(RevelcXmlFormatterSettings.TAB_WIDTH, 4);</span>
+			}
+		}
+
+<span class="fc" id="L155">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Boolean isExpandTabToSpaces(Document document) {
+<span class="fc bfc" id="L164" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L165">			return null;</span>
+		}
+
+<span class="fc" id="L168">		Boolean ret = null;</span>
+
+<span class="fc" id="L170">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">			ret = !preferences.getBoolean(RevelcXmlFormatterSettings.TAB_INSTEAD_OF_SPACES, true);</span>
+		}
+
+<span class="fc" id="L175">		return ret;</span>
+	}
+
+	/**
+	 * Returns {@code true} if using the formatter indentation settings from the external
+	 * formatter is activated, otherwise {@code false}.
+	 *
+	 * @param prefs the {@link Preferences} where to check
+	 *
+	 * @return {@code true} if using the formatter indentation settings from the external
+	 *         formatter is activated, otherwise {@code false}
+	 */
+	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
+<span class="fc" id="L188">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

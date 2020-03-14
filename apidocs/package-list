@@ -16,3 +16,6 @@ de.funfried.netbeans.plugins.external.formatter.ui.customizer
 de.funfried.netbeans.plugins.external.formatter.ui.editor
 de.funfried.netbeans.plugins.external.formatter.ui.editor.diff
 de.funfried.netbeans.plugins.external.formatter.ui.options
+de.funfried.netbeans.plugins.external.formatter.xml.base
+de.funfried.netbeans.plugins.external.formatter.xml.revelc
+de.funfried.netbeans.plugins.external.formatter.xml.revelc.ui

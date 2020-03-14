@@ -9,7 +9,6 @@
  */
 package de.funfried.netbeans.plugins.external.formatter;
 
-import java.util.Objects;
 import java.util.SortedSet;
 
 import javax.swing.text.BadLocationException;
@@ -21,6 +20,7 @@ import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.modules.editor.NbEditorUtilities;
 
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 
 /**
@@ -43,7 +43,7 @@ public interface FormatterService {
 <span class="nc" id="L43">			return false;</span>
 		}
 
-<span class="fc" id="L46">		return Objects.equals(NbEditorUtilities.getMimeType(document), getSupportedMimeType());</span>
+<span class="fc" id="L46">		return getSupportedMimeType().canHandle(NbEditorUtilities.getMimeType(document));</span>
 	}
 
 	/**
@@ -52,9 +52,10 @@ public interface FormatterService {
 	 * @param document        the {@link StyledDocument} which should be formatted
 	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
 	 *
-	 * @throws BadLocationException if something goes wrong while appliying the formatted code
+	 * @throws BadLocationException      if something goes wrong while appliying the formatted code
+	 * @throws FormattingFailedException if the given {@link StyledDocument} cannot be formatted by the given formatter
 	 */
-	void format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException;
+	void format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException, FormattingFailedException;
 
 	/**
 	 * Returns the continuation indent size configured for the given {@link Document},
@@ -136,12 +137,12 @@ public interface FormatterService {
 	Integer getSpacesPerTab(Document document);
 
 	/**
-	 * Returns the supported mime type for this {@link FormatterService}, e.g. text/x-java.
+	 * Returns the {@link MimeType} for this {@link FormatterService}.
 	 *
-	 * @return the supported mime type for this {@link FormatterService}
+	 * @return the supported {@link MimeType} for this {@link FormatterService}
 	 */
 	@NonNull
-	String getSupportedMimeType();
+	MimeType getSupportedMimeType();
 
 	/**
 	 * Returns the expand tab to spaces flag configured for the given
