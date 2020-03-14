@@ -30,7 +30,7 @@ public class RevelcXmlFormatterServiceTest extends NbTestCase {
 	}
 
 	/**
-	 * Test of format method, of class {@link EclipseJavascriptFormatterService}.
+	 * Test of format method, of class {@link RevelcXmlFormatterService}.
 	 *
 	 * @throws Exception if an error occurs
 	 */
