@@ -98,6 +98,8 @@ public class SpringJavaFormatterServiceTest extends NbTestCase {
 
 		try {
 			instance.format(document, null);
+
+			Assert.assertFalse("Formatting should not be possible for the given file type!", true);
 		} catch (Exception ex) {
 			Assert.assertTrue("Formatting should not be possible for the given file type", ex.getMessage().contains("The file type 'text/xml' is not supported"));
 		}

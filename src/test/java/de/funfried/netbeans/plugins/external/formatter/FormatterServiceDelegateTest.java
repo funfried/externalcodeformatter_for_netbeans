@@ -41,9 +41,8 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 	 */
 	@Test
 	public void testFormatWithEclipseFormatter() throws Exception {
-		String mimeType = "text/x-java";
 		Preferences prefs = NbPreferences.forModule(ExternalFormatterPanel.class);
-		prefs.put(Settings.ENABLED_FORMATTER_PREFIX + mimeType, EclipseJavaFormatterService.ID);
+		prefs.put(Settings.ENABLED_FORMATTER_PREFIX + MimeType.JAVA.toString(), EclipseJavaFormatterService.ID);
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 
 		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
@@ -54,7 +53,7 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 				"}\n" +
 				"";
 
-		StyledDocument document = new NbEditorDocument(mimeType);
+		StyledDocument document = new NbEditorDocument("text/x-java");
 		document.insertString(0, text, null);
 
 		Assert.assertEquals((long) 120L, (long) FormatterServiceDelegate.getInstance().getRightMargin(document));
@@ -91,9 +90,8 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 	 */
 	@Test
 	public void testFormatWithGoogleFormatter() throws Exception {
-		String mimeType = "text/x-java";
 		Preferences prefs = NbPreferences.forModule(ExternalFormatterPanel.class);
-		prefs.put(Settings.ENABLED_FORMATTER_PREFIX + mimeType, GoogleJavaFormatterService.ID);
+		prefs.put(Settings.ENABLED_FORMATTER_PREFIX + MimeType.JAVA.toString(), GoogleJavaFormatterService.ID);
 
 		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
 		final String expected = "package foo;\n" +
@@ -105,7 +103,7 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 				"}\n"
 				+ "";
 
-		StyledDocument document = new NbEditorDocument(mimeType);
+		StyledDocument document = new NbEditorDocument("text/x-java");
 		document.insertString(0, text, null);
 
 		FormatterServiceDelegate.getInstance().format(document, null);

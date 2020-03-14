@@ -56,6 +56,7 @@ public final class SpringJavaFormatterWrapper {
 	 *
 	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
+	@CheckForNull
 	public String format(String code, String lineFeed, SortedSet<Pair<Integer, Integer>> changedElements) throws FormattingFailedException {
 		if (code == null) {
 			return null;

@@ -44,6 +44,7 @@ public class SpringJavaFormatterWrapperTest {
 				+ "}";
 
 		String actual = instance.format(text, null, null);
+		Assert.assertNotNull("Formatting should not return null value", actual);
 		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
 	}
 
@@ -75,6 +76,56 @@ public class SpringJavaFormatterWrapperTest {
 				"}";
 
 		String actual = instance.format(text, null, null);
+		Assert.assertNotNull("Formatting should not return null value", actual);
+		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
+	}
+
+	@Test
+	public void testFormatUsingXML_regionAll() {
+		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}";
+		final String expected = "package foo;\n"
+				+ "\n"
+				+ "public enum NewEmptyJUnitTest {\n"
+				+ "\n"
+				+ "	A, B, C\n"
+				+ "\n"
+				+ "}";
+
+		SortedSet<Pair<Integer, Integer>> regions = new TreeSet<>();
+		regions.add(Pair.of(0, text.length() - 1));
+
+		String actual = instance.format(text, null, regions);
+		Assert.assertNotNull("Formatting should not return null value", actual);
+		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
+	}
+
+	@Test
+	public void testFormatUsingXML_regions() throws Exception {
+		final String text = "package foo; public class Bar {\n" +
+				"    @SuppressWarnings(\"unchecked\")\n" +
+				"    // some comment      \n" +
+				"    public void doSomething(String arg) { System.out.println(\"Hello World\"); } public boolean doSomethingElse(Object obj) { return false; } }";
+		final String expected = "package foo;\n" +
+				"\n" +
+				"public class Bar {\n" +
+				"    @SuppressWarnings(\"unchecked\")\n" +
+				// START -- this should not be formatted
+				"    // some comment      \n" +
+				"    public void doSomething(String arg) { System.out.println(\"Hello World\"); }\n" +
+				// END -- this should not be formatted
+				"\n" +
+				"	public boolean doSomethingElse(Object obj) {\n" +
+				"		return false;\n" +
+				"	}\n" +
+				"\n" +
+				"}";
+
+		SortedSet<Pair<Integer, Integer>> regions = new TreeSet<>();
+		regions.add(Pair.of(0, 30));
+		regions.add(Pair.of(171, 233));
+
+		String actual = instance.format(text, null, regions);
+		Assert.assertNotNull("Formatting should not return null value", actual);
 		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
 	}
 
