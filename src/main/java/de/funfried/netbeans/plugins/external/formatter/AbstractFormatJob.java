@@ -185,7 +185,7 @@ public abstract class AbstractFormatJob implements FormatJob {
 				{
 					StringBuilder sb = new StringBuilder();
 					regions.stream().forEach(section -> sb.append(section.getLeft()).append("/").append(section.getRight()).append(" "));
-					log.log(logLevel, "Formating sections before guards: {0}", sb.toString().trim());
+					log.log(logLevel, "Formatting sections before guards: {0}", sb.toString().trim());
 				}
 
 				{
@@ -205,7 +205,7 @@ public abstract class AbstractFormatJob implements FormatJob {
 		if (log.isLoggable(logLevel)) {
 			StringBuilder sb = new StringBuilder();
 			regions.stream().forEach(section -> sb.append(section.getLeft()).append("/").append(section.getRight()).append(" "));
-			log.log(logLevel, "Formating sections: {0}", sb.toString().trim());
+			log.log(logLevel, "Formatting sections: {0}", sb.toString().trim());
 		}
 
 		return regions;

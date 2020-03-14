@@ -118,14 +118,6 @@ public class SpringJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setActive(boolean active) {
-		cbLinefeed.setEnabled(active);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public void store(Preferences preferences) {
 		preferences.put(SpringJavaFormatterSettings.LINEFEED, getLinefeed());
 	}

@@ -55,16 +55,6 @@ public interface FormatterOptionsPanel {
 	void removeChangeListener(ChangeListener listener);
 
 	/**
-	 * If {@code active} is set to {@code true}, this {@link FormatterOptionsPanel}
-	 * will be set as the currently active, otherwise it will be inactive. This is
-	 * usually used to disable and enable all of the components.
-	 *
-	 * @param active {@code true} to set this {@link FormatterOptionsPanel} as the
-	 *               currently active one, otherwise {@code false}
-	 */
-	void setActive(boolean active);
-
-	/**
 	 * Stores all the currently set values of all components to the given
 	 * {@link Preferences}.
 	 *

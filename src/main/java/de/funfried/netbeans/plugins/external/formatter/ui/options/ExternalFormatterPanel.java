@@ -48,6 +48,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.java.lexer.JavaTokenId;
 import org.netbeans.spi.options.OptionsPanelController.Keywords;
@@ -59,6 +60,7 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.MimeType;
 import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableConfigPanel;
 
 /**
@@ -77,13 +79,13 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	private static final Logger log = Logger.getLogger(ExternalFormatterPanel.class.getName());
 
 	/** Holds all {@link FormatterOptionsPanel}s with thier fromatter ID in their supported mime type. */
-	private transient final Map<String, Map<String, FormatterOptionsPanel>> formatterOptions = new HashMap<>();
+	private transient final Map<MimeType, Map<String, FormatterOptionsPanel>> formatterOptions = new HashMap<>();
 
 	/** Holds all {@link FormatterService}s in a {@link Map} with their supported mime type as the key. */
-	private transient final Map<String, List<FormatterService>> formatterIdsPerMimeType = new HashMap<>();
+	private transient final Map<MimeType, List<FormatterService>> formatterIdsPerMimeType = new HashMap<>();
 
 	/** Holder of the currently active formatter ID per mimeType. */
-	private transient final Map<String, String> activeFormatterId = new HashMap<>();
+	private transient final Map<MimeType, String> activeFormatterId = new HashMap<>();
 
 	/** {@link ChangeSupport} to notify about changed preference components. */
 	private transient final ChangeSupport changeSupport;
@@ -111,7 +113,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
 		Collection<? extends FormatterService> formatterServices = Lookup.getDefault().lookupAll(FormatterService.class);
 		for (FormatterService formatterService : formatterServices) {
-			String mimeType = formatterService.getSupportedMimeType();
+			MimeType mimeType = formatterService.getSupportedMimeType();
 
 			List<FormatterService> formatterServicesOfMimeType = formatterIdsPerMimeType.get(mimeType);
 			if (formatterServicesOfMimeType == null) {
@@ -120,7 +122,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
 			formatterServicesOfMimeType.add(formatterService);
 
-			formatterIdsPerMimeType.put(formatterService.getSupportedMimeType(), formatterServicesOfMimeType);
+			formatterIdsPerMimeType.put(mimeType, formatterServicesOfMimeType);
 		}
 
 		initComponents();
@@ -171,8 +173,8 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	private void initMimeTypes() {
 		chooseMimeTypeCmbBox.removeAllItems();
 
-		for (String mimeType : formatterIdsPerMimeType.keySet()) {
-			chooseMimeTypeCmbBox.addItem(new ExtValue(mimeType, mimeType));
+		for (MimeType mimeType : MimeType.values()) {
+			chooseMimeTypeCmbBox.addItem(new ExtValue(mimeType.toString(), mimeType.getDisplayName()));
 		}
 
 		chooseMimeTypeCmbBox.setSelectedIndex(0);
@@ -184,21 +186,8 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 * @param mimeType    the mime type
 	 * @param formatterId the formatter service ID
 	 */
-	private void setActiveFormatter(String mimeType, String formatterId) {
+	private void setActiveFormatter(MimeType mimeType, String formatterId) {
 		activeFormatterId.put(mimeType, formatterId);
-
-		FormatterOptionsPanel activatedOptionsPanel = getFormatterOptionsPanel(mimeType, formatterId);
-		if (activatedOptionsPanel != null) {
-			activatedOptionsPanel.setActive(true);
-		}
-
-		Map<String, FormatterOptionsPanel> formatterOptionPanels = formatterOptions.get(mimeType);
-		for (String id : formatterOptionPanels.keySet()) {
-			FormatterOptionsPanel optionsPanel = formatterOptionPanels.get(id);
-			if (optionsPanel != null && !Objects.equals(formatterId, id)) {
-				optionsPanel.setActive(false);
-			}
-		}
 
 		fireChangedListener();
 	}
@@ -214,7 +203,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 * @return the {@link FormatterOptionsPanel} for the given {@code mimeType} and {@code formatterId},
 	 *         or {@code null} if it cannot be found
 	 */
-	private synchronized FormatterOptionsPanel getFormatterOptionsPanel(String mimeType, String formatterId) {
+	private synchronized FormatterOptionsPanel getFormatterOptionsPanel(MimeType mimeType, String formatterId) {
 		Map<String, FormatterOptionsPanel> formatterOptionPanels = formatterOptions.get(mimeType);
 		if (formatterOptionPanels == null) {
 			formatterOptionPanels = new HashMap<>();
@@ -408,7 +397,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
 			formatterSelectionActive = false;
 
-			String selectedMimeType = getSelectedValue(chooseMimeTypeCmbBox);
+			MimeType selectedMimeType = MimeType.valueOf(getSelectedValue(chooseMimeTypeCmbBox));
 
 			List<FormatterService> formatterServices = formatterIdsPerMimeType.get(selectedMimeType);
 			if (formatterServices != null) {
@@ -443,9 +432,8 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 		if (ItemEvent.DESELECTED == evt.getStateChange()) {
 			formatterOptionsPanel.setBorder(null);
 			formatterOptionsPanel.removeAll();
-		}
-		else if (ItemEvent.SELECTED == evt.getStateChange()) {
-			String selectedMimeType = getSelectedValue(chooseMimeTypeCmbBox);
+		} else if (ItemEvent.SELECTED == evt.getStateChange()) {
+			MimeType selectedMimeType = MimeType.valueOf(getSelectedValue(chooseMimeTypeCmbBox));
 			String selectedFormatterId = getSelectedValue(chooseFormatterCmbBox);
 
 			FormatterOptionsPanel optionsPanel = getFormatterOptionsPanel(selectedMimeType, selectedFormatterId);
@@ -465,12 +453,12 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	public void load() {
 		formatterOptions.clear();
 
-		String selectedMimeType = getSelectedValue(chooseMimeTypeCmbBox);
+		MimeType selectedMimeType = MimeType.valueOf(getSelectedValue(chooseMimeTypeCmbBox));
 		String javaMimeType = JavaTokenId.language().mimeType();
 
-		for (String mimeType : formatterIdsPerMimeType.keySet()) {
-			String activeFormatter = preferences.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType, Settings.DEFAULT_FORMATTER);
-			if (Settings.DEFAULT_FORMATTER.equals(activeFormatter) && javaMimeType.equals(mimeType)) {
+		for (MimeType mimeType : formatterIdsPerMimeType.keySet()) {
+			String activeFormatter = preferences.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), Settings.DEFAULT_FORMATTER);
+			if (Settings.DEFAULT_FORMATTER.equals(activeFormatter) && ArrayUtils.contains(mimeType.getMimeTypes(), javaMimeType)) {
 				activeFormatter = preferences.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
 
 				preferences.remove(Settings.ENABLED_FORMATTER);
@@ -502,8 +490,8 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 */
 	@Override
 	public void store() {
-		for (String mimeType : formatterIdsPerMimeType.keySet()) {
-			preferences.put(Settings.ENABLED_FORMATTER_PREFIX + mimeType, activeFormatterId.get(mimeType));
+		for (MimeType mimeType : formatterIdsPerMimeType.keySet()) {
+			preferences.put(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), activeFormatterId.get(mimeType));
 
 			Map<String, FormatterOptionsPanel> options = formatterOptions.get(mimeType);
 			if (options != null) {
@@ -537,7 +525,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 */
 	@Override
 	public boolean valid() {
-		for (String mimeType : formatterOptions.keySet()) {
+		for (MimeType mimeType : formatterOptions.keySet()) {
 			String activeId = activeFormatterId.get(mimeType);
 			if (StringUtils.isNotBlank(activeId) && !Objects.equals(Settings.DEFAULT_FORMATTER, activeId)) {
 				FormatterOptionsPanel optionsPanel = getFormatterOptionsPanel(mimeType, activeId);
@@ -623,7 +611,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 					mimeType = ((ExtValue) value).getValue();
 				}
 
-				if (!Objects.equals(Settings.DEFAULT_FORMATTER, activeFormatterId.get(mimeType))) {
+				if (!Objects.equals(Settings.DEFAULT_FORMATTER, activeFormatterId.get(MimeType.valueOf(mimeType)))) {
 					Font standardFont = comp.getFont();
 
 					comp.setFont(new Font(standardFont.getName(), Font.BOLD, standardFont.getSize()));

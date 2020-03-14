@@ -228,13 +228,16 @@ public class FormatterServiceDelegate {
 	 */
 	@CheckForNull
 	private FormatterService getActiveFormatterService(Document document) throws Exception {
-		Preferences prefs = Settings.getActivePreferences(document);
-		String activeFormatterId = prefs.get(Settings.ENABLED_FORMATTER_PREFIX + NbEditorUtilities.getMimeType(document), Settings.DEFAULT_FORMATTER);
+		MimeType mimeType = MimeType.getByMimeType(NbEditorUtilities.getMimeType(document));
+		if (mimeType != null) {
+			Preferences prefs = Settings.getActivePreferences(document);
+			String activeFormatterId = prefs.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), Settings.DEFAULT_FORMATTER);
 
-		Collection<? extends FormatterService> formatterServices = Lookup.getDefault().lookupAll(FormatterService.class);
-		for (FormatterService formatterService : formatterServices) {
-			if (Objects.equals(activeFormatterId, formatterService.getId())) {
-				return formatterService;
+			Collection<? extends FormatterService> formatterServices = Lookup.getDefault().lookupAll(FormatterService.class);
+			for (FormatterService formatterService : formatterServices) {
+				if (Objects.equals(activeFormatterId, formatterService.getId())) {
+					return formatterService;
+				}
 			}
 		}
 

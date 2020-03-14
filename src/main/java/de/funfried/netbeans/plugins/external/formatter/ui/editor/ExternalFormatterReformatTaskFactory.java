@@ -38,6 +38,7 @@ import org.openide.loaders.DataObject;
 import org.openide.text.NbDocument;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatterServiceDelegate;
+import de.funfried.netbeans.plugins.external.formatter.MimeType;
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
@@ -47,7 +48,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  *
  * @author bahlef
  */
-public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
+public class ExternalFormatterReformatTaskFactory implements ReformatTask.Factory {
 	/** {@link Map} which acts as a cache for default implementations of the {@link ReformatTask.Factory}. */
 	private static final Map<MimePath, Reference<ReformatTask.Factory>> cache = new WeakHashMap<MimePath, Reference<ReformatTask.Factory>>();
 
@@ -61,27 +62,30 @@ public class ExternalFormatterTaskFactory implements ReformatTask.Factory {
 		ReformatTask.Factory netbeansDefaultFactory = getDefaultForMimePath(context.mimePath());
 		ReformatTask netbeansDefaultTask = netbeansDefaultFactory.createTask(context);
 
-		Preferences prefs = Settings.getActivePreferences(document);
-		if (Settings.DEFAULT_FORMATTER.equals(prefs.get(Settings.ENABLED_FORMATTER_PREFIX + NbEditorUtilities.getMimeType(document), Settings.DEFAULT_FORMATTER))) {
-			ReformatTask wrapper = new ReformatTask() {
-				/**
-				 * {@inheritDoc}
-				 */
-				@Override
-				public void reformat() throws BadLocationException {
-					formatWithNetBeansFormatter(netbeansDefaultTask, document);
-				}
+		MimeType mimeType = MimeType.getByMimeType(NbEditorUtilities.getMimeType(document));
+		if (mimeType != null) {
+			Preferences prefs = Settings.getActivePreferences(document);
+			if (Settings.DEFAULT_FORMATTER.equals(prefs.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), Settings.DEFAULT_FORMATTER))) {
+				ReformatTask wrapper = new ReformatTask() {
+					/**
+					 * {@inheritDoc}
+					 */
+					@Override
+					public void reformat() throws BadLocationException {
+						formatWithNetBeansFormatter(netbeansDefaultTask, document);
+					}
 
-				/**
-				 * {@inheritDoc}
-				 */
-				@Override
-				public ExtraLock reformatLock() {
-					return netbeansDefaultTask.reformatLock();
-				}
-			};
+					/**
+					 * {@inheritDoc}
+					 */
+					@Override
+					public ExtraLock reformatLock() {
+						return netbeansDefaultTask.reformatLock();
+					}
+				};
 
-			return wrapper;
+				return wrapper;
+			}
 		}
 
 		return new ReformatTask() {
