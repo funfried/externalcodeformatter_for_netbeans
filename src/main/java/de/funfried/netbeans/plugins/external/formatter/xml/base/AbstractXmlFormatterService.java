@@ -7,7 +7,7 @@
  * Contributors:
  * bahlef - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.java.base;
+package de.funfried.netbeans.plugins.external.formatter.xml.base;
 
 import java.util.SortedSet;
 
@@ -23,18 +23,17 @@ import de.funfried.netbeans.plugins.external.formatter.MimeType;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 
 /**
- * Abstract base implementation of {@link FormatterService} for Java formatters.
+ * Abstract base implementation of {@link FormatterService} for XML formatters.
  *
  * @author bahlef
  */
-public abstract class AbstractJavaFormatterService implements FormatterService {
+public abstract class AbstractXmlFormatterService implements FormatterService {
 	/**
 	 * Returns the {@link FormatJob}.
 	 *
-	 * @param document        the {@link StyledDocument} which should be formatted
-	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
+	 * @param document the {@link StyledDocument} which should be formatted
 	 */
-	protected abstract FormatJob getFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements);
+	protected abstract FormatJob getFormatJob(StyledDocument document);
 
 	/**
 	 * {@inheritDoc}
@@ -45,7 +44,7 @@ public abstract class AbstractJavaFormatterService implements FormatterService {
 			throw new FormattingFailedException("The file type '" + NbEditorUtilities.getMimeType(document) + "' is not supported");
 		}
 
-		getFormatJob(document, changedElements).format();
+		getFormatJob(document).format();
 	}
 
 	/**
@@ -53,6 +52,6 @@ public abstract class AbstractJavaFormatterService implements FormatterService {
 	 */
 	@Override
 	public MimeType getSupportedMimeType() {
-		return MimeType.JAVA;
+		return MimeType.XML;
 	}
 }

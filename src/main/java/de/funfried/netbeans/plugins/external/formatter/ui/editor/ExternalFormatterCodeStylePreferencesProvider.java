@@ -17,10 +17,8 @@ import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
@@ -48,8 +46,8 @@ import org.openide.util.Lookup;
 import org.openide.util.WeakListeners;
 import org.openide.util.lookup.ServiceProvider;
 
-import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.FormatterServiceDelegate;
+import de.funfried.netbeans.plugins.external.formatter.MimeType;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPreferencesChangeSupport;
 
 /**
@@ -84,17 +82,6 @@ public class ExternalFormatterCodeStylePreferencesProvider implements CodeStyleP
 
 	private final Map<Document, TemporaryDocumentPreferences> preferencesCache = new ConcurrentHashMap<>();
 
-	private final Set<String> availableMimeTypes = new HashSet<>();
-
-	public ExternalFormatterCodeStylePreferencesProvider() {
-		Collection<? extends FormatterService> formatterServices = Lookup.getDefault().lookupAll(FormatterService.class);
-		for (FormatterService formatterService : formatterServices) {
-			String mimeType = formatterService.getSupportedMimeType();
-
-			availableMimeTypes.add(mimeType);
-		}
-	}
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -126,7 +113,7 @@ public class ExternalFormatterCodeStylePreferencesProvider implements CodeStyleP
 	}
 
 	private TemporaryDocumentPreferences getTemporaryDocumentPreferences(Document doc, String mimeType) {
-		if (availableMimeTypes.contains(mimeType)) {
+		if (MimeType.getByMimeType(mimeType) != null) {
 			TemporaryDocumentPreferences tempDocPrefs = preferencesCache.get(doc);
 			if (tempDocPrefs == null) {
 				Collection<? extends CodeStylePreferences.Provider> providers = Lookup.getDefault().lookupAll(CodeStylePreferences.Provider.class);

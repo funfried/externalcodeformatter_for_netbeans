@@ -236,6 +236,13 @@
 			</exclusions>
 		</dependency>
 
+		<!-- XML Formatter -->
+		<dependency>
+			<groupId>net.revelc.code.formatter</groupId>
+			<artifactId>xml-formatter</artifactId>
+			<version>0.2.0</version>
+		</dependency>
+
 		<!--
 		 Only needed by NetBeans 8.2, if NetBeans 8.2 is not
 		 supported anymore, this dependency can be removed
@@ -339,12 +346,6 @@
 			<artifactId>org-netbeans-modules-lexer</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
-
-		<!--		<dependency>
-			<groupId>org.netbeans.api</groupId>
-			<artifactId>org-netbeans-modules-csl-api</artifactId>
-			<version>${netbeans.version}</version>
-		</dependency>-->
 
 		<dependency>
 			<groupId>org.netbeans.api</groupId>

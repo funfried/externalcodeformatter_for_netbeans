@@ -14,7 +14,6 @@ import java.util.Objects;
 
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.text.edits.TextEdit;
 import org.eclipse.wst.jsdt.core.ToolFactory;
 import org.eclipse.wst.jsdt.core.formatter.CodeFormatter;
@@ -78,7 +77,6 @@ public final class EclipseJavascriptFormatterWrapper {
 	 * @param formatter the {@link CodeFormatter}
 	 * @param code      the unformatted code
 	 * @param lineFeed  the line feed to use for formatting
-	 * @param regions   an array containing {@link IRegion} objects defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
 	 *

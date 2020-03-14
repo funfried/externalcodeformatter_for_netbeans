@@ -54,9 +54,6 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 	/** {@link Logger} of this class. */
 	private static final Logger log = Logger.getLogger(EclipseJavascriptFormatterOptionsPanel.class.getName());
 
-	/** Flag which holds the active flag information. */
-	private boolean active = false;
-
 	/** Creates new form EclipseJavaFormatterOptionsPanel. */
 	public EclipseJavascriptFormatterOptionsPanel() {
 		initComponents();
@@ -111,6 +108,7 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
         jLabel2.setEnabled(false);
 
         cbProfile.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.cbProfile.toolTipText")); // NOI18N
+        cbProfile.setEnabled(false);
         cbProfile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cbProfileActionPerformed(evt);
@@ -315,8 +313,6 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 		} else {
 			cbLinefeed.setSelectedItem(eclipseLineFeed);
 		}
-
-		updateEnabledState();
 	}
 
 	private void loadEclipseFormatterFileForPreview(String formatterFile, String activeProfile) {
@@ -324,9 +320,9 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 		final File file = new File(formatterFile);
 
 		cbProfile.setEnabled(false);
-		lblProfile.setEnabled(false);
 
 		cbProfile.removeAllItems();
+
 		if (file.exists()) {
 			try {
 				final FileObject fo = ConfigReader.toFileObject(file);
@@ -345,7 +341,6 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 					}
 					selectProfileOrFallback(entryToSelect, profileNames);
 					cbProfile.setEnabled(true);
-					lblProfile.setEnabled(true);
 				}
 			} catch (IOException | SAXException | ConfigReadException ex) {
 				log.log(Level.WARNING, "Could not parse formatter config", ex);
@@ -363,16 +358,6 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 			//fallback: ===choose profile==
 			cbProfile.setSelectedIndex(0);
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setActive(boolean active) {
-		this.active = active;
-
-		updateEnabledState();
 	}
 
 	/**
@@ -414,23 +399,5 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 			errorLabel.setText("Invalid file. Please enter a valid configuration file.");
 			return false;
 		}
-	}
-
-	private void updateEnabledState() {
-		lblFormatterFile.setEnabled(this.active);
-		browseButton.setEnabled(this.active);
-		formatterLocField.setEnabled(this.active);
-
-		if (cbProfile.getSelectedIndex() != -1) {
-			lblProfile.setEnabled(this.active);
-			cbProfile.setEnabled(this.active);
-		} else {
-			lblProfile.setEnabled(false);
-			cbProfile.setEnabled(false);
-		}
-
-		cbUseProjectPref.setEnabled(this.active);
-		cbLinefeed.setEnabled(this.active);
-		lblLinefeed.setEnabled(this.active);
 	}
 }

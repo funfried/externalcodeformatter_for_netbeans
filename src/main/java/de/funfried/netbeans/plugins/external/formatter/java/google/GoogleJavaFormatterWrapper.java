@@ -15,6 +15,7 @@ import java.util.SortedSet;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.CheckForNull;
 
 import com.google.common.collect.Range;
 import com.google.googlejavaformat.java.Formatter;
@@ -50,6 +51,7 @@ public final class GoogleJavaFormatterWrapper {
 	 *
 	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
+	@CheckForNull
 	public String format(String code, JavaFormatterOptions.Style codeStyle, SortedSet<Pair<Integer, Integer>> changedElements) throws FormattingFailedException {
 		if (code == null) {
 			return null;

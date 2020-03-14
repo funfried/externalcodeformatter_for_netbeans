@@ -50,6 +50,7 @@ public class EclipseJavaFormatterWrapperTest {
 				+ "}";
 
 		String actual = instance.format("src/test/resources/formattersampleeclipse.xml", "eclipse-demo", text, null, null, null);
+		Assert.assertNotNull("Formatting should not return null value", actual);
 		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
 	}
 
@@ -80,6 +81,55 @@ public class EclipseJavaFormatterWrapperTest {
 				"}";
 
 		String actual = instance.format("src/test/resources/formatteronoffsampleeclipse.xml", "eclipse-demo", text, null, null, null);
+		Assert.assertNotNull("Formatting should not return null value", actual);
+		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
+	}
+
+	@Test
+	public void testFormatUsingXML_regionAll() {
+		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}";
+		final String expected = "package foo;\n"
+				+ "\n"
+				+ "public enum NewEmptyJUnitTest {\n"
+				+ "			       A,\n"
+				+ "				   B,\n"
+				+ "				   C\n"
+				+ "}";
+
+		SortedSet<Pair<Integer, Integer>> regions = new TreeSet<>();
+		regions.add(Pair.of(0, text.length() - 1));
+
+		String actual = instance.format("src/test/resources/formattersampleeclipse.xml", "eclipse-demo", text, null, null, regions);
+		Assert.assertNotNull("Formatting should not return null value", actual);
+		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
+	}
+
+	@Test
+	public void testFormatUsingXML_regions() throws Exception {
+		final String text = "package foo; public class Bar {\n" +
+				"    @SuppressWarnings(\"unchecked\")\n" +
+				"    // some comment      \n" +
+				"    public void doSomething(String arg) { System.out.println(\"Hello World\"); } public boolean doSomethingElse(Object obj) { return false; } }";
+		final String expected = "package foo;\n" +
+				"\n" +
+				"public class Bar {\n" +
+				"    @SuppressWarnings(\"unchecked\")\n" +
+				// START -- this should not be formatted
+				"    // some comment      \n" +
+				"    public void doSomething(String arg) { System.out.println(\"Hello World\"); }\n" +
+				// END -- this should not be formatted
+				"\n" +
+				"    public boolean doSomethingElse(Object obj) {\n" +
+				"	return false;\n" +
+				"    }\n" +
+				"}";
+
+		SortedSet<Pair<Integer, Integer>> regions = new TreeSet<>();
+		regions.add(Pair.of(0, 30));
+		regions.add(Pair.of(171, 233));
+
+		String actual = instance.format("src/test/resources/formattersampleeclipse.xml", "eclipse-demo", text, null, null, regions);
+		Assert.assertNotNull("Formatting should not return null value", actual);
 		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
 	}
 
@@ -95,6 +145,7 @@ public class EclipseJavaFormatterWrapperTest {
 				+ "}";
 
 		String actual = instance.format("src/test/resources/mechanic-formatter.epf", null, text, null, null, null);
+		Assert.assertNotNull("Formatting should not return null value", actual);
 		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
 	}
 
@@ -110,6 +161,7 @@ public class EclipseJavaFormatterWrapperTest {
 				+ "}";
 
 		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, null, null, null);
+		Assert.assertNotNull("Formatting should not return null value", actual);
 		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
 	}
 
@@ -128,6 +180,7 @@ public class EclipseJavaFormatterWrapperTest {
 				+ "}";
 
 		String actual = instance.format("src/test/resources/defaultformatter_org.eclipse.jdt.core.prefs", null, text, null, null, null);
+		Assert.assertNotNull("Formatting should not return null value", actual);
 		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
 	}
 
@@ -172,6 +225,7 @@ public class EclipseJavaFormatterWrapperTest {
 				+ "}";
 
 		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), null, null);
+		Assert.assertNotNull("Formatting should not return null value", actual);
 		Assert.assertEquals("Formatting should change the code", expected, actual);
 	}
 
@@ -187,6 +241,7 @@ public class EclipseJavaFormatterWrapperTest {
 				+ "}";
 
 		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\r\\n", null), null, null);
+		Assert.assertNotNull("Formatting should not return null value", actual);
 		Assert.assertEquals("Formatting should change the code", expected, actual);
 	}
 
@@ -238,6 +293,7 @@ public class EclipseJavaFormatterWrapperTest {
 				+ "}";
 
 		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), "1.5", null);
+		Assert.assertNotNull("Formatting should not return null value", actual);
 		Assert.assertEquals("Formatting should change the code", expected, actual);
 	}
 
@@ -262,7 +318,7 @@ public class EclipseJavaFormatterWrapperTest {
 				"}";
 
 		String actual = instance.format(null, null, text, null, null, null);
-
+		Assert.assertNotNull("Formatting should not return null value", actual);
 		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
 	}
 

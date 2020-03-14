@@ -15,9 +15,12 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.modules.editor.NbEditorUtilities;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.MimeType;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 
 /**
  * Abstract base implementation of {@link FormatterService} for javascript formatters.
@@ -36,7 +39,11 @@ public abstract class AbstractJavascriptFormatterService implements FormatterSer
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException {
+	public void format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException, FormattingFailedException {
+		if (!canHandle(document)) {
+			throw new FormattingFailedException("The file type '" + NbEditorUtilities.getMimeType(document) + "' is not supported");
+		}
+
 		getFormatJob(document).format();
 	}
 
@@ -44,7 +51,7 @@ public abstract class AbstractJavascriptFormatterService implements FormatterSer
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getSupportedMimeType() {
-		return "text/javascript";
+	public MimeType getSupportedMimeType() {
+		return MimeType.JAVASCRIPT;
 	}
 }

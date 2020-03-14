@@ -128,16 +128,6 @@ public class GoogleJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setActive(boolean active) {
-		googleCodeStyleLbl.setEnabled(active);
-		googleCodeStyleRdBtn.setEnabled(active);
-		aospRdBtn.setEnabled(active);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public void store(Preferences preferences) {
 		preferences.put(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, googleCodeStyleRdBtn.isSelected() ? JavaFormatterOptions.Style.GOOGLE.name() : JavaFormatterOptions.Style.AOSP.name());
 	}

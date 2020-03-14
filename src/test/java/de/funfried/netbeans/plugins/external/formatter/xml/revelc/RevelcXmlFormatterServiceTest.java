@@ -7,7 +7,7 @@
  * Contributors:
  * bahlef - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
+package de.funfried.netbeans.plugins.external.formatter.xml.revelc;
 
 import java.util.prefs.Preferences;
 
@@ -24,40 +24,43 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  *
  * @author bahlef
  */
-public class EclipseJavascriptFormatterServiceTest extends NbTestCase {
-	public EclipseJavascriptFormatterServiceTest(String name) {
+public class RevelcXmlFormatterServiceTest extends NbTestCase {
+	public RevelcXmlFormatterServiceTest(String name) {
 		super(name);
 	}
 
 	/**
-	 * Test of format method, of class {@link EclipseJavascriptFormatterService}.
+	 * Test of format method, of class {@link RevelcXmlFormatterService}.
 	 *
 	 * @throws Exception if an error occurs
 	 */
 	@Test
 	public void testFormat() throws Exception {
-		final String text = "function foo(bar) { return Str('', { '' : bar }, []); }\n";
-		final String expected = "function foo(bar) {\n"
-				+ "    return Str('', {\n"
-				+ "        '' : bar\n"
-				+ "    }, []);\n"
-				+ "}\n";
+		final String text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root><foo bar=\"value\"><elem>val</elem></foo><otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">otherValue</otherTag></root>\n";
+		final String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+				+ "<root>\n"
+				+ "	<foo bar=\"value\">\n"
+				+ "		<elem>val</elem>\n"
+				+ "	</foo>\n"
+				+ "	<otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">otherValue</otherTag>\n"
+				+ "</root>\n"
+				+ "";
 
-		StyledDocument document = new NbEditorDocument("text/javascript");
+		StyledDocument document = new NbEditorDocument("text/xml");
 		document.insertString(0, text, null);
 
 		Preferences prefs = Settings.getActivePreferences(document);
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 
-		EclipseJavascriptFormatterService instance = new EclipseJavascriptFormatterService();
-		Assert.assertEquals("Eclipse Javascript Code Formatter", instance.getDisplayName());
+		RevelcXmlFormatterService instance = new RevelcXmlFormatterService();
+		Assert.assertEquals("revelc.net XML Code Formatter", instance.getDisplayName());
 		Assert.assertNotNull(instance.getOptionsPanel());
-		Assert.assertEquals((long) 80L, (long) instance.getRightMargin(document));
+		Assert.assertEquals((long) 120L, (long) instance.getRightMargin(document));
 
-		Assert.assertEquals((long) 2L, (long) instance.getContinuationIndentSize(document));
+		Assert.assertEquals((long) 4L, (long) instance.getContinuationIndentSize(document));
 		Assert.assertEquals((long) 4L, (long) instance.getIndentSize(document));
 		Assert.assertEquals((long) 4L, (long) instance.getSpacesPerTab(document));
-		Assert.assertTrue(instance.isExpandTabToSpaces(document));
+		Assert.assertFalse(instance.isExpandTabToSpaces(document));
 
 		Assert.assertNull(instance.getContinuationIndentSize(null));
 		Assert.assertNull(instance.getIndentSize(null));
@@ -79,26 +82,26 @@ public class EclipseJavascriptFormatterServiceTest extends NbTestCase {
 	}
 
 	/**
-	 * Test of {@link EclipseJavascriptFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
-	 * method, of class {@link EclipseJavascriptFormatterService}.
+	 * Test of {@link RevelcXmlFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
+	 * method, of class {@link RevelcXmlFormatterService}.
 	 *
 	 * @throws Exception if an error occurs
 	 */
 	@Test
 	public void testUnsupportedFileType() throws Exception {
-		final String text = "function foo(bar) { return Str('', { '' : bar }, []); }\n";
+		final String text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root><foo bar=\"value\"><elem>val</elem></foo><otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">otherValue</otherTag></root>\n";
 
-		StyledDocument document = new NbEditorDocument("text/xml");
+		StyledDocument document = new NbEditorDocument("text/javascript");
 		document.insertString(0, text, null);
 
-		EclipseJavascriptFormatterService instance = new EclipseJavascriptFormatterService();
+		RevelcXmlFormatterService instance = new RevelcXmlFormatterService();
 
 		try {
 			instance.format(document, null);
 
 			Assert.assertFalse("Formatting should not be possible for the given file type!", true);
 		} catch (Exception ex) {
-			Assert.assertTrue("Formatting should not be possible for the given file type", ex.getMessage().contains("The file type 'text/xml' is not supported"));
+			Assert.assertTrue("Formatting should not be possible for the given file type", ex.getMessage().contains("The file type 'text/javascript' is not supported"));
 		}
 	}
 }
