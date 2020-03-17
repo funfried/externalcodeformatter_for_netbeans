@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JacksonJsonFormatterService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.json.jackson</a> &gt; <span class="el_source">JacksonJsonFormatterService.java</span></div><h1>JacksonJsonFormatterService.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2020 bahlef.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * markiewb - initial API and implementation and/or initial documentation
+ * bahlef
+ */
+package de.funfried.netbeans.plugins.external.formatter.json.jackson;
+
+import java.util.prefs.Preferences;
+
+import javax.swing.text.Document;
+import javax.swing.text.StyledDocument;
+
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
+import org.openide.util.NbBundle;
+import org.openide.util.lookup.ServiceProvider;
+
+import de.funfried.netbeans.plugins.external.formatter.FormatJob;
+import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.json.base.AbstractJsonFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.json.jackson.ui.JacksonJsonFormatterOptionsPanel;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+
+/**
+ * Jackson Json implementation of the {@link AbstractJsonFormatterService}.
+ *
+ * @author bahlef
+ */
+@NbBundle.Messages({
+		&quot;FormatterName=Jackson Json Code Formatter&quot;
+})
+@ServiceProvider(service = FormatterService.class, position = 1000)
+<span class="fc" id="L39">public class JacksonJsonFormatterService extends AbstractJsonFormatterService {</span>
+	/** The ID of this formatter service. */
+	public static final String ID = &quot;jackson-json-formatter&quot;;
+
+	/** * The {@link JacksonJsonFormatterWrapper} implementation. */
+<span class="fc" id="L44">	private final JacksonJsonFormatterWrapper formatter = new JacksonJsonFormatterWrapper();</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@NonNull
+	@Override
+	public String getDisplayName() {
+<span class="fc" id="L52">		return NbBundle.getMessage(JacksonJsonFormatterService.class, &quot;FormatterName&quot;);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@NonNull
+	@Override
+	public String getId() {
+<span class="nc" id="L61">		return ID;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public FormatterOptionsPanel getOptionsPanel() {
+<span class="fc" id="L69">		return new JacksonJsonFormatterOptionsPanel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getContinuationIndentSize(Document document) {
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L79">			return null;</span>
+		}
+
+<span class="fc" id="L82">		Integer ret = null;</span>
+
+<span class="fc" id="L84">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L86">			ret = preferences.getInt(JacksonJsonFormatterSettings.INDENT_SIZE, 2);</span>
+		}
+
+<span class="fc" id="L89">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getIndentSize(Document document) {
+<span class="fc bfc" id="L98" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L99">			return null;</span>
+		}
+
+<span class="fc" id="L102">		Integer ret = null;</span>
+
+<span class="fc" id="L104">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L106">			ret = preferences.getInt(JacksonJsonFormatterSettings.INDENT_SIZE, 2);</span>
+		}
+
+<span class="fc" id="L109">		return ret;</span>
+	}
+
+	/**
+	 * Not supported by this formatter returns always {@code 0} except the given
+	 * {@link Document} is {@code null}, then also {@code null will be returned}.
+	 *
+	 * @param document the {@link Document} for which the right margin is requested
+	 *
+	 * @return {@code 0} except the given {@link Document} is {@code null}, then
+	 *         also {@code null will be returned}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getRightMargin(Document document) {
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L125">			return null;</span>
+		}
+
+<span class="fc" id="L128">		return 0;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected FormatJob getFormatJob(StyledDocument document) {
+<span class="fc" id="L136">		return new JacksonFormatJob(document, formatter);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getSpacesPerTab(Document document) {
+<span class="fc bfc" id="L145" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L146">			return null;</span>
+		}
+
+<span class="fc" id="L149">		Integer ret = null;</span>
+
+<span class="fc" id="L151">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="nc" id="L154">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+			} else {
+<span class="fc" id="L156">				ret = preferences.getInt(JacksonJsonFormatterSettings.SPACES_PER_TAB, 2);</span>
+			}
+		}
+
+<span class="fc" id="L160">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Boolean isExpandTabToSpaces(Document document) {
+<span class="fc bfc" id="L169" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L170">			return null;</span>
+		}
+
+<span class="fc" id="L173">		Boolean ret = null;</span>
+
+<span class="fc" id="L175">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L177">			ret = preferences.getBoolean(JacksonJsonFormatterSettings.EXPAND_TABS_TO_SPACES, true);</span>
+		}
+
+<span class="fc" id="L180">		return ret;</span>
+	}
+
+	/**
+	 * Returns {@code true} if using the formatter indentation settings from the external
+	 * formatter is activated, otherwise {@code false}.
+	 *
+	 * @param prefs the {@link Preferences} where to check
+	 *
+	 * @return {@code true} if using the formatter indentation settings from the external
+	 *         formatter is activated, otherwise {@code false}
+	 */
+	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
+<span class="fc" id="L193">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

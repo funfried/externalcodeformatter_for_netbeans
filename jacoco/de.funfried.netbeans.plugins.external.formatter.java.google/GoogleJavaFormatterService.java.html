@@ -186,13 +186,13 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 <span class="fc" id="L186">		Preferences preferences = Settings.getActivePreferences(document);</span>
 <span class="fc bfc" id="L187" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
 <span class="pc bpc" id="L188" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
-<span class="fc" id="L189">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+<span class="nc" id="L189">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
 			} else {
-<span class="nc" id="L191">				String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
-<span class="nc" id="L192">				JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
-<span class="nc bnc" id="L193" title="All 2 branches missed.">				if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
+<span class="fc" id="L191">				String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="fc" id="L192">				JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">				if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
 					// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-<span class="nc" id="L195">					ret = 2;</span>
+<span class="fc" id="L195">					ret = 2;</span>
 				} else {
 					// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
 <span class="nc" id="L198">					ret = 4;</span>

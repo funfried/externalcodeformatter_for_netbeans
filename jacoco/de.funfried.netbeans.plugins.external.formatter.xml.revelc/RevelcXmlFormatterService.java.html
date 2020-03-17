@@ -146,9 +146,9 @@ import de.funfried.netbeans.plugins.external.formatter.xml.revelc.ui.RevelcXmlFo
 <span class="fc" id="L146">		Preferences preferences = Settings.getActivePreferences(document);</span>
 <span class="fc bfc" id="L147" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
 <span class="pc bpc" id="L148" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
-<span class="fc" id="L149">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+<span class="nc" id="L149">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
 			} else {
-<span class="nc" id="L151">				ret = preferences.getInt(RevelcXmlFormatterSettings.TAB_WIDTH, 4);</span>
+<span class="fc" id="L151">				ret = preferences.getInt(RevelcXmlFormatterSettings.TAB_WIDTH, 4);</span>
 			}
 		}
 

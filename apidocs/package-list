@@ -11,6 +11,9 @@ de.funfried.netbeans.plugins.external.formatter.java.spring.ui
 de.funfried.netbeans.plugins.external.formatter.javascript.base
 de.funfried.netbeans.plugins.external.formatter.javascript.eclipse
 de.funfried.netbeans.plugins.external.formatter.javascript.eclipse.ui
+de.funfried.netbeans.plugins.external.formatter.json.base
+de.funfried.netbeans.plugins.external.formatter.json.jackson
+de.funfried.netbeans.plugins.external.formatter.json.jackson.ui
 de.funfried.netbeans.plugins.external.formatter.ui
 de.funfried.netbeans.plugins.external.formatter.ui.customizer
 de.funfried.netbeans.plugins.external.formatter.ui.editor

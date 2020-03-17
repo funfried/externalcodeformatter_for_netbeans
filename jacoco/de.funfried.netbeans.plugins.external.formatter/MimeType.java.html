@@ -25,50 +25,51 @@ import org.openide.util.NbBundle;
 <span class="fc" id="L25">@NbBundle.Messages({</span>
 		&quot;JAVA=Java&quot;,
 		&quot;JAVASCRIPT=JavaScript&quot;,
+		&quot;JSON=Json&quot;,
 		&quot;XML=XML&quot;
 })
 public enum MimeType {
-<span class="fc" id="L31">	JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT(&quot;text/javascript&quot;), XML(&quot;text/xml&quot;, &quot;^text/(.*)\\+xml$&quot;);</span>
+<span class="fc" id="L32">	JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT(&quot;text/javascript&quot;), JSON(&quot;text/x-json&quot;, &quot;^text/(.*)\\+x-json$&quot;), XML(&quot;text/xml&quot;, &quot;^text/(.*)\\+xml$&quot;);</span>
 
 	private final String[] mimeTypes;
 
-<span class="fc" id="L35">	private MimeType(String... mimeTypes) {</span>
-<span class="fc" id="L36">		this.mimeTypes = mimeTypes;</span>
-<span class="fc" id="L37">	}</span>
+<span class="fc" id="L36">	private MimeType(String... mimeTypes) {</span>
+<span class="fc" id="L37">		this.mimeTypes = mimeTypes;</span>
+<span class="fc" id="L38">	}</span>
 
 	public String getDisplayName() {
-<span class="nc" id="L40">		return NbBundle.getMessage(MimeType.class, this.toString());</span>
+<span class="nc" id="L41">		return NbBundle.getMessage(MimeType.class, this.toString());</span>
 	}
 
 	public String[] getMimeTypes() {
-<span class="fc" id="L44">		return mimeTypes;</span>
+<span class="fc" id="L45">		return mimeTypes;</span>
 	}
 
 	public boolean canHandle(String mimeType) {
-<span class="pc bpc" id="L48" title="1 of 2 branches missed.">		if (StringUtils.isBlank(mimeType)) {</span>
-<span class="nc" id="L49">			return false;</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">		if (StringUtils.isBlank(mimeType)) {</span>
+<span class="nc" id="L50">			return false;</span>
 		}
 
-<span class="fc" id="L52">		String[] types = getMimeTypes();</span>
-<span class="fc bfc" id="L53" title="All 2 branches covered.">		for (String type : types) {</span>
-<span class="pc bpc" id="L54" title="1 of 4 branches missed.">			if (type.startsWith(&quot;^&quot;) &amp;&amp; Pattern.matches(type, mimeType)) {</span>
-<span class="nc" id="L55">				return true;</span>
-<span class="fc bfc" id="L56" title="All 2 branches covered.">			} else if (Objects.equals(type, mimeType)) {</span>
-<span class="fc" id="L57">				return true;</span>
+<span class="fc" id="L53">		String[] types = getMimeTypes();</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		for (String type : types) {</span>
+<span class="pc bpc" id="L55" title="1 of 4 branches missed.">			if (type.startsWith(&quot;^&quot;) &amp;&amp; Pattern.matches(type, mimeType)) {</span>
+<span class="nc" id="L56">				return true;</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">			} else if (Objects.equals(type, mimeType)) {</span>
+<span class="fc" id="L58">				return true;</span>
 			}
 		}
 
-<span class="fc" id="L61">		return false;</span>
+<span class="fc" id="L62">		return false;</span>
 	}
 
 	public static MimeType getByMimeType(String mimeType) {
-<span class="pc bpc" id="L65" title="1 of 2 branches missed.">		for (MimeType mime : MimeType.values()) {</span>
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">			if (mime.canHandle(mimeType)) {</span>
-<span class="fc" id="L67">				return mime;</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">		for (MimeType mime : MimeType.values()) {</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">			if (mime.canHandle(mimeType)) {</span>
+<span class="fc" id="L68">				return mime;</span>
 			}
 		}
 
-<span class="nc" id="L71">		return null;</span>
+<span class="nc" id="L72">		return null;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

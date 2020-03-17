@@ -160,11 +160,11 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 <span class="fc" id="L160">		Preferences preferences = Settings.getActivePreferences(document);</span>
 <span class="fc bfc" id="L161" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
 <span class="pc bpc" id="L162" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
-<span class="fc" id="L163">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+<span class="nc" id="L163">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
 			} else {
-<span class="nc" id="L165">				String value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.wst.jsdt.core.formatter.tabulation.size&quot;);</span>
-<span class="nc bnc" id="L166" title="All 2 branches missed.">				if (value != null) {</span>
-<span class="nc" id="L167">					ret = Integer.valueOf(value);</span>
+<span class="fc" id="L165">				String value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.wst.jsdt.core.formatter.tabulation.size&quot;);</span>
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">				if (value != null) {</span>
+<span class="fc" id="L167">					ret = Integer.valueOf(value);</span>
 				}
 			}
 		}
