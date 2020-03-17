@@ -37,7 +37,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormat
  * @author bahlef
  */
 public class JacksonJsonFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
-	/** Creates new form {@link RevelcXmlFormatterOptionsPanel}. */
+	/** Creates new form {@link JacksonJsonFormatterOptionsPanel}. */
 	public JacksonJsonFormatterOptionsPanel() {
 		initComponents();
 	}
