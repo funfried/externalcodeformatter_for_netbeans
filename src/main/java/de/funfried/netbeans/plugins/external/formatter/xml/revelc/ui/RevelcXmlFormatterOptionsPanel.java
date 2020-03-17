@@ -12,7 +12,6 @@ package de.funfried.netbeans.plugins.external.formatter.xml.revelc.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javax.swing.DefaultComboBoxModel;
@@ -39,10 +38,7 @@ import net.revelc.code.formatter.xml.lib.FormattingPreferences;
  * @author bahlef
  */
 public class RevelcXmlFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
-	/** {@link Logger} of this class. */
-	private static final Logger log = Logger.getLogger(RevelcXmlFormatterOptionsPanel.class.getName());
-
-	/** Creates new form EclipseJavaFormatterOptionsPanel. */
+	/** Creates new form {@link RevelcXmlFormatterOptionsPanel}. */
 	public RevelcXmlFormatterOptionsPanel() {
 		initComponents();
 	}

@@ -45,6 +45,12 @@ public interface Icons {
 	String SPRING_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/spring.gif";
 
 	/**
+	 * Path to the FasterXML Jackson icon.
+	 */
+	@StaticResource
+	String JACKSON_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/jackson.gif";
+
+	/**
 	 * Path to the revelc.net icon.
 	 */
 	@StaticResource
@@ -75,6 +81,11 @@ public interface Icons {
 	 * Spring icon.
 	 */
 	Icon ICON_SPRING = ImageUtilities.image2Icon(ImageUtilities.loadImage(SPRING_ICON_PATH));
+
+	/**
+	 * Jackson icon.
+	 */
+	Icon ICON_JACKSON = ImageUtilities.image2Icon(ImageUtilities.loadImage(JACKSON_ICON_PATH));
 
 	/**
 	 * revelc.net icon.

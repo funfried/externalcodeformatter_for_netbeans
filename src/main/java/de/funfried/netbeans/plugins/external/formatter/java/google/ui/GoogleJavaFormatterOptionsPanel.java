@@ -33,7 +33,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormat
  * @author bahlef
  */
 public class GoogleJavaFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
-	/** Creates new form GoogleJavaFormatterOptionsPanel. */
+	/** Creates new form {@link GoogleJavaFormatterOptionsPanel}. */
 	public GoogleJavaFormatterOptionsPanel() {
 		initComponents();
 	}

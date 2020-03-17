@@ -54,7 +54,7 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 	/** {@link Logger} of this class. */
 	private static final Logger log = Logger.getLogger(EclipseJavascriptFormatterOptionsPanel.class.getName());
 
-	/** Creates new form EclipseJavaFormatterOptionsPanel. */
+	/** Creates new form {@link EclipseJavascriptFormatterOptionsPanel}. */
 	public EclipseJavascriptFormatterOptionsPanel() {
 		initComponents();
 	}

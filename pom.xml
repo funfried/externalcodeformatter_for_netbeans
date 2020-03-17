@@ -105,6 +105,7 @@
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<netbeans.version>RELEASE82</netbeans.version>
+		<jackson.version>2.10.3</jackson.version>
 	</properties>
 
 	<dependencyManagement>
@@ -241,6 +242,19 @@
 			<groupId>net.revelc.code.formatter</groupId>
 			<artifactId>xml-formatter</artifactId>
 			<version>0.2.0</version>
+		</dependency>
+
+		<!-- Jackson/Json Formatter -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 
 		<!--

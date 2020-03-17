@@ -46,6 +46,22 @@
 							</li>
 						</ul>
 					</li>
+					<li>
+						XML
+						<ul>
+							<li>
+								<a href="https://github.com/revelc/xml-formatter">revelc.net XML Code Formatter</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						Json
+						<ul>
+							<li>
+								<a href="https://github.com/FasterXML/jackson">Jackson Json Code Formatter</a>
+							</li>
+						</ul>
+					</li>
 				</ul>
 			</subsection>
 			<subsection name="Note">
@@ -76,6 +92,8 @@
 				<li>Support for Google code formatter (since 1.13)</li>
 				<li>Support for Spring Java formatter (since 1.14)</li>
 				<li>Support for Eclipse Javascript formatter (since 1.14)</li>
+				<li>Support for revelc.net XML formatter (since 1.14)</li>
+				<li>Support for Jackson Json formatter (since 1.14)</li>
 			</ul>
 		</section>
 		<section name="History of this plugin">

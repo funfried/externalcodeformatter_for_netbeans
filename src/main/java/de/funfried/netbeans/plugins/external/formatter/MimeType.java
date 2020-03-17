@@ -25,10 +25,11 @@ import org.openide.util.NbBundle;
 @NbBundle.Messages({
 		"JAVA=Java",
 		"JAVASCRIPT=JavaScript",
+		"JSON=Json",
 		"XML=XML"
 })
 public enum MimeType {
-	JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT("text/javascript"), XML("text/xml", "^text/(.*)\\+xml$");
+	JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT("text/javascript"), JSON("text/x-json", "^text/(.*)\\+x-json$"), XML("text/xml", "^text/(.*)\\+xml$");
 
 	private final String[] mimeTypes;
 

@@ -54,6 +54,8 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 *   Support for Google code formatter (since 1.13)
 *   Support for Spring Java formatter (since 1.14)
 *   Support for Eclipse Javascript formatter (since 1.14)
+*   Support for revelc.net XML formatter (since 1.14)
+*   Support for Jackson Json formatter (since 1.14)
 
 Compatibility
 -------------
