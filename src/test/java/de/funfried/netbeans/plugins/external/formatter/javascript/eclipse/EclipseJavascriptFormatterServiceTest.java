@@ -48,6 +48,7 @@ public class EclipseJavascriptFormatterServiceTest extends NbTestCase {
 
 		Preferences prefs = Settings.getActivePreferences(document);
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+		prefs.putBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 
 		EclipseJavascriptFormatterService instance = new EclipseJavascriptFormatterService();
 		Assert.assertEquals("Eclipse Javascript Code Formatter", instance.getDisplayName());

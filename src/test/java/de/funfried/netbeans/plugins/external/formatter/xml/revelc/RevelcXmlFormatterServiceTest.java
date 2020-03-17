@@ -51,6 +51,7 @@ public class RevelcXmlFormatterServiceTest extends NbTestCase {
 
 		Preferences prefs = Settings.getActivePreferences(document);
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+		prefs.putBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 
 		RevelcXmlFormatterService instance = new RevelcXmlFormatterService();
 		Assert.assertEquals("revelc.net XML Code Formatter", instance.getDisplayName());

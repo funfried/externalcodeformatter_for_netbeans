@@ -51,6 +51,7 @@ public class SpringJavaFormatterServiceTest extends NbTestCase {
 
 		Preferences prefs = Settings.getActivePreferences(document);
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+		prefs.putBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 
 		SpringJavaFormatterService instance = new SpringJavaFormatterService();
 		Assert.assertEquals("Spring Java Code Formatter", instance.getDisplayName());

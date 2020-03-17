@@ -33,7 +33,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormat
  * @author bahlef
  */
 public class SpringJavaFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
-	/** Creates new form SpringJavaFormatterOptionsPanel. */
+	/** Creates new form {@link SpringJavaFormatterOptionsPanel}. */
 	public SpringJavaFormatterOptionsPanel() {
 		initComponents();
 	}

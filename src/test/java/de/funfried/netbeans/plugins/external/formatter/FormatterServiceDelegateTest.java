@@ -44,6 +44,7 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 		Preferences prefs = NbPreferences.forModule(ExternalFormatterPanel.class);
 		prefs.put(Settings.ENABLED_FORMATTER_PREFIX + MimeType.JAVA.toString(), EclipseJavaFormatterService.ID);
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+		prefs.putBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 
 		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
 		final String expected = "package foo;\n" +
@@ -60,7 +61,7 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 
 		Assert.assertEquals((long) 2L, (long) FormatterServiceDelegate.getInstance().getContinuationIndentSize(document));
 		Assert.assertEquals((long) 4L, (long) FormatterServiceDelegate.getInstance().getIndentSize(document));
-		Assert.assertEquals((long) 4L, (long) FormatterServiceDelegate.getInstance().getSpacesPerTab(document));
+		Assert.assertEquals((long) 8L, (long) FormatterServiceDelegate.getInstance().getSpacesPerTab(document));
 		Assert.assertFalse(FormatterServiceDelegate.getInstance().isExpandTabToSpaces(document));
 
 		Assert.assertNull(FormatterServiceDelegate.getInstance().getContinuationIndentSize(null));

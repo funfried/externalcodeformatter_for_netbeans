@@ -52,6 +52,7 @@ public class GoogleJavaFormatterServiceTest extends NbTestCase {
 
 		Preferences prefs = Settings.getActivePreferences(document);
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+		prefs.putBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 
 		GoogleJavaFormatterService instance = new GoogleJavaFormatterService();
 		Assert.assertEquals("Google Java Code Formatter", instance.getDisplayName());
@@ -60,7 +61,7 @@ public class GoogleJavaFormatterServiceTest extends NbTestCase {
 
 		Assert.assertEquals((long) 4L, (long) instance.getContinuationIndentSize(document));
 		Assert.assertEquals((long) 2L, (long) instance.getIndentSize(document));
-		Assert.assertEquals((long) 4L, (long) instance.getSpacesPerTab(document));
+		Assert.assertEquals((long) 2L, (long) instance.getSpacesPerTab(document));
 		Assert.assertFalse(instance.isExpandTabToSpaces(document));
 
 		Assert.assertNull(instance.getContinuationIndentSize(null));
