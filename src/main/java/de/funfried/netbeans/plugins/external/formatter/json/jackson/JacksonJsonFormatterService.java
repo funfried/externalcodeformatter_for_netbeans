@@ -35,7 +35,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 @NbBundle.Messages({
 		"FormatterName=Jackson Json Code Formatter"
 })
-@ServiceProvider(service = FormatterService.class, position = 1000)
+@ServiceProvider(service = FormatterService.class, position = 500)
 public class JacksonJsonFormatterService extends AbstractJsonFormatterService {
 	/** The ID of this formatter service. */
 	public static final String ID = "jackson-json-formatter";
