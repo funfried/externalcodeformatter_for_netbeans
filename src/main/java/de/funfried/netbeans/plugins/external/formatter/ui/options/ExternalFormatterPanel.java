@@ -58,6 +58,7 @@ import org.openide.util.ChangeSupport;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
+import org.openide.util.WeakListeners;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.MimeType;
@@ -275,6 +276,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
             }
         });
 
+        useIndentationSettingsChkBox.setSelected(true);
         Mnemonics.setLocalizedText(useIndentationSettingsChkBox, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.useIndentationSettingsChkBox.text")); // NOI18N
         useIndentationSettingsChkBox.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.useIndentationSettingsChkBox.toolTipText")); // NOI18N
         useIndentationSettingsChkBox.addActionListener(new ActionListener() {
@@ -289,7 +291,11 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
         Mnemonics.setLocalizedText(overrideTabSizeChkBox, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeChkBox.text")); // NOI18N
         overrideTabSizeChkBox.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeChkBox.toolTipText")); // NOI18N
-        overrideTabSizeChkBox.setEnabled(false);
+        overrideTabSizeChkBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                overrideTabSizeChkBoxActionPerformed(evt);
+            }
+        });
 
         formatterOptionsPanel.setLayout(new BorderLayout());
 
@@ -440,11 +446,17 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 			if(optionsPanel != null) {
 				formatterOptionsPanel.setBorder(BorderFactory.createEtchedBorder());
 				formatterOptionsPanel.add(optionsPanel.getComponent(), BorderLayout.CENTER);
+
+				optionsPanel.addChangeListener(WeakListeners.change(this, optionsPanel));
 			}
 
 			setActiveFormatter(selectedMimeType, selectedFormatterId);
 		}
     }//GEN-LAST:event_chooseFormatterCmbBoxItemStateChanged
+
+    private void overrideTabSizeChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_overrideTabSizeChkBoxActionPerformed
+        updateEnabledState();
+    }//GEN-LAST:event_overrideTabSizeChkBoxActionPerformed
 
 	/**
 	 * {@inheritDoc}

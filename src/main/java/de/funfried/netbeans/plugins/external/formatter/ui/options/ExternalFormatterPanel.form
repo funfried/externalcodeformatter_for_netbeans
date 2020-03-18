@@ -140,6 +140,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="useIndentationSettingsChkBox">
       <Properties>
+        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.useIndentationSettingsChkBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
@@ -170,8 +171,10 @@
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/ui/options/Bundle.properties" key="ExternalFormatterPanel.overrideTabSizeChkBox.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="overrideTabSizeChkBoxActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="formatterOptionsPanel">
 
