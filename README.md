@@ -36,6 +36,13 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 *   Javascript
     * [Eclipse Javascript Code Formatter](https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.wst.jsdt.doc%2Fstarted%2Foverview.html&cp%3D52_0)
 
+*   XML
+    * [revelc.net XML Code Formatter](https://github.com/revelc/xml-formatter)
+    * [Jsoup XML Code Formatter](https://jsoup.org/)
+
+*   Json
+    * [Jackson Json Code Formatter](https://github.com/FasterXML/jackson)
+
 ### Features
 *   Global configuration and project specific configuration
 *   On save action (Disabled by default)
@@ -55,6 +62,7 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 *   Support for Spring Java formatter (since 1.14)
 *   Support for Eclipse Javascript formatter (since 1.14)
 *   Support for revelc.net XML formatter (since 1.14)
+*   Support for Jsoup XML formatter (since 1.14)
 *   Support for Jackson Json formatter (since 1.14)
 
 Compatibility

@@ -62,6 +62,11 @@ public class ExternalFormatterIndentTaskFactory implements IndentTask.Factory {
 		IndentTask.Factory netbeansDefaultFactory = getDefaultForMimePath(context.mimePath());
 		IndentTask netbeansDefaultTask = netbeansDefaultFactory.createTask(context);
 
+		// Let NetBeans handle indents, only use external formatters for formatting
+		if (context.isIndent()) {
+			return netbeansDefaultTask;
+		}
+
 		MimeType mimeType = MimeType.getByMimeType(NbEditorUtilities.getMimeType(document));
 		if (mimeType != null) {
 			Preferences prefs = Settings.getActivePreferences(document);
@@ -72,7 +77,7 @@ public class ExternalFormatterIndentTaskFactory implements IndentTask.Factory {
 					 */
 					@Override
 					public void reindent() throws BadLocationException {
-						formatWithNetBeansFormatter(netbeansDefaultTask, document);
+						formatWithNetBeansIndenter(netbeansDefaultTask, document);
 					}
 
 					/**
@@ -125,7 +130,7 @@ public class ExternalFormatterIndentTaskFactory implements IndentTask.Factory {
 				}
 
 				if (!FormatterServiceDelegate.getInstance().format(styledDocument, changedElements)) {
-					formatWithNetBeansFormatter(netbeansDefaultTask, document);
+					formatWithNetBeansIndenter(netbeansDefaultTask, document);
 				}
 			}
 
@@ -173,7 +178,7 @@ public class ExternalFormatterIndentTaskFactory implements IndentTask.Factory {
 		return factory;
 	}
 
-	private void formatWithNetBeansFormatter(IndentTask netbeansDefaultTask, Document document) throws BadLocationException {
+	private void formatWithNetBeansIndenter(IndentTask netbeansDefaultTask, Document document) throws BadLocationException {
 		netbeansDefaultTask.reindent();
 
 		Preferences pref = Settings.getActivePreferences(document);

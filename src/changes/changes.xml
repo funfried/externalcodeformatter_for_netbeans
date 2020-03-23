@@ -16,7 +16,7 @@
 				Added Eclipse Javascript Formatter
 			</action>
 			<action dev="bahlef" type="add" issue="104">
-				Added revelc.net XML Formatter
+				Added revelc.net and Jsoup XML Formatter
 			</action>
 			<action dev="bahlef" type="add" issue="105">
 				Added Jackson Json formatter

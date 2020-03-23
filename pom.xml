@@ -244,6 +244,12 @@
 			<version>0.2.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.13.1</version>
+		</dependency>
+
 		<!-- Jackson/Json Formatter -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -363,6 +369,12 @@
 
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-queries</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-openide-awt</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
@@ -454,7 +466,7 @@
 				<plugin>
 					<groupId>org.apache.netbeans.utilities</groupId>
 					<artifactId>nbm-maven-plugin</artifactId>
-					<version>4.4</version>
+					<version>4.5</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>

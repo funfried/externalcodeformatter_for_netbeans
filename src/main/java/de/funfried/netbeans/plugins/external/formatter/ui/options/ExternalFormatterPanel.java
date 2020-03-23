@@ -94,6 +94,9 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	/** The {@link Preferences} modified by this options dialog. */
 	private transient final Preferences preferences;
 
+	/** Internal helper flag which is set to {@code true} while switching the mime type, so there won't be a change listener event for that. */
+	private transient volatile boolean switchingMimeType = false;
+
 	/** Flag which defines whether or not this dialog is shown globally or project specific. */
 	private final boolean showsProjectSettings;
 
@@ -186,11 +189,14 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 *
 	 * @param mimeType    the mime type
 	 * @param formatterId the formatter service ID
+	 * @param fireChange  {@code true} to fire the change listener
 	 */
-	private void setActiveFormatter(MimeType mimeType, String formatterId) {
+	private void setActiveFormatter(MimeType mimeType, String formatterId, boolean fireChange) {
 		activeFormatterId.put(mimeType, formatterId);
 
-		fireChangedListener();
+		if (fireChange) {
+			fireChangedListener();
+		}
 	}
 
 	/**
@@ -398,35 +404,41 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
     }//GEN-LAST:event_useIndentationSettingsChkBoxActionPerformed
 
     private void chooseMimeTypeCmbBoxItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_chooseMimeTypeCmbBoxItemStateChanged
-		if (ItemEvent.SELECTED == evt.getStateChange()) {
-			chooseFormatterCmbBox.removeAllItems();
+		try {
+			switchingMimeType = true;
 
-			formatterSelectionActive = false;
+			if (ItemEvent.SELECTED == evt.getStateChange()) {
+				chooseFormatterCmbBox.removeAllItems();
 
-			MimeType selectedMimeType = MimeType.valueOf(getSelectedValue(chooseMimeTypeCmbBox));
+				formatterSelectionActive = false;
 
-			List<FormatterService> formatterServices = formatterIdsPerMimeType.get(selectedMimeType);
-			if (formatterServices != null) {
-				ExtValue selected = new ExtValue(Settings.DEFAULT_FORMATTER, "Internal NetBeans formatter");
-				chooseFormatterCmbBox.addItem(selected);
+				MimeType selectedMimeType = MimeType.valueOf(getSelectedValue(chooseMimeTypeCmbBox));
 
-				for (FormatterService formatterService : formatterServices) {
-					String formatterId = formatterService.getId();
-					ExtValue value = new ExtValue(formatterId, formatterService.getDisplayName());
+				List<FormatterService> formatterServices = formatterIdsPerMimeType.get(selectedMimeType);
+				if (formatterServices != null) {
+					ExtValue selected = new ExtValue(Settings.DEFAULT_FORMATTER, "Internal NetBeans formatter");
+					chooseFormatterCmbBox.addItem(selected);
 
-					chooseFormatterCmbBox.addItem(value);
+					for (FormatterService formatterService : formatterServices) {
+						String formatterId = formatterService.getId();
+						ExtValue value = new ExtValue(formatterId, formatterService.getDisplayName());
 
-					if(Objects.equals(activeFormatterId.get(selectedMimeType), formatterId)) {
-						selected = value;
+						chooseFormatterCmbBox.addItem(value);
+
+						if(Objects.equals(activeFormatterId.get(selectedMimeType), formatterId)) {
+							selected = value;
+						}
 					}
+
+					formatterSelectionActive = true;
+
+					chooseFormatterCmbBox.setSelectedItem(selected);
+				} else {
+					formatterSelectionActive = true;
 				}
-
-				formatterSelectionActive = true;
-
-				chooseFormatterCmbBox.setSelectedItem(selected);
-			} else {
-				formatterSelectionActive = true;
 			}
+		} finally {
+			switchingMimeType = false;
 		}
     }//GEN-LAST:event_chooseMimeTypeCmbBoxItemStateChanged
 
@@ -450,7 +462,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 				optionsPanel.addChangeListener(WeakListeners.change(this, optionsPanel));
 			}
 
-			setActiveFormatter(selectedMimeType, selectedFormatterId);
+			setActiveFormatter(selectedMimeType, selectedFormatterId, !switchingMimeType);
 		}
     }//GEN-LAST:event_chooseFormatterCmbBoxItemStateChanged
 
@@ -463,8 +475,6 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 */
 	@Override
 	public void load() {
-		formatterOptions.clear();
-
 		MimeType selectedMimeType = MimeType.valueOf(getSelectedValue(chooseMimeTypeCmbBox));
 		String javaMimeType = JavaTokenId.language().mimeType();
 
@@ -476,7 +486,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 				preferences.remove(Settings.ENABLED_FORMATTER);
 			}
 
-			setActiveFormatter(mimeType, activeFormatter);
+			setActiveFormatter(mimeType, activeFormatter, false);
 
 			if (Objects.equals(selectedMimeType, mimeType)) {
 				chooseFormatterCmbBox.setSelectedItem(new ExtValue(activeFormatter, null));

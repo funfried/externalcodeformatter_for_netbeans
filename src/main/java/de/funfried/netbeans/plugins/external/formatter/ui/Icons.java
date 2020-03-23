@@ -57,6 +57,12 @@ public interface Icons {
 	String REVELC_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/revelc.gif";
 
 	/**
+	 * Path to the Jsoup icon.
+	 */
+	@StaticResource
+	String JSOUP_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/jsoup.gif";
+
+	/**
 	 * Path to the NetBeans icon.
 	 */
 	@StaticResource
@@ -91,6 +97,11 @@ public interface Icons {
 	 * revelc.net icon.
 	 */
 	Icon ICON_REVELC = ImageUtilities.image2Icon(ImageUtilities.loadImage(REVELC_ICON_PATH));
+
+	/**
+	 * Jsoup icon.
+	 */
+	Icon ICON_JSOUP = ImageUtilities.image2Icon(ImageUtilities.loadImage(JSOUP_ICON_PATH));
 
 	/**
 	 * NetBeans icon.
