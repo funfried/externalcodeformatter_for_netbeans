@@ -26,7 +26,7 @@ import org.netbeans.api.annotations.common.NonNull;
  */
 public final class JsoupXmlFormatterWrapper {
 	/** Default system line separator. */
-	private static final String DEFAULT_LINE_SEPARATOR = System.getProperty("line.separator");
+	private static final String DEFAULT_LINE_SEPARATOR = "\n";
 
 	/**
 	 * Package private Constructor for creating a new instance of {@link JsoupXmlFormatterWrapper}.
