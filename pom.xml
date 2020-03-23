@@ -730,7 +730,6 @@
 							<failOnWarning>true</failOnWarning>
 							<ignoredUnusedDeclaredDependencies>
 								<ignored>org.netbeans.external:nb-javac-api</ignored>
-								<ignored>org.netbeans.external:nb-javac-impl</ignored>
 								<ignored>javax.annotation:javax.annotation-api</ignored>
 							</ignoredUnusedDeclaredDependencies>
 						</configuration>
