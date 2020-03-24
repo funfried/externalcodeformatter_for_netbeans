@@ -244,6 +244,12 @@
 			<version>0.2.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.13.1</version>
+		</dependency>
+
 		<!-- Jackson/Json Formatter -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -264,16 +270,6 @@
 		<dependency>
 			<groupId>org.netbeans.external</groupId>
 			<artifactId>nb-javac-api</artifactId>
-			<version>${netbeans.version}</version>
-		</dependency>
-
-		<!--
-		 Only needed by NetBeans 8.2, if NetBeans 8.2 is not
-		 supported anymore, this dependency can be removed
-		-->
-		<dependency>
-			<groupId>org.netbeans.external</groupId>
-			<artifactId>nb-javac-impl</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
 
@@ -358,6 +354,12 @@
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
 			<artifactId>org-netbeans-modules-lexer</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-queries</artifactId>
 			<version>${netbeans.version}</version>
 		</dependency>
 
@@ -454,7 +456,7 @@
 				<plugin>
 					<groupId>org.apache.netbeans.utilities</groupId>
 					<artifactId>nbm-maven-plugin</artifactId>
-					<version>4.4</version>
+					<version>4.5</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -728,7 +730,6 @@
 							<failOnWarning>true</failOnWarning>
 							<ignoredUnusedDeclaredDependencies>
 								<ignored>org.netbeans.external:nb-javac-api</ignored>
-								<ignored>org.netbeans.external:nb-javac-impl</ignored>
 								<ignored>javax.annotation:javax.annotation-api</ignored>
 							</ignoredUnusedDeclaredDependencies>
 						</configuration>

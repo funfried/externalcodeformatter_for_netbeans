@@ -1,5 +1,7 @@
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url)
 
+[![Become a Patron!](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.herokuapp.com%2Fuser?u=32336291&style=for-the-badge)](https://www.patreon.com/bePatron?u=32336291)
+
 [![Linux Build Status](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master)](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/kva6pnb5se94t1wu?svg=true)](https://ci.appveyor.com/project/funfried/externalcodeformatter-for-netbeans)
 [![Coverage Status](https://coveralls.io/repos/github/funfried/externalcodeformatter_for_netbeans/badge.svg?branch=master)](https://coveralls.io/github/funfried/externalcodeformatter_for_netbeans?branch=master)
@@ -29,12 +31,19 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 
 ### Supported formatters
 *   Java
-    * [Google Code Formatter](https://github.com/google/google-java-format)
-    * [Eclipse Java Code Formatter](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Fguide%2Fjdt_api_codeformatter.htm)
-    * [Spring Java Formatter](https://github.com/spring-io/spring-javaformat)
+    *   [Google Code Formatter](https://github.com/google/google-java-format)
+    *   [Eclipse Java Code Formatter](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Fguide%2Fjdt_api_codeformatter.htm)
+    *   [Spring Java Formatter](https://github.com/spring-io/spring-javaformat)
 
 *   Javascript
-    * [Eclipse Javascript Code Formatter](https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.wst.jsdt.doc%2Fstarted%2Foverview.html&cp%3D52_0)
+    *   [Eclipse Javascript Code Formatter](https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.wst.jsdt.doc%2Fstarted%2Foverview.html&cp%3D52_0)
+
+*   XML
+    *   [revelc.net XML Code Formatter](https://github.com/revelc/xml-formatter)
+    *   [Jsoup XML Code Formatter](https://jsoup.org/)
+
+*   Json
+    *   [Jackson Json Code Formatter](https://github.com/FasterXML/jackson)
 
 ### Features
 *   Global configuration and project specific configuration
@@ -55,6 +64,7 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 *   Support for Spring Java formatter (since 1.14)
 *   Support for Eclipse Javascript formatter (since 1.14)
 *   Support for revelc.net XML formatter (since 1.14)
+*   Support for Jsoup XML formatter (since 1.14)
 *   Support for Jackson Json formatter (since 1.14)
 
 Compatibility
@@ -94,3 +104,5 @@ Changelog
 You can find the changelog of all versions [here](http://funfried.github.io/externalcodeformatter_for_netbeans/changes-report.html)
 
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url)
+
+[![Become a Patron!](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.herokuapp.com%2Fuser?u=32336291&style=for-the-badge)](https://www.patreon.com/bePatron?u=32336291)

@@ -8,7 +8,7 @@
  * markiewb - initial API and implementation and/or initial documentation
  * bahlef
  */
-package de.funfried.netbeans.plugins.external.formatter.json.jackson;
+package de.funfried.netbeans.plugins.external.formatter.xml.jsoup;
 
 import java.util.prefs.Preferences;
 
@@ -22,26 +22,26 @@ import org.openide.util.lookup.ServiceProvider;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
-import de.funfried.netbeans.plugins.external.formatter.json.base.AbstractJsonFormatterService;
-import de.funfried.netbeans.plugins.external.formatter.json.jackson.ui.JacksonJsonFormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+import de.funfried.netbeans.plugins.external.formatter.xml.base.AbstractXmlFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.xml.jsoup.ui.JsoupXmlFormatterOptionsPanel;
 
 /**
- * Jackson Json implementation of the {@link AbstractJsonFormatterService}.
+ * Jsoup XML implementation of the {@link AbstractXmlFormatterService}.
  *
  * @author bahlef
  */
 @NbBundle.Messages({
-		"FormatterName=Jackson Json Code Formatter"
+		"FormatterName=Jsoup XML Code Formatter"
 })
-@ServiceProvider(service = FormatterService.class, position = 500)
-public class JacksonJsonFormatterService extends AbstractJsonFormatterService {
+@ServiceProvider(service = FormatterService.class, position = 1000)
+public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 	/** The ID of this formatter service. */
-	public static final String ID = "jackson-json-formatter";
+	public static final String ID = "jsoup-xml-formatter";
 
-	/** * The {@link JacksonJsonFormatterWrapper} implementation. */
-	private final JacksonJsonFormatterWrapper formatter = new JacksonJsonFormatterWrapper();
+	/** * The {@link JsoupXmlFormatterWrapper} implementation. */
+	private final JsoupXmlFormatterWrapper formatter = new JsoupXmlFormatterWrapper();
 
 	/**
 	 * {@inheritDoc}
@@ -49,7 +49,7 @@ public class JacksonJsonFormatterService extends AbstractJsonFormatterService {
 	@NonNull
 	@Override
 	public String getDisplayName() {
-		return NbBundle.getMessage(JacksonJsonFormatterService.class, "FormatterName");
+		return NbBundle.getMessage(JsoupXmlFormatterService.class, "FormatterName");
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class JacksonJsonFormatterService extends AbstractJsonFormatterService {
 	 */
 	@Override
 	public FormatterOptionsPanel getOptionsPanel() {
-		return new JacksonJsonFormatterOptionsPanel();
+		return new JsoupXmlFormatterOptionsPanel();
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class JacksonJsonFormatterService extends AbstractJsonFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			ret = preferences.getInt(JacksonJsonFormatterSettings.INDENT_SIZE, 2);
+			ret = preferences.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);
 		}
 
 		return ret;
@@ -103,20 +103,14 @@ public class JacksonJsonFormatterService extends AbstractJsonFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			ret = preferences.getInt(JacksonJsonFormatterSettings.INDENT_SIZE, 2);
+			ret = preferences.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);
 		}
 
 		return ret;
 	}
 
 	/**
-	 * Not supported by this formatter returns always {@code 0} except the given
-	 * {@link Document} is {@code null}, then also {@code null will be returned}.
-	 *
-	 * @param document the {@link Document} for which the right margin is requested
-	 *
-	 * @return {@code 0} except the given {@link Document} is {@code null}, then
-	 *         also {@code null will be returned}
+	 * {@inheritDoc}
 	 */
 	@CheckForNull
 	@Override
@@ -133,7 +127,7 @@ public class JacksonJsonFormatterService extends AbstractJsonFormatterService {
 	 */
 	@Override
 	protected FormatJob getFormatJob(StyledDocument document) {
-		return new JacksonFormatJob(document, formatter);
+		return new JsoupFormatJob(document, formatter);
 	}
 
 	/**
@@ -153,7 +147,7 @@ public class JacksonJsonFormatterService extends AbstractJsonFormatterService {
 			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
 				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
 			} else {
-				ret = preferences.getInt(JacksonJsonFormatterSettings.SPACES_PER_TAB, 2);
+				ret = preferences.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);
 			}
 		}
 
@@ -174,7 +168,7 @@ public class JacksonJsonFormatterService extends AbstractJsonFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			ret = preferences.getBoolean(JacksonJsonFormatterSettings.EXPAND_TABS_TO_SPACES, true);
+			ret = true;
 		}
 
 		return ret;

@@ -58,6 +58,7 @@ import org.openide.util.ChangeSupport;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
+import org.openide.util.WeakListeners;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.MimeType;
@@ -92,6 +93,9 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
 	/** The {@link Preferences} modified by this options dialog. */
 	private transient final Preferences preferences;
+
+	/** Internal helper flag which is set to {@code true} while switching the mime type, so there won't be a change listener event for that. */
+	private transient volatile boolean switchingMimeType = false;
 
 	/** Flag which defines whether or not this dialog is shown globally or project specific. */
 	private final boolean showsProjectSettings;
@@ -185,11 +189,14 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 *
 	 * @param mimeType    the mime type
 	 * @param formatterId the formatter service ID
+	 * @param fireChange  {@code true} to fire the change listener
 	 */
-	private void setActiveFormatter(MimeType mimeType, String formatterId) {
+	private void setActiveFormatter(MimeType mimeType, String formatterId, boolean fireChange) {
 		activeFormatterId.put(mimeType, formatterId);
 
-		fireChangedListener();
+		if (fireChange) {
+			fireChangedListener();
+		}
 	}
 
 	/**
@@ -275,6 +282,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
             }
         });
 
+        useIndentationSettingsChkBox.setSelected(true);
         Mnemonics.setLocalizedText(useIndentationSettingsChkBox, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.useIndentationSettingsChkBox.text")); // NOI18N
         useIndentationSettingsChkBox.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.useIndentationSettingsChkBox.toolTipText")); // NOI18N
         useIndentationSettingsChkBox.addActionListener(new ActionListener() {
@@ -289,7 +297,11 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
         Mnemonics.setLocalizedText(overrideTabSizeChkBox, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeChkBox.text")); // NOI18N
         overrideTabSizeChkBox.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeChkBox.toolTipText")); // NOI18N
-        overrideTabSizeChkBox.setEnabled(false);
+        overrideTabSizeChkBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                overrideTabSizeChkBoxActionPerformed(evt);
+            }
+        });
 
         formatterOptionsPanel.setLayout(new BorderLayout());
 
@@ -392,35 +404,41 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
     }//GEN-LAST:event_useIndentationSettingsChkBoxActionPerformed
 
     private void chooseMimeTypeCmbBoxItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_chooseMimeTypeCmbBoxItemStateChanged
-		if (ItemEvent.SELECTED == evt.getStateChange()) {
-			chooseFormatterCmbBox.removeAllItems();
+		try {
+			switchingMimeType = true;
 
-			formatterSelectionActive = false;
+			if (ItemEvent.SELECTED == evt.getStateChange()) {
+				chooseFormatterCmbBox.removeAllItems();
 
-			MimeType selectedMimeType = MimeType.valueOf(getSelectedValue(chooseMimeTypeCmbBox));
+				formatterSelectionActive = false;
 
-			List<FormatterService> formatterServices = formatterIdsPerMimeType.get(selectedMimeType);
-			if (formatterServices != null) {
-				ExtValue selected = new ExtValue(Settings.DEFAULT_FORMATTER, "Internal NetBeans formatter");
-				chooseFormatterCmbBox.addItem(selected);
+				MimeType selectedMimeType = MimeType.valueOf(getSelectedValue(chooseMimeTypeCmbBox));
 
-				for (FormatterService formatterService : formatterServices) {
-					String formatterId = formatterService.getId();
-					ExtValue value = new ExtValue(formatterId, formatterService.getDisplayName());
+				List<FormatterService> formatterServices = formatterIdsPerMimeType.get(selectedMimeType);
+				if (formatterServices != null) {
+					ExtValue selected = new ExtValue(Settings.DEFAULT_FORMATTER, "Internal NetBeans formatter");
+					chooseFormatterCmbBox.addItem(selected);
 
-					chooseFormatterCmbBox.addItem(value);
+					for (FormatterService formatterService : formatterServices) {
+						String formatterId = formatterService.getId();
+						ExtValue value = new ExtValue(formatterId, formatterService.getDisplayName());
 
-					if(Objects.equals(activeFormatterId.get(selectedMimeType), formatterId)) {
-						selected = value;
+						chooseFormatterCmbBox.addItem(value);
+
+						if(Objects.equals(activeFormatterId.get(selectedMimeType), formatterId)) {
+							selected = value;
+						}
 					}
+
+					formatterSelectionActive = true;
+
+					chooseFormatterCmbBox.setSelectedItem(selected);
+				} else {
+					formatterSelectionActive = true;
 				}
-
-				formatterSelectionActive = true;
-
-				chooseFormatterCmbBox.setSelectedItem(selected);
-			} else {
-				formatterSelectionActive = true;
 			}
+		} finally {
+			switchingMimeType = false;
 		}
     }//GEN-LAST:event_chooseMimeTypeCmbBoxItemStateChanged
 
@@ -440,19 +458,23 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 			if(optionsPanel != null) {
 				formatterOptionsPanel.setBorder(BorderFactory.createEtchedBorder());
 				formatterOptionsPanel.add(optionsPanel.getComponent(), BorderLayout.CENTER);
+
+				optionsPanel.addChangeListener(WeakListeners.change(this, optionsPanel));
 			}
 
-			setActiveFormatter(selectedMimeType, selectedFormatterId);
+			setActiveFormatter(selectedMimeType, selectedFormatterId, !switchingMimeType);
 		}
     }//GEN-LAST:event_chooseFormatterCmbBoxItemStateChanged
+
+    private void overrideTabSizeChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_overrideTabSizeChkBoxActionPerformed
+        updateEnabledState();
+    }//GEN-LAST:event_overrideTabSizeChkBoxActionPerformed
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void load() {
-		formatterOptions.clear();
-
 		MimeType selectedMimeType = MimeType.valueOf(getSelectedValue(chooseMimeTypeCmbBox));
 		String javaMimeType = JavaTokenId.language().mimeType();
 
@@ -464,7 +486,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 				preferences.remove(Settings.ENABLED_FORMATTER);
 			}
 
-			setActiveFormatter(mimeType, activeFormatter);
+			setActiveFormatter(mimeType, activeFormatter, false);
 
 			if (Objects.equals(selectedMimeType, mimeType)) {
 				chooseFormatterCmbBox.setSelectedItem(new ExtValue(activeFormatter, null));

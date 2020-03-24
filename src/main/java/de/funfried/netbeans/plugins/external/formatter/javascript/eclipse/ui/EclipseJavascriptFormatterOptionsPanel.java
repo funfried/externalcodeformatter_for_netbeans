@@ -41,8 +41,8 @@ import org.openide.filesystems.FileObject;
 import org.openide.util.NbBundle;
 import org.xml.sax.SAXException;
 
+import de.funfried.netbeans.plugins.external.formatter.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
-import de.funfried.netbeans.plugins.external.formatter.java.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.javascript.eclipse.EclipseJavascriptFormatterSettings;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormatterOptionsPanel;
 
@@ -118,6 +118,7 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
         lblProfile.setHorizontalAlignment(SwingConstants.RIGHT);
         Mnemonics.setLocalizedText(lblProfile, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.lblProfile.text")); // NOI18N
 
+        cbUseProjectPref.setSelected(true);
         Mnemonics.setLocalizedText(cbUseProjectPref, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.cbUseProjectPref.text")); // NOI18N
         cbUseProjectPref.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.cbUseProjectPref.toolTipText")); // NOI18N
 
@@ -249,6 +250,7 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
         //Result will be null if the user clicked cancel or closed the dialog w/o OK
         if (toAdd != null) {
             loadEclipseFormatterFileForPreview(toAdd.getAbsolutePath(), getSelectedProfile());
+			fireChangedListener();
         }
     }//GEN-LAST:event_browseButtonActionPerformed
 
@@ -343,7 +345,7 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 					cbProfile.setEnabled(true);
 				}
 			} catch (IOException | SAXException | ConfigReadException ex) {
-				log.log(Level.WARNING, "Could not parse formatter config", ex);
+				log.log(Level.INFO, "Could not parse formatter config", ex);
 			}
 		}
 	}
@@ -378,26 +380,21 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 	public boolean valid() {
 		errorLabel.setText("");
 
-		// use configuration from .settings
-		if (cbUseProjectPref.isSelected()) {
+		String fileName = formatterLocField.getText();
+		if (StringUtils.isBlank(fileName) && cbUseProjectPref.isSelected()) {
+			// use configuration from .settings
 			return true;
 		}
 
-		String fileName = formatterLocField.getText();
 		boolean isXML = EclipseJavascriptFormatterSettings.isXMLConfigurationFile(fileName);
-		if (isXML && cbProfile.getSelectedIndex() == 0) {
-			// "choose profile" entry is selected
-			return false;
-		}
-
 		boolean isEPF = EclipseJavascriptFormatterSettings.isWorkspaceMechanicFile(fileName);
 		boolean isProjectSetting = EclipseJavascriptFormatterSettings.isProjectSetting(fileName);
 
-		if (new File(fileName).exists() && (isXML || isEPF || isProjectSetting)) {
-			return true;
-		} else {
+		if (!new File(fileName).exists() || (!isXML && !isEPF && !isProjectSetting) || cbProfile.getSelectedIndex() < 0) {
 			errorLabel.setText("Invalid file. Please enter a valid configuration file.");
 			return false;
+		} else {
+			return !isXML || cbProfile.getSelectedIndex() != 0;
 		}
 	}
 }

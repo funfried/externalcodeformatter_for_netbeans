@@ -11,4 +11,4 @@
 /**
  * Package containing classes for Eclipse formatter XML configuration parsing.
  */
-package de.funfried.netbeans.plugins.external.formatter.java.eclipse.xml;
+package de.funfried.netbeans.plugins.external.formatter.eclipse.xml;
