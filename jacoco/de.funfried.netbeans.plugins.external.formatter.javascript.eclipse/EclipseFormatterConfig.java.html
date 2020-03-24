@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
-import de.funfried.netbeans.plugins.external.formatter.java.eclipse.xml.ConfigReader;
+import de.funfried.netbeans.plugins.external.formatter.eclipse.xml.ConfigReader;
 
 /**
  * Class used for parsing an Eclipse code formatter configuration.

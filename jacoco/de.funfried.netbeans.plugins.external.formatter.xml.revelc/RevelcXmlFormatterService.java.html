@@ -35,7 +35,7 @@ import de.funfried.netbeans.plugins.external.formatter.xml.revelc.ui.RevelcXmlFo
 @NbBundle.Messages({
 		&quot;FormatterName=revelc.net XML Code Formatter&quot;
 })
-@ServiceProvider(service = FormatterService.class, position = 1000)
+@ServiceProvider(service = FormatterService.class, position = 500)
 <span class="fc" id="L39">public class RevelcXmlFormatterService extends AbstractXmlFormatterService {</span>
 	/** The ID of this formatter service. */
 	public static final String ID = &quot;revelc-xml-formatter&quot;;
@@ -58,7 +58,7 @@ import de.funfried.netbeans.plugins.external.formatter.xml.revelc.ui.RevelcXmlFo
 	@NonNull
 	@Override
 	public String getId() {
-<span class="nc" id="L61">		return ID;</span>
+<span class="fc" id="L61">		return ID;</span>
 	}
 
 	/**

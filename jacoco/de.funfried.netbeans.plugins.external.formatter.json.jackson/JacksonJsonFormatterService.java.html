@@ -35,7 +35,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 @NbBundle.Messages({
 		&quot;FormatterName=Jackson Json Code Formatter&quot;
 })
-@ServiceProvider(service = FormatterService.class, position = 1000)
+@ServiceProvider(service = FormatterService.class, position = 500)
 <span class="fc" id="L39">public class JacksonJsonFormatterService extends AbstractJsonFormatterService {</span>
 	/** The ID of this formatter service. */
 	public static final String ID = &quot;jackson-json-formatter&quot;;
@@ -58,7 +58,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@NonNull
 	@Override
 	public String getId() {
-<span class="nc" id="L61">		return ID;</span>
+<span class="fc" id="L61">		return ID;</span>
 	}
 
 	/**

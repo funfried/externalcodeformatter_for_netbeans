@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsoupFormatJob.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.xml.jsoup</a> &gt; <span class="el_source">JsoupFormatJob.java</span></div><h1>JsoupFormatJob.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2020 bahlef.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * bahlef - initial API and implementation and/or initial documentation
+ */
+package de.funfried.netbeans.plugins.external.formatter.xml.jsoup;
+
+import java.nio.charset.Charset;
+import java.util.prefs.Preferences;
+
+import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
+
+import org.jsoup.nodes.Document;
+import org.netbeans.api.queries.FileEncodingQuery;
+import org.netbeans.editor.BaseDocument;
+import org.netbeans.modules.editor.NbEditorUtilities;
+import org.openide.awt.NotificationDisplayer;
+import org.openide.awt.StatusDisplayer;
+import org.openide.filesystems.FileObject;
+
+import de.funfried.netbeans.plugins.external.formatter.AbstractFormatJob;
+import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+
+/**
+ * Jsoup formatter implementation of the {@link AbstractFormatJob} to
+ * format a given document using the {@link JsoupXmlFormatterWrapper}.
+ *
+ * @author bahlef
+ */
+class JsoupFormatJob extends AbstractFormatJob {
+	/** * The {@link JsoupXmlFormatterWrapper} implementation. */
+	private final JsoupXmlFormatterWrapper formatter;
+
+	/**
+	 * Package private constructor to create a new instance of {@link JsoupFormatJob}.
+	 *
+	 * @param document  the {@link StyledDocument} which sould be formatted
+	 * @param formatter the {@link JsoupXmlFormatterWrapper} to use
+	 */
+	JsoupFormatJob(StyledDocument document, JsoupXmlFormatterWrapper formatter) {
+<span class="fc" id="L48">		super(document, null);</span>
+
+<span class="fc" id="L50">		this.formatter = formatter;</span>
+<span class="fc" id="L51">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void format() throws BadLocationException {
+<span class="fc" id="L58">		Preferences pref = Settings.getActivePreferences(document);</span>
+
+<span class="fc" id="L60">		boolean prettyPrint = pref.getBoolean(JsoupXmlFormatterSettings.PRETTY_PRINT, true);</span>
+<span class="fc" id="L61">		boolean outline = pref.getBoolean(JsoupXmlFormatterSettings.OUTLINE, false);</span>
+<span class="fc" id="L62">		int indentSize = pref.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);</span>
+<span class="fc" id="L63">		String lineFeedSetting = pref.get(JsoupXmlFormatterSettings.LINEFEED, &quot;&quot;);</span>
+
+<span class="fc" id="L65">		Document.OutputSettings options = new Document.OutputSettings();</span>
+<span class="fc" id="L66">		options.indentAmount(indentSize);</span>
+<span class="fc" id="L67">		options.outline(outline);</span>
+<span class="fc" id="L68">		options.prettyPrint(prettyPrint);</span>
+
+<span class="fc" id="L70">		FileObject fileObj = NbEditorUtilities.getFileObject(document);</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">		if (fileObj != null) {</span>
+<span class="nc" id="L72">			Charset charset = FileEncodingQuery.getEncoding(fileObj);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">			if (charset != null) {</span>
+<span class="nc" id="L74">				options.charset(charset);</span>
+			}
+		}
+
+		//save with configured linefeed
+<span class="fc" id="L79">		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">		if (null != lineFeed) {</span>
+<span class="fc" id="L81">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
+<span class="fc" id="L82">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
+		}
+
+<span class="fc" id="L85">		String code = getCode();</span>
+
+<span class="fc" id="L87">		String formattedContent = formatter.format(code, lineFeed, options);</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">		if (setFormattedCode(code, formattedContent)) {</span>
+<span class="fc" id="L89">			SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L91">					NotificationDisplayer.getDefault().notify(&quot;Format using Jsoup XML formatter&quot;, Icons.ICON_JSOUP, null, null);</span>
+				}
+
+<span class="fc" id="L94">				StatusDisplayer.getDefault().setStatusText(&quot;Format using Jsoup XML formatter&quot;);</span>
+<span class="fc" id="L95">			});</span>
+		}
+<span class="fc" id="L97">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,9 +1,9 @@
 de.funfried.netbeans.plugins.external.formatter
+de.funfried.netbeans.plugins.external.formatter.eclipse.xml
 de.funfried.netbeans.plugins.external.formatter.exceptions
 de.funfried.netbeans.plugins.external.formatter.java.base
 de.funfried.netbeans.plugins.external.formatter.java.eclipse
 de.funfried.netbeans.plugins.external.formatter.java.eclipse.ui
-de.funfried.netbeans.plugins.external.formatter.java.eclipse.xml
 de.funfried.netbeans.plugins.external.formatter.java.google
 de.funfried.netbeans.plugins.external.formatter.java.google.ui
 de.funfried.netbeans.plugins.external.formatter.java.spring
@@ -20,5 +20,7 @@ de.funfried.netbeans.plugins.external.formatter.ui.editor
 de.funfried.netbeans.plugins.external.formatter.ui.editor.diff
 de.funfried.netbeans.plugins.external.formatter.ui.options
 de.funfried.netbeans.plugins.external.formatter.xml.base
+de.funfried.netbeans.plugins.external.formatter.xml.jsoup
+de.funfried.netbeans.plugins.external.formatter.xml.jsoup.ui
 de.funfried.netbeans.plugins.external.formatter.xml.revelc
 de.funfried.netbeans.plugins.external.formatter.xml.revelc.ui
