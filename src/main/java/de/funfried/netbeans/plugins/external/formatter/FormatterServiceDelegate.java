@@ -26,7 +26,6 @@ import javax.swing.text.StyledDocument;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
-import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
@@ -228,7 +227,7 @@ public class FormatterServiceDelegate {
 	 */
 	@CheckForNull
 	private FormatterService getActiveFormatterService(Document document) throws Exception {
-		MimeType mimeType = MimeType.getByMimeType(NbEditorUtilities.getMimeType(document));
+		MimeType mimeType = MimeType.getMimeType(document);
 		if (mimeType != null) {
 			Preferences prefs = Settings.getActivePreferences(document);
 			String activeFormatterId = prefs.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), Settings.DEFAULT_FORMATTER);
