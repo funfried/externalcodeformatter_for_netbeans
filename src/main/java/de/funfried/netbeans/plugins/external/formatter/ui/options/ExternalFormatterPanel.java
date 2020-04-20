@@ -262,6 +262,11 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
         Mnemonics.setLocalizedText(cbShowNotifications, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbShowNotifications.text")); // NOI18N
         cbShowNotifications.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.cbShowNotifications.toolTipText")); // NOI18N
+        cbShowNotifications.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                cbShowNotificationsActionPerformed(evt);
+            }
+        });
 
         btnDonate.setHorizontalAlignment(SwingConstants.RIGHT);
         Mnemonics.setLocalizedText(btnDonate, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.btnDonate.text")); // NOI18N
@@ -294,6 +299,11 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
         overrideTabSizeSpn.setModel(new SpinnerNumberModel(4, 1, 20, 1));
         overrideTabSizeSpn.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeSpn.toolTipText")); // NOI18N
         overrideTabSizeSpn.setEnabled(false);
+        overrideTabSizeSpn.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                overrideTabSizeSpnStateChanged(evt);
+            }
+        });
 
         Mnemonics.setLocalizedText(overrideTabSizeChkBox, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeChkBox.text")); // NOI18N
         overrideTabSizeChkBox.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.overrideTabSizeChkBox.toolTipText")); // NOI18N
@@ -425,7 +435,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
 						chooseFormatterCmbBox.addItem(value);
 
-						if(Objects.equals(activeFormatterId.get(selectedMimeType), formatterId)) {
+						if (Objects.equals(activeFormatterId.get(selectedMimeType), formatterId)) {
 							selected = value;
 						}
 					}
@@ -443,7 +453,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
     }//GEN-LAST:event_chooseMimeTypeCmbBoxItemStateChanged
 
     private void chooseFormatterCmbBoxItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_chooseFormatterCmbBoxItemStateChanged
-        if (!formatterSelectionActive) {
+		if (!formatterSelectionActive) {
 			return;
 		}
 
@@ -455,7 +465,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 			String selectedFormatterId = getSelectedValue(chooseFormatterCmbBox);
 
 			FormatterOptionsPanel optionsPanel = getFormatterOptionsPanel(selectedMimeType, selectedFormatterId);
-			if(optionsPanel != null) {
+			if (optionsPanel != null) {
 				formatterOptionsPanel.setBorder(BorderFactory.createEtchedBorder());
 				formatterOptionsPanel.add(optionsPanel.getComponent(), BorderLayout.CENTER);
 
@@ -467,8 +477,17 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
     }//GEN-LAST:event_chooseFormatterCmbBoxItemStateChanged
 
     private void overrideTabSizeChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_overrideTabSizeChkBoxActionPerformed
-        updateEnabledState();
+		updateEnabledState();
+		fireChangedListener();
     }//GEN-LAST:event_overrideTabSizeChkBoxActionPerformed
+
+    private void overrideTabSizeSpnStateChanged(ChangeEvent evt) {//GEN-FIRST:event_overrideTabSizeSpnStateChanged
+		fireChangedListener();
+    }//GEN-LAST:event_overrideTabSizeSpnStateChanged
+
+    private void cbShowNotificationsActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cbShowNotificationsActionPerformed
+		fireChangedListener();
+    }//GEN-LAST:event_cbShowNotificationsActionPerformed
 
 	/**
 	 * {@inheritDoc}
@@ -586,13 +605,11 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	}
 
 	/**
-	 * Returns the selected item of a given {@link JComboBox}. If the selected item is an instance
-	 * of {@link ExtValue} the {@link ExtValue#getValue()} will be returned.
+	 * Returns the selected item of a given {@link JComboBox}. If the selected item is an instance of {@link ExtValue} the {@link ExtValue#getValue()} will be returned.
 	 *
 	 * @param comboBox the {@link JComboBox}
 	 *
-	 * @return the selected item of a given {@link JComboBox}. If the selected item is an instance
-	 *         of {@link ExtValue} the {@link ExtValue#getValue()} will be returned
+	 * @return the selected item of a given {@link JComboBox}. If the selected item is an instance of {@link ExtValue} the {@link ExtValue#getValue()} will be returned
 	 */
 	private String getSelectedValue(JComboBox comboBox) {
 		Object selectedItem = comboBox.getSelectedItem();
@@ -616,10 +633,10 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	}
 
 	/**
-	 * A renderer for the {@link #chooseMimeTypeCmbBox} which shows every entry
-	 * in bold which has an external formatter select.
+	 * A renderer for the {@link #chooseMimeTypeCmbBox} which shows every entry in bold which has an external formatter select.
 	 */
 	private class MimeTypesListCellRenderer extends DefaultListCellRenderer {
+
 		/**
 		 * {@inheritDoc}
 		 */
@@ -648,16 +665,21 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 * A Java bean for separating between visual and logical values.
 	 */
 	private static class ExtValue {
-		/** Holder of the logical value. */
+
+		/**
+		 * Holder of the logical value.
+		 */
 		private final String value;
 
-		/** Holder of the visual value. */
+		/**
+		 * Holder of the visual value.
+		 */
 		private final String visualValue;
 
 		/**
 		 * Constructor of this class.
 		 *
-		 * @param value       logical value
+		 * @param value logical value
 		 * @param visualValue visual value
 		 */
 		public ExtValue(String value, String visualValue) {
@@ -686,11 +708,9 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 		}
 
 		/**
-		 * Returns the {@link #visualValue} if not {@code null}, otherwise
-		 * the logical {@link #value}.
+		 * Returns the {@link #visualValue} if not {@code null}, otherwise the logical {@link #value}.
 		 *
-		 * @return the {@link #visualValue} if not {@code null}, otherwise
-		 *         the logical {@link #value}
+		 * @return the {@link #visualValue} if not {@code null}, otherwise the logical {@link #value}
 		 */
 		@Override
 		public String toString() {
@@ -698,14 +718,11 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 		}
 
 		/**
-		 * Returns {@code true} if {@code obj} is also an {@link ExtValue} with
-		 * the same logical value or if {@code obj} is a String with the same
-		 * characters as the logical {@link #value}, otherwise {@code false}.
+		 * Returns {@code true} if {@code obj} is also an {@link ExtValue} with the same logical value or if {@code obj} is a String with the same characters as the logical {@link #value}, otherwise
+		 * {@code false}.
 		 *
-		 * @return {@code true} if {@code obj} is also an {@link ExtValue} with
-		 *         the same logical value or if {@code obj} is a String with the
-		 *         same characters as the logical {@link #value}, otherwise
-		 *         {@code false}
+		 * @return {@code true} if {@code obj} is also an {@link ExtValue} with the same logical value or if {@code obj} is a String with the same characters as the logical {@link #value}, otherwise
+		 * {@code false}
 		 */
 		@Override
 		public boolean equals(Object obj) {
