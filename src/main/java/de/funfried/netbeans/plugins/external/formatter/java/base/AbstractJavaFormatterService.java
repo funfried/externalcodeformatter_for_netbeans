@@ -15,7 +15,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.netbeans.modules.editor.NbEditorUtilities;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
@@ -42,7 +41,7 @@ public abstract class AbstractJavaFormatterService implements FormatterService {
 	@Override
 	public void format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException, FormattingFailedException {
 		if (!canHandle(document)) {
-			throw new FormattingFailedException("The file type '" + NbEditorUtilities.getMimeType(document) + "' is not supported");
+			throw new FormattingFailedException("The file type '" + MimeType.getMimeTypeAsString(document) + "' is not supported");
 		}
 
 		getFormatJob(document, changedElements).format();

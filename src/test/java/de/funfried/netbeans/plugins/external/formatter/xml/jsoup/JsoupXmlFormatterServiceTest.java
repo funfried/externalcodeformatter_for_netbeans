@@ -63,7 +63,7 @@ public class JsoupXmlFormatterServiceTest extends NbTestCase {
 		Assert.assertEquals((long) 0L, (long) instance.getRightMargin(document));
 
 		Assert.assertEquals((long) 1L, (long) instance.getContinuationIndentSize(document));
-		Assert.assertEquals((long) 1L, (long) instance.getIndentSize(document));
+		Assert.assertEquals((long) -1L, (long) instance.getIndentSize(document));
 		Assert.assertEquals((long) 1L, (long) instance.getSpacesPerTab(document));
 		Assert.assertTrue(instance.isExpandTabToSpaces(document));
 

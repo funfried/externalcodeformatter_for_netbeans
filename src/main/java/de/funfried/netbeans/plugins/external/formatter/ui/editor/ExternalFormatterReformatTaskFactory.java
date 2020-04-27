@@ -62,7 +62,7 @@ public class ExternalFormatterReformatTaskFactory implements ReformatTask.Factor
 		ReformatTask.Factory netbeansDefaultFactory = getDefaultForMimePath(context.mimePath());
 		ReformatTask netbeansDefaultTask = netbeansDefaultFactory.createTask(context);
 
-		MimeType mimeType = MimeType.getByMimeType(NbEditorUtilities.getMimeType(document));
+		MimeType mimeType = MimeType.getMimeType(document);
 		if (mimeType != null) {
 			Preferences prefs = Settings.getActivePreferences(document);
 			if (Settings.DEFAULT_FORMATTER.equals(prefs.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), Settings.DEFAULT_FORMATTER))) {

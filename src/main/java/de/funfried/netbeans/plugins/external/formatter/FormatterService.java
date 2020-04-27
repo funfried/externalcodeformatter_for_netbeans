@@ -18,7 +18,6 @@ import javax.swing.text.StyledDocument;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
-import org.netbeans.modules.editor.NbEditorUtilities;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
@@ -43,7 +42,7 @@ public interface FormatterService {
 			return false;
 		}
 
-		return getSupportedMimeType().canHandle(NbEditorUtilities.getMimeType(document));
+		return getSupportedMimeType().canHandle(MimeType.getMimeTypeAsString(document));
 	}
 
 	/**

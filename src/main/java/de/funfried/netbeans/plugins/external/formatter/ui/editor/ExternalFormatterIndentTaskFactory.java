@@ -67,7 +67,7 @@ public class ExternalFormatterIndentTaskFactory implements IndentTask.Factory {
 			return netbeansDefaultTask;
 		}
 
-		MimeType mimeType = MimeType.getByMimeType(NbEditorUtilities.getMimeType(document));
+		MimeType mimeType = MimeType.getMimeType(document);
 		if (mimeType != null) {
 			Preferences prefs = Settings.getActivePreferences(document);
 			if (Settings.DEFAULT_FORMATTER.equals(prefs.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), Settings.DEFAULT_FORMATTER))) {

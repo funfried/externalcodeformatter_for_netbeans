@@ -175,13 +175,6 @@
 				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
 					<attr name="instanceClass" stringvalue="org.netbeans.modules.csl.core.GsfReformatTaskFactory"/>
 				</file>
-				<file name="org-netbeans-modules-csl-core-GsfIndentTaskFactory.instance">
-					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterIndentTaskFactory"/>
-					<attr name="instanceOf" stringvalue="org.netbeans.modules.editor.indent.spi.IndentTask$Factory"/>
-				</file>
-				<file name="org.netbeans.modules.editor.indent.spi.IndentTask.Factory.instance">
-					<attr name="instanceClass" stringvalue="org.netbeans.modules.csl.core.GsfIndentTaskFactory"/>
-				</file>
 			</folder>
 			<folder name="x-java">
 				<folder name="CodeTemplates">
@@ -192,12 +185,6 @@
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
 					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory"/>
-				</file>
-				<file name="Reindenter.instance">
-					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterIndentTaskFactory"/>
-				</file>
-				<file name="org.netbeans.modules.editor.indent.spi.IndentTask.Factory.instance">
-					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reindenter$Factory"/>
 				</file>
 			</folder>
 			<folder name="xml">
@@ -215,13 +202,6 @@
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
 					<attr name="instanceClass" stringvalue="org.netbeans.modules.csl.core.GsfReformatTaskFactory"/>
-				</file>
-				<file name="org-netbeans-modules-csl-core-GsfIndentTaskFactory.instance">
-					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterIndentTaskFactory"/>
-					<attr name="instanceOf" stringvalue="org.netbeans.modules.editor.indent.spi.IndentTask$Factory"/>
-				</file>
-				<file name="org.netbeans.modules.editor.indent.spi.IndentTask.Factory.instance">
-					<attr name="instanceClass" stringvalue="org.netbeans.modules.csl.core.GsfIndentTaskFactory"/>
 				</file>
 			</folder>
 		</folder>

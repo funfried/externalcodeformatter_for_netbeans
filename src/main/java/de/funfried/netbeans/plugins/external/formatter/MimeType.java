@@ -13,8 +13,11 @@ package de.funfried.netbeans.plugins.external.formatter;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import javax.swing.text.Document;
+
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.java.lexer.JavaTokenId;
+import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.util.NbBundle;
 
 /**
@@ -67,6 +70,18 @@ public enum MimeType {
 			if (mime.canHandle(mimeType)) {
 				return mime;
 			}
+		}
+
+		return null;
+	}
+
+	public static MimeType getMimeType(Document document) {
+		return getByMimeType(getMimeTypeAsString(document));
+	}
+
+	public static String getMimeTypeAsString(Document document) {
+		if (document != null) {
+			return NbEditorUtilities.getMimeType(document);
 		}
 
 		return null;

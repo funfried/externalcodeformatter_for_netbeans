@@ -111,14 +111,15 @@ public final class EclipseJavaFormatterWrapper {
 	 * @return the formatted code
 	 *
 	 * @throws FormattingFailedException if the external formatter failed to format the given code
+	 * @throws IllegalArgumentException  if the given {@code regions} are invalid
 	 */
 	@CheckForNull
-	private String format(@NonNull CodeFormatter formatter, @NonNull String code, @NonNull IRegion[] regions, String lineFeed) throws FormattingFailedException {
+	private String format(@NonNull CodeFormatter formatter, @NonNull String code, @NonNull IRegion[] regions, String lineFeed) throws FormattingFailedException, IllegalArgumentException {
 		String formattedCode = null;
 
-		TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);
-		if (te != null && te.getChildrenSize() > 0) {
-			try {
+		try {
+			TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);
+			if (te != null && te.getChildrenSize() > 0) {
 				IDocument dc = new Document(code);
 				te.apply(dc);
 
@@ -127,11 +128,13 @@ public final class EclipseJavaFormatterWrapper {
 				if (Objects.equals(code, formattedCode)) {
 					return null;
 				}
-			} catch (Exception ex) {
-				throw new FormattingFailedException("Failed to format the given code.", ex);
+			} else {
+				throw new FormattingFailedException("Formatting the given code ended in a null result.");
 			}
-		} else {
-			throw new FormattingFailedException("Formatting the given code ended in a null result.");
+		} catch (FormattingFailedException | IllegalArgumentException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			throw new FormattingFailedException("Failed to format the given code.", ex);
 		}
 
 		return formattedCode;

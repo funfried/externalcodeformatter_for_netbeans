@@ -94,9 +94,9 @@ public final class SpringJavaFormatterWrapper {
 	private String format(@NonNull String code, @NonNull IRegion[] regions, String lineFeed) throws FormattingFailedException {
 		String formattedCode = null;
 
-		TextEdit te = formatter.format(code, regions, lineFeed);
-		if (te != null && te.getChildrenSize() > 0) {
-			try {
+		try {
+			TextEdit te = formatter.format(code, regions, lineFeed);
+			if (te != null && te.getChildrenSize() > 0) {
 				IDocument dc = new Document(code);
 				te.apply(dc);
 
@@ -105,11 +105,13 @@ public final class SpringJavaFormatterWrapper {
 				if (Objects.equals(code, formattedCode)) {
 					return null;
 				}
-			} catch (Exception ex) {
-				throw new FormattingFailedException("Failed to format the given code.", ex);
+			} else {
+				throw new FormattingFailedException("Formatting the given code ended in a null result.");
 			}
-		} else {
-			throw new FormattingFailedException("Formatting the given code ended in a null result.");
+		} catch (FormattingFailedException | IllegalArgumentException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			throw new FormattingFailedException("Failed to format the given code.", ex);
 		}
 
 		return formattedCode;

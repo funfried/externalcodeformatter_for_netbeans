@@ -72,12 +72,12 @@ public class ExternalFormatterCodeStylePreferencesProvider implements CodeStyleP
 	};
 
 	static {
-		temporaryPreferenceProviders.put(EditorConstants.TEXT_LIMIT_WIDTH, document -> Objects.toString(FormatterServiceDelegate.getInstance().getRightMargin(document)));
-		temporaryPreferenceProviders.put(EditorConstants.EXPAND_TABS, document -> Objects.toString(FormatterServiceDelegate.getInstance().isExpandTabToSpaces(document)));
-		temporaryPreferenceProviders.put(EditorConstants.SPACES_PER_TAB, document -> Objects.toString(FormatterServiceDelegate.getInstance().getSpacesPerTab(document)));
-		temporaryPreferenceProviders.put(EditorConstants.TAB_SIZE, document -> Objects.toString(FormatterServiceDelegate.getInstance().getSpacesPerTab(document)));
-		temporaryPreferenceProviders.put(EditorConstants.INDENT_SHIFT_WIDTH, document -> Objects.toString(FormatterServiceDelegate.getInstance().getIndentSize(document)));
-		temporaryPreferenceProviders.put(EditorConstants.CONTINUATION_INDENT_SIZE, document -> Objects.toString(FormatterServiceDelegate.getInstance().getContinuationIndentSize(document)));
+		temporaryPreferenceProviders.put(EditorConstants.TEXT_LIMIT_WIDTH, document -> Objects.toString(FormatterServiceDelegate.getInstance().getRightMargin(document), null));
+		temporaryPreferenceProviders.put(EditorConstants.EXPAND_TABS, document -> Objects.toString(FormatterServiceDelegate.getInstance().isExpandTabToSpaces(document), null));
+		temporaryPreferenceProviders.put(EditorConstants.SPACES_PER_TAB, document -> Objects.toString(FormatterServiceDelegate.getInstance().getSpacesPerTab(document), null));
+		temporaryPreferenceProviders.put(EditorConstants.TAB_SIZE, document -> Objects.toString(FormatterServiceDelegate.getInstance().getSpacesPerTab(document), null));
+		temporaryPreferenceProviders.put(EditorConstants.INDENT_SHIFT_WIDTH, document -> Objects.toString(FormatterServiceDelegate.getInstance().getIndentSize(document), null));
+		temporaryPreferenceProviders.put(EditorConstants.CONTINUATION_INDENT_SIZE, document -> Objects.toString(FormatterServiceDelegate.getInstance().getContinuationIndentSize(document), null));
 	}
 
 	private final Map<Document, TemporaryDocumentPreferences> preferencesCache = new ConcurrentHashMap<>();
@@ -230,11 +230,9 @@ public class ExternalFormatterCodeStylePreferencesProvider implements CodeStyleP
 				Function<Document, String> tempValueProvider = this.temporaryValueProviders.get(key);
 				if (tempValueProvider != null) {
 					String value = tempValueProvider.apply(this.document);
-					if (value == null) {
-						value = def;
+					if (value != null) {
+						return value;
 					}
-
-					return value;
 				}
 			}
 
