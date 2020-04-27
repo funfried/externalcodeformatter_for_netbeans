@@ -86,9 +86,9 @@ public final class EclipseJavascriptFormatterWrapper {
 	private String format(@NonNull CodeFormatter formatter, @NonNull String code, String lineFeed) throws FormattingFailedException {
 <span class="fc" id="L87">		String formattedCode = null;</span>
 
-<span class="fc" id="L89">		TextEdit te = formatter.format(FORMATTER_OPTS, code, 0, code.length(), 0, lineFeed);</span>
-<span class="pc bpc" id="L90" title="2 of 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
-			try {
+		try {
+<span class="fc" id="L90">			TextEdit te = formatter.format(FORMATTER_OPTS, code, 0, code.length(), 0, lineFeed);</span>
+<span class="pc bpc" id="L91" title="2 of 4 branches missed.">			if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
 <span class="fc" id="L92">				IDocument dc = new Document(code);</span>
 <span class="fc" id="L93">				te.apply(dc);</span>
 
@@ -97,14 +97,16 @@ public final class EclipseJavascriptFormatterWrapper {
 <span class="pc bpc" id="L97" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
 <span class="nc" id="L98">					return null;</span>
 				}
-<span class="nc" id="L100">			} catch (Exception ex) {</span>
-<span class="nc" id="L101">				throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
-<span class="fc" id="L102">			}</span>
-		} else {
-<span class="nc" id="L104">			throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
-		}
+<span class="fc" id="L100">			} else {</span>
+<span class="nc" id="L101">				throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
+			}
+<span class="nc" id="L103">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
+<span class="nc" id="L104">			throw ex;</span>
+<span class="nc" id="L105">		} catch (Exception ex) {</span>
+<span class="nc" id="L106">			throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
+<span class="fc" id="L107">		}</span>
 
-<span class="fc" id="L107">		return formattedCode;</span>
+<span class="fc" id="L109">		return formattedCode;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

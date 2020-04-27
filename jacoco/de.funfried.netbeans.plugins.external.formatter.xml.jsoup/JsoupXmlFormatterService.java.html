@@ -103,7 +103,7 @@ import de.funfried.netbeans.plugins.external.formatter.xml.jsoup.ui.JsoupXmlForm
 
 <span class="fc" id="L104">		Preferences preferences = Settings.getActivePreferences(document);</span>
 <span class="fc bfc" id="L105" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L106">			ret = preferences.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);</span>
+<span class="fc" id="L106">			ret = -1;</span>
 		}
 
 <span class="fc" id="L109">		return ret;</span>

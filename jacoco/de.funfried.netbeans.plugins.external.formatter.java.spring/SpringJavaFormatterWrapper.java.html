@@ -94,9 +94,9 @@ public final class SpringJavaFormatterWrapper {
 	private String format(@NonNull String code, @NonNull IRegion[] regions, String lineFeed) throws FormattingFailedException {
 <span class="fc" id="L95">		String formattedCode = null;</span>
 
-<span class="fc" id="L97">		TextEdit te = formatter.format(code, regions, lineFeed);</span>
-<span class="pc bpc" id="L98" title="2 of 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
-			try {
+		try {
+<span class="fc" id="L98">			TextEdit te = formatter.format(code, regions, lineFeed);</span>
+<span class="pc bpc" id="L99" title="2 of 4 branches missed.">			if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
 <span class="fc" id="L100">				IDocument dc = new Document(code);</span>
 <span class="fc" id="L101">				te.apply(dc);</span>
 
@@ -105,14 +105,16 @@ public final class SpringJavaFormatterWrapper {
 <span class="pc bpc" id="L105" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
 <span class="nc" id="L106">					return null;</span>
 				}
-<span class="nc" id="L108">			} catch (Exception ex) {</span>
-<span class="nc" id="L109">				throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
-<span class="fc" id="L110">			}</span>
-		} else {
-<span class="nc" id="L112">			throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
-		}
+<span class="fc" id="L108">			} else {</span>
+<span class="nc" id="L109">				throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
+			}
+<span class="fc" id="L111">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
+<span class="fc" id="L112">			throw ex;</span>
+<span class="nc" id="L113">		} catch (Exception ex) {</span>
+<span class="nc" id="L114">			throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
+<span class="fc" id="L115">		}</span>
 
-<span class="fc" id="L115">		return formattedCode;</span>
+<span class="fc" id="L117">		return formattedCode;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

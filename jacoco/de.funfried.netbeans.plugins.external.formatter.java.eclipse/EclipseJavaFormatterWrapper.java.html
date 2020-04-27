@@ -111,30 +111,33 @@ public final class EclipseJavaFormatterWrapper {
 	 * @return the formatted code
 	 *
 	 * @throws FormattingFailedException if the external formatter failed to format the given code
+	 * @throws IllegalArgumentException  if the given {@code regions} are invalid
 	 */
 	@CheckForNull
-	private String format(@NonNull CodeFormatter formatter, @NonNull String code, @NonNull IRegion[] regions, String lineFeed) throws FormattingFailedException {
-<span class="fc" id="L117">		String formattedCode = null;</span>
+	private String format(@NonNull CodeFormatter formatter, @NonNull String code, @NonNull IRegion[] regions, String lineFeed) throws FormattingFailedException, IllegalArgumentException {
+<span class="fc" id="L118">		String formattedCode = null;</span>
 
-<span class="fc" id="L119">		TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);</span>
-<span class="pc bpc" id="L120" title="1 of 4 branches missed.">		if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
-			try {
-<span class="fc" id="L122">				IDocument dc = new Document(code);</span>
-<span class="fc" id="L123">				te.apply(dc);</span>
+		try {
+<span class="fc" id="L121">			TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);</span>
+<span class="pc bpc" id="L122" title="1 of 4 branches missed.">			if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
+<span class="fc" id="L123">				IDocument dc = new Document(code);</span>
+<span class="fc" id="L124">				te.apply(dc);</span>
 
-<span class="fc" id="L125">				formattedCode = dc.get();</span>
+<span class="fc" id="L126">				formattedCode = dc.get();</span>
 
-<span class="pc bpc" id="L127" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
-<span class="nc" id="L128">					return null;</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
+<span class="nc" id="L129">					return null;</span>
 				}
-<span class="nc" id="L130">			} catch (Exception ex) {</span>
-<span class="nc" id="L131">				throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
-<span class="fc" id="L132">			}</span>
-		} else {
-<span class="fc" id="L134">			throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
-		}
+<span class="fc" id="L131">			} else {</span>
+<span class="fc" id="L132">				throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
+			}
+<span class="fc" id="L134">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
+<span class="fc" id="L135">			throw ex;</span>
+<span class="nc" id="L136">		} catch (Exception ex) {</span>
+<span class="nc" id="L137">			throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
+<span class="fc" id="L138">		}</span>
 
-<span class="fc" id="L137">		return formattedCode;</span>
+<span class="fc" id="L140">		return formattedCode;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

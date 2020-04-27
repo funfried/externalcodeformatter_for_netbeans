@@ -13,8 +13,11 @@ package de.funfried.netbeans.plugins.external.formatter;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import javax.swing.text.Document;
+
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.java.lexer.JavaTokenId;
+import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.util.NbBundle;
 
 /**
@@ -22,54 +25,66 @@ import org.openide.util.NbBundle;
  *
  * @author bahlef
  */
-<span class="fc" id="L25">@NbBundle.Messages({</span>
+<span class="fc" id="L28">@NbBundle.Messages({</span>
 		&quot;JAVA=Java&quot;,
 		&quot;JAVASCRIPT=JavaScript&quot;,
 		&quot;JSON=Json&quot;,
 		&quot;XML=XML&quot;
 })
 public enum MimeType {
-<span class="fc" id="L32">	JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT(&quot;text/javascript&quot;), JSON(&quot;text/x-json&quot;, &quot;^text/(.*)\\+x-json$&quot;), XML(&quot;text/xml&quot;, &quot;^text/(.*)\\+xml$&quot;);</span>
+<span class="fc" id="L35">	JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT(&quot;text/javascript&quot;), JSON(&quot;text/x-json&quot;, &quot;^text/(.*)\\+x-json$&quot;), XML(&quot;text/xml&quot;, &quot;^text/(.*)\\+xml$&quot;);</span>
 
 	private final String[] mimeTypes;
 
-<span class="fc" id="L36">	private MimeType(String... mimeTypes) {</span>
-<span class="fc" id="L37">		this.mimeTypes = mimeTypes;</span>
-<span class="fc" id="L38">	}</span>
+<span class="fc" id="L39">	private MimeType(String... mimeTypes) {</span>
+<span class="fc" id="L40">		this.mimeTypes = mimeTypes;</span>
+<span class="fc" id="L41">	}</span>
 
 	public String getDisplayName() {
-<span class="nc" id="L41">		return NbBundle.getMessage(MimeType.class, this.toString());</span>
+<span class="nc" id="L44">		return NbBundle.getMessage(MimeType.class, this.toString());</span>
 	}
 
 	public String[] getMimeTypes() {
-<span class="fc" id="L45">		return mimeTypes;</span>
+<span class="fc" id="L48">		return mimeTypes;</span>
 	}
 
 	public boolean canHandle(String mimeType) {
-<span class="pc bpc" id="L49" title="1 of 2 branches missed.">		if (StringUtils.isBlank(mimeType)) {</span>
-<span class="nc" id="L50">			return false;</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">		if (StringUtils.isBlank(mimeType)) {</span>
+<span class="fc" id="L53">			return false;</span>
 		}
 
-<span class="fc" id="L53">		String[] types = getMimeTypes();</span>
-<span class="fc bfc" id="L54" title="All 2 branches covered.">		for (String type : types) {</span>
-<span class="pc bpc" id="L55" title="1 of 4 branches missed.">			if (type.startsWith(&quot;^&quot;) &amp;&amp; Pattern.matches(type, mimeType)) {</span>
-<span class="nc" id="L56">				return true;</span>
-<span class="fc bfc" id="L57" title="All 2 branches covered.">			} else if (Objects.equals(type, mimeType)) {</span>
-<span class="fc" id="L58">				return true;</span>
+<span class="fc" id="L56">		String[] types = getMimeTypes();</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">		for (String type : types) {</span>
+<span class="pc bpc" id="L58" title="1 of 4 branches missed.">			if (type.startsWith(&quot;^&quot;) &amp;&amp; Pattern.matches(type, mimeType)) {</span>
+<span class="nc" id="L59">				return true;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">			} else if (Objects.equals(type, mimeType)) {</span>
+<span class="fc" id="L61">				return true;</span>
 			}
 		}
 
-<span class="fc" id="L62">		return false;</span>
+<span class="fc" id="L65">		return false;</span>
 	}
 
 	public static MimeType getByMimeType(String mimeType) {
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">		for (MimeType mime : MimeType.values()) {</span>
-<span class="pc bpc" id="L67" title="1 of 2 branches missed.">			if (mime.canHandle(mimeType)) {</span>
-<span class="fc" id="L68">				return mime;</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		for (MimeType mime : MimeType.values()) {</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">			if (mime.canHandle(mimeType)) {</span>
+<span class="fc" id="L71">				return mime;</span>
 			}
 		}
 
-<span class="nc" id="L72">		return null;</span>
+<span class="fc" id="L75">		return null;</span>
+	}
+
+	public static MimeType getMimeType(Document document) {
+<span class="fc" id="L79">		return getByMimeType(getMimeTypeAsString(document));</span>
+	}
+
+	public static String getMimeTypeAsString(Document document) {
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		if (document != null) {</span>
+<span class="fc" id="L84">			return NbEditorUtilities.getMimeType(document);</span>
+		}
+
+<span class="fc" id="L87">		return null;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

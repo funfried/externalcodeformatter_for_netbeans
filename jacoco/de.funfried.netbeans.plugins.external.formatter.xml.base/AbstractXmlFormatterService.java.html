@@ -15,7 +15,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.netbeans.modules.editor.NbEditorUtilities;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
@@ -27,7 +26,7 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
  *
  * @author bahlef
  */
-<span class="fc" id="L30">public abstract class AbstractXmlFormatterService implements FormatterService {</span>
+<span class="fc" id="L29">public abstract class AbstractXmlFormatterService implements FormatterService {</span>
 	/**
 	 * Returns the {@link FormatJob}.
 	 *
@@ -40,19 +39,19 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
 	 */
 	@Override
 	public void format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException, FormattingFailedException {
-<span class="fc bfc" id="L43" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
-<span class="fc" id="L44">			throw new FormattingFailedException(&quot;The file type '&quot; + NbEditorUtilities.getMimeType(document) + &quot;' is not supported&quot;);</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
+<span class="fc" id="L43">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
 		}
 
-<span class="fc" id="L47">		getFormatJob(document).format();</span>
-<span class="fc" id="L48">	}</span>
+<span class="fc" id="L46">		getFormatJob(document).format();</span>
+<span class="fc" id="L47">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public MimeType getSupportedMimeType() {
-<span class="fc" id="L55">		return MimeType.XML;</span>
+<span class="fc" id="L54">		return MimeType.XML;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
