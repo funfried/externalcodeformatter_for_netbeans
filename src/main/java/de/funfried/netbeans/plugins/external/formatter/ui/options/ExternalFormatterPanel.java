@@ -411,6 +411,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
     private void useIndentationSettingsChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_useIndentationSettingsChkBoxActionPerformed
 		updateEnabledState();
+		fireChangedListener();
     }//GEN-LAST:event_useIndentationSettingsChkBoxActionPerformed
 
     private void chooseMimeTypeCmbBoxItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_chooseMimeTypeCmbBoxItemStateChanged
