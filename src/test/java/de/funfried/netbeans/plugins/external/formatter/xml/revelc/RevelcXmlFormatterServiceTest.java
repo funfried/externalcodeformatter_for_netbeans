@@ -59,7 +59,7 @@ public class RevelcXmlFormatterServiceTest extends NbTestCase {
 		Assert.assertEquals((long) 120L, (long) instance.getRightMargin(document));
 
 		Assert.assertEquals((long) 4L, (long) instance.getContinuationIndentSize(document));
-		Assert.assertEquals((long) 4L, (long) instance.getIndentSize(document));
+		Assert.assertEquals((long) -1L, (long) instance.getIndentSize(document));
 		Assert.assertEquals((long) 4L, (long) instance.getSpacesPerTab(document));
 		Assert.assertFalse(instance.isExpandTabToSpaces(document));
 

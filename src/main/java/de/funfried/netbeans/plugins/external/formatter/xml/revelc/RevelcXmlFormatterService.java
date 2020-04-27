@@ -103,7 +103,7 @@ public class RevelcXmlFormatterService extends AbstractXmlFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			ret = preferences.getInt(RevelcXmlFormatterSettings.TAB_WIDTH, 4);
+			ret = -1;
 		}
 
 		return ret;
