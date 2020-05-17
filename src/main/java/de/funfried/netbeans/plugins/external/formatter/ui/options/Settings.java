@@ -70,6 +70,9 @@ public class Settings {
 	/** Property key which defines whether or not to use project specific settings instead of global formatter settings. */
 	public static final String USE_PROJECT_SETTINGS = "useProjectSettings";
 
+	/** Property key for current project directory in case of project specific configuration. */
+	public static final String PROJECT_DIRECTORY = "projectDirectory";
+
 	/**
 	 * Private contructor because of static methods only.
 	 */

@@ -45,6 +45,7 @@ import de.funfried.netbeans.plugins.external.formatter.eclipse.xml.ConfigReader;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.java.eclipse.EclipseJavaFormatterSettings;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormatterOptionsPanel;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  *
@@ -53,6 +54,8 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormat
 public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
 	/** {@link Logger} of this class. */
 	private static final Logger log = Logger.getLogger(EclipseJavaFormatterOptionsPanel.class.getName());
+
+	private String projectDirectory = null;
 
 	/** Creates new form {@link EclipseJavaFormatterOptionsPanel}. */
 	public EclipseJavaFormatterOptionsPanel() {
@@ -338,6 +341,9 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
 		String eclipseLineFeed = preferences.get(EclipseJavaFormatterSettings.LINEFEED, "");
 		String sourceLevel = preferences.get(EclipseJavaFormatterSettings.SOURCELEVEL, "");
 
+		projectDirectory = preferences.get(Settings.PROJECT_DIRECTORY, null);
+		preferences.remove(Settings.PROJECT_DIRECTORY);
+
 		loadEclipseFormatterFileForPreview(eclipseFormatterLocation, eclipseFormatterProfile);
 
 		cbUseProjectPref.setSelected(useProjectPrefs);
@@ -359,6 +365,10 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
 
 	private void loadEclipseFormatterFileForPreview(String formatterFile, String activeProfile) {
 		formatterLocField.setText(formatterFile);
+
+		if(formatterFile.startsWith(EclipseJavaFormatterSettings.PROJECT_DIR_MARKER) && projectDirectory != null) {
+			formatterFile = formatterFile.replace(EclipseJavaFormatterSettings.PROJECT_DIR_MARKER, projectDirectory);
+		}
 		final File file = new File(formatterFile);
 
 		cbProfile.setEnabled(false);
@@ -430,6 +440,10 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
 		boolean isXML = EclipseJavaFormatterSettings.isXMLConfigurationFile(fileName);
 		boolean isEPF = EclipseJavaFormatterSettings.isWorkspaceMechanicFile(fileName);
 		boolean isProjectSetting = EclipseJavaFormatterSettings.isProjectSetting(fileName);
+		
+		if(fileName.startsWith(EclipseJavaFormatterSettings.PROJECT_DIR_MARKER) && projectDirectory != null) {
+			fileName = fileName.replace(EclipseJavaFormatterSettings.PROJECT_DIR_MARKER, projectDirectory);
+		}
 
 		if (!new File(fileName).exists() || (!isXML && !isEPF && !isProjectSetting) || cbProfile.getSelectedIndex() < 0) {
 			errorLabel.setText("Invalid file. Please enter a valid configuration file.");

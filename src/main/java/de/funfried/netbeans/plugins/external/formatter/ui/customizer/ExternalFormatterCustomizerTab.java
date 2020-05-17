@@ -29,6 +29,7 @@ import org.openide.util.WeakListeners;
 
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.ExternalFormatterPanel;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  * {@link ProjectCustomizer.CompositeCategoryProvider} implementation for project
@@ -67,9 +68,11 @@ public class ExternalFormatterCustomizerTab implements ProjectCustomizer.Composi
 	 */
 	@Override
 	public JComponent createComponent(final Category category, final Lookup lkp) {
-		Preferences projectPreferences = ProjectUtils.getPreferences(lkp.lookup(Project.class), ExternalFormatterPanel.class, true);
+		Project project = lkp.lookup(Project.class);
+		Preferences projectPreferences = ProjectUtils.getPreferences(project, ExternalFormatterPanel.class, true);
+		projectPreferences.put(Settings.PROJECT_DIRECTORY, project.getProjectDirectory().getPath());
 		final ExternalFormatterPanel configPanel = new ExternalFormatterPanel(projectPreferences, true);
-		final ProjectSpecificSettingsPanel projectSpecificSettingsPanel = new ProjectSpecificSettingsPanel(configPanel, projectPreferences);
+		final ProjectSpecificSettingsPanel projectSpecificSettingsPanel =  new ProjectSpecificSettingsPanel(configPanel, projectPreferences);
 		configPanel.load();
 		projectSpecificSettingsPanel.load();
 

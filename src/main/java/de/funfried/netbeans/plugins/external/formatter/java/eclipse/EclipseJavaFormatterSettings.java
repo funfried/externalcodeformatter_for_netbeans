@@ -10,6 +10,7 @@
 package de.funfried.netbeans.plugins.external.formatter.java.eclipse;
 
 import java.util.prefs.Preferences;
+import java.util.regex.Pattern;
 
 import javax.swing.text.Document;
 
@@ -47,6 +48,11 @@ public class EclipseJavaFormatterSettings {
 	public static final String PROJECT_PREF_FILE = "org.eclipse.jdt.core.prefs";
 
 	/**
+	 * Marker for a project-relative formatter configuration file.
+	 */
+	public static final String PROJECT_DIR_MARKER = "${projectdir}";
+
+	/**
 	 * Property key which defines the line feed setting for the Eclipse formatter.
 	 *
 	 * @since 1.10
@@ -82,11 +88,16 @@ public class EclipseJavaFormatterSettings {
 		String formatterFilePref = null;
 		if (preferences.getBoolean(EclipseJavaFormatterSettings.USE_PROJECT_PREFS, true)) {
 			//use ${projectdir}/.settings/org.eclipse.jdt.core.prefs, if activated in options
-			formatterFilePref = getFormatterFileFromProjectConfiguration(document);
+			formatterFilePref = getFormatterFileFromProjectConfiguration(document, ".settings/" + EclipseJavaFormatterSettings.PROJECT_PREF_FILE);
 		}
 
 		if (StringUtils.isBlank(formatterFilePref)) {
 			formatterFilePref = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, null);
+			
+			if(formatterFilePref != null && formatterFilePref.startsWith(PROJECT_DIR_MARKER)) {
+				formatterFilePref = getFormatterFileFromProjectConfiguration(document, formatterFilePref
+						.substring(PROJECT_DIR_MARKER.length() + 1).replaceAll(Pattern.quote("\\"), "/"));
+			}
 		}
 
 		return formatterFilePref;
@@ -102,14 +113,14 @@ public class EclipseJavaFormatterSettings {
 	 *         otherwise {@code null}
 	 */
 	@CheckForNull
-	private static String getFormatterFileFromProjectConfiguration(Document document) {
+	private static String getFormatterFileFromProjectConfiguration(Document document, String relativeFileName) {
 		FileObject fileForDocument = NbEditorUtilities.getFileObject(document);
 		if (null != fileForDocument) {
 
 			Project project = FileOwnerQuery.getOwner(fileForDocument);
 			if (null != project) {
 				FileObject projectDirectory = project.getProjectDirectory();
-				FileObject preferenceFile = projectDirectory.getFileObject(".settings/" + EclipseJavaFormatterSettings.PROJECT_PREF_FILE);
+				FileObject preferenceFile = projectDirectory.getFileObject(relativeFileName);
 				if (null != preferenceFile) {
 					return preferenceFile.getPath();
 				}
