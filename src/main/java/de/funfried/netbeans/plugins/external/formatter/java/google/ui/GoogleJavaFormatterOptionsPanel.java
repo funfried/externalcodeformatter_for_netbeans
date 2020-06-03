@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.LayoutStyle;
 
+import org.netbeans.api.project.Project;
 import org.openide.awt.Mnemonics;
 import org.openide.util.NbBundle;
 
@@ -33,8 +34,15 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormat
  * @author bahlef
  */
 public class GoogleJavaFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
-	/** Creates new form {@link GoogleJavaFormatterOptionsPanel}. */
-	public GoogleJavaFormatterOptionsPanel() {
+	/**
+	 * Creates new form {@link GoogleJavaFormatterOptionsPanel}.
+	 *
+	 * @param project the {@link Project} if the panel is used to modify project
+	 *                specific settings, otherwise {@code null}
+	 */
+	public GoogleJavaFormatterOptionsPanel(Project project) {
+		super(project);
+
 		initComponents();
 	}
 
@@ -56,6 +64,7 @@ public class GoogleJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
         googleCodeStyleBtnGrp.add(googleCodeStyleRdBtn);
         googleCodeStyleRdBtn.setSelected(true);
         Mnemonics.setLocalizedText(googleCodeStyleRdBtn, NbBundle.getMessage(GoogleJavaFormatterOptionsPanel.class, "GoogleJavaFormatterOptionsPanel.googleCodeStyleRdBtn.text")); // NOI18N
+        googleCodeStyleRdBtn.setToolTipText(NbBundle.getMessage(GoogleJavaFormatterOptionsPanel.class, "GoogleJavaFormatterOptionsPanel.googleCodeStyleRdBtn.toolTipText")); // NOI18N
         googleCodeStyleRdBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 googleCodeStyleRdBtnActionPerformed(evt);
@@ -64,6 +73,7 @@ public class GoogleJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
 
         googleCodeStyleBtnGrp.add(aospRdBtn);
         Mnemonics.setLocalizedText(aospRdBtn, NbBundle.getMessage(GoogleJavaFormatterOptionsPanel.class, "GoogleJavaFormatterOptionsPanel.aospRdBtn.text")); // NOI18N
+        aospRdBtn.setToolTipText(NbBundle.getMessage(GoogleJavaFormatterOptionsPanel.class, "GoogleJavaFormatterOptionsPanel.aospRdBtn.toolTipText")); // NOI18N
         aospRdBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 aospRdBtnActionPerformed(evt);
@@ -71,6 +81,7 @@ public class GoogleJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
         });
 
         Mnemonics.setLocalizedText(googleCodeStyleLbl, NbBundle.getMessage(GoogleJavaFormatterOptionsPanel.class, "GoogleJavaFormatterOptionsPanel.googleCodeStyleLbl.text")); // NOI18N
+        googleCodeStyleLbl.setToolTipText(NbBundle.getMessage(GoogleJavaFormatterOptionsPanel.class, "GoogleJavaFormatterOptionsPanel.googleCodeStyleLbl.toolTipText")); // NOI18N
 
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
@@ -96,11 +107,11 @@ public class GoogleJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
     }// </editor-fold>//GEN-END:initComponents
 
     private void googleCodeStyleRdBtnActionPerformed(ActionEvent evt) {//GEN-FIRST:event_googleCodeStyleRdBtnActionPerformed
-        fireChangedListener();
+		fireChangedListener();
     }//GEN-LAST:event_googleCodeStyleRdBtnActionPerformed
 
     private void aospRdBtnActionPerformed(ActionEvent evt) {//GEN-FIRST:event_aospRdBtnActionPerformed
-        fireChangedListener();
+		fireChangedListener();
     }//GEN-LAST:event_aospRdBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

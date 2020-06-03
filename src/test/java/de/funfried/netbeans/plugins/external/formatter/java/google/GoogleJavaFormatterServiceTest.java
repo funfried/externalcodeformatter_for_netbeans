@@ -56,7 +56,7 @@ public class GoogleJavaFormatterServiceTest extends NbTestCase {
 
 		GoogleJavaFormatterService instance = new GoogleJavaFormatterService();
 		Assert.assertEquals("Google Java Code Formatter", instance.getDisplayName());
-		Assert.assertNotNull(instance.getOptionsPanel());
+		Assert.assertNotNull(instance.createOptionsPanel(null));
 		Assert.assertEquals((long) 100L, (long) instance.getRightMargin(document));
 
 		Assert.assertEquals((long) 4L, (long) instance.getContinuationIndentSize(document));

@@ -55,7 +55,7 @@ public class SpringJavaFormatterServiceTest extends NbTestCase {
 
 		SpringJavaFormatterService instance = new SpringJavaFormatterService();
 		Assert.assertEquals("Spring Java Code Formatter", instance.getDisplayName());
-		Assert.assertNotNull(instance.getOptionsPanel());
+		Assert.assertNotNull(instance.createOptionsPanel(null));
 		Assert.assertEquals((long) 120L, (long) instance.getRightMargin(document));
 
 		Assert.assertEquals((long) 2L, (long) instance.getContinuationIndentSize(document));

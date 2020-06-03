@@ -13,9 +13,15 @@ package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse.ui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
@@ -35,6 +41,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.lang3.StringUtils;
+import org.netbeans.api.project.Project;
 import org.openide.awt.Mnemonics;
 import org.openide.filesystems.FileChooserBuilder;
 import org.openide.filesystems.FileObject;
@@ -54,9 +61,21 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 	/** {@link Logger} of this class. */
 	private static final Logger log = Logger.getLogger(EclipseJavascriptFormatterOptionsPanel.class.getName());
 
-	/** Creates new form {@link EclipseJavascriptFormatterOptionsPanel}. */
-	public EclipseJavascriptFormatterOptionsPanel() {
+	/**
+	 * Creates new form {@link EclipseJavascriptFormatterOptionsPanel}.
+	 *
+	 * @param project the {@link Project} if the panel is used to modify project
+	 *                specific settings, otherwise {@code null}
+	 */
+	public EclipseJavascriptFormatterOptionsPanel(Project project) {
+		super(project);
+
 		initComponents();
+
+		if (project != null) {
+			lblFormatterFile.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.lblFormatterFile.toolTipText.projectSpecific"));
+			browseButton.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.browseButton.toolTipText.projectSpecific"));
+		}
 	}
 
 	/**
@@ -86,6 +105,11 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 
         formatterLocField.setText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.formatterLocField.text")); // NOI18N
         formatterLocField.setPreferredSize(formatterLocField.getMinimumSize());
+        formatterLocField.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
+                formatterLocFieldFocusLost(evt);
+            }
+        });
         formatterLocField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 formatterLocFieldActionPerformed(evt);
@@ -102,21 +126,20 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 
         errorLabel.setForeground(new Color(255, 51, 51));
         Mnemonics.setLocalizedText(errorLabel, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.errorLabel.text")); // NOI18N
-        errorLabel.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.errorLabel.toolTipText")); // NOI18N
 
         Mnemonics.setLocalizedText(jLabel2, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.jLabel2.text")); // NOI18N
         jLabel2.setEnabled(false);
 
-        cbProfile.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.cbProfile.toolTipText")); // NOI18N
         cbProfile.setEnabled(false);
-        cbProfile.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                cbProfileActionPerformed(evt);
+        cbProfile.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                cbProfileItemStateChanged(evt);
             }
         });
 
         lblProfile.setHorizontalAlignment(SwingConstants.RIGHT);
         Mnemonics.setLocalizedText(lblProfile, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.lblProfile.text")); // NOI18N
+        lblProfile.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.lblProfile.toolTipText")); // NOI18N
 
         cbUseProjectPref.setSelected(true);
         Mnemonics.setLocalizedText(cbUseProjectPref, NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.cbUseProjectPref.text")); // NOI18N
@@ -127,10 +150,9 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
         lblLinefeed.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.lblLinefeed.toolTipText")); // NOI18N
 
         cbLinefeed.setModel(new DefaultComboBoxModel<>(new String[] { "System", "\\n", "\\r\\n", "\\r" }));
-        cbLinefeed.setToolTipText(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.cbLinefeed.toolTipText")); // NOI18N
-        cbLinefeed.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                cbLinefeedActionPerformed(evt);
+        cbLinefeed.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                cbLinefeedItemStateChanged(evt);
             }
         });
 
@@ -213,54 +235,78 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
     }// </editor-fold>//GEN-END:initComponents
 
     private void formatterLocFieldActionPerformed(ActionEvent evt) {//GEN-FIRST:event_formatterLocFieldActionPerformed
-        loadEclipseFormatterFileForPreview(formatterLocField.getText(), getSelectedProfile());
-        fireChangedListener();
+		loadEclipseFormatterFileForPreview(formatterLocField.getText(), getSelectedProfile());
+		fireChangedListener();
     }//GEN-LAST:event_formatterLocFieldActionPerformed
 
     private void browseButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
-        //The default dir to use if no value is stored
-        File home = new File(System.getProperty("user.home"));
-        final FileNameExtensionFilter fileNameExtensionFilterXML = new FileNameExtensionFilter("Eclipse formatter (*.xml)", "xml");
-        final FileNameExtensionFilter fileNameExtensionFilterEPF = new FileNameExtensionFilter("Workspace mechanic (*.epf)", "epf");
-        final FileFilter fileNameExtensionFilterProjectSetting = new FileFilter() {
-            /**
-            * {@inheritDoc}
-            */
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()) {
-                    return true;
-                }
-                return EclipseJavascriptFormatterSettings.PROJECT_PREF_FILE.equals(f.getName());
-            }
+		// The default dir to use if no value is stored
+		File home = new File(System.getProperty("user.home"));
+		String formatterFilePath = formatterLocField.getText();
+		if (StringUtils.isNotBlank(formatterFilePath)) {
+			File formatterFile = new File(formatterFilePath);
+			if (formatterFile.canRead()) {
+				home = formatterFile;
+			}
+		}
 
-            /**
-            * {@inheritDoc}
-            */
-            @Override
-            public String getDescription() {
-                return "Eclipse project settings (" + EclipseJavascriptFormatterSettings.PROJECT_PREF_FILE + ")";
-            }
-        };
-        //Now build a file chooser and invoke the dialog in one line of code
-        //"user-dir" is our unique key
-        File toAdd = new FileChooserBuilder("user-dir").setFileHiding(false).setFilesOnly(true).setTitle("Choose configuration ...").setDefaultWorkingDirectory(home).setApproveText("Choose")
-        .addFileFilter(fileNameExtensionFilterProjectSetting).addFileFilter(fileNameExtensionFilterXML).addFileFilter(fileNameExtensionFilterEPF).setFileFilter(fileNameExtensionFilterXML)
-        .showOpenDialog();
-        //Result will be null if the user clicked cancel or closed the dialog w/o OK
-        if (toAdd != null) {
-            loadEclipseFormatterFileForPreview(toAdd.getAbsolutePath(), getSelectedProfile());
+		final FileNameExtensionFilter fileNameExtensionFilterXML = new FileNameExtensionFilter("Eclipse formatter (*.xml)", "xml");
+		final FileNameExtensionFilter fileNameExtensionFilterEPF = new FileNameExtensionFilter("Workspace mechanic (*.epf)", "epf");
+		final FileFilter fileNameExtensionFilterProjectSetting = new FileFilter() {
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public boolean accept(File f) {
+				if (f.isDirectory()) {
+					return true;
+				}
+				return EclipseJavascriptFormatterSettings.PROJECT_PREF_FILE.equals(f.getName());
+			}
+
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public String getDescription() {
+				return "Eclipse project settings (" + EclipseJavascriptFormatterSettings.PROJECT_PREF_FILE + ")";
+			}
+		};
+		//Now build a file chooser and invoke the dialog in one line of code
+		//"user-dir" is our unique key
+		File toAdd = new FileChooserBuilder("user-dir").setFileHiding(false).setFilesOnly(true).setTitle("Choose configuration ...").setDefaultWorkingDirectory(home).setApproveText("Choose")
+		  .addFileFilter(fileNameExtensionFilterProjectSetting).addFileFilter(fileNameExtensionFilterXML).addFileFilter(fileNameExtensionFilterEPF).setFileFilter(fileNameExtensionFilterXML)
+		  .showOpenDialog();
+		//Result will be null if the user clicked cancel or closed the dialog w/o OK
+		if (toAdd != null) {
+			loadEclipseFormatterFileForPreview(toAdd.getAbsolutePath(), getSelectedProfile());
 			fireChangedListener();
-        }
+		}
     }//GEN-LAST:event_browseButtonActionPerformed
 
-    private void cbProfileActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cbProfileActionPerformed
-        fireChangedListener();
-    }//GEN-LAST:event_cbProfileActionPerformed
+    private void cbProfileItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_cbProfileItemStateChanged
+		if (ItemEvent.SELECTED == evt.getStateChange()) {
+			cbProfile.setToolTipText(Objects.toString(cbProfile.getSelectedItem(), null));
 
-    private void cbLinefeedActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cbLinefeedActionPerformed
-        fireChangedListener();
-    }//GEN-LAST:event_cbLinefeedActionPerformed
+			fireChangedListener();
+		}
+    }//GEN-LAST:event_cbProfileItemStateChanged
+
+    private void cbLinefeedItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_cbLinefeedItemStateChanged
+		if (ItemEvent.SELECTED == evt.getStateChange()) {
+			cbLinefeed.setToolTipText(Objects.toString(cbLinefeed.getSelectedItem(), null));
+
+			fireChangedListener();
+		}
+    }//GEN-LAST:event_cbLinefeedItemStateChanged
+
+    private void formatterLocFieldFocusLost(FocusEvent evt) {//GEN-FIRST:event_formatterLocFieldFocusLost
+		loadEclipseFormatterFileForPreview(formatterLocField.getText(), getSelectedProfile());
+
+		if (!valid()) {
+			fireChangedListener();
+		}
+    }//GEN-LAST:event_formatterLocFieldFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JButton browseButton;
@@ -315,11 +361,19 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 		} else {
 			cbLinefeed.setSelectedItem(eclipseLineFeed);
 		}
+
+		cbLinefeed.setToolTipText(Objects.toString(cbLinefeed.getSelectedItem(), null));
 	}
 
 	private void loadEclipseFormatterFileForPreview(String formatterFile, String activeProfile) {
+		Path formatterFilePath = Path.of(formatterFile);
+		if (!formatterFilePath.isAbsolute() && project != null) {
+			formatterFilePath = Path.of(project.getProjectDirectory().getPath()).resolve(formatterFilePath);
+		}
+
 		formatterLocField.setText(formatterFile);
-		final File file = new File(formatterFile);
+
+		final File file = formatterFilePath.toFile();
 
 		cbProfile.setEnabled(false);
 
@@ -344,6 +398,8 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 					selectProfileOrFallback(entryToSelect, profileNames);
 					cbProfile.setEnabled(true);
 				}
+
+				formatterLocField.setToolTipText(file.getAbsolutePath());
 			} catch (IOException | SAXException | ConfigReadException ex) {
 				log.log(Level.INFO, "Could not parse formatter config", ex);
 			}
@@ -360,6 +416,8 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 			//fallback: ===choose profile==
 			cbProfile.setSelectedIndex(0);
 		}
+
+		cbProfile.setToolTipText(Objects.toString(cbProfile.getSelectedItem(), null));
 	}
 
 	/**

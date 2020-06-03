@@ -107,7 +107,7 @@ public final class ExternalFormatterOptionsPanelController extends OptionsPanelC
 	private ExternalFormatterPanel createOrGetPanel() {
 		if (null == panel) {
 			Preferences globalPreferences = NbPreferences.forModule(ExternalFormatterPanel.class);
-			panel = new ExternalFormatterPanel(globalPreferences, false);
+			panel = new ExternalFormatterPanel(globalPreferences, null);
 			panel.addChangeListener(WeakListeners.change(this, panel));
 		}
 

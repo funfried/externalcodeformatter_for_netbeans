@@ -13,6 +13,7 @@ package de.funfried.netbeans.plugins.external.formatter.ui.options;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
 
+import org.netbeans.api.project.Project;
 import org.openide.util.ChangeSupport;
 
 /**
@@ -24,8 +25,18 @@ public abstract class AbstractFormatterOptionsPanel extends JPanel implements Fo
 	/** {@link ChangeSupport} to notify about changed preference components. */
 	protected final ChangeSupport changeSupport;
 
-	/** Default constructor of {@link AbstractFormatterOptionsPanel}. */
-	public AbstractFormatterOptionsPanel() {
+	/** The {@link Project} which this panel is used to change the settings for or {@code null} if this panel is used to change the global settings. */
+	protected final Project project;
+
+	/**
+	 * Default constructor of {@link AbstractFormatterOptionsPanel}.
+	 *
+	 * @param project the {@link Project} if the panel is used to modify project
+	 *                specific settings, otherwise {@code null}
+	 */
+	public AbstractFormatterOptionsPanel(Project project) {
+		this.project = project;
+
 		this.changeSupport = new ChangeSupport(this);
 	}
 

@@ -11,6 +11,9 @@ package de.funfried.netbeans.plugins.external.formatter.xml.jsoup.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Objects;
 import java.util.prefs.Preferences;
 
 import javax.swing.DefaultComboBoxModel;
@@ -25,6 +28,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.apache.commons.lang3.StringUtils;
+import org.netbeans.api.project.Project;
 import org.openide.awt.Mnemonics;
 import org.openide.util.NbBundle;
 
@@ -36,8 +40,15 @@ import de.funfried.netbeans.plugins.external.formatter.xml.jsoup.JsoupXmlFormatt
  * @author bahlef
  */
 public class JsoupXmlFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
-	/** Creates new form {@link JsoupXmlFormatterOptionsPanel}. */
-	public JsoupXmlFormatterOptionsPanel() {
+	/**
+	 * Creates new form {@link JsoupXmlFormatterOptionsPanel}.
+	 *
+	 * @param project the {@link Project} if the panel is used to modify project
+	 *                specific settings, otherwise {@code null}
+	 */
+	public JsoupXmlFormatterOptionsPanel(Project project) {
+		super(project);
+
 		initComponents();
 	}
 
@@ -59,16 +70,18 @@ public class JsoupXmlFormatterOptionsPanel extends AbstractFormatterOptionsPanel
         indentSizeSpn = new JSpinner();
 
         Mnemonics.setLocalizedText(linefeedLbl, NbBundle.getMessage(JsoupXmlFormatterOptionsPanel.class, "JsoupXmlFormatterOptionsPanel.linefeedLbl.text")); // NOI18N
+        linefeedLbl.setToolTipText(NbBundle.getMessage(JsoupXmlFormatterOptionsPanel.class, "JsoupXmlFormatterOptionsPanel.linefeedLbl.toolTipText")); // NOI18N
 
         linefeedCmbBox.setModel(new DefaultComboBoxModel<>(new String[] { "System", "\\n", "\\r\\n", "\\r" }));
-        linefeedCmbBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                linefeedCmbBoxActionPerformed(evt);
+        linefeedCmbBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                linefeedCmbBoxItemStateChanged(evt);
             }
         });
 
         prettyPrintChkBox.setSelected(true);
         Mnemonics.setLocalizedText(prettyPrintChkBox, NbBundle.getMessage(JsoupXmlFormatterOptionsPanel.class, "JsoupXmlFormatterOptionsPanel.prettyPrintChkBox.text")); // NOI18N
+        prettyPrintChkBox.setToolTipText(NbBundle.getMessage(JsoupXmlFormatterOptionsPanel.class, "JsoupXmlFormatterOptionsPanel.prettyPrintChkBox.toolTipText")); // NOI18N
         prettyPrintChkBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 prettyPrintChkBoxActionPerformed(evt);
@@ -76,6 +89,7 @@ public class JsoupXmlFormatterOptionsPanel extends AbstractFormatterOptionsPanel
         });
 
         Mnemonics.setLocalizedText(outlineChkBox, NbBundle.getMessage(JsoupXmlFormatterOptionsPanel.class, "JsoupXmlFormatterOptionsPanel.outlineChkBox.text")); // NOI18N
+        outlineChkBox.setToolTipText(NbBundle.getMessage(JsoupXmlFormatterOptionsPanel.class, "JsoupXmlFormatterOptionsPanel.outlineChkBox.toolTipText")); // NOI18N
         outlineChkBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 outlineChkBoxActionPerformed(evt);
@@ -83,6 +97,7 @@ public class JsoupXmlFormatterOptionsPanel extends AbstractFormatterOptionsPanel
         });
 
         Mnemonics.setLocalizedText(indentSizeLbl, NbBundle.getMessage(JsoupXmlFormatterOptionsPanel.class, "JsoupXmlFormatterOptionsPanel.indentSizeLbl.text")); // NOI18N
+        indentSizeLbl.setToolTipText(NbBundle.getMessage(JsoupXmlFormatterOptionsPanel.class, "JsoupXmlFormatterOptionsPanel.indentSizeLbl.toolTipText")); // NOI18N
 
         indentSizeSpn.setModel(new SpinnerNumberModel(1, 0, null, 1));
         indentSizeSpn.addChangeListener(new ChangeListener() {
@@ -133,20 +148,26 @@ public class JsoupXmlFormatterOptionsPanel extends AbstractFormatterOptionsPanel
     }// </editor-fold>//GEN-END:initComponents
 
     private void prettyPrintChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_prettyPrintChkBoxActionPerformed
-        fireChangedListener();
+		fireChangedListener();
     }//GEN-LAST:event_prettyPrintChkBoxActionPerformed
 
     private void outlineChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_outlineChkBoxActionPerformed
-        fireChangedListener();
+		fireChangedListener();
     }//GEN-LAST:event_outlineChkBoxActionPerformed
 
     private void indentSizeSpnStateChanged(ChangeEvent evt) {//GEN-FIRST:event_indentSizeSpnStateChanged
-        fireChangedListener();
+		indentSizeSpn.setToolTipText(Objects.toString(indentSizeSpn.getValue(), null));
+
+		fireChangedListener();
     }//GEN-LAST:event_indentSizeSpnStateChanged
 
-    private void linefeedCmbBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_linefeedCmbBoxActionPerformed
-        fireChangedListener();
-    }//GEN-LAST:event_linefeedCmbBoxActionPerformed
+    private void linefeedCmbBoxItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_linefeedCmbBoxItemStateChanged
+		if (ItemEvent.SELECTED == evt.getStateChange()) {
+			linefeedCmbBox.setToolTipText(Objects.toString(linefeedCmbBox.getSelectedItem(), null));
+
+			fireChangedListener();
+		}
+    }//GEN-LAST:event_linefeedCmbBoxItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JLabel indentSizeLbl;
@@ -177,6 +198,7 @@ public class JsoupXmlFormatterOptionsPanel extends AbstractFormatterOptionsPanel
 		prettyPrintChkBox.setSelected(prettyPrint);
 		outlineChkBox.setSelected(outline);
 		indentSizeSpn.setValue(indentSize);
+		indentSizeSpn.setToolTipText(Objects.toString(indentSizeSpn.getValue(), null));
 
 		if (StringUtils.isBlank(lineFeed)) {
 			//default = system-dependend LF
@@ -184,6 +206,8 @@ public class JsoupXmlFormatterOptionsPanel extends AbstractFormatterOptionsPanel
 		} else {
 			linefeedCmbBox.setSelectedItem(lineFeed);
 		}
+
+		linefeedCmbBox.setToolTipText(Objects.toString(linefeedCmbBox.getSelectedItem(), null));
 	}
 
 	/**

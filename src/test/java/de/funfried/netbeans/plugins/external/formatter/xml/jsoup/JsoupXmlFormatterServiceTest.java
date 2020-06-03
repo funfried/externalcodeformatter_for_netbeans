@@ -59,7 +59,7 @@ public class JsoupXmlFormatterServiceTest extends NbTestCase {
 
 		JsoupXmlFormatterService instance = new JsoupXmlFormatterService();
 		Assert.assertEquals("Jsoup XML Code Formatter", instance.getDisplayName());
-		Assert.assertNotNull(instance.getOptionsPanel());
+		Assert.assertNotNull(instance.createOptionsPanel(null));
 		Assert.assertEquals((long) 0L, (long) instance.getRightMargin(document));
 
 		Assert.assertEquals((long) 1L, (long) instance.getContinuationIndentSize(document));

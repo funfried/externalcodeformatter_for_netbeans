@@ -10,8 +10,9 @@
 
 package de.funfried.netbeans.plugins.external.formatter.java.spring.ui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Objects;
 import java.util.prefs.Preferences;
 
 import javax.swing.DefaultComboBoxModel;
@@ -22,6 +23,7 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 
 import org.apache.commons.lang3.StringUtils;
+import org.netbeans.api.project.Project;
 import org.openide.awt.Mnemonics;
 import org.openide.util.NbBundle;
 
@@ -33,8 +35,15 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormat
  * @author bahlef
  */
 public class SpringJavaFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
-	/** Creates new form {@link SpringJavaFormatterOptionsPanel}. */
-	public SpringJavaFormatterOptionsPanel() {
+	/**
+	 * Creates new form {@link SpringJavaFormatterOptionsPanel}.
+	 *
+	 * @param project the {@link Project} if the panel is used to modify project
+	 *                specific settings, otherwise {@code null}
+	 */
+	public SpringJavaFormatterOptionsPanel(Project project) {
+		super(project);
+
 		initComponents();
 	}
 
@@ -56,10 +65,9 @@ public class SpringJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
         lblSpringLinefeed.setToolTipText(NbBundle.getMessage(SpringJavaFormatterOptionsPanel.class, "SpringJavaFormatterOptionsPanel.lblSpringLinefeed.toolTipText")); // NOI18N
 
         cbLinefeed.setModel(new DefaultComboBoxModel<>(new String[] { "System", "\\n", "\\r\\n", "\\r" }));
-        cbLinefeed.setToolTipText(NbBundle.getMessage(SpringJavaFormatterOptionsPanel.class, "SpringJavaFormatterOptionsPanel.cbLinefeed.toolTipText")); // NOI18N
-        cbLinefeed.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                cbLinefeedActionPerformed(evt);
+        cbLinefeed.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                cbLinefeedItemStateChanged(evt);
             }
         });
 
@@ -83,9 +91,13 @@ public class SpringJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbLinefeedActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cbLinefeedActionPerformed
-        fireChangedListener();
-    }//GEN-LAST:event_cbLinefeedActionPerformed
+    private void cbLinefeedItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_cbLinefeedItemStateChanged
+		if (ItemEvent.SELECTED == evt.getStateChange()) {
+			cbLinefeed.setToolTipText(Objects.toString(cbLinefeed.getSelectedItem(), null));
+
+			fireChangedListener();
+		}
+    }//GEN-LAST:event_cbLinefeedItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JComboBox<String> cbLinefeed;
@@ -112,6 +124,8 @@ public class SpringJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
 		} else {
 			cbLinefeed.setSelectedItem(springLineFeed);
 		}
+
+		cbLinefeed.setToolTipText(Objects.toString(cbLinefeed.getSelectedItem(), null));
 	}
 
 	/**

@@ -55,7 +55,7 @@ public class RevelcXmlFormatterServiceTest extends NbTestCase {
 
 		RevelcXmlFormatterService instance = new RevelcXmlFormatterService();
 		Assert.assertEquals("revelc.net XML Code Formatter", instance.getDisplayName());
-		Assert.assertNotNull(instance.getOptionsPanel());
+		Assert.assertNotNull(instance.createOptionsPanel(null));
 		Assert.assertEquals((long) 120L, (long) instance.getRightMargin(document));
 
 		Assert.assertEquals((long) 4L, (long) instance.getContinuationIndentSize(document));

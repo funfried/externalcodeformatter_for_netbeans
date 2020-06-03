@@ -18,6 +18,7 @@ import javax.swing.text.StyledDocument;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
+import org.netbeans.api.project.Project;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
@@ -98,15 +99,19 @@ public interface FormatterService {
 	Integer getIndentSize(Document document);
 
 	/**
-	 * Returns the {@link FormatterOptionsPanel} for this formatter which
-	 * will be displayed in the overall options dialog underneath this
+	 * Creates and returns the {@link FormatterOptionsPanel} for this formatter
+	 * which will be displayed in the overall options dialog underneath this
 	 * formatters selection.
+	 *
+	 * @param project the {@link Project} if the panel which is created is used
+	 *                to modify project specific settings, otherwise
+	 *                {@code null}
 	 *
 	 * @return the {@link FormatterOptionsPanel} for this formatter, or
 	 *         {@code null} if there are no options a user could make for
 	 *         this formatter
 	 */
-	FormatterOptionsPanel getOptionsPanel();
+	FormatterOptionsPanel createOptionsPanel(Project project);
 
 	/**
 	 * Returns the right margin (position of the red line in the editor) configured

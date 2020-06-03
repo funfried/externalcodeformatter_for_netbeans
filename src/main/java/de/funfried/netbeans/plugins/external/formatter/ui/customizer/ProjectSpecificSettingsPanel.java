@@ -107,7 +107,7 @@ public class ProjectSpecificSettingsPanel extends JPanel implements VerifiableCo
                 lblJumpToGlobalOptionsMouseClicked(evt);
             }
         });
-        headerPanel.add(lblJumpToGlobalOptions, BorderLayout.CENTER);
+        headerPanel.add(lblJumpToGlobalOptions, BorderLayout.EAST);
 
         scrollContainer.add(headerPanel, BorderLayout.NORTH);
         scrollContainer.add(innerPanel, BorderLayout.CENTER);
@@ -123,7 +123,7 @@ public class ProjectSpecificSettingsPanel extends JPanel implements VerifiableCo
 	}//GEN-LAST:event_cbOverrideGlobalSettingsActionPerformed
 
 	private void lblJumpToGlobalOptionsMouseClicked(MouseEvent evt) {//GEN-FIRST:event_lblJumpToGlobalOptionsMouseClicked
-		OptionsDisplayer.getDefault().open("Java" + "/de.funfried.netbeans.plugins.external.formatter.ui.options");
+		OptionsDisplayer.getDefault().open("Editor/de.funfried.netbeans.plugins.external.formatter.ui.options");
 	}//GEN-LAST:event_lblJumpToGlobalOptionsMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
