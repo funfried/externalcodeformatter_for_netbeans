@@ -10,6 +10,7 @@
 package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.prefs.Preferences;
 
 import javax.swing.text.Document;
@@ -90,7 +91,7 @@ public class EclipseJavascriptFormatterSettings {
 		if (StringUtils.isBlank(formatterFilePref)) {
 			formatterFilePref = preferences.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, null);
 			if (StringUtils.isNotBlank(formatterFilePref)) {
-				Path formatterFilePath = Path.of(formatterFilePref);
+				Path formatterFilePath = Paths.get(formatterFilePref);
 				if (!formatterFilePath.isAbsolute()) {
 					formatterFilePref = getFormatterFileFromProjectConfiguration(document, formatterFilePref);
 				}

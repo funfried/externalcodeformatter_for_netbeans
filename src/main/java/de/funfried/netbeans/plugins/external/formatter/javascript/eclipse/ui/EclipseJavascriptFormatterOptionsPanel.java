@@ -20,6 +20,7 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -366,9 +367,9 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 	}
 
 	private void loadEclipseFormatterFileForPreview(String formatterFile, String activeProfile) {
-		Path formatterFilePath = Path.of(formatterFile);
+		Path formatterFilePath = Paths.get(formatterFile);
 		if (!formatterFilePath.isAbsolute() && project != null) {
-			formatterFilePath = Path.of(project.getProjectDirectory().getPath()).resolve(formatterFilePath);
+			formatterFilePath = Paths.get(project.getProjectDirectory().getPath()).resolve(formatterFilePath);
 		}
 
 		formatterLocField.setText(formatterFile);
