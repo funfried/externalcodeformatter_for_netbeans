@@ -115,7 +115,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="linefeedCmbBoxActionPerformed"/>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="linefeedCmbBoxItemStateChanged"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -125,6 +125,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/revelc/ui/Bundle.properties" key="RevelcXmlFormatterOptionsPanel.rightMarginLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/revelc/ui/Bundle.properties" key="RevelcXmlFormatterOptionsPanel.rightMarginLbl.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
@@ -147,6 +150,9 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/revelc/ui/Bundle.properties" key="RevelcXmlFormatterOptionsPanel.wrapLongLinesChkBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/revelc/ui/Bundle.properties" key="RevelcXmlFormatterOptionsPanel.wrapLongLinesChkBox.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="wrapLongLinesChkBoxActionPerformed"/>
@@ -156,6 +162,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/revelc/ui/Bundle.properties" key="RevelcXmlFormatterOptionsPanel.wellFormedValidationLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/revelc/ui/Bundle.properties" key="RevelcXmlFormatterOptionsPanel.wellFormedValidationLbl.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
@@ -171,7 +180,7 @@
         <Property name="selectedIndex" type="int" value="1"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="wellFormedValidationCmbBoxActionPerformed"/>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="wellFormedValidationCmbBoxItemStateChanged"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -181,6 +190,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/revelc/ui/Bundle.properties" key="RevelcXmlFormatterOptionsPanel.expandTabsToSpacesChkBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/revelc/ui/Bundle.properties" key="RevelcXmlFormatterOptionsPanel.expandTabsToSpacesChkBox.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
       <Events>
@@ -192,6 +204,9 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/revelc/ui/Bundle.properties" key="RevelcXmlFormatterOptionsPanel.splitMultiAttrsChkBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/revelc/ui/Bundle.properties" key="RevelcXmlFormatterOptionsPanel.splitMultiAttrsChkBox.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="splitMultiAttrsChkBoxActionPerformed"/>
@@ -201,6 +216,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/revelc/ui/Bundle.properties" key="RevelcXmlFormatterOptionsPanel.tabWidthLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/revelc/ui/Bundle.properties" key="RevelcXmlFormatterOptionsPanel.tabWidthLbl.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>

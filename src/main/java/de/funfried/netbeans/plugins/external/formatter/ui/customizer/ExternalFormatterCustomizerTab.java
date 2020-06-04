@@ -67,8 +67,9 @@ public class ExternalFormatterCustomizerTab implements ProjectCustomizer.Composi
 	 */
 	@Override
 	public JComponent createComponent(final Category category, final Lookup lkp) {
-		Preferences projectPreferences = ProjectUtils.getPreferences(lkp.lookup(Project.class), ExternalFormatterPanel.class, true);
-		final ExternalFormatterPanel configPanel = new ExternalFormatterPanel(projectPreferences, true);
+		Project project = lkp.lookup(Project.class);
+		Preferences projectPreferences = ProjectUtils.getPreferences(project, ExternalFormatterPanel.class, true);
+		final ExternalFormatterPanel configPanel = new ExternalFormatterPanel(projectPreferences, project);
 		final ProjectSpecificSettingsPanel projectSpecificSettingsPanel = new ProjectSpecificSettingsPanel(configPanel, projectPreferences);
 		configPanel.load();
 		projectSpecificSettingsPanel.load();

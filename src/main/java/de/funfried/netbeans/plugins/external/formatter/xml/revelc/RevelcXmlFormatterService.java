@@ -17,6 +17,7 @@ import javax.swing.text.StyledDocument;
 
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
+import org.netbeans.api.project.Project;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -65,8 +66,8 @@ public class RevelcXmlFormatterService extends AbstractXmlFormatterService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public FormatterOptionsPanel getOptionsPanel() {
-		return new RevelcXmlFormatterOptionsPanel();
+	public FormatterOptionsPanel createOptionsPanel(Project project) {
+		return new RevelcXmlFormatterOptionsPanel(project);
 	}
 
 	/**

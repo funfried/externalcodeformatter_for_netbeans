@@ -9,8 +9,6 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.java.google;
 
-import de.funfried.netbeans.plugins.external.formatter.java.google.ui.GoogleJavaFormatterOptionsPanel;
-
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
@@ -21,6 +19,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.editor.guards.GuardedSectionManager;
+import org.netbeans.api.project.Project;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -29,6 +28,7 @@ import com.google.googlejavaformat.java.JavaFormatterOptions;
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.java.google.ui.GoogleJavaFormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
@@ -88,8 +88,8 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public FormatterOptionsPanel getOptionsPanel() {
-		return new GoogleJavaFormatterOptionsPanel();
+	public FormatterOptionsPanel createOptionsPanel(Project project) {
+		return new GoogleJavaFormatterOptionsPanel(project);
 	}
 
 	/**

@@ -12,6 +12,9 @@ package de.funfried.netbeans.plugins.external.formatter.xml.revelc.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Objects;
 import java.util.prefs.Preferences;
 
 import javax.swing.DefaultComboBoxModel;
@@ -26,6 +29,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.apache.commons.lang3.StringUtils;
+import org.netbeans.api.project.Project;
 import org.openide.awt.Mnemonics;
 import org.openide.util.NbBundle;
 
@@ -38,8 +42,15 @@ import net.revelc.code.formatter.xml.lib.FormattingPreferences;
  * @author bahlef
  */
 public class RevelcXmlFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
-	/** Creates new form {@link RevelcXmlFormatterOptionsPanel}. */
-	public RevelcXmlFormatterOptionsPanel() {
+	/**
+	 * Creates new form {@link RevelcXmlFormatterOptionsPanel}.
+	 *
+	 * @param project the {@link Project} if the panel is used to modify project
+	 *                specific settings, otherwise {@code null}
+	 */
+	public RevelcXmlFormatterOptionsPanel(Project project) {
+		super(project);
+
 		initComponents();
 	}
 
@@ -70,13 +81,14 @@ public class RevelcXmlFormatterOptionsPanel extends AbstractFormatterOptionsPane
 
         linefeedCmbBox.setModel(new DefaultComboBoxModel<>(new String[] { "System", "\\n", "\\r\\n", "\\r" }));
         linefeedCmbBox.setToolTipText(NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.linefeedCmbBox.toolTipText")); // NOI18N
-        linefeedCmbBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                linefeedCmbBoxActionPerformed(evt);
+        linefeedCmbBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                linefeedCmbBoxItemStateChanged(evt);
             }
         });
 
         Mnemonics.setLocalizedText(rightMarginLbl, NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.rightMarginLbl.text")); // NOI18N
+        rightMarginLbl.setToolTipText(NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.rightMarginLbl.toolTipText")); // NOI18N
 
         rightMarginSpn.setModel(new SpinnerNumberModel(120, 10, null, 10));
         rightMarginSpn.setToolTipText(NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.rightMarginSpn.toolTipText")); // NOI18N
@@ -88,6 +100,7 @@ public class RevelcXmlFormatterOptionsPanel extends AbstractFormatterOptionsPane
 
         wrapLongLinesChkBox.setSelected(true);
         Mnemonics.setLocalizedText(wrapLongLinesChkBox, NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.wrapLongLinesChkBox.text")); // NOI18N
+        wrapLongLinesChkBox.setToolTipText(NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.wrapLongLinesChkBox.toolTipText")); // NOI18N
         wrapLongLinesChkBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 wrapLongLinesChkBoxActionPerformed(evt);
@@ -95,16 +108,18 @@ public class RevelcXmlFormatterOptionsPanel extends AbstractFormatterOptionsPane
         });
 
         Mnemonics.setLocalizedText(wellFormedValidationLbl, NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.wellFormedValidationLbl.text")); // NOI18N
+        wellFormedValidationLbl.setToolTipText(NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.wellFormedValidationLbl.toolTipText")); // NOI18N
 
         wellFormedValidationCmbBox.setModel(new DefaultComboBoxModel<>(new String[] { "IGNORE", "WARN", "FAIL" }));
         wellFormedValidationCmbBox.setSelectedIndex(1);
-        wellFormedValidationCmbBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                wellFormedValidationCmbBoxActionPerformed(evt);
+        wellFormedValidationCmbBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                wellFormedValidationCmbBoxItemStateChanged(evt);
             }
         });
 
         Mnemonics.setLocalizedText(expandTabsToSpacesChkBox, NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.expandTabsToSpacesChkBox.text")); // NOI18N
+        expandTabsToSpacesChkBox.setToolTipText(NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.expandTabsToSpacesChkBox.toolTipText")); // NOI18N
         expandTabsToSpacesChkBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 expandTabsToSpacesChkBoxActionPerformed(evt);
@@ -112,6 +127,7 @@ public class RevelcXmlFormatterOptionsPanel extends AbstractFormatterOptionsPane
         });
 
         Mnemonics.setLocalizedText(splitMultiAttrsChkBox, NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.splitMultiAttrsChkBox.text")); // NOI18N
+        splitMultiAttrsChkBox.setToolTipText(NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.splitMultiAttrsChkBox.toolTipText")); // NOI18N
         splitMultiAttrsChkBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 splitMultiAttrsChkBoxActionPerformed(evt);
@@ -119,6 +135,7 @@ public class RevelcXmlFormatterOptionsPanel extends AbstractFormatterOptionsPane
         });
 
         Mnemonics.setLocalizedText(tabWidthLbl, NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.tabWidthLbl.text")); // NOI18N
+        tabWidthLbl.setToolTipText(NbBundle.getMessage(RevelcXmlFormatterOptionsPanel.class, "RevelcXmlFormatterOptionsPanel.tabWidthLbl.toolTipText")); // NOI18N
 
         tabWidthSpn.setModel(new SpinnerNumberModel(4, null, null, 1));
         tabWidthSpn.addChangeListener(new ChangeListener() {
@@ -185,33 +202,45 @@ public class RevelcXmlFormatterOptionsPanel extends AbstractFormatterOptionsPane
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void linefeedCmbBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_linefeedCmbBoxActionPerformed
-        fireChangedListener();
-    }//GEN-LAST:event_linefeedCmbBoxActionPerformed
-
     private void expandTabsToSpacesChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_expandTabsToSpacesChkBoxActionPerformed
-        fireChangedListener();
+		fireChangedListener();
     }//GEN-LAST:event_expandTabsToSpacesChkBoxActionPerformed
 
     private void splitMultiAttrsChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_splitMultiAttrsChkBoxActionPerformed
-        fireChangedListener();
+		fireChangedListener();
     }//GEN-LAST:event_splitMultiAttrsChkBoxActionPerformed
 
     private void wrapLongLinesChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_wrapLongLinesChkBoxActionPerformed
-        fireChangedListener();
+		fireChangedListener();
     }//GEN-LAST:event_wrapLongLinesChkBoxActionPerformed
 
     private void tabWidthSpnStateChanged(ChangeEvent evt) {//GEN-FIRST:event_tabWidthSpnStateChanged
-        fireChangedListener();
+		tabWidthSpn.setToolTipText(Objects.toString(tabWidthSpn.getValue(), null));
+
+		fireChangedListener();
     }//GEN-LAST:event_tabWidthSpnStateChanged
 
     private void rightMarginSpnStateChanged(ChangeEvent evt) {//GEN-FIRST:event_rightMarginSpnStateChanged
-        fireChangedListener();
+		rightMarginSpn.setToolTipText(Objects.toString(rightMarginSpn.getValue(), null));
+
+		fireChangedListener();
     }//GEN-LAST:event_rightMarginSpnStateChanged
 
-    private void wellFormedValidationCmbBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_wellFormedValidationCmbBoxActionPerformed
-        fireChangedListener();
-    }//GEN-LAST:event_wellFormedValidationCmbBoxActionPerformed
+    private void linefeedCmbBoxItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_linefeedCmbBoxItemStateChanged
+		if (ItemEvent.SELECTED == evt.getStateChange()) {
+			linefeedCmbBox.setToolTipText(Objects.toString(linefeedCmbBox.getSelectedItem(), null));
+
+			fireChangedListener();
+		}
+    }//GEN-LAST:event_linefeedCmbBoxItemStateChanged
+
+    private void wellFormedValidationCmbBoxItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_wellFormedValidationCmbBoxItemStateChanged
+		if (ItemEvent.SELECTED == evt.getStateChange()) {
+			wellFormedValidationCmbBox.setToolTipText(Objects.toString(wellFormedValidationCmbBox.getSelectedItem(), null));
+
+			fireChangedListener();
+		}
+    }//GEN-LAST:event_wellFormedValidationCmbBoxItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JCheckBox expandTabsToSpacesChkBox;
@@ -251,8 +280,11 @@ public class RevelcXmlFormatterOptionsPanel extends AbstractFormatterOptionsPane
 		splitMultiAttrsChkBox.setSelected(splitMultiAttrs);
 		wrapLongLinesChkBox.setSelected(wrapLongLines);
 		tabWidthSpn.setValue(tabWidth);
+		tabWidthSpn.setToolTipText(Objects.toString(tabWidthSpn.getValue(), null));
 		rightMarginSpn.setValue(rightMargin);
+		rightMarginSpn.setToolTipText(Objects.toString(rightMarginSpn.getValue(), null));
 		wellFormedValidationCmbBox.setSelectedItem(wellFormedValidation);
+		wellFormedValidationCmbBox.setToolTipText(Objects.toString(wellFormedValidationCmbBox.getSelectedItem(), null));
 
 		if (StringUtils.isBlank(lineFeed)) {
 			//default = system-dependend LF
@@ -260,6 +292,8 @@ public class RevelcXmlFormatterOptionsPanel extends AbstractFormatterOptionsPane
 		} else {
 			linefeedCmbBox.setSelectedItem(lineFeed);
 		}
+
+		linefeedCmbBox.setToolTipText(Objects.toString(linefeedCmbBox.getSelectedItem(), null));
 	}
 
 	/**

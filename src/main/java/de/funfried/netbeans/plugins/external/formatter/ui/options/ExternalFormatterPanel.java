@@ -51,6 +51,7 @@ import javax.swing.event.ChangeListener;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.java.lexer.JavaTokenId;
+import org.netbeans.api.project.Project;
 import org.netbeans.spi.options.OptionsPanelController.Keywords;
 import org.openide.awt.HtmlBrowser;
 import org.openide.awt.Mnemonics;
@@ -97,8 +98,8 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	/** Internal helper flag which is set to {@code true} while switching the mime type, so there won't be a change listener event for that. */
 	private transient volatile boolean switchingMimeType = false;
 
-	/** Flag which defines whether or not this dialog is shown globally or project specific. */
-	private final boolean showsProjectSettings;
+	/** The {@link Project} which this panel is used to change the settings for or {@code null} if this panel is used to change the global settings. */
+	private final Project project;
 
 	/** Internal flag which defines whether or not the selection of another formatter should be handled or not. */
 	private transient boolean formatterSelectionActive = true;
@@ -106,12 +107,14 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	/**
 	 * Creates a new instance of {@link ExternalFormatterPanel}.
 	 *
-	 * @param preferences          the {@link Preferences}
-	 * @param showsProjectSettings {@code true} if the panel is shown as a project specific options panel, otherwise {@code false}
+	 * @param preferences the {@link Preferences}
+	 * @param project     the {@link Project} which this panel is used to change the
+	 *                    settings for or {@code null} if this panel is used to
+	 *                    change the global settings
 	 */
-	public ExternalFormatterPanel(Preferences preferences, boolean showsProjectSettings) {
+	public ExternalFormatterPanel(Preferences preferences, Project project) {
 		this.preferences = preferences;
-		this.showsProjectSettings = showsProjectSettings;
+		this.project = project;
 
 		this.changeSupport = new ChangeSupport(this);
 
@@ -182,6 +185,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 		}
 
 		chooseMimeTypeCmbBox.setSelectedIndex(0);
+		chooseMimeTypeCmbBox.setToolTipText(Objects.toString(chooseMimeTypeCmbBox.getSelectedItem(), null));
 	}
 
 	/**
@@ -224,7 +228,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 			if (formatterServices != null) {
 				for (FormatterService formatterService : formatterServices) {
 					if (formatterService != null && Objects.equals(formatterId, formatterService.getId())) {
-						optionsPanel = formatterService.getOptionsPanel();
+						optionsPanel = formatterService.createOptionsPanel(project);
 						optionsPanel.load(preferences);
 
 						formatterOptionPanels.put(formatterId, optionsPanel);
@@ -280,6 +284,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
         btnVisitHomePage.setHorizontalAlignment(SwingConstants.RIGHT);
         Mnemonics.setLocalizedText(btnVisitHomePage, NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.btnVisitHomePage.text")); // NOI18N
+        btnVisitHomePage.setToolTipText(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterPanel.btnVisitHomePage.toolTipText")); // NOI18N
         btnVisitHomePage.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnVisitHomePage.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -339,33 +344,34 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(formatterOptionsPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(txtProjectSpecificHint))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnVisitHomePage, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDonate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(cbShowNotifications)
+                            .addComponent(formatterOptionsPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(useIndentationSettingsChkBox)
-                                .addGap(18, 18, 18)
-                                .addComponent(overrideTabSizeChkBox)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(overrideTabSizeSpn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnVisitHomePage, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDonate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(chooseLanguageLbl)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(chooseMimeTypeCmbBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(useFormatterLbl)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(chooseFormatterCmbBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 115, Short.MAX_VALUE))))
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbShowNotifications)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(useIndentationSettingsChkBox)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(overrideTabSizeChkBox)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(overrideTabSizeSpn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(chooseLanguageLbl)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(chooseMimeTypeCmbBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(useFormatterLbl)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(chooseFormatterCmbBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 109, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -444,10 +450,13 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 					formatterSelectionActive = true;
 
 					chooseFormatterCmbBox.setSelectedItem(selected);
+					chooseFormatterCmbBox.setToolTipText(Objects.toString(chooseFormatterCmbBox.getSelectedItem(), null));
 				} else {
 					formatterSelectionActive = true;
 				}
 			}
+
+			chooseMimeTypeCmbBox.setToolTipText(Objects.toString(chooseMimeTypeCmbBox.getSelectedItem(), null));
 		} finally {
 			switchingMimeType = false;
 		}
@@ -475,6 +484,8 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
 			setActiveFormatter(selectedMimeType, selectedFormatterId, !switchingMimeType);
 		}
+
+		chooseFormatterCmbBox.setToolTipText(Objects.toString(chooseFormatterCmbBox.getSelectedItem(), null));
     }//GEN-LAST:event_chooseFormatterCmbBoxItemStateChanged
 
     private void overrideTabSizeChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_overrideTabSizeChkBoxActionPerformed
@@ -483,6 +494,8 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
     }//GEN-LAST:event_overrideTabSizeChkBoxActionPerformed
 
     private void overrideTabSizeSpnStateChanged(ChangeEvent evt) {//GEN-FIRST:event_overrideTabSizeSpnStateChanged
+		overrideTabSizeSpn.setToolTipText(Objects.toString(overrideTabSizeSpn.getValue(), null));
+
 		fireChangedListener();
     }//GEN-LAST:event_overrideTabSizeSpnStateChanged
 
@@ -510,6 +523,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
 			if (Objects.equals(selectedMimeType, mimeType)) {
 				chooseFormatterCmbBox.setSelectedItem(new ExtValue(activeFormatter, null));
+				chooseFormatterCmbBox.setToolTipText(Objects.toString(chooseFormatterCmbBox.getSelectedItem(), null));
 			}
 		}
 
@@ -521,6 +535,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 		useIndentationSettingsChkBox.setSelected(useIndentationSettings);
 		overrideTabSizeChkBox.setSelected(overrideTabSize);
 		overrideTabSizeSpn.setValue(overrideTabSizeValue);
+		overrideTabSizeSpn.setToolTipText(Objects.toString(overrideTabSizeSpn.getValue(), null));
 
 		cbShowNotifications.setSelected(showNotifications);
 
@@ -602,7 +617,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 		overrideTabSizeChkBox.setEnabled(useIndentationSettingsChkBox.isSelected());
 		overrideTabSizeSpn.setEnabled(overrideTabSizeChkBox.isEnabled() && overrideTabSizeChkBox.isSelected());
 
-		txtProjectSpecificHint.setVisible(!showsProjectSettings);
+		txtProjectSpecificHint.setVisible(project == null);
 	}
 
 	/**

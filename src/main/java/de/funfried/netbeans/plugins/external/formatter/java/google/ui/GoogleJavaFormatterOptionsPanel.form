@@ -55,6 +55,9 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/java/google/ui/Bundle.properties" key="GoogleJavaFormatterOptionsPanel.googleCodeStyleRdBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/java/google/ui/Bundle.properties" key="GoogleJavaFormatterOptionsPanel.googleCodeStyleRdBtn.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="googleCodeStyleRdBtnActionPerformed"/>
@@ -68,6 +71,9 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/java/google/ui/Bundle.properties" key="GoogleJavaFormatterOptionsPanel.aospRdBtn.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/java/google/ui/Bundle.properties" key="GoogleJavaFormatterOptionsPanel.aospRdBtn.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aospRdBtnActionPerformed"/>
@@ -77,6 +83,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/java/google/ui/Bundle.properties" key="GoogleJavaFormatterOptionsPanel.googleCodeStyleLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/java/google/ui/Bundle.properties" key="GoogleJavaFormatterOptionsPanel.googleCodeStyleLbl.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>

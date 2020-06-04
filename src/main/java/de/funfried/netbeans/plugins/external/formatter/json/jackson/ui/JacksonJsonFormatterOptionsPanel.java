@@ -12,6 +12,9 @@ package de.funfried.netbeans.plugins.external.formatter.json.jackson.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Objects;
 import java.util.prefs.Preferences;
 
 import javax.swing.DefaultComboBoxModel;
@@ -26,6 +29,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.apache.commons.lang3.StringUtils;
+import org.netbeans.api.project.Project;
 import org.openide.awt.Mnemonics;
 import org.openide.util.NbBundle;
 
@@ -37,8 +41,15 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormat
  * @author bahlef
  */
 public class JacksonJsonFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
-	/** Creates new form {@link JacksonJsonFormatterOptionsPanel}. */
-	public JacksonJsonFormatterOptionsPanel() {
+	/**
+	 * Creates new form {@link JacksonJsonFormatterOptionsPanel}.
+	 *
+	 * @param project the {@link Project} if the panel is used to modify project
+	 *                specific settings, otherwise {@code null}
+	 */
+	public JacksonJsonFormatterOptionsPanel(Project project) {
+		super(project);
+
 		initComponents();
 	}
 
@@ -65,17 +76,16 @@ public class JacksonJsonFormatterOptionsPanel extends AbstractFormatterOptionsPa
         linefeedLbl.setToolTipText(NbBundle.getMessage(JacksonJsonFormatterOptionsPanel.class, "JacksonJsonFormatterOptionsPanel.linefeedLbl.toolTipText")); // NOI18N
 
         linefeedCmbBox.setModel(new DefaultComboBoxModel<>(new String[] { "System", "\\n", "\\r\\n", "\\r" }));
-        linefeedCmbBox.setToolTipText(NbBundle.getMessage(JacksonJsonFormatterOptionsPanel.class, "JacksonJsonFormatterOptionsPanel.linefeedCmbBox.toolTipText")); // NOI18N
-        linefeedCmbBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                linefeedCmbBoxActionPerformed(evt);
+        linefeedCmbBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                linefeedCmbBoxItemStateChanged(evt);
             }
         });
 
         Mnemonics.setLocalizedText(spacesPerTabLbl, NbBundle.getMessage(JacksonJsonFormatterOptionsPanel.class, "JacksonJsonFormatterOptionsPanel.spacesPerTabLbl.text")); // NOI18N
+        spacesPerTabLbl.setToolTipText(NbBundle.getMessage(JacksonJsonFormatterOptionsPanel.class, "JacksonJsonFormatterOptionsPanel.spacesPerTabLbl.toolTipText")); // NOI18N
 
         spacesPerTabSpn.setModel(new SpinnerNumberModel(2, 1, null, 1));
-        spacesPerTabSpn.setToolTipText(NbBundle.getMessage(JacksonJsonFormatterOptionsPanel.class, "JacksonJsonFormatterOptionsPanel.spacesPerTabSpn.toolTipText")); // NOI18N
         spacesPerTabSpn.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent evt) {
                 spacesPerTabSpnStateChanged(evt);
@@ -84,6 +94,7 @@ public class JacksonJsonFormatterOptionsPanel extends AbstractFormatterOptionsPa
 
         expandTabsToSpacesChkBox.setSelected(true);
         Mnemonics.setLocalizedText(expandTabsToSpacesChkBox, NbBundle.getMessage(JacksonJsonFormatterOptionsPanel.class, "JacksonJsonFormatterOptionsPanel.expandTabsToSpacesChkBox.text")); // NOI18N
+        expandTabsToSpacesChkBox.setToolTipText(NbBundle.getMessage(JacksonJsonFormatterOptionsPanel.class, "JacksonJsonFormatterOptionsPanel.expandTabsToSpacesChkBox.toolTipText")); // NOI18N
         expandTabsToSpacesChkBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 expandTabsToSpacesChkBoxActionPerformed(evt);
@@ -91,6 +102,7 @@ public class JacksonJsonFormatterOptionsPanel extends AbstractFormatterOptionsPa
         });
 
         Mnemonics.setLocalizedText(spacesBeforeSeparatorChkBox, NbBundle.getMessage(JacksonJsonFormatterOptionsPanel.class, "JacksonJsonFormatterOptionsPanel.spacesBeforeSeparatorChkBox.text")); // NOI18N
+        spacesBeforeSeparatorChkBox.setToolTipText(NbBundle.getMessage(JacksonJsonFormatterOptionsPanel.class, "JacksonJsonFormatterOptionsPanel.spacesBeforeSeparatorChkBox.toolTipText")); // NOI18N
         spacesBeforeSeparatorChkBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 spacesBeforeSeparatorChkBoxActionPerformed(evt);
@@ -98,6 +110,7 @@ public class JacksonJsonFormatterOptionsPanel extends AbstractFormatterOptionsPa
         });
 
         Mnemonics.setLocalizedText(indentSizeLbl, NbBundle.getMessage(JacksonJsonFormatterOptionsPanel.class, "JacksonJsonFormatterOptionsPanel.indentSizeLbl.text")); // NOI18N
+        indentSizeLbl.setToolTipText(NbBundle.getMessage(JacksonJsonFormatterOptionsPanel.class, "JacksonJsonFormatterOptionsPanel.indentSizeLbl.toolTipText")); // NOI18N
 
         indentSizeSpn.setModel(new SpinnerNumberModel(2, 0, null, 1));
         indentSizeSpn.addChangeListener(new ChangeListener() {
@@ -154,25 +167,33 @@ public class JacksonJsonFormatterOptionsPanel extends AbstractFormatterOptionsPa
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void linefeedCmbBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_linefeedCmbBoxActionPerformed
-        fireChangedListener();
-    }//GEN-LAST:event_linefeedCmbBoxActionPerformed
-
     private void expandTabsToSpacesChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_expandTabsToSpacesChkBoxActionPerformed
-        fireChangedListener();
+		fireChangedListener();
     }//GEN-LAST:event_expandTabsToSpacesChkBoxActionPerformed
 
     private void spacesBeforeSeparatorChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_spacesBeforeSeparatorChkBoxActionPerformed
-        fireChangedListener();
+		fireChangedListener();
     }//GEN-LAST:event_spacesBeforeSeparatorChkBoxActionPerformed
 
     private void indentSizeSpnStateChanged(ChangeEvent evt) {//GEN-FIRST:event_indentSizeSpnStateChanged
-        fireChangedListener();
+		indentSizeSpn.setToolTipText(Objects.toString(indentSizeSpn.getValue(), null));
+
+		fireChangedListener();
     }//GEN-LAST:event_indentSizeSpnStateChanged
 
     private void spacesPerTabSpnStateChanged(ChangeEvent evt) {//GEN-FIRST:event_spacesPerTabSpnStateChanged
-        fireChangedListener();
+		spacesPerTabSpn.setToolTipText(Objects.toString(spacesPerTabSpn.getValue(), null));
+
+		fireChangedListener();
     }//GEN-LAST:event_spacesPerTabSpnStateChanged
+
+    private void linefeedCmbBoxItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_linefeedCmbBoxItemStateChanged
+		if (ItemEvent.SELECTED == evt.getStateChange()) {
+			linefeedCmbBox.setToolTipText(Objects.toString(linefeedCmbBox.getSelectedItem(), null));
+
+			fireChangedListener();
+		}
+    }//GEN-LAST:event_linefeedCmbBoxItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JCheckBox expandTabsToSpacesChkBox;
@@ -206,7 +227,9 @@ public class JacksonJsonFormatterOptionsPanel extends AbstractFormatterOptionsPa
 		expandTabsToSpacesChkBox.setSelected(expandTabsToSpaces);
 		spacesBeforeSeparatorChkBox.setSelected(spacesBeforeSeparator);
 		indentSizeSpn.setValue(indentSize);
+		indentSizeSpn.setToolTipText(Objects.toString(indentSizeSpn.getValue(), null));
 		spacesPerTabSpn.setValue(spacesPerTab);
+		spacesPerTabSpn.setToolTipText(Objects.toString(spacesPerTabSpn.getValue(), null));
 
 		if (StringUtils.isBlank(lineFeed)) {
 			//default = system-dependend LF
@@ -214,6 +237,8 @@ public class JacksonJsonFormatterOptionsPanel extends AbstractFormatterOptionsPa
 		} else {
 			linefeedCmbBox.setSelectedItem(lineFeed);
 		}
+
+		linefeedCmbBox.setToolTipText(Objects.toString(linefeedCmbBox.getSelectedItem(), null));
 	}
 
 	/**

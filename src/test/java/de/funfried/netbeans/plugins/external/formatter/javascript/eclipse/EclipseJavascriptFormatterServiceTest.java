@@ -52,7 +52,7 @@ public class EclipseJavascriptFormatterServiceTest extends NbTestCase {
 
 		EclipseJavascriptFormatterService instance = new EclipseJavascriptFormatterService();
 		Assert.assertEquals("Eclipse Javascript Code Formatter", instance.getDisplayName());
-		Assert.assertNotNull(instance.getOptionsPanel());
+		Assert.assertNotNull(instance.createOptionsPanel(null));
 		Assert.assertEquals((long) 80L, (long) instance.getRightMargin(document));
 
 		Assert.assertEquals((long) 2L, (long) instance.getContinuationIndentSize(document));

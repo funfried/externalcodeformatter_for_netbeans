@@ -9,8 +9,6 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.java.spring;
 
-import de.funfried.netbeans.plugins.external.formatter.java.spring.ui.SpringJavaFormatterOptionsPanel;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -26,12 +24,14 @@ import javax.swing.text.StyledDocument;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
+import org.netbeans.api.project.Project;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.java.spring.ui.SpringJavaFormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import io.spring.javaformat.formatter.Formatter;
@@ -77,8 +77,8 @@ public class SpringJavaFormatterService extends AbstractJavaFormatterService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public FormatterOptionsPanel getOptionsPanel() {
-		return new SpringJavaFormatterOptionsPanel();
+	public FormatterOptionsPanel createOptionsPanel(Project project) {
+		return new SpringJavaFormatterOptionsPanel(project);
 	}
 
 	/**

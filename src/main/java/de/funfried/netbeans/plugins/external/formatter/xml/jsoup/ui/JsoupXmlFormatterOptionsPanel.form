@@ -75,6 +75,9 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/jsoup/ui/Bundle.properties" key="JsoupXmlFormatterOptionsPanel.linefeedLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/jsoup/ui/Bundle.properties" key="JsoupXmlFormatterOptionsPanel.linefeedLbl.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="linefeedCmbBox">
@@ -89,7 +92,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="linefeedCmbBoxActionPerformed"/>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="linefeedCmbBoxItemStateChanged"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -101,6 +104,9 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/jsoup/ui/Bundle.properties" key="JsoupXmlFormatterOptionsPanel.prettyPrintChkBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/jsoup/ui/Bundle.properties" key="JsoupXmlFormatterOptionsPanel.prettyPrintChkBox.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="prettyPrintChkBoxActionPerformed"/>
@@ -111,6 +117,9 @@
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/jsoup/ui/Bundle.properties" key="JsoupXmlFormatterOptionsPanel.outlineChkBox.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/jsoup/ui/Bundle.properties" key="JsoupXmlFormatterOptionsPanel.outlineChkBox.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="outlineChkBoxActionPerformed"/>
@@ -120,6 +129,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/jsoup/ui/Bundle.properties" key="JsoupXmlFormatterOptionsPanel.indentSizeLbl.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="de/funfried/netbeans/plugins/external/formatter/xml/jsoup/ui/Bundle.properties" key="JsoupXmlFormatterOptionsPanel.indentSizeLbl.toolTipText" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>
