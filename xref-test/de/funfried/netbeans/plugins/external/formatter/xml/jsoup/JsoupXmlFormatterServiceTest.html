@@ -67,7 +67,7 @@
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>  
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  		JsoupXmlFormatterService instance = <strong class="jxr_keyword">new</strong> JsoupXmlFormatterService();
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  		Assert.assertEquals(<span class="jxr_string">"Jsoup XML Code Formatter"</span>, instance.getDisplayName());
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>  		Assert.assertNotNull(instance.getOptionsPanel());
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  		Assert.assertNotNull(instance.createOptionsPanel(<strong class="jxr_keyword">null</strong>));
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>  		Assert.assertEquals((<strong class="jxr_keyword">long</strong>) 0L, (<strong class="jxr_keyword">long</strong>) instance.getRightMargin(document));
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>  
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  		Assert.assertEquals((<strong class="jxr_keyword">long</strong>) 1L, (<strong class="jxr_keyword">long</strong>) instance.getContinuationIndentSize(document));

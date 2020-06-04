@@ -115,7 +115,7 @@
 <a class="jxr_linenumber" name="L107" href="#L107">107</a> 	<strong class="jxr_keyword">private</strong> ExternalFormatterPanel createOrGetPanel() {
 <a class="jxr_linenumber" name="L108" href="#L108">108</a> 		<strong class="jxr_keyword">if</strong> (<strong class="jxr_keyword">null</strong> == panel) {
 <a class="jxr_linenumber" name="L109" href="#L109">109</a> 			Preferences globalPreferences = NbPreferences.forModule(ExternalFormatterPanel.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L110" href="#L110">110</a> 			panel = <strong class="jxr_keyword">new</strong> ExternalFormatterPanel(globalPreferences, false);
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 			panel = <strong class="jxr_keyword">new</strong> ExternalFormatterPanel(globalPreferences, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> 			panel.addChangeListener(WeakListeners.change(<strong class="jxr_keyword">this</strong>, panel));
 <a class="jxr_linenumber" name="L112" href="#L112">112</a> 		}
 <a class="jxr_linenumber" name="L113" href="#L113">113</a> 
