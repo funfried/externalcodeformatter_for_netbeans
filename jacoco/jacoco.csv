@@ -5,11 +5,12 @@ External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.form
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.xml.revelc,RevelcFormatJob,7,120,3,3,1,30,3,3,0,3
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.xml.revelc,RevelcXmlFormatterWrapper,2,39,1,7,1,13,1,6,0,3
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.eclipse.xml,ConfigReader,73,208,18,26,14,41,17,11,2,4
+External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.eclipse.xml,EclipseFormatterUtils,37,72,12,16,10,13,10,10,1,5
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,Bundle,4,0,0,0,1,0,1,0,1,0
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseFormatJob,135,112,6,6,24,28,9,4,3,4
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterService,11,192,8,26,3,58,8,21,0,12
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseFormatterConfig,0,230,0,12,0,48,0,17,0,11
-External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterSettings,31,62,11,15,9,13,8,10,0,5
+External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterSettings,0,17,0,0,0,4,0,4,0,4
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.eclipse,EclipseJavaFormatterWrapper,13,130,4,12,5,30,4,7,0,3
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.json.jackson,JacksonFormatJob,25,100,3,3,6,27,4,3,1,3
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.json.jackson,JacksonJsonFormatterWrapper,8,129,1,9,3,34,1,7,0,3
@@ -35,7 +36,7 @@ External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.form
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.exceptions,FormattingFailedException,5,8,0,0,2,4,1,2,1,2
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.exceptions,ProfileNotFoundException,9,4,0,0,4,2,2,1,2,1
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.javascript.eclipse,EclipseJavascriptFormatterService,13,184,8,26,4,56,9,20,1,11
-External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.javascript.eclipse,EclipseJavascriptFormatterSettings,31,62,11,15,9,13,8,10,0,5
+External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.javascript.eclipse,EclipseJavascriptFormatterSettings,0,17,0,0,0,4,0,4,0,4
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.javascript.eclipse,EclipseFormatJob,135,101,6,6,24,26,9,4,3,4
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.javascript.eclipse,EclipseJavascriptFormatterWrapper,17,59,3,5,6,17,3,4,0,3
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.javascript.eclipse,EclipseFormatterConfig,0,158,0,6,0,30,0,13,0,10

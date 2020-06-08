@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EclipseFormatterUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.eclipse.xml</a> &gt; <span class="el_source">EclipseFormatterUtils.java</span></div><h1>EclipseFormatterUtils.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2020 bahlef.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * bahlef - initial API and implementation and/or initial documentation
+ */
+
+package de.funfried.netbeans.plugins.external.formatter.eclipse.xml;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.prefs.Preferences;
+
+import javax.swing.text.Document;
+
+import org.apache.commons.lang3.StringUtils;
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.project.FileOwnerQuery;
+import org.netbeans.api.project.Project;
+import org.netbeans.modules.editor.NbEditorUtilities;
+import org.openide.filesystems.FileObject;
+
+/**
+ *
+ * @author bahlef
+ */
+<span class="nc" id="L30">public class EclipseFormatterUtils {</span>
+	/** EPF file extension */
+	private static final String EPF_FILE_EXTENSION = &quot;.epf&quot;;
+
+	/** XML file extension */
+	private static final String XML_FILE_EXTENSION = &quot;.xml&quot;;
+
+	/**
+	 * Returns the Eclipse formatter file for the given {@link Document} from the given {@link Preferences}.
+	 * If the value behind {@code useProjectPrefsKey} is {@code true} in the given {@link Preferences}, it
+	 * will be automatically checked if there is a project specific formatter configuration file available.
+	 *
+	 * @param preferences           the {@link Preferences} where to load from
+	 * @param document              the {@link Document}
+	 * @param configFileLocationKey the preferences key for the configuration file location
+	 * @param useProjectPrefsKey    the preferences key whether to use project preferences
+	 * @param projectPrefFile       the expected Eclipse project specific formatter configuration file name
+	 *
+	 * @return the Eclipse formatter file for the given {@link Document} from the given {@link Preferences}.
+	 *         If the value behind {@code useProjectPrefsKey} is {@code true} in the given {@link Preferences},
+	 *         it will be automatically checked if there is a project specific formatter configuration file
+	 *         available.
+	 */
+	public static String getEclipseFormatterFile(Preferences preferences, Document document, String configFileLocationKey, String useProjectPrefsKey, String projectPrefFile) {
+<span class="fc" id="L54">		String formatterFilePref = null;</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">		if (preferences.getBoolean(useProjectPrefsKey, true)) {</span>
+			//use ${projectdir}/.settings/projectPrefFile, if activated in options
+<span class="fc" id="L57">			formatterFilePref = getFormatterFileFromProjectConfiguration(document, &quot;.settings/&quot; + projectPrefFile);</span>
+		}
+
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">		if (StringUtils.isBlank(formatterFilePref)) {</span>
+<span class="fc" id="L61">			formatterFilePref = preferences.get(configFileLocationKey, null);</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">			if (StringUtils.isNotBlank(formatterFilePref)) {</span>
+<span class="nc" id="L63">				Path formatterFilePath = Paths.get(formatterFilePref);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">				if (!formatterFilePath.isAbsolute()) {</span>
+<span class="nc" id="L65">					formatterFilePref = getFormatterFileFromProjectConfiguration(document, formatterFilePref);</span>
+				}
+			}
+		}
+
+<span class="fc" id="L70">		return formatterFilePref;</span>
+	}
+
+	/**
+	 * Checks for a project specific Eclipse formatter configuration for the given {@link Document} and returns
+	 * the file location if found, otherwise {@code null}.
+	 *
+	 * @param document         the {@link Document}
+	 * @param relativeFileName the relative configuration file name
+	 *
+	 * @return project specific Eclipse formatter configuration for the given {@link Document} if existent,
+	 *         otherwise {@code null}
+	 */
+	@CheckForNull
+	private static String getFormatterFileFromProjectConfiguration(Document document, String relativeFileName) {
+<span class="fc" id="L85">		FileObject fileForDocument = NbEditorUtilities.getFileObject(document);</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">		if (null != fileForDocument) {</span>
+<span class="nc" id="L87">			Project project = FileOwnerQuery.getOwner(fileForDocument);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">			if (null != project) {</span>
+<span class="nc" id="L89">				FileObject projectDirectory = project.getProjectDirectory();</span>
+<span class="nc" id="L90">				FileObject preferenceFile = projectDirectory.getFileObject(StringUtils.replace(relativeFileName, &quot;\\&quot;, &quot;/&quot;));</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">				if (null != preferenceFile) {</span>
+<span class="nc" id="L92">					return preferenceFile.getPath();</span>
+				}
+			}
+		}
+
+<span class="fc" id="L97">		return null;</span>
+	}
+
+	/**
+	 * Returns {@code true} if the given {@code filename} ends with the workspace mechanic file extension epf.
+	 *
+	 * @param filename the filename to check
+	 *
+	 * @return {@code true} if the given {@code filename} ends with the workspace mechanic file extension epf,
+	 *         otherwise {@code false}
+	 */
+	public static boolean isWorkspaceMechanicFile(String filename) {
+<span class="fc bfc" id="L109" title="All 4 branches covered.">		return filename != null &amp;&amp; filename.endsWith(EPF_FILE_EXTENSION);</span>
+	}
+
+	/**
+	 * Returns {@code true} if the given {@code filename} ends with the XML file extension.
+	 *
+	 * @param filename the filename to check
+	 *
+	 * @return {@code true} if the given {@code filename} ends with the XML file extension, otherwise
+	 *         {@code false}
+	 */
+	public static boolean isXMLConfigurationFile(String filename) {
+<span class="fc bfc" id="L121" title="All 4 branches covered.">		return filename != null &amp;&amp; filename.endsWith(XML_FILE_EXTENSION);</span>
+	}
+
+	/**
+	 * Returns {@code true} if the given {@code filename} ends with the given {@code projectPrefFile}.
+	 *
+	 * @param filename        the filename to check
+	 * @param projectPrefFile the expected Eclipse project specific formatter configuration file name
+	 *
+	 * @return {@code true} if the given {@code filename} ends with {@code org.eclipse.jdt.core.prefs},
+	 *         otherwise {@code false}
+	 */
+	public static boolean isProjectSetting(String filename, String projectPrefFile) {
+<span class="pc bpc" id="L134" title="2 of 6 branches missed.">		return filename != null &amp;&amp; StringUtils.isNotBlank(projectPrefFile) &amp;&amp; filename.endsWith(projectPrefFile);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
