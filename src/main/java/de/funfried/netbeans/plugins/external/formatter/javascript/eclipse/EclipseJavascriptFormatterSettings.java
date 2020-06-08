@@ -9,18 +9,11 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.prefs.Preferences;
 
 import javax.swing.text.Document;
 
-import org.apache.commons.lang3.StringUtils;
-import org.netbeans.api.annotations.common.CheckForNull;
-import org.netbeans.api.project.FileOwnerQuery;
-import org.netbeans.api.project.Project;
-import org.netbeans.modules.editor.NbEditorUtilities;
-import org.openide.filesystems.FileObject;
+import de.funfried.netbeans.plugins.external.formatter.eclipse.xml.EclipseFormatterUtils;
 
 /**
  * Utility class for Eclipse specific settings.
@@ -82,51 +75,7 @@ public class EclipseJavascriptFormatterSettings {
 	 *         checked if there is a project specific formatter configuration file available
 	 */
 	public static String getEclipseFormatterFile(Preferences preferences, Document document) {
-		String formatterFilePref = null;
-		if (preferences.getBoolean(EclipseJavascriptFormatterSettings.USE_PROJECT_PREFS, true)) {
-			//use ${projectdir}/.settings/org.eclipse.wst.jsdt.core.prefs, if activated in options
-			formatterFilePref = getFormatterFileFromProjectConfiguration(document, ".settings/" + EclipseJavascriptFormatterSettings.PROJECT_PREF_FILE);
-		}
-
-		if (StringUtils.isBlank(formatterFilePref)) {
-			formatterFilePref = preferences.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, null);
-			if (StringUtils.isNotBlank(formatterFilePref)) {
-				Path formatterFilePath = Paths.get(formatterFilePref);
-				if (!formatterFilePath.isAbsolute()) {
-					formatterFilePref = getFormatterFileFromProjectConfiguration(document, formatterFilePref);
-				}
-			}
-		}
-
-		return formatterFilePref;
-	}
-
-	/**
-	 * Checks for a project specific Eclipse formatter configuration for the given {@link Document} and returns
-	 * the file location if found, otherwise {@code null}.
-	 *
-	 * @param document         the {@link Document}
-	 * @param relativeFileName the relative configuration file name
-	 *
-	 * @return project specific Eclipse formatter configuration for the given {@link Document} if existent,
-	 *         otherwise {@code null}
-	 */
-	@CheckForNull
-	private static String getFormatterFileFromProjectConfiguration(Document document, String relativeFileName) {
-		FileObject fileForDocument = NbEditorUtilities.getFileObject(document);
-		if (null != fileForDocument) {
-
-			Project project = FileOwnerQuery.getOwner(fileForDocument);
-			if (null != project) {
-				FileObject projectDirectory = project.getProjectDirectory();
-				FileObject preferenceFile = projectDirectory.getFileObject(relativeFileName);
-				if (null != preferenceFile) {
-					return preferenceFile.getPath();
-				}
-			}
-		}
-
-		return null;
+		return EclipseFormatterUtils.getEclipseFormatterFile(preferences, document, ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, USE_PROJECT_PREFS, PROJECT_PREF_FILE);
 	}
 
 	/**
@@ -138,7 +87,7 @@ public class EclipseJavascriptFormatterSettings {
 	 *         otherwise {@code false}
 	 */
 	public static boolean isWorkspaceMechanicFile(String filename) {
-		return filename != null && filename.endsWith("epf");
+		return EclipseFormatterUtils.isWorkspaceMechanicFile(filename);
 	}
 
 	/**
@@ -150,7 +99,7 @@ public class EclipseJavascriptFormatterSettings {
 	 *         {@code false}
 	 */
 	public static boolean isXMLConfigurationFile(String filename) {
-		return filename != null && filename.endsWith("xml");
+		return EclipseFormatterUtils.isXMLConfigurationFile(filename);
 	}
 
 	/**
@@ -162,6 +111,6 @@ public class EclipseJavascriptFormatterSettings {
 	 *         otherwise {@code false}
 	 */
 	public static boolean isProjectSetting(String filename) {
-		return filename != null && filename.endsWith(PROJECT_PREF_FILE);
+		return EclipseFormatterUtils.isProjectSetting(filename, PROJECT_PREF_FILE);
 	}
 }
