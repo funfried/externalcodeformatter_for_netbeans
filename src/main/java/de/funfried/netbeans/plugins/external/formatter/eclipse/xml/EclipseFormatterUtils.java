@@ -36,8 +36,8 @@ public class EclipseFormatterUtils {
 
 	/**
 	 * Returns the Eclipse formatter file for the given {@link Document} from the given {@link Preferences}.
-	 * If {@link #USE_PROJECT_PREFS} is {@code true} in the given {@link Preferences}, it will be automatically
-	 * checked if there is a project specific formatter configuration file available.
+	 * If the value behind {@code useProjectPrefsKey} is {@code true} in the given {@link Preferences}, it
+	 * will be automatically checked if there is a project specific formatter configuration file available.
 	 *
 	 * @param preferences           the {@link Preferences} where to load from
 	 * @param document              the {@link Document}
@@ -46,8 +46,9 @@ public class EclipseFormatterUtils {
 	 * @param projectPrefFile       the expected Eclipse project specific formatter configuration file name
 	 *
 	 * @return the Eclipse formatter file for the given {@link Document} from the given {@link Preferences}.
-	 *         If {@link #USE_PROJECT_PREFS} is {@code true} in the given {@link Preferences}, it will be automatically
-	 *         checked if there is a project specific formatter configuration file available
+	 *         If the value behind {@code useProjectPrefsKey} is {@code true} in the given {@link Preferences},
+	 *         it will be automatically checked if there is a project specific formatter configuration file
+	 *         available.
 	 */
 	public static String getEclipseFormatterFile(Preferences preferences, Document document, String configFileLocationKey, String useProjectPrefsKey, String projectPrefFile) {
 		String formatterFilePref = null;
