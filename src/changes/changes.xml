@@ -8,7 +8,7 @@
 	</properties>
 
 	<body>
-		<release version="1.14.0-SNAPSHOT" date="TBD" description="">
+		<release version="1.14.0-SNAPSHOT" date="TBD" description="Support for multiple formatters instead of just the Eclipse Java Formatter">
 			<action dev="bahlef" type="add" issue="101">
 				Added Spring Java Formatter
 			</action>
