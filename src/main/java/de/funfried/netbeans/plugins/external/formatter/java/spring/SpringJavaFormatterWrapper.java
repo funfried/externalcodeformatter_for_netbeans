@@ -105,8 +105,6 @@ public final class SpringJavaFormatterWrapper {
 				if (Objects.equals(code, formattedCode)) {
 					return null;
 				}
-			} else {
-				throw new FormattingFailedException("Formatting the given code ended in a null result.");
 			}
 		} catch (FormattingFailedException | IllegalArgumentException ex) {
 			throw ex;
