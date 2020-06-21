@@ -97,16 +97,14 @@ public final class EclipseJavascriptFormatterWrapper {
 <span class="pc bpc" id="L97" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
 <span class="nc" id="L98">					return null;</span>
 				}
-<span class="fc" id="L100">			} else {</span>
-<span class="nc" id="L101">				throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
 			}
-<span class="nc" id="L103">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
-<span class="nc" id="L104">			throw ex;</span>
-<span class="nc" id="L105">		} catch (Exception ex) {</span>
-<span class="nc" id="L106">			throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
-<span class="fc" id="L107">		}</span>
+<span class="nc" id="L101">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
+<span class="nc" id="L102">			throw ex;</span>
+<span class="nc" id="L103">		} catch (Exception ex) {</span>
+<span class="nc" id="L104">			throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
+<span class="fc" id="L105">		}</span>
 
-<span class="fc" id="L109">		return formattedCode;</span>
+<span class="fc" id="L107">		return formattedCode;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

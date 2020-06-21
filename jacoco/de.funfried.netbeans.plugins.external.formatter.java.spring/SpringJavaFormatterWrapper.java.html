@@ -105,16 +105,14 @@ public final class SpringJavaFormatterWrapper {
 <span class="pc bpc" id="L105" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
 <span class="nc" id="L106">					return null;</span>
 				}
-<span class="fc" id="L108">			} else {</span>
-<span class="nc" id="L109">				throw new FormattingFailedException(&quot;Formatting the given code ended in a null result.&quot;);</span>
 			}
-<span class="fc" id="L111">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
-<span class="fc" id="L112">			throw ex;</span>
-<span class="nc" id="L113">		} catch (Exception ex) {</span>
-<span class="nc" id="L114">			throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
-<span class="fc" id="L115">		}</span>
+<span class="fc" id="L109">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
+<span class="fc" id="L110">			throw ex;</span>
+<span class="nc" id="L111">		} catch (Exception ex) {</span>
+<span class="nc" id="L112">			throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
+<span class="fc" id="L113">		}</span>
 
-<span class="fc" id="L117">		return formattedCode;</span>
+<span class="fc" id="L115">		return formattedCode;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

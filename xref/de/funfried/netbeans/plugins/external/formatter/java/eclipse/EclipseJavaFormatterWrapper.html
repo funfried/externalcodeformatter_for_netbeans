@@ -136,18 +136,16 @@
 <a class="jxr_linenumber" name="L128" href="#L128">128</a> 				<strong class="jxr_keyword">if</strong> (Objects.equals(code, formattedCode)) {
 <a class="jxr_linenumber" name="L129" href="#L129">129</a> 					<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L130" href="#L130">130</a> 				}
-<a class="jxr_linenumber" name="L131" href="#L131">131</a> 			} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L132" href="#L132">132</a> 				<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="FormattingFailedException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/FormattingFailedException.html#FormattingFailedException">FormattingFailedException</a>(<span class="jxr_string">"Formatting the given code ended in a null result."</span>);
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> 			}
-<a class="jxr_linenumber" name="L134" href="#L134">134</a> 		} <strong class="jxr_keyword">catch</strong> (<a name="FormattingFailedException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/FormattingFailedException.html#FormattingFailedException">FormattingFailedException</a> | IllegalArgumentException ex) {
-<a class="jxr_linenumber" name="L135" href="#L135">135</a> 			<strong class="jxr_keyword">throw</strong> ex;
-<a class="jxr_linenumber" name="L136" href="#L136">136</a> 		} <strong class="jxr_keyword">catch</strong> (Exception ex) {
-<a class="jxr_linenumber" name="L137" href="#L137">137</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="FormattingFailedException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/FormattingFailedException.html#FormattingFailedException">FormattingFailedException</a>(<span class="jxr_string">"Failed to format the given code."</span>, ex);
-<a class="jxr_linenumber" name="L138" href="#L138">138</a> 		}
-<a class="jxr_linenumber" name="L139" href="#L139">139</a> 
-<a class="jxr_linenumber" name="L140" href="#L140">140</a> 		<strong class="jxr_keyword">return</strong> formattedCode;
-<a class="jxr_linenumber" name="L141" href="#L141">141</a> 	}
-<a class="jxr_linenumber" name="L142" href="#L142">142</a> }
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 			}
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> 		} <strong class="jxr_keyword">catch</strong> (<a name="FormattingFailedException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/FormattingFailedException.html#FormattingFailedException">FormattingFailedException</a> | IllegalArgumentException ex) {
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 			<strong class="jxr_keyword">throw</strong> ex;
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> 		} <strong class="jxr_keyword">catch</strong> (Exception ex) {
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="FormattingFailedException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/FormattingFailedException.html#FormattingFailedException">FormattingFailedException</a>(<span class="jxr_string">"Failed to format the given code."</span>, ex);
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 		}
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> 		<strong class="jxr_keyword">return</strong> formattedCode;
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> 	}
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2019&#x2013;2020. All rights reserved.</div>
