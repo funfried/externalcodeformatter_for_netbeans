@@ -11,12 +11,12 @@
 	<body>
 		<section name="Download">
 			<p>
-				You can either download the latest builds version directly from
-				<a href="https://oss.sonatype.org/content/repositories/snapshots/de/funfried/netbeans/plugins/externalcodeformatter/1.14.0-SNAPSHOT/">maven central</a>,
-				<a href="https://github.com/funfried/externalcodeformatter_for_netbeans/releases/tag/v1.14.0">GitHub</a>
-				or the latest official release from the <a href="http://netbeans-vm.apache.org/pluginportal/">NetBeans Plugin Center</a> or also from
+				You can either download the latest build versions directly from
+				<a href="https://oss.sonatype.org/content/repositories/snapshots/de/funfried/netbeans/plugins/externalcodeformatter/">maven central</a>,
+				<a href="https://github.com/funfried/externalcodeformatter_for_netbeans/releases">GitHub</a>
+				or the latest official release from the <a href="https://plugins.netbeans.apache.org/">Apache NetBeans Plugin Portal</a> or also from
 				<a href="https://repo1.maven.org/maven2/de/funfried/netbeans/plugins/externalcodeformatter/">maven central</a> and
-				<a href="https://github.com/funfried/externalcodeformatter_for_netbeans/releases/">GitHub</a>.
+				<a href="https://github.com/funfried/externalcodeformatter_for_netbeans/releases">GitHub</a>.
 			</p>
 			<subsection name="Former releases">
 				<ul>
