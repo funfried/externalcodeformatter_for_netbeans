@@ -11,13 +11,31 @@
 	<body>
 		<section name="Download">
 			<p>
-				You can either download the latest build versions directly from
-				<a href="https://oss.sonatype.org/content/repositories/snapshots/de/funfried/netbeans/plugins/externalcodeformatter/">maven central</a>,
-				<a href="https://github.com/funfried/externalcodeformatter_for_netbeans/releases">GitHub</a>
-				or the latest official release from the <a href="https://plugins.netbeans.apache.org/">Apache NetBeans Plugin Portal</a> or also from
-				<a href="https://repo1.maven.org/maven2/de/funfried/netbeans/plugins/externalcodeformatter/">maven central</a> and
-				<a href="https://github.com/funfried/externalcodeformatter_for_netbeans/releases">GitHub</a>.
+				Here is a list of mirrors where you can find the latest stable and development builds:
 			</p>
+			<subsection name="Last stable release">
+				<ul>
+					<li>
+						<a href="https://plugins.netbeans.apache.org/">Apache NetBeans Plugin Portal</a>
+					</li>
+					<li>
+						<a href="https://repo1.maven.org/maven2/de/funfried/netbeans/plugins/externalcodeformatter/">Maven Central</a>
+					</li>
+					<li>
+						<a href="https://github.com/funfried/externalcodeformatter_for_netbeans/releases">GitHub Releases</a>
+					</li>
+				</ul>
+			</subsection>
+			<subsection name="Latest development builds">
+				<ul>
+					<li>
+						<a href="https://oss.sonatype.org/content/repositories/snapshots/de/funfried/netbeans/plugins/externalcodeformatter/">Maven Central</a>
+					</li>
+					<li>
+						<a href="https://github.com/funfried/externalcodeformatter_for_netbeans/packages">GitHub Packages</a>
+					</li>
+				</ul>
+			</subsection>
 			<subsection name="Former releases">
 				<ul>
 					<li>
