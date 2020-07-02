@@ -63,7 +63,7 @@ public final class EclipseJavascriptFormatterWrapper {
 			return null;
 		}
 
-		Map<String, String> allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, null);
+		Map<String, String> allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile);
 
 		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);
 

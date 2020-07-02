@@ -12,31 +12,23 @@ package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
 
 import java.util.prefs.Preferences;
 
-import javax.swing.SwingUtilities;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
-import org.netbeans.editor.BaseDocument;
-import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
-import org.openide.awt.NotificationDisplayer;
-import org.openide.awt.StatusDisplayer;
-
-import de.funfried.netbeans.plugins.external.formatter.AbstractFormatJob;
+import de.funfried.netbeans.plugins.external.formatter.eclipse.AbstractEclipseFormatJob;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
-import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * Eclipse formatter implementation of the {@link AbstractFormatJob} to
+ * Eclipse formatter implementation of the {@link AbstractEclipseFormatJob} to
  * format a given document using the {@link EclipseJavascriptFormatterWrapper}.
  *
  * @author markiewb
  * @author bahlef
  */
-class EclipseFormatJob extends AbstractFormatJob {
+class EclipseFormatJob extends AbstractEclipseFormatJob {
 	/** The {@link EclipseJavascriptFormatterWrapper} implementation. */
 	private final EclipseJavascriptFormatterWrapper formatter;
 
@@ -56,75 +48,41 @@ class EclipseFormatJob extends AbstractFormatJob {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void format() throws BadLocationException {
-		Preferences pref = Settings.getActivePreferences(document);
-
-		String formatterFile = EclipseJavascriptFormatterSettings.getEclipseFormatterFile(pref, document);
-		String formatterProfile = pref.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
-		String lineFeedSetting = pref.get(EclipseJavascriptFormatterSettings.LINEFEED, "");
-		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty("line.separator"));
-
-		//save with configured linefeed
-		if (null != lineFeed) {
-			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);
-			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);
-		}
-
-		String code = getCode();
-
-		try {
-			String formattedContent = formatter.format(formatterFile, formatterProfile, code, lineFeed);
-			if (setFormattedCode(code, formattedContent)) {
-				String msg = getNotificationMessageForEclipseFormatterConfigurationFileType(formatterFile, formatterProfile);
-
-				SwingUtilities.invokeLater(() -> {
-					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-						NotificationDisplayer.getDefault().notify("Format using Eclipse formatter", Icons.ICON_ECLIPSE, msg, null);
-					}
-
-					StatusDisplayer.getDefault().setStatusText("Format using Eclipse formatter: " + msg);
-				});
-			}
-		} catch (ProfileNotFoundException ex) {
-			SwingUtilities.invokeLater(() -> {
-				NotifyDescriptor notify = new NotifyDescriptor.Message(
-						String.format("<html>Profile '%s' not found in <tt>%s</tt><br><br>Please configure a valid one in the project properties OR at Tools|Options|Java|Eclipse Formatter!", formatterProfile,
-								formatterFile),
-						NotifyDescriptor.ERROR_MESSAGE);
-				DialogDisplayer.getDefault().notify(notify);
-
-				StatusDisplayer.getDefault().setStatusText(String.format("Profile '%s' not found in %s", formatterProfile, formatterFile));
-			});
-
-			throw ex;
-		} catch (CannotLoadConfigurationException ex) {
-			SwingUtilities.invokeLater(() -> {
-				NotifyDescriptor notify = new NotifyDescriptor.Message(String.format("<html>Could not find configuration file %s.<br>Make sure the file exists and it can be read.", formatterFile),
-						NotifyDescriptor.ERROR_MESSAGE);
-				DialogDisplayer.getDefault().notify(notify);
-
-				StatusDisplayer.getDefault().setStatusText(String.format("Could not find configuration file %s. Make sure the file exists and it can be read.", formatterFile));
-			});
-
-			throw ex;
-		} catch (FormattingFailedException ex) {
-			SwingUtilities.invokeLater(() -> {
-				StatusDisplayer.getDefault().setStatusText("Failed to format using Eclipse formatter: " + ex.getMessage());
-			});
-
-			throw ex;
-		}
+	protected String getFormattedContent(Preferences pref, String formatterFile, String formatterProfile, String code)
+			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException, FormattingFailedException {
+		return formatter.format(formatterFile, formatterProfile, code, getLineFeed(pref));
 	}
 
 	/**
-	 * Returns the message which should be shown in a notification after the formatting is done.
-	 *
-	 * @param formatterFile    the used formatter configuration file
-	 * @param formatterProfile the used formatter profile
-	 *
-	 * @return the message which should be shown in a notification after the formatting is done
+	 * {@inheritDoc}
 	 */
-	private String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
+	@Override
+	protected String getFormatterFile(Preferences pref) {
+		return EclipseJavascriptFormatterSettings.getEclipseFormatterFile(pref, document);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getFormatterProfile(Preferences pref) {
+		return pref.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getLineFeed(Preferences pref) {
+		String lineFeedSetting = pref.get(EclipseJavascriptFormatterSettings.LINEFEED, "");
+		return Settings.getLineFeed(lineFeedSetting, System.getProperty("line.separator"));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
 		String msg = "";
 		if (EclipseJavascriptFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {
 			//Workspace mechanic file

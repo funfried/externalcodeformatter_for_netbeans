@@ -125,7 +125,7 @@ public final class JacksonJsonFormatterWrapper {
 	/**
 	 * Custom implementation of the {@link DefaultPrettyPrinter}.
 	 */
-	private class JacksonPrettyPrinter extends DefaultPrettyPrinter {
+	private static class JacksonPrettyPrinter extends DefaultPrettyPrinter {
 		private static final long serialVersionUID = 1L;
 
 		private final boolean spaceBeforeSeparator;

@@ -12,30 +12,22 @@ package de.funfried.netbeans.plugins.external.formatter.ui.editor;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.WeakHashMap;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
-import javax.swing.text.StyledDocument;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.editor.mimelookup.MimeLookup;
 import org.netbeans.api.editor.mimelookup.MimePath;
-import org.netbeans.modules.editor.NbEditorUtilities;
 import org.netbeans.modules.editor.indent.spi.Context;
 import org.netbeans.modules.editor.indent.spi.ExtraLock;
 import org.netbeans.modules.editor.indent.spi.IndentTask;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
-import org.openide.loaders.DataObject;
-import org.openide.text.NbDocument;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatterServiceDelegate;
 import de.funfried.netbeans.plugins.external.formatter.MimeType;
@@ -99,37 +91,7 @@ public class ExternalFormatterIndentTaskFactory implements IndentTask.Factory {
 			 */
 			@Override
 			public void reindent() throws BadLocationException {
-				SortedSet<Pair<Integer, Integer>> changedElements = new TreeSet<>();
-
-				int documentLength = document.getLength();
-
-				List<Context.Region> regions = context.indentRegions();
-				for (Context.Region region : regions) {
-					int start = region.getStartOffset();
-					if (start < 0) {
-						continue;
-					}
-
-					int end = region.getEndOffset();
-					if (end >= documentLength) {
-						end = documentLength - 1;
-					}
-
-					changedElements.add(Pair.of(start, end));
-				}
-
-				StyledDocument styledDocument = null;
-
-				if (document instanceof StyledDocument) {
-					styledDocument = (StyledDocument) document;
-				} else {
-					DataObject dataObject = NbEditorUtilities.getDataObject(document);
-					if (dataObject != null) {
-						styledDocument = NbDocument.getDocument(dataObject);
-					}
-				}
-
-				if (!FormatterServiceDelegate.getInstance().format(styledDocument, changedElements)) {
+				if (!FormatterServiceDelegate.getInstance().format(EditorUtils.toStyledDocument(document), EditorUtils.getChangedElements(context))) {
 					formatWithNetBeansIndenter(netbeansDefaultTask, document);
 				}
 			}
