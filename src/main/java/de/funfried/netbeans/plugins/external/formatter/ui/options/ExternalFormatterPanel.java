@@ -48,7 +48,6 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.java.lexer.JavaTokenId;
 import org.netbeans.api.project.Project;
@@ -99,7 +98,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	private transient volatile boolean switchingMimeType = false;
 
 	/** The {@link Project} which this panel is used to change the settings for or {@code null} if this panel is used to change the global settings. */
-	private final Project project;
+	private transient final Project project;
 
 	/** Internal flag which defines whether or not the selection of another formatter should be handled or not. */
 	private transient boolean formatterSelectionActive = true;
@@ -513,7 +512,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
 		for (MimeType mimeType : formatterIdsPerMimeType.keySet()) {
 			String activeFormatter = preferences.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), Settings.DEFAULT_FORMATTER);
-			if (Settings.DEFAULT_FORMATTER.equals(activeFormatter) && ArrayUtils.contains(mimeType.getMimeTypes(), javaMimeType)) {
+			if (Settings.DEFAULT_FORMATTER.equals(activeFormatter) && mimeType.canHandle(javaMimeType)) {
 				activeFormatter = preferences.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
 
 				preferences.remove(Settings.ENABLED_FORMATTER);

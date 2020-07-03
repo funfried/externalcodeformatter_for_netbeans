@@ -36,7 +36,7 @@ public enum MimeType {
 
 	private final String[] mimeTypes;
 
-	private MimeType(String... mimeTypes) {
+	MimeType(String... mimeTypes) {
 		this.mimeTypes = mimeTypes;
 	}
 
@@ -44,17 +44,12 @@ public enum MimeType {
 		return NbBundle.getMessage(MimeType.class, this.toString());
 	}
 
-	public String[] getMimeTypes() {
-		return mimeTypes;
-	}
-
 	public boolean canHandle(String mimeType) {
 		if (StringUtils.isBlank(mimeType)) {
 			return false;
 		}
 
-		String[] types = getMimeTypes();
-		for (String type : types) {
+		for (String type : mimeTypes) {
 			if (type.startsWith("^") && Pattern.matches(type, mimeType)) {
 				return true;
 			} else if (Objects.equals(type, mimeType)) {

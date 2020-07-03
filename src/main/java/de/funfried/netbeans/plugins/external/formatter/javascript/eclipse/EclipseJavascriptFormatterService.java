@@ -197,7 +197,7 @@ public class EclipseJavascriptFormatterService extends AbstractJavascriptFormatt
 		String formatterFile = EclipseJavascriptFormatterSettings.getEclipseFormatterFile(preferences, document);
 		String formatterProfile = preferences.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
 
-		Map<String, String> config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, null);
+		Map<String, String> config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile);
 
 		return config.getOrDefault(key, null);
 	}

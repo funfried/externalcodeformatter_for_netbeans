@@ -52,7 +52,7 @@
 		<logo name="Coverage Status" href="https://coveralls.io/github/funfried/externalcodeformatter_for_netbeans?branch=master" img="https://coveralls.io/repos/github/funfried/externalcodeformatter_for_netbeans/badge.svg?branch=master" />
 		<logo name="Code Coverage" href="https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans" img="https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans/branch/master/graph/badge.svg" />
 		<logo name="Codacy Badge" href="https://www.codacy.com/manual/funfried/externalcodeformatter_for_netbeans?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=funfried/externalcodeformatter_for_netbeans&amp;utm_campaign=Badge_Grade" img="https://api.codacy.com/project/badge/Grade/7d825731274a4f4783e4203eb7cbf811" />
-		<logo name="Follow Me On Twitter" img="https://img.shields.io/twitter/follow/funfried84?style=social" />
+		<logo name="Follow Me On Twitter" href="https://twitter.com/funfried84" img="https://img.shields.io/twitter/follow/funfried84?style=social" />
 	</poweredBy>
 
 	<body>

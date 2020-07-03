@@ -10,29 +10,53 @@
 
 package de.funfried.netbeans.plugins.external.formatter.eclipse.xml;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.swing.text.Document;
 
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.filesystems.FileObject;
+
+import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
 
 /**
  *
  * @author bahlef
  */
 public class EclipseFormatterUtils {
+	/** {@link Logger} of this class. */
+	private static final Logger log = Logger.getLogger(EclipseFormatterUtils.class.getName());
+
 	/** EPF file extension */
 	private static final String EPF_FILE_EXTENSION = ".epf";
 
 	/** XML file extension */
 	private static final String XML_FILE_EXTENSION = ".xml";
+
+	/**
+	 * Private constructor due to static methods only.
+	 */
+	private EclipseFormatterUtils() {
+	}
 
 	/**
 	 * Returns the Eclipse formatter file for the given {@link Document} from the given {@link Preferences}.
@@ -98,6 +122,19 @@ public class EclipseFormatterUtils {
 	}
 
 	/**
+	 * Returns {@code true} if the given {@code filename} ends with the given {@code projectPrefFile}.
+	 *
+	 * @param filename        the filename to check
+	 * @param projectPrefFile the expected Eclipse project specific formatter configuration file name
+	 *
+	 * @return {@code true} if the given {@code filename} ends with {@code org.eclipse.jdt.core.prefs},
+	 *         otherwise {@code false}
+	 */
+	public static boolean isProjectSetting(String filename, String projectPrefFile) {
+		return filename != null && StringUtils.isNotBlank(projectPrefFile) && filename.endsWith(projectPrefFile);
+	}
+
+	/**
 	 * Returns {@code true} if the given {@code filename} ends with the workspace mechanic file extension epf.
 	 *
 	 * @param filename the filename to check
@@ -122,15 +159,81 @@ public class EclipseFormatterUtils {
 	}
 
 	/**
-	 * Returns {@code true} if the given {@code filename} ends with the given {@code projectPrefFile}.
+	 * Parses the configuration parameters from the given {@code formatterProfile} of the
+	 * given {@code formatterFile} and returns it as a {@link Map} containing the
+	 * configuration as key value pairs.
 	 *
-	 * @param filename        the filename to check
-	 * @param projectPrefFile the expected Eclipse project specific formatter configuration file name
+	 * @param formatterFile           the path to the formatter configuration file
+	 * @param formatterProfile        the name of the formatter configuration profile
+	 * @param defaultProperties       the default properties
+	 * @param additionalProperties    optional additional properties
+	 * @param workspaceMechanicPrefix the workspace mechanic prefix
+	 * @param projectPrefFile         the expected Eclipse project specific formatter configuration file name
 	 *
-	 * @return {@code true} if the given {@code filename} ends with {@code org.eclipse.jdt.core.prefs},
-	 *         otherwise {@code false}
+	 * @return a {@link Map} containing the configuration as key value pairs
+	 *
+	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
 	 */
-	public static boolean isProjectSetting(String filename, String projectPrefFile) {
-		return filename != null && StringUtils.isNotBlank(projectPrefFile) && filename.endsWith(projectPrefFile);
+	public static Map<String, String> parseConfig(String formatterFile, String formatterProfile, Map<String, String> defaultProperties, Map<String, String> additionalProperties,
+			String workspaceMechanicPrefix, String projectPrefFile) throws ProfileNotFoundException, ConfigReadException, CannotLoadConfigurationException {
+		Map<String, String> allConfig = new HashMap<>();
+		try {
+			Map<String, String> configFromFile;
+			if (EclipseFormatterUtils.isWorkspaceMechanicFile(formatterFile)) {
+				configFromFile = EclipseFormatterUtils.readPropertiesFromConfigurationFile(formatterFile, workspaceMechanicPrefix);
+			} else if (EclipseFormatterUtils.isXMLConfigurationFile(formatterFile)) {
+				configFromFile = ConfigReader.getProfileSettings(ConfigReader.toFileObject(formatterFile), formatterProfile);
+			} else if (EclipseFormatterUtils.isProjectSetting(formatterFile, projectPrefFile)) {
+				configFromFile = EclipseFormatterUtils.readPropertiesFromConfigurationFile(formatterFile, null);
+			} else {
+				configFromFile = new LinkedHashMap<>();
+			}
+
+			allConfig.putAll(defaultProperties);
+			allConfig.putAll(configFromFile);
+
+			if (additionalProperties != null) {
+				allConfig.putAll(additionalProperties);
+			}
+		} catch (ConfigReadException | ProfileNotFoundException ex) {
+			log.log(Level.WARNING, "Could not load configuration: " + formatterFile, ex);
+
+			throw ex;
+		} catch (Exception ex) {
+			log.log(Level.WARNING, "Could not load configuration: " + formatterFile, ex);
+
+			throw new CannotLoadConfigurationException(ex);
+		}
+
+		return allConfig;
+	}
+
+	/**
+	 * Parses and returns properties of the given {@code file} into a key value {@link Map}. If an optional
+	 * {@code prefix} is specified, only the properties where the key starts with the given {@code prefix}
+	 * are returned and the {@code prefix} will be removed from the keys in the returned {@link Map}.
+	 *
+	 * @param file   a configuration file
+	 * @param prefix an optional key prefix
+	 *
+	 * @return properties of the given {@code file} as a key value {@link Map}
+	 *
+	 * @throws IOException if there is an issue accessing the given configuration file
+	 */
+	@NonNull
+	public static Map<String, String> readPropertiesFromConfigurationFile(String file, String prefix) throws IOException {
+		Properties properties = new Properties();
+		try (FileInputStream is = new FileInputStream(file)) {
+			properties.load(is);
+		}
+
+		Stream<Object> stream = properties.keySet().stream();
+		if (StringUtils.isNotBlank(prefix)) {
+			return stream.filter(key -> ((String) key).startsWith(prefix)).collect(Collectors.toMap(key -> ((String) key).substring(prefix.length()), key -> properties.getProperty((String) key)));
+		}
+
+		return stream.collect(Collectors.toMap(key -> (String) key, key -> properties.getProperty((String) key)));
 	}
 }

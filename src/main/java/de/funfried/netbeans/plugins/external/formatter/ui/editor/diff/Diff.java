@@ -141,7 +141,7 @@ public class Diff {
 
 	private static int binarySearch(Line[] L, String key, int low, int high) {
 		while (low <= high) {
-			int mid = (low + high) >> 1;
+			int mid = (low + high) >>> 1;
 			String midVal = L[mid].line;
 			int comparison = midVal.compareTo(key);
 			if (comparison < 0) {
@@ -157,7 +157,7 @@ public class Diff {
 
 	private static int binarySearch(Candidate[] K, int key, int low, int high) {
 		while (low <= high) {
-			int mid = (low + high) >> 1;
+			int mid = (low + high) >>> 1;
 			int midVal = K[mid].b;
 			if (midVal < key) {
 				low = mid + 1;
