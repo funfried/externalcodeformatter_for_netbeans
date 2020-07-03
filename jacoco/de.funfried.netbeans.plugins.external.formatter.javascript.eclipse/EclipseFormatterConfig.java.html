@@ -9,23 +9,14 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import org.eclipse.wst.jsdt.core.formatter.DefaultCodeFormatterConstants;
-import org.xml.sax.SAXException;
 
+import de.funfried.netbeans.plugins.external.formatter.eclipse.xml.EclipseFormatterUtils;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
-import de.funfried.netbeans.plugins.external.formatter.eclipse.xml.ConfigReader;
 
 /**
  * Class used for parsing an Eclipse code formatter configuration.
@@ -33,15 +24,12 @@ import de.funfried.netbeans.plugins.external.formatter.eclipse.xml.ConfigReader;
  * @author bahlef
  */
 public final class EclipseFormatterConfig {
-	/** {@link Logger} of this class. */
-<span class="fc" id="L37">	private static final Logger log = Logger.getLogger(EclipseFormatterConfig.class.getName());</span>
-
 	/** Prefix for workspace mechanic files. */
 	private static final String WORKSPACE_MECHANIC_PREFIX = &quot;/instance/org.eclipse.wst.jsdt.core/&quot;;
 
-	/** Default configuration of the Eclipse Java formatter. */
+	/** Default configuration of the Eclipse Javascript formatter. */
 	@SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L44">	private static final Map&lt;String, String&gt; ECLIPSE_JAVA_FORMATTER_DEFAULTS = DefaultCodeFormatterConstants.getJSLintConventionsSettings();</span>
+<span class="fc" id="L32">	private static final Map&lt;String, String&gt; ECLIPSE_JAVASCRIPT_FORMATTER_DEFAULTS = DefaultCodeFormatterConstants.getJSLintConventionsSettings();</span>
 
 	/**
 	 * Private constructor due to static methods only.
@@ -56,7 +44,6 @@ public final class EclipseFormatterConfig {
 	 *
 	 * @param formatterFile    the path to the formatter configuration file
 	 * @param formatterProfile the name of the formatter configuration profile
-	 * @param sourceLevel      the source level to use for formatting
 	 *
 	 * @return a {@link Map} containing the configuration as key value pairs
 	 *
@@ -64,93 +51,10 @@ public final class EclipseFormatterConfig {
 	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
 	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
 	 */
-	public static Map&lt;String, String&gt; parseConfig(String formatterFile, String formatterProfile, String sourceLevel)
+	public static Map&lt;String, String&gt; parseConfig(String formatterFile, String formatterProfile)
 			throws ProfileNotFoundException, ConfigReadException, CannotLoadConfigurationException {
-<span class="fc" id="L69">		Map&lt;String, String&gt; allConfig = new HashMap&lt;&gt;();</span>
-		try {
-			Map&lt;String, String&gt; configFromFile;
-<span class="fc bfc" id="L72" title="All 2 branches covered.">			if (EclipseJavascriptFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {</span>
-<span class="fc" id="L73">				configFromFile = readConfigFromWorkspaceMechanicFile(formatterFile);</span>
-<span class="fc bfc" id="L74" title="All 2 branches covered.">			} else if (EclipseJavascriptFormatterSettings.isXMLConfigurationFile(formatterFile)) {</span>
-<span class="fc" id="L75">				configFromFile = readConfigFromFormatterXmlFile(formatterFile, formatterProfile);</span>
-<span class="fc bfc" id="L76" title="All 2 branches covered.">			} else if (EclipseJavascriptFormatterSettings.isProjectSetting(formatterFile)) {</span>
-<span class="fc" id="L77">				configFromFile = readConfigFromProjectSettings(formatterFile);</span>
-			} else {
-<span class="fc" id="L79">				configFromFile = new LinkedHashMap&lt;&gt;();</span>
-			}
-
-<span class="fc" id="L82">			allConfig.putAll(ECLIPSE_JAVA_FORMATTER_DEFAULTS);</span>
-<span class="fc" id="L83">			allConfig.putAll(configFromFile);</span>
-<span class="fc" id="L84">		} catch (ConfigReadException | ProfileNotFoundException ex) {</span>
-<span class="fc" id="L85">			log.log(Level.WARNING, &quot;Could not load configuration: &quot; + formatterFile, ex);</span>
-
-<span class="fc" id="L87">			throw ex;</span>
-<span class="fc" id="L88">		} catch (Exception ex) {</span>
-<span class="fc" id="L89">			log.log(Level.WARNING, &quot;Could not load configuration: &quot; + formatterFile, ex);</span>
-
-<span class="fc" id="L91">			throw new CannotLoadConfigurationException(ex);</span>
-<span class="fc" id="L92">		}</span>
-
-<span class="fc" id="L94">		return allConfig;</span>
-	}
-
-	/**
-	 * Parses and returns the properties of the given {@code formatterProfile} inside the
-	 * given {@code formatterFile} into a key value {@link Map}.
-	 *
-	 * @param formatterFile    the configuration file
-	 * @param formatterProfile the profile which should be read from the configuration file
-	 * @return the properties of the given {@code formatterProfile} inside the
-	 *         given {@code formatterFile} as a key value {@link Map}
-	 *
-	 * @throws ConfigReadException      if there is an issue parsing the formatter configuration
-	 * @throws ProfileNotFoundException if the given {@code profile} could not be found
-	 * @throws IOException              if there is an issue accessing the given configuration file
-	 * @throws SAXException             if there are parsing issues
-	 */
-	private static Map&lt;String, String&gt; readConfigFromFormatterXmlFile(String formatterFile, String formatterProfile) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
-<span class="fc" id="L112">		return ConfigReader.getProfileSettings(ConfigReader.toFileObject(formatterFile), formatterProfile);</span>
-	}
-
-	/**
-	 * Parses and returns properties of the given workspace mechanic {@code formatterFile}
-	 * into a key value {@link Map}.
-	 *
-	 * @param formatterFile the workspace mechanic configuration file
-	 *
-	 * @return properties of the given workspace mechanic {@code formatterFile}
-	 *         as a key value {@link Map}
-	 *
-	 * @throws IOException if there is an issue accessing the given workspace mechanic configuration file
-	 */
-	private static Map&lt;String, String&gt; readConfigFromWorkspaceMechanicFile(String formatterFile) throws IOException {
-<span class="fc" id="L127">		Properties properties = new Properties();</span>
-<span class="fc" id="L128">		try (FileInputStream is = new FileInputStream(formatterFile)) {</span>
-<span class="fc" id="L129">			properties.load(is);</span>
-		}
-
-<span class="fc" id="L132">		return properties.keySet().stream().filter(key -&gt; ((String) key).startsWith(WORKSPACE_MECHANIC_PREFIX))</span>
-<span class="fc" id="L133">				.collect(Collectors.toMap(key -&gt; ((String) key).substring(WORKSPACE_MECHANIC_PREFIX.length()), key -&gt; properties.getProperty((String) key)));</span>
-	}
-
-	/**
-	 * Parses and returns properties of the given project settings into a key
-	 * value {@link Map}.
-	 *
-	 * @param formatterFile the project settings file
-	 *
-	 * @return properties of the given project settings as a key value
-	 *         {@link Map}
-	 *
-	 * @throws IOException if there is an issue accessing the given project settings file
-	 */
-	private static Map&lt;String, String&gt; readConfigFromProjectSettings(final String formatterFile) throws IOException {
-<span class="fc" id="L148">		Properties properties = new Properties();</span>
-<span class="fc" id="L149">		try (FileInputStream is = new FileInputStream(formatterFile)) {</span>
-<span class="fc" id="L150">			properties.load(is);</span>
-		}
-
-<span class="fc" id="L153">		return properties.keySet().stream().collect(Collectors.toMap(key -&gt; (String) key, key -&gt; properties.getProperty((String) key)));</span>
+<span class="fc" id="L56">		return EclipseFormatterUtils.parseConfig(formatterFile, formatterProfile, ECLIPSE_JAVASCRIPT_FORMATTER_DEFAULTS, null, WORKSPACE_MECHANIC_PREFIX,</span>
+				EclipseJavascriptFormatterSettings.PROJECT_PREF_FILE);
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

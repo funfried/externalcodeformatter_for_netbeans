@@ -13,32 +13,25 @@ package de.funfried.netbeans.plugins.external.formatter.java.eclipse;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
-import javax.swing.SwingUtilities;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.netbeans.editor.BaseDocument;
-import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
-import org.openide.awt.NotificationDisplayer;
-import org.openide.awt.StatusDisplayer;
 
-import de.funfried.netbeans.plugins.external.formatter.AbstractFormatJob;
+import de.funfried.netbeans.plugins.external.formatter.eclipse.AbstractEclipseFormatJob;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
-import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * Eclipse formatter implementation of the {@link AbstractFormatJob} to
+ * Eclipse formatter implementation of the {@link AbstractEclipseFormatJob} to
  * format a given document using the {@link EclipseJavaFormatterWrapper}.
  *
  * @author markiewb
  * @author bahlef
  */
-class EclipseFormatJob extends AbstractFormatJob {
+class EclipseFormatJob extends AbstractEclipseFormatJob {
 	/** * The {@link EclipseJavaFormatterWrapper} implementation. */
 	private final EclipseJavaFormatterWrapper formatter;
 
@@ -50,100 +43,67 @@ class EclipseFormatJob extends AbstractFormatJob {
 	 * @param changedElements the ranges which should be formatted
 	 */
 	EclipseFormatJob(StyledDocument document, EclipseJavaFormatterWrapper formatter, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L53">		super(document, changedElements);</span>
+<span class="fc" id="L46">		super(document, changedElements);</span>
 
-<span class="fc" id="L55">		this.formatter = formatter;</span>
-<span class="fc" id="L56">	}</span>
+<span class="fc" id="L48">		this.formatter = formatter;</span>
+<span class="fc" id="L49">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void format() throws BadLocationException {
-<span class="fc" id="L63">		Preferences pref = Settings.getActivePreferences(document);</span>
+	protected String getFormattedContent(Preferences pref, String formatterFile, String formatterProfile, String code)
+			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException, FormattingFailedException {
+<span class="fc" id="L57">		String sourceLevel = pref.get(EclipseJavaFormatterSettings.SOURCELEVEL, &quot;&quot;);</span>
 
-<span class="fc" id="L65">		String formatterFile = EclipseJavaFormatterSettings.getEclipseFormatterFile(pref, document);</span>
-<span class="fc" id="L66">		String formatterProfile = pref.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
-<span class="fc" id="L67">		String sourceLevel = pref.get(EclipseJavaFormatterSettings.SOURCELEVEL, &quot;&quot;);</span>
-<span class="fc" id="L68">		String lineFeedSetting = pref.get(EclipseJavaFormatterSettings.LINEFEED, &quot;&quot;);</span>
-<span class="fc" id="L69">		String lineFeed = Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
+<span class="fc" id="L59">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
 
-		//save with configured linefeed
-<span class="pc bpc" id="L72" title="1 of 2 branches missed.">		if (null != lineFeed) {</span>
-<span class="fc" id="L73">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
-<span class="fc" id="L74">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
-		}
-
-<span class="fc" id="L77">		String code = getCode();</span>
-
-		try {
-<span class="fc" id="L80">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
-
-<span class="fc" id="L82">			String formattedContent = formatter.format(formatterFile, formatterProfile, code, lineFeed, sourceLevel, regions);</span>
-<span class="pc bpc" id="L83" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
-<span class="fc" id="L84">				String msg = getNotificationMessageForEclipseFormatterConfigurationFileType(formatterFile, formatterProfile);</span>
-
-<span class="fc" id="L86">				SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="pc bpc" id="L87" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
-<span class="nc" id="L88">						NotificationDisplayer.getDefault().notify(&quot;Format using Eclipse formatter&quot;, Icons.ICON_ECLIPSE, msg, null);</span>
-					}
-
-<span class="fc" id="L91">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Eclipse formatter: &quot; + msg);</span>
-<span class="fc" id="L92">				});</span>
-			}
-<span class="nc" id="L94">		} catch (ProfileNotFoundException ex) {</span>
-<span class="nc" id="L95">			SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="nc" id="L96">				NotifyDescriptor notify = new NotifyDescriptor.Message(</span>
-<span class="nc" id="L97">						String.format(&quot;&lt;html&gt;Profile '%s' not found in &lt;tt&gt;%s&lt;/tt&gt;&lt;br&gt;&lt;br&gt;Please configure a valid one in the project properties OR at Tools|Options|Java|Eclipse Formatter!&quot;, formatterProfile,</span>
-								formatterFile),
-						NotifyDescriptor.ERROR_MESSAGE);
-<span class="nc" id="L100">				DialogDisplayer.getDefault().notify(notify);</span>
-
-<span class="nc" id="L102">				StatusDisplayer.getDefault().setStatusText(String.format(&quot;Profile '%s' not found in %s&quot;, formatterProfile, formatterFile));</span>
-<span class="nc" id="L103">			});</span>
-
-<span class="nc" id="L105">			throw ex;</span>
-<span class="nc" id="L106">		} catch (CannotLoadConfigurationException ex) {</span>
-<span class="nc" id="L107">			SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="nc" id="L108">				NotifyDescriptor notify = new NotifyDescriptor.Message(String.format(&quot;&lt;html&gt;Could not find configuration file %s.&lt;br&gt;Make sure the file exists and it can be read.&quot;, formatterFile),</span>
-						NotifyDescriptor.ERROR_MESSAGE);
-<span class="nc" id="L110">				DialogDisplayer.getDefault().notify(notify);</span>
-
-<span class="nc" id="L112">				StatusDisplayer.getDefault().setStatusText(String.format(&quot;Could not find configuration file %s. Make sure the file exists and it can be read.&quot;, formatterFile));</span>
-<span class="nc" id="L113">			});</span>
-
-<span class="nc" id="L115">			throw ex;</span>
-<span class="nc" id="L116">		} catch (FormattingFailedException ex) {</span>
-<span class="nc" id="L117">			SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="nc" id="L118">				StatusDisplayer.getDefault().setStatusText(&quot;Failed to format using Eclipse formatter: &quot; + ex.getMessage());</span>
-<span class="nc" id="L119">			});</span>
-
-<span class="nc" id="L121">			throw ex;</span>
-<span class="fc" id="L122">		}</span>
-<span class="fc" id="L123">	}</span>
+<span class="fc" id="L61">		return formatter.format(formatterFile, formatterProfile, code, getLineFeed(pref), sourceLevel, regions);</span>
+	}
 
 	/**
-	 * Returns the message which should be shown in a notification after the formatting is done.
-	 *
-	 * @param formatterFile    the used formatter configuration file
-	 * @param formatterProfile the used formatter profile
-	 *
-	 * @return the message which should be shown in a notification after the formatting is done
+	 * {@inheritDoc}
 	 */
-	private String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
-<span class="fc" id="L134">		String msg = &quot;&quot;;</span>
-<span class="pc bpc" id="L135" title="1 of 2 branches missed.">		if (EclipseJavaFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {</span>
+	@Override
+	protected String getFormatterFile(Preferences pref) {
+<span class="fc" id="L69">		return EclipseJavaFormatterSettings.getEclipseFormatterFile(pref, document);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getFormatterProfile(Preferences pref) {
+<span class="fc" id="L77">		return pref.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getLineFeed(Preferences pref) {
+<span class="fc" id="L85">		String lineFeedSetting = pref.get(EclipseJavaFormatterSettings.LINEFEED, &quot;&quot;);</span>
+<span class="fc" id="L86">		return Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
+<span class="fc" id="L94">		String msg = &quot;&quot;;</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">		if (EclipseJavaFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {</span>
 			//Workspace mechanic file
-<span class="nc" id="L137">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
-<span class="pc bpc" id="L138" title="1 of 2 branches missed.">		} else if (EclipseJavaFormatterSettings.isXMLConfigurationFile(formatterFile)) {</span>
+<span class="nc" id="L97">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">		} else if (EclipseJavaFormatterSettings.isXMLConfigurationFile(formatterFile)) {</span>
 			//XML file
-<span class="nc" id="L140">			msg = String.format(&quot;Using profile '%s' from %s&quot;, formatterProfile, formatterFile);</span>
-<span class="pc bpc" id="L141" title="1 of 2 branches missed.">		} else if (EclipseJavaFormatterSettings.isProjectSetting(formatterFile)) {</span>
+<span class="nc" id="L100">			msg = String.format(&quot;Using profile '%s' from %s&quot;, formatterProfile, formatterFile);</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">		} else if (EclipseJavaFormatterSettings.isProjectSetting(formatterFile)) {</span>
 			//org.eclipse.jdt.core.prefs
-<span class="nc" id="L143">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
+<span class="nc" id="L103">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
 		}
 
-<span class="fc" id="L146">		return msg;</span>
+<span class="fc" id="L106">		return msg;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

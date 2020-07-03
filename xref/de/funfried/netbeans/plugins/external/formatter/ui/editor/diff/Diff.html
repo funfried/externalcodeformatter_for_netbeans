@@ -149,7 +149,7 @@
 <a class="jxr_linenumber" name="L141" href="#L141">141</a> 
 <a class="jxr_linenumber" name="L142" href="#L142">142</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">int</strong> binarySearch(Line[] L, String key, <strong class="jxr_keyword">int</strong> low, <strong class="jxr_keyword">int</strong> high) {
 <a class="jxr_linenumber" name="L143" href="#L143">143</a> 		<strong class="jxr_keyword">while</strong> (low &lt;= high) {
-<a class="jxr_linenumber" name="L144" href="#L144">144</a> 			<strong class="jxr_keyword">int</strong> mid = (low + high) &gt;&gt; 1;
+<a class="jxr_linenumber" name="L144" href="#L144">144</a> 			<strong class="jxr_keyword">int</strong> mid = (low + high) &gt;&gt;&gt; 1;
 <a class="jxr_linenumber" name="L145" href="#L145">145</a> 			String midVal = L[mid].line;
 <a class="jxr_linenumber" name="L146" href="#L146">146</a> 			<strong class="jxr_keyword">int</strong> comparison = midVal.compareTo(key);
 <a class="jxr_linenumber" name="L147" href="#L147">147</a> 			<strong class="jxr_keyword">if</strong> (comparison &lt; 0) {
@@ -165,7 +165,7 @@
 <a class="jxr_linenumber" name="L157" href="#L157">157</a> 
 <a class="jxr_linenumber" name="L158" href="#L158">158</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">int</strong> binarySearch(Candidate[] K, <strong class="jxr_keyword">int</strong> key, <strong class="jxr_keyword">int</strong> low, <strong class="jxr_keyword">int</strong> high) {
 <a class="jxr_linenumber" name="L159" href="#L159">159</a> 		<strong class="jxr_keyword">while</strong> (low &lt;= high) {
-<a class="jxr_linenumber" name="L160" href="#L160">160</a> 			<strong class="jxr_keyword">int</strong> mid = (low + high) &gt;&gt; 1;
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> 			<strong class="jxr_keyword">int</strong> mid = (low + high) &gt;&gt;&gt; 1;
 <a class="jxr_linenumber" name="L161" href="#L161">161</a> 			<strong class="jxr_keyword">int</strong> midVal = K[mid].b;
 <a class="jxr_linenumber" name="L162" href="#L162">162</a> 			<strong class="jxr_keyword">if</strong> (midVal &lt; key) {
 <a class="jxr_linenumber" name="L163" href="#L163">163</a> 				low = mid + 1;

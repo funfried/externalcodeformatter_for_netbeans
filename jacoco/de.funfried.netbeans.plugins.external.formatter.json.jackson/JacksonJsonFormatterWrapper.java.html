@@ -125,7 +125,7 @@ public final class JacksonJsonFormatterWrapper {
 	/**
 	 * Custom implementation of the {@link DefaultPrettyPrinter}.
 	 */
-	private class JacksonPrettyPrinter extends DefaultPrettyPrinter {
+	private static class JacksonPrettyPrinter extends DefaultPrettyPrinter {
 		private static final long serialVersionUID = 1L;
 
 		private final boolean spaceBeforeSeparator;
@@ -136,7 +136,7 @@ public final class JacksonJsonFormatterWrapper {
 		 * @param spaceBeforeSeparator {@code true} to add a space between the
 		 *                             key and before the value separator
 		 */
-<span class="fc" id="L139">		public JacksonPrettyPrinter(boolean spaceBeforeSeparator) {</span>
+		public JacksonPrettyPrinter(boolean spaceBeforeSeparator) {
 <span class="fc" id="L140">			super();</span>
 <span class="fc" id="L141">			this.spaceBeforeSeparator = spaceBeforeSeparator;</span>
 <span class="fc" id="L142">		}</span>

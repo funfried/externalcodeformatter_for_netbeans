@@ -10,29 +10,53 @@
 
 package de.funfried.netbeans.plugins.external.formatter.eclipse.xml;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.swing.text.Document;
 
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.filesystems.FileObject;
 
+import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
+
 /**
  *
  * @author bahlef
  */
-<span class="nc" id="L30">public class EclipseFormatterUtils {</span>
+public class EclipseFormatterUtils {
+	/** {@link Logger} of this class. */
+<span class="fc" id="L47">	private static final Logger log = Logger.getLogger(EclipseFormatterUtils.class.getName());</span>
+
 	/** EPF file extension */
 	private static final String EPF_FILE_EXTENSION = &quot;.epf&quot;;
 
 	/** XML file extension */
 	private static final String XML_FILE_EXTENSION = &quot;.xml&quot;;
+
+	/**
+	 * Private constructor due to static methods only.
+	 */
+	private EclipseFormatterUtils() {
+	}
 
 	/**
 	 * Returns the Eclipse formatter file for the given {@link Document} from the given {@link Preferences}.
@@ -51,23 +75,23 @@ import org.openide.filesystems.FileObject;
 	 *         available.
 	 */
 	public static String getEclipseFormatterFile(Preferences preferences, Document document, String configFileLocationKey, String useProjectPrefsKey, String projectPrefFile) {
-<span class="fc" id="L54">		String formatterFilePref = null;</span>
-<span class="pc bpc" id="L55" title="1 of 2 branches missed.">		if (preferences.getBoolean(useProjectPrefsKey, true)) {</span>
+<span class="fc" id="L78">		String formatterFilePref = null;</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">		if (preferences.getBoolean(useProjectPrefsKey, true)) {</span>
 			//use ${projectdir}/.settings/projectPrefFile, if activated in options
-<span class="fc" id="L57">			formatterFilePref = getFormatterFileFromProjectConfiguration(document, &quot;.settings/&quot; + projectPrefFile);</span>
+<span class="fc" id="L81">			formatterFilePref = getFormatterFileFromProjectConfiguration(document, &quot;.settings/&quot; + projectPrefFile);</span>
 		}
 
-<span class="pc bpc" id="L60" title="1 of 2 branches missed.">		if (StringUtils.isBlank(formatterFilePref)) {</span>
-<span class="fc" id="L61">			formatterFilePref = preferences.get(configFileLocationKey, null);</span>
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">			if (StringUtils.isNotBlank(formatterFilePref)) {</span>
-<span class="nc" id="L63">				Path formatterFilePath = Paths.get(formatterFilePref);</span>
-<span class="nc bnc" id="L64" title="All 2 branches missed.">				if (!formatterFilePath.isAbsolute()) {</span>
-<span class="nc" id="L65">					formatterFilePref = getFormatterFileFromProjectConfiguration(document, formatterFilePref);</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">		if (StringUtils.isBlank(formatterFilePref)) {</span>
+<span class="fc" id="L85">			formatterFilePref = preferences.get(configFileLocationKey, null);</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">			if (StringUtils.isNotBlank(formatterFilePref)) {</span>
+<span class="nc" id="L87">				Path formatterFilePath = Paths.get(formatterFilePref);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">				if (!formatterFilePath.isAbsolute()) {</span>
+<span class="nc" id="L89">					formatterFilePref = getFormatterFileFromProjectConfiguration(document, formatterFilePref);</span>
 				}
 			}
 		}
 
-<span class="fc" id="L70">		return formatterFilePref;</span>
+<span class="fc" id="L94">		return formatterFilePref;</span>
 	}
 
 	/**
@@ -82,43 +106,19 @@ import org.openide.filesystems.FileObject;
 	 */
 	@CheckForNull
 	private static String getFormatterFileFromProjectConfiguration(Document document, String relativeFileName) {
-<span class="fc" id="L85">		FileObject fileForDocument = NbEditorUtilities.getFileObject(document);</span>
-<span class="pc bpc" id="L86" title="1 of 2 branches missed.">		if (null != fileForDocument) {</span>
-<span class="nc" id="L87">			Project project = FileOwnerQuery.getOwner(fileForDocument);</span>
-<span class="nc bnc" id="L88" title="All 2 branches missed.">			if (null != project) {</span>
-<span class="nc" id="L89">				FileObject projectDirectory = project.getProjectDirectory();</span>
-<span class="nc" id="L90">				FileObject preferenceFile = projectDirectory.getFileObject(StringUtils.replace(relativeFileName, &quot;\\&quot;, &quot;/&quot;));</span>
-<span class="nc bnc" id="L91" title="All 2 branches missed.">				if (null != preferenceFile) {</span>
-<span class="nc" id="L92">					return preferenceFile.getPath();</span>
+<span class="fc" id="L109">		FileObject fileForDocument = NbEditorUtilities.getFileObject(document);</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">		if (null != fileForDocument) {</span>
+<span class="nc" id="L111">			Project project = FileOwnerQuery.getOwner(fileForDocument);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">			if (null != project) {</span>
+<span class="nc" id="L113">				FileObject projectDirectory = project.getProjectDirectory();</span>
+<span class="nc" id="L114">				FileObject preferenceFile = projectDirectory.getFileObject(StringUtils.replace(relativeFileName, &quot;\\&quot;, &quot;/&quot;));</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">				if (null != preferenceFile) {</span>
+<span class="nc" id="L116">					return preferenceFile.getPath();</span>
 				}
 			}
 		}
 
-<span class="fc" id="L97">		return null;</span>
-	}
-
-	/**
-	 * Returns {@code true} if the given {@code filename} ends with the workspace mechanic file extension epf.
-	 *
-	 * @param filename the filename to check
-	 *
-	 * @return {@code true} if the given {@code filename} ends with the workspace mechanic file extension epf,
-	 *         otherwise {@code false}
-	 */
-	public static boolean isWorkspaceMechanicFile(String filename) {
-<span class="fc bfc" id="L109" title="All 4 branches covered.">		return filename != null &amp;&amp; filename.endsWith(EPF_FILE_EXTENSION);</span>
-	}
-
-	/**
-	 * Returns {@code true} if the given {@code filename} ends with the XML file extension.
-	 *
-	 * @param filename the filename to check
-	 *
-	 * @return {@code true} if the given {@code filename} ends with the XML file extension, otherwise
-	 *         {@code false}
-	 */
-	public static boolean isXMLConfigurationFile(String filename) {
-<span class="fc bfc" id="L121" title="All 4 branches covered.">		return filename != null &amp;&amp; filename.endsWith(XML_FILE_EXTENSION);</span>
+<span class="fc" id="L121">		return null;</span>
 	}
 
 	/**
@@ -132,6 +132,109 @@ import org.openide.filesystems.FileObject;
 	 */
 	public static boolean isProjectSetting(String filename, String projectPrefFile) {
 <span class="pc bpc" id="L134" title="2 of 6 branches missed.">		return filename != null &amp;&amp; StringUtils.isNotBlank(projectPrefFile) &amp;&amp; filename.endsWith(projectPrefFile);</span>
+	}
+
+	/**
+	 * Returns {@code true} if the given {@code filename} ends with the workspace mechanic file extension epf.
+	 *
+	 * @param filename the filename to check
+	 *
+	 * @return {@code true} if the given {@code filename} ends with the workspace mechanic file extension epf,
+	 *         otherwise {@code false}
+	 */
+	public static boolean isWorkspaceMechanicFile(String filename) {
+<span class="fc bfc" id="L146" title="All 4 branches covered.">		return filename != null &amp;&amp; filename.endsWith(EPF_FILE_EXTENSION);</span>
+	}
+
+	/**
+	 * Returns {@code true} if the given {@code filename} ends with the XML file extension.
+	 *
+	 * @param filename the filename to check
+	 *
+	 * @return {@code true} if the given {@code filename} ends with the XML file extension, otherwise
+	 *         {@code false}
+	 */
+	public static boolean isXMLConfigurationFile(String filename) {
+<span class="fc bfc" id="L158" title="All 4 branches covered.">		return filename != null &amp;&amp; filename.endsWith(XML_FILE_EXTENSION);</span>
+	}
+
+	/**
+	 * Parses the configuration parameters from the given {@code formatterProfile} of the
+	 * given {@code formatterFile} and returns it as a {@link Map} containing the
+	 * configuration as key value pairs.
+	 *
+	 * @param formatterFile           the path to the formatter configuration file
+	 * @param formatterProfile        the name of the formatter configuration profile
+	 * @param defaultProperties       the default properties
+	 * @param additionalProperties    optional additional properties
+	 * @param workspaceMechanicPrefix the workspace mechanic prefix
+	 * @param projectPrefFile         the expected Eclipse project specific formatter configuration file name
+	 *
+	 * @return a {@link Map} containing the configuration as key value pairs
+	 *
+	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
+	 */
+	public static Map&lt;String, String&gt; parseConfig(String formatterFile, String formatterProfile, Map&lt;String, String&gt; defaultProperties, Map&lt;String, String&gt; additionalProperties,
+			String workspaceMechanicPrefix, String projectPrefFile) throws ProfileNotFoundException, ConfigReadException, CannotLoadConfigurationException {
+<span class="fc" id="L181">		Map&lt;String, String&gt; allConfig = new HashMap&lt;&gt;();</span>
+		try {
+			Map&lt;String, String&gt; configFromFile;
+<span class="fc bfc" id="L184" title="All 2 branches covered.">			if (EclipseFormatterUtils.isWorkspaceMechanicFile(formatterFile)) {</span>
+<span class="fc" id="L185">				configFromFile = EclipseFormatterUtils.readPropertiesFromConfigurationFile(formatterFile, workspaceMechanicPrefix);</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">			} else if (EclipseFormatterUtils.isXMLConfigurationFile(formatterFile)) {</span>
+<span class="fc" id="L187">				configFromFile = ConfigReader.getProfileSettings(ConfigReader.toFileObject(formatterFile), formatterProfile);</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">			} else if (EclipseFormatterUtils.isProjectSetting(formatterFile, projectPrefFile)) {</span>
+<span class="fc" id="L189">				configFromFile = EclipseFormatterUtils.readPropertiesFromConfigurationFile(formatterFile, null);</span>
+			} else {
+<span class="fc" id="L191">				configFromFile = new LinkedHashMap&lt;&gt;();</span>
+			}
+
+<span class="fc" id="L194">			allConfig.putAll(defaultProperties);</span>
+<span class="fc" id="L195">			allConfig.putAll(configFromFile);</span>
+
+<span class="fc bfc" id="L197" title="All 2 branches covered.">			if (additionalProperties != null) {</span>
+<span class="fc" id="L198">				allConfig.putAll(additionalProperties);</span>
+			}
+<span class="fc" id="L200">		} catch (ConfigReadException | ProfileNotFoundException ex) {</span>
+<span class="fc" id="L201">			log.log(Level.WARNING, &quot;Could not load configuration: &quot; + formatterFile, ex);</span>
+
+<span class="fc" id="L203">			throw ex;</span>
+<span class="fc" id="L204">		} catch (Exception ex) {</span>
+<span class="fc" id="L205">			log.log(Level.WARNING, &quot;Could not load configuration: &quot; + formatterFile, ex);</span>
+
+<span class="fc" id="L207">			throw new CannotLoadConfigurationException(ex);</span>
+<span class="fc" id="L208">		}</span>
+
+<span class="fc" id="L210">		return allConfig;</span>
+	}
+
+	/**
+	 * Parses and returns properties of the given {@code file} into a key value {@link Map}. If an optional
+	 * {@code prefix} is specified, only the properties where the key starts with the given {@code prefix}
+	 * are returned and the {@code prefix} will be removed from the keys in the returned {@link Map}.
+	 *
+	 * @param file   a configuration file
+	 * @param prefix an optional key prefix
+	 *
+	 * @return properties of the given {@code file} as a key value {@link Map}
+	 *
+	 * @throws IOException if there is an issue accessing the given configuration file
+	 */
+	@NonNull
+	public static Map&lt;String, String&gt; readPropertiesFromConfigurationFile(String file, String prefix) throws IOException {
+<span class="fc" id="L227">		Properties properties = new Properties();</span>
+<span class="fc" id="L228">		try (FileInputStream is = new FileInputStream(file)) {</span>
+<span class="fc" id="L229">			properties.load(is);</span>
+		}
+
+<span class="fc" id="L232">		Stream&lt;Object&gt; stream = properties.keySet().stream();</span>
+<span class="fc bfc" id="L233" title="All 2 branches covered.">		if (StringUtils.isNotBlank(prefix)) {</span>
+<span class="fc" id="L234">			return stream.filter(key -&gt; ((String) key).startsWith(prefix)).collect(Collectors.toMap(key -&gt; ((String) key).substring(prefix.length()), key -&gt; properties.getProperty((String) key)));</span>
+		}
+
+<span class="fc" id="L237">		return stream.collect(Collectors.toMap(key -&gt; (String) key, key -&gt; properties.getProperty((String) key)));</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
