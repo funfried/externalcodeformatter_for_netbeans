@@ -104,8 +104,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<google-java-format.version>1.7</google-java-format.version>
+		<xml-formatter.version>0.2.0</xml-formatter.version>
+		<commons-lang.version>3.10</commons-lang.version>
 		<netbeans.version>RELEASE82</netbeans.version>
 		<jackson.version>2.11.1</jackson.version>
+		<jsoup.version>1.13.1</jsoup.version>
 	</properties>
 
 	<dependencyManagement>
@@ -228,7 +232,7 @@
 		<dependency>
 			<groupId>com.google.googlejavaformat</groupId>
 			<artifactId>google-java-format</artifactId>
-			<version>1.7</version>
+			<version>${google-java-format.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.guava</groupId>
@@ -241,13 +245,13 @@
 		<dependency>
 			<groupId>net.revelc.code.formatter</groupId>
 			<artifactId>xml-formatter</artifactId>
-			<version>0.2.0</version>
+			<version>${xml-formatter.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.13.1</version>
+			<version>${jsoup.version}</version>
 		</dependency>
 
 		<!-- Jackson/Json Formatter -->
@@ -420,7 +424,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.10</version>
+			<version>${commons-lang.version}</version>
 		</dependency>
 
 		<dependency>
@@ -555,6 +559,19 @@
 					<configuration>
 						<quiet>true</quiet>
 						<doclint>all,-missing</doclint>
+						<links>
+							<link>https://bits.netbeans.org/dev/javadoc/org-openide-util-lookup/</link>
+							<link>https://bits.netbeans.org/dev/javadoc/org-openide-filesystems/</link>
+							<link>https://bits.netbeans.org/dev/javadoc/org-netbeans-modules-diff/</link>
+							<link>https://bits.netbeans.org/dev/javadoc/org-netbeans-modules-projectapi/</link>
+							<link>https://bits.netbeans.org/dev/javadoc/org-netbeans-modules-options-api/</link>
+							<link>https://bits.netbeans.org/dev/javadoc/org-netbeans-modules-editor-guards/</link>
+							<link>https://bits.netbeans.org/dev/javadoc/org-netbeans-modules-editor-indent/</link>
+							<link>https://commons.apache.org/proper/commons-lang/javadocs/api-${commons-lang.version}/</link>
+							<link>https://javadoc.io/doc/com.google.googlejavaformat/google-java-format/${google-java-format.version}/</link>
+							<link>https://javadoc.io/doc/net.revelc.code.formatter/xml-formatter/${xml-formatter.version}/</link>
+							<link>https://javadoc.io/doc/org.jsoup/jsoup/${jsoup.version}/</link>
+						</links>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -778,12 +795,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-					<links>
-						<link>https://bits.netbeans.org/dev/javadoc/org-openide-util-lookup/</link>
-						<link>https://bits.netbeans.org/dev/javadoc/org-netbeans-modules-projectapi/</link>
-					</links>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
