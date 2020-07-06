@@ -31,6 +31,17 @@
 			</properties>
 			<repositories>
 				<repository>
+					<id>bits-netbeans</id>
+					<name>bits-netbeans</name>
+					<url>http://bits.netbeans.org/maven2/</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+				<repository>
 					<id>imagej</id>
 					<name>imagej</name>
 					<url>http://maven.imagej.net/content/groups/public</url>
@@ -76,6 +87,17 @@
 				</repository>
 			</repositories>
 			<pluginRepositories>
+				<pluginRepository>
+					<id>bits-netbeans</id>
+					<name>bits-netbeans</name>
+					<url>http://bits.netbeans.org/maven2/</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</pluginRepository>
 				<pluginRepository>
 					<id>imagej</id>
 					<name>imagej</name>

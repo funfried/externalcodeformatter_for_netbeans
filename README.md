@@ -1,4 +1,4 @@
-Keep this project alive by supporting it: one-time [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url) or become a [![Patreon!](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.herokuapp.com%2Fuser?u=32336291&style=for-the-badge)](https://www.patreon.com/bePatron?u=32336291)
+Keep this project alive by supporting it: one-time [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url) or [![Patreon!](/src/site/resources/imgs/logo/become_a_patron_button.png)](https://www.patreon.com/funfried)
 
 [![Linux Build Status](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master)](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/kva6pnb5se94t1wu?svg=true)](https://ci.appveyor.com/project/funfried/externalcodeformatter-for-netbeans)
