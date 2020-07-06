@@ -48,6 +48,32 @@ public class EclipseJavascriptFormatterWrapperTest {
 	}
 
 	@Test
+	public void testFormatUsingXML_regionAll() {
+		final String text = "function foo(bar) { return Str('', { '' : bar }, []); }";
+		final String expected = "function foo(bar) {\n"
+				+ "    return Str('', {\n"
+				+ "        '' : bar\n"
+				+ "    }, []);\n"
+				+ "}";
+
+		String actual = instance.format("src/test/resources/jsformattersampleeclipse.xml", "eclipse-demo", text, null, Pair.of(0, text.length() - 1));
+		Assert.assertNotNull("Formatting should not return null value", actual);
+		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
+	}
+
+	@Test
+	public void testFormatUsingXML_region() throws Exception {
+		final String text = "function foo(bar) { return Str('', { '' : bar }, []); }";
+		final String expected = "function foo(bar) { return Str('', {\n"
+				+ "        '' : bar\n"
+				+ "    }, []); }";
+
+		String actual = instance.format("src/test/resources/jsformattersampleeclipse.xml", "eclipse-demo", text, null, Pair.of(27, 47));
+		Assert.assertNotNull("Formatting should not return null value", actual);
+		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
+	}
+
+	@Test
 	public void testFormatUsingEPF() {
 		final String text = "function foo(bar) { return Str('', { '' : bar }, []); }";
 		final String expected = "function foo(bar) {\n"
@@ -57,18 +83,6 @@ public class EclipseJavascriptFormatterWrapperTest {
 				+ "}";
 
 		String actual = instance.format("src/test/resources/jsmechanic-formatter.epf", null, text, null, null);
-		Assert.assertNotNull("Formatting should not return null value", actual);
-		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
-	}
-
-	@Test
-	public void testFormatUsingXML_regions() throws Exception {
-		final String text = "function foo(bar) { return Str('', { '' : bar }, []); }";
-		final String expected = "function foo(bar) { return Str('', {\n"
-				+ "        '' : bar\n"
-				+ "    }, []); }";
-
-		String actual = instance.format("src/test/resources/jsformattersampleeclipse.xml", "eclipse-demo", text, null, Pair.of(27, 47));
 		Assert.assertNotNull("Formatting should not return null value", actual);
 		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
 	}
