@@ -12,6 +12,7 @@ package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.TextEdit;
@@ -37,8 +38,8 @@ public final class EclipseJavascriptFormatterWrapper {
 	/**
 	 * Package private Constructor for creating a new instance of {@link EclipseJavascriptFormatterWrapper}.
 	 */
-<span class="fc" id="L40">	EclipseJavascriptFormatterWrapper() {</span>
-<span class="fc" id="L41">	}</span>
+<span class="fc" id="L41">	EclipseJavascriptFormatterWrapper() {</span>
+<span class="fc" id="L42">	}</span>
 
 	/**
 	 * Formats the given {@code code} with the given configurations and returns
@@ -48,6 +49,7 @@ public final class EclipseJavascriptFormatterWrapper {
 	 * @param formatterProfile the name of the formatter configuration profile
 	 * @param code             the unformatted code
 	 * @param lineFeed         the line feed to use for formatting
+	 * @param changedElement   an optional range as a {@link Pair} object defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
 	 *
@@ -57,17 +59,34 @@ public final class EclipseJavascriptFormatterWrapper {
 	 * @throws FormattingFailedException        if the external formatter failed to format the given code
 	 */
 	@CheckForNull
-	public String format(String formatterFile, String formatterProfile, String code, String lineFeed)
+	public String format(String formatterFile, String formatterProfile, String code, String lineFeed, Pair&lt;Integer, Integer&gt; changedElement)
 			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException, FormattingFailedException {
-<span class="fc bfc" id="L62" title="All 2 branches covered.">		if (code == null) {</span>
-<span class="fc" id="L63">			return null;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">		if (code == null) {</span>
+<span class="fc" id="L65">			return null;</span>
 		}
 
-<span class="fc" id="L66">		Map&lt;String, String&gt; allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile);</span>
+<span class="fc" id="L68">		Map&lt;String, String&gt; allConfig = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile);</span>
 
-<span class="fc" id="L68">		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);</span>
+<span class="fc" id="L70">		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);</span>
 
-<span class="fc" id="L70">		return format(formatter, code, lineFeed);</span>
+<span class="fc" id="L72">		int codeLength = code.length();</span>
+
+<span class="fc" id="L74">		int offset = 0;</span>
+<span class="fc" id="L75">		int length = codeLength;</span>
+
+<span class="pc bpc" id="L77" title="2 of 6 branches missed.">		if (changedElement != null &amp;&amp; changedElement.getLeft() != null &amp;&amp; changedElement.getRight() != null) {</span>
+<span class="fc" id="L78">			offset = changedElement.getLeft();</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">			if (offset &lt; 0) {</span>
+<span class="nc" id="L80">				offset = 0;</span>
+			}
+
+<span class="fc" id="L83">			length = (changedElement.getRight() - changedElement.getLeft()) + 1;</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">			if (length &gt; codeLength) {</span>
+<span class="nc" id="L85">				length = codeLength;</span>
+			}
+		}
+
+<span class="fc" id="L89">		return format(formatter, code, offset, length, lineFeed);</span>
 	}
 
 	/**
@@ -76,6 +95,8 @@ public final class EclipseJavascriptFormatterWrapper {
 	 *
 	 * @param formatter the {@link CodeFormatter}
 	 * @param code      the unformatted code
+	 * @param offset    the offset where to start formatting the given code
+	 * @param length    the length where to stop formatting the given code
 	 * @param lineFeed  the line feed to use for formatting
 	 *
 	 * @return the formatted code
@@ -83,28 +104,28 @@ public final class EclipseJavascriptFormatterWrapper {
 	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
 	@CheckForNull
-	private String format(@NonNull CodeFormatter formatter, @NonNull String code, String lineFeed) throws FormattingFailedException {
-<span class="fc" id="L87">		String formattedCode = null;</span>
+	private String format(@NonNull CodeFormatter formatter, @NonNull String code, int offset, int length, String lineFeed) throws FormattingFailedException {
+<span class="fc" id="L108">		String formattedCode = null;</span>
 
 		try {
-<span class="fc" id="L90">			TextEdit te = formatter.format(FORMATTER_OPTS, code, 0, code.length(), 0, lineFeed);</span>
-<span class="pc bpc" id="L91" title="2 of 4 branches missed.">			if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
-<span class="fc" id="L92">				IDocument dc = new Document(code);</span>
-<span class="fc" id="L93">				te.apply(dc);</span>
+<span class="fc" id="L111">			TextEdit te = formatter.format(FORMATTER_OPTS, code, offset, length, 0, lineFeed);</span>
+<span class="pc bpc" id="L112" title="2 of 4 branches missed.">			if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
+<span class="fc" id="L113">				IDocument dc = new Document(code);</span>
+<span class="fc" id="L114">				te.apply(dc);</span>
 
-<span class="fc" id="L95">				formattedCode = dc.get();</span>
+<span class="fc" id="L116">				formattedCode = dc.get();</span>
 
-<span class="pc bpc" id="L97" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
-<span class="nc" id="L98">					return null;</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
+<span class="nc" id="L119">					return null;</span>
 				}
 			}
-<span class="nc" id="L101">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
-<span class="nc" id="L102">			throw ex;</span>
-<span class="nc" id="L103">		} catch (Exception ex) {</span>
-<span class="nc" id="L104">			throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
-<span class="fc" id="L105">		}</span>
+<span class="nc" id="L122">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
+<span class="nc" id="L123">			throw ex;</span>
+<span class="nc" id="L124">		} catch (Exception ex) {</span>
+<span class="nc" id="L125">			throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
+<span class="fc" id="L126">		}</span>
 
-<span class="fc" id="L107">		return formattedCode;</span>
+<span class="fc" id="L128">		return formattedCode;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

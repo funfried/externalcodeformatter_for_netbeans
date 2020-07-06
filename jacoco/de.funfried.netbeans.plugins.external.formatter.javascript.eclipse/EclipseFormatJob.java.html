@@ -10,9 +10,13 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.prefs.Preferences;
 
 import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import de.funfried.netbeans.plugins.external.formatter.eclipse.AbstractEclipseFormatJob;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
@@ -35,14 +39,15 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	/**
 	 * Package private constructor to create a new instance of {@link EclipseFormatJob}.
 	 *
-	 * @param document  the {@link StyledDocument} which sould be formatted
-	 * @param formatter the {@link EclipseJavascriptFormatterWrapper} to use
+	 * @param document       the {@link StyledDocument} which sould be formatted
+	 * @param formatter      the {@link EclipseJavascriptFormatterWrapper} to use
+	 * @param changedElement an optional range as a {@link Pair} object defining the offsets which should be formatted
 	 */
-	EclipseFormatJob(StyledDocument document, EclipseJavascriptFormatterWrapper formatter) {
-<span class="fc" id="L42">		super(document, null);</span>
+	EclipseFormatJob(StyledDocument document, EclipseJavascriptFormatterWrapper formatter, Pair&lt;Integer, Integer&gt; changedElement) {
+<span class="fc" id="L47">		super(document, singletonSortedSet(changedElement));</span>
 
-<span class="fc" id="L44">		this.formatter = formatter;</span>
-<span class="fc" id="L45">	}</span>
+<span class="fc" id="L49">		this.formatter = formatter;</span>
+<span class="fc" id="L50">	}</span>
 
 	/**
 	 * {@inheritDoc}
@@ -50,7 +55,7 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	@Override
 	protected String getFormattedContent(Preferences pref, String formatterFile, String formatterProfile, String code)
 			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException, FormattingFailedException {
-<span class="fc" id="L53">		return formatter.format(formatterFile, formatterProfile, code, getLineFeed(pref));</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">		return formatter.format(formatterFile, formatterProfile, code, getLineFeed(pref), changedElements != null ? changedElements.first() : null);</span>
 	}
 
 	/**
@@ -58,7 +63,7 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	 */
 	@Override
 	protected String getFormatterFile(Preferences pref) {
-<span class="fc" id="L61">		return EclipseJavascriptFormatterSettings.getEclipseFormatterFile(pref, document);</span>
+<span class="fc" id="L66">		return EclipseJavascriptFormatterSettings.getEclipseFormatterFile(pref, document);</span>
 	}
 
 	/**
@@ -66,7 +71,7 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	 */
 	@Override
 	protected String getFormatterProfile(Preferences pref) {
-<span class="fc" id="L69">		return pref.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
+<span class="fc" id="L74">		return pref.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
 	}
 
 	/**
@@ -74,8 +79,8 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	 */
 	@Override
 	protected String getLineFeed(Preferences pref) {
-<span class="fc" id="L77">		String lineFeedSetting = pref.get(EclipseJavascriptFormatterSettings.LINEFEED, &quot;&quot;);</span>
-<span class="fc" id="L78">		return Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
+<span class="fc" id="L82">		String lineFeedSetting = pref.get(EclipseJavascriptFormatterSettings.LINEFEED, &quot;&quot;);</span>
+<span class="fc" id="L83">		return Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
 	}
 
 	/**
@@ -83,19 +88,39 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	 */
 	@Override
 	protected String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
-<span class="fc" id="L86">		String msg = &quot;&quot;;</span>
-<span class="pc bpc" id="L87" title="1 of 2 branches missed.">		if (EclipseJavascriptFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {</span>
+<span class="fc" id="L91">		String msg = &quot;&quot;;</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">		if (EclipseJavascriptFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {</span>
 			//Workspace mechanic file
-<span class="nc" id="L89">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
-<span class="pc bpc" id="L90" title="1 of 2 branches missed.">		} else if (EclipseJavascriptFormatterSettings.isXMLConfigurationFile(formatterFile)) {</span>
+<span class="nc" id="L94">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">		} else if (EclipseJavascriptFormatterSettings.isXMLConfigurationFile(formatterFile)) {</span>
 			//XML file
-<span class="nc" id="L92">			msg = String.format(&quot;Using profile '%s' from %s&quot;, formatterProfile, formatterFile);</span>
-<span class="pc bpc" id="L93" title="1 of 2 branches missed.">		} else if (EclipseJavascriptFormatterSettings.isProjectSetting(formatterFile)) {</span>
+<span class="nc" id="L97">			msg = String.format(&quot;Using profile '%s' from %s&quot;, formatterProfile, formatterFile);</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">		} else if (EclipseJavascriptFormatterSettings.isProjectSetting(formatterFile)) {</span>
 			//org.eclipse.jdt.core.prefs
-<span class="nc" id="L95">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
+<span class="nc" id="L100">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
 		}
 
-<span class="fc" id="L98">		return msg;</span>
+<span class="fc" id="L103">		return msg;</span>
+	}
+
+	/**
+	 * Creates and returns a {@link SortedSet} within the given {@link Pair} of {@link Integer}s or {@code null}
+	 * if the given {@link Pair} was {@code null}.
+	 *
+	 * @param pair the {@link Pair} which should be added to the {@link SortedSet}
+	 *
+	 * @return a {@link SortedSet} within the given {@link Pair} of {@link Integer}s or {@code null}
+	 *         if the given {@link Pair} was {@code null}
+	 */
+	private static SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; singletonSortedSet(Pair&lt;Integer, Integer&gt; pair) {
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">		if (pair == null) {</span>
+<span class="fc" id="L117">			return null;</span>
+		}
+
+<span class="nc" id="L120">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; sortedSet = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L121">		sortedSet.add(pair);</span>
+
+<span class="nc" id="L123">		return sortedSet;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
