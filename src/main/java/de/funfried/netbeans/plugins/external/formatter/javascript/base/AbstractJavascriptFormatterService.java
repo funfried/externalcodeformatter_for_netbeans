@@ -30,9 +30,10 @@ public abstract class AbstractJavascriptFormatterService implements FormatterSer
 	/**
 	 * Returns the {@link FormatJob}.
 	 *
-	 * @param document the {@link StyledDocument} which should be formatted
+	 * @param document       the {@link StyledDocument} which should be formatted
+	 * @param changedElement an optional range as a {@link Pair} object defining the offsets which should be formatted
 	 */
-	protected abstract FormatJob getFormatJob(StyledDocument document);
+	protected abstract FormatJob getFormatJob(StyledDocument document, Pair<Integer, Integer> changedElement);
 
 	/**
 	 * {@inheritDoc}
@@ -43,7 +44,7 @@ public abstract class AbstractJavascriptFormatterService implements FormatterSer
 			throw new FormattingFailedException("The file type '" + MimeType.getMimeTypeAsString(document) + "' is not supported");
 		}
 
-		getFormatJob(document).format();
+		getFormatJob(document, changedElements != null ? changedElements.first() : null).format();
 	}
 
 	/**

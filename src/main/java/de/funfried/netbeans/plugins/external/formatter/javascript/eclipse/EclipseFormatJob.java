@@ -10,9 +10,13 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.prefs.Preferences;
 
 import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import de.funfried.netbeans.plugins.external.formatter.eclipse.AbstractEclipseFormatJob;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
@@ -35,11 +39,12 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	/**
 	 * Package private constructor to create a new instance of {@link EclipseFormatJob}.
 	 *
-	 * @param document  the {@link StyledDocument} which sould be formatted
-	 * @param formatter the {@link EclipseJavascriptFormatterWrapper} to use
+	 * @param document       the {@link StyledDocument} which sould be formatted
+	 * @param formatter      the {@link EclipseJavascriptFormatterWrapper} to use
+	 * @param changedElement an optional range as a {@link Pair} object defining the offsets which should be formatted
 	 */
-	EclipseFormatJob(StyledDocument document, EclipseJavascriptFormatterWrapper formatter) {
-		super(document, null);
+	EclipseFormatJob(StyledDocument document, EclipseJavascriptFormatterWrapper formatter, Pair<Integer, Integer> changedElement) {
+		super(document, singletonSortedSet(changedElement));
 
 		this.formatter = formatter;
 	}
@@ -50,7 +55,7 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	@Override
 	protected String getFormattedContent(Preferences pref, String formatterFile, String formatterProfile, String code)
 			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException, FormattingFailedException {
-		return formatter.format(formatterFile, formatterProfile, code, getLineFeed(pref));
+		return formatter.format(formatterFile, formatterProfile, code, getLineFeed(pref), changedElements != null ? changedElements.first() : null);
 	}
 
 	/**
@@ -96,5 +101,25 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 		}
 
 		return msg;
+	}
+
+	/**
+	 * Creates and returns a {@link SortedSet} within the given {@link Pair} of {@link Integer}s or {@code null}
+	 * if the given {@link Pair} was {@code null}.
+	 *
+	 * @param pair the {@link Pair} which should be added to the {@link SortedSet}
+	 *
+	 * @return a {@link SortedSet} within the given {@link Pair} of {@link Integer}s or {@code null}
+	 *         if the given {@link Pair} was {@code null}
+	 */
+	private static SortedSet<Pair<Integer, Integer>> singletonSortedSet(Pair<Integer, Integer> pair) {
+		if (pair == null) {
+			return null;
+		}
+
+		SortedSet<Pair<Integer, Integer>> sortedSet = new TreeSet<>();
+		sortedSet.add(pair);
+
+		return sortedSet;
 	}
 }

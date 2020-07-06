@@ -12,6 +12,7 @@ package de.funfried.netbeans.plugins.external.formatter.javascript.eclipse;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.text.edits.TextEdit;
@@ -48,6 +49,7 @@ public final class EclipseJavascriptFormatterWrapper {
 	 * @param formatterProfile the name of the formatter configuration profile
 	 * @param code             the unformatted code
 	 * @param lineFeed         the line feed to use for formatting
+	 * @param changedElement   an optional range as a {@link Pair} object defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
 	 *
@@ -57,7 +59,7 @@ public final class EclipseJavascriptFormatterWrapper {
 	 * @throws FormattingFailedException        if the external formatter failed to format the given code
 	 */
 	@CheckForNull
-	public String format(String formatterFile, String formatterProfile, String code, String lineFeed)
+	public String format(String formatterFile, String formatterProfile, String code, String lineFeed, Pair<Integer, Integer> changedElement)
 			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException, FormattingFailedException {
 		if (code == null) {
 			return null;
@@ -67,7 +69,24 @@ public final class EclipseJavascriptFormatterWrapper {
 
 		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);
 
-		return format(formatter, code, lineFeed);
+		int codeLength = code.length();
+
+		int offset = 0;
+		int length = codeLength;
+
+		if (changedElement != null && changedElement.getLeft() != null && changedElement.getRight() != null) {
+			offset = changedElement.getLeft();
+			if (offset < 0) {
+				offset = 0;
+			}
+
+			length = (changedElement.getRight() - changedElement.getLeft()) + 1;
+			if (length > codeLength) {
+				length = codeLength;
+			}
+		}
+
+		return format(formatter, code, offset, length, lineFeed);
 	}
 
 	/**
@@ -76,6 +95,8 @@ public final class EclipseJavascriptFormatterWrapper {
 	 *
 	 * @param formatter the {@link CodeFormatter}
 	 * @param code      the unformatted code
+	 * @param offset    the offset where to start formatting the given code
+	 * @param length    the length where to stop formatting the given code
 	 * @param lineFeed  the line feed to use for formatting
 	 *
 	 * @return the formatted code
@@ -83,11 +104,11 @@ public final class EclipseJavascriptFormatterWrapper {
 	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
 	@CheckForNull
-	private String format(@NonNull CodeFormatter formatter, @NonNull String code, String lineFeed) throws FormattingFailedException {
+	private String format(@NonNull CodeFormatter formatter, @NonNull String code, int offset, int length, String lineFeed) throws FormattingFailedException {
 		String formattedCode = null;
 
 		try {
-			TextEdit te = formatter.format(FORMATTER_OPTS, code, 0, code.length(), 0, lineFeed);
+			TextEdit te = formatter.format(FORMATTER_OPTS, code, offset, length, 0, lineFeed);
 			if (te != null && te.getChildrenSize() > 0) {
 				IDocument dc = new Document(code);
 				te.apply(dc);

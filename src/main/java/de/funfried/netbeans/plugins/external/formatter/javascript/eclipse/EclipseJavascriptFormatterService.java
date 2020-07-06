@@ -17,6 +17,7 @@ import java.util.prefs.Preferences;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.project.Project;
@@ -142,8 +143,8 @@ public class EclipseJavascriptFormatterService extends AbstractJavascriptFormatt
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected FormatJob getFormatJob(StyledDocument document) {
-		return new EclipseFormatJob(document, formatter);
+	protected FormatJob getFormatJob(StyledDocument document, Pair<Integer, Integer> changedElement) {
+		return new EclipseFormatJob(document, formatter, changedElement);
 	}
 
 	/**
