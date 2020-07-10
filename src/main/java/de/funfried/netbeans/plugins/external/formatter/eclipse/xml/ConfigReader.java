@@ -177,6 +177,10 @@ public class ConfigReader {
 	 */
 	@NonNull
 	private static List<Node> getProfileNodes(FileObject fileObject) throws ConfigReadException, IOException, SAXException {
+		if (fileObject == null) {
+			throw new ConfigReadException("FileObject cannot be null");
+		}
+
 		List<Node> profiles = new ArrayList<>();
 
 		Document formatterDoc;
