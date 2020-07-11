@@ -185,39 +185,43 @@
 <a class="jxr_linenumber" name="L177" href="#L177">177</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L178" href="#L178">178</a> 	@NonNull
 <a class="jxr_linenumber" name="L179" href="#L179">179</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> List&lt;Node&gt; getProfileNodes(FileObject fileObject) <strong class="jxr_keyword">throws</strong> ConfigReadException, IOException, SAXException {
-<a class="jxr_linenumber" name="L180" href="#L180">180</a> 		List&lt;Node&gt; profiles = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
-<a class="jxr_linenumber" name="L181" href="#L181">181</a> 
-<a class="jxr_linenumber" name="L182" href="#L182">182</a> 		Document formatterDoc;
-<a class="jxr_linenumber" name="L183" href="#L183">183</a> 		<strong class="jxr_keyword">try</strong> (InputStream is = fileObject.getInputStream()) {
-<a class="jxr_linenumber" name="L184" href="#L184">184</a> 			formatterDoc = XMLUtil.parse(<strong class="jxr_keyword">new</strong> InputSource(is), false, false, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="L185" href="#L185">185</a> 		}
-<a class="jxr_linenumber" name="L186" href="#L186">186</a> 
-<a class="jxr_linenumber" name="L187" href="#L187">187</a> 		Element profilesTag = formatterDoc.getDocumentElement();
-<a class="jxr_linenumber" name="L188" href="#L188">188</a> 		<strong class="jxr_keyword">if</strong> (profilesTag != <strong class="jxr_keyword">null</strong> &amp;&amp; TAG_NAME_PROFILES.equals(profilesTag.getNodeName())) {
-<a class="jxr_linenumber" name="L189" href="#L189">189</a> 			NodeList profileTagList = profilesTag.getElementsByTagName(TAG_NAME_PROFILE);
-<a class="jxr_linenumber" name="L190" href="#L190">190</a> 			<strong class="jxr_keyword">if</strong> (profileTagList != <strong class="jxr_keyword">null</strong> &amp;&amp; profileTagList.getLength() &gt; 0) {
-<a class="jxr_linenumber" name="L191" href="#L191">191</a> 				<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> p = 0; p &lt; profileTagList.getLength(); p++) {
-<a class="jxr_linenumber" name="L192" href="#L192">192</a> 					Node profileTag = profileTagList.item(p);
-<a class="jxr_linenumber" name="L193" href="#L193">193</a> 					NamedNodeMap profileAttributes = profileTag.getAttributes();
-<a class="jxr_linenumber" name="L194" href="#L194">194</a> 					Node profileKindAttr = profileAttributes.getNamedItem(ATTRIBUTE_PROFILE_KIND);
-<a class="jxr_linenumber" name="L195" href="#L195">195</a> 					<strong class="jxr_keyword">if</strong> (profileKindAttr != <strong class="jxr_keyword">null</strong> &amp;&amp; PROFILE_KIND.equals(profileKindAttr.getNodeValue())) {
-<a class="jxr_linenumber" name="L196" href="#L196">196</a> 						profiles.add(profileTag);
-<a class="jxr_linenumber" name="L197" href="#L197">197</a> 					}
-<a class="jxr_linenumber" name="L198" href="#L198">198</a> 				}
-<a class="jxr_linenumber" name="L199" href="#L199">199</a> 			} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L200" href="#L200">200</a> 				<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="ConfigReadException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/ConfigReadException.html#ConfigReadException">ConfigReadException</a>(<span class="jxr_string">"No &lt;profile&gt; tag found in "</span> + fileObject.getPath());
-<a class="jxr_linenumber" name="L201" href="#L201">201</a> 			}
-<a class="jxr_linenumber" name="L202" href="#L202">202</a> 		} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L203" href="#L203">203</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="ConfigReadException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/ConfigReadException.html#ConfigReadException">ConfigReadException</a>(<span class="jxr_string">"No &lt;profiles&gt; tag found in config file"</span>);
-<a class="jxr_linenumber" name="L204" href="#L204">204</a> 		}
-<a class="jxr_linenumber" name="L205" href="#L205">205</a> 
-<a class="jxr_linenumber" name="L206" href="#L206">206</a> 		<strong class="jxr_keyword">if</strong> (profiles.isEmpty()) {
-<a class="jxr_linenumber" name="L207" href="#L207">207</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="ConfigReadException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/ConfigReadException.html#ConfigReadException">ConfigReadException</a>(<span class="jxr_string">"No valid &lt;profile&gt; tag found in "</span> + fileObject.getPath());
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 		<strong class="jxr_keyword">if</strong> (fileObject == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="ConfigReadException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/ConfigReadException.html#ConfigReadException">ConfigReadException</a>(<span class="jxr_string">"FileObject cannot be null"</span>);
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> 		}
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> 
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> 		List&lt;Node&gt; profiles = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> 
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> 		Document formatterDoc;
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> 		<strong class="jxr_keyword">try</strong> (InputStream is = fileObject.getInputStream()) {
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> 			formatterDoc = XMLUtil.parse(<strong class="jxr_keyword">new</strong> InputSource(is), false, false, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> 		}
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> 
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> 		Element profilesTag = formatterDoc.getDocumentElement();
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> 		<strong class="jxr_keyword">if</strong> (profilesTag != <strong class="jxr_keyword">null</strong> &amp;&amp; TAG_NAME_PROFILES.equals(profilesTag.getNodeName())) {
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> 			NodeList profileTagList = profilesTag.getElementsByTagName(TAG_NAME_PROFILE);
+<a class="jxr_linenumber" name="L194" href="#L194">194</a> 			<strong class="jxr_keyword">if</strong> (profileTagList != <strong class="jxr_keyword">null</strong> &amp;&amp; profileTagList.getLength() &gt; 0) {
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> 				<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> p = 0; p &lt; profileTagList.getLength(); p++) {
+<a class="jxr_linenumber" name="L196" href="#L196">196</a> 					Node profileTag = profileTagList.item(p);
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> 					NamedNodeMap profileAttributes = profileTag.getAttributes();
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> 					Node profileKindAttr = profileAttributes.getNamedItem(ATTRIBUTE_PROFILE_KIND);
+<a class="jxr_linenumber" name="L199" href="#L199">199</a> 					<strong class="jxr_keyword">if</strong> (profileKindAttr != <strong class="jxr_keyword">null</strong> &amp;&amp; PROFILE_KIND.equals(profileKindAttr.getNodeValue())) {
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> 						profiles.add(profileTag);
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> 					}
+<a class="jxr_linenumber" name="L202" href="#L202">202</a> 				}
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> 			} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> 				<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="ConfigReadException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/ConfigReadException.html#ConfigReadException">ConfigReadException</a>(<span class="jxr_string">"No &lt;profile&gt; tag found in "</span> + fileObject.getPath());
+<a class="jxr_linenumber" name="L205" href="#L205">205</a> 			}
+<a class="jxr_linenumber" name="L206" href="#L206">206</a> 		} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L207" href="#L207">207</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="ConfigReadException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/ConfigReadException.html#ConfigReadException">ConfigReadException</a>(<span class="jxr_string">"No &lt;profiles&gt; tag found in config file"</span>);
 <a class="jxr_linenumber" name="L208" href="#L208">208</a> 		}
 <a class="jxr_linenumber" name="L209" href="#L209">209</a> 
-<a class="jxr_linenumber" name="L210" href="#L210">210</a> 		<strong class="jxr_keyword">return</strong> profiles;
-<a class="jxr_linenumber" name="L211" href="#L211">211</a> 	}
-<a class="jxr_linenumber" name="L212" href="#L212">212</a> }
+<a class="jxr_linenumber" name="L210" href="#L210">210</a> 		<strong class="jxr_keyword">if</strong> (profiles.isEmpty()) {
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="ConfigReadException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/ConfigReadException.html#ConfigReadException">ConfigReadException</a>(<span class="jxr_string">"No valid &lt;profile&gt; tag found in "</span> + fileObject.getPath());
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> 		}
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> 
+<a class="jxr_linenumber" name="L214" href="#L214">214</a> 		<strong class="jxr_keyword">return</strong> profiles;
+<a class="jxr_linenumber" name="L215" href="#L215">215</a> 	}
+<a class="jxr_linenumber" name="L216" href="#L216">216</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2019&#x2013;2020. All rights reserved.</div>

@@ -1,4 +1,5 @@
 de.funfried.netbeans.plugins.external.formatter
+de.funfried.netbeans.plugins.external.formatter.eclipse.xml
 de.funfried.netbeans.plugins.external.formatter.java.eclipse
 de.funfried.netbeans.plugins.external.formatter.java.google
 de.funfried.netbeans.plugins.external.formatter.java.spring
