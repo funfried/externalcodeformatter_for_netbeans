@@ -35,14 +35,4 @@ public class FormattingFailedException extends RuntimeException {
 	public FormattingFailedException(Throwable cause) {
 		super(cause);
 	}
-
-	/**
-	 * Creates a new instance of {@link FormattingFailedException}.
-	 *
-	 * @param message the detail message
-	 * @param cause   the original cause of the exception
-	 */
-	public FormattingFailedException(String message, Throwable cause) {
-		super(message, cause);
-	}
 }

@@ -109,7 +109,7 @@ public final class SpringJavaFormatterWrapper {
 		} catch (FormattingFailedException | IllegalArgumentException ex) {
 			throw ex;
 		} catch (Exception ex) {
-			throw new FormattingFailedException("Failed to format the given code.", ex);
+			throw new FormattingFailedException(ex);
 		}
 
 		return formattedCode;

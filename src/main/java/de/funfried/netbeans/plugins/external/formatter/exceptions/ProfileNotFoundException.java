@@ -26,23 +26,4 @@ public class ProfileNotFoundException extends RuntimeException {
 	public ProfileNotFoundException(String message) {
 		super(message);
 	}
-
-	/**
-	 * Creates a new instance of {@link ProfileNotFoundException}.
-	 *
-	 * @param cause the original cause of the exceptio
-	 */
-	public ProfileNotFoundException(Throwable cause) {
-		super(cause);
-	}
-
-	/**
-	 * Creates a new instance of {@link ProfileNotFoundException}.
-	 *
-	 * @param message the detail message
-	 * @param cause   the original cause of the exception
-	 */
-	public ProfileNotFoundException(String message, Throwable cause) {
-		super(message, cause);
-	}
 }

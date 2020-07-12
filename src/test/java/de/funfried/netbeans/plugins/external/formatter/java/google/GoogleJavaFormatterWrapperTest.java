@@ -49,6 +49,22 @@ public class GoogleJavaFormatterWrapperTest {
 	}
 
 	@Test
+	public void testFormatEnumUsingAOSPStyle() {
+		final String text = "package foo;public enum Bar {A,B,C}";
+		final String expected = "package foo;\n" +
+				"\n" +
+				"public enum Bar {\n" +
+				"    A,\n" +
+				"    B,\n" +
+				"    C\n" +
+				"}\n"
+				+ "";
+
+		String actual = instance.format(text, JavaFormatterOptions.Style.AOSP, null);
+		Assert.assertEquals("Formatting should change the code", expected, actual);
+	}
+
+	@Test
 	public void testFormatEnumWithDifferentLineEndingsUsingGoogleStyle() {
 		final String text = "package foo;public enum Bar {\r"
 				+ "A,\r"
