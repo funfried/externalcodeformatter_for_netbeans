@@ -9,10 +9,13 @@
  */
 package de.funfried.netbeans.plugins.external.formatter;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.prefs.Preferences;
 
 import javax.swing.text.StyledDocument;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 import org.netbeans.junit.NbTestCase;
@@ -112,5 +115,42 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 		String actual = document.getText(0, document.getLength());
 
 		Assert.assertEquals("Formatting should change the code", expected, actual);
+	}
+
+	/**
+	 * Test of {@link FormatterServiceDelegate#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
+	 * method, of class {@link FormatterServiceDelegate}.
+	 *
+	 * @throws Exception if an error occurs
+	 */
+	@Test
+	public void testFormatWithWrongChangedElements() throws Exception {
+		Preferences prefs = NbPreferences.forModule(ExternalFormatterPanel.class);
+		prefs.put(Settings.ENABLED_FORMATTER_PREFIX + MimeType.JAVA.toString(), GoogleJavaFormatterService.ID);
+
+		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
+
+		StyledDocument document = new NbEditorDocument("text/x-java");
+		document.insertString(0, text, null);
+
+		SortedSet<Pair<Integer, Integer>> changedElements = new TreeSet<>();
+		changedElements.add(Pair.of(-1, 100000));
+
+		Assert.assertTrue(FormatterServiceDelegate.getInstance().format(document, changedElements));
+
+		String actual = document.getText(0, document.getLength());
+
+		Assert.assertEquals("Formatting shouldn't change the code", text, actual);
+	}
+
+	/**
+	 * Test of {@link FormatterServiceDelegate#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
+	 * method, of class {@link FormatterServiceDelegate}.
+	 *
+	 * @throws Exception if an error occurs
+	 */
+	@Test
+	public void testNullDocument() throws Exception {
+		Assert.assertFalse("Formatting should not be possible for a null document!", FormatterServiceDelegate.getInstance().format(null, null));
 	}
 }
