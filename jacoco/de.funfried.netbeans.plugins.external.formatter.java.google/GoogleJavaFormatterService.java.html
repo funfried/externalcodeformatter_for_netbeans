@@ -108,12 +108,12 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 <span class="fc bfc" id="L108" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
 <span class="fc" id="L109">			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
 <span class="fc" id="L110">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
-<span class="pc bpc" id="L111" title="1 of 2 branches missed.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
 				// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent
 <span class="fc" id="L113">				ret = 4;</span>
 			} else {
 				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-<span class="nc" id="L116">				ret = 8;</span>
+<span class="fc" id="L116">				ret = 8;</span>
 			}
 		}
 
@@ -136,12 +136,12 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 <span class="fc bfc" id="L136" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
 <span class="fc" id="L137">			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
 <span class="fc" id="L138">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
-<span class="pc bpc" id="L139" title="1 of 2 branches missed.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
 				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
 <span class="fc" id="L141">				ret = 2;</span>
 			} else {
 				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-<span class="nc" id="L144">				ret = 4;</span>
+<span class="fc" id="L144">				ret = 4;</span>
 			}
 		}
 
@@ -190,12 +190,12 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 			} else {
 <span class="fc" id="L191">				String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
 <span class="fc" id="L192">				JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
-<span class="pc bpc" id="L193" title="1 of 2 branches missed.">				if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">				if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
 					// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
 <span class="fc" id="L195">					ret = 2;</span>
 				} else {
 					// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-<span class="nc" id="L198">					ret = 4;</span>
+<span class="fc" id="L198">					ret = 4;</span>
 				}
 			}
 		}

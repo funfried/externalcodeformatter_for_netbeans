@@ -129,10 +129,10 @@ public final class EclipseJavaFormatterWrapper {
 <span class="nc" id="L129">					return null;</span>
 				}
 			}
-<span class="fc" id="L132">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
+<span class="fc" id="L132">		} catch (IllegalArgumentException ex) {</span>
 <span class="fc" id="L133">			throw ex;</span>
 <span class="nc" id="L134">		} catch (Exception ex) {</span>
-<span class="nc" id="L135">			throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
+<span class="nc" id="L135">			throw new FormattingFailedException(ex);</span>
 <span class="fc" id="L136">		}</span>
 
 <span class="fc" id="L138">		return formattedCode;</span>

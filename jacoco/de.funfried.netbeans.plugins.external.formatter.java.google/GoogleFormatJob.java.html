@@ -74,12 +74,12 @@ class GoogleFormatJob extends AbstractFormatJob {
 <span class="fc" id="L74">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Goolge formatter&quot;);</span>
 <span class="fc" id="L75">				});</span>
 			}
-<span class="nc" id="L77">		} catch (FormattingFailedException ex) {</span>
-<span class="nc" id="L78">			SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="nc" id="L79">				StatusDisplayer.getDefault().setStatusText(&quot;Failed to format using Google formatter: &quot; + ex.getMessage());</span>
-<span class="nc" id="L80">			});</span>
+<span class="fc" id="L77">		} catch (FormattingFailedException ex) {</span>
+<span class="fc" id="L78">			SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="fc" id="L79">				StatusDisplayer.getDefault().setStatusText(&quot;Failed to format using Google formatter: &quot; + ex.getMessage());</span>
+<span class="fc" id="L80">			});</span>
 
-<span class="nc" id="L82">			throw ex;</span>
+<span class="fc" id="L82">			throw ex;</span>
 <span class="fc" id="L83">		}</span>
 <span class="fc" id="L84">	}</span>
 }

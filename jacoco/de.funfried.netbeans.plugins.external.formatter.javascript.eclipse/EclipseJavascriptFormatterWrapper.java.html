@@ -122,7 +122,7 @@ public final class EclipseJavascriptFormatterWrapper {
 <span class="nc" id="L122">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
 <span class="nc" id="L123">			throw ex;</span>
 <span class="nc" id="L124">		} catch (Exception ex) {</span>
-<span class="nc" id="L125">			throw new FormattingFailedException(&quot;Failed to format the given code.&quot;, ex);</span>
+<span class="nc" id="L125">			throw new FormattingFailedException(ex);</span>
 <span class="fc" id="L126">		}</span>
 
 <span class="fc" id="L128">		return formattedCode;</span>

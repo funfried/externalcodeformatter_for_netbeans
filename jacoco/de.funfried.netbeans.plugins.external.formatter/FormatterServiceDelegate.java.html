@@ -89,22 +89,22 @@ public class FormatterServiceDelegate {
 	public boolean format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
 		try {
 <span class="fc" id="L91">			FormatterService formatterService = getActiveFormatterService(document);</span>
-<span class="pc bpc" id="L92" title="2 of 4 branches missed.">			if (formatterService != null &amp;&amp; formatterService.canHandle(document)) {</span>
+<span class="pc bpc" id="L92" title="1 of 4 branches missed.">			if (formatterService != null &amp;&amp; formatterService.canHandle(document)) {</span>
 				try {
 <span class="fc" id="L94">					formatterService.format(document, changedElements);</span>
 <span class="nc" id="L95">				} catch (BadLocationException ex) {</span>
 <span class="nc" id="L96">					log.log(Level.SEVERE, formatterService.getDisplayName() + &quot; failed to format the code&quot;, ex);</span>
-<span class="nc" id="L97">				} catch (FormattingFailedException ex) {</span>
-<span class="nc" id="L98">					log.log(Level.INFO, formatterService.getDisplayName() + &quot; failed to format the code&quot;, ex);</span>
+<span class="fc" id="L97">				} catch (FormattingFailedException ex) {</span>
+<span class="fc" id="L98">					log.log(Level.INFO, formatterService.getDisplayName() + &quot; failed to format the code&quot;, ex);</span>
 <span class="pc" id="L99">				}</span>
 
 <span class="fc" id="L101">				return true;</span>
 			}
 <span class="nc" id="L103">		} catch (Exception e) {</span>
 <span class="nc" id="L104">			Exceptions.printStackTrace(e);</span>
-<span class="nc" id="L105">		}</span>
+<span class="fc" id="L105">		}</span>
 
-<span class="nc" id="L107">		return false;</span>
+<span class="fc" id="L107">		return false;</span>
 	}
 
 	/**

@@ -170,7 +170,7 @@ public abstract class AbstractFormatJob implements FormatJob {
 	@NonNull
 	protected SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; getFormatableSections(String code) {
 <span class="fc" id="L172">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = changedElements;</span>
-<span class="pc bpc" id="L173" title="1 of 2 branches missed.">		if (CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">		if (CollectionUtils.isEmpty(changedElements)) {</span>
 <span class="fc" id="L174">			regions = new TreeSet&lt;&gt;();</span>
 
 <span class="fc" id="L176">			regions.add(Pair.of(0, code.length() - 1));</span>
