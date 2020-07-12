@@ -36,14 +36,4 @@ public class CannotLoadConfigurationException extends RuntimeException {
 	public CannotLoadConfigurationException(Throwable cause) {
 		super(cause);
 	}
-
-	/**
-	 * Creates a new instance of {@link CannotLoadConfigurationException}.
-	 *
-	 * @param message the detail message
-	 * @param cause   the original cause of the exception
-	 */
-	public CannotLoadConfigurationException(String message, Throwable cause) {
-		super(message, cause);
-	}
 }
