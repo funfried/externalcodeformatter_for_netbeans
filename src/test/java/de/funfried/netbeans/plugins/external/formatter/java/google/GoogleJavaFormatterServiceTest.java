@@ -38,7 +38,7 @@ public class GoogleJavaFormatterServiceTest extends NbTestCase {
 	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void testFormatDefaultStyle() throws Exception {
+	public void testFormatGoogleStyle() throws Exception {
 		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
 		final String expected = "package foo;\n" +
 				"\n" +
@@ -53,6 +53,7 @@ public class GoogleJavaFormatterServiceTest extends NbTestCase {
 		document.insertString(0, text, null);
 
 		Preferences prefs = Settings.getActivePreferences(document);
+		prefs.put(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 		prefs.putBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 
