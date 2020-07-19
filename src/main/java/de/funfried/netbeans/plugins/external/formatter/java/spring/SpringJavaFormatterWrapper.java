@@ -62,12 +62,19 @@ public final class SpringJavaFormatterWrapper {
 			return null;
 		}
 
+		int codeLength = code.length();
+
 		List<IRegion> regions = new ArrayList<>();
 		if (changedElements == null) {
-			regions.add(new Region(0, code.length()));
+			regions.add(new Region(0, codeLength));
 		} else if (!CollectionUtils.isEmpty(changedElements)) {
 			for (Pair<Integer, Integer> changedElement : changedElements) {
-				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));
+				int length = (changedElement.getRight() - changedElement.getLeft()) + 1;
+				if (length > codeLength) {
+					length = codeLength;
+				}
+
+				regions.add(new Region(changedElement.getLeft(), length));
 			}
 		} else {
 			// empty changed elements means nothing's left which can be formatted due to guarded sections
