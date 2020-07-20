@@ -62,19 +62,26 @@ public final class SpringJavaFormatterWrapper {
 <span class="fc" id="L62">			return null;</span>
 		}
 
-<span class="fc" id="L65">		List&lt;IRegion&gt; regions = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L66" title="All 2 branches covered.">		if (changedElements == null) {</span>
-<span class="fc" id="L67">			regions.add(new Region(0, code.length()));</span>
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">		} else if (!CollectionUtils.isEmpty(changedElements)) {</span>
-<span class="fc bfc" id="L69" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
-<span class="fc" id="L70">				regions.add(new Region(changedElement.getLeft(), (changedElement.getRight() - changedElement.getLeft()) + 1));</span>
-<span class="fc" id="L71">			}</span>
+<span class="fc" id="L65">		int codeLength = code.length();</span>
+
+<span class="fc" id="L67">		List&lt;IRegion&gt; regions = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">		if (changedElements == null) {</span>
+<span class="fc" id="L69">			regions.add(new Region(0, codeLength));</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">		} else if (!CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">			for (Pair&lt;Integer, Integer&gt; changedElement : changedElements) {</span>
+<span class="fc" id="L72">				int length = (changedElement.getRight() - changedElement.getLeft()) + 1;</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">				if (length &gt; codeLength) {</span>
+<span class="nc" id="L74">					length = codeLength;</span>
+				}
+
+<span class="fc" id="L77">				regions.add(new Region(changedElement.getLeft(), length));</span>
+<span class="fc" id="L78">			}</span>
 		} else {
 			// empty changed elements means nothing's left which can be formatted due to guarded sections
-<span class="nc" id="L74">			return code;</span>
+<span class="nc" id="L81">			return code;</span>
 		}
 
-<span class="fc" id="L77">		return format(code, regions.toArray(new IRegion[regions.size()]), lineFeed);</span>
+<span class="fc" id="L84">		return format(code, regions.toArray(new IRegion[regions.size()]), lineFeed);</span>
 	}
 
 	/**
@@ -92,27 +99,27 @@ public final class SpringJavaFormatterWrapper {
 	 */
 	@CheckForNull
 	private String format(@NonNull String code, @NonNull IRegion[] regions, String lineFeed) throws FormattingFailedException {
-<span class="fc" id="L95">		String formattedCode = null;</span>
+<span class="fc" id="L102">		String formattedCode = null;</span>
 
 		try {
-<span class="fc" id="L98">			TextEdit te = formatter.format(code, regions, lineFeed);</span>
-<span class="pc bpc" id="L99" title="2 of 4 branches missed.">			if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
-<span class="fc" id="L100">				IDocument dc = new Document(code);</span>
-<span class="fc" id="L101">				te.apply(dc);</span>
+<span class="fc" id="L105">			TextEdit te = formatter.format(code, regions, lineFeed);</span>
+<span class="pc bpc" id="L106" title="2 of 4 branches missed.">			if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
+<span class="fc" id="L107">				IDocument dc = new Document(code);</span>
+<span class="fc" id="L108">				te.apply(dc);</span>
 
-<span class="fc" id="L103">				formattedCode = dc.get();</span>
+<span class="fc" id="L110">				formattedCode = dc.get();</span>
 
-<span class="pc bpc" id="L105" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
-<span class="nc" id="L106">					return null;</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">				if (Objects.equals(code, formattedCode)) {</span>
+<span class="nc" id="L113">					return null;</span>
 				}
 			}
-<span class="fc" id="L109">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
-<span class="fc" id="L110">			throw ex;</span>
-<span class="nc" id="L111">		} catch (Exception ex) {</span>
-<span class="nc" id="L112">			throw new FormattingFailedException(ex);</span>
-<span class="fc" id="L113">		}</span>
+<span class="fc" id="L116">		} catch (FormattingFailedException | IllegalArgumentException ex) {</span>
+<span class="fc" id="L117">			throw ex;</span>
+<span class="nc" id="L118">		} catch (Exception ex) {</span>
+<span class="nc" id="L119">			throw new FormattingFailedException(ex);</span>
+<span class="fc" id="L120">		}</span>
 
-<span class="fc" id="L115">		return formattedCode;</span>
+<span class="fc" id="L122">		return formattedCode;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
