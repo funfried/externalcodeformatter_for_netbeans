@@ -44,16 +44,14 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
     *   [Jackson Json Code Formatter](https://github.com/FasterXML/jackson)
 
 ### Features
+*   Makes use of the internal NetBeans formatting API, which makes it possible to reuse built-in features like the format on save action or format only selected lines ... (since 1.13)
 *   Global configuration and project specific configuration
-*   On save action (Disabled by default)
 *   Shows the used formatter in a notification (Disabled by default)
 *   Supports profiles (since 1.6)
-*   Supports format of selected text (since 1.7)
 *   Preserve breakpoints (experimental) (since 1.8)
 *   Code templates for @formatter:on/off (since 1.9)
 *   Supports [Workspace Mechanic](https://code.google.com/a/eclipselabs.org/p/workspacemechanic/) configuration file (since 1.10)
 *   Support configuration from .settings/org.eclipse.jdt.core.prefs (absolute and relative paths) (since 1.10)
-*   On save action: Introduced option for formatting only the changed lines (since 1.10)
 *   Support configuration of linefeed (since 1.10)
 *   Support configuration of source level (since 1.10)
 *   Support for macro invocation (since 1.12)
