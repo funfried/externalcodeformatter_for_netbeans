@@ -106,9 +106,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<google-java-format.version>1.7</google-java-format.version>
 		<xml-formatter.version>0.2.0</xml-formatter.version>
-		<commons-lang.version>3.10</commons-lang.version>
+		<commons-lang.version>3.11</commons-lang.version>
 		<netbeans.version>RELEASE82</netbeans.version>
-		<jackson.version>2.11.1</jackson.version>
+		<jackson.version>2.11.2</jackson.version>
 		<jsoup.version>1.13.1</jsoup.version>
 	</properties>
 
@@ -225,7 +225,7 @@
 		<dependency>
 			<groupId>io.spring.javaformat</groupId>
 			<artifactId>spring-javaformat-formatter</artifactId>
-			<version>0.0.23</version>
+			<version>0.0.24</version>
 		</dependency>
 
 		<!-- Google Formatter -->
