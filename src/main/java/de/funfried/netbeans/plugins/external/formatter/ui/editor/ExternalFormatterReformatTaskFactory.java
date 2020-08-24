@@ -72,7 +72,11 @@ public class ExternalFormatterReformatTaskFactory implements ReformatTask.Factor
 					 */
 					@Override
 					public ExtraLock reformatLock() {
-						return netbeansDefaultTask.reformatLock();
+						if (netbeansDefaultTask != null) {
+							return netbeansDefaultTask.reformatLock();
+						}
+
+						return null;
 					}
 				};
 
@@ -96,7 +100,11 @@ public class ExternalFormatterReformatTaskFactory implements ReformatTask.Factor
 			 */
 			@Override
 			public ExtraLock reformatLock() {
-				return netbeansDefaultTask.reformatLock();
+				if (netbeansDefaultTask != null) {
+					return netbeansDefaultTask.reformatLock();
+				}
+
+				return null;
 			}
 		};
 	}
@@ -136,16 +144,18 @@ public class ExternalFormatterReformatTaskFactory implements ReformatTask.Factor
 	}
 
 	private void formatWithNetBeansFormatter(ReformatTask netbeansDefaultTask, Document document) throws BadLocationException {
-		netbeansDefaultTask.reformat();
+		if (netbeansDefaultTask != null) {
+			netbeansDefaultTask.reformat();
 
-		Preferences pref = Settings.getActivePreferences(document);
+			Preferences pref = Settings.getActivePreferences(document);
 
-		SwingUtilities.invokeLater(() -> {
-			if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-				NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Icons.ICON_NETBEANS, null, null);
-			}
+			SwingUtilities.invokeLater(() -> {
+				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
+					NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Icons.ICON_NETBEANS, null, null);
+				}
 
-			StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
-		});
+				StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
+			});
+		}
 	}
 }
