@@ -17,14 +17,14 @@
 
 	<groupId>de.funfried.netbeans.plugins</groupId>
 	<artifactId>externalcodeformatter</artifactId>
-	<version>1.14.0-SNAPSHOT</version>
+	<version>1.14.0</version>
 	<packaging>nbm</packaging>
 
 	<developers>
 		<developer>
 			<id>bahlef</id>
 			<name>Fabian Bahle</name>
-			<email>info[AT]funfried.de</email>
+			<email>info@funfried.de</email>
 			<roles>
 				<role>Developer</role>
 			</roles>
