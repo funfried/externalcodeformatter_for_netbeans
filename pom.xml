@@ -457,10 +457,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.8.1</version>
-					<configuration>
-						<release>${java.version}</release>
-						<forceJavacCompilerUse>true</forceJavacCompilerUse>
-					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -656,12 +652,14 @@
 					<licenseFile>${basedir}/src/main/resources/de/funfried/netbeans/plugins/external/formatter/epl-v20.html</licenseFile>
 					<distributionUrl>https://github.com/funfried/eclipsecodeformatter_for_netbeans/</distributionUrl>
 					<author>Fabian Bahle (info@funfried.de) and others / original authors: benno.markiewicz@googlemail.com, geertjan.wielenga@oracle.com and williescholtz@gmail.com</author>
+					<verifyRuntime>warn</verifyRuntime>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
+					<release>${java.version}</release>
 					<forceJavacCompilerUse>true</forceJavacCompilerUse>
 				</configuration>
 			</plugin>
@@ -772,7 +770,6 @@
 						<configuration>
 							<failOnWarning>true</failOnWarning>
 							<ignoredUnusedDeclaredDependencies>
-								<ignored>org.netbeans.external:nb-javac-api</ignored>
 								<ignored>javax.annotation:javax.annotation-api</ignored>
 							</ignoredUnusedDeclaredDependencies>
 						</configuration>
