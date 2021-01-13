@@ -558,7 +558,7 @@
 							<link>https://bits.netbeans.org/dev/javadoc/org-netbeans-modules-options-api/</link>
 							<link>https://bits.netbeans.org/dev/javadoc/org-netbeans-modules-editor-guards/</link>
 							<link>https://bits.netbeans.org/dev/javadoc/org-netbeans-modules-editor-indent/</link>
-							<link>https://commons.apache.org/proper/commons-lang/javadocs/api-${commons-lang.version}/</link>
+							<link>https://commons.apache.org/proper/commons-lang/javadocs/api-release/</link>
 							<link>https://javadoc.io/doc/com.google.googlejavaformat/google-java-format/${google-java-format.version}/</link>
 							<link>https://javadoc.io/doc/net.revelc.code.formatter/xml-formatter/${xml-formatter.version}/</link>
 							<link>https://javadoc.io/doc/org.jsoup/jsoup/${jsoup.version}/</link>
