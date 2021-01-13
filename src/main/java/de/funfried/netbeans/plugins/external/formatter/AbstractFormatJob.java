@@ -111,7 +111,7 @@ public abstract class AbstractFormatJob implements FormatJob {
 								String addText = d.getSecondText();
 
 								if (log.isLoggable(logLevel)) {
-									log.log(logLevel, "CHANGE: {0} - {1} / Line {2}: ''{3}'' => ''{4}'' ({5})", new Object[] { start, length, startLine, addText, document.getText(start, length), removeText });
+									log.log(logLevel, "CHANGE: {0} - {1} / Line {2}: ''{3}'' <= ''{4}'' ({5})", new Object[] { start, length, startLine, addText, document.getText(start, length), removeText });
 								}
 
 								document.remove(start, length);
