@@ -33,7 +33,7 @@
 				<repository>
 					<id>bits-netbeans</id>
 					<name>bits-netbeans</name>
-					<url>http://bits.netbeans.org/maven2/</url>
+					<url>http://137.254.56.27/maven2/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -90,7 +90,7 @@
 				<pluginRepository>
 					<id>bits-netbeans</id>
 					<name>bits-netbeans</name>
-					<url>http://bits.netbeans.org/maven2/</url>
+					<url>http://137.254.56.27/maven2/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
