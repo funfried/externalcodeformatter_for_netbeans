@@ -108,7 +108,7 @@
 		<google-java-format.version>1.9</google-java-format.version>
 		<xml-formatter.version>0.2.0</xml-formatter.version>
 		<commons-lang.version>3.11</commons-lang.version>
-		<netbeans.version>RELEASE82</netbeans.version>
+		<netbeans.version>RELEASE110</netbeans.version>
 		<jackson.version>2.12.1</jackson.version>
 		<jsoup.version>1.13.1</jsoup.version>
 	</properties>
@@ -267,16 +267,6 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-
-		<!--
-		 Only needed by NetBeans 8.2, if NetBeans 8.2 is not
-		 supported anymore, this dependency can be removed
-		-->
-		<!--		<dependency>
-			<groupId>org.netbeans.external</groupId>
-			<artifactId>nb-javac-api</artifactId>
-			<version>${netbeans.version}</version>
-		</dependency>-->
 
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
