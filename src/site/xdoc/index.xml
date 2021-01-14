@@ -76,7 +76,7 @@
 			</subsection>
 			<subsection name="Compatibility">
 				<p>
-					Compatible with NetBeans 8.2+ and JDK8+.
+					Compatible with NetBeans 11.0+ and JDK 11+.
 				</p>
 			</subsection>
 		</section>
