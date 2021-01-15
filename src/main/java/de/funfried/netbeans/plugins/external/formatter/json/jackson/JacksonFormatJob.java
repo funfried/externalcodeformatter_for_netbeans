@@ -37,7 +37,7 @@ class JacksonFormatJob extends AbstractFormatJob {
 	/**
 	 * Package private constructor to create a new instance of {@link JacksonFormatJob}.
 	 *
-	 * @param document  the {@link StyledDocument} which sould be formatted
+	 * @param document the {@link StyledDocument} which sould be formatted
 	 * @param formatter the {@link JacksonJsonFormatterWrapper} to use
 	 */
 	JacksonFormatJob(StyledDocument document, JacksonJsonFormatterWrapper formatter) {
@@ -79,7 +79,7 @@ class JacksonFormatJob extends AbstractFormatJob {
 			if (setFormattedCode(code, formattedContent)) {
 				SwingUtilities.invokeLater(() -> {
 					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-						NotificationDisplayer.getDefault().notify("Format using Jackson Json formatter", Icons.ICON_JACKSON, null, null);
+						NotificationDisplayer.getDefault().notify("Format using Jackson Json formatter", Icons.ICON_JACKSON, "", null);
 					}
 
 					StatusDisplayer.getDefault().setStatusText("Format using Jackson Json formatter");

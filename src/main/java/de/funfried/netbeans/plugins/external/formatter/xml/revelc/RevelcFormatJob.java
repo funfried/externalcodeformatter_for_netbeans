@@ -37,7 +37,7 @@ class RevelcFormatJob extends AbstractFormatJob {
 	/**
 	 * Package private constructor to create a new instance of {@link RevelcFormatJob}.
 	 *
-	 * @param document  the {@link StyledDocument} which sould be formatted
+	 * @param document the {@link StyledDocument} which sould be formatted
 	 * @param formatter the {@link RevelcXmlFormatterWrapper} to use
 	 */
 	RevelcFormatJob(StyledDocument document, RevelcXmlFormatterWrapper formatter) {
@@ -82,7 +82,7 @@ class RevelcFormatJob extends AbstractFormatJob {
 		if (setFormattedCode(code, formattedContent)) {
 			SwingUtilities.invokeLater(() -> {
 				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-					NotificationDisplayer.getDefault().notify("Format using revelc XML formatter", Icons.ICON_REVELC, null, null);
+					NotificationDisplayer.getDefault().notify("Format using revelc XML formatter", Icons.ICON_REVELC, "", null);
 				}
 
 				StatusDisplayer.getDefault().setStatusText("Format using revelc XML formatter");

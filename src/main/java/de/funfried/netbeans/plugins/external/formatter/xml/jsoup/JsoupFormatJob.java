@@ -41,7 +41,7 @@ class JsoupFormatJob extends AbstractFormatJob {
 	/**
 	 * Package private constructor to create a new instance of {@link JsoupFormatJob}.
 	 *
-	 * @param document  the {@link StyledDocument} which sould be formatted
+	 * @param document the {@link StyledDocument} which sould be formatted
 	 * @param formatter the {@link JsoupXmlFormatterWrapper} to use
 	 */
 	JsoupFormatJob(StyledDocument document, JsoupXmlFormatterWrapper formatter) {
@@ -88,7 +88,7 @@ class JsoupFormatJob extends AbstractFormatJob {
 		if (setFormattedCode(code, formattedContent)) {
 			SwingUtilities.invokeLater(() -> {
 				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-					NotificationDisplayer.getDefault().notify("Format using Jsoup XML formatter", Icons.ICON_JSOUP, null, null);
+					NotificationDisplayer.getDefault().notify("Format using Jsoup XML formatter", Icons.ICON_JSOUP, "", null);
 				}
 
 				StatusDisplayer.getDefault().setStatusText("Format using Jsoup XML formatter");

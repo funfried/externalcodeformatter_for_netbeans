@@ -18,6 +18,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.editor.BaseDocument;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -42,7 +43,7 @@ public abstract class AbstractEclipseFormatJob extends AbstractFormatJob {
 	/**
 	 * Protected constructor to create a new instance of {@link AbstractEclipseFormatJob}.
 	 *
-	 * @param document        the {@link StyledDocument} which sould be formatted
+	 * @param document the {@link StyledDocument} which sould be formatted
 	 * @param changedElements the ranges which should be formatted
 	 */
 	protected AbstractEclipseFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
@@ -52,17 +53,17 @@ public abstract class AbstractEclipseFormatJob extends AbstractFormatJob {
 	/**
 	 * Returns the formatted content.
 	 *
-	 * @param pref             the {@link Preferences}
-	 * @param formatterFile    the path to the formatter configuration file
+	 * @param pref the {@link Preferences}
+	 * @param formatterFile the path to the formatter configuration file
 	 * @param formatterProfile the name of the formatter configuration profile
-	 * @param code             the current (unformatted) code
+	 * @param code the current (unformatted) code
 	 *
 	 * @return the formatted content
 	 *
-	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
-	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws ConfigReadException if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException if the given {@code profile} could not be found
 	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
-	 * @throws FormattingFailedException        if the external formatter failed to format the given code
+	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
 	protected abstract String getFormattedContent(Preferences pref, String formatterFile, String formatterProfile, String code)
 			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException, FormattingFailedException;
@@ -172,10 +173,11 @@ public abstract class AbstractEclipseFormatJob extends AbstractFormatJob {
 	/**
 	 * Returns the message which should be shown in a notification after the formatting is done.
 	 *
-	 * @param formatterFile    the used formatter configuration file
+	 * @param formatterFile the used formatter configuration file
 	 * @param formatterProfile the used formatter profile
 	 *
 	 * @return the message which should be shown in a notification after the formatting is done
 	 */
+	@NonNull
 	protected abstract String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile);
 }
