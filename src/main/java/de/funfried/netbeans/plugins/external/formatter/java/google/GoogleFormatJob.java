@@ -66,13 +66,15 @@ class GoogleFormatJob extends AbstractFormatJob {
 		try {
 			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);
 			if (setFormattedCode(code, formattedContent)) {
-				SwingUtilities.invokeLater(() -> {
-					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-						NotificationDisplayer.getDefault().notify("Format using Goolge formatter", Icons.ICON_GOOGLE, null, null);
-					}
+        SwingUtilities.invokeLater(
+            () -> {
+              if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
+                NotificationDisplayer.getDefault()
+                    .notify("Format using Goolge formatter", Icons.ICON_GOOGLE, "", null);
+              }
 
-					StatusDisplayer.getDefault().setStatusText("Format using Goolge formatter");
-				});
+              StatusDisplayer.getDefault().setStatusText("Format using Goolge formatter");
+            });
 			}
 		} catch (FormattingFailedException ex) {
 			SwingUtilities.invokeLater(() -> {
