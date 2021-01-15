@@ -65,7 +65,7 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 
 Compatibility
 -------------
-Compatible with NetBeans 8.2+ and JDK8+.
+Compatible with NetBeans 11.0+ and JDK 11+.
 
 Downloads
 ---------
