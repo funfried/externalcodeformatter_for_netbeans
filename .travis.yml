@@ -2,6 +2,7 @@ branches:
   only:
   - master
   - /^release/.*$/
+dist: focal
 language: java
 jdk:
   - openjdk11
