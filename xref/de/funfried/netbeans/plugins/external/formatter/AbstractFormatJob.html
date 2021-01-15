@@ -119,7 +119,7 @@
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> 								String addText = d.getSecondText();
 <a class="jxr_linenumber" name="L112" href="#L112">112</a> 
 <a class="jxr_linenumber" name="L113" href="#L113">113</a> 								<strong class="jxr_keyword">if</strong> (log.isLoggable(logLevel)) {
-<a class="jxr_linenumber" name="L114" href="#L114">114</a> 									log.log(logLevel, <span class="jxr_string">"CHANGE: {0} - {1} / Line {2}: ''{3}'' =&gt; ''{4}'' ({5})"</span>, <strong class="jxr_keyword">new</strong> Object[] { start, length, startLine, addText, document.getText(start, length), removeText });
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 									log.log(logLevel, <span class="jxr_string">"CHANGE: {0} - {1} / Line {2}: ''{3}'' &lt;= ''{4}'' ({5})"</span>, <strong class="jxr_keyword">new</strong> Object[] { start, length, startLine, addText, document.getText(start, length), removeText });
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> 								}
 <a class="jxr_linenumber" name="L116" href="#L116">116</a> 
 <a class="jxr_linenumber" name="L117" href="#L117">117</a> 								document.remove(start, length);
@@ -286,6 +286,6 @@
 <a class="jxr_linenumber" name="L278" href="#L278">278</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2019&#x2013;2020. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2019&#x2013;2021. All rights reserved.</div>
 </body>
 </html>
