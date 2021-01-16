@@ -20,8 +20,8 @@ jobs:
       if: (NOT type IN (pull_request)) AND (branch = master)
       before_install:
       - gpg --version
-      - echo $signing_secret_key | base64 --decode | gpg --import
-      - echo $signing_ownertrust | base64 --decode | gpg --import-ownertrust
+      - echo $signing_secret_key | base64 --decode | gpg --import --no-tty --batch --yes
+      - echo $signing_ownertrust | base64 --decode | gpg --import-ownertrust --no-tty --batch --yes
       script:
       - mvn --no-transfer-progress -Prelease-commons,sonatype-oss-release deploy site site:stage scm-publish:publish-scm
       - mvn -Ptravis coveralls:report && mvn --no-transfer-progress -Prelease-commons,github deploy
