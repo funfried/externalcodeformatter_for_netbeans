@@ -2,6 +2,7 @@ branches:
   only:
   - master
   - /^release/.*$/
+dist: focal
 language: java
 jdk:
   - openjdk11
@@ -18,6 +19,7 @@ jobs:
     - name: deploy
       if: (NOT type IN (pull_request)) AND (branch = master)
       before_install:
+      - gpg --version
       - echo $signing_secret_key | base64 --decode | gpg --import
       - echo $signing_ownertrust | base64 --decode | gpg --import-ownertrust
       script:

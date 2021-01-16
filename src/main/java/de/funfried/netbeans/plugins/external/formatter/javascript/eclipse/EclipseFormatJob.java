@@ -17,6 +17,7 @@ import java.util.prefs.Preferences;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.NonNull;
 
 import de.funfried.netbeans.plugins.external.formatter.eclipse.AbstractEclipseFormatJob;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
@@ -39,8 +40,8 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	/**
 	 * Package private constructor to create a new instance of {@link EclipseFormatJob}.
 	 *
-	 * @param document       the {@link StyledDocument} which sould be formatted
-	 * @param formatter      the {@link EclipseJavascriptFormatterWrapper} to use
+	 * @param document the {@link StyledDocument} which sould be formatted
+	 * @param formatter the {@link EclipseJavascriptFormatterWrapper} to use
 	 * @param changedElement an optional range as a {@link Pair} object defining the offsets which should be formatted
 	 */
 	EclipseFormatJob(StyledDocument document, EclipseJavascriptFormatterWrapper formatter, Pair<Integer, Integer> changedElement) {
@@ -86,6 +87,7 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	/**
 	 * {@inheritDoc}
 	 */
+	@NonNull
 	@Override
 	protected String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
 		String msg = "";

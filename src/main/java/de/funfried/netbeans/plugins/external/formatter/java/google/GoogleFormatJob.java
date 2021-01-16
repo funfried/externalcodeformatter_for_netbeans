@@ -40,8 +40,8 @@ class GoogleFormatJob extends AbstractFormatJob {
 	/**
 	 * Package private constructor to create a new instance of {@link GoogleFormatJob}.
 	 *
-	 * @param document        the {@link StyledDocument} which sould be formatted
-	 * @param formatter       the {@link GoogleJavaFormatterWrapper} to use
+	 * @param document the {@link StyledDocument} which sould be formatted
+	 * @param formatter the {@link GoogleJavaFormatterWrapper} to use
 	 * @param changedElements the ranges which should be formatted
 	 */
 	GoogleFormatJob(StyledDocument document, GoogleJavaFormatterWrapper formatter, SortedSet<Pair<Integer, Integer>> changedElements) {
@@ -68,7 +68,7 @@ class GoogleFormatJob extends AbstractFormatJob {
 			if (setFormattedCode(code, formattedContent)) {
 				SwingUtilities.invokeLater(() -> {
 					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-						NotificationDisplayer.getDefault().notify("Format using Goolge formatter", Icons.ICON_GOOGLE, null, null);
+						NotificationDisplayer.getDefault().notify("Format using Goolge formatter", Icons.ICON_GOOGLE, "", null);
 					}
 
 					StatusDisplayer.getDefault().setStatusText("Format using Goolge formatter");

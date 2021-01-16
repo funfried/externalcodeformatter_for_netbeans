@@ -39,8 +39,8 @@ class SpringFormatJob extends AbstractFormatJob {
 	/**
 	 * Package private constructor to create a new instance of {@link SpringFormatJob}.
 	 *
-	 * @param document        the {@link StyledDocument} which sould be formatted
-	 * @param formatter       the {@link SpringJavaFormatterWrapper} to use
+	 * @param document the {@link StyledDocument} which sould be formatted
+	 * @param formatter the {@link SpringJavaFormatterWrapper} to use
 	 * @param changedElements the ranges which should be formatted
 	 */
 	SpringFormatJob(StyledDocument document, SpringJavaFormatterWrapper formatter, SortedSet<Pair<Integer, Integer>> changedElements) {
@@ -74,7 +74,7 @@ class SpringFormatJob extends AbstractFormatJob {
 			if (setFormattedCode(code, formattedContent)) {
 				SwingUtilities.invokeLater(() -> {
 					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-						NotificationDisplayer.getDefault().notify("Format using Spring formatter", Icons.ICON_SPRING, null, null);
+						NotificationDisplayer.getDefault().notify("Format using Spring formatter", Icons.ICON_SPRING, "", null);
 					}
 
 					StatusDisplayer.getDefault().setStatusText("Format using Spring formatter");

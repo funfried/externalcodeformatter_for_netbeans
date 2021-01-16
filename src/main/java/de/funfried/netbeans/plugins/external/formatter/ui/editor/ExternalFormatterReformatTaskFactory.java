@@ -151,7 +151,7 @@ public class ExternalFormatterReformatTaskFactory implements ReformatTask.Factor
 
 			SwingUtilities.invokeLater(() -> {
 				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-					NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Icons.ICON_NETBEANS, null, null);
+					NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Icons.ICON_NETBEANS, "", null);
 				}
 
 				StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
