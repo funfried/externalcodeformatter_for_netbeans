@@ -19,6 +19,7 @@ jobs:
     - name: deploy
       if: (NOT type IN (pull_request)) AND (branch = master)
       before_install:
+      - export GPG_TTY=$(tty)
       - echo $signing_secret_key | base64 --decode | gpg --batch --import
       - echo $signing_ownertrust | base64 --decode | gpg --import-ownertrust
       script:
