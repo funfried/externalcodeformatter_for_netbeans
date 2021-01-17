@@ -15,8 +15,9 @@ jobs:
       script:
       - cp .ci.settings.xml $HOME/.m2/settings.xml
     - name: build
-      script: mvn --no-transfer-progress -Prelease-commons,sonatype-oss-release clean package site
-    - name: deploy
+      if: (type IN (pull_request)) OR (branch != master)
+      script: mvn --no-transfer-progress -Prelease-commons,sonatype-oss-release package site
+    - name: build and deploy
       if: (NOT type IN (pull_request)) AND (branch = master)
       before_install:
       - export GPG_TTY=$(tty)
