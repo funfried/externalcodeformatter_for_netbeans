@@ -41,7 +41,7 @@ class JsoupFormatJob extends AbstractFormatJob {
 	/**
 	 * Package private constructor to create a new instance of {@link JsoupFormatJob}.
 	 *
-	 * @param document  the {@link StyledDocument} which sould be formatted
+	 * @param document the {@link StyledDocument} which sould be formatted
 	 * @param formatter the {@link JsoupXmlFormatterWrapper} to use
 	 */
 	JsoupFormatJob(StyledDocument document, JsoupXmlFormatterWrapper formatter) {
@@ -88,7 +88,7 @@ class JsoupFormatJob extends AbstractFormatJob {
 <span class="pc bpc" id="L88" title="1 of 2 branches missed.">		if (setFormattedCode(code, formattedContent)) {</span>
 <span class="fc" id="L89">			SwingUtilities.invokeLater(() -&gt; {</span>
 <span class="pc bpc" id="L90" title="1 of 2 branches missed.">				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
-<span class="nc" id="L91">					NotificationDisplayer.getDefault().notify(&quot;Format using Jsoup XML formatter&quot;, Icons.ICON_JSOUP, null, null);</span>
+<span class="nc" id="L91">					NotificationDisplayer.getDefault().notify(&quot;Format using Jsoup XML formatter&quot;, Icons.ICON_JSOUP, &quot;&quot;, null);</span>
 				}
 
 <span class="fc" id="L94">				StatusDisplayer.getDefault().setStatusText(&quot;Format using Jsoup XML formatter&quot;);</span>

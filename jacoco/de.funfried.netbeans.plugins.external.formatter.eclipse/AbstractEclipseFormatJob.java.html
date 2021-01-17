@@ -18,6 +18,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.editor.BaseDocument;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -42,27 +43,27 @@ public abstract class AbstractEclipseFormatJob extends AbstractFormatJob {
 	/**
 	 * Protected constructor to create a new instance of {@link AbstractEclipseFormatJob}.
 	 *
-	 * @param document        the {@link StyledDocument} which sould be formatted
+	 * @param document the {@link StyledDocument} which sould be formatted
 	 * @param changedElements the ranges which should be formatted
 	 */
 	protected AbstractEclipseFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L49">		super(document, changedElements);</span>
-<span class="fc" id="L50">	}</span>
+<span class="fc" id="L50">		super(document, changedElements);</span>
+<span class="fc" id="L51">	}</span>
 
 	/**
 	 * Returns the formatted content.
 	 *
-	 * @param pref             the {@link Preferences}
-	 * @param formatterFile    the path to the formatter configuration file
+	 * @param pref the {@link Preferences}
+	 * @param formatterFile the path to the formatter configuration file
 	 * @param formatterProfile the name of the formatter configuration profile
-	 * @param code             the current (unformatted) code
+	 * @param code the current (unformatted) code
 	 *
 	 * @return the formatted content
 	 *
-	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
-	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws ConfigReadException if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException if the given {@code profile} could not be found
 	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
-	 * @throws FormattingFailedException        if the external formatter failed to format the given code
+	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
 	protected abstract String getFormattedContent(Preferences pref, String formatterFile, String formatterProfile, String code)
 			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException, FormattingFailedException;
@@ -102,15 +103,15 @@ public abstract class AbstractEclipseFormatJob extends AbstractFormatJob {
 	 * @return The content of the {@code document}
 	 */
 	protected String getCode(Preferences pref) {
-<span class="fc" id="L105">		String lineFeed = getLineFeed(pref);</span>
+<span class="fc" id="L106">		String lineFeed = getLineFeed(pref);</span>
 
 		//save with configured linefeed
-<span class="pc bpc" id="L108" title="1 of 2 branches missed.">		if (null != lineFeed) {</span>
-<span class="fc" id="L109">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
-<span class="fc" id="L110">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">		if (null != lineFeed) {</span>
+<span class="fc" id="L110">			document.putProperty(BaseDocument.READ_LINE_SEPARATOR_PROP, lineFeed);</span>
+<span class="fc" id="L111">			document.putProperty(BaseDocument.WRITE_LINE_SEPARATOR_PROP, lineFeed);</span>
 		}
 
-<span class="fc" id="L113">		return getCode();</span>
+<span class="fc" id="L114">		return getCode();</span>
 	}
 
 	/**
@@ -118,65 +119,66 @@ public abstract class AbstractEclipseFormatJob extends AbstractFormatJob {
 	 */
 	@Override
 	public final void format() throws BadLocationException {
-<span class="fc" id="L121">		Preferences pref = Settings.getActivePreferences(document);</span>
+<span class="fc" id="L122">		Preferences pref = Settings.getActivePreferences(document);</span>
 
-<span class="fc" id="L123">		String formatterFile = getFormatterFile(pref);</span>
-<span class="fc" id="L124">		String formatterProfile = getFormatterProfile(pref);</span>
+<span class="fc" id="L124">		String formatterFile = getFormatterFile(pref);</span>
+<span class="fc" id="L125">		String formatterProfile = getFormatterProfile(pref);</span>
 
-<span class="fc" id="L126">		String code = getCode(pref);</span>
+<span class="fc" id="L127">		String code = getCode(pref);</span>
 
 		try {
-<span class="fc" id="L129">			String formattedContent = getFormattedContent(pref, formatterFile, formatterProfile, code);</span>
-<span class="pc bpc" id="L130" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
-<span class="fc" id="L131">				String msg = getNotificationMessageForEclipseFormatterConfigurationFileType(formatterFile, formatterProfile);</span>
+<span class="fc" id="L130">			String formattedContent = getFormattedContent(pref, formatterFile, formatterProfile, code);</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
+<span class="fc" id="L132">				String msg = getNotificationMessageForEclipseFormatterConfigurationFileType(formatterFile, formatterProfile);</span>
 
-<span class="fc" id="L133">				SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="pc bpc" id="L134" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
-<span class="nc" id="L135">						NotificationDisplayer.getDefault().notify(&quot;Format using Eclipse formatter&quot;, Icons.ICON_ECLIPSE, msg, null);</span>
+<span class="fc" id="L134">				SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L136">						NotificationDisplayer.getDefault().notify(&quot;Format using Eclipse formatter&quot;, Icons.ICON_ECLIPSE, msg, null);</span>
 					}
 
-<span class="fc" id="L138">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Eclipse formatter: &quot; + msg);</span>
-<span class="fc" id="L139">				});</span>
+<span class="fc" id="L139">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Eclipse formatter: &quot; + msg);</span>
+<span class="fc" id="L140">				});</span>
 			}
-<span class="nc" id="L141">		} catch (ProfileNotFoundException ex) {</span>
-<span class="nc" id="L142">			SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="nc" id="L143">				NotifyDescriptor notify = new NotifyDescriptor.Message(</span>
-<span class="nc" id="L144">						String.format(&quot;&lt;html&gt;Profile '%s' not found in &lt;tt&gt;%s&lt;/tt&gt;&lt;br&gt;&lt;br&gt;Please configure a valid one in the project properties OR at Tools|Options|Editor|External Formatter!&quot;, formatterProfile,</span>
+<span class="nc" id="L142">		} catch (ProfileNotFoundException ex) {</span>
+<span class="nc" id="L143">			SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L144">				NotifyDescriptor notify = new NotifyDescriptor.Message(</span>
+<span class="nc" id="L145">						String.format(&quot;&lt;html&gt;Profile '%s' not found in &lt;tt&gt;%s&lt;/tt&gt;&lt;br&gt;&lt;br&gt;Please configure a valid one in the project properties OR at Tools|Options|Editor|External Formatter!&quot;, formatterProfile,</span>
 								formatterFile),
 						NotifyDescriptor.ERROR_MESSAGE);
-<span class="nc" id="L147">				DialogDisplayer.getDefault().notify(notify);</span>
+<span class="nc" id="L148">				DialogDisplayer.getDefault().notify(notify);</span>
 
-<span class="nc" id="L149">				StatusDisplayer.getDefault().setStatusText(String.format(&quot;Profile '%s' not found in %s&quot;, formatterProfile, formatterFile));</span>
-<span class="nc" id="L150">			});</span>
+<span class="nc" id="L150">				StatusDisplayer.getDefault().setStatusText(String.format(&quot;Profile '%s' not found in %s&quot;, formatterProfile, formatterFile));</span>
+<span class="nc" id="L151">			});</span>
 
-<span class="nc" id="L152">			throw ex;</span>
-<span class="nc" id="L153">		} catch (CannotLoadConfigurationException ex) {</span>
-<span class="nc" id="L154">			SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="nc" id="L155">				NotifyDescriptor notify = new NotifyDescriptor.Message(String.format(&quot;&lt;html&gt;Could not find configuration file %s.&lt;br&gt;Make sure the file exists and it can be read.&quot;, formatterFile),</span>
+<span class="nc" id="L153">			throw ex;</span>
+<span class="nc" id="L154">		} catch (CannotLoadConfigurationException ex) {</span>
+<span class="nc" id="L155">			SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L156">				NotifyDescriptor notify = new NotifyDescriptor.Message(String.format(&quot;&lt;html&gt;Could not find configuration file %s.&lt;br&gt;Make sure the file exists and it can be read.&quot;, formatterFile),</span>
 						NotifyDescriptor.ERROR_MESSAGE);
-<span class="nc" id="L157">				DialogDisplayer.getDefault().notify(notify);</span>
+<span class="nc" id="L158">				DialogDisplayer.getDefault().notify(notify);</span>
 
-<span class="nc" id="L159">				StatusDisplayer.getDefault().setStatusText(String.format(&quot;Could not find configuration file %s. Make sure the file exists and it can be read.&quot;, formatterFile));</span>
-<span class="nc" id="L160">			});</span>
+<span class="nc" id="L160">				StatusDisplayer.getDefault().setStatusText(String.format(&quot;Could not find configuration file %s. Make sure the file exists and it can be read.&quot;, formatterFile));</span>
+<span class="nc" id="L161">			});</span>
 
-<span class="nc" id="L162">			throw ex;</span>
-<span class="nc" id="L163">		} catch (FormattingFailedException ex) {</span>
-<span class="nc" id="L164">			SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="nc" id="L165">				StatusDisplayer.getDefault().setStatusText(&quot;Failed to format using Eclipse formatter: &quot; + ex.getMessage());</span>
-<span class="nc" id="L166">			});</span>
+<span class="nc" id="L163">			throw ex;</span>
+<span class="nc" id="L164">		} catch (FormattingFailedException ex) {</span>
+<span class="nc" id="L165">			SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L166">				StatusDisplayer.getDefault().setStatusText(&quot;Failed to format using Eclipse formatter: &quot; + ex.getMessage());</span>
+<span class="nc" id="L167">			});</span>
 
-<span class="nc" id="L168">			throw ex;</span>
-<span class="fc" id="L169">		}</span>
-<span class="fc" id="L170">	}</span>
+<span class="nc" id="L169">			throw ex;</span>
+<span class="fc" id="L170">		}</span>
+<span class="fc" id="L171">	}</span>
 
 	/**
 	 * Returns the message which should be shown in a notification after the formatting is done.
 	 *
-	 * @param formatterFile    the used formatter configuration file
+	 * @param formatterFile the used formatter configuration file
 	 * @param formatterProfile the used formatter profile
 	 *
 	 * @return the message which should be shown in a notification after the formatting is done
 	 */
+	@NonNull
 	protected abstract String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile);
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

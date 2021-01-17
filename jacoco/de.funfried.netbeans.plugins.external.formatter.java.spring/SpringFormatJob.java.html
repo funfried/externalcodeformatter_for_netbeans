@@ -39,8 +39,8 @@ class SpringFormatJob extends AbstractFormatJob {
 	/**
 	 * Package private constructor to create a new instance of {@link SpringFormatJob}.
 	 *
-	 * @param document        the {@link StyledDocument} which sould be formatted
-	 * @param formatter       the {@link SpringJavaFormatterWrapper} to use
+	 * @param document the {@link StyledDocument} which sould be formatted
+	 * @param formatter the {@link SpringJavaFormatterWrapper} to use
 	 * @param changedElements the ranges which should be formatted
 	 */
 	SpringFormatJob(StyledDocument document, SpringJavaFormatterWrapper formatter, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
@@ -74,7 +74,7 @@ class SpringFormatJob extends AbstractFormatJob {
 <span class="pc bpc" id="L74" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
 <span class="fc" id="L75">				SwingUtilities.invokeLater(() -&gt; {</span>
 <span class="pc bpc" id="L76" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
-<span class="nc" id="L77">						NotificationDisplayer.getDefault().notify(&quot;Format using Spring formatter&quot;, Icons.ICON_SPRING, null, null);</span>
+<span class="nc" id="L77">						NotificationDisplayer.getDefault().notify(&quot;Format using Spring formatter&quot;, Icons.ICON_SPRING, &quot;&quot;, null);</span>
 					}
 
 <span class="fc" id="L80">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Spring formatter&quot;);</span>

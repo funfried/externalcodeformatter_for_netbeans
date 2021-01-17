@@ -17,6 +17,7 @@ import java.util.prefs.Preferences;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.NonNull;
 
 import de.funfried.netbeans.plugins.external.formatter.eclipse.AbstractEclipseFormatJob;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
@@ -39,15 +40,15 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	/**
 	 * Package private constructor to create a new instance of {@link EclipseFormatJob}.
 	 *
-	 * @param document       the {@link StyledDocument} which sould be formatted
-	 * @param formatter      the {@link EclipseJavascriptFormatterWrapper} to use
+	 * @param document the {@link StyledDocument} which sould be formatted
+	 * @param formatter the {@link EclipseJavascriptFormatterWrapper} to use
 	 * @param changedElement an optional range as a {@link Pair} object defining the offsets which should be formatted
 	 */
 	EclipseFormatJob(StyledDocument document, EclipseJavascriptFormatterWrapper formatter, Pair&lt;Integer, Integer&gt; changedElement) {
-<span class="fc" id="L47">		super(document, singletonSortedSet(changedElement));</span>
+<span class="fc" id="L48">		super(document, singletonSortedSet(changedElement));</span>
 
-<span class="fc" id="L49">		this.formatter = formatter;</span>
-<span class="fc" id="L50">	}</span>
+<span class="fc" id="L50">		this.formatter = formatter;</span>
+<span class="fc" id="L51">	}</span>
 
 	/**
 	 * {@inheritDoc}
@@ -55,7 +56,7 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	@Override
 	protected String getFormattedContent(Preferences pref, String formatterFile, String formatterProfile, String code)
 			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException, FormattingFailedException {
-<span class="pc bpc" id="L58" title="1 of 2 branches missed.">		return formatter.format(formatterFile, formatterProfile, code, getLineFeed(pref), changedElements != null ? changedElements.first() : null);</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">		return formatter.format(formatterFile, formatterProfile, code, getLineFeed(pref), changedElements != null ? changedElements.first() : null);</span>
 	}
 
 	/**
@@ -63,7 +64,7 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	 */
 	@Override
 	protected String getFormatterFile(Preferences pref) {
-<span class="fc" id="L66">		return EclipseJavascriptFormatterSettings.getEclipseFormatterFile(pref, document);</span>
+<span class="fc" id="L67">		return EclipseJavascriptFormatterSettings.getEclipseFormatterFile(pref, document);</span>
 	}
 
 	/**
@@ -71,7 +72,7 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	 */
 	@Override
 	protected String getFormatterProfile(Preferences pref) {
-<span class="fc" id="L74">		return pref.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
+<span class="fc" id="L75">		return pref.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
 	}
 
 	/**
@@ -79,28 +80,29 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	 */
 	@Override
 	protected String getLineFeed(Preferences pref) {
-<span class="fc" id="L82">		String lineFeedSetting = pref.get(EclipseJavascriptFormatterSettings.LINEFEED, &quot;&quot;);</span>
-<span class="fc" id="L83">		return Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
+<span class="fc" id="L83">		String lineFeedSetting = pref.get(EclipseJavascriptFormatterSettings.LINEFEED, &quot;&quot;);</span>
+<span class="fc" id="L84">		return Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@NonNull
 	@Override
 	protected String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
-<span class="fc" id="L91">		String msg = &quot;&quot;;</span>
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">		if (EclipseJavascriptFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {</span>
+<span class="fc" id="L93">		String msg = &quot;&quot;;</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">		if (EclipseJavascriptFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {</span>
 			//Workspace mechanic file
-<span class="nc" id="L94">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
-<span class="pc bpc" id="L95" title="1 of 2 branches missed.">		} else if (EclipseJavascriptFormatterSettings.isXMLConfigurationFile(formatterFile)) {</span>
+<span class="nc" id="L96">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">		} else if (EclipseJavascriptFormatterSettings.isXMLConfigurationFile(formatterFile)) {</span>
 			//XML file
-<span class="nc" id="L97">			msg = String.format(&quot;Using profile '%s' from %s&quot;, formatterProfile, formatterFile);</span>
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">		} else if (EclipseJavascriptFormatterSettings.isProjectSetting(formatterFile)) {</span>
+<span class="nc" id="L99">			msg = String.format(&quot;Using profile '%s' from %s&quot;, formatterProfile, formatterFile);</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">		} else if (EclipseJavascriptFormatterSettings.isProjectSetting(formatterFile)) {</span>
 			//org.eclipse.jdt.core.prefs
-<span class="nc" id="L100">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
+<span class="nc" id="L102">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
 		}
 
-<span class="fc" id="L103">		return msg;</span>
+<span class="fc" id="L105">		return msg;</span>
 	}
 
 	/**
@@ -113,14 +115,14 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	 *         if the given {@link Pair} was {@code null}
 	 */
 	private static SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; singletonSortedSet(Pair&lt;Integer, Integer&gt; pair) {
-<span class="pc bpc" id="L116" title="1 of 2 branches missed.">		if (pair == null) {</span>
-<span class="fc" id="L117">			return null;</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">		if (pair == null) {</span>
+<span class="fc" id="L119">			return null;</span>
 		}
 
-<span class="nc" id="L120">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; sortedSet = new TreeSet&lt;&gt;();</span>
-<span class="nc" id="L121">		sortedSet.add(pair);</span>
+<span class="nc" id="L122">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; sortedSet = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L123">		sortedSet.add(pair);</span>
 
-<span class="nc" id="L123">		return sortedSet;</span>
+<span class="nc" id="L125">		return sortedSet;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

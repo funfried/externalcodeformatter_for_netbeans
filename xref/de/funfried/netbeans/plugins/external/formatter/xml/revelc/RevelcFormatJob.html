@@ -45,7 +45,7 @@
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_javadoccomment">	 * Package private constructor to create a new instance of {@link RevelcFormatJob}.</em>
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">	 * @param document  the {@link StyledDocument} which sould be formatted</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">	 * @param document the {@link StyledDocument} which sould be formatted</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment">	 * @param formatter the {@link RevelcXmlFormatterWrapper} to use</em>
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  	RevelcFormatJob(StyledDocument document, <a name="RevelcXmlFormatterWrapper" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/xml/revelc/RevelcXmlFormatterWrapper.html#RevelcXmlFormatterWrapper">RevelcXmlFormatterWrapper</a> formatter) {
@@ -90,7 +90,7 @@
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>  		<strong class="jxr_keyword">if</strong> (setFormattedCode(code, formattedContent)) {
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>  			SwingUtilities.invokeLater(() -&gt; {
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>  				<strong class="jxr_keyword">if</strong> (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>  					NotificationDisplayer.getDefault().notify(<span class="jxr_string">"Format using revelc XML formatter"</span>, Icons.ICON_REVELC, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  					NotificationDisplayer.getDefault().notify(<span class="jxr_string">"Format using revelc XML formatter"</span>, Icons.ICON_REVELC, <span class="jxr_string">""</span>, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>  				}
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>  
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>  				StatusDisplayer.getDefault().setStatusText(<span class="jxr_string">"Format using revelc XML formatter"</span>);
