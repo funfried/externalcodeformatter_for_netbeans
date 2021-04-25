@@ -256,6 +256,13 @@
 			<artifactId>jackson-core</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
+          
+          <!-- JSQLFormatter -->
+          <dependency>
+              <groupId>com.manticore-projects.jsqlformatter</groupId>
+              <artifactId>jsqlformatter</artifactId>
+              <version>0.1.4</version>
+          </dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

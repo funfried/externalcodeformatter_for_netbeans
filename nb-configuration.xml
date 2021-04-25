@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-shared-configuration>
-	<!--
+    <!--
 	This file contains additional configuration written by modules in the NetBeans IDE.
 	The configuration is intended to be shared among all the users of project and
 	therefore it is assumed to be part of version control checkout.
 	Without this configuration present, some functionality in the IDE may be limited or fail altogether.
 	-->
-	<properties xmlns="http://www.netbeans.org/ns/maven-properties-data/1">
-		<!--
+    <properties xmlns="http://www.netbeans.org/ns/maven-properties-data/1">
+        <!--
 		Properties that influence various parts of the IDE, especially code formatting and the like. 
 		You can copy and paste the single properties, into the pom.xml file and the IDE will pick them up.
 		That way multiple projects can share the same settings (useful for formatting rules for example).
 		Any value defined here will override the pom.xml file value but is only applicable to the current project.
 		-->
-		<netbeans.hint.licensePath>${project.basedir}/licenseheader.txt</netbeans.hint.licensePath>
-		<de-funfried-netbeans-plugins-externalcodeformatter.overrideTabSizeValue>4</de-funfried-netbeans-plugins-externalcodeformatter.overrideTabSizeValue>
-		<de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JSON>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JSON>
-		<de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_XML>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_XML>
-		<de-funfried-netbeans-plugins-externalcodeformatter.eclipseFormatterActiveProfile>EclipseCodeFormatterForNetBeans</de-funfried-netbeans-plugins-externalcodeformatter.eclipseFormatterActiveProfile>
-		<de-funfried-netbeans-plugins-externalcodeformatter.useProjectPref>true</de-funfried-netbeans-plugins-externalcodeformatter.useProjectPref>
-		<de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVA>eclipse-java-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVA>
-		<de-funfried-netbeans-plugins-externalcodeformatter.eclipseFormatterLocation>eclipse_formatter_template.xml</de-funfried-netbeans-plugins-externalcodeformatter.eclipseFormatterLocation>
-		<de-funfried-netbeans-plugins-externalcodeformatter.showNotifications>false</de-funfried-netbeans-plugins-externalcodeformatter.showNotifications>
-		<de-funfried-netbeans-plugins-externalcodeformatter.sourcelevel/>
-		<de-funfried-netbeans-plugins-externalcodeformatter.useProjectSettings>true</de-funfried-netbeans-plugins-externalcodeformatter.useProjectSettings>
-		<de-funfried-netbeans-plugins-externalcodeformatter.enableIndentationSettings>true</de-funfried-netbeans-plugins-externalcodeformatter.enableIndentationSettings>
-		<de-funfried-netbeans-plugins-externalcodeformatter.linefeed/>
-		<de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVASCRIPT>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVASCRIPT>
-		<de-funfried-netbeans-plugins-externalcodeformatter.overrideTabSize>true</de-funfried-netbeans-plugins-externalcodeformatter.overrideTabSize>
-	</properties>
+        <netbeans.hint.licensePath>${project.basedir}/licenseheader.txt</netbeans.hint.licensePath>
+        <de-funfried-netbeans-plugins-externalcodeformatter.overrideTabSizeValue>4</de-funfried-netbeans-plugins-externalcodeformatter.overrideTabSizeValue>
+        <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JSON>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JSON>
+        <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_XML>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_XML>
+        <de-funfried-netbeans-plugins-externalcodeformatter.eclipseFormatterActiveProfile>EclipseCodeFormatterForNetBeans</de-funfried-netbeans-plugins-externalcodeformatter.eclipseFormatterActiveProfile>
+        <de-funfried-netbeans-plugins-externalcodeformatter.useProjectPref>true</de-funfried-netbeans-plugins-externalcodeformatter.useProjectPref>
+        <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVA>eclipse-java-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVA>
+        <de-funfried-netbeans-plugins-externalcodeformatter.eclipseFormatterLocation>eclipse_formatter_template.xml</de-funfried-netbeans-plugins-externalcodeformatter.eclipseFormatterLocation>
+        <de-funfried-netbeans-plugins-externalcodeformatter.showNotifications>false</de-funfried-netbeans-plugins-externalcodeformatter.showNotifications>
+        <de-funfried-netbeans-plugins-externalcodeformatter.sourcelevel/>
+        <de-funfried-netbeans-plugins-externalcodeformatter.useProjectSettings>true</de-funfried-netbeans-plugins-externalcodeformatter.useProjectSettings>
+        <de-funfried-netbeans-plugins-externalcodeformatter.enableIndentationSettings>true</de-funfried-netbeans-plugins-externalcodeformatter.enableIndentationSettings>
+        <de-funfried-netbeans-plugins-externalcodeformatter.linefeed/>
+        <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVASCRIPT>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVASCRIPT>
+        <de-funfried-netbeans-plugins-externalcodeformatter.overrideTabSize>true</de-funfried-netbeans-plugins-externalcodeformatter.overrideTabSize>
+    </properties>
 </project-shared-configuration>
