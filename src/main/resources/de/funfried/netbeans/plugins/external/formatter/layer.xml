@@ -166,6 +166,24 @@
 	</folder>
 
 	<folder name="Editors">
+          <folder name="application">
+             <folder name="sql">
+				<file name="Reformatter.instance">
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory"/>
+				</file>
+				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory"/>
+				</file>
+			</folder>
+               <folder name="x-sql">
+				<file name="Reformatter.instance">
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory"/>
+				</file>
+				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory"/>
+				</file>
+			</folder>
+          </folder>
 		<folder name="text">
 			<folder name="javascript">
 				<file name="org-netbeans-modules-csl-core-GsfReformatTaskFactory.instance">
@@ -174,6 +192,14 @@
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
 					<attr name="instanceClass" stringvalue="org.netbeans.modules.csl.core.GsfReformatTaskFactory"/>
+				</file>
+			</folder>
+                <folder name="sql">
+				<file name="Reformatter.instance">
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory"/>
+				</file>
+				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory"/>
 				</file>
 			</folder>
                <folder name="x-sql">

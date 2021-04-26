@@ -35,9 +35,11 @@ import org.openide.util.lookup.ServiceProvider;
  *
  * @author bahlef
  */
+
 @NbBundle.Messages({
 		"FormatterName=JSQLFormatter"
 })
+
 @ServiceProvider(service = FormatterService.class, position = 500)
 public class JSQLFormatterService implements FormatterService {
 	/** The ID of this formatter service. */
@@ -45,7 +47,7 @@ public class JSQLFormatterService implements FormatterService {
 
 	/** * The {@link JSQLFormatterWrapper} implementation. */
 	private final JSQLFormatterWrapper formatter = new JSQLFormatterWrapper();
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -74,7 +76,7 @@ public class JSQLFormatterService implements FormatterService {
 		if (document == null) {
 			return false;
 		}
-		
+
 		// Cannot handle guarded blocks properly due to a bug in the Google Java Code Formatter:
 		// https://github.com/google/google-java-format/issues/433
 		if (document instanceof StyledDocument) {
@@ -126,18 +128,18 @@ public class JSQLFormatterService implements FormatterService {
 
 		Integer ret = 4;
 
-//		Preferences preferences = Settings.getActivePreferences(document);
-//		if (isUseFormatterIndentationSettings(preferences)) {
-//			String codeStylePref = preferences.get(JSQLFormatterSettings.SQL_FORMATTER_CODE_STYLE, "DEFAULT");
-//			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
-//			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
-//				// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent
-//				ret = 4;
-//			} else {
-//				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-//				ret = 8;
-//			}
-//		}
+		//		Preferences preferences = Settings.getActivePreferences(document);
+		//		if (isUseFormatterIndentationSettings(preferences)) {
+		//			String codeStylePref = preferences.get(JSQLFormatterSettings.SQL_FORMATTER_CODE_STYLE, "DEFAULT");
+		//			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
+		//			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
+		//				// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent
+		//				ret = 4;
+		//			} else {
+		//				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
+		//				ret = 8;
+		//			}
+		//		}
 
 		return ret;
 	}
@@ -154,18 +156,18 @@ public class JSQLFormatterService implements FormatterService {
 
 		Integer ret = 4;
 
-//		Preferences preferences = Settings.getActivePreferences(document);
-//		if (isUseFormatterIndentationSettings(preferences)) {
-//			String codeStylePref = preferences.get(JSQLFormatterSettings.SQL_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
-//			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
-//			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
-//				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-//				ret = 2;
-//			} else {
-//				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-//				ret = 4;
-//			}
-//		}
+		//		Preferences preferences = Settings.getActivePreferences(document);
+		//		if (isUseFormatterIndentationSettings(preferences)) {
+		//			String codeStylePref = preferences.get(JSQLFormatterSettings.SQL_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+		//			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
+		//			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
+		//				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+		//				ret = 2;
+		//			} else {
+		//				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
+		//				ret = 4;
+		//			}
+		//		}
 
 		return ret;
 	}
@@ -204,22 +206,22 @@ public class JSQLFormatterService implements FormatterService {
 
 		Integer ret = 4;
 
-//		Preferences preferences = Settings.getActivePreferences(document);
-//		if (isUseFormatterIndentationSettings(preferences)) {
-//			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
-//				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
-//			} else {
-//				String codeStylePref = preferences.get(JSQLFormatterSettings.SQL_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
-//				JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
-//				if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
-//					// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-//					ret = 2;
-//				} else {
-//					// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-//					ret = 4;
-//				}
-//			}
-//		}
+		//		Preferences preferences = Settings.getActivePreferences(document);
+		//		if (isUseFormatterIndentationSettings(preferences)) {
+		//			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
+		//				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
+		//			} else {
+		//				String codeStylePref = preferences.get(JSQLFormatterSettings.SQL_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+		//				JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
+		//				if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
+		//					// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+		//					ret = 2;
+		//				} else {
+		//					// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
+		//					ret = 4;
+		//				}
+		//			}
+		//		}
 
 		return ret;
 	}
@@ -236,12 +238,12 @@ public class JSQLFormatterService implements FormatterService {
 
 		Boolean ret = Boolean.TRUE;
 
-//		Preferences preferences = Settings.getActivePreferences(document);
-//		if (isUseFormatterIndentationSettings(preferences)) {
-//			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-//			// and https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-//			ret = false;
-//		}
+		//		Preferences preferences = Settings.getActivePreferences(document);
+		//		if (isUseFormatterIndentationSettings(preferences)) {
+		//			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+		//			// and https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
+		//			ret = false;
+		//		}
 
 		return ret;
 	}
