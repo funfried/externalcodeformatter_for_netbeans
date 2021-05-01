@@ -10,7 +10,6 @@
 package de.funfried.netbeans.plugins.external.formatter.ui;
 
 import javax.swing.Icon;
-
 import org.netbeans.api.annotations.common.StaticResource;
 import org.openide.util.ImageUtilities;
 
@@ -67,6 +66,12 @@ public interface Icons {
 	 */
 	@StaticResource
 	String NETBEANS_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/netbeans.gif";
+	
+	/**
+	 * Path to the manticore-projects icon.
+	 */
+	@StaticResource
+	String MANTICORE_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/manticore.png";
 
 	/**
 	 * External icon.
@@ -107,4 +112,9 @@ public interface Icons {
 	 * NetBeans icon.
 	 */
 	Icon ICON_NETBEANS = ImageUtilities.image2Icon(ImageUtilities.loadImage(NETBEANS_ICON_PATH));
+	
+	/**
+	 * manticore-projects icon.
+	 */
+	Icon ICON_MANTICORE = ImageUtilities.image2Icon(ImageUtilities.loadImage(MANTICORE_ICON_PATH));
 }

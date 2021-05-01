@@ -1,5 +1,5 @@
  /*
- * Copyright (c) 2020 bahlef.
+ * Copyright (c) 2021 Andreas Reichel <andreas@manticore-projects.com>
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter;
 
+import com.manticore.jsqlformatter.JSQLFormatter;
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.MimeType;
@@ -25,15 +26,14 @@ import javax.swing.text.StyledDocument;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
-import org.netbeans.api.editor.guards.GuardedSectionManager;
 import org.netbeans.api.project.Project;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
 /**
- * Google implementation of the {@link AbstractJavaFormatterService}.
+ * JSQLFormatter implementation of the {@link AbstractJavaFormatterService}.
  *
- * @author bahlef
+ * @author Andreas Reichel <andreas@manticore-projects.com>
  */
 
 @NbBundle.Messages({
@@ -76,17 +76,6 @@ public class JSQLFormatterService implements FormatterService {
 		if (document == null) {
 			return false;
 		}
-
-		// Cannot handle guarded blocks properly due to a bug in the Google Java Code Formatter:
-		// https://github.com/google/google-java-format/issues/433
-		if (document instanceof StyledDocument) {
-			StyledDocument styledDoc = (StyledDocument) document;
-
-			if (GuardedSectionManager.getInstance(styledDoc) != null) {
-				return false;
-			}
-		}
-
 		return getSupportedMimeType().canHandle(MimeType.getMimeTypeAsString(document));
 	}
 
@@ -126,22 +115,10 @@ public class JSQLFormatterService implements FormatterService {
 			return null;
 		}
 
-		Integer ret = 4;
-
-		//		Preferences preferences = Settings.getActivePreferences(document);
-		//		if (isUseFormatterIndentationSettings(preferences)) {
-		//			String codeStylePref = preferences.get(JSQLFormatterSettings.SQL_FORMATTER_CODE_STYLE, "DEFAULT");
-		//			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
-		//			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
-		//				// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent
-		//				ret = 4;
-		//			} else {
-		//				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-		//				ret = 8;
-		//			}
-		//		}
-
-		return ret;
+		Preferences prefs = Settings.getActivePreferences(document);
+		int width = prefs.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
+		
+		return width;
 	}
 
 	/**
@@ -154,22 +131,10 @@ public class JSQLFormatterService implements FormatterService {
 			return null;
 		}
 
-		Integer ret = 4;
+		Preferences prefs = Settings.getActivePreferences(document);
+		int width = prefs.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
 
-		//		Preferences preferences = Settings.getActivePreferences(document);
-		//		if (isUseFormatterIndentationSettings(preferences)) {
-		//			String codeStylePref = preferences.get(JSQLFormatterSettings.SQL_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
-		//			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
-		//			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
-		//				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-		//				ret = 2;
-		//			} else {
-		//				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-		//				ret = 4;
-		//			}
-		//		}
-
-		return ret;
+		return width;
 	}
 
 	/**
@@ -181,9 +146,6 @@ public class JSQLFormatterService implements FormatterService {
 		if (document == null) {
 			return null;
 		}
-
-		// see: https://google.github.io/styleguide/javaguide.html#s4.4-column-limit
-		// and https://source.android.com/setup/contribute/code-style#limit-line-length
 		return 120;
 	}
 
@@ -204,26 +166,10 @@ public class JSQLFormatterService implements FormatterService {
 			return null;
 		}
 
-		Integer ret = 4;
-
-		//		Preferences preferences = Settings.getActivePreferences(document);
-		//		if (isUseFormatterIndentationSettings(preferences)) {
-		//			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
-		//				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
-		//			} else {
-		//				String codeStylePref = preferences.get(JSQLFormatterSettings.SQL_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
-		//				JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
-		//				if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
-		//					// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-		//					ret = 2;
-		//				} else {
-		//					// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-		//					ret = 4;
-		//				}
-		//			}
-		//		}
-
-		return ret;
+		Preferences prefs = Settings.getActivePreferences(document);
+		int width = prefs.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
+		
+		return width;
 	}
 
 	/**
@@ -232,20 +178,7 @@ public class JSQLFormatterService implements FormatterService {
 	@CheckForNull
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
-		if (document == null) {
-			return null;
-		}
-
-		Boolean ret = Boolean.TRUE;
-
-		//		Preferences preferences = Settings.getActivePreferences(document);
-		//		if (isUseFormatterIndentationSettings(preferences)) {
-		//			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-		//			// and https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-		//			ret = false;
-		//		}
-
-		return ret;
+		return Boolean.TRUE;
 	}
 
 	/**
