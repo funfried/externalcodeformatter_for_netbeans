@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Andreas Reichel <andreas@manticore-projects.com>
+ * Copyright (c) 2021 Andreas Reichel <a href="mailto:andreas@manticore-projects.com">andreas@manticore-projects.com</a>
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -44,7 +44,7 @@ import org.netbeans.api.project.Project;
 /**
  * JSQLFormatter implementation of the {@link AbstractFormatterOptionsPanel}.
  *
- * @author Andreas Reichel <andreas@manticore-projects.com>
+ * @author Andreas Reichel <a href="mailto:andreas@manticore-projects.com">andreas@manticore-projects.com</a>
  */
 
 public class JSQLFormatterOptionsPanel extends AbstractFormatterOptionsPanel {

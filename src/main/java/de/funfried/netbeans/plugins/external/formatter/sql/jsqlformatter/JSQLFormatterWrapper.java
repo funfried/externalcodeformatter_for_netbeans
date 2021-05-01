@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Andreas Reichel <andreas@manticore-projects.com>
+ * Copyright (c) 2021 Andreas Reichel <a href="mailto:andreas@manticore-projects.com">andreas@manticore-projects.com</a>
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -16,7 +16,7 @@ import org.netbeans.api.annotations.common.CheckForNull;
 /**
  * Delegation class to the JSQLFormatter implementation.
  *
- * @author Andreas Reichel <andreas@manticore-projects.com>
+ * @author Andreas Reichel <a href="mailto:andreas@manticore-projects.com">andreas@manticore-projects.com</a>
  */
 public final class JSQLFormatterWrapper {
 	/**
