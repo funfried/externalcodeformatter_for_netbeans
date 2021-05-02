@@ -9,19 +9,23 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.java.google;
 
+import java.util.SortedSet;
+import java.util.prefs.Preferences;
+
+import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.openide.awt.NotificationDisplayer;
+import org.openide.awt.StatusDisplayer;
+
 import com.google.googlejavaformat.java.JavaFormatterOptions;
+
 import de.funfried.netbeans.plugins.external.formatter.AbstractFormatJob;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
-import java.util.SortedSet;
-import java.util.prefs.Preferences;
-import javax.swing.SwingUtilities;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.StyledDocument;
-import org.apache.commons.lang3.tuple.Pair;
-import org.openide.awt.NotificationDisplayer;
-import org.openide.awt.StatusDisplayer;
 
 /**
  * Google formatter implementation of the {@link AbstractFormatJob} to
@@ -64,10 +68,10 @@ class GoogleFormatJob extends AbstractFormatJob {
 			if (setFormattedCode(code, formattedContent)) {
 				SwingUtilities.invokeLater(() -> {
 					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-						NotificationDisplayer.getDefault().notify("Format using Google formatter", Icons.ICON_GOOGLE, "", null);
+						NotificationDisplayer.getDefault().notify("Format using Goolge formatter", Icons.ICON_GOOGLE, "", null);
 					}
 
-					StatusDisplayer.getDefault().setStatusText("Format using Google formatter");
+					StatusDisplayer.getDefault().setStatusText("Format using Goolge formatter");
 				});
 			}
 		} catch (FormattingFailedException ex) {

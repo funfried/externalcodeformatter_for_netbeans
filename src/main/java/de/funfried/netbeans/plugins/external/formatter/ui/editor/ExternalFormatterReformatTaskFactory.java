@@ -9,28 +9,30 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.ui.editor;
 
-import de.funfried.netbeans.plugins.external.formatter.FormatterServiceDelegate;
-import de.funfried.netbeans.plugins.external.formatter.MimeType;
-import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.prefs.Preferences;
+
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+
 import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.editor.mimelookup.MimeLookup;
 import org.netbeans.api.editor.mimelookup.MimePath;
-import org.netbeans.api.editor.mimelookup.MimeRegistration;
 import org.netbeans.modules.editor.indent.spi.Context;
 import org.netbeans.modules.editor.indent.spi.ExtraLock;
 import org.netbeans.modules.editor.indent.spi.ReformatTask;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
+
+import de.funfried.netbeans.plugins.external.formatter.FormatterServiceDelegate;
+import de.funfried.netbeans.plugins.external.formatter.MimeType;
+import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  * Custom implementation of the {@link ReformatTask.Factory} which delegates the formatting
@@ -38,8 +40,6 @@ import org.openide.awt.StatusDisplayer;
  *
  * @author bahlef
  */
-
-@MimeRegistration(mimeType="text/x-sql",service=ReformatTask.Factory.class)
 public class ExternalFormatterReformatTaskFactory implements ReformatTask.Factory {
 	/** {@link Map} which acts as a cache for default implementations of the {@link ReformatTask.Factory}. */
 	private static final Map<MimePath, Reference<ReformatTask.Factory>> cache = new WeakHashMap<MimePath, Reference<ReformatTask.Factory>>();
@@ -56,8 +56,6 @@ public class ExternalFormatterReformatTaskFactory implements ReformatTask.Factor
 
 		MimeType mimeType = MimeType.getMimeType(document);
 		if (mimeType != null) {
-			StatusDisplayer.getDefault().setStatusText("Document Mimetype = " + mimeType.getDisplayName());
-			
 			Preferences prefs = Settings.getActivePreferences(document);
 			if (Settings.DEFAULT_FORMATTER.equals(prefs.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), Settings.DEFAULT_FORMATTER))) {
 				ReformatTask wrapper = new ReformatTask() {
