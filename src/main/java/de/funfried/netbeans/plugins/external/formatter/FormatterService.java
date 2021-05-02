@@ -9,19 +9,16 @@
  */
 package de.funfried.netbeans.plugins.external.formatter;
 
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import java.util.SortedSet;
-
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.project.Project;
-
-import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 
 /**
  * Service interface for external formatter implementations.
@@ -49,10 +46,10 @@ public interface FormatterService {
 	/**
 	 * Formats the given {@link StyledDocument} in regard to the given {@code changedElements}.
 	 *
-	 * @param document        the {@link StyledDocument} which should be formatted
+	 * @param document the {@link StyledDocument} which should be formatted
 	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
 	 *
-	 * @throws BadLocationException      if something goes wrong while appliying the formatted code
+	 * @throws BadLocationException if something goes wrong while appliying the formatted code
 	 * @throws FormattingFailedException if the given {@link StyledDocument} cannot be formatted by the given formatter
 	 */
 	void format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException, FormattingFailedException;
@@ -62,7 +59,7 @@ public interface FormatterService {
 	 * or {@code null} if it should not affect the editor behavior.
 	 *
 	 * @param document the {@link Document} for which the continuation indent size
-	 *                 is requested
+	 *        is requested
 	 *
 	 * @return the continuation indent size configured for the given {@link Document},
 	 *         or {@code null} if it should not affect the editor behavior
@@ -104,8 +101,8 @@ public interface FormatterService {
 	 * formatters selection.
 	 *
 	 * @param project the {@link Project} if the panel which is created is used
-	 *                to modify project specific settings, otherwise
-	 *                {@code null}
+	 *        to modify project specific settings, otherwise
+	 *        {@code null}
 	 *
 	 * @return the {@link FormatterOptionsPanel} for this formatter, or
 	 *         {@code null} if there are no options a user could make for
@@ -132,7 +129,7 @@ public interface FormatterService {
 	 * {@code null} if it should not affect the editor behavior.
 	 *
 	 * @param document the {@link Document} for which the spaces per tab is
-	 *                 requested
+	 *        requested
 	 *
 	 * @return the spaces per tab configured for the given {@link Document}, or
 	 *         {@code null} if it should not affect the editor behavior
@@ -153,7 +150,7 @@ public interface FormatterService {
 	 * {@link Document}, or {@code null} if it should not affect the editor behavior.
 	 *
 	 * @param document the {@link Document} for which the expand tab to spaces flag
-	 *                 is requested
+	 *        is requested
 	 *
 	 * @return the expand tab to spaces flag configured for the given
 	 *         {@link Document}, or {@code null} if it should not affect the editor

@@ -10,6 +10,9 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.ui.options;
 
+import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.MimeType;
+import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableConfigPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -32,7 +35,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.GroupLayout;
@@ -47,7 +49,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.java.lexer.JavaTokenId;
 import org.netbeans.api.project.Project;
@@ -60,10 +61,6 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.util.WeakListeners;
 
-import de.funfried.netbeans.plugins.external.formatter.FormatterService;
-import de.funfried.netbeans.plugins.external.formatter.MimeType;
-import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableConfigPanel;
-
 /**
  * The options panel for this plugin.
  *
@@ -71,7 +68,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableC
  * @author bahlef
  */
 @Keywords(location = "Editor", tabTitle = "External Formatter", keywords = { "eclipse", "google", "spring", "java", "external", "format", "formatter", "eclipse formatter", "google formatter",
-		"spring formatter", "external formatter" })
+		"spring formatter", "external formatter", "sql" })
 public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPanel, ChangeListener {
 	/** The unique serial version ID. */
 	private static final long serialVersionUID = 1L;
