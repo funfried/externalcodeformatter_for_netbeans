@@ -12,9 +12,7 @@ package de.funfried.netbeans.plugins.external.formatter;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
-
 import javax.swing.text.Document;
-
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.java.lexer.JavaTokenId;
 import org.netbeans.modules.editor.NbEditorUtilities;
@@ -29,10 +27,12 @@ import org.openide.util.NbBundle;
 		"JAVA=Java",
 		"JAVASCRIPT=JavaScript",
 		"JSON=Json",
-		"XML=XML"
+		"XML=XML",
+		"SQL=SQL"
 })
 public enum MimeType {
-	JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT("text/javascript"), JSON("text/x-json", "^text/(.*)\\+x-json$"), XML("text/xml", "^text/(.*)\\+xml$");
+	JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT("text/javascript"), JSON("text/x-json", "^text/(.*)\\+x-json$"), XML("text/xml", "^text/(.*)\\+xml$")
+	, SQL("application/sql", "text/sql", "text/x-sql", "text/plain");
 
 	private final String[] mimeTypes;
 

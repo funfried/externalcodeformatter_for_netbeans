@@ -71,7 +71,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.customizer.VerifiableC
  * @author bahlef
  */
 @Keywords(location = "Editor", tabTitle = "External Formatter", keywords = { "eclipse", "google", "spring", "java", "external", "format", "formatter", "eclipse formatter", "google formatter",
-		"spring formatter", "external formatter" })
+		"spring formatter", "external formatter", "sql" })
 public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPanel, ChangeListener {
 	/** The unique serial version ID. */
 	private static final long serialVersionUID = 1L;
