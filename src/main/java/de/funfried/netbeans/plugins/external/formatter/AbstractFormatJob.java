@@ -114,7 +114,10 @@ public abstract class AbstractFormatJob implements FormatJob {
 									log.log(logLevel, "CHANGE: {0} - {1} / Line {2}: ''{3}'' <= ''{4}'' ({5})", new Object[] { start, length, startLine, addText, document.getText(start, length), removeText });
 								}
 
-								document.remove(start, length);
+								// if the document consists of only 1 line without a trailing line-break
+								// then LENGTH would exceed the document and yield an exception
+								
+								document.remove(start, Math.min(length, document.getLength()));
 								document.insertString(start, addText, null);
 
 								break;
