@@ -4,18 +4,10 @@
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
- *
-*/
+ */
 
 package de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter.ui;
 
-import com.manticore.jsqlformatter.JSQLFormatter;
-import com.manticore.jsqlformatter.JSQLFormatter.FormattingOption;
-import com.manticore.jsqlformatter.JSQLFormatter.OutputFormat;
-import com.manticore.jsqlformatter.JSQLFormatter.Separation;
-import com.manticore.jsqlformatter.JSQLFormatter.Spelling;
-import com.manticore.jsqlformatter.JSQLFormatter.SquaredBracketQuotation;
-import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormatterOptionsPanel;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -30,6 +22,7 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+
 import javax.swing.InputVerifier;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -39,7 +32,17 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import org.netbeans.api.project.Project;
+
+import com.manticore.jsqlformatter.JSQLFormatter;
+import com.manticore.jsqlformatter.JSQLFormatter.FormattingOption;
+import com.manticore.jsqlformatter.JSQLFormatter.OutputFormat;
+import com.manticore.jsqlformatter.JSQLFormatter.Separation;
+import com.manticore.jsqlformatter.JSQLFormatter.Spelling;
+import com.manticore.jsqlformatter.JSQLFormatter.SquaredBracketQuotation;
+
+import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormatterOptionsPanel;
 
 /**
  * JSQLFormatter implementation of the {@link AbstractFormatterOptionsPanel}.
@@ -86,7 +89,6 @@ public class JSQLFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
 			if (e.getStateChange() == ItemEvent.SELECTED)
 				fireChangedListener();
 		}
-
 	};
 
 	private void buildUI() {
@@ -505,7 +507,7 @@ public class JSQLFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
 		String text = indentWidthField.getText();
 		try {
 			int i = Integer.parseInt(text.trim());
-			if (i >= 0 && i < 24) {
+			if (i >= 0 && i <= 24) {
 				indentWidthField.setBackground(validBackgroundColor);
 				return true;
 			} else

@@ -9,9 +9,11 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter;
 
-import com.manticore.jsqlformatter.JSQLFormatter;
-import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import org.netbeans.api.annotations.common.CheckForNull;
+
+import com.manticore.jsqlformatter.JSQLFormatter;
+
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 
 /**
  * Delegation class to the JSQLFormatter implementation.
@@ -29,8 +31,8 @@ public final class JSQLFormatterWrapper {
 	 * Formats the given {@code code} with the given configurations and returns
 	 * the formatted code.
 	 *
-	 * @param code            the unformatted SQL code
-	 * @param options         an array of Formatting Options expressed as Key=Value pairs
+	 * @param code the unformatted SQL code
+	 * @param options an array of Formatting Options expressed as Key=Value pairs
 	 *
 	 * @return the formatted SQL code
 	 *
@@ -41,6 +43,7 @@ public final class JSQLFormatterWrapper {
 		if (code == null) {
 			return null;
 		}
+
 		try {
 			return JSQLFormatter.format(code, options);
 		} catch (Exception ex) {
