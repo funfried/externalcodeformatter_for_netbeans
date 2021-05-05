@@ -23,7 +23,6 @@ import javax.swing.text.Document;
 import org.netbeans.api.annotations.common.NonNull;
 import org.netbeans.api.editor.mimelookup.MimeLookup;
 import org.netbeans.api.editor.mimelookup.MimePath;
-import org.netbeans.api.editor.mimelookup.MimeRegistration;
 import org.netbeans.modules.editor.indent.spi.Context;
 import org.netbeans.modules.editor.indent.spi.ExtraLock;
 import org.netbeans.modules.editor.indent.spi.ReformatTask;
@@ -41,7 +40,6 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  *
  * @author bahlef
  */
-@MimeRegistration(mimeType="text/x-sql",service=ReformatTask.Factory.class)
 public class ExternalFormatterReformatTaskFactory implements ReformatTask.Factory {
 	/** {@link Map} which acts as a cache for default implementations of the {@link ReformatTask.Factory}. */
 	private static final Map<MimePath, Reference<ReformatTask.Factory>> cache = new WeakHashMap<MimePath, Reference<ReformatTask.Factory>>();
