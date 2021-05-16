@@ -120,8 +120,12 @@ public class JSQLFormatterService implements FormatterService {
 			return null;
 		}
 
-		Preferences prefs = Settings.getActivePreferences(document);
-		int width = prefs.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
+		Integer width = null;
+
+		Preferences preferences = Settings.getActivePreferences(document);
+		if (isUseFormatterIndentationSettings(preferences)) {
+			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
+		}
 
 		return width;
 	}
@@ -136,8 +140,12 @@ public class JSQLFormatterService implements FormatterService {
 			return null;
 		}
 
-		Preferences prefs = Settings.getActivePreferences(document);
-		int width = prefs.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
+		Integer width = null;
+
+		Preferences preferences = Settings.getActivePreferences(document);
+		if (isUseFormatterIndentationSettings(preferences)) {
+			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
+		}
 
 		return width;
 	}
@@ -151,6 +159,7 @@ public class JSQLFormatterService implements FormatterService {
 		if (document == null) {
 			return null;
 		}
+
 		return 120;
 	}
 
@@ -171,8 +180,12 @@ public class JSQLFormatterService implements FormatterService {
 			return null;
 		}
 
-		Preferences prefs = Settings.getActivePreferences(document);
-		int width = prefs.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
+		Integer width = null;
+
+		Preferences preferences = Settings.getActivePreferences(document);
+		if (isUseFormatterIndentationSettings(preferences)) {
+			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
+		}
 
 		return width;
 	}
@@ -183,7 +196,16 @@ public class JSQLFormatterService implements FormatterService {
 	@CheckForNull
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
-		return Boolean.TRUE;
+		if (document == null) {
+			return null;
+		}
+
+		Preferences preferences = Settings.getActivePreferences(document);
+		if (isUseFormatterIndentationSettings(preferences)) {
+			return Boolean.TRUE;
+		}
+
+		return null;
 	}
 
 	/**
