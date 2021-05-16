@@ -31,6 +31,14 @@
 			<url>https://www.funfried.de</url>
 		</developer>
 		<developer>
+			<id>manticore-projects</id>
+			<name>Andreas Reichel</name>
+			<roles>
+				<role>Contributor</role>
+			</roles>
+			<url>https://github.com/manticore-projects</url>
+		</developer>
+		<developer>
 			<id>markiewb</id>
 			<name>Benno Markiewicz</name>
 			<roles>
@@ -105,11 +113,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<google-java-format.version>1.9</google-java-format.version>
-		<xml-formatter.version>0.2.0</xml-formatter.version>
-		<commons-lang.version>3.11</commons-lang.version>
+		<google-java-format.version>1.10.0</google-java-format.version>
+		<xml-formatter.version>0.2.2</xml-formatter.version>
+		<commons-lang.version>3.12.0</commons-lang.version>
 		<netbeans.version>RELEASE110</netbeans.version>
-		<jackson.version>2.12.1</jackson.version>
+		<jackson.version>2.12.3</jackson.version>
 		<jsoup.version>1.13.1</jsoup.version>
 	</properties>
 
@@ -125,13 +133,13 @@
 				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
 				<groupId>org.eclipse.platform</groupId>
 				<artifactId>org.eclipse.core.contenttype</artifactId>
-				<version>3.7.800</version>
+				<version>3.7.900</version>
 			</dependency>
 			<dependency>
 				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
 				<groupId>org.eclipse.platform</groupId>
 				<artifactId>org.eclipse.core.expressions</artifactId>
-				<version>3.7.0</version>
+				<version>3.7.100</version>
 			</dependency>
 			<dependency>
 				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
@@ -143,55 +151,55 @@
 				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
 				<groupId>org.eclipse.platform</groupId>
 				<artifactId>org.eclipse.core.jobs</artifactId>
-				<version>3.10.1000</version>
+				<version>3.10.1100</version>
 			</dependency>
 			<dependency>
 				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
 				<groupId>org.eclipse.platform</groupId>
 				<artifactId>org.eclipse.core.resources</artifactId>
-				<version>3.13.900</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.core.runtime</artifactId>
-				<version>3.20.0</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.equinox.app</artifactId>
-				<version>1.5.0</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.equinox.common</artifactId>
 				<version>3.14.0</version>
 			</dependency>
 			<dependency>
 				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
 				<groupId>org.eclipse.platform</groupId>
+				<artifactId>org.eclipse.core.runtime</artifactId>
+				<version>3.20.100</version>
+			</dependency>
+			<dependency>
+				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
+				<groupId>org.eclipse.platform</groupId>
+				<artifactId>org.eclipse.equinox.app</artifactId>
+				<version>1.5.100</version>
+			</dependency>
+			<dependency>
+				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
+				<groupId>org.eclipse.platform</groupId>
+				<artifactId>org.eclipse.equinox.common</artifactId>
+				<version>3.14.100</version>
+			</dependency>
+			<dependency>
+				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
+				<groupId>org.eclipse.platform</groupId>
 				<artifactId>org.eclipse.equinox.preferences</artifactId>
-				<version>3.8.100</version>
+				<version>3.8.200</version>
 			</dependency>
 			<dependency>
 				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
 				<groupId>org.eclipse.platform</groupId>
 				<artifactId>org.eclipse.equinox.registry</artifactId>
-				<version>3.10.0</version>
+				<version>3.10.100</version>
 			</dependency>
 			<dependency>
 				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
 				<groupId>org.eclipse.platform</groupId>
 				<artifactId>org.eclipse.osgi</artifactId>
-				<version>3.16.100</version>
+				<version>3.16.200</version>
 			</dependency>
 			<dependency>
 				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
 				<groupId>org.eclipse.platform</groupId>
 				<artifactId>org.eclipse.text</artifactId>
-				<version>3.10.400</version>
+				<version>3.11.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -207,7 +215,7 @@
 		<dependency>
 			<groupId>org.eclipse.jdt</groupId>
 			<artifactId>org.eclipse.jdt.core</artifactId>
-			<version>3.24.0</version>
+			<version>3.25.0</version>
 		</dependency>
 
 		<!-- Eclipse JavaScript Formatter -->
@@ -221,7 +229,7 @@
 		<dependency>
 			<groupId>io.spring.javaformat</groupId>
 			<artifactId>spring-javaformat-formatter</artifactId>
-			<version>0.0.27</version>
+			<version>0.0.28</version>
 		</dependency>
 
 		<!-- Google Formatter -->
@@ -257,18 +265,17 @@
 			<version>${jackson.version}</version>
 		</dependency>
 
-		  
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
 		<!-- JSQLFormatter -->
 		<dependency>
 			<groupId>com.manticore-projects.jsqlformatter</groupId>
 			<artifactId>jsqlformatter</artifactId>
 			<version>0.1.6</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.version}</version>
 		</dependency>
 
 		<dependency>
@@ -443,7 +450,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
+			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -454,7 +461,7 @@
 				<plugin>
 					<groupId>org.apache.netbeans.utilities</groupId>
 					<artifactId>nbm-maven-plugin</artifactId>
-					<version>4.5</version>
+					<version>4.6</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -514,7 +521,7 @@
 				<plugin>
 					<groupId>net.revelc.code.formatter</groupId>
 					<artifactId>formatter-maven-plugin</artifactId>
-					<version>2.13.0</version>
+					<version>2.15.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -544,7 +551,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-project-info-reports-plugin</artifactId>
-					<version>3.1.1</version>
+					<version>3.1.2</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -626,7 +633,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jxr-plugin</artifactId>
-					<version>3.0.0</version>
+					<version>3.1.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -636,12 +643,12 @@
 				<plugin>
 					<groupId>com.github.spotbugs</groupId>
 					<artifactId>spotbugs-maven-plugin</artifactId>
-					<version>4.2.0</version>
+					<version>4.2.3</version>
 				</plugin>
 				<plugin>
 					<groupId>org.owasp</groupId>
 					<artifactId>dependency-check-maven</artifactId>
-					<version>6.0.5</version>
+					<version>6.1.6</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
