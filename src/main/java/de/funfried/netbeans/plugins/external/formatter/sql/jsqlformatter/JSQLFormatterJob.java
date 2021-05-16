@@ -9,9 +9,7 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter;
 
-import java.util.Map;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
@@ -23,6 +21,7 @@ import org.openide.awt.NotificationDisplayer;
 import org.openide.awt.StatusDisplayer;
 
 import com.manticore.jsqlformatter.JSQLFormatter;
+import com.manticore.jsqlformatter.JSQLFormatter.FormattingOption;
 
 import de.funfried.netbeans.plugins.external.formatter.AbstractFormatJob;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
@@ -40,7 +39,7 @@ class JSQLFormatterJob extends AbstractFormatJob {
 	private final JSQLFormatterWrapper formatter;
 
 	/**
-	 * Package private constructor to create a new instance of {@link GoogleFormatJob}.
+	 * Package private constructor to create a new instance of {@link JSQLFormatterJob}.
 	 *
 	 * @param document the {@link StyledDocument} which sould be formatted
 	 * @param formatter the {@link JSQLFormatterWrapper} to use
@@ -59,29 +58,12 @@ class JSQLFormatterJob extends AbstractFormatJob {
 	public void format() throws BadLocationException {
 		Preferences pref = Settings.getActivePreferences(document);
 
-		TreeMap<String, Object> map = new TreeMap<>();
-		map.put(JSQLFormatter.FormattingOption.OUTPUT_FORMAT.toString(), pref.get(JSQLFormatter.FormattingOption.OUTPUT_FORMAT.toString(), JSQLFormatter.getOutputFormat().toString()));
-		map.put(JSQLFormatter.FormattingOption.KEYWORD_SPELLING.toString(), pref.get(JSQLFormatter.FormattingOption.KEYWORD_SPELLING.toString(), JSQLFormatter.getKeywordSpelling().toString()));
-		map.put(JSQLFormatter.FormattingOption.FUNCTION_SPELLING.toString(), pref.get(JSQLFormatter.FormattingOption.FUNCTION_SPELLING.toString(), JSQLFormatter.getFunctionSpelling().toString()));
-		map.put(JSQLFormatter.FormattingOption.OBJECT_SPELLING.toString(), pref.get(JSQLFormatter.FormattingOption.OBJECT_SPELLING.toString(), JSQLFormatter.getObjectSpelling().toString()));
-		map.put(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), pref.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth()));
-		map.put(JSQLFormatter.FormattingOption.SEPARATION.toString(), pref.get(JSQLFormatter.FormattingOption.SEPARATION.toString(), JSQLFormatter.getSeparation().toString()));
-		map.put(JSQLFormatter.FormattingOption.SQUARE_BRACKET_QUOTATION.toString(),
-				pref.get(JSQLFormatter.FormattingOption.SQUARE_BRACKET_QUOTATION.toString(), JSQLFormatter.getSquaredBracketQuotation().toString()));
-
-		String[] options = new String[map.size()];
-		int i = 0;
-		for (Map.Entry<String, Object> e : map.entrySet()) {
-			options[i] = e.getKey() + "=" + e.getValue();
-			i++;
-		}
-
 		String code = getCode();
 
 		try {
 			//@todo: hand over the formatting options
 			//@todo: obey the selected region
-			String formattedContent = formatter.format(code, options);
+			String formattedContent = formatter.format(code, getOptions(pref));
 
 			if (setFormattedCode(code, formattedContent)) {
 				SwingUtilities.invokeLater(() -> {
@@ -98,5 +80,31 @@ class JSQLFormatterJob extends AbstractFormatJob {
 
 			throw ex;
 		}
+	}
+
+	private String[] getOptions(Preferences pref) {
+		int i = 0;
+		String[] options = new String[FormattingOption.values().length];
+		options[i++] = toOption(pref, FormattingOption.OUTPUT_FORMAT, JSQLFormatter.getOutputFormat());
+		options[i++] = toOption(pref, FormattingOption.KEYWORD_SPELLING, JSQLFormatter.getKeywordSpelling());
+		options[i++] = toOption(pref, FormattingOption.FUNCTION_SPELLING, JSQLFormatter.getFunctionSpelling());
+		options[i++] = toOption(pref, FormattingOption.OBJECT_SPELLING, JSQLFormatter.getObjectSpelling());
+		options[i++] = toOption(pref, FormattingOption.INDENT_WIDTH, JSQLFormatter.getIndentWidth());
+		options[i++] = toOption(pref, FormattingOption.SEPARATION, JSQLFormatter.getSeparation());
+		options[i++] = toOption(pref, FormattingOption.SQUARE_BRACKET_QUOTATION, JSQLFormatter.getSquaredBracketQuotation());
+
+		return options;
+	}
+
+	private <E extends Enum<E>> String toOption(Preferences pref, JSQLFormatter.FormattingOption option, E defaultValue) {
+		return toOption(pref, option, String.valueOf(defaultValue));
+	}
+
+	private String toOption(Preferences pref, JSQLFormatter.FormattingOption option, String defaultValue) {
+		return option.toString() + "=" + pref.get(option.toString(), defaultValue);
+	}
+
+	private String toOption(Preferences pref, JSQLFormatter.FormattingOption option, int defaultValue) {
+		return String.valueOf(option) + "=" + pref.getInt(String.valueOf(option), defaultValue);
 	}
 }
