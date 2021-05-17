@@ -54,7 +54,7 @@ public abstract class AbstractFormatJob implements FormatJob {
 	/**
 	 * Constructor which has to be used by subclasses.
 	 *
-	 * @param document        the {@link StyledDocument} from which the content should be formatted
+	 * @param document the {@link StyledDocument} from which the content should be formatted
 	 * @param changedElements {@link SortedSet} containing document offset ranges which should be formatted or {@code null} to format the whole document
 	 */
 	protected AbstractFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
@@ -65,7 +65,7 @@ public abstract class AbstractFormatJob implements FormatJob {
 	/**
 	 * Applies the given {@code formattedContent} to the {@code document}.
 	 *
-	 * @param code             the previous (unformatted) content
+	 * @param code the previous (unformatted) content
 	 * @param formattedContent the formatted code
 	 *
 	 * @return {@code true} if and only if the given {@code formattedContent} was set to
@@ -114,7 +114,10 @@ public abstract class AbstractFormatJob implements FormatJob {
 									log.log(logLevel, "CHANGE: {0} - {1} / Line {2}: ''{3}'' <= ''{4}'' ({5})", new Object[] { start, length, startLine, addText, document.getText(start, length), removeText });
 								}
 
-								document.remove(start, length);
+								// if the document consists of only 1 line without a trailing line-break
+								// then LENGTH would exceed the document and yield an exception
+
+								document.remove(start, Math.min(length, document.getLength()));
 								document.insertString(start, addText, null);
 
 								break;
@@ -216,7 +219,7 @@ public abstract class AbstractFormatJob implements FormatJob {
 	 * and if so splits the given {@code section} into multiple sections and returns them
 	 * as a {@link SortedSet}.
 	 *
-	 * @param section         the section that should be checked
+	 * @param section the section that should be checked
 	 * @param guardedSections the guarded sections of the {@code document}
 	 *
 	 * @return A {@link SortedSet} containing the splitted sections or just the initial

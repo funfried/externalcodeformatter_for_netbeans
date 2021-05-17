@@ -69,6 +69,12 @@ public interface Icons {
 	String NETBEANS_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/netbeans.gif";
 
 	/**
+	 * Path to the manticore-projects icon.
+	 */
+	@StaticResource
+	String MANTICORE_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/manticore.png";
+
+	/**
 	 * External icon.
 	 */
 	Icon ICON_EXTERNAL = ImageUtilities.image2Icon(ImageUtilities.loadImage(EXTERNAL_FORMATTER_ICON_PATH));
@@ -107,4 +113,9 @@ public interface Icons {
 	 * NetBeans icon.
 	 */
 	Icon ICON_NETBEANS = ImageUtilities.image2Icon(ImageUtilities.loadImage(NETBEANS_ICON_PATH));
+
+	/**
+	 * manticore-projects icon.
+	 */
+	Icon ICON_MANTICORE = ImageUtilities.image2Icon(ImageUtilities.loadImage(MANTICORE_ICON_PATH));
 }

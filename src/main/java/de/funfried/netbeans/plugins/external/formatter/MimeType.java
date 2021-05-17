@@ -29,10 +29,12 @@ import org.openide.util.NbBundle;
 		"JAVA=Java",
 		"JAVASCRIPT=JavaScript",
 		"JSON=Json",
-		"XML=XML"
+		"XML=XML",
+		"SQL=SQL"
 })
 public enum MimeType {
-	JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT("text/javascript"), JSON("text/x-json", "^text/(.*)\\+x-json$"), XML("text/xml", "^text/(.*)\\+xml$");
+	JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT("text/javascript"), JSON("text/x-json", "^text/(.*)\\+x-json$"), XML("text/xml", "^text/(.*)\\+xml$"), SQL("application/sql", "text/sql",
+			"text/x-sql", "text/plain");
 
 	private final String[] mimeTypes;
 
