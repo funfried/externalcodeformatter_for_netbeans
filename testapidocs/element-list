@@ -5,5 +5,6 @@ de.funfried.netbeans.plugins.external.formatter.java.google
 de.funfried.netbeans.plugins.external.formatter.java.spring
 de.funfried.netbeans.plugins.external.formatter.javascript.eclipse
 de.funfried.netbeans.plugins.external.formatter.json.jackson
+de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter
 de.funfried.netbeans.plugins.external.formatter.xml.jsoup
 de.funfried.netbeans.plugins.external.formatter.xml.revelc
