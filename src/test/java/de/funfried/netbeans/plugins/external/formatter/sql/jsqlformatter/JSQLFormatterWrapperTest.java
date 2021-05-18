@@ -37,7 +37,7 @@ public class JSQLFormatterWrapperTest {
 
 		String actual = instance.format(text);
 		Assert.assertNotNull("Formatting should not return null value", actual);
-		Assert.assertEquals("Formatting should change the code", expected.trim(), actual.replaceAll("\r", "").trim());
+		Assert.assertEquals("Formatting should change the code", expected, actual.replaceAll("\r", ""));
 	}
 
 	@Test

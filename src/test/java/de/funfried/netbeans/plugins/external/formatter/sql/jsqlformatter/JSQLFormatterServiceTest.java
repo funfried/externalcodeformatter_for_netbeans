@@ -45,7 +45,7 @@ public class JSQLFormatterServiceTest extends NbTestCase {
 								"WHERE foo = 'BAR'\n" +
 								"ORDER BY foo\n" +
 								"LIMIT 1\n" +
-								";";
+								";\n";
 
 		StyledDocument document = new NbEditorDocument("text/x-sql");
 		document.insertString(0, text, null);
@@ -80,7 +80,7 @@ public class JSQLFormatterServiceTest extends NbTestCase {
 
 		String actual = document.getText(0, document.getLength());
 
-		Assert.assertEquals("Formatting should change the code", expected.trim(), actual.trim());
+		Assert.assertEquals("Formatting should change the code", expected, actual);
 	}
 
 	/**
