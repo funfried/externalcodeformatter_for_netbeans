@@ -44,8 +44,8 @@ public class JSQLFormatterServiceTest extends NbTestCase {
 				"FROM bar\n" +
 				"WHERE foo = 'BAR'\n" +
 				"ORDER BY foo\n" +
-				";\n" +
-				"";
+				"LIMIT 1\n" +
+				";\n";
 
 		StyledDocument document = new NbEditorDocument("text/x-sql");
 		document.insertString(0, text, null);

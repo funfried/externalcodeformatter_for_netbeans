@@ -32,6 +32,7 @@ public class JSQLFormatterWrapperTest {
 				"FROM bar\n" +
 				"WHERE foo = 'BAR'\n" +
 				"ORDER BY foo\n" +
+				"LIMIT 1\n" +
 				";";
 
 		String actual = instance.format(text);
