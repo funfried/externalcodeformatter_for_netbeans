@@ -29,11 +29,11 @@ public class JSQLFormatterWrapperTest {
 	public void testFormat() {
 		final String text = "SELECT FOO FROM BAR WHERE FOO = 'BAR' ORDER BY FOO LIMIT 1";
 		final String expected = "SELECT foo\n" +
-				"FROM bar\n" +
-				"WHERE foo = 'BAR'\n" +
-				"ORDER BY foo\n" +
-				"LIMIT 1\n" +
-				";";
+								"FROM bar\n" +
+								"WHERE foo = 'BAR'\n" +
+								"ORDER BY foo\n" +
+								"LIMIT 1\n" +
+								";";
 
 		String actual = instance.format(text);
 		Assert.assertNotNull("Formatting should not return null value", actual);

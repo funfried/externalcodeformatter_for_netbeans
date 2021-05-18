@@ -41,11 +41,11 @@ public class JSQLFormatterServiceTest extends NbTestCase {
 	public void testFormat() throws Exception {
 		final String text = "SELECT FOO FROM BAR WHERE FOO = 'BAR' ORDER BY FOO LIMIT 1\n";
 		final String expected = "SELECT foo\n" +
-				"FROM bar\n" +
-				"WHERE foo = 'BAR'\n" +
-				"ORDER BY foo\n" +
-				"LIMIT 1\n" +
-				";";
+								"FROM bar\n" +
+								"WHERE foo = 'BAR'\n" +
+								"ORDER BY foo\n" +
+								"LIMIT 1\n" +
+								";";
 
 		StyledDocument document = new NbEditorDocument("text/x-sql");
 		document.insertString(0, text, null);
