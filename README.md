@@ -43,6 +43,9 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 *   Json
     *   [Jackson Json Code Formatter](https://github.com/FasterXML/jackson)
 
+*   SQL
+    *   [manticore JSQLFormatter](https://github.com/manticore-projects/jsqlformatter)
+
 ### Features
 *   Makes use of the internal NetBeans formatting API, which makes it possible to reuse built-in features like the format on save action or format only selected lines ... (since 1.13)
 *   Global configuration and project specific configuration
@@ -62,6 +65,7 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 *   Support for revelc.net XML formatter (since 1.14)
 *   Support for Jsoup XML formatter (since 1.14)
 *   Support for Jackson Json formatter (since 1.14)
+*   Support for manticore JSQLFormatter (Special thanks to [Andreas Reichel](https://github.com/manticore-projects) for the contribution) (since 1.14)
 
 Compatibility
 -------------

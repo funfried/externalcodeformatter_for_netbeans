@@ -1,13 +1,22 @@
 /*
- * Copyright (c) 2021 Andreas Reichel <a href="mailto:andreas@manticore-projects.com">andreas@manticore-projects.com</a>
+ * Copyright (c) 2021 bahlef.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
- *
-*/
+ * Contributors:
+ * bahlef - initial API and implementation and/or initial documentation
+ */
 
 package de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter.ui;
+
+import java.util.prefs.Preferences;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.SpinnerNumberModel;
+
+import org.apache.commons.lang3.StringUtils;
+import org.netbeans.api.project.Project;
 
 import com.manticore.jsqlformatter.JSQLFormatter;
 import com.manticore.jsqlformatter.JSQLFormatter.FormattingOption;
@@ -15,58 +24,15 @@ import com.manticore.jsqlformatter.JSQLFormatter.OutputFormat;
 import com.manticore.jsqlformatter.JSQLFormatter.Separation;
 import com.manticore.jsqlformatter.JSQLFormatter.Spelling;
 import com.manticore.jsqlformatter.JSQLFormatter.SquaredBracketQuotation;
+
 import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormatterOptionsPanel;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.prefs.Preferences;
-import javax.swing.InputVerifier;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import org.netbeans.api.project.Project;
 
 /**
- * JSQLFormatter implementation of the {@link AbstractFormatterOptionsPanel}.
  *
- * @author Andreas Reichel <a href="mailto:andreas@manticore-projects.com">andreas@manticore-projects.com</a>
+ * @author bahlef
  */
-
 public class JSQLFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
-	private static final Logger LOGGER = Logger.getLogger(JSQLFormatterOptionsPanel.class.getName());
-
-	private final JComboBox<OutputFormat> outputFormatBox = new JComboBox<>(OutputFormat.values());
-
-	private final JComboBox<Spelling> keywordSpellingBox = new JComboBox<>(Spelling.values());
-
-	private final JComboBox<Spelling> functionSpellingBox = new JComboBox<>(Spelling.values());
-
-	private final JComboBox<Spelling> objectSpellingBox = new JComboBox<>(Spelling.values());
-
-	private final JComboBox<SquaredBracketQuotation> squaredBracketQuotationBox = new JComboBox<>(SquaredBracketQuotation.values());
-
-	private final JComboBox<Separation> separationBox = new JComboBox<>(Separation.values());
-
-	private final JTextField indentWidthField = new JTextField(3);
-
-	private final GridBagLayout layout = new GridBagLayout();
-
-	private final Color validBackgroundColor = indentWidthField.getBackground();
+	private static final long serialVersionUID = -160868052080748888L;
 
 	/**
 	 * Creates new form {@link JSQLFormatterOptionsPanel}.
@@ -77,410 +43,258 @@ public class JSQLFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
 	public JSQLFormatterOptionsPanel(Project project) {
 		super(project);
 
-		buildUI();
+		initComponents();
 	}
 
-	private final ItemListener itemListener = new ItemListener() {
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			if (e.getStateChange() == ItemEvent.SELECTED)
-				fireChangedListener();
-		}
-
-	};
-
-	private void buildUI() {
-		JPanel panel = new JPanel(layout);
-
-		outputFormatBox.setSelectedItem(JSQLFormatter.getOutputFormat());
-		outputFormatBox.addItemListener(itemListener);
-
-		keywordSpellingBox.setSelectedItem(JSQLFormatter.getKeywordSpelling());
-		keywordSpellingBox.addItemListener(itemListener);
-
-		functionSpellingBox.setSelectedItem(JSQLFormatter.getFunctionSpelling());
-		functionSpellingBox.addItemListener(itemListener);
-
-		objectSpellingBox.setSelectedItem(JSQLFormatter.getObjectSpelling());
-		objectSpellingBox.addItemListener(itemListener);
-
-		indentWidthField.setText(Integer.toString(JSQLFormatter.getIndentWidth()));
-		indentWidthField.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				fireChangedListener();
-			}
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				fireChangedListener();
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				fireChangedListener();
-			}
-
-		});
-
-		separationBox.setSelectedItem(JSQLFormatter.getSeparation());
-		separationBox.addItemListener(itemListener);
-
-		squaredBracketQuotationBox.setSelectedItem(JSQLFormatter.getSquaredBracketQuotation());
-		squaredBracketQuotationBox.addItemListener(itemListener);
-
-		indentWidthField.setInputVerifier(
-				new InputVerifier() {
-					@Override
-					public boolean verify(JComponent input) {
-						return valid();
-					}
-				});
-
-		GridBagConstraints constraints = new GridBagConstraints(
-				0,
-				0,
-				1,
-				1,
-				1.0,
-				1.0,
-				GridBagConstraints.BASELINE_TRAILING,
-				GridBagConstraints.NONE,
-				new Insets(4, 6, 2, 6),
-				0,
-				0);
-
-		// --------------------------------------------------------------------------------------------
-
-		constraints.gridx = 0;
-		constraints.gridy = 0;
-		constraints.anchor = GridBagConstraints.CENTER;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.gridwidth = 6;
-		constraints.insets.left = 12;
-		constraints.insets.right = 12;
-		panel.add(new JSeparator(JSeparator.HORIZONTAL), constraints);
-
-		constraints.gridy++;
-		JLabel label = new JLabel("Output");
-		label.setFont(label.getFont().deriveFont(Font.BOLD));
-		panel.add(label, constraints);
-
-		constraints.gridx = 0;
-		constraints.gridy++;
-		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
-		constraints.gridwidth = 1;
-		constraints.fill = GridBagConstraints.NONE;
-		constraints.insets.left = 12;
-		constraints.insets.right = 2;
-
-		label = new JLabel("Format:");
-		label.setLabelFor(outputFormatBox);
-		panel.add(label, constraints);
-
-		constraints.gridx++;
-		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
-		constraints.insets.left = 0;
-		panel.add(outputFormatBox, constraints);
-
-		// --------------------------------------------------------------------------------------------
-
-		constraints.gridx = 0;
-		constraints.gridy++;
-		constraints.anchor = GridBagConstraints.CENTER;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.gridwidth = 6;
-		constraints.insets.left = 12;
-		constraints.insets.right = 12;
-		panel.add(new JSeparator(JSeparator.HORIZONTAL), constraints);
-
-		constraints.gridy++;
-		label = new JLabel("Spelling");
-		label.setFont(label.getFont().deriveFont(Font.BOLD));
-		panel.add(label, constraints);
-
-		constraints.gridx = 0;
-		constraints.gridy++;
-		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
-		constraints.fill = GridBagConstraints.NONE;
-		constraints.gridwidth = 1;
-		constraints.insets.left = 12;
-		constraints.insets.right = 2;
-
-		label = new JLabel("Keywords:");
-		label.setLabelFor(keywordSpellingBox);
-		panel.add(label, constraints);
-
-		constraints.gridx++;
-		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
-		constraints.insets.left = 0;
-		panel.add(keywordSpellingBox, constraints);
-
-		constraints.gridx++;
-		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
-		constraints.insets.left = 12;
-
-		label = new JLabel("Functions:");
-		label.setLabelFor(functionSpellingBox);
-		panel.add(label, constraints);
-
-		constraints.gridx++;
-		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
-		constraints.insets.left = 0;
-		panel.add(functionSpellingBox, constraints);
-
-		constraints.gridx++;
-		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
-		constraints.insets.left = 12;
-
-		label = new JLabel("Objects:");
-		label.setLabelFor(objectSpellingBox);
-		panel.add(label, constraints);
-
-		constraints.gridx++;
-		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
-		constraints.insets.left = 0;
-		constraints.insets.right = 12;
-		panel.add(objectSpellingBox, constraints);
-
-		// --------------------------------------------------------------------------------------------
-
-		constraints.gridx = 0;
-		constraints.gridy++;
-		constraints.anchor = GridBagConstraints.CENTER;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.gridwidth = 6;
-		constraints.insets.left = 12;
-		constraints.insets.right = 12;
-		panel.add(new JSeparator(JSeparator.HORIZONTAL), constraints);
-
-		constraints.gridy++;
-		label = new JLabel("Positioning");
-		label.setFont(label.getFont().deriveFont(Font.BOLD));
-		panel.add(label, constraints);
-
-		constraints.gridx = 0;
-		constraints.gridy++;
-		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
-		constraints.fill = GridBagConstraints.NONE;
-		constraints.gridwidth = 1;
-		constraints.insets.left = 12;
-		constraints.insets.right = 2;
-
-		label = new JLabel("Indent Width:");
-		label.setLabelFor(indentWidthField);
-		panel.add(label, constraints);
-
-		constraints.gridx++;
-		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
-		constraints.insets.left = 0;
-		panel.add(indentWidthField, constraints);
-
-		constraints.gridx++;
-		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
-		constraints.insets.left = 12;
-
-		label = new JLabel("Separation:");
-		label.setLabelFor(separationBox);
-		panel.add(label, constraints);
-
-		constraints.gridx++;
-		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
-		constraints.insets.left = 0;
-		panel.add(separationBox, constraints);
-
-		// --------------------------------------------------------------------------------------------
-
-		constraints.gridx = 0;
-		constraints.gridy++;
-		constraints.anchor = GridBagConstraints.CENTER;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.gridwidth = 6;
-		constraints.insets.left = 12;
-		constraints.insets.right = 12;
-		panel.add(new JSeparator(JSeparator.HORIZONTAL), constraints);
-
-		constraints.gridy++;
-		label = new JLabel("Dialect");
-		label.setFont(label.getFont().deriveFont(Font.BOLD));
-		panel.add(label, constraints);
-
-		constraints.gridx = 0;
-		constraints.gridy++;
-		constraints.anchor = GridBagConstraints.BASELINE_TRAILING;
-		constraints.fill = GridBagConstraints.NONE;
-		constraints.gridwidth = 3;
-		constraints.insets.left = 12;
-		constraints.insets.right = 2;
-
-		label = new JLabel("Squared Brackets Quotation:");
-		label.setLabelFor(squaredBracketQuotationBox);
-		panel.add(label, constraints);
-
-		constraints.gridx += 3;
-		constraints.anchor = GridBagConstraints.BASELINE_LEADING;
-		constraints.insets.left = 0;
-		panel.add(squaredBracketQuotationBox, constraints);
-
-		// --------------------------------------------------------------------------------------------
-
-		constraints.gridx = 0;
-		constraints.gridy++;
-		constraints.anchor = GridBagConstraints.CENTER;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.gridwidth = 6;
-		constraints.insets.left = 12;
-		constraints.insets.right = 12;
-		panel.add(new JSeparator(JSeparator.HORIZONTAL), constraints);
-
-		setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
-		add(panel);
-	}
-
-	public final void setOptions(Map<String, Object> optionsMap) {
-		String[] options = new String[optionsMap.size()];
-		int i = 0;
-		for (Entry<String, Object> e : optionsMap.entrySet()) {
-			options[i] = e.getKey() + "=" + e.getValue();
-			i++;
-		}
-		setOptions(options);
-	}
-
-	public final void setOptions(String optionStr) {
-		String[] options = optionStr.split(",");
-		setOptions(options);
-	}
-
-	public final void setOptions(String... options) {
-		if (options != null)
-			for (String s : options) {
-				String[] o = s.split("=");
-				if (o.length == 2) {
-					LOGGER.log(Level.FINE, "Found Formatting Option {0} = {1}", o);
-
-					String key = o[0].trim();
-					String value = o[1].trim();
-
-					if (key.equalsIgnoreCase(FormattingOption.OUTPUT_FORMAT.toString())) {
-						try {
-							outputFormatBox.setSelectedItem(OutputFormat.valueOf(value.toUpperCase()));
-						} catch (Exception ex) {
-							LOGGER.log(Level.WARNING, "Formatting Option {0} does not support {1} ", o);
-						}
-
-					} else if (key.equalsIgnoreCase(FormattingOption.KEYWORD_SPELLING.toString())) {
-						try {
-							keywordSpellingBox.setSelectedItem(Spelling.valueOf(value.toUpperCase()));
-						} catch (Exception ex) {
-							LOGGER.log(Level.WARNING, "Formatting Option {0} does not support {1} ", o);
-						}
-
-					} else if (key.equalsIgnoreCase(FormattingOption.FUNCTION_SPELLING.toString())) {
-						try {
-							functionSpellingBox.setSelectedItem(Spelling.valueOf(value.toUpperCase()));
-						} catch (Exception ex) {
-							LOGGER.log(Level.WARNING, "Formatting Option {0} does not support {1} ", o);
-						}
-
-					} else if (key.equalsIgnoreCase(FormattingOption.OBJECT_SPELLING.toString())) {
-						try {
-							objectSpellingBox.setSelectedItem(Spelling.valueOf(value.toUpperCase()));
-						} catch (Exception ex) {
-							LOGGER.log(Level.WARNING, "Formatting Option {0} does not support {1} ", o);
-						}
-
-					} else if (key.equalsIgnoreCase(FormattingOption.SEPARATION.toString())) {
-						try {
-							separationBox.setSelectedItem(Separation.valueOf(value.toUpperCase()));
-						} catch (Exception ex) {
-							LOGGER.log(Level.WARNING, "Formatting Option {0} does not support {1} ", o);
-						}
-
-					} else if (key.equalsIgnoreCase(FormattingOption.SQUARE_BRACKET_QUOTATION.toString())) {
-						try {
-							squaredBracketQuotationBox.setSelectedItem(
-									SquaredBracketQuotation.valueOf(value.toUpperCase()));
-						} catch (Exception ex) {
-							LOGGER.log(Level.WARNING, "Formatting Option {0} does not support {1} ", o);
-						}
-
-					} else if (key.equalsIgnoreCase(FormattingOption.INDENT_WIDTH.toString())) {
-						try {
-							Integer indentWidth = Integer.valueOf(value);
-							indentWidthField.setText(indentWidth.toString());
-						} catch (Exception ex) {
-							LOGGER.log(Level.WARNING, "Formatting Option {0} does not support {1} ", o);
-						}
-					} else {
-						LOGGER.log(Level.WARNING, "Unknown Formatting Option {0} = {1} ", o);
-					}
-
-				} else {
-					LOGGER.log(Level.WARNING, "Invalid Formatting Option {0}", s);
-				}
-			}
-	}
-
-	public final String getOptionString() {
-		StringBuilder builder = new StringBuilder();
-		String[] options = getOptions();
-
-		for (int i = 0; i < options.length; i++) {
-			if (i > 0)
-				builder.append(",");
-
-			builder.append(options[1]);
-		}
-		return null;
-	}
-
-	public final Map<String, Object> getOptionsMap() {
-		TreeMap<String, Object> map = new TreeMap<>();
-
-		map.put(FormattingOption.OUTPUT_FORMAT.toString(), outputFormatBox.getSelectedItem());
-		map.put(FormattingOption.KEYWORD_SPELLING.toString(), keywordSpellingBox.getSelectedItem());
-		map.put(FormattingOption.FUNCTION_SPELLING.toString(), functionSpellingBox.getSelectedItem());
-		map.put(FormattingOption.OBJECT_SPELLING.toString(), objectSpellingBox.getSelectedItem());
-
-		Integer indentWidth = Integer.parseInt(indentWidthField.getText());
-		map.put(FormattingOption.INDENT_WIDTH.toString(), indentWidth);
-
-		map.put(FormattingOption.SEPARATION.toString(), separationBox.getSelectedItem());
-		map.put(
-				FormattingOption.SQUARE_BRACKET_QUOTATION.toString(),
-				squaredBracketQuotationBox.getSelectedItem());
-
-		return map;
-	}
-
-	public final String[] getOptions() {
-		Map<String, Object> map = getOptionsMap();
-
-		String[] options = new String[map.size()];
-		int i = 0;
-		for (Entry<String, Object> e : map.entrySet()) {
-			options[i] = e.getKey() + "=" + e.getValue();
-			i++;
-		}
-		return options;
-	}
+	/**
+	 * This method is called from within the constructor to
+	 * initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is
+	 * always regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        separationBtnGrp = new javax.swing.ButtonGroup();
+        sbqBtnGrp = new javax.swing.ButtonGroup();
+        outputLbl = new javax.swing.JLabel();
+        formatLbl = new javax.swing.JLabel();
+        formatCmbBox = new javax.swing.JComboBox<>();
+        spellingLbl = new javax.swing.JLabel();
+        keywordsLbl = new javax.swing.JLabel();
+        keywordsCmbBox = new javax.swing.JComboBox<>();
+        functionsLbl = new javax.swing.JLabel();
+        functionsCmbBox = new javax.swing.JComboBox<>();
+        objectsLbl = new javax.swing.JLabel();
+        objectsCmbBox = new javax.swing.JComboBox<>();
+        positioningLbl = new javax.swing.JLabel();
+        indentWidthLbl = new javax.swing.JLabel();
+        indentWidthSpnr = new javax.swing.JSpinner();
+        separationLbl = new javax.swing.JLabel();
+        separationBeforeRdBtn = new javax.swing.JRadioButton();
+        separationAfterRdBtn = new javax.swing.JRadioButton();
+        dialectLbl = new javax.swing.JLabel();
+        sbqLbl = new javax.swing.JLabel();
+        sbqAutoRdBtn = new javax.swing.JRadioButton();
+        sbqYesRdBtn = new javax.swing.JRadioButton();
+        sbqNoRdBtn = new javax.swing.JRadioButton();
+
+        outputLbl.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(outputLbl, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.outputLbl.text")); // NOI18N
+
+        formatLbl.setLabelFor(formatCmbBox);
+        org.openide.awt.Mnemonics.setLocalizedText(formatLbl, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.formatLbl.text")); // NOI18N
+
+        formatCmbBox.setModel(new DefaultComboBoxModel<OutputFormat>(OutputFormat.values()));
+        formatCmbBox.setSelectedItem(JSQLFormatter.getOutputFormat());
+
+        spellingLbl.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(spellingLbl, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.spellingLbl.text")); // NOI18N
+
+        keywordsLbl.setLabelFor(keywordsCmbBox);
+        org.openide.awt.Mnemonics.setLocalizedText(keywordsLbl, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.keywordsLbl.text")); // NOI18N
+
+        keywordsCmbBox.setModel(new DefaultComboBoxModel<Spelling>(Spelling.values()));
+        keywordsCmbBox.setSelectedItem(JSQLFormatter.getKeywordSpelling());
+
+        functionsLbl.setLabelFor(functionsCmbBox);
+        org.openide.awt.Mnemonics.setLocalizedText(functionsLbl, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.functionsLbl.text")); // NOI18N
+
+        functionsCmbBox.setModel(new DefaultComboBoxModel<Spelling>(Spelling.values()));
+        functionsCmbBox.setSelectedItem(JSQLFormatter.getFunctionSpelling());
+
+        objectsLbl.setLabelFor(objectsCmbBox);
+        org.openide.awt.Mnemonics.setLocalizedText(objectsLbl, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.objectsLbl.text")); // NOI18N
+
+        objectsCmbBox.setModel(new DefaultComboBoxModel<Spelling>(Spelling.values()));
+        objectsCmbBox.setSelectedItem(JSQLFormatter.getObjectSpelling());
+
+        positioningLbl.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(positioningLbl, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.positioningLbl.text")); // NOI18N
+
+        indentWidthLbl.setLabelFor(indentWidthSpnr);
+        org.openide.awt.Mnemonics.setLocalizedText(indentWidthLbl, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.indentWidthLbl.text")); // NOI18N
+
+        indentWidthSpnr.setModel(new SpinnerNumberModel(JSQLFormatter.getIndentWidth(), 1, 24, 1));
+
+        separationLbl.setLabelFor(separationBeforeRdBtn);
+        org.openide.awt.Mnemonics.setLocalizedText(separationLbl, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.separationLbl.text")); // NOI18N
+
+        separationBtnGrp.add(separationBeforeRdBtn);
+        separationBeforeRdBtn.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(separationBeforeRdBtn, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.separationBeforeRdBtn.text")); // NOI18N
+
+        separationBtnGrp.add(separationAfterRdBtn);
+        org.openide.awt.Mnemonics.setLocalizedText(separationAfterRdBtn, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.separationAfterRdBtn.text")); // NOI18N
+
+        dialectLbl.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(dialectLbl, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.dialectLbl.text")); // NOI18N
+
+        sbqLbl.setLabelFor(sbqAutoRdBtn);
+        org.openide.awt.Mnemonics.setLocalizedText(sbqLbl, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.sbqLbl.text")); // NOI18N
+
+        sbqBtnGrp.add(sbqAutoRdBtn);
+        sbqAutoRdBtn.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(sbqAutoRdBtn, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.sbqAutoRdBtn.text")); // NOI18N
+
+        sbqBtnGrp.add(sbqYesRdBtn);
+        org.openide.awt.Mnemonics.setLocalizedText(sbqYesRdBtn, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.sbqYesRdBtn.text")); // NOI18N
+
+        sbqBtnGrp.add(sbqNoRdBtn);
+        org.openide.awt.Mnemonics.setLocalizedText(sbqNoRdBtn, org.openide.util.NbBundle.getMessage(JSQLFormatterOptionsPanel.class, "JSQLFormatterOptionsPanel.sbqNoRdBtn.text")); // NOI18N
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(outputLbl)
+                    .addComponent(spellingLbl)
+                    .addComponent(positioningLbl)
+                    .addComponent(dialectLbl)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(sbqLbl)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(sbqAutoRdBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(sbqYesRdBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(sbqNoRdBtn))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(indentWidthLbl)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(indentWidthSpnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(separationLbl)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(separationBeforeRdBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(separationAfterRdBtn))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(keywordsLbl)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(keywordsCmbBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(functionsLbl)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(functionsCmbBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(objectsLbl)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(objectsCmbBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(formatLbl)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(formatCmbBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(outputLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(formatLbl)
+                    .addComponent(formatCmbBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(spellingLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(keywordsLbl)
+                    .addComponent(keywordsCmbBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(functionsLbl)
+                    .addComponent(functionsCmbBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(objectsLbl)
+                    .addComponent(objectsCmbBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(positioningLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(indentWidthLbl)
+                    .addComponent(indentWidthSpnr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(separationLbl)
+                    .addComponent(separationBeforeRdBtn)
+                    .addComponent(separationAfterRdBtn))
+                .addGap(18, 18, 18)
+                .addComponent(dialectLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(sbqLbl)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(sbqAutoRdBtn)
+                        .addComponent(sbqYesRdBtn)
+                        .addComponent(sbqNoRdBtn)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel dialectLbl;
+    private javax.swing.JComboBox<OutputFormat> formatCmbBox;
+    private javax.swing.JLabel formatLbl;
+    private javax.swing.JComboBox<Spelling> functionsCmbBox;
+    private javax.swing.JLabel functionsLbl;
+    private javax.swing.JLabel indentWidthLbl;
+    private javax.swing.JSpinner indentWidthSpnr;
+    private javax.swing.JComboBox<Spelling> keywordsCmbBox;
+    private javax.swing.JLabel keywordsLbl;
+    private javax.swing.JComboBox<Spelling> objectsCmbBox;
+    private javax.swing.JLabel objectsLbl;
+    private javax.swing.JLabel outputLbl;
+    private javax.swing.JLabel positioningLbl;
+    private javax.swing.JRadioButton sbqAutoRdBtn;
+    private javax.swing.ButtonGroup sbqBtnGrp;
+    private javax.swing.JLabel sbqLbl;
+    private javax.swing.JRadioButton sbqNoRdBtn;
+    private javax.swing.JRadioButton sbqYesRdBtn;
+    private javax.swing.JRadioButton separationAfterRdBtn;
+    private javax.swing.JRadioButton separationBeforeRdBtn;
+    private javax.swing.ButtonGroup separationBtnGrp;
+    private javax.swing.JLabel separationLbl;
+    private javax.swing.JLabel spellingLbl;
+    // End of variables declaration//GEN-END:variables
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void load(Preferences preferences) {
-		TreeMap<String, Object> map = new TreeMap<>();
-		map.put(FormattingOption.OUTPUT_FORMAT.toString(), preferences.get(FormattingOption.OUTPUT_FORMAT.toString(), JSQLFormatter.getOutputFormat().toString()));
-		map.put(FormattingOption.KEYWORD_SPELLING.toString(), preferences.get(FormattingOption.KEYWORD_SPELLING.toString(), JSQLFormatter.getKeywordSpelling().toString()));
-		map.put(FormattingOption.FUNCTION_SPELLING.toString(), preferences.get(FormattingOption.FUNCTION_SPELLING.toString(), JSQLFormatter.getFunctionSpelling().toString()));
-		map.put(FormattingOption.OBJECT_SPELLING.toString(), preferences.get(FormattingOption.OBJECT_SPELLING.toString(), JSQLFormatter.getObjectSpelling().toString()));
-		map.put(FormattingOption.INDENT_WIDTH.toString(), preferences.getInt(FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth()));
-		map.put(FormattingOption.SEPARATION.toString(), preferences.get(FormattingOption.SEPARATION.toString(), JSQLFormatter.getSeparation().toString()));
-		map.put(FormattingOption.SQUARE_BRACKET_QUOTATION.toString(), preferences.get(FormattingOption.SQUARE_BRACKET_QUOTATION.toString(), JSQLFormatter.getSquaredBracketQuotation().toString()));
+		formatCmbBox.setSelectedItem(getEnumValue(preferences, JSQLFormatter.FormattingOption.OUTPUT_FORMAT, JSQLFormatter.getOutputFormat(), OutputFormat.class));
+		keywordsCmbBox.setSelectedItem(getEnumValue(preferences, JSQLFormatter.FormattingOption.KEYWORD_SPELLING, JSQLFormatter.getKeywordSpelling(), Spelling.class));
+		functionsCmbBox.setSelectedItem(getEnumValue(preferences, JSQLFormatter.FormattingOption.FUNCTION_SPELLING, JSQLFormatter.getFunctionSpelling(), Spelling.class));
+		objectsCmbBox.setSelectedItem(getEnumValue(preferences, JSQLFormatter.FormattingOption.OBJECT_SPELLING, JSQLFormatter.getObjectSpelling(), Spelling.class));
 
-		setOptions(map);
+		Separation separation = getEnumValue(preferences, JSQLFormatter.FormattingOption.SEPARATION, JSQLFormatter.getSeparation(), Separation.class);
+		switch (separation) {
+			case AFTER:
+				separationAfterRdBtn.setSelected(true);
+				break;
+			default:
+				separationBeforeRdBtn.setSelected(true);
+				break;
+		}
+
+		SquaredBracketQuotation squaredBracketQuotation = getEnumValue(preferences, FormattingOption.SQUARE_BRACKET_QUOTATION, JSQLFormatter.getSquaredBracketQuotation(), SquaredBracketQuotation.class);
+		switch (squaredBracketQuotation) {
+			case YES:
+				sbqYesRdBtn.setSelected(true);
+				break;
+			case NO:
+				sbqNoRdBtn.setSelected(true);
+				break;
+			default:
+				sbqAutoRdBtn.setSelected(true);
+				break;
+		}
+
+		indentWidthSpnr.setValue(preferences.getInt(FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth()));
 	}
 
 	/**
@@ -488,13 +302,28 @@ public class JSQLFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
 	 */
 	@Override
 	public void store(Preferences preferences) {
-		Map<String, Object> map = getOptionsMap();
+		preferences.put(FormattingOption.OUTPUT_FORMAT.toString(), String.valueOf(formatCmbBox.getSelectedItem()));
+		preferences.put(FormattingOption.KEYWORD_SPELLING.toString(), String.valueOf(keywordsCmbBox.getSelectedItem()));
+		preferences.put(FormattingOption.FUNCTION_SPELLING.toString(), String.valueOf(functionsCmbBox.getSelectedItem()));
+		preferences.put(FormattingOption.OBJECT_SPELLING.toString(), String.valueOf(objectsCmbBox.getSelectedItem()));
 
-		int i = 0;
-		for (Entry<String, Object> e : map.entrySet()) {
-			preferences.put(e.getKey(), e.getValue().toString());
-			i++;
+		preferences.putInt(FormattingOption.INDENT_WIDTH.toString(), Integer.parseInt(String.valueOf(indentWidthSpnr.getValue())));
+
+		Separation separation = Separation.BEFORE;
+		if (separationAfterRdBtn.isSelected()) {
+			separation = Separation.AFTER;
 		}
+
+		preferences.put(FormattingOption.SEPARATION.toString(), separation.toString());
+
+		SquaredBracketQuotation squaredBracketQuotation = SquaredBracketQuotation.AUTO;
+		if (sbqYesRdBtn.isSelected()) {
+			squaredBracketQuotation = SquaredBracketQuotation.YES;
+		} else if (sbqNoRdBtn.isSelected()) {
+			squaredBracketQuotation = SquaredBracketQuotation.NO;
+		}
+
+		preferences.put(FormattingOption.SQUARE_BRACKET_QUOTATION.toString(), squaredBracketQuotation.toString());
 	}
 
 	/**
@@ -502,17 +331,19 @@ public class JSQLFormatterOptionsPanel extends AbstractFormatterOptionsPanel {
 	 */
 	@Override
 	public boolean valid() {
-		String text = indentWidthField.getText();
-		try {
-			int i = Integer.parseInt(text.trim());
-			if (i >= 0 && i < 24) {
-				indentWidthField.setBackground(validBackgroundColor);
-				return true;
-			} else
-				throw new Exception("The Indent Width must be an Integer between 0 and 24.");
-		} catch (Exception ex) {
-			indentWidthField.setBackground(Color.orange);
-			return false;
+		return true;
+	}
+
+	private <E extends Enum<E>> E getEnumValue(Preferences preferences, FormattingOption formattingOption, E defaultValue, Class<E> enumType) {
+		if (preferences != null && formattingOption != null && enumType != null) {
+			String value = preferences.get(formattingOption.toString(), null);
+			if (StringUtils.isNotBlank(value)) {
+				value = StringUtils.upperCase(value);
+
+				return Enum.valueOf(enumType, value);
+			}
 		}
+
+		return defaultValue;
 	}
 }

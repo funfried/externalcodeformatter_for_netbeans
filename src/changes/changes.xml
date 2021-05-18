@@ -8,6 +8,12 @@
 	</properties>
 
 	<body>
+		<release version="1.14.1" date="N/A" description="Support for SQL formatter">
+			<action dev="manticore-projects" type="add" issue="146">
+				Added manticore JSQLFormatter
+			</action>
+		</release>
+
 		<release version="1.14.0" date="2020-08-25" description="Support for formatters for programming languages other than Java">
 			<action dev="bahlef" type="add" issue="101">
 				Added Spring Java Formatter

@@ -107,9 +107,9 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 * Creates a new instance of {@link ExternalFormatterPanel}.
 	 *
 	 * @param preferences the {@link Preferences}
-	 * @param project     the {@link Project} which this panel is used to change the
-	 *                    settings for or {@code null} if this panel is used to
-	 *                    change the global settings
+	 * @param project the {@link Project} which this panel is used to change the
+	 *        settings for or {@code null} if this panel is used to
+	 *        change the global settings
 	 */
 	public ExternalFormatterPanel(Preferences preferences, Project project) {
 		this.preferences = preferences;
@@ -190,9 +190,9 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	/**
 	 * Sets the currently active formatter for the given {@code mimeType}.
 	 *
-	 * @param mimeType    the mime type
+	 * @param mimeType the mime type
 	 * @param formatterId the formatter service ID
-	 * @param fireChange  {@code true} to fire the change listener
+	 * @param fireChange {@code true} to fire the change listener
 	 */
 	private void setActiveFormatter(MimeType mimeType, String formatterId, boolean fireChange) {
 		activeFormatterId.put(mimeType, formatterId);
@@ -207,7 +207,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 * if this {@link FormatterOptionsPanel} is requested for the first time the preferences will also be
 	 * loaded.
 	 *
-	 * @param mimeType    the mime type
+	 * @param mimeType the mime type
 	 * @param formatterId the formatter service ID
 	 *
 	 * @return the {@link FormatterOptionsPanel} for the given {@code mimeType} and {@code formatterId},

@@ -9,7 +9,22 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter;
 
+import java.util.SortedSet;
+import java.util.prefs.Preferences;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
+import org.netbeans.api.project.Project;
+import org.openide.util.NbBundle;
+import org.openide.util.lookup.ServiceProvider;
+
 import com.manticore.jsqlformatter.JSQLFormatter;
+
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.MimeType;
@@ -18,17 +33,6 @@ import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFor
 import de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter.ui.JSQLFormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
-import java.util.SortedSet;
-import java.util.prefs.Preferences;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.StyledDocument;
-import org.apache.commons.lang3.tuple.Pair;
-import org.netbeans.api.annotations.common.CheckForNull;
-import org.netbeans.api.annotations.common.NonNull;
-import org.netbeans.api.project.Project;
-import org.openide.util.NbBundle;
-import org.openide.util.lookup.ServiceProvider;
 
 /**
  * JSQLFormatter implementation of the {@link AbstractJavaFormatterService}.
@@ -76,6 +80,7 @@ public class JSQLFormatterService implements FormatterService {
 		if (document == null) {
 			return false;
 		}
+
 		return getSupportedMimeType().canHandle(MimeType.getMimeTypeAsString(document));
 	}
 
@@ -115,9 +120,13 @@ public class JSQLFormatterService implements FormatterService {
 			return null;
 		}
 
-		Preferences prefs = Settings.getActivePreferences(document);
-		int width = prefs.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
-		
+		Integer width = null;
+
+		Preferences preferences = Settings.getActivePreferences(document);
+		if (isUseFormatterIndentationSettings(preferences)) {
+			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
+		}
+
 		return width;
 	}
 
@@ -131,8 +140,12 @@ public class JSQLFormatterService implements FormatterService {
 			return null;
 		}
 
-		Preferences prefs = Settings.getActivePreferences(document);
-		int width = prefs.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
+		Integer width = null;
+
+		Preferences preferences = Settings.getActivePreferences(document);
+		if (isUseFormatterIndentationSettings(preferences)) {
+			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
+		}
 
 		return width;
 	}
@@ -146,6 +159,7 @@ public class JSQLFormatterService implements FormatterService {
 		if (document == null) {
 			return null;
 		}
+
 		return 120;
 	}
 
@@ -166,9 +180,13 @@ public class JSQLFormatterService implements FormatterService {
 			return null;
 		}
 
-		Preferences prefs = Settings.getActivePreferences(document);
-		int width = prefs.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
-		
+		Integer width = null;
+
+		Preferences preferences = Settings.getActivePreferences(document);
+		if (isUseFormatterIndentationSettings(preferences)) {
+			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());
+		}
+
 		return width;
 	}
 
@@ -178,7 +196,16 @@ public class JSQLFormatterService implements FormatterService {
 	@CheckForNull
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
-		return Boolean.TRUE;
+		if (document == null) {
+			return null;
+		}
+
+		Preferences preferences = Settings.getActivePreferences(document);
+		if (isUseFormatterIndentationSettings(preferences)) {
+			return Boolean.TRUE;
+		}
+
+		return null;
 	}
 
 	/**
