@@ -30,7 +30,7 @@ public abstract class AbstractJavaFormatterService implements FormatterService {
 	/**
 	 * Returns the {@link FormatJob}.
 	 *
-	 * @param document        the {@link StyledDocument} which should be formatted
+	 * @param document the {@link StyledDocument} which should be formatted
 	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
 	 */
 	protected abstract FormatJob getFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements);

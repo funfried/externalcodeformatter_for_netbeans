@@ -58,7 +58,7 @@ public class ProjectSpecificSettingsPanel extends JPanel implements VerifiableCo
 	/**
 	 * Package private constructor to create a new instance of {@link ProjectSpecificSettingsPanel}.
 	 *
-	 * @param innerComponent     the {@link ExternalFormatterPanel}
+	 * @param innerComponent the {@link ExternalFormatterPanel}
 	 * @param projectPreferences the project specific {@link Preferences}
 	 */
 	ProjectSpecificSettingsPanel(ExternalFormatterPanel innerComponent, Preferences projectPreferences) {

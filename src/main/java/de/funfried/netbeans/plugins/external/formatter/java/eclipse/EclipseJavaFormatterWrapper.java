@@ -51,19 +51,19 @@ public final class EclipseJavaFormatterWrapper {
 	 * Formats the given {@code code} with the given configurations and returns
 	 * the formatted code.
 	 *
-	 * @param formatterFile    the path to the formatter configuration file
+	 * @param formatterFile the path to the formatter configuration file
 	 * @param formatterProfile the name of the formatter configuration profile
-	 * @param code             the unformatted code
-	 * @param lineFeed         the line feed to use for formatting
-	 * @param sourceLevel      the source level to use for formatting
-	 * @param changedElements  a {@link SortedSet} containing ranges as {@link Pair} objects defining the offsets which should be formatted
+	 * @param code the unformatted code
+	 * @param lineFeed the line feed to use for formatting
+	 * @param sourceLevel the source level to use for formatting
+	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
 	 *
-	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
-	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws ConfigReadException if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException if the given {@code profile} could not be found
 	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
-	 * @throws FormattingFailedException        if the external formatter failed to format the given code
+	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
 	@CheckForNull
 	public String format(String formatterFile, String formatterProfile, String code, String lineFeed, String sourceLevel, SortedSet<Pair<Integer, Integer>> changedElements)
@@ -104,14 +104,14 @@ public final class EclipseJavaFormatterWrapper {
 	 * the formatted code.
 	 *
 	 * @param formatter the {@link CodeFormatter}
-	 * @param code      the unformatted code
-	 * @param lineFeed  the line feed to use for formatting
-	 * @param regions   an array containing {@link IRegion} objects defining the offsets which should be formatted
+	 * @param code the unformatted code
+	 * @param lineFeed the line feed to use for formatting
+	 * @param regions an array containing {@link IRegion} objects defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
 	 *
 	 * @throws FormattingFailedException if the external formatter failed to format the given code
-	 * @throws IllegalArgumentException  if the given {@code regions} are invalid
+	 * @throws IllegalArgumentException if the given {@code regions} are invalid
 	 */
 	@CheckForNull
 	private String format(@NonNull CodeFormatter formatter, @NonNull String code, @NonNull IRegion[] regions, String lineFeed) throws FormattingFailedException, IllegalArgumentException {

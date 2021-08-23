@@ -506,6 +506,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	 * {@inheritDoc}
 	 */
 	@Override
+	@SuppressWarnings("deprecation")
 	public void load() {
 		MimeType selectedMimeType = MimeType.valueOf(getSelectedValue(chooseMimeTypeCmbBox));
 		String javaMimeType = JavaTokenId.language().mimeType();

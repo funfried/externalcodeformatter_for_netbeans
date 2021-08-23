@@ -86,7 +86,7 @@
 
 	<ciManagement>
 		<system>travis</system>
-		<url>https://travis-ci.org/funfried/externalcodeformatter_for_netbeans/</url>
+		<url>https://app.travis-ci.com/github/funfried/externalcodeformatter_for_netbeans/</url>
 	</ciManagement>
 
 	<distributionManagement>
@@ -113,102 +113,20 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<google-java-format.version>1.10.0</google-java-format.version>
+		<google-java-format.version>1.11.0</google-java-format.version>
 		<xml-formatter.version>0.2.2</xml-formatter.version>
 		<commons-lang.version>3.12.0</commons-lang.version>
-		<netbeans.version>RELEASE110</netbeans.version>
-		<jackson.version>2.12.3</jackson.version>
-		<jsoup.version>1.13.1</jsoup.version>
+		<netbeans.version>RELEASE120</netbeans.version>
+		<jackson.version>2.12.4</jackson.version>
+		<jsoup.version>1.14.2</jsoup.version>
 	</properties>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.core.commands</artifactId>
-				<version>3.9.800</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.core.contenttype</artifactId>
-				<version>3.7.900</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.core.expressions</artifactId>
-				<version>3.7.100</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.core.filesystem</artifactId>
-				<version>1.7.700</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.core.jobs</artifactId>
-				<version>3.10.1100</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.core.resources</artifactId>
-				<version>3.14.0</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.core.runtime</artifactId>
-				<version>3.20.100</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.equinox.app</artifactId>
-				<version>1.5.100</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.equinox.common</artifactId>
-				<version>3.14.100</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.equinox.preferences</artifactId>
-				<version>3.8.200</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.equinox.registry</artifactId>
-				<version>3.10.100</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.osgi</artifactId>
-				<version>3.16.200</version>
-			</dependency>
-			<dependency>
-				<!-- transitive dependency of jdt.core resolved here to avoid version range -->
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.text</artifactId>
-				<version>3.11.0</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<dependencies>
 		<!-- Eclipse Formatter -->
 		<dependency>
 			<groupId>org.eclipse.platform</groupId>
 			<artifactId>org.eclipse.text</artifactId>
+			<version>3.12.0</version>
 		</dependency>
 
 		<!-- Eclipse Java Formatter -->
@@ -237,12 +155,6 @@
 			<groupId>com.google.googlejavaformat</groupId>
 			<artifactId>google-java-format</artifactId>
 			<version>${google-java-format.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- XML Formatter -->
@@ -437,7 +349,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.8.0</version>
+			<version>2.11.0</version>
 		</dependency>
 
 		<dependency>
@@ -521,7 +433,7 @@
 				<plugin>
 					<groupId>net.revelc.code.formatter</groupId>
 					<artifactId>formatter-maven-plugin</artifactId>
-					<version>2.15.0</version>
+					<version>2.16.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -556,7 +468,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>3.2.0</version>
+					<version>3.3.0</version>
 					<configuration>
 						<quiet>true</quiet>
 						<doclint>all,-missing</doclint>
@@ -570,7 +482,7 @@
 							<link>https://bits.netbeans.org/dev/javadoc/org-netbeans-modules-editor-indent/</link>
 							<link>https://commons.apache.org/proper/commons-lang/javadocs/api-release/</link>
 							<!-- Cannot be embedded in version 1.9 because there seems to be a class referenced in JavaDoc which is not in the classpath -->
-							<!--							<link>https://javadoc.io/doc/com.google.googlejavaformat/google-java-format/${google-java-format.version}/</link>-->
+							<link>https://javadoc.io/doc/com.google.googlejavaformat/google-java-format/${google-java-format.version}/</link>
 							<link>https://javadoc.io/doc/net.revelc.code.formatter/xml-formatter/${xml-formatter.version}/</link>
 							<link>https://javadoc.io/doc/org.jsoup/jsoup/${jsoup.version}/</link>
 						</links>
@@ -585,6 +497,11 @@
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>versions-maven-plugin</artifactId>
 					<version>2.8.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>jdepend-maven-plugin</artifactId>
+					<version>2.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -617,7 +534,7 @@
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.8.6</version>
+					<version>0.8.7</version>
 					<configuration>
 						<excludes>
 							<exclude>de/funfried/netbeans/plugins/external/formatter/**/Bundle.class</exclude>
@@ -643,12 +560,20 @@
 				<plugin>
 					<groupId>com.github.spotbugs</groupId>
 					<artifactId>spotbugs-maven-plugin</artifactId>
-					<version>4.2.3</version>
+					<version>4.3.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.owasp</groupId>
 					<artifactId>dependency-check-maven</artifactId>
-					<version>6.1.6</version>
+					<version>6.2.2</version>
+					<configuration>
+						<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.sonatype.ossindex.maven</groupId>
+					<artifactId>ossindex-maven-plugin</artifactId>
+					<version>3.1.0</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -672,6 +597,22 @@
 				<configuration>
 					<release>${java.version}</release>
 					<forceJavacCompilerUse>true</forceJavacCompilerUse>
+					<fork>true</fork>
+					<compilerArgs>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=java.base/sun.nio.ch=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=java.base/java.net=ALL-UNNAMED</arg>
+						<arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+						<arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+						<arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+						<arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+						<arg>-J--add-opens=java.base/java.net=ALL-UNNAMED</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -746,6 +687,24 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>
+						-Xmx1024m
+						--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED
+						--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED
+						--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED
+						--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED
+						--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED
+						--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED
+						--add-exports=java.base/sun.nio.ch=ALL-UNNAMED
+						--add-exports=java.base/java.net=ALL-UNNAMED
+						--add-opens=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED
+						--add-opens=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED
+						--add-opens=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED
+						--add-opens=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED
+						--add-opens=java.base/java.net=ALL-UNNAMED
+					</argLine>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -781,6 +740,19 @@
 						<configuration>
 							<failOnWarning>true</failOnWarning>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.ossindex.maven</groupId>
+				<artifactId>ossindex-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>audit-dependencies</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>audit</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
@@ -853,6 +825,19 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
+				<configuration>
+					<plugins>
+						<plugin>
+							<groupId>com.h3xstream.findsecbugs</groupId>
+							<artifactId>findsecbugs-plugin</artifactId>
+							<version>1.11.0</version>
+						</plugin>
+					</plugins>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jdepend-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.owasp</groupId>

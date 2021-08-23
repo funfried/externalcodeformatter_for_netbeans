@@ -27,12 +27,12 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoun
  *
  * @author bahlef
  */
+@SuppressWarnings("unchecked")
 public final class EclipseFormatterConfig {
 	/** Prefix for workspace mechanic files. */
 	private static final String WORKSPACE_MECHANIC_PREFIX = "/instance/org.eclipse.jdt.core/";
 
 	/** Default configuration of the Eclipse Java formatter. */
-	@SuppressWarnings("unchecked")
 	private static final Map<String, String> ECLIPSE_JAVA_FORMATTER_DEFAULTS = new LinkedHashMap<>();
 
 	static {
@@ -73,14 +73,14 @@ public final class EclipseFormatterConfig {
 	 * given formatter configuration file and returns it as a {@link Map}
 	 * containing the configuration as key value pairs.
 	 *
-	 * @param formatterFile    the path to the formatter configuration file
+	 * @param formatterFile the path to the formatter configuration file
 	 * @param formatterProfile the name of the formatter configuration profile
-	 * @param sourceLevel      the source level to use for formatting
+	 * @param sourceLevel the source level to use for formatting
 	 *
 	 * @return a {@link Map} containing the configuration as key value pairs
 	 *
-	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
-	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws ConfigReadException if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException if the given {@code profile} could not be found
 	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
 	 */
 	public static Map<String, String> parseConfig(String formatterFile, String formatterProfile, String sourceLevel)

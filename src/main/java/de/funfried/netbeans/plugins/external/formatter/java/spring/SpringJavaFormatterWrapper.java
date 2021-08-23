@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.SortedSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -34,6 +36,9 @@ import io.spring.javaformat.formatter.Formatter;
  * @author bahlef
  */
 public final class SpringJavaFormatterWrapper {
+	/** Use to specify the kind of the code snippet to format. */
+	private static final int FORMATTER_OPTS = CodeFormatter.K_COMPILATION_UNIT | CodeFormatter.F_INCLUDE_COMMENTS /* + CodeFormatter.K_CLASS_BODY_DECLARATIONS + CodeFormatter.K_STATEMENTS */;
+
 	/** The Spring {@link Formatter}. */
 	private final Formatter formatter = new Formatter();
 
@@ -47,10 +52,10 @@ public final class SpringJavaFormatterWrapper {
 	 * Formats the given {@code code} with the given configurations and returns
 	 * the formatted code.
 	 *
-	 * @param code            the unformatted code
-	 * @param lineFeed        the line feed to use for formatting
+	 * @param code the unformatted code
+	 * @param lineFeed the line feed to use for formatting
 	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair}
-	 *                        objects defining the offsets which should be formatted
+	 *        objects defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
 	 *
@@ -89,9 +94,9 @@ public final class SpringJavaFormatterWrapper {
 	 * the formatted code.
 	 *
 	 * @param formatter the {@link CodeFormatter}
-	 * @param code      the unformatted code
-	 * @param lineFeed  the line feed to use for formatting
-	 * @param regions   an array containing {@link IRegion} objects defining the offsets which should be formatted
+	 * @param code the unformatted code
+	 * @param lineFeed the line feed to use for formatting
+	 * @param regions an array containing {@link IRegion} objects defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
 	 *
@@ -102,7 +107,8 @@ public final class SpringJavaFormatterWrapper {
 		String formattedCode = null;
 
 		try {
-			TextEdit te = formatter.format(code, regions, lineFeed);
+			TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);
+			//TextEdit te = formatter.format(code, regions, lineFeed);
 			if (te != null && te.getChildrenSize() > 0) {
 				IDocument dc = new Document(code);
 				te.apply(dc);
@@ -116,6 +122,8 @@ public final class SpringJavaFormatterWrapper {
 		} catch (FormattingFailedException | IllegalArgumentException ex) {
 			throw ex;
 		} catch (Exception ex) {
+			Logger.getLogger(SpringJavaFormatterWrapper.class.getName()).log(Level.SEVERE, "Formatting ran into", ex);
+
 			throw new FormattingFailedException(ex);
 		}
 
