@@ -193,7 +193,7 @@ public class EclipseJavaFormatterWrapperTest {
 		try {
 			instance.format("src/test/resources/3rdPartyFormatter_org.eclipse.jdt.core.prefs", null, text, null, null, null);
 		} catch (Exception e) {
-			Assert.assertEquals(true, e.getMessage().contains("The use of third-party Java code formatters is not supported by this plugin."));
+			Assert.assertTrue(e.getMessage(), e.getMessage().contains("The use of third-party Java code formatters is not supported by this plugin."));
 		}
 	}
 
@@ -285,7 +285,7 @@ public class EclipseJavaFormatterWrapperTest {
 		try {
 			instance.format("src/test/resources/formattersampleeclipse.xml", null, text, null, null, null);
 		} catch (ProfileNotFoundException e) {
-			Assert.assertEquals(true, e.getMessage().contains("Profile null not found"));
+			Assert.assertTrue(e.getMessage(), e.getMessage().contains("Profile null not found"));
 		}
 	}
 
@@ -310,7 +310,7 @@ public class EclipseJavaFormatterWrapperTest {
 		try {
 			instance.format("src/test/resources/formattersampleeclipse.xml", "myProfile", text, null, null, null);
 		} catch (ProfileNotFoundException e) {
-			Assert.assertEquals(true, e.getMessage().contains("Profile myProfile not found"));
+			Assert.assertTrue(e.getMessage(), e.getMessage().contains("Profile myProfile not found"));
 		}
 	}
 
@@ -321,7 +321,7 @@ public class EclipseJavaFormatterWrapperTest {
 		try {
 			instance.format("src/test/resources/defectformattersampleeclipse.xml", "myProfile", text, null, null, null);
 		} catch (ConfigReadException e) {
-			Assert.assertEquals(true, e.getMessage().contains("No <profiles> tag found in config file"));
+			Assert.assertTrue(e.getMessage(), e.getMessage().contains("No <profiles> tag found in config file"));
 		}
 	}
 
@@ -332,7 +332,7 @@ public class EclipseJavaFormatterWrapperTest {
 		try {
 			instance.format("src/test/resources/notexistent.xml", "myProfile", text, null, null, null);
 		} catch (CannotLoadConfigurationException e) {
-			Assert.assertEquals(true, e.getMessage().contains("src" + File.separator + "test" + File.separator + "resources" + File.separator + "notexistent.xml"));
+			Assert.assertTrue(e.getMessage(), e.getMessage().contains("src" + File.separator + "test" + File.separator + "resources" + File.separator + "notexistent.xml"));
 		}
 	}
 

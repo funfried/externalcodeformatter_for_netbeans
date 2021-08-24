@@ -302,7 +302,7 @@ public class GoogleJavaFormatterWrapperTest {
 		try {
 			instance.format(text, JavaFormatterOptions.Style.GOOGLE, null);
 		} catch (RuntimeException ex) {
-			Assert.assertEquals(true, ex.getMessage().contains("class, interface, enum, or record expected"));
+			Assert.assertTrue(ex.getMessage(), ex.getMessage().contains("class, interface, enum, or record expected"));
 		}
 	}
 
@@ -316,7 +316,7 @@ public class GoogleJavaFormatterWrapperTest {
 		try {
 			instance.format(text, JavaFormatterOptions.Style.GOOGLE, regions);
 		} catch (RuntimeException ex) {
-			Assert.assertEquals(true, ex.getMessage().contains("invalid length"));
+			Assert.assertTrue(ex.getMessage(), ex.getMessage().contains("invalid length"));
 		}
 	}
 }
