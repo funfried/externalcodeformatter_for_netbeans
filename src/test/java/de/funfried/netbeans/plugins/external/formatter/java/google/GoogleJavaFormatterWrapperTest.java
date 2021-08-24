@@ -302,7 +302,7 @@ public class GoogleJavaFormatterWrapperTest {
 		try {
 			instance.format(text, JavaFormatterOptions.Style.GOOGLE, null);
 		} catch (RuntimeException ex) {
-			Assert.assertTrue(ex.getMessage(), ex.getMessage().contains("class, interface, enum, or record expected"));
+			Assert.assertTrue(ex.getMessage(), ex.getMessage().contains("class, interface, or enum expected") || ex.getMessage().contains("class, interface, enum, or record expected"));
 		}
 	}
 
