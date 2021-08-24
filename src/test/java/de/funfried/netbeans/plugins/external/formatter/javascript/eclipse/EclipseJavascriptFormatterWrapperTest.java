@@ -150,7 +150,7 @@ public class EclipseJavascriptFormatterWrapperTest {
 		try {
 			instance.format("src/test/resources/jsformattersampleeclipse.xml", null, text, null, null);
 		} catch (ProfileNotFoundException e) {
-			Assert.assertEquals(true, e.getMessage().contains("Profile null not found"));
+			Assert.assertTrue(e.getMessage(), e.getMessage().contains("Profile null not found"));
 		}
 	}
 
@@ -176,7 +176,7 @@ public class EclipseJavascriptFormatterWrapperTest {
 		try {
 			instance.format("src/test/resources/jsformattersampleeclipse.xml", "myProfile", text, null, null);
 		} catch (ProfileNotFoundException e) {
-			Assert.assertEquals(true, e.getMessage().contains("Profile myProfile not found"));
+			Assert.assertTrue(e.getMessage(), e.getMessage().contains("Profile myProfile not found"));
 		}
 	}
 
@@ -187,7 +187,7 @@ public class EclipseJavascriptFormatterWrapperTest {
 		try {
 			instance.format("src/test/resources/defectjsformattersampleeclipse.xml", "myProfile", text, null, null);
 		} catch (ConfigReadException e) {
-			Assert.assertEquals(true, e.getMessage().contains("No <profiles> tag found in config file"));
+			Assert.assertTrue(e.getMessage(), e.getMessage().contains("No <profiles> tag found in config file"));
 		}
 	}
 
@@ -198,7 +198,7 @@ public class EclipseJavascriptFormatterWrapperTest {
 		try {
 			instance.format("src/test/resources/notexistent.xml", "myProfile", text, null, null);
 		} catch (CannotLoadConfigurationException e) {
-			Assert.assertEquals(true, e.getMessage().contains("src" + File.separator + "test" + File.separator + "resources" + File.separator + "notexistent.xml"));
+			Assert.assertTrue(e.getMessage(), e.getMessage().contains("src" + File.separator + "test" + File.separator + "resources" + File.separator + "notexistent.xml"));
 		}
 	}
 

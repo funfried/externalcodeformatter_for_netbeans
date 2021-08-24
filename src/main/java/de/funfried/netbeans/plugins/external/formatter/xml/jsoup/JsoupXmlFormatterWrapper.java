@@ -38,9 +38,9 @@ public final class JsoupXmlFormatterWrapper {
 	 * Formats the given {@code code} with the given configurations and returns
 	 * the formatted code.
 	 *
-	 * @param code     the unformatted code
+	 * @param code the unformatted code
 	 * @param lineFeed the line feed to use for formatting
-	 * @param options  the {@link Document.OutputSettings}
+	 * @param options the {@link Document.OutputSettings}
 	 *
 	 * @return the formatted code
 	 */
@@ -68,8 +68,8 @@ public final class JsoupXmlFormatterWrapper {
 	 * Formats the given {@code code} with the given configurations and returns
 	 * the formatted code.
 	 *
-	 * @param options  the {@link Document.OutputSettings}
-	 * @param code     the unformatted code
+	 * @param options the {@link Document.OutputSettings}
+	 * @param code the unformatted code
 	 * @param lineFeed the line feed to use for formatting
 	 *
 	 * @return the formatted code

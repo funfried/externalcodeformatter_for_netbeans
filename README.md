@@ -5,7 +5,7 @@ Keep this project alive by supporting it: one-time [![Donate](https://www.paypal
 [![Coverage Status](https://coveralls.io/repos/github/funfried/externalcodeformatter_for_netbeans/badge.svg?branch=master)](https://coveralls.io/github/funfried/externalcodeformatter_for_netbeans?branch=master)
 [![Code Coverage](https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans/branch/master/graph/badge.svg)](https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7d825731274a4f4783e4203eb7cbf811)](https://www.codacy.com/manual/funfried/externalcodeformatter_for_netbeans?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=funfried/externalcodeformatter_for_netbeans&amp;utm_campaign=Badge_Grade)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/)
+[![Maven Central](https://img.shields.io/maven-central/v/de.funfried.netbeans.plugins/externalcodeformatter)](https://repo1.maven.org/maven2/de/funfried/netbeans/plugins/externalcodeformatter/)
 [![GitHub All Releases](https://img.shields.io/github/downloads/funfried/externalcodeformatter_for_netbeans/total)](https://github.com/funfried/externalcodeformatter_for_netbeans/releases)
 [![GitHub issues](https://img.shields.io/github/issues/funfried/externalcodeformatter_for_netbeans)](https://github.com/funfried/externalcodeformatter_for_netbeans/issues)
 [![Eclipse Public License, Version 2.0](https://img.shields.io/badge/license-EPL%20v2.0-green)](http://funfried.github.io/externalcodeformatter_for_netbeans/licenses.html)
@@ -69,7 +69,7 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 
 Compatibility
 -------------
-Compatible with NetBeans 11.0+ and JDK 11+.
+Compatible with NetBeans 12.0+ and JDK 11+.
 
 Downloads
 ---------
