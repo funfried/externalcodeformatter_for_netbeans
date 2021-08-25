@@ -11,17 +11,21 @@ package de.funfried.netbeans.plugins.external.formatter.eclipse.xml;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.StringReader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.NonNull;
-import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileUtil;
 import org.openide.xml.XMLUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -40,6 +44,8 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoun
  * @author bahlef
  */
 public class ConfigReader {
+	private static final Logger log = Logger.getLogger(ConfigReader.class.getName());
+
 	public static final String ATTRIBUTE_PROFILE_KIND = "kind";
 
 	public static final String ATTRIBUTE_PROFILE_NAME = "name";
@@ -57,58 +63,44 @@ public class ConfigReader {
 	public static final String PROFILE_KIND = "CodeFormatterProfile";
 
 	/**
-	 * Creates a {@link FileObject} from the given {@code filePath} and returns it.
+	 * Reads the content of the given file path and returns it as a {@link String}.
 	 *
-	 * @param filePath the path to a file which should be turned into a {@link FileObject}
+	 * @param filePath a file path
 	 *
-	 * @return a {@link FileObject} representing the given {@code filePath}
+	 * @return the content of the file at the fiven {@code filePath}
 	 *
-	 * @throws IOException if there is an I/O issue while trying to access the given {@code filePath}
-	 */
-	public static FileObject toFileObject(String filePath) throws IOException {
-		if (StringUtils.isBlank(filePath)) {
-			throw new IOException("File path cannot be empty");
-		}
-
-		return ConfigReader.toFileObject(new File(filePath));
-	}
-
-	/**
-	 * Creates a {@link FileObject} from the given {@link File} and returns it.
-	 *
-	 * @param file the {@link File} which should be turned into a {@link FileObject}
-	 *
-	 * @return a {@link FileObject} representing the given {@link File}
-	 *
-	 * @throws IOException if there is an I/O issue while trying to access the given {@link File}
-	 */
-	public static FileObject toFileObject(File file) throws IOException {
-		if (file == null || !file.exists() || !file.canRead()) {
-			throw new IOException("Could not access file: " + (file != null ? file.getAbsolutePath() : null));
-		}
-
-		file = FileUtil.normalizeFile(file);
-
-		return FileUtil.toFileObject(file);
-	}
-
-	/**
-	 * Parses and returns the key/value pairs from the given {@link FileObject} for the given {@code profileName} as a {@link Map}.
-	 *
-	 * @param fileObject  the {@link FileObject} to parse
-	 * @param profileName the profile name for which to get the settings
-	 *
-	 * @return a {@link Map} within all the configuration paramters of the given {@code profileName} read from the given {@link FileObject},
-	 *         or throws an exception if there's a problem reading the input, e.g.: invalid XML.
-	 *
-	 * @throws SAXException             if there are parsing issues
-	 * @throws IOException              if there is an I/O issue
-	 * @throws ConfigReadException      if the given {@link FileObject} is not a valid Eclipse formatter template
-	 * @throws ProfileNotFoundException if no profile could be found with the given {@code profileName} in the given {@link FileObject}
+	 * @throws IOException if there is an issue accessing the file at the given path
 	 */
 	@NonNull
-	public static Map<String, String> getProfileSettings(FileObject fileObject, String profileName) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
-		List<Node> profileNodes = getProfileNodes(fileObject);
+	public static String readContentFromFilePath(String filePath) throws IOException {
+		try {
+			URL url = new URL(filePath);
+
+			return IOUtils.toString(url.openStream(), StandardCharsets.UTF_8);
+		} catch (IOException ex) {
+			log.log(Level.FINEST, "Could not read file via URL, fallback to local file reading", ex);
+
+			return FileUtils.readFileToString(new File(filePath), StandardCharsets.UTF_8);
+		}
+	}
+
+	/**
+	 * Parses and returns the key/value pairs from the given {@code fileContent} for the given {@code profileName} as a {@link Map}.
+	 *
+	 * @param fileContent the file content to parse
+	 * @param profileName the profile name for which to get the settings
+	 *
+	 * @return a {@link Map} within all the configuration paramters of the given {@code profileName} read from the given {@code fileContent},
+	 *         or throws an exception if there's a problem reading the input, e.g.: invalid XML.
+	 *
+	 * @throws SAXException if there are parsing issues
+	 * @throws IOException if there is an I/O issue
+	 * @throws ConfigReadException if the given {@code fileContent} is not a valid Eclipse formatter template
+	 * @throws ProfileNotFoundException if no profile could be found with the given {@code profileName} in the given {@code fileContent}
+	 */
+	@NonNull
+	public static Map<String, String> getProfileSettings(String fileContent, String profileName) throws ConfigReadException, ProfileNotFoundException, IOException, SAXException {
+		List<Node> profileNodes = getProfileNodes(fileContent);
 		for (Node profileTag : profileNodes) {
 			Node profileNameAttr = profileTag.getAttributes().getNamedItem(ATTRIBUTE_PROFILE_NAME);
 			if (Objects.equals(profileName, profileNameAttr.getNodeValue())) {
@@ -132,25 +124,25 @@ public class ConfigReader {
 			}
 		}
 
-		throw new ProfileNotFoundException("Profile " + profileName + " not found in " + fileObject.getPath());
+		throw new ProfileNotFoundException("Profile " + profileName + " not found in given file content");
 	}
 
 	/**
-	 * Parses the given {@link FileObject} and returns a {@link List} within all profile names found in that {@link FileObject}.
+	 * Parses the given {@code fileContent} and returns a {@link List} within all profile names found in that {@code fileContent}.
 	 *
-	 * @param fileObject the {@link FileObject} to parse
+	 * @param fileContent the file content to parse
 	 *
-	 * @return a {@link List} within all profile names found in the given {@link FileObject}
+	 * @return a {@link List} within all profile names found in the given {@code fileContent}
 	 *
-	 * @throws SAXException        if there are parsing issues
-	 * @throws IOException         if there is an I/O issue
-	 * @throws ConfigReadException if the given {@link FileObject} is not a valid Eclipse formatter template
+	 * @throws SAXException if there are parsing issues
+	 * @throws IOException if there is an I/O issue
+	 * @throws ConfigReadException if the given {@code fileContent} is not a valid Eclipse formatter template
 	 */
 	@NonNull
-	public static List<String> getProfileNames(FileObject fileObject) throws ConfigReadException, IOException, SAXException {
+	public static List<String> getProfileNames(String fileContent) throws ConfigReadException, IOException, SAXException {
 		List<String> profileNames = new ArrayList<>();
 
-		List<Node> profileNodes = getProfileNodes(fileObject);
+		List<Node> profileNodes = getProfileNodes(fileContent);
 		for (Node profileTag : profileNodes) {
 			Node profileNameAttr = profileTag.getAttributes().getNamedItem(ATTRIBUTE_PROFILE_NAME);
 			if (profileNameAttr != null) {
@@ -165,27 +157,27 @@ public class ConfigReader {
 	}
 
 	/**
-	 * Parses the given {@link FileObject} and returns a {@link List} within all profile {@link Node}s that were found in that {@link FileObject}.
+	 * Parses the given {@code fileContent} and returns a {@link List} within all profile {@link Node}s that were found in that {@code fileContent}.
 	 *
-	 * @param fileObject the {@link FileObject} to parse
+	 * @param fileContent the file content to parse
 	 *
-	 * @return a {@link List} within all profile {@link Node}s that were found in the given {@link FileObject}
+	 * @return a {@link List} within all profile {@link Node}s that were found in the given {@code fileContent}
 	 *
-	 * @throws SAXException        if there are parsing issues
-	 * @throws IOException         if there is an I/O issue
-	 * @throws ConfigReadException if the given {@link FileObject} is not a valid Eclipse formatter template
+	 * @throws SAXException if there are parsing issues
+	 * @throws IOException if there is an I/O issue
+	 * @throws ConfigReadException if the given {@code fileContent} is not a valid Eclipse formatter template
 	 */
 	@NonNull
-	private static List<Node> getProfileNodes(FileObject fileObject) throws ConfigReadException, IOException, SAXException {
-		if (fileObject == null) {
-			throw new ConfigReadException("FileObject cannot be null");
+	private static List<Node> getProfileNodes(String fileContent) throws ConfigReadException, IOException, SAXException {
+		if (fileContent == null) {
+			throw new ConfigReadException("fileContent cannot be null");
 		}
 
 		List<Node> profiles = new ArrayList<>();
 
 		Document formatterDoc;
-		try (InputStream is = fileObject.getInputStream()) {
-			formatterDoc = XMLUtil.parse(new InputSource(is), false, false, null, null);
+		try (StringReader reader = new StringReader(fileContent)) {
+			formatterDoc = XMLUtil.parse(new InputSource(reader), false, false, null, null);
 		}
 
 		Element profilesTag = formatterDoc.getDocumentElement();
@@ -201,14 +193,14 @@ public class ConfigReader {
 					}
 				}
 			} else {
-				throw new ConfigReadException("No <profile> tag found in " + fileObject.getPath());
+				throw new ConfigReadException("No <profile> tag found in given file content");
 			}
 		} else {
 			throw new ConfigReadException("No <profiles> tag found in config file");
 		}
 
 		if (profiles.isEmpty()) {
-			throw new ConfigReadException("No valid <profile> tag found in " + fileObject.getPath());
+			throw new ConfigReadException("No valid <profile> tag found in given file content");
 		}
 
 		return profiles;
