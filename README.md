@@ -66,6 +66,7 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 *   Support for Jsoup XML formatter (since 1.14)
 *   Support for Jackson Json formatter (since 1.14)
 *   Support for manticore JSQLFormatter (Special thanks to [Andreas Reichel](https://github.com/manticore-projects) for the contribution) (since 1.14)
+*   Support for remote configurations for Eclipse formatters (since 1.14.1)
 
 Compatibility
 -------------

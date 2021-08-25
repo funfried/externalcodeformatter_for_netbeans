@@ -19,6 +19,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -45,7 +46,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.project.Project;
 import org.openide.awt.Mnemonics;
 import org.openide.filesystems.FileChooserBuilder;
-import org.openide.filesystems.FileObject;
 import org.openide.util.NbBundle;
 import org.xml.sax.SAXException;
 
@@ -66,7 +66,7 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 	 * Creates new form {@link EclipseJavascriptFormatterOptionsPanel}.
 	 *
 	 * @param project the {@link Project} if the panel is used to modify project
-	 *                specific settings, otherwise {@code null}
+	 *        specific settings, otherwise {@code null}
 	 */
 	public EclipseJavascriptFormatterOptionsPanel(Project project) {
 		super(project);
@@ -367,43 +367,47 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 	}
 
 	private void loadEclipseFormatterFileForPreview(String formatterFile, String activeProfile) {
-		Path formatterFilePath = Paths.get(formatterFile);
-		if (!formatterFilePath.isAbsolute() && project != null) {
-			formatterFilePath = Paths.get(project.getProjectDirectory().getPath()).resolve(formatterFilePath);
+		String filePath;
+
+		try {
+			URL url = new URL(formatterFile);
+
+			filePath = url.toString();
+		} catch (IOException ex) {
+			Path formatterFilePath = Paths.get(formatterFile);
+			if (!formatterFilePath.isAbsolute() && project != null) {
+				formatterFilePath = Paths.get(project.getProjectDirectory().getPath()).resolve(formatterFilePath);
+			}
+
+			filePath = formatterFilePath.toAbsolutePath().toString();
 		}
 
 		formatterLocField.setText(formatterFile);
-
-		final File file = formatterFilePath.toFile();
 
 		cbProfile.setEnabled(false);
 
 		cbProfile.removeAllItems();
 
-		if (file.exists()) {
-			try {
-				final FileObject fo = ConfigReader.toFileObject(file);
+		try {
+			//only xml configurations contain profiles
+			if (EclipseJavascriptFormatterSettings.isXMLConfigurationFile(filePath)) {
+				List<String> profileNames = ConfigReader.getProfileNames(ConfigReader.readContentFromFilePath(filePath));
+				cbProfile.addItem(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.chooseProfile"));
 
-				//only xml configurations contain profiles
-				if (EclipseJavascriptFormatterSettings.isXMLConfigurationFile(fo.getNameExt())) {
-					List<String> profileNames = ConfigReader.getProfileNames(fo);
-					cbProfile.addItem(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.chooseProfile"));
-
-					String entryToSelect = null;
-					for (String profileName : profileNames) {
-						cbProfile.addItem(profileName);
-						if (activeProfile != null && activeProfile.equals(profileName)) {
-							entryToSelect = profileName;
-						}
+				String entryToSelect = null;
+				for (String profileName : profileNames) {
+					cbProfile.addItem(profileName);
+					if (activeProfile != null && activeProfile.equals(profileName)) {
+						entryToSelect = profileName;
 					}
-					selectProfileOrFallback(entryToSelect, profileNames);
-					cbProfile.setEnabled(true);
 				}
-
-				formatterLocField.setToolTipText(file.getAbsolutePath());
-			} catch (IOException | SAXException | ConfigReadException ex) {
-				log.log(Level.INFO, "Could not parse formatter config", ex);
+				selectProfileOrFallback(entryToSelect, profileNames);
+				cbProfile.setEnabled(true);
 			}
+
+			formatterLocField.setToolTipText(filePath);
+		} catch (IOException | SAXException | ConfigReadException ex) {
+			log.log(Level.INFO, "Could not parse formatter config", ex);
 		}
 	}
 
@@ -445,11 +449,20 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
 			return true;
 		}
 
+		boolean fileExists;
+		try {
+			new URL(fileName);
+
+			fileExists = true;
+		} catch (IOException ex) {
+			fileExists = new File(fileName).exists();
+		}
+
 		boolean isXML = EclipseJavascriptFormatterSettings.isXMLConfigurationFile(fileName);
 		boolean isEPF = EclipseJavascriptFormatterSettings.isWorkspaceMechanicFile(fileName);
 		boolean isProjectSetting = EclipseJavascriptFormatterSettings.isProjectSetting(fileName);
 
-		if (!new File(fileName).exists() || (!isXML && !isEPF && !isProjectSetting) || cbProfile.getSelectedIndex() < 0) {
+		if (!fileExists || (!isXML && !isEPF && !isProjectSetting) || cbProfile.getSelectedIndex() < 0) {
 			errorLabel.setText("Invalid file. Please enter a valid configuration file.");
 			return false;
 		} else {

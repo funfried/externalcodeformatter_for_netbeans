@@ -9,6 +9,9 @@
 
 	<body>
 		<release version="1.14.1" date="N/A" description="Support for SQL formatter">
+			<action dev="bahlef" type="add" issue="155">
+				Added support for loading remote configurations for Eclipse formatters
+			</action>
 			<action dev="manticore-projects" type="add" issue="146">
 				Added manticore JSQLFormatter
 			</action>

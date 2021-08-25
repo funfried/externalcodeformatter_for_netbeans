@@ -12,6 +12,7 @@ package de.funfried.netbeans.plugins.external.formatter.eclipse.xml;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -63,11 +64,11 @@ public class EclipseFormatterUtils {
 	 * If the value behind {@code useProjectPrefsKey} is {@code true} in the given {@link Preferences}, it
 	 * will be automatically checked if there is a project specific formatter configuration file available.
 	 *
-	 * @param preferences           the {@link Preferences} where to load from
-	 * @param document              the {@link Document}
+	 * @param preferences the {@link Preferences} where to load from
+	 * @param document the {@link Document}
 	 * @param configFileLocationKey the preferences key for the configuration file location
-	 * @param useProjectPrefsKey    the preferences key whether to use project preferences
-	 * @param projectPrefFile       the expected Eclipse project specific formatter configuration file name
+	 * @param useProjectPrefsKey the preferences key whether to use project preferences
+	 * @param projectPrefFile the expected Eclipse project specific formatter configuration file name
 	 *
 	 * @return the Eclipse formatter file for the given {@link Document} from the given {@link Preferences}.
 	 *         If the value behind {@code useProjectPrefsKey} is {@code true} in the given {@link Preferences},
@@ -98,7 +99,7 @@ public class EclipseFormatterUtils {
 	 * Checks for a project specific Eclipse formatter configuration for the given {@link Document} and returns
 	 * the file location if found, otherwise {@code null}.
 	 *
-	 * @param document         the {@link Document}
+	 * @param document the {@link Document}
 	 * @param relativeFileName the relative configuration file name
 	 *
 	 * @return project specific Eclipse formatter configuration for the given {@link Document} if existent,
@@ -124,7 +125,7 @@ public class EclipseFormatterUtils {
 	/**
 	 * Returns {@code true} if the given {@code filename} ends with the given {@code projectPrefFile}.
 	 *
-	 * @param filename        the filename to check
+	 * @param filename the filename to check
 	 * @param projectPrefFile the expected Eclipse project specific formatter configuration file name
 	 *
 	 * @return {@code true} if the given {@code filename} ends with {@code org.eclipse.jdt.core.prefs},
@@ -163,17 +164,17 @@ public class EclipseFormatterUtils {
 	 * given {@code formatterFile} and returns it as a {@link Map} containing the
 	 * configuration as key value pairs.
 	 *
-	 * @param formatterFile           the path to the formatter configuration file
-	 * @param formatterProfile        the name of the formatter configuration profile
-	 * @param defaultProperties       the default properties
-	 * @param additionalProperties    optional additional properties
+	 * @param formatterFile the path to the formatter configuration file
+	 * @param formatterProfile the name of the formatter configuration profile
+	 * @param defaultProperties the default properties
+	 * @param additionalProperties optional additional properties
 	 * @param workspaceMechanicPrefix the workspace mechanic prefix
-	 * @param projectPrefFile         the expected Eclipse project specific formatter configuration file name
+	 * @param projectPrefFile the expected Eclipse project specific formatter configuration file name
 	 *
 	 * @return a {@link Map} containing the configuration as key value pairs
 	 *
-	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
-	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws ConfigReadException if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException if the given {@code profile} could not be found
 	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
 	 */
 	public static Map<String, String> parseConfig(String formatterFile, String formatterProfile, Map<String, String> defaultProperties, Map<String, String> additionalProperties,
@@ -184,7 +185,7 @@ public class EclipseFormatterUtils {
 			if (EclipseFormatterUtils.isWorkspaceMechanicFile(formatterFile)) {
 				configFromFile = EclipseFormatterUtils.readPropertiesFromConfigurationFile(formatterFile, workspaceMechanicPrefix);
 			} else if (EclipseFormatterUtils.isXMLConfigurationFile(formatterFile)) {
-				configFromFile = ConfigReader.getProfileSettings(ConfigReader.toFileObject(formatterFile), formatterProfile);
+				configFromFile = ConfigReader.getProfileSettings(ConfigReader.readContentFromFilePath(formatterFile), formatterProfile);
 			} else if (EclipseFormatterUtils.isProjectSetting(formatterFile, projectPrefFile)) {
 				configFromFile = EclipseFormatterUtils.readPropertiesFromConfigurationFile(formatterFile, null);
 			} else {
@@ -211,11 +212,11 @@ public class EclipseFormatterUtils {
 	}
 
 	/**
-	 * Parses and returns properties of the given {@code file} into a key value {@link Map}. If an optional
+	 * Parses and returns properties of the given {@code filePath} into a key value {@link Map}. If an optional
 	 * {@code prefix} is specified, only the properties where the key starts with the given {@code prefix}
 	 * are returned and the {@code prefix} will be removed from the keys in the returned {@link Map}.
 	 *
-	 * @param file   a configuration file
+	 * @param filePath a configuration file path
 	 * @param prefix an optional key prefix
 	 *
 	 * @return properties of the given {@code file} as a key value {@link Map}
@@ -223,10 +224,19 @@ public class EclipseFormatterUtils {
 	 * @throws IOException if there is an issue accessing the given configuration file
 	 */
 	@NonNull
-	public static Map<String, String> readPropertiesFromConfigurationFile(String file, String prefix) throws IOException {
+	public static Map<String, String> readPropertiesFromConfigurationFile(String filePath, String prefix) throws IOException {
 		Properties properties = new Properties();
-		try (FileInputStream is = new FileInputStream(file)) {
-			properties.load(is);
+
+		try {
+			URL url = new URL(filePath);
+
+			properties.load(url.openStream());
+		} catch (IOException ex) {
+			log.log(Level.FINEST, "Could not read file via URL, fallback to local file reading", ex);
+
+			try (FileInputStream is = new FileInputStream(filePath)) {
+				properties.load(is);
+			}
 		}
 
 		Stream<Object> stream = properties.keySet().stream();
