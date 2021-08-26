@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FormatterServiceDelegate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter</a> &gt; <span class="el_source">FormatterServiceDelegate.java</span></div><h1>FormatterServiceDelegate.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2020 bahlef.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * markiewb - initial API and implementation and/or initial documentation
+ * Saad Mufti &lt;saad.mufti@teamaol.com&gt;
+ * bahlef
+ */
+package de.funfried.netbeans.plugins.external.formatter;
+
+import java.util.Collection;
+import java.util.Objects;
+import java.util.SortedSet;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.prefs.Preferences;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
+import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
+
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+
+/**
+ * Singleton delegation class for calling the activated external formatter, if no external formatter is
+ * activated nothing will be done by this implementation. There is no fallback to the internal NetBeans
+ * formatter in here!
+ *
+ * @author markiewb
+ * @author bahlef
+ */
+public class FormatterServiceDelegate {
+	/** {@link Logger} of this class. */
+<span class="fc" id="L45">	private static final Logger log = Logger.getLogger(FormatterServiceDelegate.class.getName());</span>
+
+	/** {@link ReentrantLock} to synchronize the singleton instance creation. */
+<span class="fc" id="L48">	private static final ReentrantLock lock = new ReentrantLock();</span>
+
+	/** * Singleton instance of {@link FormatterServiceDelegate}. */
+<span class="fc" id="L51">	private static FormatterServiceDelegate instance = null;</span>
+
+	/**
+	 * Private contructor due to singleton pattern.
+	 */
+	private FormatterServiceDelegate() {
+	}
+
+	/**
+	 * Returns the singleton instance of {@link FormatterServiceDelegate}.
+	 *
+	 * @return the singleton instance
+	 */
+	@NonNull
+	public static FormatterServiceDelegate getInstance() {
+<span class="fc" id="L66">		lock.lock();</span>
+
+		try {
+<span class="fc bfc" id="L69" title="All 2 branches covered.">			if (instance == null) {</span>
+<span class="fc" id="L70">				instance = new FormatterServiceDelegate();</span>
+			}
+		} finally {
+<span class="fc" id="L73">			lock.unlock();</span>
+		}
+
+<span class="fc" id="L76">		return instance;</span>
+	}
+
+	/**
+	 * Formats the given {@link StyledDocument} in regard to the given {@code changedElements}.
+	 *
+	 * @param document        the {@link StyledDocument} which should be formatted
+	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
+	 *
+	 * @return {@code true} if and only if a external formatter was found to handle the given
+	 *         {@link StyledDocument} even if there was an error while formatting, otherwise
+	 *         {@code false}
+	 */
+	public boolean format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
+		try {
+<span class="fc" id="L91">			FormatterService formatterService = getActiveFormatterService(document);</span>
+<span class="pc bpc" id="L92" title="1 of 4 branches missed.">			if (formatterService != null &amp;&amp; formatterService.canHandle(document)) {</span>
+				try {
+<span class="fc" id="L94">					formatterService.format(document, changedElements);</span>
+<span class="nc" id="L95">				} catch (BadLocationException ex) {</span>
+<span class="nc" id="L96">					log.log(Level.SEVERE, formatterService.getDisplayName() + &quot; failed to format the code&quot;, ex);</span>
+<span class="fc" id="L97">				} catch (FormattingFailedException ex) {</span>
+<span class="fc" id="L98">					log.log(Level.INFO, formatterService.getDisplayName() + &quot; failed to format the code&quot;, ex);</span>
+<span class="pc" id="L99">				}</span>
+
+<span class="fc" id="L101">				return true;</span>
+			}
+<span class="nc" id="L103">		} catch (Exception e) {</span>
+<span class="nc" id="L104">			Exceptions.printStackTrace(e);</span>
+<span class="fc" id="L105">		}</span>
+
+<span class="fc" id="L107">		return false;</span>
+	}
+
+	/**
+	 * Returns the continuation indent size configured by the formatter which is
+	 * activated for the given {@link Document}, or {@code null} if the internal
+	 * NetBeans code formatter is used for the given {@code document}.
+	 *
+	 * @param document the {@link Document} for which the continuation indent size
+	 *                 is requested
+	 *
+	 * @return the continuation indent size configured by the formatter which is
+	 *         activated for the given {@link Document}, or {@code null} if the
+	 *         internal NetBeans code formatter is used for the given {@code document}
+	 */
+	@CheckForNull
+	public Integer getContinuationIndentSize(Document document) {
+		try {
+<span class="fc" id="L125">			FormatterService formatterService = getActiveFormatterService(document);</span>
+<span class="pc bpc" id="L126" title="1 of 4 branches missed.">			if (formatterService != null &amp;&amp; formatterService.canHandle(document)) {</span>
+<span class="fc" id="L127">				return formatterService.getContinuationIndentSize(document);</span>
+			}
+<span class="nc" id="L129">		} catch (Exception e) {</span>
+<span class="nc" id="L130">			Exceptions.printStackTrace(e);</span>
+<span class="fc" id="L131">		}</span>
+
+<span class="fc" id="L133">		return null;</span>
+	}
+
+	/**
+	 * Returns the indent size configured by the formatter which is activated for
+	 * the given {@link Document}, or {@code null} if the internal NetBeans code
+	 * formatter is used for the given {@code document}.
+	 *
+	 * @param document the {@link Document} for which the indent size is requested
+	 *
+	 * @return the indent size configured by the formatter which is activated for
+	 *         the given {@link Document}, or {@code null} if the internal NetBeans
+	 *         code formatter is used for the given {@code document}
+	 */
+	@CheckForNull
+	public Integer getIndentSize(Document document) {
+		try {
+<span class="fc" id="L150">			FormatterService formatterService = getActiveFormatterService(document);</span>
+<span class="pc bpc" id="L151" title="1 of 4 branches missed.">			if (formatterService != null &amp;&amp; formatterService.canHandle(document)) {</span>
+<span class="fc" id="L152">				return formatterService.getIndentSize(document);</span>
+			}
+<span class="nc" id="L154">		} catch (Exception e) {</span>
+<span class="nc" id="L155">			Exceptions.printStackTrace(e);</span>
+<span class="fc" id="L156">		}</span>
+
+<span class="fc" id="L158">		return null;</span>
+	}
+
+	/**
+	 * Returns the right margin (position of the red line in the editor) configured
+	 * by the formatter which is activated for the given {@link Document}, or
+	 * {@code null} if the internal NetBeans code formatter is used for the given
+	 * {@code document}.
+	 *
+	 * @param document the {@link Document} for which the right margin is requested
+	 *
+	 * @return the right margin (position of the red line in the editor) configured
+	 *         by the formatter which is activated for the given {@link Document},
+	 *         or {@code null} if the internal NetBeans code formatter is used for
+	 *         the given {@code document}
+	 */
+	@CheckForNull
+	public Integer getRightMargin(Document document) {
+		try {
+<span class="fc" id="L177">			FormatterService formatterService = getActiveFormatterService(document);</span>
+<span class="pc bpc" id="L178" title="2 of 4 branches missed.">			if (formatterService != null &amp;&amp; formatterService.canHandle(document)) {</span>
+<span class="fc" id="L179">				return formatterService.getRightMargin(document);</span>
+			}
+<span class="nc" id="L181">		} catch (Exception e) {</span>
+<span class="nc" id="L182">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L183">		}</span>
+
+<span class="nc" id="L185">		return null;</span>
+	}
+
+	/**
+	 * Returns the spaces per tab configured by the formatter which is activated
+	 * for the given {@link Document}, or {@code null} if the internal NetBeans
+	 * code formatter is used for the given {@code document}.
+	 *
+	 * @param document the {@link Document} for which the spaces per tab is requested
+	 *
+	 * @return the spaces per tab configured by the formatter which is activated
+	 *         for the given {@link Document}, or {@code null} if the internal
+	 *         NetBeans code formatter is used for the given {@code document}
+	 */
+	@CheckForNull
+	public Integer getSpacesPerTab(Document document) {
+		try {
+<span class="fc" id="L202">			FormatterService formatterService = getActiveFormatterService(document);</span>
+<span class="pc bpc" id="L203" title="1 of 4 branches missed.">			if (formatterService != null &amp;&amp; formatterService.canHandle(document)) {</span>
+<span class="fc" id="L204">				return formatterService.getSpacesPerTab(document);</span>
+			}
+<span class="nc" id="L206">		} catch (Exception e) {</span>
+<span class="nc" id="L207">			Exceptions.printStackTrace(e);</span>
+<span class="fc" id="L208">		}</span>
+
+<span class="fc" id="L210">		return null;</span>
+	}
+
+	/**
+	 * Returns the currently configured {@link FormatterService} implementation for
+	 * the given {@code document}. If the internal NetBeans formatter is configured
+	 * or the implementation of the configured {@link FormatterService} could not be
+	 * found {@code null} will be returned.
+	 *
+	 * @param document the {@link Document} for which the {@link FormatterService} is requested
+	 *
+	 * @return the currently configured {@link FormatterService} implementation
+	 *         for the given {@code document}. If the internal NetBeans formatter is configured
+	 *         or the implementation of the configured {@link FormatterService} could
+	 *         not be found {@code null} will be returned
+	 *
+	 * @throws Exception if an error occurs
+	 */
+	@CheckForNull
+	private FormatterService getActiveFormatterService(Document document) throws Exception {
+<span class="fc" id="L230">		MimeType mimeType = MimeType.getMimeType(document);</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">		if (mimeType != null) {</span>
+<span class="fc" id="L232">			Preferences prefs = Settings.getActivePreferences(document);</span>
+<span class="fc" id="L233">			String activeFormatterId = prefs.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), Settings.DEFAULT_FORMATTER);</span>
+
+<span class="fc" id="L235">			Collection&lt;? extends FormatterService&gt; formatterServices = Lookup.getDefault().lookupAll(FormatterService.class);</span>
+<span class="pc bpc" id="L236" title="1 of 2 branches missed.">			for (FormatterService formatterService : formatterServices) {</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">				if (Objects.equals(activeFormatterId, formatterService.getId())) {</span>
+<span class="fc" id="L238">					return formatterService;</span>
+				}
+<span class="fc" id="L240">			}</span>
+		}
+
+<span class="fc" id="L243">		return null;</span>
+	}
+
+	/**
+	 * Returns the expand tab to spaces flag configured by the formatter which is
+	 * activated for the given {@link Document}, or {@code null} if the internal
+	 * NetBeans code formatter is used for the given {@code document}.
+	 *
+	 * @param document the {@link Document} for which the expand tab to spaces flag is requested
+	 *
+	 * @return the expand tab to spaces flag configured by the formatter which is
+	 *         activated for the given {@link Document}, or {@code null} if the
+	 *         internal NetBeans code formatter is used for the given
+	 *         {@code document}
+	 */
+	@CheckForNull
+	public Boolean isExpandTabToSpaces(Document document) {
+		try {
+<span class="fc" id="L261">			FormatterService formatterService = getActiveFormatterService(document);</span>
+<span class="pc bpc" id="L262" title="1 of 4 branches missed.">			if (formatterService != null &amp;&amp; formatterService.canHandle(document)) {</span>
+<span class="fc" id="L263">				return formatterService.isExpandTabToSpaces(document);</span>
+			}
+<span class="nc" id="L265">		} catch (Exception e) {</span>
+<span class="nc" id="L266">			Exceptions.printStackTrace(e);</span>
+<span class="fc" id="L267">		}</span>
+
+<span class="fc" id="L269">		return null;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
