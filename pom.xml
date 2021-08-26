@@ -689,7 +689,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<argLine>
-						-Xmx1024m
+						${argLine} -Xmx1024m
 						--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED
 						--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED
 						--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED
