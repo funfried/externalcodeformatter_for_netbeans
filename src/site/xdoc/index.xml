@@ -97,6 +97,8 @@
 				<li>Support for Eclipse Javascript formatter (since 1.14)</li>
 				<li>Support for revelc.net XML formatter (since 1.14)</li>
 				<li>Support for Jackson Json formatter (since 1.14)</li>
+				<li>Support for manticore JSQLFormatter (Special thanks to <a href="https://github.com/manticore-projects">Andreas Reichel</a> for the contribution) (since 1.14.1)</li>
+				<li>Support for remote configurations for Eclipse formatters (since 1.14.1)</li>
 			</ul>
 		</section>
 		<section name="History of this plugin">
