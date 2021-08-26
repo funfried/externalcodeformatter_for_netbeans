@@ -8,12 +8,18 @@
 	</properties>
 
 	<body>
-		<release version="1.14.1" date="N/A" description="Support for SQL formatter">
+		<release version="1.14.1" date="2020-08-26" description="Support for SQL formatter and some improvements">
 			<action dev="bahlef" type="add" issue="155">
 				Added support for loading remote configurations for Eclipse formatters
 			</action>
+			<action dev="bahlef" type="update" issue="153">
+				Updated to latest Eclipse formatter version to fix formatting issues
+			</action>
 			<action dev="manticore-projects" type="add" issue="146">
 				Added manticore JSQLFormatter
+			</action>
+			<action dev="bahlef" type="update" issue="137">
+				Updated to latest Google formatter version to fix formatting issues
 			</action>
 		</release>
 
