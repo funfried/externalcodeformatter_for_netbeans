@@ -35,12 +35,12 @@
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> * @author bahlef</em>
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a name="EclipseFormatterConfig" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/java/eclipse/EclipseFormatterConfig.html#EclipseFormatterConfig">EclipseFormatterConfig</a> {
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>  	<em class="jxr_javadoccomment">/** Prefix for workspace mechanic files. */</em>
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String WORKSPACE_MECHANIC_PREFIX = <span class="jxr_string">"/instance/org.eclipse.jdt.core/"</span>;
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  	<em class="jxr_javadoccomment">/** Default configuration of the Eclipse Java formatter. */</em>
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  	@SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  @SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a name="EclipseFormatterConfig" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/java/eclipse/EclipseFormatterConfig.html#EclipseFormatterConfig">EclipseFormatterConfig</a> {
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  	<em class="jxr_javadoccomment">/** Prefix for workspace mechanic files. */</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String WORKSPACE_MECHANIC_PREFIX = <span class="jxr_string">"/instance/org.eclipse.jdt.core/"</span>;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  	<em class="jxr_javadoccomment">/** Default configuration of the Eclipse Java formatter. */</em>
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; ECLIPSE_JAVA_FORMATTER_DEFAULTS = <strong class="jxr_keyword">new</strong> LinkedHashMap&lt;&gt;();
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  	<strong class="jxr_keyword">static</strong> {
@@ -81,14 +81,14 @@
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  <em class="jxr_javadoccomment">	 * given formatter configuration file and returns it as a {@link Map}</em>
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  <em class="jxr_javadoccomment">	 * containing the configuration as key value pairs.</em>
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>  <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>  <em class="jxr_javadoccomment">	 * @param formatterFile    the path to the formatter configuration file</em>
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  <em class="jxr_javadoccomment">	 * @param formatterFile the path to the formatter configuration file</em>
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  <em class="jxr_javadoccomment">	 * @param formatterProfile the name of the formatter configuration profile</em>
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>  <em class="jxr_javadoccomment">	 * @param sourceLevel      the source level to use for formatting</em>
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  <em class="jxr_javadoccomment">	 * @param sourceLevel the source level to use for formatting</em>
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>  <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>  <em class="jxr_javadoccomment">	 * @return a {@link Map} containing the configuration as key value pairs</em>
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>  <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>  <em class="jxr_javadoccomment">	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration</em>
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>  <em class="jxr_javadoccomment">	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found</em>
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  <em class="jxr_javadoccomment">	 * @throws ConfigReadException if there is an issue parsing the formatter configuration</em>
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  <em class="jxr_javadoccomment">	 * @throws ProfileNotFoundException if the given {@code profile} could not be found</em>
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>  <em class="jxr_javadoccomment">	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration</em>
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>  <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> Map&lt;String, String&gt; parseConfig(String formatterFile, String formatterProfile, String sourceLevel)

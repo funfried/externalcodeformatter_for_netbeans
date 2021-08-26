@@ -158,7 +158,7 @@
 <a class="jxr_linenumber" name="L150" href="#L150">150</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L151" href="#L151">151</a> 			instance.format(<span class="jxr_string">"src/test/resources/jsformattersampleeclipse.xml"</span>, <strong class="jxr_keyword">null</strong>, text, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L152" href="#L152">152</a> 		} <strong class="jxr_keyword">catch</strong> (ProfileNotFoundException e) {
-<a class="jxr_linenumber" name="L153" href="#L153">153</a> 			Assert.assertEquals(<strong class="jxr_keyword">true</strong>, e.getMessage().contains(<span class="jxr_string">"Profile null not found"</span>));
+<a class="jxr_linenumber" name="L153" href="#L153">153</a> 			Assert.assertTrue(e.getMessage(), e.getMessage().contains(<span class="jxr_string">"Profile null not found"</span>));
 <a class="jxr_linenumber" name="L154" href="#L154">154</a> 		}
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> 	}
 <a class="jxr_linenumber" name="L156" href="#L156">156</a> 
@@ -184,7 +184,7 @@
 <a class="jxr_linenumber" name="L176" href="#L176">176</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L177" href="#L177">177</a> 			instance.format(<span class="jxr_string">"src/test/resources/jsformattersampleeclipse.xml"</span>, <span class="jxr_string">"myProfile"</span>, text, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L178" href="#L178">178</a> 		} <strong class="jxr_keyword">catch</strong> (ProfileNotFoundException e) {
-<a class="jxr_linenumber" name="L179" href="#L179">179</a> 			Assert.assertEquals(<strong class="jxr_keyword">true</strong>, e.getMessage().contains(<span class="jxr_string">"Profile myProfile not found"</span>));
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> 			Assert.assertTrue(e.getMessage(), e.getMessage().contains(<span class="jxr_string">"Profile myProfile not found"</span>));
 <a class="jxr_linenumber" name="L180" href="#L180">180</a> 		}
 <a class="jxr_linenumber" name="L181" href="#L181">181</a> 	}
 <a class="jxr_linenumber" name="L182" href="#L182">182</a> 
@@ -195,7 +195,7 @@
 <a class="jxr_linenumber" name="L187" href="#L187">187</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L188" href="#L188">188</a> 			instance.format(<span class="jxr_string">"src/test/resources/defectjsformattersampleeclipse.xml"</span>, <span class="jxr_string">"myProfile"</span>, text, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L189" href="#L189">189</a> 		} <strong class="jxr_keyword">catch</strong> (ConfigReadException e) {
-<a class="jxr_linenumber" name="L190" href="#L190">190</a> 			Assert.assertEquals(<strong class="jxr_keyword">true</strong>, e.getMessage().contains(<span class="jxr_string">"No &lt;profiles&gt; tag found in config file"</span>));
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> 			Assert.assertTrue(e.getMessage(), e.getMessage().contains(<span class="jxr_string">"No &lt;profiles&gt; tag found in config file"</span>));
 <a class="jxr_linenumber" name="L191" href="#L191">191</a> 		}
 <a class="jxr_linenumber" name="L192" href="#L192">192</a> 	}
 <a class="jxr_linenumber" name="L193" href="#L193">193</a> 
@@ -206,7 +206,7 @@
 <a class="jxr_linenumber" name="L198" href="#L198">198</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L199" href="#L199">199</a> 			instance.format(<span class="jxr_string">"src/test/resources/notexistent.xml"</span>, <span class="jxr_string">"myProfile"</span>, text, <strong class="jxr_keyword">null</strong>, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L200" href="#L200">200</a> 		} <strong class="jxr_keyword">catch</strong> (CannotLoadConfigurationException e) {
-<a class="jxr_linenumber" name="L201" href="#L201">201</a> 			Assert.assertEquals(<strong class="jxr_keyword">true</strong>, e.getMessage().contains(<span class="jxr_string">"src"</span> + File.separator + <span class="jxr_string">"test"</span> + File.separator + <span class="jxr_string">"resources"</span> + File.separator + <span class="jxr_string">"notexistent.xml"</span>));
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> 			Assert.assertTrue(e.getMessage(), e.getMessage().contains(<span class="jxr_string">"src"</span> + File.separator + <span class="jxr_string">"test"</span> + File.separator + <span class="jxr_string">"resources"</span> + File.separator + <span class="jxr_string">"notexistent.xml"</span>));
 <a class="jxr_linenumber" name="L202" href="#L202">202</a> 		}
 <a class="jxr_linenumber" name="L203" href="#L203">203</a> 	}
 <a class="jxr_linenumber" name="L204" href="#L204">204</a> 

@@ -59,19 +59,19 @@
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  <em class="jxr_javadoccomment">	 * Formats the given {@code code} with the given configurations and returns</em>
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment">	 * the formatted code.</em>
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">	 * @param formatterFile    the path to the formatter configuration file</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">	 * @param formatterFile the path to the formatter configuration file</em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">	 * @param formatterProfile the name of the formatter configuration profile</em>
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">	 * @param code             the unformatted code</em>
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment">	 * @param lineFeed         the line feed to use for formatting</em>
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment">	 * @param sourceLevel      the source level to use for formatting</em>
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment">	 * @param changedElements  a {@link SortedSet} containing ranges as {@link Pair} objects defining the offsets which should be formatted</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">	 * @param code the unformatted code</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment">	 * @param lineFeed the line feed to use for formatting</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <em class="jxr_javadoccomment">	 * @param sourceLevel the source level to use for formatting</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <em class="jxr_javadoccomment">	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects defining the offsets which should be formatted</em>
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment">	 * @return the formatted code</em>
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment">	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration</em>
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <em class="jxr_javadoccomment">	 * @throws ConfigReadException if there is an issue parsing the formatter configuration</em>
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">	 * @throws ProfileNotFoundException if the given {@code profile} could not be found</em>
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment">	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration</em>
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment">	 * @throws FormattingFailedException        if the external formatter failed to format the given code</em>
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment">	 * @throws FormattingFailedException if the external formatter failed to format the given code</em>
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  	@CheckForNull
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  	<strong class="jxr_keyword">public</strong> String format(String formatterFile, String formatterProfile, String code, String lineFeed, String sourceLevel, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements)
@@ -112,14 +112,14 @@
 <a class="jxr_linenumber" name="L104" href="#L104">104</a> <em class="jxr_javadoccomment">	 * the formatted code.</em>
 <a class="jxr_linenumber" name="L105" href="#L105">105</a> <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L106" href="#L106">106</a> <em class="jxr_javadoccomment">	 * @param formatter the {@link CodeFormatter}</em>
-<a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">	 * @param code      the unformatted code</em>
-<a class="jxr_linenumber" name="L108" href="#L108">108</a> <em class="jxr_javadoccomment">	 * @param lineFeed  the line feed to use for formatting</em>
-<a class="jxr_linenumber" name="L109" href="#L109">109</a> <em class="jxr_javadoccomment">	 * @param regions   an array containing {@link IRegion} objects defining the offsets which should be formatted</em>
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> <em class="jxr_javadoccomment">	 * @param code the unformatted code</em>
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> <em class="jxr_javadoccomment">	 * @param lineFeed the line feed to use for formatting</em>
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> <em class="jxr_javadoccomment">	 * @param regions an array containing {@link IRegion} objects defining the offsets which should be formatted</em>
 <a class="jxr_linenumber" name="L110" href="#L110">110</a> <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L111" href="#L111">111</a> <em class="jxr_javadoccomment">	 * @return the formatted code</em>
 <a class="jxr_linenumber" name="L112" href="#L112">112</a> <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L113" href="#L113">113</a> <em class="jxr_javadoccomment">	 * @throws FormattingFailedException if the external formatter failed to format the given code</em>
-<a class="jxr_linenumber" name="L114" href="#L114">114</a> <em class="jxr_javadoccomment">	 * @throws IllegalArgumentException  if the given {@code regions} are invalid</em>
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> <em class="jxr_javadoccomment">	 * @throws IllegalArgumentException if the given {@code regions} are invalid</em>
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L116" href="#L116">116</a> 	@CheckForNull
 <a class="jxr_linenumber" name="L117" href="#L117">117</a> 	<strong class="jxr_keyword">private</strong> String format(@NonNull CodeFormatter formatter, @NonNull String code, @NonNull IRegion[] regions, String lineFeed) <strong class="jxr_keyword">throws</strong> FormattingFailedException, IllegalArgumentException {

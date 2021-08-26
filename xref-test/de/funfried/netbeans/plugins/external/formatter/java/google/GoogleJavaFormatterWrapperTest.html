@@ -310,7 +310,7 @@
 <a class="jxr_linenumber" name="L302" href="#L302">302</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L303" href="#L303">303</a> 			instance.format(text, JavaFormatterOptions.Style.GOOGLE, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L304" href="#L304">304</a> 		} <strong class="jxr_keyword">catch</strong> (RuntimeException ex) {
-<a class="jxr_linenumber" name="L305" href="#L305">305</a> 			Assert.assertEquals(<strong class="jxr_keyword">true</strong>, ex.getMessage().contains(<span class="jxr_string">"class, interface, or enum expected"</span>));
+<a class="jxr_linenumber" name="L305" href="#L305">305</a> 			Assert.assertTrue(ex.getMessage(), ex.getMessage().contains(<span class="jxr_string">"class, interface, or enum expected"</span>) || ex.getMessage().contains(<span class="jxr_string">"class, interface, enum, or record expected"</span>));
 <a class="jxr_linenumber" name="L306" href="#L306">306</a> 		}
 <a class="jxr_linenumber" name="L307" href="#L307">307</a> 	}
 <a class="jxr_linenumber" name="L308" href="#L308">308</a> 
@@ -324,7 +324,7 @@
 <a class="jxr_linenumber" name="L316" href="#L316">316</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L317" href="#L317">317</a> 			instance.format(text, JavaFormatterOptions.Style.GOOGLE, regions);
 <a class="jxr_linenumber" name="L318" href="#L318">318</a> 		} <strong class="jxr_keyword">catch</strong> (RuntimeException ex) {
-<a class="jxr_linenumber" name="L319" href="#L319">319</a> 			Assert.assertEquals(<strong class="jxr_keyword">true</strong>, ex.getMessage().contains(<span class="jxr_string">"invalid length"</span>));
+<a class="jxr_linenumber" name="L319" href="#L319">319</a> 			Assert.assertTrue(ex.getMessage(), ex.getMessage().contains(<span class="jxr_string">"invalid length"</span>));
 <a class="jxr_linenumber" name="L320" href="#L320">320</a> 		}
 <a class="jxr_linenumber" name="L321" href="#L321">321</a> 	}
 <a class="jxr_linenumber" name="L322" href="#L322">322</a> }
