@@ -1,6 +1,6 @@
 Keep this project alive by supporting it: one-time [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url) or [![Patreon!](/src/site/resources/imgs/logos/become_a_patron_button.png)](https://www.patreon.com/funfried)
 
-[![Linux Build Status](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master)](https://travis-ci.com/funfried/externalcodeformatter_for_netbeans)
+[![Linux Build Status](https://app.travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master)](https://app.travis-ci.com/funfried/externalcodeformatter_for_netbeans)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/kva6pnb5se94t1wu?svg=true)](https://ci.appveyor.com/project/funfried/externalcodeformatter-for-netbeans)
 [![Coverage Status](https://coveralls.io/repos/github/funfried/externalcodeformatter_for_netbeans/badge.svg?branch=master)](https://coveralls.io/github/funfried/externalcodeformatter_for_netbeans?branch=master)
 [![Code Coverage](https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans/branch/master/graph/badge.svg)](https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans)

@@ -47,7 +47,7 @@
 		<logo name="Apache NetBeans" href="https://netbeans.apache.org/" img="imgs/logos/netbeans_small.png" />
 		<logo name="Maven" href="https://maven.apache.org/" img="https://maven.apache.org/images/logos/maven-feather.png" />
 		<logo name="Maven Central" href="https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/" img="https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/badge.svg" />
-		<logo name="Linux Build Status" href="https://travis-ci.com/funfried/externalcodeformatter_for_netbeans" img="https://travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master" />
+		<logo name="Linux Build Status" href="https://app.travis-ci.com/funfried/externalcodeformatter_for_netbeans" img="https://app.travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master" />
 		<logo name="Windows Build Status" href="https://ci.appveyor.com/project/funfried/externalcodeformatter-for-netbeans" img="https://ci.appveyor.com/api/projects/status/kva6pnb5se94t1wu?svg=true" />
 		<logo name="Coverage Status" href="https://coveralls.io/github/funfried/externalcodeformatter_for_netbeans?branch=master" img="https://coveralls.io/repos/github/funfried/externalcodeformatter_for_netbeans/badge.svg?branch=master" />
 		<logo name="Code Coverage" href="https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans" img="https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans/branch/master/graph/badge.svg" />
