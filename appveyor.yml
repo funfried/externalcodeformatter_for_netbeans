@@ -18,12 +18,12 @@ install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
       if (!(Test-Path -Path "C:\maven" )) {
-        (new-object System.Net.WebClient).DownloadFile('https://downloads.apache.org/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.zip', 'C:\maven-bin.zip')
+        (new-object System.Net.WebClient).DownloadFile('https://downloads.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.zip', 'C:\maven-bin.zip')
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
       }
-  - cmd: SET PATH=C:\maven\apache-maven-3.8.1\bin;%JAVA_HOME%\bin;%PATH%
+  - cmd: SET PATH=C:\maven\apache-maven-3.8.4\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: SET MAVEN_OPTS=-Xms128m -Xmx512m
   - cmd: mvn --version
   - cmd: java -version
 build_script:
-  - cp .ci.settings.xml C:\maven\apache-maven-3.8.1\conf\settings.xml && mvn --no-transfer-progress -Denv.github_username=%github_username% -Denv.github_token=%github_token% clean package site
+  - cp .ci.settings.xml C:\maven\apache-maven-3.8.4\conf\settings.xml && mvn --no-transfer-progress -Denv.github_username=%github_username% -Denv.github_token=%github_token% clean package site
