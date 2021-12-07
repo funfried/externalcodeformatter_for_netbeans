@@ -33,7 +33,7 @@
 				<repository>
 					<id>bits-netbeans</id>
 					<name>bits-netbeans</name>
-					<url>http://137.254.56.27/maven2/</url>
+					<url>http://netbeans.apidesign.org/maven2/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -77,7 +77,7 @@
 				<repository>
 					<id>mvnrepository</id>
 					<name>mvnrepository</name>
-					<url>https://mvnrepository.com/artifact/</url>
+					<url>https://mvnrepository.com/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -90,7 +90,7 @@
 				<pluginRepository>
 					<id>bits-netbeans</id>
 					<name>bits-netbeans</name>
-					<url>http://137.254.56.27/maven2/</url>
+					<url>http://netbeans.apidesign.org/maven2/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -134,7 +134,7 @@
 				<pluginRepository>
 					<id>mvnrepository</id>
 					<name>mvnrepository</name>
-					<url>https://mvnrepository.com/artifact/</url>
+					<url>https://mvnrepository.com/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
