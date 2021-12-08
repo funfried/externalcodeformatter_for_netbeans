@@ -99,14 +99,14 @@ import io.spring.javaformat.formatter.Formatter;
 <span class="fc" id="L99">			String prop = this.getSpringFormatterProperty(propKey);</span>
 <span class="pc bpc" id="L100" title="1 of 2 branches missed.">			if (prop != null) {</span>
 				try {
-<span class="fc" id="L102">					ret = Integer.parseInt(prop);</span>
+<span class="nc" id="L102">					ret = Integer.parseInt(prop);</span>
 <span class="nc" id="L103">				} catch (NumberFormatException ex) {</span>
 <span class="nc" id="L104">					log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
-<span class="fc" id="L105">				}</span>
+<span class="nc" id="L105">				}</span>
 			}
 
 <span class="pc bpc" id="L108" title="1 of 2 branches missed.">			if (ret == null) {</span>
-<span class="nc" id="L109">				ret = 2;</span>
+<span class="fc" id="L109">				ret = 2;</span>
 			}
 		}
 
@@ -131,14 +131,14 @@ import io.spring.javaformat.formatter.Formatter;
 <span class="fc" id="L131">			String prop = this.getSpringFormatterProperty(propKey);</span>
 <span class="pc bpc" id="L132" title="1 of 2 branches missed.">			if (prop != null) {</span>
 				try {
-<span class="fc" id="L134">					ret = Integer.parseInt(prop);</span>
+<span class="nc" id="L134">					ret = Integer.parseInt(prop);</span>
 <span class="nc" id="L135">				} catch (NumberFormatException ex) {</span>
 <span class="nc" id="L136">					log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
-<span class="fc" id="L137">				}</span>
+<span class="nc" id="L137">				}</span>
 			}
 
 <span class="pc bpc" id="L140" title="1 of 2 branches missed.">			if (ret == null) {</span>
-<span class="nc" id="L141">				ret = 4;</span>
+<span class="fc" id="L141">				ret = 4;</span>
 			}
 		}
 
@@ -161,10 +161,10 @@ import io.spring.javaformat.formatter.Formatter;
 <span class="fc" id="L161">		String prop = this.getSpringFormatterProperty(propKey);</span>
 <span class="pc bpc" id="L162" title="1 of 2 branches missed.">		if (prop != null) {</span>
 			try {
-<span class="fc" id="L164">				ret = Integer.parseInt(prop);</span>
+<span class="nc" id="L164">				ret = Integer.parseInt(prop);</span>
 <span class="nc" id="L165">			} catch (NumberFormatException ex) {</span>
 <span class="nc" id="L166">				log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
-<span class="fc" id="L167">			}</span>
+<span class="nc" id="L167">			}</span>
 		}
 
 <span class="fc" id="L170">		return ret;</span>
@@ -199,14 +199,14 @@ import io.spring.javaformat.formatter.Formatter;
 <span class="fc" id="L199">				String prop = this.getSpringFormatterProperty(propKey);</span>
 <span class="pc bpc" id="L200" title="1 of 2 branches missed.">				if (prop != null) {</span>
 					try {
-<span class="fc" id="L202">						ret = Integer.parseInt(prop);</span>
+<span class="nc" id="L202">						ret = Integer.parseInt(prop);</span>
 <span class="nc" id="L203">					} catch (NumberFormatException ex) {</span>
 <span class="nc" id="L204">						log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
-<span class="fc" id="L205">					}</span>
+<span class="nc" id="L205">					}</span>
 				}
 
 <span class="pc bpc" id="L208" title="1 of 2 branches missed.">				if (ret == null) {</span>
-<span class="nc" id="L209">					ret = 4;</span>
+<span class="fc" id="L209">					ret = 4;</span>
 				}
 			}
 		}
@@ -251,11 +251,11 @@ import io.spring.javaformat.formatter.Formatter;
 <span class="fc" id="L251">			String propKey = &quot;org.eclipse.jdt.core.formatter.tabulation.size&quot;;</span>
 <span class="fc" id="L252">			String prop = this.getSpringFormatterProperty(propKey);</span>
 <span class="pc bpc" id="L253" title="1 of 2 branches missed.">			if (prop != null) {</span>
-<span class="fc" id="L254">				ret = Objects.equals(prop, &quot;space&quot;);</span>
+<span class="nc" id="L254">				ret = Objects.equals(prop, &quot;space&quot;);</span>
 			}
 
 <span class="pc bpc" id="L257" title="1 of 2 branches missed.">			if (ret == null) {</span>
-<span class="nc" id="L258">				ret = false;</span>
+<span class="fc" id="L258">				ret = false;</span>
 			}
 		}
 
