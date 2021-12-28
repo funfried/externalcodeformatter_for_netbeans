@@ -8,6 +8,15 @@
 	</properties>
 
 	<body>
+		<release version="1.14.2" date="2021-12-28" description="Bug fix release">
+			<action dev="bahlef" type="fix" issue="164">
+				Fixed NoSuchMethodError when formatting javadoc
+			</action>
+			<action dev="bahlef" type="update">
+				Updated all formatters and third-party dependency to latest versions
+			</action>
+		</release>
+
 		<release version="1.14.1" date="2020-08-26" description="Support for SQL formatter and some improvements">
 			<action dev="bahlef" type="add" issue="155">
 				Added support for loading remote configurations for Eclipse formatters
