@@ -23,6 +23,7 @@ install:
       }
   - cmd: SET PATH=C:\maven\apache-maven-3.8.4\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: SET MAVEN_OPTS=-Xms128m -Xmx512m --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED
+  - cmd: del /f /q /a C:\maven\apache-maven-3.8.4\conf\settings.xml
   - cmd: mvn --version
   - cmd: java -version
 build_script:
