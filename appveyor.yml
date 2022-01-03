@@ -26,4 +26,4 @@ install:
   - cmd: mvn --version
   - cmd: java -version
 build_script:
-  - cp .ci.settings.xml C:\maven\apache-maven-3.8.4\conf\settings.xml && mvn -X -e --no-transfer-progress -Denv.github_username=%github_username% -Denv.github_token=%github_token% clean package site
+  - cp .ci.settings.xml %USERPROFILE%\.m2\settings.xml && mvn -X -e --no-transfer-progress -Denv.github_username=%github_username% -Denv.github_token=%github_token% clean package site
