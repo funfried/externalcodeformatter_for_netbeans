@@ -483,12 +483,12 @@
 						<quiet>true</quiet>
 						<doclint>all,-missing</doclint>
 						<links>
-							<link>https://bits.netbeans.org/${netbeans.version}/javadoc/org-openide-util-lookup/</link>
-							<link>https://bits.netbeans.org/${netbeans.version}/javadoc/org-openide-filesystems/</link>
-							<link>https://bits.netbeans.org/${netbeans.version}/javadoc/org-netbeans-modules-diff/</link>
-							<link>https://bits.netbeans.org/${netbeans.version}/javadoc/org-netbeans-modules-projectapi/</link>
-							<link>https://bits.netbeans.org/${netbeans.version}/javadoc/org-netbeans-modules-options-api/</link>
-							<link>https://bits.netbeans.org/${netbeans.version}/javadoc/org-netbeans-modules-editor-guards/</link>
+							<link>https://javadoc.io/static/org.netbeans.api/org-openide-util-lookup/${netbeans.version}/</link>
+							<link>https://javadoc.io/static/org.netbeans.api/org-openide-filesystems/${netbeans.version}/</link>
+							<link>https://javadoc.io/static/org.netbeans.api/org-netbeans-modules-diff/${netbeans.version}/</link>
+							<link>https://javadoc.io/static/org.netbeans.api/org-netbeans-modules-projectapi/${netbeans.version}/</link>
+							<link>https://javadoc.io/static/org.netbeans.api/org-netbeans-modules-options-api/${netbeans.version}/</link>
+							<link>https://javadoc.io/static/org.netbeans.api/org-netbeans-modules-editor-guards/${netbeans.version}/</link>
 							<link>https://commons.apache.org/proper/commons-lang/javadocs/api-release/</link>
 							<!-- Cannot be embedded in version 1.13.0 because there seems to be a class referenced in JavaDoc which is not in the classpath -->
 							<!--							<link>https://javadoc.io/doc/com.google.googlejavaformat/google-java-format/${google-java-format.version}/</link>-->
