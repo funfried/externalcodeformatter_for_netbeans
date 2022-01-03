@@ -26,4 +26,4 @@ install:
   - cmd: mvn --version
   - cmd: java -version
 build_script:
-  - mvn -s .ci.settings.xml --no-transfer-progress -Denv.github_username=%github_username% -Denv.github_token=%github_token% clean package site
+  - mvn -X -e  -s .ci.settings.xml --no-transfer-progress -Denv.github_username=%github_username% -Denv.github_token=%github_token% clean package site
