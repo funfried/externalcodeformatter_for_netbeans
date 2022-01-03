@@ -41,7 +41,7 @@
 			<id>apache-http-blocker</id>
 			<mirrorOf>apache</mirrorOf>
 			<name>Apache Mirror</name>
-			<url>https://repo.maven.apache.org/maven2/</url>
+			<url>https://repository.apache.org/</url>
 		</mirror>
 		<mirror>
 			<id>sonatype-nexus-staging-http-blocker</id>
@@ -106,12 +106,12 @@
 				<repository>
 					<id>apache</id>
 					<name>apache</name>
-					<url>https://repo.maven.apache.org/maven2/</url>
+					<url>https://repository.apache.org/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
 					<snapshots>
-						<enabled>true</enabled>
+						<enabled>false</enabled>
 					</snapshots>
 				</repository>
 			</repositories>
@@ -152,12 +152,12 @@
 				<pluginRepository>
 					<id>apache</id>
 					<name>apache</name>
-					<url>https://repo.maven.apache.org/maven2/</url>
+					<url>https://repository.apache.org/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
 					<snapshots>
-						<enabled>true</enabled>
+						<enabled>false</enabled>
 					</snapshots>
 				</pluginRepository>
 			</pluginRepositories>
