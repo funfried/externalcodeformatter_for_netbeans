@@ -43,9 +43,9 @@
 					</snapshots>
 				</repository>
 				<repository>
-					<id>imagej</id>
-					<name>imagej</name>
-					<url>http://maven.imagej.net/content/groups/public</url>
+					<id>scijava</id>
+					<name>scijava</name>
+					<url>https://maven.scijava.org/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -54,8 +54,8 @@
 					</snapshots>
 				</repository>
 				<repository>
-					<id>maven-central</id>
-					<name>maven-central</name>
+					<id>central</id>
+					<name>central</name>
 					<url>https://repo1.maven.org/maven2/</url>
 					<releases>
 						<enabled>true</enabled>
@@ -89,9 +89,9 @@
 					</snapshots>
 				</pluginRepository>
 				<pluginRepository>
-					<id>imagej</id>
-					<name>imagej</name>
-					<url>http://maven.imagej.net/content/groups/public</url>
+					<id>scijava</id>
+					<name>scijava</name>
+					<url>https://maven.scijava.org/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -100,8 +100,8 @@
 					</snapshots>
 				</pluginRepository>
 				<pluginRepository>
-					<id>maven-central</id>
-					<name>maven-central</name>
+					<id>central</id>
+					<name>central</name>
 					<url>https://repo1.maven.org/maven2/</url>
 					<releases>
 						<enabled>true</enabled>
@@ -124,4 +124,31 @@
 			</pluginRepositories>
 		</profile>
 	</profiles>
+
+	<mirrors>
+		<mirror>
+			<id>bits-netbeans-http-blocker</id>
+			<mirrorOf>bits-netbeans</mirrorOf>
+			<name>Bits NetBeans Mirror</name>
+			<url>http://netbeans.apidesign.org/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>scijava-http-blocker</id>
+			<mirrorOf>scijava</mirrorOf>
+			<name>SciJava Mirror</name>
+			<url>https://maven.scijava.org/content/groups/public/</url>
+		</mirror>
+		<mirror>
+			<id>central-http-blocker</id>
+			<mirrorOf>central</mirrorOf>
+			<name>Maven Central Mirror</name>
+			<url>https://repo1.maven.org/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>apache-http-blocker</id>
+			<mirrorOf>apache</mirrorOf>
+			<name>Apache Mirror</name>
+			<url>https://repo.maven.apache.org/maven2/</url>
+		</mirror>
+	</mirrors>
 </settings>
