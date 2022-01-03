@@ -18,6 +18,45 @@
 		</server>
 	</servers>
 
+	<mirrors>
+		<mirror>
+			<id>bits-netbeans-http-blocker</id>
+			<mirrorOf>bits-netbeans</mirrorOf>
+			<name>Bits NetBeans Mirror</name>
+			<url>http://netbeans.apidesign.org/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>scijava-http-blocker</id>
+			<mirrorOf>scijava</mirrorOf>
+			<name>SciJava Mirror</name>
+			<url>https://maven.scijava.org/content/groups/public/</url>
+		</mirror>
+		<mirror>
+			<id>central-http-blocker</id>
+			<mirrorOf>central</mirrorOf>
+			<name>Maven Central Mirror</name>
+			<url>https://repo1.maven.org/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>apache-http-blocker</id>
+			<mirrorOf>apache</mirrorOf>
+			<name>Apache Mirror</name>
+			<url>https://repo.maven.apache.org/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>sonatype-nexus-staging-http-blocker</id>
+			<mirrorOf>sonatype-nexus-staging</mirrorOf>
+			<name>Sonatype Nexus Staging Mirror</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>sonatype-nexus-snapshots-http-blocker</id>
+			<mirrorOf>sonatype-nexus-snapshots</mirrorOf>
+			<name>Sonatype Nexus Snapshots Mirror</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</mirror>
+	</mirrors>
+
 	<activeProfiles>
 		<activeProfile>ci</activeProfile>
 	</activeProfiles>
@@ -124,31 +163,4 @@
 			</pluginRepositories>
 		</profile>
 	</profiles>
-
-	<mirrors>
-		<mirror>
-			<id>bits-netbeans-http-blocker</id>
-			<mirrorOf>bits-netbeans</mirrorOf>
-			<name>Bits NetBeans Mirror</name>
-			<url>http://netbeans.apidesign.org/maven2/</url>
-		</mirror>
-		<mirror>
-			<id>scijava-http-blocker</id>
-			<mirrorOf>scijava</mirrorOf>
-			<name>SciJava Mirror</name>
-			<url>https://maven.scijava.org/content/groups/public/</url>
-		</mirror>
-		<mirror>
-			<id>central-http-blocker</id>
-			<mirrorOf>central</mirrorOf>
-			<name>Maven Central Mirror</name>
-			<url>https://repo1.maven.org/maven2/</url>
-		</mirror>
-		<mirror>
-			<id>apache-http-blocker</id>
-			<mirrorOf>apache</mirrorOf>
-			<name>Apache Mirror</name>
-			<url>https://repo.maven.apache.org/maven2/</url>
-		</mirror>
-	</mirrors>
 </settings>
