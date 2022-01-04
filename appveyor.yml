@@ -16,6 +16,9 @@ init:
   - git config --global core.autocrlf true
 install:
   - cmd: dir C:\
+  - cmd: dir C:\Tools
+  - cmd: dir "C:\Program Files"
+  - cmd: dir "C:\Program Files (x86)"
   - cmd: SET PATH=%PATH%;%JAVA_HOME%\bin
   - cmd: mvn --version
   - cmd: java -version
