@@ -26,4 +26,4 @@ jobs:
     - name: Build with Maven
       run: |
         SET "MAVEN_OPTS=-Xms128m -Xmx512m --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED"
-        mvn -s .ci.settings.xml --no-transfer-progress -Denv.github_username=%github_username% -Denv.github_token=%github_token% clean package site
+        mvn -s .ci.settings.xml --no-transfer-progress -Denv.github_username=${{ secrets.GH_USERNAME }} -Denv.github_token=${{ secrets.GH_TOKEN }} clean package site
