@@ -17,7 +17,7 @@
 
 	<groupId>de.funfried.netbeans.plugins</groupId>
 	<artifactId>externalcodeformatter</artifactId>
-	<version>1.14.2</version>
+	<version>1.14.3-SNAPSHOT</version>
 	<packaging>nbm</packaging>
 
 	<developers>
@@ -490,7 +490,7 @@
 							<link>https://javadoc.io/static/org.netbeans.api/org-netbeans-modules-options-api/${netbeans.version}/</link>
 							<link>https://javadoc.io/static/org.netbeans.api/org-netbeans-modules-editor-guards/${netbeans.version}/</link>
 							<link>https://commons.apache.org/proper/commons-lang/javadocs/api-release/</link>
-							<!-- Cannot be embedded in version 1.9 because there seems to be a class referenced in JavaDoc which is not in the classpath -->
+							<!-- Cannot be embedded in version 1.13.0 because there seems to be a class referenced in JavaDoc which is not in the classpath -->
 							<!--							<link>https://javadoc.io/doc/com.google.googlejavaformat/google-java-format/${google-java-format.version}/</link>-->
 							<link>https://javadoc.io/doc/net.revelc.code.formatter/xml-formatter/${xml-formatter.version}/</link>
 							<link>https://javadoc.io/doc/org.jsoup/jsoup/${jsoup.version}/</link>
@@ -574,7 +574,7 @@
 				<plugin>
 					<groupId>org.owasp</groupId>
 					<artifactId>dependency-check-maven</artifactId>
-					<version>6.5.0</version>
+					<version>6.5.2</version>
 					<configuration>
 						<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
 					</configuration>

@@ -62,12 +62,22 @@ public class ExternalFormatterCodeStylePreferencesProvider implements CodeStyleP
 	private static final CodeStylePreferences.Provider defaultProvider = new CodeStylePreferences.Provider() {
 		@Override
 		public Preferences forFile(FileObject file, String mimeType) {
-			return MimeLookup.getLookup(mimeType == null ? MimePath.EMPTY : MimePath.parse(mimeType)).lookup(Preferences.class);
+			Preferences prefs = MimeLookup.getLookup(mimeType).lookup(Preferences.class);
+			if (prefs == null) {
+				prefs = MimeLookup.getLookup(StringUtils.isBlank(mimeType) ? MimePath.EMPTY : MimePath.parse(mimeType)).lookup(Preferences.class);
+			}
+
+			return prefs;
 		}
 
 		@Override
 		public Preferences forDocument(Document doc, String mimeType) {
-			return MimeLookup.getLookup(mimeType == null ? MimePath.EMPTY : MimePath.parse(mimeType)).lookup(Preferences.class);
+			Preferences prefs = MimeLookup.getLookup(mimeType).lookup(Preferences.class);
+			if (prefs == null) {
+				prefs = MimeLookup.getLookup(StringUtils.isBlank(mimeType) ? MimePath.EMPTY : MimePath.parse(mimeType)).lookup(Preferences.class);
+			}
+
+			return prefs;
 		}
 	};
 

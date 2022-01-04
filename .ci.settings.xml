@@ -18,6 +18,45 @@
 		</server>
 	</servers>
 
+	<mirrors>
+		<mirror>
+			<id>bits-netbeans-http-blocker</id>
+			<mirrorOf>bits-netbeans</mirrorOf>
+			<name>Bits NetBeans Mirror</name>
+			<url>http://netbeans.apidesign.org/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>scijava-http-blocker</id>
+			<mirrorOf>scijava</mirrorOf>
+			<name>SciJava Mirror</name>
+			<url>https://maven.scijava.org/content/groups/public/</url>
+		</mirror>
+		<mirror>
+			<id>central-http-blocker</id>
+			<mirrorOf>central</mirrorOf>
+			<name>Maven Central Mirror</name>
+			<url>https://repo1.maven.org/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>apache-http-blocker</id>
+			<mirrorOf>apache</mirrorOf>
+			<name>Apache Mirror</name>
+			<url>https://repository.apache.org/</url>
+		</mirror>
+		<mirror>
+			<id>sonatype-nexus-staging-http-blocker</id>
+			<mirrorOf>sonatype-nexus-staging</mirrorOf>
+			<name>Sonatype Nexus Staging Mirror</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>sonatype-nexus-snapshots-http-blocker</id>
+			<mirrorOf>sonatype-nexus-snapshots</mirrorOf>
+			<name>Sonatype Nexus Snapshots Mirror</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</mirror>
+	</mirrors>
+
 	<activeProfiles>
 		<activeProfile>ci</activeProfile>
 	</activeProfiles>
@@ -43,9 +82,9 @@
 					</snapshots>
 				</repository>
 				<repository>
-					<id>imagej</id>
-					<name>imagej</name>
-					<url>http://maven.imagej.net/content/groups/public</url>
+					<id>scijava</id>
+					<name>scijava</name>
+					<url>https://maven.scijava.org/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -54,8 +93,8 @@
 					</snapshots>
 				</repository>
 				<repository>
-					<id>maven-central</id>
-					<name>maven-central</name>
+					<id>central</id>
+					<name>central</name>
 					<url>https://repo1.maven.org/maven2/</url>
 					<releases>
 						<enabled>true</enabled>
@@ -67,23 +106,12 @@
 				<repository>
 					<id>apache</id>
 					<name>apache</name>
-					<url>https://repo.maven.apache.org/maven2/</url>
+					<url>https://repository.apache.org/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
 					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>mvnrepository</id>
-					<name>mvnrepository</name>
-					<url>https://mvnrepository.com/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
+						<enabled>false</enabled>
 					</snapshots>
 				</repository>
 			</repositories>
@@ -100,9 +128,9 @@
 					</snapshots>
 				</pluginRepository>
 				<pluginRepository>
-					<id>imagej</id>
-					<name>imagej</name>
-					<url>http://maven.imagej.net/content/groups/public</url>
+					<id>scijava</id>
+					<name>scijava</name>
+					<url>https://maven.scijava.org/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -111,8 +139,8 @@
 					</snapshots>
 				</pluginRepository>
 				<pluginRepository>
-					<id>maven-central</id>
-					<name>maven-central</name>
+					<id>central</id>
+					<name>central</name>
 					<url>https://repo1.maven.org/maven2/</url>
 					<releases>
 						<enabled>true</enabled>
@@ -124,23 +152,12 @@
 				<pluginRepository>
 					<id>apache</id>
 					<name>apache</name>
-					<url>https://repo.maven.apache.org/maven2/</url>
+					<url>https://repository.apache.org/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
 					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>mvnrepository</id>
-					<name>mvnrepository</name>
-					<url>https://mvnrepository.com/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
+						<enabled>false</enabled>
 					</snapshots>
 				</pluginRepository>
 			</pluginRepositories>
