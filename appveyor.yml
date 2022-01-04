@@ -15,16 +15,10 @@ image: Visual Studio 2019
 init:
   - git config --global core.autocrlf true
 install:
-  - cmd: dir C:\
-  - cmd: dir C:\Tools
-  - cmd: dir "C:\Program Files"
-  - cmd: dir "C:\Program Files\Java"
-  - cmd: dir "C:\Program Files (x86)"
-  - cmd: dir "C:\Program Files (x86)\Java"
-  - cmd: dir "C:\Program Files (x86)\Apache"
-  - cmd: dir "C:\Program Files (x86)\Apache\Maven"
+  - cmd: mkdir %USERPROFILE%\.m2
+  - cmd: cp .ci.settings.xml %USERPROFILE%\.m2\settings.xml
   - cmd: SET PATH=%JAVA_HOME%\bin;%PATH%
   - cmd: mvn --version
   - cmd: java -version
 build_script:
-  - mvn -s .ci.settings.xml --no-transfer-progress -Denv.github_username=%github_username% -Denv.github_token=%github_token% clean package site
+  - mvn --no-transfer-progress -Denv.github_username=%github_username% -Denv.github_token=%github_token% clean package site
