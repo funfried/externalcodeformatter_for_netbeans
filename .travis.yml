@@ -2,10 +2,10 @@ branches:
   only:
   - master
   - /^release/.*$/
-dist: trusty
+dist: focal
 language: java
 jdk:
-  - openjdk8
+  - openjdk11
 cache:
   directories:
     - $HOME/.m2
