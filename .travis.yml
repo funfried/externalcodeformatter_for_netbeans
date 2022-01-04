@@ -25,8 +25,8 @@ jobs:
       - echo $signing_ownertrust | base64 --decode | gpg --import-ownertrust
       - cp .ci.settings.xml $HOME/.m2/settings.xml
       script:
-      - mvn --no-transfer-progress -Dgh_username=${env.github_username} -Dgh_token=${env.github_token} -Prelease-commons,sonatype-oss-release deploy site site:stage scm-publish:publish-scm
-      - mvn -Dgh_username=${env.github_username} -Dgh_token=${env.github_token} -Ptravis coveralls:report
-      - mvn --no-transfer-progress -Dgh_username=${env.github_username} -Dgh_token=${env.github_token} -Prelease-commons,github clean deploy
+      - mvn --no-transfer-progress -Dgh_username=$github_username -Dgh_token=$github_token -Prelease-commons,sonatype-oss-release deploy site site:stage scm-publish:publish-scm
+      - mvn -Dgh_username=$github_username -Dgh_token=$github_token -Ptravis coveralls:report
+      - mvn --no-transfer-progress -Dgh_username=$github_username -Dgh_token=$github_token -Prelease-commons,github clean deploy
       after_success:
       - bash <(curl -s https://codecov.io/bash)
