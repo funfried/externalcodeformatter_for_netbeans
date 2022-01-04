@@ -19,8 +19,6 @@ install:
   - cmd: dir C:\Tools
   - cmd: dir "C:\Program Files"
   - cmd: dir "C:\Program Files\Java"
-  - cmd: dir "C:\Program Files\Apache"
-  - cmd: dir "C:\Program Files\Apache\Maven"
   - cmd: dir "C:\Program Files (x86)"
   - cmd: dir "C:\Program Files (x86)\Java"
   - cmd: dir "C:\Program Files (x86)\Apache"
