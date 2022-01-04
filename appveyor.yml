@@ -15,6 +15,7 @@ init:
   - git config --global core.autocrlf true
 install:
   - cmd: echo %JAVA_HOME%
+  - cmd: dir %JAVA_HOME%
   - cmd: SET MAVEN_OPTS=-Xms128m -Xmx512m --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED
   - cmd: mvn --version
   - cmd: java -version
