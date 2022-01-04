@@ -11,20 +11,12 @@ branches:
   except:
     - gh-pages
 os: Windows Server 2019
-image: Visual Studio 2019
+image: Visual Studio 2022
 init:
   - git config --global core.autocrlf true
 install:
-  - ps: |
-      Add-Type -AssemblyName System.IO.Compression.FileSystem
-      if (!(Test-Path -Path "C:\maven" )) {
-        (new-object System.Net.WebClient).DownloadFile('https://downloads.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.zip', 'C:\maven-bin.zip')
-        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
-      }
-  - cmd: SET PATH=C:\maven\apache-maven-3.8.4\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: SET MAVEN_OPTS=-Xms128m -Xmx512m --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED
-  - cmd: mkdir %USERPROFILE%\.m2
   - cmd: mvn --version
   - cmd: java -version
 build_script:
-  - cp .ci.settings.xml %USERPROFILE%\.m2\settings.xml && mvn --no-transfer-progress -Denv.github_username=%github_username% -Denv.github_token=%github_token% clean package site
+  - mvn -s .ci.settings.xml --no-transfer-progress -Denv.github_username=%github_username% -Denv.github_token=%github_token% clean package site
