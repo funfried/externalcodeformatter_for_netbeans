@@ -21,7 +21,8 @@ jobs:
         cache: maven
     - name: Build and Deploy with Maven
       run: |
-        mvn -version
+        git config --global user.email "info@funfried.de"
+        git config --global user.name "funfried"
         echo ${{ secrets.GPG_SIGNING_SECRET_KEY }} | base64 --decode | gpg --batch --import
         echo ${{ secrets.GPG_SIGNING_OWNERTRUST }} | base64 --decode | gpg --import-ownertrust
         mvn -s .ci.settings.xml --no-transfer-progress -Prelease-commons,sonatype-oss-release deploy site site:stage scm-publish:publish-scm
