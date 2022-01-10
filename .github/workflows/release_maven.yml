@@ -21,6 +21,7 @@ jobs:
         cache: maven
     - name: Build and Deploy with Maven
       run: |
+        mvn -version
         echo ${{ secrets.GPG_SIGNING_SECRET_KEY }} | base64 --decode | gpg --batch --import
         echo ${{ secrets.GPG_SIGNING_OWNERTRUST }} | base64 --decode | gpg --import-ownertrust
         mvn -s .ci.settings.xml --no-transfer-progress -Dgh_username=${{ secrets.GH_USERNAME }} -Dgh_token=${{ secrets.GH_TOKEN }} -Prelease-commons,sonatype-oss-release deploy site site:stage scm-publish:publish-scm
