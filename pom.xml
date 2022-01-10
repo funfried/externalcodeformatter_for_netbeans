@@ -935,6 +935,7 @@
 								<phase>verify</phase>
 								<configuration>
 									<gpgArguments>
+										<arg>--no-tty</arg>
 										<arg>--pinentry-mode</arg>
 										<arg>loopback</arg>
 									</gpgArguments>
