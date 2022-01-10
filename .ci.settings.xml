@@ -3,8 +3,8 @@
 	<servers>
 		<server>
 			<id>github</id>
-			<username>${gh_username}</username>
-			<password>${gh_token}</password>
+			<username>${env.gh_username}</username>
+			<password>${env.gh_token}</password>
 		</server>
 		<server>
 			<id>sonatype-nexus-staging</id>
