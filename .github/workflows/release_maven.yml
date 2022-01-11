@@ -36,6 +36,6 @@ jobs:
         gh_token: ${{ secrets.GH_TOKEN }}
         sonatype_username: ${{ secrets.SONATYPE_USERNAME }}
         sonatype_password: ${{ secrets.SONATYPE_PASSWORD }}
-        repoToken: ${{ secrets.GH_REPOTOKEN }}
+        repoToken: ${{ secrets.COVERALLS_REPOTOKEN }}
         signing_keypass: ${{ secrets.GPG_PASSPHRASE }}
         skipRemoteStaging: ${{ secrets.SKIP_REMOTE_STAGING }}
