@@ -3,8 +3,8 @@
 	<servers>
 		<server>
 			<id>github</id>
-			<username>${gh_username}</username>
-			<password>${gh_token}</password>
+			<username>${env.gh_username}</username>
+			<password>${env.gh_token}</password>
 		</server>
 		<server>
 			<id>sonatype-nexus-staging</id>
@@ -25,12 +25,12 @@
 			<name>Bits NetBeans Mirror</name>
 			<url>http://netbeans.apidesign.org/maven2/</url>
 		</mirror>
-		<mirror>
+		<!--<mirror>
 			<id>scijava-http-blocker</id>
 			<mirrorOf>scijava</mirrorOf>
 			<name>SciJava Mirror</name>
 			<url>https://maven.scijava.org/content/groups/public/</url>
-		</mirror>
+		</mirror>-->
 		<mirror>
 			<id>central-http-blocker</id>
 			<mirrorOf>central</mirrorOf>
@@ -81,7 +81,7 @@
 						<enabled>true</enabled>
 					</snapshots>
 				</repository>
-				<repository>
+				<!--<repository>
 					<id>scijava</id>
 					<name>scijava</name>
 					<url>https://maven.scijava.org/content/groups/public/</url>
@@ -91,7 +91,7 @@
 					<snapshots>
 						<enabled>true</enabled>
 					</snapshots>
-				</repository>
+				</repository>-->
 				<repository>
 					<id>central</id>
 					<name>central</name>
@@ -127,7 +127,7 @@
 						<enabled>true</enabled>
 					</snapshots>
 				</pluginRepository>
-				<pluginRepository>
+				<!--<pluginRepository>
 					<id>scijava</id>
 					<name>scijava</name>
 					<url>https://maven.scijava.org/content/groups/public/</url>
@@ -137,7 +137,7 @@
 					<snapshots>
 						<enabled>true</enabled>
 					</snapshots>
-				</pluginRepository>
+				</pluginRepository>-->
 				<pluginRepository>
 					<id>central</id>
 					<name>central</name>

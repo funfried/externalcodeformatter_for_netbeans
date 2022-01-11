@@ -1,0 +1,36 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Windows Build
+
+on:
+  push:
+    branches:
+    - master
+    - release/*
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -s .ci.settings.xml --no-transfer-progress clean package site
+      env:
+        MAVEN_OPTS: -Xms128m -Xmx512m --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED
+        gh_username: ${{ secrets.GH_USERNAME }}
+        gh_token: ${{ secrets.GH_TOKEN }}
+        sonatype_username: ${{ secrets.SONATYPE_USERNAME }}
+        sonatype_password: ${{ secrets.SONATYPE_PASSWORD }}
+        repoToken: ${{ secrets.GH_REPOTOKEN }}
+        signing_keypass: ${{ secrets.GPG_PASSPHRASE }}
+        skipRemoteStaging: ${{ secrets.SKIP_REMOTE_STAGING }}
