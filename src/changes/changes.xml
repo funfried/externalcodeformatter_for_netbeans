@@ -12,6 +12,9 @@
 			<action dev="bahlef" type="fix" issue="152">
 				Erroneous formatting with Eclipse
 			</action>
+			<action dev="bahlef" type="add" issue="178">
+				Added Java &gt; 11 runtime check
+			</action>
 		</release>
 
 		<release version="1.14.2" date="2021-12-28" description="Bug fix release">
