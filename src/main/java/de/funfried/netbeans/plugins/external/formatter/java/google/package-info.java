@@ -9,6 +9,6 @@
  */
 
 /**
- * Package containing classes for Google formatter stragegy logic.
+ * Package containing classes for Google formatter strategy logic.
  */
 package de.funfried.netbeans.plugins.external.formatter.java.google;

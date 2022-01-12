@@ -9,6 +9,6 @@
  */
 
 /**
- * Package containing classes for Jackson Json formatter stragegy logic.
+ * Package containing classes for Jackson Json formatter strategy logic.
  */
 package de.funfried.netbeans.plugins.external.formatter.json.jackson;

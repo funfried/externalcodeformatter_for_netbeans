@@ -9,6 +9,6 @@
  */
 
 /**
- * Package containing classes for revelc.net XML formatter stragegy logic.
+ * Package containing classes for revelc.net XML formatter strategy logic.
  */
 package de.funfried.netbeans.plugins.external.formatter.xml.revelc;
