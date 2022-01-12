@@ -26,7 +26,7 @@ jobs:
         echo ${{ secrets.GPG_SIGNING_SECRET_KEY }} | base64 --decode | gpg --batch --import
         echo ${{ secrets.GPG_SIGNING_OWNERTRUST }} | base64 --decode | gpg --import-ownertrust
         mvn -s .ci.settings.xml --no-transfer-progress -Prelease-commons,sonatype-oss-release deploy site site:stage scm-publish:publish-scm
-        mvn -s .ci.settings.xml -Ptravis coveralls:report
+        mvn -s .ci.settings.xml -Pcoveralls coveralls:report
         mvn -s .ci.settings.xml --no-transfer-progress -Prelease-commons,github clean deploy
         bash <(curl -s https://codecov.io/bash)
       env:

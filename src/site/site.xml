@@ -47,7 +47,8 @@
 		<logo name="Apache NetBeans" href="https://netbeans.apache.org/" img="imgs/logos/netbeans_small.png" />
 		<logo name="Maven" href="https://maven.apache.org/" img="https://maven.apache.org/images/logos/maven-feather.png" />
 		<logo name="Maven Central" href="https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/" img="https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/badge.svg" />
-		<logo name="Linux Build Status" href="https://app.travis-ci.com/funfried/externalcodeformatter_for_netbeans" img="https://app.travis-ci.com/funfried/externalcodeformatter_for_netbeans.svg?branch=master" />
+		<logo name="Release Build Status" href="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/release_maven.yml" img="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/release_maven.yml/badge.svg" />
+		<logo name="Linux Build Status" href="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/linux_maven.yml" img="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/linux_maven.yml/badge.svg" />
 		<logo name="Windows Build Status" href="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/windows_maven.yml" img="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/windows_maven.yml/badge.svg" />
 		<logo name="Coverage Status" href="https://coveralls.io/github/funfried/externalcodeformatter_for_netbeans?branch=master" img="https://coveralls.io/repos/github/funfried/externalcodeformatter_for_netbeans/badge.svg?branch=master" />
 		<logo name="Code Coverage" href="https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans" img="https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans/branch/master/graph/badge.svg" />
