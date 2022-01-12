@@ -45,4 +45,3 @@ External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.form
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,AbstractFormatJob,426,151,41,13,61,34,31,7,5,5
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,FormatterServiceDelegate,30,172,8,24,16,50,8,17,0,9
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,AbstractFormatJob.BreakException,3,0,0,0,1,0,1,0,1,0
-External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,Installer,15,0,2,0,5,0,3,0,2,0
