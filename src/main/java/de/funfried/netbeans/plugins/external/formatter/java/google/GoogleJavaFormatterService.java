@@ -219,7 +219,7 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 		if (isUseFormatterIndentationSettings(preferences)) {
 			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
 			// and https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-			ret = false;
+			ret = true;
 		}
 
 		return ret;

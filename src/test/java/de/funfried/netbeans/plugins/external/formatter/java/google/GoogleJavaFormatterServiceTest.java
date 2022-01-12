@@ -65,7 +65,7 @@ public class GoogleJavaFormatterServiceTest extends NbTestCase {
 		Assert.assertEquals((long) 4L, (long) instance.getContinuationIndentSize(document));
 		Assert.assertEquals((long) 2L, (long) instance.getIndentSize(document));
 		Assert.assertEquals((long) 2L, (long) instance.getSpacesPerTab(document));
-		Assert.assertFalse(instance.isExpandTabToSpaces(document));
+		Assert.assertTrue(instance.isExpandTabToSpaces(document));
 
 		Assert.assertNull(instance.getContinuationIndentSize(null));
 		Assert.assertNull(instance.getIndentSize(null));
@@ -120,7 +120,7 @@ public class GoogleJavaFormatterServiceTest extends NbTestCase {
 		Assert.assertEquals((long) 8L, (long) instance.getContinuationIndentSize(document));
 		Assert.assertEquals((long) 4L, (long) instance.getIndentSize(document));
 		Assert.assertEquals((long) 4L, (long) instance.getSpacesPerTab(document));
-		Assert.assertFalse(instance.isExpandTabToSpaces(document));
+		Assert.assertTrue(instance.isExpandTabToSpaces(document));
 
 		Assert.assertNull(instance.getContinuationIndentSize(null));
 		Assert.assertNull(instance.getIndentSize(null));
