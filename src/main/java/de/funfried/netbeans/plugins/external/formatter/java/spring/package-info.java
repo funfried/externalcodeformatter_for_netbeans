@@ -9,6 +9,6 @@
  */
 
 /**
- * Package containing classes for Spring formatter stragegy logic.
+ * Package containing classes for Spring formatter strategy logic.
  */
 package de.funfried.netbeans.plugins.external.formatter.java.spring;

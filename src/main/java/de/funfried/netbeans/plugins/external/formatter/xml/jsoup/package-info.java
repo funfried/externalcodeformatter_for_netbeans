@@ -9,6 +9,6 @@
  */
 
 /**
- * Package containing classes for Jsoup XML formatter stragegy logic.
+ * Package containing classes for Jsoup XML formatter strategy logic.
  */
 package de.funfried.netbeans.plugins.external.formatter.xml.jsoup;

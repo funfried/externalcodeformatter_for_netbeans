@@ -34,7 +34,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  * @author bahlef
  */
 class GoogleFormatJob extends AbstractFormatJob {
-	/** The {@link EclipGoogleFormatterseFormatter} implementation. */
+	/** The {@link GoogleJavaFormatterWrapper} implementation. */
 	private final GoogleJavaFormatterWrapper formatter;
 
 	/**
