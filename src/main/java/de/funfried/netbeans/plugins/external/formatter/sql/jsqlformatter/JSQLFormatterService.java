@@ -29,21 +29,18 @@ import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.MimeType;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
-import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter.ui.JSQLFormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * JSQLFormatter implementation of the {@link AbstractJavaFormatterService}.
+ * JSQLFormatter implementation of the {@link FormatterService}.
  *
  * @author Andreas Reichel <a href="mailto:andreas@manticore-projects.com">andreas@manticore-projects.com</a>
  */
-
 @NbBundle.Messages({
 		"FormatterName=JSQLFormatter"
 })
-
 @ServiceProvider(service = FormatterService.class, position = 500)
 public class JSQLFormatterService implements FormatterService {
 	/** The ID of this formatter service. */
