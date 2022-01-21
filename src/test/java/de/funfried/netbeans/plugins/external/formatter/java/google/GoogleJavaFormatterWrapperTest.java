@@ -15,7 +15,6 @@ import java.util.TreeSet;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.googlejavaformat.java.JavaFormatterOptions;
@@ -105,7 +104,6 @@ public class GoogleJavaFormatterWrapperTest {
 	 * https://github.com/google/google-java-format/issues/433
 	 */
 	@Test
-	@Ignore
 	public void testPartlyFormatClassUsingGoogleStyle() {
 		final String text = "package foo; public class Bar {\n" +
 				"    @SuppressWarnings(\"unchecked\")\n" +
@@ -129,7 +127,9 @@ public class GoogleJavaFormatterWrapperTest {
 		regions.add(Pair.of(171, 234));
 
 		String actual = instance.format(text, JavaFormatterOptions.Style.GOOGLE, regions);
-		Assert.assertEquals("Formatting should change the code", expected, actual);
+		//		Assert.assertEquals("Formatting should change the code", expected, actual);
+		// This should be actually equal, if this test fails it means it has been fixed by the google-java-format team
+		Assert.assertNotEquals("Formatting should change the code", expected, actual);
 	}
 
 	@Test
@@ -217,7 +217,6 @@ public class GoogleJavaFormatterWrapperTest {
 	 * https://github.com/google/google-java-format/issues/433
 	 */
 	@Test
-	@Ignore
 	public void testPartlyFormatClassUsingAndroidStyle() {
 		final String text = "package foo; public class Bar {\n" +
 				"    @SuppressWarnings(\"unchecked\")\n" +
@@ -241,7 +240,9 @@ public class GoogleJavaFormatterWrapperTest {
 		regions.add(Pair.of(171, 234));
 
 		String actual = instance.format(text, JavaFormatterOptions.Style.AOSP, regions);
-		Assert.assertEquals("Formatting should change the code", expected, actual);
+		//		Assert.assertEquals("Formatting should change the code", expected, actual);
+		// This should be actually equal, if this test fails it means it has been fixed by the google-java-format team
+		Assert.assertNotEquals("Formatting should change the code", expected, actual);
 	}
 
 	@Test
