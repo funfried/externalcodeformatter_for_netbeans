@@ -110,7 +110,15 @@ public class EclipseJavascriptFormatterService extends AbstractJavascriptFormatt
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.wst.jsdt.core.formatter.indentation.size");
+			String value;
+
+			String tabChar = getEclipseFormatterProperty(preferences, document, "org.eclipse.wst.jsdt.core.formatter.tabulation.char");
+			if (Objects.equals(tabChar, "mixed")) {
+				value = getEclipseFormatterProperty(preferences, document, "org.eclipse.wst.jsdt.core.formatter.indentation.size");
+			} else {
+				value = getEclipseFormatterProperty(preferences, document, "org.eclipse.wst.jsdt.core.formatter.tabulation.size");
+			}
+
 			if (value != null) {
 				ret = Integer.valueOf(value);
 			}
@@ -179,9 +187,9 @@ public class EclipseJavascriptFormatterService extends AbstractJavascriptFormatt
 	 * {@link Document} for the given {@code  key}.
 	 *
 	 * @param preferences the {@link Preferences} of the {@link Document} if already loaded
-	 *                    or {@code null} to read the preferences of the given {@link Document}
-	 * @param document    the {@link Document} where to read the value from
-	 * @param key         the key of the value which should be read
+	 *        or {@code null} to read the preferences of the given {@link Document}
+	 * @param document the {@link Document} where to read the value from
+	 * @param key the key of the value which should be read
 	 *
 	 * @return the configuration value of the Eclipse formatter configuration from a given
 	 *         {@link Document} for the given {@code  key}
