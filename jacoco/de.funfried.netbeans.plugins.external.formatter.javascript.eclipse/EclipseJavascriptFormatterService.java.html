@@ -110,13 +110,21 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 <span class="fc" id="L111">		Preferences preferences = Settings.getActivePreferences(document);</span>
 <span class="fc bfc" id="L112" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L113">			String value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.wst.jsdt.core.formatter.indentation.size&quot;);</span>
-<span class="pc bpc" id="L114" title="1 of 2 branches missed.">			if (value != null) {</span>
-<span class="fc" id="L115">				ret = Integer.valueOf(value);</span>
+			String value;
+
+<span class="fc" id="L115">			String tabChar = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.wst.jsdt.core.formatter.tabulation.char&quot;);</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">			if (Objects.equals(tabChar, &quot;mixed&quot;)) {</span>
+<span class="nc" id="L117">				value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.wst.jsdt.core.formatter.indentation.size&quot;);</span>
+			} else {
+<span class="fc" id="L119">				value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.wst.jsdt.core.formatter.tabulation.size&quot;);</span>
+			}
+
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">			if (value != null) {</span>
+<span class="fc" id="L123">				ret = Integer.valueOf(value);</span>
 			}
 		}
 
-<span class="fc" id="L119">		return ret;</span>
+<span class="fc" id="L127">		return ret;</span>
 	}
 
 	/**
@@ -125,18 +133,18 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Integer getRightMargin(Document document) {
-<span class="pc bpc" id="L128" title="1 of 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L129">			return null;</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L137">			return null;</span>
 		}
 
-<span class="fc" id="L132">		Integer ret = null;</span>
+<span class="fc" id="L140">		Integer ret = null;</span>
 
-<span class="fc" id="L134">		String value = getEclipseFormatterProperty(null, document, &quot;org.eclipse.wst.jsdt.core.formatter.lineSplit&quot;);</span>
-<span class="pc bpc" id="L135" title="1 of 2 branches missed.">		if (value != null) {</span>
-<span class="fc" id="L136">			ret = Integer.valueOf(value);</span>
+<span class="fc" id="L142">		String value = getEclipseFormatterProperty(null, document, &quot;org.eclipse.wst.jsdt.core.formatter.lineSplit&quot;);</span>
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">		if (value != null) {</span>
+<span class="fc" id="L144">			ret = Integer.valueOf(value);</span>
 		}
 
-<span class="fc" id="L139">		return ret;</span>
+<span class="fc" id="L147">		return ret;</span>
 	}
 
 	/**
@@ -144,7 +152,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 */
 	@Override
 	protected FormatJob getFormatJob(StyledDocument document, Pair&lt;Integer, Integer&gt; changedElement) {
-<span class="fc" id="L147">		return new EclipseFormatJob(document, formatter, changedElement);</span>
+<span class="fc" id="L155">		return new EclipseFormatJob(document, formatter, changedElement);</span>
 	}
 
 	/**
@@ -153,25 +161,25 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Integer getSpacesPerTab(Document document) {
-<span class="fc bfc" id="L156" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L157">			return null;</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L165">			return null;</span>
 		}
 
-<span class="fc" id="L160">		Integer ret = null;</span>
+<span class="fc" id="L168">		Integer ret = null;</span>
 
-<span class="fc" id="L162">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L163" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="pc bpc" id="L164" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
-<span class="nc" id="L165">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+<span class="fc" id="L170">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="nc" id="L173">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
 			} else {
-<span class="fc" id="L167">				String value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.wst.jsdt.core.formatter.tabulation.size&quot;);</span>
-<span class="pc bpc" id="L168" title="1 of 2 branches missed.">				if (value != null) {</span>
-<span class="fc" id="L169">					ret = Integer.valueOf(value);</span>
+<span class="fc" id="L175">				String value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.wst.jsdt.core.formatter.tabulation.size&quot;);</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">				if (value != null) {</span>
+<span class="fc" id="L177">					ret = Integer.valueOf(value);</span>
 				}
 			}
 		}
 
-<span class="fc" id="L174">		return ret;</span>
+<span class="fc" id="L182">		return ret;</span>
 	}
 
 	/**
@@ -179,28 +187,28 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 * {@link Document} for the given {@code  key}.
 	 *
 	 * @param preferences the {@link Preferences} of the {@link Document} if already loaded
-	 *                    or {@code null} to read the preferences of the given {@link Document}
-	 * @param document    the {@link Document} where to read the value from
-	 * @param key         the key of the value which should be read
+	 *        or {@code null} to read the preferences of the given {@link Document}
+	 * @param document the {@link Document} where to read the value from
+	 * @param key the key of the value which should be read
 	 *
 	 * @return the configuration value of the Eclipse formatter configuration from a given
 	 *         {@link Document} for the given {@code  key}
 	 */
 	private String getEclipseFormatterProperty(Preferences preferences, Document document, String key) {
-<span class="pc bpc" id="L190" title="1 of 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L191">			return null;</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L199">			return null;</span>
 		}
 
-<span class="fc bfc" id="L194" title="All 2 branches covered.">		if (preferences == null) {</span>
-<span class="fc" id="L195">			preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">		if (preferences == null) {</span>
+<span class="fc" id="L203">			preferences = Settings.getActivePreferences(document);</span>
 		}
 
-<span class="fc" id="L198">		String formatterFile = EclipseJavascriptFormatterSettings.getEclipseFormatterFile(preferences, document);</span>
-<span class="fc" id="L199">		String formatterProfile = preferences.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
+<span class="fc" id="L206">		String formatterFile = EclipseJavascriptFormatterSettings.getEclipseFormatterFile(preferences, document);</span>
+<span class="fc" id="L207">		String formatterProfile = preferences.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
 
-<span class="fc" id="L201">		Map&lt;String, String&gt; config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile);</span>
+<span class="fc" id="L209">		Map&lt;String, String&gt; config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile);</span>
 
-<span class="fc" id="L203">		return config.getOrDefault(key, null);</span>
+<span class="fc" id="L211">		return config.getOrDefault(key, null);</span>
 	}
 
 	/**
@@ -209,21 +217,21 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
-<span class="fc bfc" id="L212" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L213">			return null;</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L221">			return null;</span>
 		}
 
-<span class="fc" id="L216">		Boolean ret = null;</span>
+<span class="fc" id="L224">		Boolean ret = null;</span>
 
-<span class="fc" id="L218">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L219" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L220">			String value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.wst.jsdt.core.formatter.tabulation.char&quot;);</span>
-<span class="pc bpc" id="L221" title="1 of 2 branches missed.">			if (value != null) {</span>
-<span class="fc" id="L222">				ret = Objects.equals(value, &quot;space&quot;);</span>
+<span class="fc" id="L226">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L228">			String value = getEclipseFormatterProperty(preferences, document, &quot;org.eclipse.wst.jsdt.core.formatter.tabulation.char&quot;);</span>
+<span class="pc bpc" id="L229" title="1 of 2 branches missed.">			if (value != null) {</span>
+<span class="fc" id="L230">				ret = Objects.equals(value, &quot;space&quot;);</span>
 			}
 		}
 
-<span class="fc" id="L226">		return ret;</span>
+<span class="fc" id="L234">		return ret;</span>
 	}
 
 	/**
@@ -236,7 +244,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="fc" id="L239">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="fc" id="L247">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

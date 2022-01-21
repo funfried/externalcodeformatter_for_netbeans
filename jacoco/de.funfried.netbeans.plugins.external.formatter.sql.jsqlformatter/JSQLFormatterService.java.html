@@ -29,47 +29,44 @@ import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.MimeType;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
-import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter.ui.JSQLFormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
- * JSQLFormatter implementation of the {@link AbstractJavaFormatterService}.
+ * JSQLFormatter implementation of the {@link FormatterService}.
  *
  * @author Andreas Reichel &lt;a href=&quot;mailto:andreas@manticore-projects.com&quot;&gt;andreas@manticore-projects.com&lt;/a&gt;
  */
-
 @NbBundle.Messages({
 		&quot;FormatterName=JSQLFormatter&quot;
 })
-
 @ServiceProvider(service = FormatterService.class, position = 500)
-<span class="fc" id="L48">public class JSQLFormatterService implements FormatterService {</span>
+<span class="fc" id="L45">public class JSQLFormatterService implements FormatterService {</span>
 	/** The ID of this formatter service. */
 	public static final String ID = &quot;jsqlformatter&quot;;
 
 	/** * The {@link JSQLFormatterWrapper} implementation. */
-<span class="fc" id="L53">	private final JSQLFormatterWrapper formatter = new JSQLFormatterWrapper();</span>
+<span class="fc" id="L50">	private final JSQLFormatterWrapper formatter = new JSQLFormatterWrapper();</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException, FormattingFailedException {
-<span class="fc bfc" id="L60" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
-<span class="fc" id="L61">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
+<span class="fc" id="L58">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
 		}
 
-<span class="fc" id="L64">		getFormatJob(document, changedElements).format();</span>
-<span class="fc" id="L65">	}</span>
+<span class="fc" id="L61">		getFormatJob(document, changedElements).format();</span>
+<span class="fc" id="L62">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public MimeType getSupportedMimeType() {
-<span class="fc" id="L72">		return MimeType.SQL;</span>
+<span class="fc" id="L69">		return MimeType.SQL;</span>
 	}
 
 	/**
@@ -77,11 +74,11 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 */
 	@Override
 	public boolean canHandle(Document document) {
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L81">			return false;</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L78">			return false;</span>
 		}
 
-<span class="fc" id="L84">		return getSupportedMimeType().canHandle(MimeType.getMimeTypeAsString(document));</span>
+<span class="fc" id="L81">		return getSupportedMimeType().canHandle(MimeType.getMimeTypeAsString(document));</span>
 	}
 
 	/**
@@ -90,7 +87,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@NonNull
 	@Override
 	public String getDisplayName() {
-<span class="fc" id="L93">		return NbBundle.getMessage(JSQLFormatterService.class, &quot;FormatterName&quot;);</span>
+<span class="fc" id="L90">		return NbBundle.getMessage(JSQLFormatterService.class, &quot;FormatterName&quot;);</span>
 	}
 
 	/**
@@ -99,7 +96,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@NonNull
 	@Override
 	public String getId() {
-<span class="fc" id="L102">		return ID;</span>
+<span class="fc" id="L99">		return ID;</span>
 	}
 
 	/**
@@ -107,7 +104,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 */
 	@Override
 	public FormatterOptionsPanel createOptionsPanel(Project project) {
-<span class="fc" id="L110">		return new JSQLFormatterOptionsPanel(project);</span>
+<span class="fc" id="L107">		return new JSQLFormatterOptionsPanel(project);</span>
 	}
 
 	/**
@@ -116,18 +113,18 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Integer getContinuationIndentSize(Document document) {
-<span class="fc bfc" id="L119" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L120">			return null;</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L117">			return null;</span>
 		}
 
-<span class="fc" id="L123">		Integer width = null;</span>
+<span class="fc" id="L120">		Integer width = null;</span>
 
-<span class="fc" id="L125">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L126" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L127">			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());</span>
+<span class="fc" id="L122">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L124">			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());</span>
 		}
 
-<span class="fc" id="L130">		return width;</span>
+<span class="fc" id="L127">		return width;</span>
 	}
 
 	/**
@@ -136,18 +133,18 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Integer getIndentSize(Document document) {
-<span class="fc bfc" id="L139" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L140">			return null;</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L137">			return null;</span>
 		}
 
-<span class="fc" id="L143">		Integer width = null;</span>
+<span class="fc" id="L140">		Integer width = null;</span>
 
-<span class="fc" id="L145">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L146" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L147">			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());</span>
+<span class="fc" id="L142">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L144">			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());</span>
 		}
 
-<span class="fc" id="L150">		return width;</span>
+<span class="fc" id="L147">		return width;</span>
 	}
 
 	/**
@@ -156,18 +153,18 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Integer getRightMargin(Document document) {
-<span class="pc bpc" id="L159" title="1 of 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L160">			return null;</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L157">			return null;</span>
 		}
 
-<span class="fc" id="L163">		return 120;</span>
+<span class="fc" id="L160">		return 120;</span>
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected FormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L170">		return new JSQLFormatterJob(document, formatter, changedElements);</span>
+<span class="fc" id="L167">		return new JSQLFormatterJob(document, formatter, changedElements);</span>
 	}
 
 	/**
@@ -176,18 +173,18 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Integer getSpacesPerTab(Document document) {
-<span class="fc bfc" id="L179" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L180">			return null;</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L177">			return null;</span>
 		}
 
-<span class="fc" id="L183">		Integer width = null;</span>
+<span class="fc" id="L180">		Integer width = null;</span>
 
-<span class="fc" id="L185">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L186" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L187">			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());</span>
+<span class="fc" id="L182">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L184">			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());</span>
 		}
 
-<span class="fc" id="L190">		return width;</span>
+<span class="fc" id="L187">		return width;</span>
 	}
 
 	/**
@@ -196,16 +193,16 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
-<span class="fc bfc" id="L199" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L200">			return null;</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L197">			return null;</span>
 		}
 
-<span class="fc" id="L203">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L204" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L205">			return Boolean.TRUE;</span>
+<span class="fc" id="L200">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L202">			return Boolean.TRUE;</span>
 		}
 
-<span class="fc" id="L208">		return null;</span>
+<span class="fc" id="L205">		return null;</span>
 	}
 
 	/**
@@ -218,7 +215,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="fc" id="L221">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="fc" id="L218">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
