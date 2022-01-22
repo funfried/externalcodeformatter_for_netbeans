@@ -82,6 +82,15 @@ Please check the open [GitHub Issues](/../../issues) and see [here](http://funfr
 ### Note
 Please note that this plugin only provides support for formatting. Eclipse users may miss the application of save-actions like "adding @Override annotations" or "member sort order". Such AST-based transformations are not provided by this plugin.
 
+Feedback
+--------
+Provide defects, requests for enhancements or general feedback at the [GitHub issues](/../../issues) page.
+Please check the known issues (see above) before you create an issue and check if your issue also appears in the latest development version (download links can be found [here](http://funfried.github.io/externalcodeformatter_for_netbeans/downloads.html)).
+
+Changelog
+---------
+You can find the changelog of all versions [here](http://funfried.github.io/externalcodeformatter_for_netbeans/changes-report.html)
+
 Licensing
 ---------
 This plugin is licensed under the [Eclipse Public License, Version 2.0](http://funfried.github.io/externalcodeformatter_for_netbeans/licenses.html).
@@ -94,14 +103,6 @@ The history of this project
 *   This was then [forked](https://github.com/markiewb/eclipsecodeformatter_for_netbeans/) by [Benno Markiewicz](https://github.com/markiewb)
 *   [Benno Markiewicz](https://github.com/markiewb) stopped the development on the plugin and so [Geertjan Wielenga](https://github.com/geertjanw) forked it again and was looking for someone who wanted to take it over
 *   I think I used this plugin since I use NetBeans, because in every company I was so far, I had exactly this circumstance that the formatting configuration was always there for Eclipse, but not for NetBeans. And because I prefer NetBeans over Eclipse I had to find a way to use NetBeans but the code style configuration from Eclipse. I'm happy that I can give back something to the community now by continuing the development of this plugin.
-
-Feedback
---------
-Provide defects, requests for enhancements or general feedback at the [GitHub issues](/../../issues) page
-
-Changelog
----------
-You can find the changelog of all versions [here](http://funfried.github.io/externalcodeformatter_for_netbeans/changes-report.html)
 
 Support
 ---------
