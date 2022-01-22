@@ -8,7 +8,7 @@
 	</properties>
 
 	<body>
-		<release version="1.14.3-SNAPSHOT" date="N/A" description="Bug fix release">
+		<release version="1.14.3" date="2022-01-22" description="Bug fix release">
 			<action dev="bahlef" type="fix" issue="152">
 				Erroneous formatting with Eclipse
 			</action>
