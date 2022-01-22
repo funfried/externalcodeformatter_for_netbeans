@@ -138,15 +138,6 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 	}
 
 	/**
-	 * Returns the {@link Preferences} modified by this option dialog.
-	 *
-	 * @return the {@link Preferences} modified by this option dialog
-	 */
-	public Preferences getPreferences() {
-		return preferences;
-	}
-
-	/**
 	 * Adds a given {@link ChangeListener} to this option dialog, which will be notified as
 	 * soon as an user has changed the state of the components inside this options dialog.
 	 *
