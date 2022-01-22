@@ -92,6 +92,11 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.continuation_indentation");
 			if (value != null) {
 				ret = Integer.valueOf(value);
+
+				Integer indentSize = getIndentSize(document);
+				if (indentSize != null) {
+					ret = Integer.valueOf(value) * indentSize;
+				}
 			}
 		}
 

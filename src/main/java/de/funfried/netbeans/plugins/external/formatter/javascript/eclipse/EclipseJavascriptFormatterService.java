@@ -90,6 +90,11 @@ public class EclipseJavascriptFormatterService extends AbstractJavascriptFormatt
 			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.wst.jsdt.core.formatter.continuation_indentation");
 			if (value != null) {
 				ret = Integer.valueOf(value);
+
+				Integer indentSize = getIndentSize(document);
+				if (indentSize != null) {
+					ret = Integer.valueOf(value) * indentSize;
+				}
 			}
 		}
 

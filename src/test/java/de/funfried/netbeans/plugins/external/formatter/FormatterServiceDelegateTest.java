@@ -62,7 +62,7 @@ public class FormatterServiceDelegateTest extends NbTestCase {
 
 		Assert.assertEquals((long) 120L, (long) FormatterServiceDelegate.getInstance().getRightMargin(document));
 
-		Assert.assertEquals((long) 2L, (long) FormatterServiceDelegate.getInstance().getContinuationIndentSize(document));
+		Assert.assertEquals((long) 8L, (long) FormatterServiceDelegate.getInstance().getContinuationIndentSize(document));
 		Assert.assertEquals((long) 4L, (long) FormatterServiceDelegate.getInstance().getIndentSize(document));
 		Assert.assertEquals((long) 8L, (long) FormatterServiceDelegate.getInstance().getSpacesPerTab(document));
 		Assert.assertFalse(FormatterServiceDelegate.getInstance().isExpandTabToSpaces(document));
