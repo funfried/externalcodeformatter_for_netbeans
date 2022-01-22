@@ -1,5 +1,3 @@
-Keep this project alive by supporting it: one-time [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url) or [![Patreon!](/src/site/resources/imgs/logos/become_a_patron_button.png)](https://www.patreon.com/funfried) or just [![Buy me a drink](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20drink&emoji=%F0%9F%A5%83&slug=funfried&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/funfried)
-
 [![Release Build Status](https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/release_maven.yml/badge.svg)](https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/release_maven.yml)
 [![Linux Build Status](https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/linux_maven.yml/badge.svg)](https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/linux_maven.yml)
 [![Windows Build Status](https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/windows_maven.yml/badge.svg)](https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/windows_maven.yml)
@@ -84,6 +82,15 @@ Please check the open [GitHub Issues](/../../issues) and see [here](http://funfr
 ### Note
 Please note that this plugin only provides support for formatting. Eclipse users may miss the application of save-actions like "adding @Override annotations" or "member sort order". Such AST-based transformations are not provided by this plugin.
 
+Feedback
+--------
+Provide defects, requests for enhancements or general feedback at the [GitHub issues](/../../issues) page.
+Please check the known issues (see above) before you create an issue and check if your issue also appears in the latest development version (download links can be found [here](http://funfried.github.io/externalcodeformatter_for_netbeans/downloads.html)).
+
+Changelog
+---------
+You can find the changelog of all versions [here](http://funfried.github.io/externalcodeformatter_for_netbeans/changes-report.html)
+
 Licensing
 ---------
 This plugin is licensed under the [Eclipse Public License, Version 2.0](http://funfried.github.io/externalcodeformatter_for_netbeans/licenses.html).
@@ -97,14 +104,6 @@ The history of this project
 *   [Benno Markiewicz](https://github.com/markiewb) stopped the development on the plugin and so [Geertjan Wielenga](https://github.com/geertjanw) forked it again and was looking for someone who wanted to take it over
 *   I think I used this plugin since I use NetBeans, because in every company I was so far, I had exactly this circumstance that the formatting configuration was always there for Eclipse, but not for NetBeans. And because I prefer NetBeans over Eclipse I had to find a way to use NetBeans but the code style configuration from Eclipse. I'm happy that I can give back something to the community now by continuing the development of this plugin.
 
-Feedback
---------
-Provide defects, requests for enhancements or general feedback at the [GitHub issues](/../../issues) page
-
-Changelog
----------
-You can find the changelog of all versions [here](http://funfried.github.io/externalcodeformatter_for_netbeans/changes-report.html)
-
-Remember
+Support
 ---------
 Keep this project alive by supporting it: one-time [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url) or [![Patreon!](/src/site/resources/imgs/logos/become_a_patron_button.png)](https://www.patreon.com/funfried) or just [![Buy me a drink](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20drink&emoji=%F0%9F%A5%83&slug=funfried&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/funfried)
