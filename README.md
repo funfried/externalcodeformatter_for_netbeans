@@ -1,5 +1,3 @@
-Keep this project alive by supporting it: one-time [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url) or [![Patreon!](/src/site/resources/imgs/logos/become_a_patron_button.png)](https://www.patreon.com/funfried) or just [![Buy me a drink](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20drink&emoji=%F0%9F%A5%83&slug=funfried&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/funfried)
-
 [![Release Build Status](https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/release_maven.yml/badge.svg)](https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/release_maven.yml)
 [![Linux Build Status](https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/linux_maven.yml/badge.svg)](https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/linux_maven.yml)
 [![Windows Build Status](https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/windows_maven.yml/badge.svg)](https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/windows_maven.yml)
@@ -105,6 +103,6 @@ Changelog
 ---------
 You can find the changelog of all versions [here](http://funfried.github.io/externalcodeformatter_for_netbeans/changes-report.html)
 
-Remember
+Support
 ---------
 Keep this project alive by supporting it: one-time [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url) or [![Patreon!](/src/site/resources/imgs/logos/become_a_patron_button.png)](https://www.patreon.com/funfried) or just [![Buy me a drink](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20drink&emoji=%F0%9F%A5%83&slug=funfried&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/funfried)
