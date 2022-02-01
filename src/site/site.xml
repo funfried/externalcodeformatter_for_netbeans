@@ -55,6 +55,7 @@
 		<logo name="Donate via PayPal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=926F5XBCTK2LQ&amp;source=url" img="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" />
 		<logo name="Become a Patron!" href="https://www.patreon.com/funfried" img="imgs/logos/become_a_patron_button.png" />
 		<logo name="Buy me a drink" href="https://www.buymeacoffee.com/funfried" img="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20drink&amp;emoji=%F0%9F%A5%83&amp;slug=funfried&amp;button_colour=5F7FFF&amp;font_colour=ffffff&amp;font_family=Cookie&amp;outline_colour=000000&amp;coffee_colour=FFDD00" />
+		<logo name="Say Thanks" href="https://saythanks.io/to/funfried" img="https://img.shields.io/static/v1?label=say&amp;message=thanks&amp;color=green&amp;style=for-the-badge&amp;logo=handshake" />
 	</poweredBy>
 
 	<body>
