@@ -8,6 +8,12 @@
 	</properties>
 
 	<body>
+		<release version="1.15.0-SNAPSHOT" date="N/A" description="Additional formatters">
+			<action dev="bahlef" type="add">
+				Additional formatters
+			</action>
+		</release>
+
 		<release version="1.14.3" date="2022-01-22" description="Bug fix release">
 			<action dev="bahlef" type="fix" issue="152">
 				Erroneous formatting with Eclipse

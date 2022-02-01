@@ -75,6 +75,12 @@ public interface Icons {
 	String MANTICORE_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/manticore.png";
 
 	/**
+	 * Path to the DBeaver icon.
+	 */
+	@StaticResource
+	String DBEAVER_ICON_PATH = "de/funfried/netbeans/plugins/external/formatter/dbeaver.png";
+
+	/**
 	 * External icon.
 	 */
 	Icon ICON_EXTERNAL = ImageUtilities.image2Icon(ImageUtilities.loadImage(EXTERNAL_FORMATTER_ICON_PATH));
@@ -118,4 +124,9 @@ public interface Icons {
 	 * manticore-projects icon.
 	 */
 	Icon ICON_MANTICORE = ImageUtilities.image2Icon(ImageUtilities.loadImage(MANTICORE_ICON_PATH));
+
+	/**
+	 * DBeaver icon.
+	 */
+	Icon ICON_DBEAVER = ImageUtilities.image2Icon(ImageUtilities.loadImage(DBEAVER_ICON_PATH));
 }
