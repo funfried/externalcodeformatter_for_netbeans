@@ -8,7 +8,7 @@
 	</properties>
 
 	<body>
-		<release version="1.14.-SNAPSHOT" date="N/A" description="Bug fix release">
+		<release version="1.14.4-SNAPSHOT" date="N/A" description="Bug fix release">
 		</release>
 
 		<release version="1.14.3" date="2022-01-22" description="Bug fix release">
