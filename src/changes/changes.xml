@@ -8,6 +8,12 @@
 	</properties>
 
 	<body>
+		<release version="1.14.4-SNAPSHOT" date="N/A" description="Bug fix release">
+			<action dev="bahlef" type="fix" issue="191">
+				Erroneous formatting with Eclipse when "Override Tab Size" is active
+			</action>
+		</release>
+
 		<release version="1.14.3" date="2022-01-22" description="Bug fix release">
 			<action dev="bahlef" type="fix" issue="152">
 				Erroneous formatting with Eclipse
