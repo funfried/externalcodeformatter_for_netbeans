@@ -58,7 +58,7 @@ public class SpringJavaFormatterServiceTest extends NbTestCase {
 		Assert.assertNotNull(instance.createOptionsPanel(null));
 		Assert.assertEquals((long) 120L, (long) instance.getRightMargin(document));
 
-		Assert.assertEquals((long) 2L, (long) instance.getContinuationIndentSize(document));
+		Assert.assertEquals((long) 8L, (long) instance.getContinuationIndentSize(document));
 		Assert.assertEquals((long) 4L, (long) instance.getIndentSize(document));
 		Assert.assertEquals((long) 4L, (long) instance.getSpacesPerTab(document));
 		Assert.assertFalse(instance.isExpandTabToSpaces(document));

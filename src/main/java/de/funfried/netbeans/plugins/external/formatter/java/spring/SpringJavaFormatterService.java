@@ -34,7 +34,7 @@ import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFor
 import de.funfried.netbeans.plugins.external.formatter.java.spring.ui.SpringJavaFormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
-import io.spring.javaformat.formatter.Formatter;
+import io.spring.javaformat.formatter.eclipse.EclipseCodeFormatter;
 
 /**
  * Spring implementation of the {@link AbstractJavaFormatterService}.
@@ -95,11 +95,16 @@ public class SpringJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String propKey = "org.eclipse.jdt.core.formatter.continuation_indentation";
+			String propKey = "core.formatter.continuation_indentation";
 			String prop = this.getSpringFormatterProperty(propKey);
 			if (prop != null) {
 				try {
 					ret = Integer.parseInt(prop);
+
+					Integer indentSize = getIndentSize(document);
+					if (indentSize != null) {
+						ret *= indentSize;
+					}
 				} catch (NumberFormatException ex) {
 					log.log(Level.WARNING, "Property '" + propKey + "' is not an integer: " + prop, ex);
 				}
@@ -127,14 +132,19 @@ public class SpringJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String propKey = "org.eclipse.jdt.core.formatter.indentation.size";
-			String prop = this.getSpringFormatterProperty(propKey);
-			if (prop != null) {
-				try {
-					ret = Integer.parseInt(prop);
-				} catch (NumberFormatException ex) {
-					log.log(Level.WARNING, "Property '" + propKey + "' is not an integer: " + prop, ex);
+			String tabChar = getSpringFormatterProperty("core.formatter.tabulation.char");
+			if (Objects.equals(tabChar, "mixed")) {
+				String propKey = "core.formatter.indentation.size";
+				String prop = this.getSpringFormatterProperty(propKey);
+				if (prop != null) {
+					try {
+						ret = Integer.parseInt(prop);
+					} catch (NumberFormatException ex) {
+						log.log(Level.WARNING, "Property '" + propKey + "' is not an integer: " + prop, ex);
+					}
 				}
+			} else {
+				ret = getSpacesPerTab(document);
 			}
 
 			if (ret == null) {
@@ -157,7 +167,7 @@ public class SpringJavaFormatterService extends AbstractJavaFormatterService {
 
 		Integer ret = 120;
 
-		String propKey = "org.eclipse.jdt.core.formatter.lineSplit";
+		String propKey = "core.formatter.lineSplit";
 		String prop = this.getSpringFormatterProperty(propKey);
 		if (prop != null) {
 			try {
@@ -195,7 +205,7 @@ public class SpringJavaFormatterService extends AbstractJavaFormatterService {
 			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
 				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
 			} else {
-				String propKey = "org.eclipse.jdt.core.formatter.tabulation.size";
+				String propKey = "core.formatter.tabulation.size";
 				String prop = this.getSpringFormatterProperty(propKey);
 				if (prop != null) {
 					try {
@@ -225,7 +235,7 @@ public class SpringJavaFormatterService extends AbstractJavaFormatterService {
 	 */
 	private String getSpringFormatterProperty(String key) {
 		Properties props = new Properties();
-		try (InputStream is = Formatter.class.getResourceAsStream("formatter.prefs")) {
+		try (InputStream is = EclipseCodeFormatter.class.getResourceAsStream("formatter.prefs")) {
 			props.load(is);
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Could not read internal Spring formatter configuration", ex);
@@ -248,7 +258,7 @@ public class SpringJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String propKey = "org.eclipse.jdt.core.formatter.tabulation.size";
+			String propKey = "core.formatter.tabulation.char";
 			String prop = this.getSpringFormatterProperty(propKey);
 			if (prop != null) {
 				ret = Objects.equals(prop, "space");

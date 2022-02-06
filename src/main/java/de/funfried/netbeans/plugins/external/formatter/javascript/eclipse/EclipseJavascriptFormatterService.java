@@ -93,7 +93,7 @@ public class EclipseJavascriptFormatterService extends AbstractJavascriptFormatt
 
 				Integer indentSize = getIndentSize(document);
 				if (indentSize != null) {
-					ret = Integer.valueOf(value) * indentSize;
+					ret *= indentSize;
 				}
 			}
 		}
