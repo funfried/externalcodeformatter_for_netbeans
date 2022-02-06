@@ -40,12 +40,12 @@ public final class GoogleJavaFormatterWrapper {
 	 * Formats the given {@code code} with the given configurations and returns
 	 * the formatted code.
 	 *
-	 * @param code            the unformatted code
-	 * @param codeStyle       the code {@link JavaFormatterOptions.Style} to use,
-	 *                        if {@code null} the {@link JavaFormatterOptions.Style#GOOGLE}
-	 *                        style will be used
+	 * @param code the unformatted code
+	 * @param codeStyle the code {@link JavaFormatterOptions.Style} to use,
+	 *        if {@code null} the {@link JavaFormatterOptions.Style#GOOGLE}
+	 *        style will be used
 	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair}
-	 *                        objects defining the offsets which should be formatted
+	 *        objects defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
 	 *

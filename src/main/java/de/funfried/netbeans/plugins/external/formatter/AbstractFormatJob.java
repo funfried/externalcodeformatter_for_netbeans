@@ -20,7 +20,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
 import org.netbeans.api.annotations.common.NonNull;
@@ -154,7 +153,15 @@ public abstract class AbstractFormatJob implements FormatJob {
 	 * @return The content of the {@code document}
 	 */
 	protected String getCode() {
-		return StringUtils.trim(DocumentUtilities.getText(document).toString());
+		try {
+			// returns the actual content of the document
+			return document.getText(0, document.getLength());
+		} catch (BadLocationException ex) {
+			log.log(Level.WARNING, "Could not fetch text, falling back to utility method", ex);
+
+			// returns only the trimmed content of the document
+			return DocumentUtilities.getText(document).toString();
+		}
 	}
 
 	/**
