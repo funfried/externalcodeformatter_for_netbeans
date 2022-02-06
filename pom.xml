@@ -147,7 +147,7 @@
 		<dependency>
 			<groupId>io.spring.javaformat</groupId>
 			<artifactId>spring-javaformat-formatter</artifactId>
-			<version>0.0.29</version>
+			<version>0.0.30</version>
 		</dependency>
 
 		<!-- Google Formatter -->
@@ -701,7 +701,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<argLine>
-						${argLine} -Xmx1024m
+						-Xmx1024m
 						--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED
 						--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED
 						--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED
