@@ -20,7 +20,7 @@ This plugin helps you to apply to a common code style in a team of Eclipse,
 IntelliJ and NetBeans IDE users. You can use several external code formatters
 inside the NetBeans IDE (see below), depending on whatever your co-workers use.
 The original formatting engine of Eclipse, the Google Code Formatter, the Spring
-Java Formatter or any other are embedded and allow you to format the source code
+Java Formatter and others are embedded and allow you to format the source code
 the same way as e.g. your co-workers do with their Eclipse IDE.
 
 ![Global settings](/src/site/resources/imgs/global.png)
@@ -107,4 +107,5 @@ The history of this project
 Support
 ---------
 Keep this project alive by supporting it: one-time [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url) or [![Patreon!](/src/site/resources/imgs/logos/become_a_patron_button.png)](https://www.patreon.com/funfried) or just [![Buy me a drink](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20drink&emoji=%F0%9F%A5%83&slug=funfried&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/funfried)
+
 If you can't or don't want to spend money you can also [![say thanks](https://img.shields.io/static/v1?label=say&message=thanks&color=green&style=for-the-badge&logo=handshake)](https://saythanks.io/to/funfried)
