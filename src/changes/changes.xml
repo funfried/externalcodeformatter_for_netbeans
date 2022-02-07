@@ -8,9 +8,12 @@
 	</properties>
 
 	<body>
-		<release version="1.14.4-SNAPSHOT" date="N/A" description="Bug fix release">
+		<release version="1.14.4" date="2022-02-07" description="Bug fix release">
 			<action dev="bahlef" type="fix" issue="191">
 				Erroneous formatting with Eclipse when "Override Tab Size" is active
+			</action>
+			<action dev="bahlef" type="fix" issue="190">
+				Fixed issue in Google formatter when there were blank lines at the end of the Java file
 			</action>
 		</release>
 
