@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractJavaFormatterService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.java.base</a> &gt; <span class="el_source">AbstractJavaFormatterService.java</span></div><h1>AbstractJavaFormatterService.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2020 bahlef.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * bahlef - initial API and implementation and/or initial documentation
+ */
+package de.funfried.netbeans.plugins.external.formatter.java.base;
+
+import java.util.SortedSet;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import de.funfried.netbeans.plugins.external.formatter.FormatJob;
+import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.MimeType;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
+
+/**
+ * Abstract base implementation of {@link FormatterService} for Java formatters.
+ *
+ * @author bahlef
+ */
+<span class="fc" id="L29">public abstract class AbstractJavaFormatterService implements FormatterService {</span>
+	/**
+	 * Returns the {@link FormatJob}.
+	 *
+	 * @param document the {@link StyledDocument} which should be formatted
+	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
+	 */
+	protected abstract FormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements);
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException, FormattingFailedException {
+<span class="fc bfc" id="L43" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
+<span class="fc" id="L44">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
+		}
+
+<span class="fc" id="L47">		getFormatJob(document, changedElements).format();</span>
+<span class="fc" id="L48">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public MimeType getSupportedMimeType() {
+<span class="fc" id="L55">		return MimeType.JAVA;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EclipseFormatJob.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.java.eclipse</a> &gt; <span class="el_source">EclipseFormatJob.java</span></div><h1>EclipseFormatJob.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2020 bahlef.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * markiewb - initial API and implementation and/or initial documentation
+ * bahlef
+ */
+package de.funfried.netbeans.plugins.external.formatter.java.eclipse;
+
+import java.util.SortedSet;
+import java.util.prefs.Preferences;
+
+import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.NonNull;
+
+import de.funfried.netbeans.plugins.external.formatter.eclipse.AbstractEclipseFormatJob;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+
+/**
+ * Eclipse formatter implementation of the {@link AbstractEclipseFormatJob} to
+ * format a given document using the {@link EclipseJavaFormatterWrapper}.
+ *
+ * @author markiewb
+ * @author bahlef
+ */
+class EclipseFormatJob extends AbstractEclipseFormatJob {
+	/** * The {@link EclipseJavaFormatterWrapper} implementation. */
+	private final EclipseJavaFormatterWrapper formatter;
+
+	/**
+	 * Package private constructor to create a new instance of {@link EclipseFormatJob}.
+	 *
+	 * @param document the {@link StyledDocument} which sould be formatted
+	 * @param formatter the {@link EclipseJavaFormatterWrapper} to use
+	 * @param changedElements the ranges which should be formatted
+	 */
+	EclipseFormatJob(StyledDocument document, EclipseJavaFormatterWrapper formatter, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
+<span class="fc" id="L47">		super(document, changedElements);</span>
+
+<span class="fc" id="L49">		this.formatter = formatter;</span>
+<span class="fc" id="L50">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getFormattedContent(Preferences pref, String formatterFile, String formatterProfile, String code)
+			throws ConfigReadException, ProfileNotFoundException, CannotLoadConfigurationException, FormattingFailedException {
+<span class="fc" id="L58">		String sourceLevel = pref.get(EclipseJavaFormatterSettings.SOURCELEVEL, &quot;&quot;);</span>
+
+<span class="fc" id="L60">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
+
+<span class="fc" id="L62">		return formatter.format(formatterFile, formatterProfile, code, getLineFeed(pref), sourceLevel, regions);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getFormatterFile(Preferences pref) {
+<span class="fc" id="L70">		return EclipseJavaFormatterSettings.getEclipseFormatterFile(pref, document);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getFormatterProfile(Preferences pref) {
+<span class="fc" id="L78">		return pref.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected String getLineFeed(Preferences pref) {
+<span class="fc" id="L86">		String lineFeedSetting = pref.get(EclipseJavaFormatterSettings.LINEFEED, &quot;&quot;);</span>
+<span class="fc" id="L87">		return Settings.getLineFeed(lineFeedSetting, System.getProperty(&quot;line.separator&quot;));</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@NonNull
+	@Override
+	protected String getNotificationMessageForEclipseFormatterConfigurationFileType(String formatterFile, String formatterProfile) {
+<span class="fc" id="L96">		String msg = &quot;&quot;;</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">		if (EclipseJavaFormatterSettings.isWorkspaceMechanicFile(formatterFile)) {</span>
+			//Workspace mechanic file
+<span class="nc" id="L99">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">		} else if (EclipseJavaFormatterSettings.isXMLConfigurationFile(formatterFile)) {</span>
+			//XML file
+<span class="nc" id="L102">			msg = String.format(&quot;Using profile '%s' from %s&quot;, formatterProfile, formatterFile);</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">		} else if (EclipseJavaFormatterSettings.isProjectSetting(formatterFile)) {</span>
+			//org.eclipse.jdt.core.prefs
+<span class="nc" id="L105">			msg = String.format(&quot;Using %s&quot;, formatterFile);</span>
+		}
+
+<span class="fc" id="L108">		return msg;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

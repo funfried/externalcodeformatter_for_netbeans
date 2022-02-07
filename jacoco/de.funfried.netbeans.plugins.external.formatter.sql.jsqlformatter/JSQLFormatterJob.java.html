@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSQLFormatterJob.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter</a> &gt; <span class="el_source">JSQLFormatterJob.java</span></div><h1>JSQLFormatterJob.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2021 Andreas Reichel &lt;a href=&quot;mailto:andreas@manticore-projects.com&quot;&gt;andreas@manticore-projects.com&lt;/a&gt;
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * bahlef - initial API and implementation and/or initial documentation
+ */
+package de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter;
+
+import java.util.SortedSet;
+import java.util.prefs.Preferences;
+
+import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.openide.awt.NotificationDisplayer;
+import org.openide.awt.StatusDisplayer;
+
+import com.manticore.jsqlformatter.JSQLFormatter;
+import com.manticore.jsqlformatter.JSQLFormatter.FormattingOption;
+
+import de.funfried.netbeans.plugins.external.formatter.AbstractFormatJob;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
+import de.funfried.netbeans.plugins.external.formatter.ui.Icons;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+
+/**
+ * JSQLFormatter implementation of the {@link AbstractFormatJob} to
+ * format a given document using the {@link JSQLFormatterWrapper}.
+ *
+ * @author Andreas Reichel &lt;a href=&quot;mailto:andreas@manticore-projects.com&quot;&gt;andreas@manticore-projects.com&lt;/a&gt;
+ */
+class JSQLFormatterJob extends AbstractFormatJob {
+	/** The {@link JSQLFormatter} implementation. */
+	private final JSQLFormatterWrapper formatter;
+
+	/**
+	 * Package private constructor to create a new instance of {@link JSQLFormatterJob}.
+	 *
+	 * @param document the {@link StyledDocument} which sould be formatted
+	 * @param formatter the {@link JSQLFormatterWrapper} to use
+	 * @param changedElements the ranges which should be formatted
+	 */
+	JSQLFormatterJob(StyledDocument document, JSQLFormatterWrapper formatter, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
+<span class="fc" id="L49">		super(document, changedElements);</span>
+
+<span class="fc" id="L51">		this.formatter = formatter;</span>
+<span class="fc" id="L52">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void format() throws BadLocationException {
+<span class="fc" id="L59">		Preferences pref = Settings.getActivePreferences(document);</span>
+
+<span class="fc" id="L61">		String code = getCode();</span>
+
+		try {
+			//@todo: hand over the formatting options
+			//@todo: obey the selected region
+<span class="fc" id="L66">			String formattedContent = formatter.format(code, getOptions(pref));</span>
+
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
+<span class="fc" id="L69">				SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L71">						NotificationDisplayer.getDefault().notify(&quot;Format using JSQLFormatter&quot;, Icons.ICON_MANTICORE, &quot;&quot;, null);</span>
+					}
+<span class="fc" id="L73">					StatusDisplayer.getDefault().setStatusText(&quot;Format using JSQLFormatter&quot;);</span>
+<span class="fc" id="L74">				});</span>
+			}
+<span class="nc" id="L76">		} catch (FormattingFailedException ex) {</span>
+<span class="nc" id="L77">			SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L78">				StatusDisplayer.getDefault().setStatusText(&quot;Failed to format using JSQLFormatter formatter: &quot; + ex.getMessage());</span>
+<span class="nc" id="L79">			});</span>
+
+<span class="nc" id="L81">			throw ex;</span>
+<span class="fc" id="L82">		}</span>
+<span class="fc" id="L83">	}</span>
+
+	private String[] getOptions(Preferences pref) {
+<span class="fc" id="L86">		int i = 0;</span>
+<span class="fc" id="L87">		String[] options = new String[FormattingOption.values().length];</span>
+<span class="fc" id="L88">		options[i++] = toOption(pref, FormattingOption.OUTPUT_FORMAT, JSQLFormatter.getOutputFormat());</span>
+<span class="fc" id="L89">		options[i++] = toOption(pref, FormattingOption.KEYWORD_SPELLING, JSQLFormatter.getKeywordSpelling());</span>
+<span class="fc" id="L90">		options[i++] = toOption(pref, FormattingOption.FUNCTION_SPELLING, JSQLFormatter.getFunctionSpelling());</span>
+<span class="fc" id="L91">		options[i++] = toOption(pref, FormattingOption.OBJECT_SPELLING, JSQLFormatter.getObjectSpelling());</span>
+<span class="fc" id="L92">		options[i++] = toOption(pref, FormattingOption.INDENT_WIDTH, JSQLFormatter.getIndentWidth());</span>
+<span class="fc" id="L93">		options[i++] = toOption(pref, FormattingOption.SEPARATION, JSQLFormatter.getSeparation());</span>
+<span class="fc" id="L94">		options[i++] = toOption(pref, FormattingOption.SQUARE_BRACKET_QUOTATION, JSQLFormatter.getSquaredBracketQuotation());</span>
+
+<span class="fc" id="L96">		return options;</span>
+	}
+
+	private &lt;E extends Enum&lt;E&gt;&gt; String toOption(Preferences pref, JSQLFormatter.FormattingOption option, E defaultValue) {
+<span class="fc" id="L100">		return toOption(pref, option, String.valueOf(defaultValue));</span>
+	}
+
+	private String toOption(Preferences pref, JSQLFormatter.FormattingOption option, String defaultValue) {
+<span class="fc" id="L104">		return option.toString() + &quot;=&quot; + pref.get(option.toString(), defaultValue);</span>
+	}
+
+	private String toOption(Preferences pref, JSQLFormatter.FormattingOption option, int defaultValue) {
+<span class="fc" id="L108">		return String.valueOf(option) + &quot;=&quot; + pref.getInt(String.valueOf(option), defaultValue);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

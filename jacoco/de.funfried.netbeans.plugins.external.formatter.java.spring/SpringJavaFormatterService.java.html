@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SpringJavaFormatterService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.java.spring</a> &gt; <span class="el_source">SpringJavaFormatterService.java</span></div><h1>SpringJavaFormatterService.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2020 bahlef.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * bahlef - initial API and implementation and/or initial documentation
+ */
+package de.funfried.netbeans.plugins.external.formatter.java.spring;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.SortedSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.prefs.Preferences;
+
+import javax.swing.text.Document;
+import javax.swing.text.StyledDocument;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
+import org.netbeans.api.project.Project;
+import org.openide.util.NbBundle;
+import org.openide.util.lookup.ServiceProvider;
+
+import de.funfried.netbeans.plugins.external.formatter.FormatJob;
+import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.java.spring.ui.SpringJavaFormatterOptionsPanel;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+import io.spring.javaformat.formatter.eclipse.EclipseCodeFormatter;
+
+/**
+ * Spring implementation of the {@link AbstractJavaFormatterService}.
+ *
+ * @author bahlef
+ */
+@NbBundle.Messages({
+		&quot;FormatterName=Spring Java Code Formatter&quot;
+})
+@ServiceProvider(service = FormatterService.class, position = 1500)
+<span class="fc" id="L48">public class SpringJavaFormatterService extends AbstractJavaFormatterService {</span>
+	/** {@link Logger} of this class. */
+<span class="fc" id="L50">	private static final Logger log = Logger.getLogger(SpringJavaFormatterService.class.getName());</span>
+
+	/** The ID of this formatter service. */
+	public static final String ID = &quot;spring-java-formatter&quot;;
+
+	/** * The {@link SpringJavaFormatterWrapper} implementation. */
+<span class="fc" id="L56">	private final SpringJavaFormatterWrapper formatter = new SpringJavaFormatterWrapper();</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@NonNull
+	@Override
+	public String getDisplayName() {
+<span class="fc" id="L64">		return NbBundle.getMessage(SpringJavaFormatterService.class, &quot;FormatterName&quot;);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@NonNull
+	@Override
+	public String getId() {
+<span class="nc" id="L73">		return ID;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public FormatterOptionsPanel createOptionsPanel(Project project) {
+<span class="fc" id="L81">		return new SpringJavaFormatterOptionsPanel(project);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getContinuationIndentSize(Document document) {
+<span class="fc bfc" id="L90" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L91">			return null;</span>
+		}
+
+<span class="fc" id="L94">		Integer ret = null;</span>
+
+<span class="fc" id="L96">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L98">			String propKey = &quot;core.formatter.continuation_indentation&quot;;</span>
+<span class="fc" id="L99">			String prop = this.getSpringFormatterProperty(propKey);</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">			if (prop != null) {</span>
+				try {
+<span class="fc" id="L102">					ret = Integer.parseInt(prop);</span>
+
+<span class="fc" id="L104">					Integer indentSize = getIndentSize(document);</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">					if (indentSize != null) {</span>
+<span class="fc" id="L106">						ret *= indentSize;</span>
+					}
+<span class="nc" id="L108">				} catch (NumberFormatException ex) {</span>
+<span class="nc" id="L109">					log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
+<span class="fc" id="L110">				}</span>
+			}
+
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">			if (ret == null) {</span>
+<span class="nc" id="L114">				ret = 2;</span>
+			}
+		}
+
+<span class="fc" id="L118">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getIndentSize(Document document) {
+<span class="fc bfc" id="L127" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L128">			return null;</span>
+		}
+
+<span class="fc" id="L131">		Integer ret = null;</span>
+
+<span class="fc" id="L133">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L135">			String tabChar = getSpringFormatterProperty(&quot;core.formatter.tabulation.char&quot;);</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">			if (Objects.equals(tabChar, &quot;mixed&quot;)) {</span>
+<span class="nc" id="L137">				String propKey = &quot;core.formatter.indentation.size&quot;;</span>
+<span class="nc" id="L138">				String prop = this.getSpringFormatterProperty(propKey);</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">				if (prop != null) {</span>
+					try {
+<span class="nc" id="L141">						ret = Integer.parseInt(prop);</span>
+<span class="nc" id="L142">					} catch (NumberFormatException ex) {</span>
+<span class="nc" id="L143">						log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
+<span class="nc" id="L144">					}</span>
+				}
+<span class="nc" id="L146">			} else {</span>
+<span class="fc" id="L147">				ret = getSpacesPerTab(document);</span>
+			}
+
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">			if (ret == null) {</span>
+<span class="nc" id="L151">				ret = 4;</span>
+			}
+		}
+
+<span class="fc" id="L155">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getRightMargin(Document document) {
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L165">			return null;</span>
+		}
+
+<span class="fc" id="L168">		Integer ret = 120;</span>
+
+<span class="fc" id="L170">		String propKey = &quot;core.formatter.lineSplit&quot;;</span>
+<span class="fc" id="L171">		String prop = this.getSpringFormatterProperty(propKey);</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">		if (prop != null) {</span>
+			try {
+<span class="fc" id="L174">				ret = Integer.parseInt(prop);</span>
+<span class="nc" id="L175">			} catch (NumberFormatException ex) {</span>
+<span class="nc" id="L176">				log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
+<span class="fc" id="L177">			}</span>
+		}
+
+<span class="fc" id="L180">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected FormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
+<span class="fc" id="L188">		return new SpringFormatJob(document, formatter, changedElements);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getSpacesPerTab(Document document) {
+<span class="fc bfc" id="L197" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L198">			return null;</span>
+		}
+
+<span class="fc" id="L201">		Integer ret = null;</span>
+
+<span class="fc" id="L203">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="pc bpc" id="L205" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="nc" id="L206">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+			} else {
+<span class="fc" id="L208">				String propKey = &quot;core.formatter.tabulation.size&quot;;</span>
+<span class="fc" id="L209">				String prop = this.getSpringFormatterProperty(propKey);</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">				if (prop != null) {</span>
+					try {
+<span class="fc" id="L212">						ret = Integer.parseInt(prop);</span>
+<span class="nc" id="L213">					} catch (NumberFormatException ex) {</span>
+<span class="nc" id="L214">						log.log(Level.WARNING, &quot;Property '&quot; + propKey + &quot;' is not an integer: &quot; + prop, ex);</span>
+<span class="fc" id="L215">					}</span>
+				}
+
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">				if (ret == null) {</span>
+<span class="nc" id="L219">					ret = 4;</span>
+				}
+			}
+		}
+
+<span class="fc" id="L224">		return ret;</span>
+	}
+
+	/**
+	 * Reads the configuration value of the internal Spring formatter configuration for the
+	 * given {@code  key}.
+	 *
+	 * @param key the key of the value which should be read
+	 *
+	 * @return the configuration value of the internal Spring formatter configuration for
+	 *         the given {@code  key}
+	 */
+	private String getSpringFormatterProperty(String key) {
+<span class="fc" id="L237">		Properties props = new Properties();</span>
+<span class="fc" id="L238">		try (InputStream is = EclipseCodeFormatter.class.getResourceAsStream(&quot;formatter.prefs&quot;)) {</span>
+<span class="fc" id="L239">			props.load(is);</span>
+<span class="nc" id="L240">		} catch (IOException ex) {</span>
+<span class="nc" id="L241">			log.log(Level.SEVERE, &quot;Could not read internal Spring formatter configuration&quot;, ex);</span>
+<span class="fc" id="L242">		}</span>
+
+<span class="fc" id="L244">		return props.getProperty(key);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Boolean isExpandTabToSpaces(Document document) {
+<span class="fc bfc" id="L253" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L254">			return null;</span>
+		}
+
+<span class="fc" id="L257">		Boolean ret = null;</span>
+
+<span class="fc" id="L259">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L260" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L261">			String propKey = &quot;core.formatter.tabulation.char&quot;;</span>
+<span class="fc" id="L262">			String prop = this.getSpringFormatterProperty(propKey);</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">			if (prop != null) {</span>
+<span class="fc" id="L264">				ret = Objects.equals(prop, &quot;space&quot;);</span>
+			}
+
+<span class="pc bpc" id="L267" title="1 of 2 branches missed.">			if (ret == null) {</span>
+<span class="nc" id="L268">				ret = false;</span>
+			}
+		}
+
+<span class="fc" id="L272">		return ret;</span>
+	}
+
+	/**
+	 * Returns {@code true} if using the formatter indentation settings from the external
+	 * formatter is activated, otherwise {@code false}.
+	 *
+	 * @param prefs the {@link Preferences} where to check
+	 *
+	 * @return {@code true} if using the formatter indentation settings from the external
+	 *         formatter is activated, otherwise {@code false}
+	 */
+	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
+<span class="fc" id="L285">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
