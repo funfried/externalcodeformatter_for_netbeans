@@ -17,7 +17,7 @@
 
 	<groupId>de.funfried.netbeans.plugins</groupId>
 	<artifactId>externalcodeformatter</artifactId>
-	<version>1.14.4</version>
+	<version>1.14.5-SNAPSHOT</version>
 	<packaging>nbm</packaging>
 
 	<developers>
@@ -119,6 +119,7 @@
 		<netbeans.version>RELEASE120</netbeans.version>
 		<jackson.version>2.13.1</jackson.version>
 		<jsoup.version>1.14.3</jsoup.version>
+		<argLine></argLine>
 	</properties>
 
 	<dependencies>
@@ -147,7 +148,7 @@
 		<dependency>
 			<groupId>io.spring.javaformat</groupId>
 			<artifactId>spring-javaformat-formatter</artifactId>
-			<version>0.0.30</version>
+			<version>0.0.31</version>
 		</dependency>
 
 		<!-- Google Formatter -->
