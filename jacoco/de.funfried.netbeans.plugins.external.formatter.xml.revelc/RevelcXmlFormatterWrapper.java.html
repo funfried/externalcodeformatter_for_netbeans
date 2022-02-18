@@ -33,9 +33,9 @@ public final class RevelcXmlFormatterWrapper {
 	 * Formats the given {@code code} with the given configurations and returns
 	 * the formatted code.
 	 *
-	 * @param code     the unformatted code
+	 * @param code the unformatted code
 	 * @param lineFeed the line feed to use for formatting
-	 * @param prefs    the {@link FormattingPreferences}
+	 * @param prefs the {@link FormattingPreferences}
 	 *
 	 * @return the formatted code
 	 */
@@ -63,7 +63,7 @@ public final class RevelcXmlFormatterWrapper {
 	 * the formatted code.
 	 *
 	 * @param xmlFormatter the {@link XmlDocumentFormatter}
-	 * @param code         the unformatted code
+	 * @param code the unformatted code
 	 *
 	 * @return the formatted code
 	 */
