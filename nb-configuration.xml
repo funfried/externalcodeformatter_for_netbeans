@@ -15,8 +15,8 @@
 		-->
         <netbeans.hint.licensePath>${project.basedir}/licenseheader.txt</netbeans.hint.licensePath>
         <de-funfried-netbeans-plugins-externalcodeformatter.overrideTabSizeValue>4</de-funfried-netbeans-plugins-externalcodeformatter.overrideTabSizeValue>
-        <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JSON>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JSON>
-        <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_XML>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_XML>
+        <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JSON>jackson-json-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JSON>
+        <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_XML>revelc-xml-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_XML>
         <de-funfried-netbeans-plugins-externalcodeformatter.eclipseFormatterActiveProfile>EclipseCodeFormatterForNetBeans</de-funfried-netbeans-plugins-externalcodeformatter.eclipseFormatterActiveProfile>
         <de-funfried-netbeans-plugins-externalcodeformatter.useProjectPref>true</de-funfried-netbeans-plugins-externalcodeformatter.useProjectPref>
         <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVA>eclipse-java-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVA>
@@ -28,5 +28,22 @@
         <de-funfried-netbeans-plugins-externalcodeformatter.linefeed/>
         <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVASCRIPT>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVASCRIPT>
         <de-funfried-netbeans-plugins-externalcodeformatter.overrideTabSize>true</de-funfried-netbeans-plugins-externalcodeformatter.overrideTabSize>
+        <de-funfried-netbeans-plugins-externalcodeformatter.jsoupXmlLinefeed/>
+        <de-funfried-netbeans-plugins-externalcodeformatter.jsoupXmlIndentSize>2</de-funfried-netbeans-plugins-externalcodeformatter.jsoupXmlIndentSize>
+        <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_SQL>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_SQL>
+        <de-funfried-netbeans-plugins-externalcodeformatter.jsoupXmlPrettyPrint>true</de-funfried-netbeans-plugins-externalcodeformatter.jsoupXmlPrettyPrint>
+        <de-funfried-netbeans-plugins-externalcodeformatter.jsoupXmlOutline>false</de-funfried-netbeans-plugins-externalcodeformatter.jsoupXmlOutline>
+        <de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlSplitMultiAttrs>false</de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlSplitMultiAttrs>
+        <de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlWellFormedValidation>WARN</de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlWellFormedValidation>
+        <de-funfried-netbeans-plugins-externalcodeformatter.jacksonJsonIndentSize>4</de-funfried-netbeans-plugins-externalcodeformatter.jacksonJsonIndentSize>
+        <de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlTabWidth>4</de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlTabWidth>
+        <de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlMaxLineLength>120</de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlMaxLineLength>
+        <de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlTabInsteadOfSpaces>true</de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlTabInsteadOfSpaces>
+        <de-funfried-netbeans-plugins-externalcodeformatter.jacksonJsonSpaceBeforeSeparator>false</de-funfried-netbeans-plugins-externalcodeformatter.jacksonJsonSpaceBeforeSeparator>
+        <de-funfried-netbeans-plugins-externalcodeformatter.jacksonJsonSpacesPerTab>4</de-funfried-netbeans-plugins-externalcodeformatter.jacksonJsonSpacesPerTab>
+        <de-funfried-netbeans-plugins-externalcodeformatter.jacksonJsonLinefeed/>
+        <de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlLinefeed/>
+        <de-funfried-netbeans-plugins-externalcodeformatter.jacksonJsonExpandTabsToSpaces>false</de-funfried-netbeans-plugins-externalcodeformatter.jacksonJsonExpandTabsToSpaces>
+        <de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlWrapLongLines>false</de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlWrapLongLines>
     </properties>
 </project-shared-configuration>
