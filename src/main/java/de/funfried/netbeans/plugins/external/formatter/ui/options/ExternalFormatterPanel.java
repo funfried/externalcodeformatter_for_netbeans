@@ -12,8 +12,10 @@ package de.funfried.netbeans.plugins.external.formatter.ui.options;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -360,7 +362,7 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
                                         .addComponent(useFormatterLbl)
                                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(chooseFormatterCmbBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 109, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -390,11 +392,31 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
     }// </editor-fold>//GEN-END:initComponents
 
 	private void btnDonateMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnDonateMouseClicked
-		try {
-			HtmlBrowser.URLDisplayer.getDefault().showURLExternal(new URL("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url"));
-		} catch (MalformedURLException ex) {
-			Exceptions.printStackTrace(ex);
+		Frame parentFrame = null;
+
+		Container parent = this.getParent();
+		while(parent != null) {
+			if(parent instanceof Frame) {
+				parentFrame = (Frame) parent;
+
+				break;
+			}
+
+			parent = parent.getParent();
 		}
+
+		ExternalFormatterSupportDialog dialog = new ExternalFormatterSupportDialog(parentFrame, parentFrame != null);
+		dialog.setTitle(NbBundle.getMessage(ExternalFormatterPanel.class, "ExternalFormatterSupportDialog.title.text"));
+		dialog.pack();
+		dialog.setLocationRelativeTo(this);
+		dialog.setVisible(true);
+		dialog.toFront();
+
+//		try {
+//			HtmlBrowser.URLDisplayer.getDefault().showURLExternal(new URL("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=926F5XBCTK2LQ&source=url"));
+//		} catch (MalformedURLException ex) {
+//			Exceptions.printStackTrace(ex);
+//		}
 	}//GEN-LAST:event_btnDonateMouseClicked
 
 	private void btnVisitHomePageMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnVisitHomePageMouseClicked
@@ -493,98 +515,98 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 		fireChangedListener();
     }//GEN-LAST:event_cbShowNotificationsActionPerformed
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	@SuppressWarnings("deprecation")
-	public void load() {
-		MimeType selectedMimeType = MimeType.valueOf(getSelectedValue(chooseMimeTypeCmbBox));
-		String javaMimeType = JavaTokenId.language().mimeType();
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		@SuppressWarnings("deprecation")
+		public void load() {
+			MimeType selectedMimeType = MimeType.valueOf(getSelectedValue(chooseMimeTypeCmbBox));
+			String javaMimeType = JavaTokenId.language().mimeType();
 
-		for (MimeType mimeType : formatterIdsPerMimeType.keySet()) {
-			String activeFormatter = preferences.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), Settings.DEFAULT_FORMATTER);
-			if (Settings.DEFAULT_FORMATTER.equals(activeFormatter) && mimeType.canHandle(javaMimeType)) {
-				activeFormatter = preferences.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
+			for (MimeType mimeType : formatterIdsPerMimeType.keySet()) {
+				String activeFormatter = preferences.get(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), Settings.DEFAULT_FORMATTER);
+				if (Settings.DEFAULT_FORMATTER.equals(activeFormatter) && mimeType.canHandle(javaMimeType)) {
+					activeFormatter = preferences.get(Settings.ENABLED_FORMATTER, Settings.DEFAULT_FORMATTER);
 
-				preferences.remove(Settings.ENABLED_FORMATTER);
-			}
+					preferences.remove(Settings.ENABLED_FORMATTER);
+				}
 
-			setActiveFormatter(mimeType, activeFormatter, false);
+				setActiveFormatter(mimeType, activeFormatter, false);
 
-			if (Objects.equals(selectedMimeType, mimeType)) {
-				chooseFormatterCmbBox.setSelectedItem(new ExtValue(activeFormatter, null));
-				chooseFormatterCmbBox.setToolTipText(Objects.toString(chooseFormatterCmbBox.getSelectedItem(), null));
-			}
-		}
-
-		boolean showNotifications = preferences.getBoolean(Settings.SHOW_NOTIFICATIONS, false);
-		boolean useIndentationSettings = preferences.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
-		boolean overrideTabSize = preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, false);
-		int overrideTabSizeValue = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
-
-		useIndentationSettingsChkBox.setSelected(useIndentationSettings);
-		overrideTabSizeChkBox.setSelected(overrideTabSize);
-		overrideTabSizeSpn.setValue(overrideTabSizeValue);
-		overrideTabSizeSpn.setToolTipText(Objects.toString(overrideTabSizeSpn.getValue(), null));
-
-		cbShowNotifications.setSelected(showNotifications);
-
-		updateEnabledState();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void store() {
-		for (MimeType mimeType : formatterIdsPerMimeType.keySet()) {
-			preferences.put(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), activeFormatterId.get(mimeType));
-
-			Map<String, FormatterOptionsPanel> options = formatterOptions.get(mimeType);
-			if (options != null) {
-				for (FormatterOptionsPanel option : options.values()) {
-					option.store(preferences);
+				if (Objects.equals(selectedMimeType, mimeType)) {
+					chooseFormatterCmbBox.setSelectedItem(new ExtValue(activeFormatter, null));
+					chooseFormatterCmbBox.setToolTipText(Objects.toString(chooseFormatterCmbBox.getSelectedItem(), null));
 				}
 			}
+
+			boolean showNotifications = preferences.getBoolean(Settings.SHOW_NOTIFICATIONS, false);
+			boolean useIndentationSettings = preferences.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+			boolean overrideTabSize = preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, false);
+			int overrideTabSizeValue = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
+
+			useIndentationSettingsChkBox.setSelected(useIndentationSettings);
+			overrideTabSizeChkBox.setSelected(overrideTabSize);
+			overrideTabSizeSpn.setValue(overrideTabSizeValue);
+			overrideTabSizeSpn.setToolTipText(Objects.toString(overrideTabSizeSpn.getValue(), null));
+
+			cbShowNotifications.setSelected(showNotifications);
+
+			updateEnabledState();
 		}
 
-		preferences.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, useIndentationSettingsChkBox.isSelected());
-		preferences.putBoolean(Settings.OVERRIDE_TAB_SIZE, overrideTabSizeChkBox.isSelected());
-		preferences.putInt(Settings.OVERRIDE_TAB_SIZE_VALUE, Integer.parseInt(overrideTabSizeSpn.getValue().toString()));
-		preferences.putBoolean(Settings.SHOW_NOTIFICATIONS, cbShowNotifications.isSelected());
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void store() {
+			for (MimeType mimeType : formatterIdsPerMimeType.keySet()) {
+				preferences.put(Settings.ENABLED_FORMATTER_PREFIX + mimeType.toString(), activeFormatterId.get(mimeType));
 
-		try {
-			preferences.flush();
-		} catch (BackingStoreException ex) {
-			log.log(Level.WARNING, "Could not flush formatter settings", ex);
-		}
-
-		ExternalFormatterPreferencesChangeSupport editorPreferencesChangeSupport = Lookup.getDefault().lookup(ExternalFormatterPreferencesChangeSupport.class);
-		if (editorPreferencesChangeSupport != null) {
-			editorPreferencesChangeSupport.fireChange();
-		} else {
-			log.warning("Could not find ExternalFormatterPreferencesChangeSupport in lookup!");
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean valid() {
-		for (MimeType mimeType : formatterOptions.keySet()) {
-			String activeId = activeFormatterId.get(mimeType);
-			if (StringUtils.isNotBlank(activeId) && !Objects.equals(Settings.DEFAULT_FORMATTER, activeId)) {
-				FormatterOptionsPanel optionsPanel = getFormatterOptionsPanel(mimeType, activeId);
-				if (optionsPanel != null && !optionsPanel.valid()) {
-					return false;
+				Map<String, FormatterOptionsPanel> options = formatterOptions.get(mimeType);
+				if (options != null) {
+					for (FormatterOptionsPanel option : options.values()) {
+						option.store(preferences);
+					}
 				}
+			}
+
+			preferences.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, useIndentationSettingsChkBox.isSelected());
+			preferences.putBoolean(Settings.OVERRIDE_TAB_SIZE, overrideTabSizeChkBox.isSelected());
+			preferences.putInt(Settings.OVERRIDE_TAB_SIZE_VALUE, Integer.parseInt(overrideTabSizeSpn.getValue().toString()));
+			preferences.putBoolean(Settings.SHOW_NOTIFICATIONS, cbShowNotifications.isSelected());
+
+			try {
+				preferences.flush();
+			} catch (BackingStoreException ex) {
+				log.log(Level.WARNING, "Could not flush formatter settings", ex);
+			}
+
+			ExternalFormatterPreferencesChangeSupport editorPreferencesChangeSupport = Lookup.getDefault().lookup(ExternalFormatterPreferencesChangeSupport.class);
+			if (editorPreferencesChangeSupport != null) {
+				editorPreferencesChangeSupport.fireChange();
+			} else {
+				log.warning("Could not find ExternalFormatterPreferencesChangeSupport in lookup!");
 			}
 		}
 
-		return true;
-	}
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean valid() {
+			for (MimeType mimeType : formatterOptions.keySet()) {
+				String activeId = activeFormatterId.get(mimeType);
+				if (StringUtils.isNotBlank(activeId) && !Objects.equals(Settings.DEFAULT_FORMATTER, activeId)) {
+					FormatterOptionsPanel optionsPanel = getFormatterOptionsPanel(mimeType, activeId);
+					if (optionsPanel != null && !optionsPanel.valid()) {
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JLabel btnDonate;
@@ -601,157 +623,157 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
     private JCheckBox useIndentationSettingsChkBox;
     // End of variables declaration//GEN-END:variables
 
-	/**
-	 * Updates the enabled state of all components regarding the lastest selections made by the user.
-	 */
-	private void updateEnabledState() {
-		overrideTabSizeChkBox.setEnabled(useIndentationSettingsChkBox.isSelected());
-		overrideTabSizeSpn.setEnabled(overrideTabSizeChkBox.isEnabled() && overrideTabSizeChkBox.isSelected());
+		/**
+		 * Updates the enabled state of all components regarding the lastest selections made by the user.
+		 */
+		private void updateEnabledState() {
+			overrideTabSizeChkBox.setEnabled(useIndentationSettingsChkBox.isSelected());
+			overrideTabSizeSpn.setEnabled(overrideTabSizeChkBox.isEnabled() && overrideTabSizeChkBox.isSelected());
 
-		txtProjectSpecificHint.setVisible(project == null);
-	}
-
-	/**
-	 * Returns the selected item of a given {@link JComboBox}. If the selected item is an instance of {@link ExtValue} the {@link ExtValue#getValue()} will be returned.
-	 *
-	 * @param comboBox the {@link JComboBox}
-	 *
-	 * @return the selected item of a given {@link JComboBox}. If the selected item is an instance of {@link ExtValue} the {@link ExtValue#getValue()} will be returned
-	 */
-	private String getSelectedValue(JComboBox comboBox) {
-		Object selectedItem = comboBox.getSelectedItem();
-		if (selectedItem != null) {
-			if (selectedItem instanceof ExtValue) {
-				return ((ExtValue) selectedItem).getValue();
-			} else {
-				return selectedItem.toString();
-			}
+			txtProjectSpecificHint.setVisible(project == null);
 		}
 
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void stateChanged(ChangeEvent e) {
-		fireChangedListener();
-	}
-
-	/**
-	 * A renderer for the {@link #chooseMimeTypeCmbBox} which shows every entry in bold which has an external formatter select.
-	 */
-	private class MimeTypesListCellRenderer extends DefaultListCellRenderer {
-
 		/**
-		 * {@inheritDoc}
+		 * Returns the selected item of a given {@link JComboBox}. If the selected item is an instance of {@link ExtValue} the {@link ExtValue#getValue()} will be returned.
+		 *
+		 * @param comboBox the {@link JComboBox}
+		 *
+		 * @return the selected item of a given {@link JComboBox}. If the selected item is an instance of {@link ExtValue} the {@link ExtValue#getValue()} will be returned
 		 */
-		@Override
-		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-			Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-			if (value != null) {
-				String mimeType = value.toString();
-				if (value instanceof ExtValue) {
-					mimeType = ((ExtValue) value).getValue();
-				}
-
-				if (!Objects.equals(Settings.DEFAULT_FORMATTER, activeFormatterId.get(MimeType.valueOf(mimeType)))) {
-					Font standardFont = comp.getFont();
-
-					comp.setFont(new Font(standardFont.getName(), Font.BOLD, standardFont.getSize()));
+		private String getSelectedValue(JComboBox comboBox) {
+			Object selectedItem = comboBox.getSelectedItem();
+			if (selectedItem != null) {
+				if (selectedItem instanceof ExtValue) {
+					return ((ExtValue) selectedItem).getValue();
+				} else {
+					return selectedItem.toString();
 				}
 			}
 
-			return comp;
-		}
-	}
-
-	/**
-	 * A Java bean for separating between visual and logical values.
-	 */
-	private static class ExtValue {
-
-		/**
-		 * Holder of the logical value.
-		 */
-		private final String value;
-
-		/**
-		 * Holder of the visual value.
-		 */
-		private final String visualValue;
-
-		/**
-		 * Constructor of this class.
-		 *
-		 * @param value logical value
-		 * @param visualValue visual value
-		 */
-		public ExtValue(String value, String visualValue) {
-			this.value = value;
-			this.visualValue = visualValue;
-		}
-
-		/**
-		 * Returns the logical value.
-		 *
-		 * @return the logical value
-		 */
-		public String getValue() {
-			return value;
-		}
-
-		/**
-		 * Returns the visual value.
-		 *
-		 * @return the visual value
-		 *
-		 * @see #toString()
-		 */
-		public String getVisualValue() {
-			return visualValue;
-		}
-
-		/**
-		 * Returns the {@link #visualValue} if not {@code null}, otherwise the logical {@link #value}.
-		 *
-		 * @return the {@link #visualValue} if not {@code null}, otherwise the logical {@link #value}
-		 */
-		@Override
-		public String toString() {
-			return StringUtils.isBlank(visualValue) ? value : visualValue;
-		}
-
-		/**
-		 * Returns {@code true} if {@code obj} is also an {@link ExtValue} with the same logical value or if {@code obj} is a String with the same characters as the logical {@link #value}, otherwise
-		 * {@code false}.
-		 *
-		 * @return {@code true} if {@code obj} is also an {@link ExtValue} with the same logical value or if {@code obj} is a String with the same characters as the logical {@link #value}, otherwise
-		 * {@code false}
-		 */
-		@Override
-		public boolean equals(Object obj) {
-			if (obj == null) {
-				return false;
-			} else if (obj instanceof ExtValue) {
-				ExtValue other = (ExtValue) obj;
-
-				return Objects.equals(this.value, other.value);
-			} else {
-				return Objects.equals(this.value, obj);
-			}
+			return null;
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
-		public int hashCode() {
-			int hash = 7;
-			hash = 97 * hash + Objects.hashCode(this.value);
-			return hash;
+		public void stateChanged(ChangeEvent e) {
+			fireChangedListener();
+		}
+
+		/**
+		 * A renderer for the {@link #chooseMimeTypeCmbBox} which shows every entry in bold which has an external formatter select.
+		 */
+		private class MimeTypesListCellRenderer extends DefaultListCellRenderer {
+
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+				Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+				if (value != null) {
+					String mimeType = value.toString();
+					if (value instanceof ExtValue) {
+						mimeType = ((ExtValue) value).getValue();
+					}
+
+					if (!Objects.equals(Settings.DEFAULT_FORMATTER, activeFormatterId.get(MimeType.valueOf(mimeType)))) {
+						Font standardFont = comp.getFont();
+
+						comp.setFont(new Font(standardFont.getName(), Font.BOLD, standardFont.getSize()));
+					}
+				}
+
+				return comp;
+			}
+		}
+
+		/**
+		 * A Java bean for separating between visual and logical values.
+		 */
+		private static class ExtValue {
+
+			/**
+			 * Holder of the logical value.
+			 */
+			private final String value;
+
+			/**
+			 * Holder of the visual value.
+			 */
+			private final String visualValue;
+
+			/**
+			 * Constructor of this class.
+			 *
+			 * @param value logical value
+			 * @param visualValue visual value
+			 */
+			public ExtValue(String value, String visualValue) {
+				this.value = value;
+				this.visualValue = visualValue;
+			}
+
+			/**
+			 * Returns the logical value.
+			 *
+			 * @return the logical value
+			 */
+			public String getValue() {
+				return value;
+			}
+
+			/**
+			 * Returns the visual value.
+			 *
+			 * @return the visual value
+			 *
+			 * @see #toString()
+			 */
+			public String getVisualValue() {
+				return visualValue;
+			}
+
+			/**
+			 * Returns the {@link #visualValue} if not {@code null}, otherwise the logical {@link #value}.
+			 *
+			 * @return the {@link #visualValue} if not {@code null}, otherwise the logical {@link #value}
+			 */
+			@Override
+			public String toString() {
+				return StringUtils.isBlank(visualValue) ? value : visualValue;
+			}
+
+			/**
+			 * Returns {@code true} if {@code obj} is also an {@link ExtValue} with the same logical value or if {@code obj} is a String with the same characters as the logical {@link #value}, otherwise
+			 * {@code false}.
+			 *
+			 * @return {@code true} if {@code obj} is also an {@link ExtValue} with the same logical value or if {@code obj} is a String with the same characters as the logical {@link #value}, otherwise
+			 *         {@code false}
+			 */
+			@Override
+			public boolean equals(Object obj) {
+				if (obj == null) {
+					return false;
+				} else if (obj instanceof ExtValue) {
+					ExtValue other = (ExtValue) obj;
+
+					return Objects.equals(this.value, other.value);
+				} else {
+					return Objects.equals(this.value, obj);
+				}
+			}
+
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public int hashCode() {
+				int hash = 7;
+				hash = 97 * hash + Objects.hashCode(this.value);
+				return hash;
+			}
 		}
 	}
-}
