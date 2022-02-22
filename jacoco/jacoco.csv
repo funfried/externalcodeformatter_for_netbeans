@@ -25,7 +25,7 @@ External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.form
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.json.base,AbstractJsonFormatterService,0,21,0,2,0,6,0,4,0,3
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.xml.jsoup,JsoupXmlFormatterWrapper,2,59,1,9,1,18,1,7,0,3
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.xml.jsoup,JsoupFormatJob,16,100,6,4,4,26,5,3,0,3
-External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.xml.jsoup,JsoupXmlFormatterService,11,117,2,18,3,37,3,18,1,10
+External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.xml.jsoup,JsoupXmlFormatterService,11,120,2,18,3,37,3,18,1,10
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.exceptions,ConfigReadException,0,4,0,0,0,2,0,1,0,1
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.exceptions,CannotLoadConfigurationException,0,8,0,0,0,4,0,2,0,2
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.exceptions,FormattingFailedException,0,8,0,0,0,4,0,2,0,2
