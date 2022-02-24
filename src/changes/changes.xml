@@ -7,7 +7,7 @@
 	</properties>
 
 	<body>
-		<release version="1.14.5-SNAPSHOT" date="n/a" description="Bug fix release">
+		<release version="1.14.5" date="2022-02-24" description="Bug fix release">
 			<action dev="bahlef" type="fix">
 				Fixed editor issues when using revelc.net XML formatter
 			</action>
