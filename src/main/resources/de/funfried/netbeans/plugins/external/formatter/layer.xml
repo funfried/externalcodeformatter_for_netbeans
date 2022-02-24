@@ -5,240 +5,243 @@
 	<folder name="Projects">
 		<folder name="org-netbeans-modules-j2ee-clientproject">
 			<folder name="Customizer">
-				<attr intvalue="1000" name="position"/>
+				<attr intvalue="1000" name="position" />
 				<folder name="Formatting">
 					<file name="Self.instance">
-						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
-						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
-						<attr name="allowedMimeTypes" stringvalue="text/x-java"/>
-						<attr name="position" intvalue="0"/>
+						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider" />
+						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider" />
+						<attr name="allowedMimeTypes" stringvalue="text/x-java" />
+						<attr name="position" intvalue="0" />
 					</file>
-					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
-					<attr intvalue="1000" name="position"/>
+					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName" />
+					<attr intvalue="1000" name="position" />
 				</folder>
-				<file name="Formatting.instance_hidden"/>
+				<file name="Formatting.instance_hidden" />
 			</folder>
 		</folder>
 		<folder name="org-netbeans-modules-j2ee-ejbjarproject">
 			<folder name="Customizer">
-				<attr intvalue="1000" name="position"/>
+				<attr intvalue="1000" name="position" />
 				<folder name="Formatting">
 					<file name="Self.instance">
-						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
-						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
-						<attr name="allowedMimeTypes" stringvalue="text/x-java"/>
-						<attr name="position" intvalue="0"/>
+						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider" />
+						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider" />
+						<attr name="allowedMimeTypes" stringvalue="text/x-java" />
+						<attr name="position" intvalue="0" />
 					</file>
-					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
-					<attr intvalue="1000" name="position"/>
+					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName" />
+					<attr intvalue="1000" name="position" />
 				</folder>
-				<file name="Formatting.instance_hidden"/>
+				<file name="Formatting.instance_hidden" />
 			</folder>
 		</folder>
 		<folder name="org-netbeans-modules-java-j2seproject">
 			<folder name="Customizer">
-				<attr intvalue="1000" name="position"/>
+				<attr intvalue="1000" name="position" />
 				<folder name="Formatting">
 					<file name="Self.instance">
-						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
-						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
-						<attr name="allowedMimeTypes" stringvalue="text/x-java"/>
-						<attr name="position" intvalue="0"/>
+						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider" />
+						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider" />
+						<attr name="allowedMimeTypes" stringvalue="text/x-java" />
+						<attr name="position" intvalue="0" />
 					</file>
-					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
-					<attr intvalue="1000" name="position"/>
+					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName" />
+					<attr intvalue="1000" name="position" />
 				</folder>
-				<file name="Formatting.instance_hidden"/>
+				<file name="Formatting.instance_hidden" />
 			</folder>
 		</folder>
 		<folder name="org-netbeans-modules-java-j2semodule">
 			<folder name="Customizer">
-				<attr intvalue="1000" name="position"/>
+				<attr intvalue="1000" name="position" />
 				<folder name="Formatting">
 					<file name="Self.instance">
-						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
-						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
-						<attr name="allowedMimeTypes" stringvalue="text/x-java"/>
-						<attr name="position" intvalue="0"/>
+						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider" />
+						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider" />
+						<attr name="allowedMimeTypes" stringvalue="text/x-java" />
+						<attr name="position" intvalue="0" />
 					</file>
-					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
-					<attr intvalue="1000" name="position"/>
+					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName" />
+					<attr intvalue="1000" name="position" />
 				</folder>
-				<file name="Formatting.instance_hidden"/>
+				<file name="Formatting.instance_hidden" />
 			</folder>
 		</folder>
 		<folder name="org-netbeans-modules-j2ee-earproject">
 			<folder name="Customizer">
-				<attr intvalue="1000" name="position"/>
+				<attr intvalue="1000" name="position" />
 				<folder name="Formatting">
 					<file name="Self.instance">
-						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
-						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
-						<attr name="allowedMimeTypes" stringvalue="text/x-java"/>
-						<attr name="position" intvalue="0"/>
+						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider" />
+						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider" />
+						<attr name="allowedMimeTypes" stringvalue="text/x-java" />
+						<attr name="position" intvalue="0" />
 					</file>
-					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
-					<attr intvalue="1000" name="position"/>
+					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName" />
+					<attr intvalue="1000" name="position" />
 				</folder>
-				<file name="Formatting.instance_hidden"/>
+				<file name="Formatting.instance_hidden" />
 			</folder>
 		</folder>
 		<folder name="org-netbeans-modules-ant-freeform">
 			<folder name="Customizer">
-				<attr intvalue="1000" name="position"/>
+				<attr intvalue="1000" name="position" />
 				<folder name="Formatting">
 					<file name="Self.instance">
-						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
-						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
-						<attr name="allowedMimeTypes" stringvalue="text/x-java"/>
-						<attr name="position" intvalue="0"/>
+						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider" />
+						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider" />
+						<attr name="allowedMimeTypes" stringvalue="text/x-java" />
+						<attr name="position" intvalue="0" />
 					</file>
-					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
-					<attr intvalue="1000" name="position"/>
+					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName" />
+					<attr intvalue="1000" name="position" />
 				</folder>
-				<file name="Formatting.instance_hidden"/>
+				<file name="Formatting.instance_hidden" />
 			</folder>
 		</folder>
 		<folder name="org-netbeans-modules-web-project">
 			<folder name="Customizer">
-				<attr intvalue="1000" name="position"/>
+				<attr intvalue="1000" name="position" />
 				<folder name="Formatting">
 					<file name="Self.instance">
-						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
-						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
-						<attr name="allowedMimeTypes" stringvalue="text/x-java"/>
-						<attr name="position" intvalue="0"/>
+						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider" />
+						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider" />
+						<attr name="allowedMimeTypes" stringvalue="text/x-java" />
+						<attr name="position" intvalue="0" />
 					</file>
-					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
-					<attr intvalue="1000" name="position"/>
+					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName" />
+					<attr intvalue="1000" name="position" />
 				</folder>
-				<file name="Formatting.instance_hidden"/>
+				<file name="Formatting.instance_hidden" />
 			</folder>
 		</folder>
 		<folder name="org-netbeans-modules-maven">
 			<folder name="Customizer">
-				<attr intvalue="1000" name="position"/>
+				<attr intvalue="1000" name="position" />
 				<folder name="Formatting">
 					<file name="Self.instance">
-						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
-						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
-						<attr name="allowedMimeTypes" stringvalue="text/x-java"/>
-						<attr name="position" intvalue="0"/>
+						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider" />
+						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider" />
+						<attr name="allowedMimeTypes" stringvalue="text/x-java" />
+						<attr name="position" intvalue="0" />
 					</file>
-					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
-					<attr intvalue="1000" name="position"/>
+					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName" />
+					<attr intvalue="1000" name="position" />
 				</folder>
-				<file name="Formatting.instance_hidden"/>
+				<file name="Formatting.instance_hidden" />
 			</folder>
 		</folder>
 		<folder name="org-netbeans-modules-gradle">
 			<folder name="Customizer">
-				<attr intvalue="1000" name="position"/>
+				<attr intvalue="1000" name="position" />
 				<folder name="Formatting">
 					<file name="Self.instance">
-						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
-						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
-						<attr name="allowedMimeTypes" stringvalue="text/x-java"/>
-						<attr name="position" intvalue="0"/>
+						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider" />
+						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider" />
+						<attr name="allowedMimeTypes" stringvalue="text/x-java" />
+						<attr name="position" intvalue="0" />
 					</file>
-					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
-					<attr intvalue="1000" name="position"/>
+					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName" />
+					<attr intvalue="1000" name="position" />
 				</folder>
-				<file name="Formatting.instance_hidden"/>
+				<file name="Formatting.instance_hidden" />
 			</folder>
 		</folder>
 		<folder name="org-netbeans-modules-apisupport-project">
 			<folder name="Customizer">
-				<attr intvalue="1000" name="position"/>
+				<attr intvalue="1000" name="position" />
 				<folder name="Formatting">
 					<file name="Self.instance">
-						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider"/>
-						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider"/>
-						<attr name="allowedMimeTypes" stringvalue="text/x-java"/>
-						<attr name="position" intvalue="0"/>
+						<attr name="instanceOf" stringvalue="org.netbeans.spi.project.ui.support.ProjectCustomizer$CompositeCategoryProvider" />
+						<attr name="instanceCreate" methodvalue="org.netbeans.modules.editor.indent.project.api.Customizers.createFormattingCategoryProvider" />
+						<attr name="allowedMimeTypes" stringvalue="text/x-java" />
+						<attr name="position" intvalue="0" />
 					</file>
-					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName"/>
-					<attr intvalue="1000" name="position"/>
+					<attr bundlevalue="org.netbeans.modules.maven.customizer.Bundle#LBL_CategoryFormatting" name="displayName" />
+					<attr intvalue="1000" name="position" />
 				</folder>
-				<file name="Formatting.instance_hidden"/>
+				<file name="Formatting.instance_hidden" />
 			</folder>
 		</folder>
 	</folder>
-
 	<folder name="Editors">
 		<folder name="application">
 			<folder name="sql">
 				<file name="Reformatter.instance">
-					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory"/>
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory" />
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
-					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory"/>
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory" />
 				</file>
 			</folder>
 			<folder name="x-sql">
 				<file name="Reformatter.instance">
-					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory"/>
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory" />
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
-					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory"/>
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory" />
 				</file>
 			</folder>
 		</folder>
 		<folder name="text">
 			<folder name="javascript">
 				<file name="org-netbeans-modules-csl-core-GsfReformatTaskFactory.instance">
-					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory"/>
-					<attr name="instanceOf" stringvalue="org.netbeans.modules.editor.indent.spi.ReformatTask$Factory"/>
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory" />
+					<attr name="instanceOf" stringvalue="org.netbeans.modules.editor.indent.spi.ReformatTask$Factory" />
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
-					<attr name="instanceClass" stringvalue="org.netbeans.modules.csl.core.GsfReformatTaskFactory"/>
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.csl.core.GsfReformatTaskFactory" />
 				</file>
 			</folder>
 			<folder name="sql">
 				<file name="Reformatter.instance">
-					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory"/>
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory" />
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
-					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory"/>
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory" />
 				</file>
 			</folder>
 			<folder name="x-sql">
 				<file name="Reformatter.instance">
-					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory"/>
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory" />
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
-					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory"/>
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory" />
 				</file>
 				<file name="de-funfried-netbeans-plugins-external-formatter-ui-editor-ExternalFormatterReformatTaskFactory.instance">
-					<attr name="instanceOf" stringvalue="org.netbeans.modules.editor.indent.spi.ReformatTask$Factory"/>
+					<attr name="instanceOf" stringvalue="org.netbeans.modules.editor.indent.spi.ReformatTask$Factory" />
 				</file>
 			</folder>
 			<folder name="x-java">
 				<folder name="CodeTemplates">
-					<file name="eclipse-formatter-templates.xml" url="eclipse-formatter-templates.xml"/>
+					<file name="eclipse-formatter-templates.xml" url="eclipse-formatter-templates.xml" />
 				</folder>
 				<file name="Reformatter.instance">
-					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory"/>
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory" />
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
-					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory"/>
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory" />
 				</file>
 			</folder>
 			<folder name="xml">
 				<file name="org-netbeans-modules-xml-text-indent-XMLIndentTaskFactory.instance">
-					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterIndentTaskFactory"/>
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterIndentTaskFactory" />
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.IndentTask.Factory.instance">
-					<attr name="instanceClass" stringvalue="org.netbeans.modules.xml.text.indent.XMLIndentTaskFactory"/>
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.xml.text.indent.XMLIndentTaskFactory" />
 				</file>
 			</folder>
 			<folder name="x-json">
 				<file name="org-netbeans-modules-csl-core-GsfReformatTaskFactory.instance">
-					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory"/>
-					<attr name="instanceOf" stringvalue="org.netbeans.modules.editor.indent.spi.ReformatTask$Factory"/>
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory" />
+					<attr name="instanceOf" stringvalue="org.netbeans.modules.editor.indent.spi.ReformatTask$Factory" />
+				</file>
+				<file name="org-netbeans-modules-csl-core-GsfIndentTaskFactory.instance">
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterIndentTaskFactory" />
+					<attr name="instanceOf" stringvalue="org.netbeans.modules.editor.indent.spi.IndentTask$Factory" />
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
-					<attr name="instanceClass" stringvalue="org.netbeans.modules.csl.core.GsfReformatTaskFactory"/>
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.csl.core.GsfReformatTaskFactory" />
 				</file>
 			</folder>
 		</folder>

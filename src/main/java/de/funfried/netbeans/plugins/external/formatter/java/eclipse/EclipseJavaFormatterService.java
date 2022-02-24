@@ -95,7 +95,7 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 
 				Integer indentSize = getIndentSize(document);
 				if (indentSize != null) {
-					ret = Integer.valueOf(value) * indentSize;
+					ret *= indentSize;
 				}
 			}
 		}
@@ -117,17 +117,14 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String value;
-
 			String tabChar = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.tabulation.char");
 			if (Objects.equals(tabChar, "mixed")) {
-				value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.indentation.size");
+				String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.indentation.size");
+				if (value != null) {
+					ret = Integer.valueOf(value);
+				}
 			} else {
-				value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.tabulation.size");
-			}
-
-			if (value != null) {
-				ret = Integer.valueOf(value);
+				ret = getSpacesPerTab(document);
 			}
 		}
 

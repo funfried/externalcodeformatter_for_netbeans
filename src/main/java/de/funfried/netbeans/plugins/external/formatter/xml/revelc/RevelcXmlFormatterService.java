@@ -84,7 +84,16 @@ public class RevelcXmlFormatterService extends AbstractXmlFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			ret = preferences.getInt(RevelcXmlFormatterSettings.TAB_WIDTH, 4);
+			if (preferences.getBoolean(RevelcXmlFormatterSettings.TAB_INSTEAD_OF_SPACES, true)) {
+				ret = 1;
+			} else {
+				ret = preferences.getInt(RevelcXmlFormatterSettings.TAB_WIDTH, 4);
+			}
+
+			Integer indentSize = getIndentSize(document);
+			if (indentSize != null) {
+				ret *= indentSize;
+			}
 		}
 
 		return ret;
@@ -104,7 +113,11 @@ public class RevelcXmlFormatterService extends AbstractXmlFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			ret = -1;
+			if (preferences.getBoolean(RevelcXmlFormatterSettings.TAB_INSTEAD_OF_SPACES, true)) {
+				ret = 1;
+			} else {
+				ret = preferences.getInt(RevelcXmlFormatterSettings.TAB_WIDTH, 4);
+			}
 		}
 
 		return ret;

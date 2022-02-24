@@ -104,7 +104,7 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			ret = -1;
+			ret = preferences.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);
 		}
 
 		return ret;

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <document xmlns="http://maven.apache.org/changes/1.0.0"
 		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		  xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
@@ -11,6 +12,27 @@
 		<release version="1.15.0-SNAPSHOT" date="N/A" description="Additional formatters">
 			<action dev="bahlef" type="add">
 				Additional formatters
+			</action>
+		</release>
+
+		<release version="1.14.5" date="2022-02-24" description="Bug fix release">
+			<action dev="bahlef" type="fix">
+				Fixed editor issues when using revelc.net XML formatter
+			</action>
+			<action dev="bahlef" type="fix">
+				Fixed editor behavior when using JSoup XML formatter
+			</action>
+			<action dev="bahlef" type="fix">
+				Fixed usage of JSON formatters
+			</action>
+		</release>
+
+		<release version="1.14.4" date="2022-02-07" description="Bug fix release">
+			<action dev="bahlef" type="fix" issue="191">
+				Erroneous formatting with Eclipse when "Override Tab Size" is active
+			</action>
+			<action dev="bahlef" type="fix" issue="190">
+				Fixed issue in Google formatter when there were blank lines at the end of the Java file
 			</action>
 		</release>
 
