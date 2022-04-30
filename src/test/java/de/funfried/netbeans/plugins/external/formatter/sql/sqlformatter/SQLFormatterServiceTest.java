@@ -7,7 +7,7 @@
  * Contributors:
  * bahlef - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter;
+package de.funfried.netbeans.plugins.external.formatter.sql.sqlformatter;
 
 import java.util.prefs.Preferences;
 
@@ -18,33 +18,35 @@ import org.junit.Test;
 import org.netbeans.junit.NbTestCase;
 import org.netbeans.modules.editor.NbEditorDocument;
 
-import com.manticore.jsqlformatter.JSQLFormatter;
-
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  *
  * @author bahlef
  */
-public class JSQLFormatterServiceTest extends NbTestCase {
-	public JSQLFormatterServiceTest(String name) {
+public class SQLFormatterServiceTest extends NbTestCase {
+	public SQLFormatterServiceTest(String name) {
 		super(name);
 	}
 
 	/**
-	 * Test of format method, of class {@link JSQLFormatterService}.
+	 * Test of format method, of class {@link SQLFormatterService}.
 	 *
 	 * @throws Exception if an error occurs
 	 */
 	@Test
 	public void testFormat() throws Exception {
 		final String text = "SELECT FOO FROM BAR WHERE FOO = 'BAR' ORDER BY FOO LIMIT 1\n";
-		final String expected = "SELECT foo\n" +
-				"FROM bar\n" +
-				"WHERE foo = 'BAR'\n" +
-				"ORDER BY foo\n" +
-				"LIMIT 1\n" +
-				";\n";
+		final String expected = "SELECT\n" +
+				"  FOO\n" +
+				"FROM\n" +
+				"  BAR\n" +
+				"WHERE\n" +
+				"  FOO = 'BAR'\n" +
+				"ORDER BY\n" +
+				"  FOO\n" +
+				"LIMIT\n" +
+				"  1\n";
 
 		StyledDocument document = new NbEditorDocument("text/x-sql");
 		document.insertString(0, text, null);
@@ -53,14 +55,14 @@ public class JSQLFormatterServiceTest extends NbTestCase {
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 		prefs.putBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 
-		JSQLFormatterService instance = new JSQLFormatterService();
-		Assert.assertEquals("JSQLFormatter", instance.getDisplayName());
+		SQLFormatterService instance = new SQLFormatterService();
+		Assert.assertEquals("Vertical Blank SQL Formatter", instance.getDisplayName());
 		Assert.assertNotNull(instance.createOptionsPanel(null));
-		Assert.assertEquals((long) 120L, (long) instance.getRightMargin(document));
+		Assert.assertEquals((long) SQLFormatterSettings.MAX_COLUMN_LENGTH_DEFAULT, (long) instance.getRightMargin(document));
 
-		Assert.assertEquals(JSQLFormatter.getIndentWidth(), (int) instance.getContinuationIndentSize(document));
-		Assert.assertEquals(JSQLFormatter.getIndentWidth(), (int) instance.getIndentSize(document));
-		Assert.assertEquals(JSQLFormatter.getIndentWidth(), (int) instance.getSpacesPerTab(document));
+		Assert.assertEquals(SQLFormatterSettings.INDENT_SIZE_DEFAULT, (int) instance.getContinuationIndentSize(document));
+		Assert.assertEquals(SQLFormatterSettings.INDENT_SIZE_DEFAULT, (int) instance.getIndentSize(document));
+		Assert.assertEquals(SQLFormatterSettings.INDENT_SIZE_DEFAULT, (int) instance.getSpacesPerTab(document));
 		Assert.assertTrue(instance.isExpandTabToSpaces(document));
 
 		Assert.assertNull(instance.getContinuationIndentSize(null));
@@ -83,8 +85,8 @@ public class JSQLFormatterServiceTest extends NbTestCase {
 	}
 
 	/**
-	 * Test of {@link JSQLFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
-	 * method, of class {@link JSQLFormatterService}.
+	 * Test of {@link SQLFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
+	 * method, of class {@link SQLFormatterService}.
 	 *
 	 * @throws Exception if an error occurs
 	 */
@@ -95,7 +97,7 @@ public class JSQLFormatterServiceTest extends NbTestCase {
 		StyledDocument document = new NbEditorDocument("text/xml");
 		document.insertString(0, text, null);
 
-		JSQLFormatterService instance = new JSQLFormatterService();
+		SQLFormatterService instance = new SQLFormatterService();
 
 		try {
 			instance.format(document, null);

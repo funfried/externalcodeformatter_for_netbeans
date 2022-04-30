@@ -42,5 +42,9 @@
         <de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlLinefeed/>
         <de-funfried-netbeans-plugins-externalcodeformatter.jacksonJsonExpandTabsToSpaces>false</de-funfried-netbeans-plugins-externalcodeformatter.jacksonJsonExpandTabsToSpaces>
         <de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlWrapLongLines>false</de-funfried-netbeans-plugins-externalcodeformatter.revelcXmlWrapLongLines>
+        <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
+        <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_XML>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_XML>
+        <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVASCRIPT>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_JAVASCRIPT>
+        <de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_SQL>netbeans-formatter</de-funfried-netbeans-plugins-externalcodeformatter.enabledFormatter_2e_SQL>
     </properties>
 </project-shared-configuration>

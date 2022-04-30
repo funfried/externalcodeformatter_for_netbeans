@@ -116,7 +116,7 @@ public class ExternalFormatterIndentTaskFactory implements IndentTask.Factory {
 	 *         for the given {@code mimePath}
 	 */
 	@NonNull
-	private IndentTask.Factory getDefaultForMimePath(String mimePath) {
+	IndentTask.Factory getDefaultForMimePath(String mimePath) {
 		MimePath mp = MimePath.get(mimePath);
 		Reference<IndentTask.Factory> ref = cache.get(mp);
 		IndentTask.Factory factory = ref == null ? null : ref.get();

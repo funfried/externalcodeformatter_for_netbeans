@@ -9,6 +9,8 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.javascript.base;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.SortedSet;
 
 import javax.swing.text.BadLocationException;
@@ -30,7 +32,7 @@ public abstract class AbstractJavascriptFormatterService implements FormatterSer
 	/**
 	 * Returns the {@link FormatJob}.
 	 *
-	 * @param document       the {@link StyledDocument} which should be formatted
+	 * @param document the {@link StyledDocument} which should be formatted
 	 * @param changedElement an optional range as a {@link Pair} object defining the offsets which should be formatted
 	 */
 	protected abstract FormatJob getFormatJob(StyledDocument document, Pair<Integer, Integer> changedElement);
@@ -39,19 +41,21 @@ public abstract class AbstractJavascriptFormatterService implements FormatterSer
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException, FormattingFailedException {
+	public boolean format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException, FormattingFailedException {
 		if (!canHandle(document)) {
 			throw new FormattingFailedException("The file type '" + MimeType.getMimeTypeAsString(document) + "' is not supported");
 		}
 
 		getFormatJob(document, changedElements != null ? changedElements.first() : null).format();
+
+		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public MimeType getSupportedMimeType() {
-		return MimeType.JAVASCRIPT;
+	public List<MimeType> getSupportedMimeTypes() {
+		return Collections.singletonList(MimeType.JAVASCRIPT);
 	}
 }

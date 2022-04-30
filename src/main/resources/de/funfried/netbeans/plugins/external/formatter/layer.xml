@@ -184,6 +184,22 @@
 			</folder>
 		</folder>
 		<folder name="text">
+			<folder name="css">
+				<file name="org-netbeans-modules-css-editor-indent-CssIndentTaskFactory.instance">
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterIndentTaskFactory" />
+				</file>
+				<file name="org.netbeans.modules.editor.indent.spi.IndentTask.Factory.instance">
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.css.editor.indent.CssIndentTaskFactory" />
+				</file>
+			</folder>
+			<folder name="html">
+				<file name="org-netbeans-modules-html-editor-indent-HtmlIndentTaskFactory.instance">
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterIndentTaskFactory" />
+				</file>
+				<file name="org.netbeans.modules.editor.indent.spi.IndentTask.Factory.instance">
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.html.editor.indent.HtmlIndentTaskFactory" />
+				</file>
+			</folder>
 			<folder name="javascript">
 				<file name="org-netbeans-modules-csl-core-GsfReformatTaskFactory.instance">
 					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterReformatTaskFactory" />

@@ -113,34 +113,18 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<google-java-format.version>1.13.0</google-java-format.version>
+		<google-java-format.version>1.15.0</google-java-format.version>
+		<palantir-java-format.version>2.24.0</palantir-java-format.version>
 		<xml-formatter.version>0.2.2</xml-formatter.version>
 		<commons-lang.version>3.12.0</commons-lang.version>
 		<netbeans.version>RELEASE120</netbeans.version>
-		<jackson.version>2.13.1</jackson.version>
+		<jackson.version>2.13.2</jackson.version>
 		<jsoup.version>1.14.3</jsoup.version>
+		<pmd.version>6.44.0</pmd.version>
 		<argLine></argLine>
 	</properties>
 
 	<dependencies>
-		<!--		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-core</artifactId>
-			<version>3.8.4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-model</artifactId>
-			<version>3.8.4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.pinterest.ktlint</groupId>
-			<artifactId>ktlint-core</artifactId>
-			<version>0.43.2</version>
-		</dependency>-->
-
 		<!-- Eclipse Formatter -->
 		<dependency>
 			<groupId>org.eclipse.platform</groupId>
@@ -152,14 +136,24 @@
 		<dependency>
 			<groupId>org.eclipse.jdt</groupId>
 			<artifactId>org.eclipse.jdt.core</artifactId>
-			<version>3.28.0</version>
+			<version>3.29.0</version>
 		</dependency>
 
 		<!-- Eclipse JavaScript Formatter -->
 		<dependency>
-			<groupId>net.revelc.code.formatter</groupId>
+			<groupId>de.funfried.libraries</groupId>
 			<artifactId>jsdt-core</artifactId>
-			<version>3.0.0</version>
+			<version>1.0.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.javascript</groupId>
+					<artifactId>closure-compiler-unshaded</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Spring Formatter -->
@@ -174,20 +168,36 @@
 			<groupId>com.google.googlejavaformat</groupId>
 			<artifactId>google-java-format</artifactId>
 			<version>${google-java-format.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Palantir Formatter -->
 		<dependency>
 			<groupId>com.palantir.javaformat</groupId>
 			<artifactId>palantir-java-format</artifactId>
-			<version>2.17.0</version>
+			<version>${palantir-java-format.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>com.palantir.javaformat</groupId>
 			<artifactId>palantir-java-format-spi</artifactId>
-			<version>2.17.0</version>
+			<version>${palantir-java-format.version}</version>
 			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
 				<exclusion>
 					<groupId>com.fasterxml.jackson.core</groupId>
 					<artifactId>*</artifactId>
@@ -199,7 +209,7 @@
 		<dependency>
 			<groupId>com.diffplug.spotless</groupId>
 			<artifactId>spotless-lib</artifactId>
-			<version>2.22.2</version>
+			<version>2.25.0</version>
 		</dependency>
 
 		<!-- XML Formatter -->
@@ -232,7 +242,7 @@
 		<dependency>
 			<groupId>com.manticore-projects.jsqlformatter</groupId>
 			<artifactId>jsqlformatter</artifactId>
-			<version>0.1.9</version>
+			<version>0.1.11</version>
 		</dependency>
 
 		<!-- Vertical Blank SQL Formatter -->
@@ -406,6 +416,13 @@
 			<version>2.11.0</version>
 		</dependency>
 
+		<!-- Google -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>31.1-jre</version>
+		</dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>org.netbeans.api</groupId>
@@ -428,12 +445,12 @@
 				<plugin>
 					<groupId>org.apache.netbeans.utilities</groupId>
 					<artifactId>nbm-maven-plugin</artifactId>
-					<version>4.6</version>
+					<version>4.7</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.10.0</version>
+					<version>3.10.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -453,7 +470,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-clean-plugin</artifactId>
-					<version>3.1.0</version>
+					<version>3.2.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -468,12 +485,12 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-antrun-plugin</artifactId>
-					<version>3.0.0</version>
+					<version>3.1.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.sonatype.plugins</groupId>
 					<artifactId>nexus-staging-maven-plugin</artifactId>
-					<version>1.6.10</version>
+					<version>1.6.13</version>
 					<configuration>
 						<serverId>sonatype-nexus-staging</serverId>
 						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
@@ -498,12 +515,12 @@
 				<plugin>
 					<groupId>net.revelc.code.formatter</groupId>
 					<artifactId>formatter-maven-plugin</artifactId>
-					<version>2.17.1</version>
+					<version>2.18.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
-					<version>3.10.0</version>
+					<version>3.12.0</version>
 					<configuration>
 						<skipDeploy>true</skipDeploy>
 					</configuration>
@@ -528,12 +545,12 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-project-info-reports-plugin</artifactId>
-					<version>3.2.1</version>
+					<version>3.2.2</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>3.3.2</version>
+					<version>3.4.0</version>
 					<configuration>
 						<quiet>true</quiet>
 						<doclint>all,-missing</doclint>
@@ -560,7 +577,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>versions-maven-plugin</artifactId>
-					<version>2.9.0</version>
+					<version>2.10.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -593,12 +610,12 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.1.2</version>
+					<version>3.3.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.8.7</version>
+					<version>0.8.8</version>
 					<configuration>
 						<excludes>
 							<exclude>de/funfried/netbeans/plugins/external/formatter/**/Bundle.class</exclude>
@@ -614,22 +631,44 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jxr-plugin</artifactId>
-					<version>3.1.1</version>
+					<version>3.2.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-pmd-plugin</artifactId>
-					<version>3.15.0</version>
+					<version>3.16.0</version>
+					<dependencies>
+						<dependency>
+							<groupId>net.sourceforge.pmd</groupId>
+							<artifactId>pmd-core</artifactId>
+							<version>${pmd.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>net.sourceforge.pmd</groupId>
+							<artifactId>pmd-java</artifactId>
+							<version>${pmd.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>net.sourceforge.pmd</groupId>
+							<artifactId>pmd-javascript</artifactId>
+							<version>${pmd.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>net.sourceforge.pmd</groupId>
+							<artifactId>pmd-jsp</artifactId>
+							<version>${pmd.version}</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>com.github.spotbugs</groupId>
 					<artifactId>spotbugs-maven-plugin</artifactId>
-					<version>4.5.3.0</version>
+					<version>4.6.0.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.owasp</groupId>
 					<artifactId>dependency-check-maven</artifactId>
-					<version>6.5.3</version>
+					<version>7.1.0</version>
 					<configuration>
 						<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
 					</configuration>
@@ -896,7 +935,7 @@
 						<plugin>
 							<groupId>com.h3xstream.findsecbugs</groupId>
 							<artifactId>findsecbugs-plugin</artifactId>
-							<version>1.11.0</version>
+							<version>1.12.0</version>
 						</plugin>
 					</plugins>
 				</configuration>

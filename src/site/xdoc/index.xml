@@ -36,13 +36,16 @@
 							<li>
 								<a href="https://github.com/spring-io/spring-javaformat">Spring Java Formatter</a>
 							</li>
+							<li>
+								<a href="https://github.com/palantir/palantir-java-format">Palantir Java Formatter</a>
+							</li>
 						</ul>
 					</li>
 					<li>
 						Javascript
 						<ul>
 							<li>
-								<a href="https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.wst.jsdt.doc%2Fstarted%2Foverview.html&amp;cp%3D52_0">Eclipse Javascript Code Formatter</a>
+								<a href="https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.wst.jsdt.doc%2Fstarted%2Foverview.html&amp;cp%3D52_0">Eclipse Javascript Code Formatter</a>  (via <a href="https://github.com/funfried/jsdt-core">modified revelc jsdt-core</a>)
 							</li>
 						</ul>
 					</li>
@@ -62,6 +65,20 @@
 						<ul>
 							<li>
 								<a href="https://github.com/FasterXML/jackson">Jackson Json Code Formatter</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						SQL
+						<ul>
+							<li>
+								<a href="https://github.com/manticore-projects/jsqlformatter">manticore JSQLFormatter</a>
+							</li>
+							<li>
+								<a href="https://github.com/vertical-blank/sql-formatter">Vertical Blank SQL Formatter</a>
+							</li>
+							<li>
+								<a href="https://github.com/diffplug/spotless">DBeaver SQL Formatter (via Spotless)</a>
 							</li>
 						</ul>
 					</li>
@@ -99,6 +116,9 @@
 				<li>Support for Jackson Json formatter (since 1.14)</li>
 				<li>Support for manticore JSQLFormatter (Special thanks to <a href="https://github.com/manticore-projects">Andreas Reichel</a> for the contribution) (since 1.14.1)</li>
 				<li>Support for remote configurations for Eclipse formatters (since 1.14.1)</li>
+				<li>Support for Palantir Java Formatter (since 1.15.0)</li>
+				<li>Support for Vertical Blank SQL Formatter (since 1.15.0)</li>
+				<li>Support for DBeaver SQL Formatter (via Spotless) (since 1.15.0)</li>
 			</ul>
 		</section>
 		<section name="History of this plugin">

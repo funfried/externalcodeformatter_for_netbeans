@@ -81,10 +81,10 @@ class DBeaverFormatterJob extends AbstractFormatJob {
 	private Properties getProperties(Preferences pref) {
 		Properties props = new Properties();
 
-		props.put(DBeaverFormatterSettings.INDENT_SIZE, Integer.toString(pref.getInt(DBeaverFormatterSettings.INDENT_SIZE, 4)));
-		props.put(DBeaverFormatterSettings.INDENT_TYPE, pref.get(DBeaverFormatterSettings.INDENT_TYPE, "space"));
-		props.put(DBeaverFormatterSettings.KEYWORD_CASE, pref.get(DBeaverFormatterSettings.KEYWORD_CASE, "UPPER"));
-		props.put(DBeaverFormatterSettings.STATEMENT_DELIMITER, pref.get(DBeaverFormatterSettings.STATEMENT_DELIMITER, ";"));
+		props.put(DBeaverFormatterSettings.INDENT_SIZE, Integer.toString(pref.getInt(DBeaverFormatterSettings.INDENT_SIZE, DBeaverFormatterSettings.INDENT_SIZE_DEFAULT)));
+		props.put(DBeaverFormatterSettings.INDENT_TYPE, pref.get(DBeaverFormatterSettings.INDENT_TYPE, DBeaverFormatterSettings.INDENT_TYPE_DEFAULT));
+		props.put(DBeaverFormatterSettings.KEYWORD_CASE, pref.get(DBeaverFormatterSettings.KEYWORD_CASE, DBeaverFormatterSettings.KEYWORD_CASE_DEFAULT));
+		props.put(DBeaverFormatterSettings.STATEMENT_DELIMITER, pref.get(DBeaverFormatterSettings.STATEMENT_DELIMITER, DBeaverFormatterSettings.STATEMENT_DELIMITER_DEFAULT));
 
 		return props;
 	}

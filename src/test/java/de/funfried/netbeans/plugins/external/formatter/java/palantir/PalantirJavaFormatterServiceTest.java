@@ -7,7 +7,7 @@
  * Contributors:
  * bahlef - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter;
+package de.funfried.netbeans.plugins.external.formatter.java.palantir;
 
 import java.util.prefs.Preferences;
 
@@ -18,49 +18,50 @@ import org.junit.Test;
 import org.netbeans.junit.NbTestCase;
 import org.netbeans.modules.editor.NbEditorDocument;
 
-import com.manticore.jsqlformatter.JSQLFormatter;
-
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  *
  * @author bahlef
  */
-public class JSQLFormatterServiceTest extends NbTestCase {
-	public JSQLFormatterServiceTest(String name) {
+public class PalantirJavaFormatterServiceTest extends NbTestCase {
+	public PalantirJavaFormatterServiceTest(String name) {
 		super(name);
 	}
 
 	/**
-	 * Test of format method, of class {@link JSQLFormatterService}.
+	 * Test of {@link PalantirJavaFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
+	 * method, of class {@link PalantirJavaFormatterService}.
 	 *
 	 * @throws Exception if an error occurs
 	 */
 	@Test
 	public void testFormat() throws Exception {
-		final String text = "SELECT FOO FROM BAR WHERE FOO = 'BAR' ORDER BY FOO LIMIT 1\n";
-		final String expected = "SELECT foo\n" +
-				"FROM bar\n" +
-				"WHERE foo = 'BAR'\n" +
-				"ORDER BY foo\n" +
-				"LIMIT 1\n" +
-				";\n";
+		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
+		final String expected = "package foo;\n" +
+				"\n" +
+				"public enum NewEmptyJUnitTest {\n" +
+				"    A,\n" +
+				"    B,\n" +
+				"    C\n" +
+				"}\n"
+				+ "";
 
-		StyledDocument document = new NbEditorDocument("text/x-sql");
+		StyledDocument document = new NbEditorDocument("text/x-java");
 		document.insertString(0, text, null);
 
 		Preferences prefs = Settings.getActivePreferences(document);
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 		prefs.putBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 
-		JSQLFormatterService instance = new JSQLFormatterService();
-		Assert.assertEquals("JSQLFormatter", instance.getDisplayName());
+		PalantirJavaFormatterService instance = new PalantirJavaFormatterService();
+		Assert.assertEquals("Palantir Java Code Formatter", instance.getDisplayName());
 		Assert.assertNotNull(instance.createOptionsPanel(null));
 		Assert.assertEquals((long) 120L, (long) instance.getRightMargin(document));
 
-		Assert.assertEquals(JSQLFormatter.getIndentWidth(), (int) instance.getContinuationIndentSize(document));
-		Assert.assertEquals(JSQLFormatter.getIndentWidth(), (int) instance.getIndentSize(document));
-		Assert.assertEquals(JSQLFormatter.getIndentWidth(), (int) instance.getSpacesPerTab(document));
+		Assert.assertEquals((long) 8L, (long) instance.getContinuationIndentSize(document));
+		Assert.assertEquals((long) 4L, (long) instance.getIndentSize(document));
+		Assert.assertEquals((long) 4L, (long) instance.getSpacesPerTab(document));
 		Assert.assertTrue(instance.isExpandTabToSpaces(document));
 
 		Assert.assertNull(instance.getContinuationIndentSize(null));
@@ -83,19 +84,19 @@ public class JSQLFormatterServiceTest extends NbTestCase {
 	}
 
 	/**
-	 * Test of {@link JSQLFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
-	 * method, of class {@link JSQLFormatterService}.
+	 * Test of {@link PalantirJavaFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
+	 * method, of class {@link PalantirJavaFormatterService}.
 	 *
 	 * @throws Exception if an error occurs
 	 */
 	@Test
 	public void testUnsupportedFileType() throws Exception {
-		final String text = "SELECT FOO FROM BAR WHERE FOO = 'BAR' ORDER BY FOO LIMIT 1\n";
+		final String text = "package foo;public enum NewEmptyJUnitTest {A,B,C}\n";
 
 		StyledDocument document = new NbEditorDocument("text/xml");
 		document.insertString(0, text, null);
 
-		JSQLFormatterService instance = new JSQLFormatterService();
+		PalantirJavaFormatterService instance = new PalantirJavaFormatterService();
 
 		try {
 			instance.format(document, null);

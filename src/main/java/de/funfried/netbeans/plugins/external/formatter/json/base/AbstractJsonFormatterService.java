@@ -9,6 +9,8 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.json.base;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.SortedSet;
 
 import javax.swing.text.BadLocationException;
@@ -38,19 +40,21 @@ public abstract class AbstractJsonFormatterService implements FormatterService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException, FormattingFailedException {
+	public boolean format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException, FormattingFailedException {
 		if (!canHandle(document)) {
 			throw new FormattingFailedException("The file type '" + MimeType.getMimeTypeAsString(document) + "' is not supported");
 		}
 
 		getFormatJob(document).format();
+
+		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public MimeType getSupportedMimeType() {
-		return MimeType.JSON;
+	public List<MimeType> getSupportedMimeTypes() {
+		return Collections.singletonList(MimeType.JSON);
 	}
 }

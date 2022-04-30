@@ -79,19 +79,20 @@ public class FormatterServiceDelegate {
 	/**
 	 * Formats the given {@link StyledDocument} in regard to the given {@code changedElements}.
 	 *
-	 * @param document        the {@link StyledDocument} which should be formatted
+	 * @param document the {@link StyledDocument} which should be formatted
 	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
 	 *
 	 * @return {@code true} if and only if a external formatter was found to handle the given
 	 *         {@link StyledDocument} even if there was an error while formatting, otherwise
-	 *         {@code false}
+	 *         and if an external formatter delegates formatting to the NetBeans formatter it
+	 *         is {@code false}
 	 */
 	public boolean format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
 		try {
 			FormatterService formatterService = getActiveFormatterService(document);
 			if (formatterService != null && formatterService.canHandle(document)) {
 				try {
-					formatterService.format(document, changedElements);
+					return formatterService.format(document, changedElements);
 				} catch (BadLocationException ex) {
 					log.log(Level.SEVERE, formatterService.getDisplayName() + " failed to format the code", ex);
 				} catch (FormattingFailedException ex) {
@@ -113,7 +114,7 @@ public class FormatterServiceDelegate {
 	 * NetBeans code formatter is used for the given {@code document}.
 	 *
 	 * @param document the {@link Document} for which the continuation indent size
-	 *                 is requested
+	 *        is requested
 	 *
 	 * @return the continuation indent size configured by the formatter which is
 	 *         activated for the given {@link Document}, or {@code null} if the

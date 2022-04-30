@@ -58,6 +58,9 @@ public class Settings {
 	/** Property key which defines whether or not to use the settings of the external formatter in the NetBeans editor. */
 	public static final String ENABLE_USE_OF_INDENTATION_SETTINGS = "enableIndentationSettings";
 
+	/** Property key which defines whether or not to use editorconfig in NetBeans if present. */
+	public static final String ENABLE_USE_OF_EDITOR_CONFIG = "enableEditorConfig";
+
 	/** Property key which defines whether or not to use the {@link #OVERRIDE_TAB_SIZE_VALUE} instead of the one inside the external formatter configuration. */
 	public static final String OVERRIDE_TAB_SIZE = "overrideTabSize";
 
@@ -112,7 +115,7 @@ public class Settings {
 	 * Returns the real line feed characters for the given escaped line feed characters.
 	 *
 	 * @param lineFeedSetting escaped line feed characters, e.g. {@code \\n}
-	 * @param fallback        if the escaped line feed characters could not be matched to a real line feed setting
+	 * @param fallback if the escaped line feed characters could not be matched to a real line feed setting
 	 *
 	 * @return the real line feed characters for the given escaped line feed characters, or the given
 	 *         {@code fallback} if the escaped characters could not be matched to a real line feed setting
