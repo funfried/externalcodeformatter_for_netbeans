@@ -11,7 +11,13 @@
 	<body>
 		<release version="1.15.0-SNAPSHOT" date="N/A" description="Additional formatters">
 			<action dev="bahlef" type="add">
-				Additional formatters
+				Added Palantir formatter
+			</action>
+			<action dev="bahlef" type="add">
+				Added Vertical Blank SQL Formatter
+			</action>
+			<action dev="bahlef" type="add">
+				Added DBeaver SQL Formatter (via Spotless)
 			</action>
 		</release>
 
