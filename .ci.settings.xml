@@ -16,6 +16,16 @@
 			<username>${env.sonatype_username}</username>
 			<password>${env.sonatype_password}</password>
 		</server>
+		<server>
+			<id>sonatype-nexus-s01-staging</id>
+			<username>${env.sonatype_username}</username>
+			<password>${env.sonatype_password}</password>
+		</server>
+		<server>
+			<id>sonatype-nexus-s01-snapshots</id>
+			<username>${env.sonatype_username}</username>
+			<password>${env.sonatype_password}</password>
+		</server>
 	</servers>
 
 	<mirrors>
@@ -57,13 +67,13 @@
 		</mirror>
 		<mirror>
 			<id>sonatype-nexus-s01-staging-http-blocker</id>
-			<mirrorOf>sonatype-nexus-staging</mirrorOf>
+			<mirrorOf>sonatype-nexus-s01-staging</mirrorOf>
 			<name>Sonatype Nexus S01 Staging Mirror</name>
 			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</mirror>
 		<mirror>
 			<id>sonatype-nexus-s01-snapshots-http-blocker</id>
-			<mirrorOf>sonatype-nexus-snapshots</mirrorOf>
+			<mirrorOf>sonatype-nexus-s01-snapshots</mirrorOf>
 			<name>Sonatype Nexus S01 Snapshots Mirror</name>
 			<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
 		</mirror>
