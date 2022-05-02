@@ -10,6 +10,7 @@
 
 package de.funfried.netbeans.plugins.external.formatter;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -25,7 +26,9 @@ import org.openide.util.NbBundle;
  *
  * @author bahlef
  */
-<span class="fc" id="L28">@NbBundle.Messages({</span>
+<span class="fc" id="L29">@NbBundle.Messages({</span>
+		&quot;CSS=CSS&quot;,
+		&quot;HTML=HTML&quot;,
 		&quot;JAVA=Java&quot;,
 		&quot;JAVASCRIPT=JavaScript&quot;,
 		&quot;JSON=Json&quot;,
@@ -33,55 +36,73 @@ import org.openide.util.NbBundle;
 		&quot;SQL=SQL&quot;
 })
 public enum MimeType {
-<span class="fc" id="L36">	JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT(&quot;text/javascript&quot;), JSON(&quot;text/x-json&quot;, &quot;^text/(.*)\\+x-json$&quot;), XML(&quot;text/xml&quot;, &quot;^text/(.*)\\+xml$&quot;), SQL(&quot;application/sql&quot;, &quot;text/sql&quot;,</span>
-			&quot;text/x-sql&quot;, &quot;text/plain&quot;);
+<span class="fc" id="L39">	CSS(&quot;text/css&quot;), HTML(&quot;application/xhtml+xml&quot;, &quot;text/html&quot;), JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT(&quot;text/javascript&quot;), JSON(&quot;text/x-json&quot;, &quot;^text/(.*)\\+x-json$&quot;), XML(&quot;text/xml&quot;,</span>
+<span class="fc" id="L40">			&quot;^text/(.*)\\+xml$&quot;), SQL(&quot;application/sql&quot;, &quot;text/sql&quot;, &quot;text/x-sql&quot;, &quot;text/plain&quot;);</span>
 
 	private final String[] mimeTypes;
 
-<span class="fc" id="L41">	MimeType(String... mimeTypes) {</span>
-<span class="fc" id="L42">		this.mimeTypes = mimeTypes;</span>
-<span class="fc" id="L43">	}</span>
+<span class="fc" id="L44">	MimeType(String... mimeTypes) {</span>
+<span class="fc" id="L45">		this.mimeTypes = mimeTypes;</span>
+<span class="fc" id="L46">	}</span>
 
 	public String getDisplayName() {
-<span class="nc" id="L46">		return NbBundle.getMessage(MimeType.class, this.toString());</span>
+<span class="nc" id="L49">		return NbBundle.getMessage(MimeType.class, this.toString());</span>
 	}
 
 	public boolean canHandle(String mimeType) {
-<span class="fc bfc" id="L50" title="All 2 branches covered.">		if (StringUtils.isBlank(mimeType)) {</span>
-<span class="fc" id="L51">			return false;</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">		if (StringUtils.isBlank(mimeType)) {</span>
+<span class="fc" id="L54">			return false;</span>
 		}
 
-<span class="fc bfc" id="L54" title="All 2 branches covered.">		for (String type : mimeTypes) {</span>
-<span class="pc bpc" id="L55" title="1 of 4 branches missed.">			if (type.startsWith(&quot;^&quot;) &amp;&amp; Pattern.matches(type, mimeType)) {</span>
-<span class="nc" id="L56">				return true;</span>
-<span class="fc bfc" id="L57" title="All 2 branches covered.">			} else if (Objects.equals(type, mimeType)) {</span>
-<span class="fc" id="L58">				return true;</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">		for (String type : mimeTypes) {</span>
+<span class="pc bpc" id="L58" title="3 of 4 branches missed.">			if (type.startsWith(&quot;^&quot;) &amp;&amp; Pattern.matches(type, mimeType)) {</span>
+<span class="nc" id="L59">				return true;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">			} else if (Objects.equals(type, mimeType)) {</span>
+<span class="fc" id="L61">				return true;</span>
 			}
 		}
 
-<span class="fc" id="L62">		return false;</span>
+<span class="fc" id="L65">		return false;</span>
+	}
+
+	public static boolean canHandle(List&lt;MimeType&gt; types, String mimeType) {
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">		if (StringUtils.isBlank(mimeType)) {</span>
+<span class="nc" id="L70">			return false;</span>
+		}
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">		for (MimeType t : types) {</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">			for (String type : t.mimeTypes) {</span>
+<span class="pc bpc" id="L75" title="1 of 4 branches missed.">				if (type.startsWith(&quot;^&quot;) &amp;&amp; Pattern.matches(type, mimeType)) {</span>
+<span class="nc" id="L76">					return true;</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">				} else if (Objects.equals(type, mimeType)) {</span>
+<span class="fc" id="L78">					return true;</span>
+				}
+			}
+<span class="fc" id="L81">		}</span>
+
+<span class="fc" id="L83">		return false;</span>
 	}
 
 	public static MimeType getByMimeType(String mimeType) {
-<span class="fc bfc" id="L66" title="All 2 branches covered.">		for (MimeType mime : MimeType.values()) {</span>
-<span class="fc bfc" id="L67" title="All 2 branches covered.">			if (mime.canHandle(mimeType)) {</span>
-<span class="fc" id="L68">				return mime;</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">		for (MimeType mime : MimeType.values()) {</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">			if (mime.canHandle(mimeType)) {</span>
+<span class="fc" id="L89">				return mime;</span>
 			}
 		}
 
-<span class="fc" id="L72">		return null;</span>
+<span class="fc" id="L93">		return null;</span>
 	}
 
 	public static MimeType getMimeType(Document document) {
-<span class="fc" id="L76">		return getByMimeType(getMimeTypeAsString(document));</span>
+<span class="fc" id="L97">		return getByMimeType(getMimeTypeAsString(document));</span>
 	}
 
 	public static String getMimeTypeAsString(Document document) {
-<span class="fc bfc" id="L80" title="All 2 branches covered.">		if (document != null) {</span>
-<span class="fc" id="L81">			return NbEditorUtilities.getMimeType(document);</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">		if (document != null) {</span>
+<span class="fc" id="L102">			return NbEditorUtilities.getMimeType(document);</span>
 		}
 
-<span class="fc" id="L84">		return null;</span>
+<span class="fc" id="L105">		return null;</span>
 	}
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

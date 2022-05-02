@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>PalantirJavaFormatterOptionsPanel xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../../apidocs/de/funfried/netbeans/plugins/external/formatter/java/palantir/ui/PalantirJavaFormatterOptionsPanel.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright (c) 2020 bahlef.</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> * All rights reserved. This program and the accompanying materials</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * are made available under the terms of the Eclipse Public License v2.0</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * which accompanies this distribution, and is available at</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * <a href="http://www.eclipse.org/legal/epl-v20.html" target="alexandria_uri">http://www.eclipse.org/legal/epl-v20.html</a></em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * Contributors:</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> * bahlef - initial API and implementation and/or initial documentation</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">package</strong> de.funfried.netbeans.plugins.external.formatter.java.palantir.ui;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> java.util.prefs.Preferences;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> javax.swing.GroupLayout;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> org.netbeans.api.project.Project;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormatterOptionsPanel;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment"> * @author bahlef</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="PalantirJavaFormatterOptionsPanel" href="../../../../../../../../../de/funfried/netbeans/plugins/external/formatter/java/palantir/ui/PalantirJavaFormatterOptionsPanel.html#PalantirJavaFormatterOptionsPanel">PalantirJavaFormatterOptionsPanel</a> <strong class="jxr_keyword">extends</strong> <a name="AbstractFormatterOptionsPanel" href="../../../../../../../../../de/funfried/netbeans/plugins/external/formatter/ui/options/AbstractFormatterOptionsPanel.html#AbstractFormatterOptionsPanel">AbstractFormatterOptionsPanel</a> {
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment">	 * Creates new form {@link PalantirJavaFormatterOptionsPanel}.</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment">	 * @param project the {@link Project} if the panel is used to modify project</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment">	 *        specific settings, otherwise {@code null}</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  	<strong class="jxr_keyword">public</strong> <a name="PalantirJavaFormatterOptionsPanel" href="../../../../../../../../../de/funfried/netbeans/plugins/external/formatter/java/palantir/ui/PalantirJavaFormatterOptionsPanel.html#PalantirJavaFormatterOptionsPanel">PalantirJavaFormatterOptionsPanel</a>(Project project) {
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  		<strong class="jxr_keyword">super</strong>(project);
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		initComponents();
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  	}
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment">	 * This method is called from within the constructor to</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">	 * initialize the form.</em>
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment">	 * WARNING: Do NOT modify this code. The content of this method is</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">	 * always regenerated by the Form Editor.</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  	@SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>      <em class="jxr_comment">// &lt;editor-fold defaultstate="collapsed" desc="Generated Code"&gt;//GEN-BEGIN:initComponents</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> initComponents() {
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>          GroupLayout layout = <strong class="jxr_keyword">new</strong> GroupLayout(<strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>          <strong class="jxr_keyword">this</strong>.setLayout(layout);
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>          layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>              .addGap(0, 410, Short.MAX_VALUE)
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>          );
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>          layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>              .addGap(0, 33, Short.MAX_VALUE)
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>          );
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>      }<em class="jxr_comment">// &lt;/editor-fold&gt;//GEN-END:initComponents</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>      <em class="jxr_comment">// Variables declaration - do not modify//GEN-BEGIN:variables</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>      <em class="jxr_comment">// End of variables declaration//GEN-END:variables</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  	@Override
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> load(Preferences preferences) {
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  	}
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  	@Override
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> store(Preferences preferences) {
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  	}
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2019&#x2013;2022. All rights reserved.</div>
+</body>
+</html>

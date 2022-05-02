@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DBeaverFormatterWrapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.sql.dbeaver</a> &gt; <span class="el_source">DBeaverFormatterWrapper.java</span></div><h1>DBeaverFormatterWrapper.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2021 Andreas Reichel &lt;a href=&quot;mailto:andreas@manticore-projects.com&quot;&gt;andreas@manticore-projects.com&lt;/a&gt;
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * bahlef - initial API and implementation and/or initial documentation
+ */
+package de.funfried.netbeans.plugins.external.formatter.sql.dbeaver;
+
+import java.util.Properties;
+
+import org.netbeans.api.annotations.common.CheckForNull;
+
+import com.diffplug.spotless.sql.dbeaver.DBeaverSQLFormatterConfiguration;
+import com.diffplug.spotless.sql.dbeaver.SQLTokenizedFormatter;
+
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
+
+/**
+ * Delegation class to the DBeaver SQL formatter implementation.
+ *
+ * @author bahlef
+ */
+public final class DBeaverFormatterWrapper {
+	/**
+	 * Package private Constructor for creating a new instance of {@link DBeaverFormatterWrapper}.
+	 */
+<span class="fc" id="L30">	DBeaverFormatterWrapper() {</span>
+<span class="fc" id="L31">	}</span>
+
+	/**
+	 * Formats the given {@code code} with the given configurations and returns
+	 * the formatted code.
+	 *
+	 * @param code the unformatted SQL code
+	 * @param properties Formatting Options as {@link Properties}
+	 *
+	 * @return the formatted SQL code
+	 *
+	 * @throws FormattingFailedException if the external formatter failed to format the given code
+	 */
+	@CheckForNull
+	public String format(String code, Properties properties) throws FormattingFailedException {
+<span class="fc bfc" id="L46" title="All 2 branches covered.">		if (code == null) {</span>
+<span class="fc" id="L47">			return null;</span>
+		}
+
+		try {
+<span class="fc" id="L51">			DBeaverSQLFormatterConfiguration configuration = new DBeaverSQLFormatterConfiguration(properties);</span>
+<span class="fc" id="L52">			SQLTokenizedFormatter sqlTokenizedFormatter = new SQLTokenizedFormatter(configuration);</span>
+<span class="fc" id="L53">			return sqlTokenizedFormatter.format(code);</span>
+<span class="nc" id="L54">		} catch (Exception ex) {</span>
+<span class="nc" id="L55">			throw new FormattingFailedException(ex);</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

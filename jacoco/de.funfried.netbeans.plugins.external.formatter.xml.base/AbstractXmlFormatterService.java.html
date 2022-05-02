@@ -9,6 +9,8 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.xml.base;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.SortedSet;
 
 import javax.swing.text.BadLocationException;
@@ -26,7 +28,7 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
  *
  * @author bahlef
  */
-<span class="fc" id="L29">public abstract class AbstractXmlFormatterService implements FormatterService {</span>
+<span class="fc" id="L31">public abstract class AbstractXmlFormatterService implements FormatterService {</span>
 	/**
 	 * Returns the {@link FormatJob}.
 	 *
@@ -38,20 +40,22 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException, FormattingFailedException {
-<span class="fc bfc" id="L42" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
-<span class="fc" id="L43">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
+	public boolean format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException, FormattingFailedException {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
+<span class="fc" id="L45">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
 		}
 
-<span class="fc" id="L46">		getFormatJob(document).format();</span>
-<span class="fc" id="L47">	}</span>
+<span class="fc" id="L48">		getFormatJob(document).format();</span>
+
+<span class="fc" id="L50">		return true;</span>
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public MimeType getSupportedMimeType() {
-<span class="fc" id="L54">		return MimeType.XML;</span>
+	public List&lt;MimeType&gt; getSupportedMimeTypes() {
+<span class="fc" id="L58">		return Collections.singletonList(MimeType.XML);</span>
 	}
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

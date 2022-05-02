@@ -9,6 +9,8 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.javascript.base;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.SortedSet;
 
 import javax.swing.text.BadLocationException;
@@ -26,11 +28,11 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
  *
  * @author bahlef
  */
-<span class="fc" id="L29">public abstract class AbstractJavascriptFormatterService implements FormatterService {</span>
+<span class="fc" id="L31">public abstract class AbstractJavascriptFormatterService implements FormatterService {</span>
 	/**
 	 * Returns the {@link FormatJob}.
 	 *
-	 * @param document       the {@link StyledDocument} which should be formatted
+	 * @param document the {@link StyledDocument} which should be formatted
 	 * @param changedElement an optional range as a {@link Pair} object defining the offsets which should be formatted
 	 */
 	protected abstract FormatJob getFormatJob(StyledDocument document, Pair&lt;Integer, Integer&gt; changedElement);
@@ -39,20 +41,22 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException, FormattingFailedException {
-<span class="fc bfc" id="L43" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
-<span class="fc" id="L44">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
+	public boolean format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException, FormattingFailedException {
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
+<span class="fc" id="L46">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
 		}
 
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">		getFormatJob(document, changedElements != null ? changedElements.first() : null).format();</span>
-<span class="fc" id="L48">	}</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">		getFormatJob(document, changedElements != null ? changedElements.first() : null).format();</span>
+
+<span class="fc" id="L51">		return true;</span>
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public MimeType getSupportedMimeType() {
-<span class="fc" id="L55">		return MimeType.JAVASCRIPT;</span>
+	public List&lt;MimeType&gt; getSupportedMimeTypes() {
+<span class="fc" id="L59">		return Collections.singletonList(MimeType.JAVASCRIPT);</span>
 	}
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

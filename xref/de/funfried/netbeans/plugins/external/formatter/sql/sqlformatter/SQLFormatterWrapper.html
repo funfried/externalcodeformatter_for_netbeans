@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>SQLFormatterWrapper xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../apidocs/de/funfried/netbeans/plugins/external/formatter/sql/sqlformatter/SQLFormatterWrapper.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_comment"> * Copyright (c) 2021 Andreas Reichel &lt;a href="<a href="mailto:andreas@manticore-projects.com" target="alexandria_uri">mailto:andreas@manticore-projects.com</a>"&gt;andreas@manticore-projects.com&lt;/a&gt;</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_comment"> * All rights reserved. This program and the accompanying materials</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_comment"> * are made available under the terms of the Eclipse Public License v2.0</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_comment"> * which accompanies this distribution, and is available at</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_comment"> * <a href="http://www.eclipse.org/legal/epl-v20.html" target="alexandria_uri">http://www.eclipse.org/legal/epl-v20.html</a></em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_comment"> * Contributors:</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_comment"> * bahlef - initial API and implementation and/or initial documentation</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_comment"> */</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">package</strong> de.funfried.netbeans.plugins.external.formatter.sql.sqlformatter;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.netbeans.api.annotations.common.CheckForNull;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> com.github.vertical_blank.sqlformatter.SqlFormatter;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> com.github.vertical_blank.sqlformatter.core.FormatConfig;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> com.github.vertical_blank.sqlformatter.languages.Dialect;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment"> * Delegation class to the Vertical Blank SQL formatter implementation.</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment"> * @author bahlef</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">class</strong> <a name="SQLFormatterWrapper" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/sql/sqlformatter/SQLFormatterWrapper.html#SQLFormatterWrapper">SQLFormatterWrapper</a> {
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment">	 * Package private Constructor for creating a new instance of {@link SQLFormatterWrapper}.</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  	SQLFormatterWrapper() {
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  	}
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_javadoccomment">	 * Formats the given {@code code} with the given configurations and returns</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment">	 * the formatted code.</em>
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_javadoccomment">	 * @param code the unformatted SQL code</em>
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <em class="jxr_javadoccomment">	 * @param dialect the {@link Dialect} to use</em>
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <em class="jxr_javadoccomment">	 * @param formatConfig Formatting options as a {@link FormatConfig} object</em>
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">	 * @return the formatted SQL code</em>
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">	 * @throws FormattingFailedException if the external formatter failed to format the given code</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  	@CheckForNull
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  	<strong class="jxr_keyword">public</strong> String format(String code, Dialect dialect, FormatConfig formatConfig) <strong class="jxr_keyword">throws</strong> <a name="FormattingFailedException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/FormattingFailedException.html#FormattingFailedException">FormattingFailedException</a> {
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  		<strong class="jxr_keyword">if</strong> (code == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  		}
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  		<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  			<strong class="jxr_keyword">return</strong> SqlFormatter.of(dialect).format(code, formatConfig);
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  		} <strong class="jxr_keyword">catch</strong> (Exception ex) {
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a name="FormattingFailedException" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/exceptions/FormattingFailedException.html#FormattingFailedException">FormattingFailedException</a>(ex);
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  		}
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  	}
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2019&#x2013;2022. All rights reserved.</div>
+</body>
+</html>
