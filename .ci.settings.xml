@@ -55,6 +55,18 @@
 			<name>Sonatype Nexus Snapshots Mirror</name>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</mirror>
+		<mirror>
+			<id>sonatype-nexus-s01-staging-http-blocker</id>
+			<mirrorOf>sonatype-nexus-staging</mirrorOf>
+			<name>Sonatype Nexus S01 Staging Mirror</name>
+			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>sonatype-nexus-s01-snapshots-http-blocker</id>
+			<mirrorOf>sonatype-nexus-snapshots</mirrorOf>
+			<name>Sonatype Nexus S01 Snapshots Mirror</name>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+		</mirror>
 	</mirrors>
 
 	<activeProfiles>
