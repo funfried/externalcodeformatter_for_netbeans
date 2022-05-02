@@ -119,7 +119,7 @@ public class ExternalFormatterReformatTaskFactory implements ReformatTask.Factor
 	 *         for the given {@code mimePath}
 	 */
 	@NonNull
-	private ReformatTask.Factory getDefaultForMimePath(String mimePath) {
+	ReformatTask.Factory getDefaultForMimePath(String mimePath) {
 		MimePath mp = MimePath.get(mimePath);
 		Reference<ReformatTask.Factory> ref = cache.get(mp);
 		ReformatTask.Factory factory = ref == null ? null : ref.get();

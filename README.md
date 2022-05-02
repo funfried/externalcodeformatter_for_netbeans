@@ -31,9 +31,10 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
     *   [Google Code Formatter](https://github.com/google/google-java-format)
     *   [Eclipse Java Code Formatter](https://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Fguide%2Fjdt_api_codeformatter.htm)
     *   [Spring Java Formatter](https://github.com/spring-io/spring-javaformat)
+    *   [Palantir Java Formatter](https://github.com/palantir/palantir-java-format)
 
 *   Javascript
-    *   [Eclipse Javascript Code Formatter](https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.wst.jsdt.doc%2Fstarted%2Foverview.html&cp%3D52_0)
+    *   [Eclipse Javascript Code Formatter](https://help.eclipse.org/2019-12/index.jsp?topic=%2Forg.eclipse.wst.jsdt.doc%2Fstarted%2Foverview.html&cp%3D52_0) (via [modified revelc jsdt-core](https://github.com/funfried/jsdt-core))
 
 *   XML
     *   [revelc.net XML Code Formatter](https://github.com/revelc/xml-formatter)
@@ -44,6 +45,8 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 
 *   SQL
     *   [manticore JSQLFormatter](https://github.com/manticore-projects/jsqlformatter)
+    *   [Vertical Blank SQL Formatter](https://github.com/vertical-blank/sql-formatter)
+    *   [DBeaver SQL Formatter (via Spotless)](https://github.com/diffplug/spotless)
 
 ### Features
 *   Makes use of the internal NetBeans formatting API, which makes it possible to reuse built-in features like the format on save action or format only selected lines ... (since 1.13)
@@ -66,6 +69,9 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 *   Support for Jackson Json formatter (since 1.14)
 *   Support for manticore JSQLFormatter (Special thanks to [Andreas Reichel](https://github.com/manticore-projects) for the contribution) (since 1.14.1)
 *   Support for remote configurations for Eclipse formatters (since 1.14.1)
+*   Support for Palantir Java Formatter (since 1.15.0)
+*   Support for Vertical Blank SQL Formatter (since 1.15.0)
+*   Support for DBeaver (via Spotless) (since 1.15.0)
 
 Compatibility
 -------------

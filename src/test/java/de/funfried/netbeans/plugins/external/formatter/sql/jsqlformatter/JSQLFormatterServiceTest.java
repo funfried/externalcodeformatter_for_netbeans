@@ -20,7 +20,6 @@ import org.netbeans.modules.editor.NbEditorDocument;
 
 import com.manticore.jsqlformatter.JSQLFormatter;
 
-import de.funfried.netbeans.plugins.external.formatter.json.jackson.*;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
@@ -33,7 +32,7 @@ public class JSQLFormatterServiceTest extends NbTestCase {
 	}
 
 	/**
-	 * Test of format method, of class {@link JacksonJsonFormatterService}.
+	 * Test of format method, of class {@link JSQLFormatterService}.
 	 *
 	 * @throws Exception if an error occurs
 	 */
@@ -84,8 +83,8 @@ public class JSQLFormatterServiceTest extends NbTestCase {
 	}
 
 	/**
-	 * Test of {@link JacksonJsonFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
-	 * method, of class {@link JacksonJsonFormatterService}.
+	 * Test of {@link JSQLFormatterService#format(javax.swing.text.StyledDocument, java.util.SortedSet)}
+	 * method, of class {@link JSQLFormatterService}.
 	 *
 	 * @throws Exception if an error occurs
 	 */

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document xmlns="https://maven.apache.org/changes/1.0.0" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://maven.apache.org/changes/1.0.0 https://maven.apache.org/xsd/changes-1.0.0.xsd">
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
 
 	<properties>
 		<title>Changes External Code Formatters</title>
@@ -7,6 +9,18 @@
 	</properties>
 
 	<body>
+		<release version="1.15.0-SNAPSHOT" date="N/A" description="Additional formatters">
+			<action dev="bahlef" type="add">
+				Added Palantir formatter
+			</action>
+			<action dev="bahlef" type="add">
+				Added Vertical Blank SQL Formatter
+			</action>
+			<action dev="bahlef" type="add">
+				Added DBeaver SQL Formatter (via Spotless)
+			</action>
+		</release>
+
 		<release version="1.14.5" date="2022-02-24" description="Bug fix release">
 			<action dev="bahlef" type="fix">
 				Fixed editor issues when using revelc.net XML formatter

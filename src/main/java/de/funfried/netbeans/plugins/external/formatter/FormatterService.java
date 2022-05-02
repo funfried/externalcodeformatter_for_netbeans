@@ -9,6 +9,7 @@
  */
 package de.funfried.netbeans.plugins.external.formatter;
 
+import java.util.List;
 import java.util.SortedSet;
 
 import javax.swing.text.BadLocationException;
@@ -43,26 +44,28 @@ public interface FormatterService {
 			return false;
 		}
 
-		return getSupportedMimeType().canHandle(MimeType.getMimeTypeAsString(document));
+		return MimeType.canHandle(getSupportedMimeTypes(), MimeType.getMimeTypeAsString(document));
 	}
 
 	/**
 	 * Formats the given {@link StyledDocument} in regard to the given {@code changedElements}.
 	 *
-	 * @param document        the {@link StyledDocument} which should be formatted
+	 * @param document the {@link StyledDocument} which should be formatted
 	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
 	 *
-	 * @throws BadLocationException      if something goes wrong while appliying the formatted code
+	 * @return if {@code true} formatting was done, otherwise formatting was rejected and needs to be done by NetBeans internal formatter
+	 *
+	 * @throws BadLocationException if something goes wrong while appliying the formatted code
 	 * @throws FormattingFailedException if the given {@link StyledDocument} cannot be formatted by the given formatter
 	 */
-	void format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException, FormattingFailedException;
+	boolean format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException, FormattingFailedException;
 
 	/**
 	 * Returns the continuation indent size configured for the given {@link Document},
 	 * or {@code null} if it should not affect the editor behavior.
 	 *
 	 * @param document the {@link Document} for which the continuation indent size
-	 *                 is requested
+	 *        is requested
 	 *
 	 * @return the continuation indent size configured for the given {@link Document},
 	 *         or {@code null} if it should not affect the editor behavior
@@ -104,8 +107,8 @@ public interface FormatterService {
 	 * formatters selection.
 	 *
 	 * @param project the {@link Project} if the panel which is created is used
-	 *                to modify project specific settings, otherwise
-	 *                {@code null}
+	 *        to modify project specific settings, otherwise
+	 *        {@code null}
 	 *
 	 * @return the {@link FormatterOptionsPanel} for this formatter, or
 	 *         {@code null} if there are no options a user could make for
@@ -132,7 +135,7 @@ public interface FormatterService {
 	 * {@code null} if it should not affect the editor behavior.
 	 *
 	 * @param document the {@link Document} for which the spaces per tab is
-	 *                 requested
+	 *        requested
 	 *
 	 * @return the spaces per tab configured for the given {@link Document}, or
 	 *         {@code null} if it should not affect the editor behavior
@@ -141,19 +144,19 @@ public interface FormatterService {
 	Integer getSpacesPerTab(Document document);
 
 	/**
-	 * Returns the {@link MimeType} for this {@link FormatterService}.
+	 * Returns a {@link List} of supported {@link MimeType}s for this {@link FormatterService}.
 	 *
-	 * @return the supported {@link MimeType} for this {@link FormatterService}
+	 * @return a {@link List} of supported {@link MimeType}s for this {@link FormatterService}
 	 */
 	@NonNull
-	MimeType getSupportedMimeType();
+	List<MimeType> getSupportedMimeTypes();
 
 	/**
 	 * Returns the expand tab to spaces flag configured for the given
 	 * {@link Document}, or {@code null} if it should not affect the editor behavior.
 	 *
 	 * @param document the {@link Document} for which the expand tab to spaces flag
-	 *                 is requested
+	 *        is requested
 	 *
 	 * @return the expand tab to spaces flag configured for the given
 	 *         {@link Document}, or {@code null} if it should not affect the editor

@@ -121,16 +121,17 @@ public class ExternalFormatterPanel extends JPanel implements VerifiableConfigPa
 
 		Collection<? extends FormatterService> formatterServices = Lookup.getDefault().lookupAll(FormatterService.class);
 		for (FormatterService formatterService : formatterServices) {
-			MimeType mimeType = formatterService.getSupportedMimeType();
+			List<MimeType> mimeTypes = formatterService.getSupportedMimeTypes();
+			for (MimeType mimeType : mimeTypes) {
+				List<FormatterService> formatterServicesOfMimeType = formatterIdsPerMimeType.get(mimeType);
+				if (formatterServicesOfMimeType == null) {
+					formatterServicesOfMimeType = new ArrayList<>();
+				}
 
-			List<FormatterService> formatterServicesOfMimeType = formatterIdsPerMimeType.get(mimeType);
-			if (formatterServicesOfMimeType == null) {
-				formatterServicesOfMimeType = new ArrayList<>();
+				formatterServicesOfMimeType.add(formatterService);
+
+				formatterIdsPerMimeType.put(mimeType, formatterServicesOfMimeType);
 			}
-
-			formatterServicesOfMimeType.add(formatterService);
-
-			formatterIdsPerMimeType.put(mimeType, formatterServicesOfMimeType);
 		}
 
 		initComponents();

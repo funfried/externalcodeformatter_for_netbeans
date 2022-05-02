@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright (c) 2021 Andreas Reichel <a href="mailto:andreas@manticore-projects.com">andreas@manticore-projects.com</a>
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -9,6 +9,8 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.sql.jsqlformatter;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
@@ -53,32 +55,22 @@ public class JSQLFormatterService implements FormatterService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException, FormattingFailedException {
+	public boolean format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException, FormattingFailedException {
 		if (!canHandle(document)) {
 			throw new FormattingFailedException("The file type '" + MimeType.getMimeTypeAsString(document) + "' is not supported");
 		}
 
 		getFormatJob(document, changedElements).format();
+
+		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public MimeType getSupportedMimeType() {
-		return MimeType.SQL;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean canHandle(Document document) {
-		if (document == null) {
-			return false;
-		}
-
-		return getSupportedMimeType().canHandle(MimeType.getMimeTypeAsString(document));
+	public List<MimeType> getSupportedMimeTypes() {
+		return Collections.singletonList(MimeType.SQL);
 	}
 
 	/**
