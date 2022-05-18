@@ -9,6 +9,9 @@
 	</properties>
 
 	<body>
+		<release version="1.15.1-SNAPSHOT" date="N/A" description="N/A">
+		</release>
+
 		<release version="1.15.0" date="2022-05-18" description="Additional formatters">
 			<action dev="bahlef" type="fix" issue="202">
 				Fixed option validation issue when using workspace mechanic configuration file
