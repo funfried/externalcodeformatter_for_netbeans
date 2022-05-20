@@ -9,7 +9,7 @@
 	</properties>
 
 	<body>
-		<release version="1.15.1-SNAPSHOT" date="2022-05-20" description="Bug-fix release">
+		<release version="1.15.1" date="2022-05-20" description="Bug-fix release">
 			<action dev="bahlef" type="fix" issue="208">
 				Fixed NoClassDefFoundException when using palantir-java-format (added missing
 				functionaljava dependency which should be already there as it is a transitive
