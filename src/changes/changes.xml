@@ -9,7 +9,13 @@
 	</properties>
 
 	<body>
-		<release version="1.15.1-SNAPSHOT" date="N/A" description="N/A">
+		<release version="1.15.1-SNAPSHOT" date="2022-05-20" description="Bug-fix release">
+			<action dev="bahlef" type="fix" issue="208">
+				Fixed NoClassDefFoundException when using palantir-java-format (added missing
+				functionaljava dependency which should be already there as it is a transitive
+				dependency of palantir-java-format, but it seem it is not detected and therefore
+				not automatically added to the nbm file)
+			</action>
 		</release>
 
 		<release version="1.15.0" date="2022-05-18" description="Additional formatters">
