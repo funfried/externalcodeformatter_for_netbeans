@@ -204,6 +204,13 @@
 			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>org.functionaljava</groupId>
+			<artifactId>functionaljava</artifactId>
+			<version>5.0</version>
+		</dependency>
+
+
 		<!-- Spotless Formatter -->
 		<dependency>
 			<groupId>com.diffplug.spotless</groupId>
@@ -843,6 +850,9 @@
 						</goals>
 						<configuration>
 							<failOnWarning>true</failOnWarning>
+							<ignoredUnusedDeclaredDependencies>
+								<ignoredUnusedDeclaredDependency>org.functionaljava:functionaljava</ignoredUnusedDeclaredDependency>
+							</ignoredUnusedDeclaredDependencies>
 						</configuration>
 					</execution>
 				</executions>
