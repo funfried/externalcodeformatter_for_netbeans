@@ -17,7 +17,7 @@
 
 	<groupId>de.funfried.netbeans.plugins</groupId>
 	<artifactId>externalcodeformatter</artifactId>
-	<version>1.15.0</version>
+	<version>1.15.1</version>
 	<packaging>nbm</packaging>
 
 	<developers>
@@ -203,6 +203,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<dependency>
+			<groupId>org.functionaljava</groupId>
+			<artifactId>functionaljava</artifactId>
+			<version>5.0</version>
+		</dependency>
+
 
 		<!-- Spotless Formatter -->
 		<dependency>
@@ -843,6 +850,9 @@
 						</goals>
 						<configuration>
 							<failOnWarning>true</failOnWarning>
+							<ignoredUnusedDeclaredDependencies>
+								<ignoredUnusedDeclaredDependency>org.functionaljava:functionaljava</ignoredUnusedDeclaredDependency>
+							</ignoredUnusedDeclaredDependencies>
 						</configuration>
 					</execution>
 				</executions>
