@@ -68,10 +68,10 @@ class GoogleFormatJob extends AbstractFormatJob {
 <span class="pc bpc" id="L68" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
 <span class="fc" id="L69">				SwingUtilities.invokeLater(() -&gt; {</span>
 <span class="pc bpc" id="L70" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
-<span class="nc" id="L71">						NotificationDisplayer.getDefault().notify(&quot;Format using Goolge formatter&quot;, Icons.ICON_GOOGLE, &quot;&quot;, null);</span>
+<span class="nc" id="L71">						NotificationDisplayer.getDefault().notify(&quot;Format using Google formatter&quot;, Icons.ICON_GOOGLE, &quot;&quot;, null);</span>
 					}
 
-<span class="fc" id="L74">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Goolge formatter&quot;);</span>
+<span class="fc" id="L74">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Google formatter&quot;);</span>
 <span class="fc" id="L75">				});</span>
 			}
 <span class="fc" id="L77">		} catch (FormattingFailedException ex) {</span>
