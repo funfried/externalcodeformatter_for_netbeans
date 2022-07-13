@@ -145,7 +145,7 @@ import de.funfried.netbeans.plugins.external.formatter.xml.jsoup.ui.JsoupXmlForm
 
 <span class="fc" id="L146">		Preferences preferences = Settings.getActivePreferences(document);</span>
 <span class="fc bfc" id="L147" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="pc bpc" id="L148" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="pc bpc" id="L148" title="3 of 4 branches missed.">			if (!isExpandTabToSpaces(document, preferences) &amp;&amp; preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
 <span class="nc" id="L149">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
 			} else {
 <span class="fc" id="L151">				ret = preferences.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);</span>
@@ -165,14 +165,21 @@ import de.funfried.netbeans.plugins.external.formatter.xml.jsoup.ui.JsoupXmlForm
 <span class="fc" id="L165">			return null;</span>
 		}
 
-<span class="fc" id="L168">		Boolean ret = null;</span>
+<span class="fc" id="L168">		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));</span>
+	}
 
-<span class="fc" id="L170">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L171" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L172">			ret = true;</span>
+	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
+<span class="pc bpc" id="L172" title="2 of 4 branches missed.">		if (document == null || preferences == null) {</span>
+<span class="nc" id="L173">			return null;</span>
 		}
 
-<span class="fc" id="L175">		return ret;</span>
+<span class="fc" id="L176">		Boolean ret = null;</span>
+
+<span class="fc bfc" id="L178" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L179">			ret = true;</span>
+		}
+
+<span class="fc" id="L182">		return ret;</span>
 	}
 
 	/**
@@ -185,7 +192,7 @@ import de.funfried.netbeans.plugins.external.formatter.xml.jsoup.ui.JsoupXmlForm
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="fc" id="L188">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="fc" id="L195">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

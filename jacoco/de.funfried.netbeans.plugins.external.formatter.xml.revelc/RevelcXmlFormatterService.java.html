@@ -159,7 +159,7 @@ import de.funfried.netbeans.plugins.external.formatter.xml.revelc.ui.RevelcXmlFo
 
 <span class="fc" id="L160">		Preferences preferences = Settings.getActivePreferences(document);</span>
 <span class="fc bfc" id="L161" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="pc bpc" id="L162" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="pc bpc" id="L162" title="2 of 4 branches missed.">			if (!isExpandTabToSpaces(document, preferences) &amp;&amp; preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
 <span class="nc" id="L163">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
 			} else {
 <span class="fc" id="L165">				ret = preferences.getInt(RevelcXmlFormatterSettings.TAB_WIDTH, 4);</span>
@@ -179,14 +179,21 @@ import de.funfried.netbeans.plugins.external.formatter.xml.revelc.ui.RevelcXmlFo
 <span class="fc" id="L179">			return null;</span>
 		}
 
-<span class="fc" id="L182">		Boolean ret = null;</span>
+<span class="fc" id="L182">		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));</span>
+	}
 
-<span class="fc" id="L184">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L185" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="pc bpc" id="L186" title="1 of 2 branches missed.">			ret = !preferences.getBoolean(RevelcXmlFormatterSettings.TAB_INSTEAD_OF_SPACES, true);</span>
+	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
+<span class="pc bpc" id="L186" title="2 of 4 branches missed.">		if (document == null || preferences == null) {</span>
+<span class="nc" id="L187">			return null;</span>
 		}
 
-<span class="fc" id="L189">		return ret;</span>
+<span class="fc" id="L190">		Boolean ret = null;</span>
+
+<span class="fc bfc" id="L192" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">			ret = !preferences.getBoolean(RevelcXmlFormatterSettings.TAB_INSTEAD_OF_SPACES, true);</span>
+		}
+
+<span class="fc" id="L196">		return ret;</span>
 	}
 
 	/**
@@ -199,7 +206,7 @@ import de.funfried.netbeans.plugins.external.formatter.xml.revelc.ui.RevelcXmlFo
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="fc" id="L202">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="fc" id="L209">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

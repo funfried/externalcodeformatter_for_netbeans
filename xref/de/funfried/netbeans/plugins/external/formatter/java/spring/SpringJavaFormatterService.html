@@ -210,7 +210,7 @@
 <a class="jxr_linenumber" name="L202" href="#L202">202</a> 
 <a class="jxr_linenumber" name="L203" href="#L203">203</a> 		Preferences preferences = Settings.getActivePreferences(document);
 <a class="jxr_linenumber" name="L204" href="#L204">204</a> 		<strong class="jxr_keyword">if</strong> (isUseFormatterIndentationSettings(preferences)) {
-<a class="jxr_linenumber" name="L205" href="#L205">205</a> 			<strong class="jxr_keyword">if</strong> (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, <strong class="jxr_keyword">true</strong>)) {
+<a class="jxr_linenumber" name="L205" href="#L205">205</a> 			<strong class="jxr_keyword">if</strong> (!isExpandTabToSpaces(document, preferences) &amp;&amp; preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, <strong class="jxr_keyword">true</strong>)) {
 <a class="jxr_linenumber" name="L206" href="#L206">206</a> 				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
 <a class="jxr_linenumber" name="L207" href="#L207">207</a> 			} <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="L208" href="#L208">208</a> 				String propKey = <span class="jxr_string">"core.formatter.tabulation.size"</span>;
@@ -262,37 +262,44 @@
 <a class="jxr_linenumber" name="L254" href="#L254">254</a> 			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L255" href="#L255">255</a> 		}
 <a class="jxr_linenumber" name="L256" href="#L256">256</a> 
-<a class="jxr_linenumber" name="L257" href="#L257">257</a> 		Boolean ret = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L258" href="#L258">258</a> 
-<a class="jxr_linenumber" name="L259" href="#L259">259</a> 		Preferences preferences = Settings.getActivePreferences(document);
-<a class="jxr_linenumber" name="L260" href="#L260">260</a> 		<strong class="jxr_keyword">if</strong> (isUseFormatterIndentationSettings(preferences)) {
-<a class="jxr_linenumber" name="L261" href="#L261">261</a> 			String propKey = <span class="jxr_string">"core.formatter.tabulation.char"</span>;
-<a class="jxr_linenumber" name="L262" href="#L262">262</a> 			String prop = <strong class="jxr_keyword">this</strong>.getSpringFormatterProperty(propKey);
-<a class="jxr_linenumber" name="L263" href="#L263">263</a> 			<strong class="jxr_keyword">if</strong> (prop != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> 				ret = Objects.equals(prop, <span class="jxr_string">"space"</span>);
-<a class="jxr_linenumber" name="L265" href="#L265">265</a> 			}
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> 		<strong class="jxr_keyword">return</strong> isExpandTabToSpaces(document, Settings.getActivePreferences(document));
+<a class="jxr_linenumber" name="L258" href="#L258">258</a> 	}
+<a class="jxr_linenumber" name="L259" href="#L259">259</a> 
+<a class="jxr_linenumber" name="L260" href="#L260">260</a> 	<strong class="jxr_keyword">private</strong> Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> 		<strong class="jxr_keyword">if</strong> (document == <strong class="jxr_keyword">null</strong> || preferences == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> 			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L263" href="#L263">263</a> 		}
+<a class="jxr_linenumber" name="L264" href="#L264">264</a> 
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> 		Boolean ret = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L266" href="#L266">266</a> 
-<a class="jxr_linenumber" name="L267" href="#L267">267</a> 			<strong class="jxr_keyword">if</strong> (ret == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L268" href="#L268">268</a> 				ret = false;
-<a class="jxr_linenumber" name="L269" href="#L269">269</a> 			}
-<a class="jxr_linenumber" name="L270" href="#L270">270</a> 		}
-<a class="jxr_linenumber" name="L271" href="#L271">271</a> 
-<a class="jxr_linenumber" name="L272" href="#L272">272</a> 		<strong class="jxr_keyword">return</strong> ret;
-<a class="jxr_linenumber" name="L273" href="#L273">273</a> 	}
-<a class="jxr_linenumber" name="L274" href="#L274">274</a> 
-<a class="jxr_linenumber" name="L275" href="#L275">275</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L276" href="#L276">276</a> <em class="jxr_javadoccomment">	 * Returns {@code true} if using the formatter indentation settings from the external</em>
-<a class="jxr_linenumber" name="L277" href="#L277">277</a> <em class="jxr_javadoccomment">	 * formatter is activated, otherwise {@code false}.</em>
-<a class="jxr_linenumber" name="L278" href="#L278">278</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L279" href="#L279">279</a> <em class="jxr_javadoccomment">	 * @param prefs the {@link Preferences} where to check</em>
-<a class="jxr_linenumber" name="L280" href="#L280">280</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L281" href="#L281">281</a> <em class="jxr_javadoccomment">	 * @return {@code true} if using the formatter indentation settings from the external</em>
-<a class="jxr_linenumber" name="L282" href="#L282">282</a> <em class="jxr_javadoccomment">	 *         formatter is activated, otherwise {@code false}</em>
-<a class="jxr_linenumber" name="L283" href="#L283">283</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L284" href="#L284">284</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> isUseFormatterIndentationSettings(Preferences prefs) {
-<a class="jxr_linenumber" name="L285" href="#L285">285</a> 		<strong class="jxr_keyword">return</strong> prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L286" href="#L286">286</a> 	}
-<a class="jxr_linenumber" name="L287" href="#L287">287</a> }
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> 		<strong class="jxr_keyword">if</strong> (isUseFormatterIndentationSettings(preferences)) {
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> 			String propKey = <span class="jxr_string">"core.formatter.tabulation.char"</span>;
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> 			String prop = <strong class="jxr_keyword">this</strong>.getSpringFormatterProperty(propKey);
+<a class="jxr_linenumber" name="L270" href="#L270">270</a> 			<strong class="jxr_keyword">if</strong> (prop != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> 				ret = Objects.equals(prop, <span class="jxr_string">"space"</span>);
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> 			}
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> 
+<a class="jxr_linenumber" name="L274" href="#L274">274</a> 			<strong class="jxr_keyword">if</strong> (ret == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> 				ret = false;
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 			}
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 		}
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> 
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> 		<strong class="jxr_keyword">return</strong> ret;
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> 	}
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> 
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> <em class="jxr_javadoccomment">	 * Returns {@code true} if using the formatter indentation settings from the external</em>
+<a class="jxr_linenumber" name="L284" href="#L284">284</a> <em class="jxr_javadoccomment">	 * formatter is activated, otherwise {@code false}.</em>
+<a class="jxr_linenumber" name="L285" href="#L285">285</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L286" href="#L286">286</a> <em class="jxr_javadoccomment">	 * @param prefs the {@link Preferences} where to check</em>
+<a class="jxr_linenumber" name="L287" href="#L287">287</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L288" href="#L288">288</a> <em class="jxr_javadoccomment">	 * @return {@code true} if using the formatter indentation settings from the external</em>
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> <em class="jxr_javadoccomment">	 *         formatter is activated, otherwise {@code false}</em>
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> isUseFormatterIndentationSettings(Preferences prefs) {
+<a class="jxr_linenumber" name="L292" href="#L292">292</a> 		<strong class="jxr_keyword">return</strong> prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> 	}
+<a class="jxr_linenumber" name="L294" href="#L294">294</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2019&#x2013;2022. All rights reserved.</div>

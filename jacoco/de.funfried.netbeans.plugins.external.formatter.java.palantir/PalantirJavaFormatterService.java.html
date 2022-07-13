@@ -167,7 +167,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 <span class="fc" id="L168">		Preferences preferences = Settings.getActivePreferences(document);</span>
 <span class="fc bfc" id="L169" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="pc bpc" id="L170" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="pc bpc" id="L170" title="3 of 4 branches missed.">			if (!isExpandTabToSpaces(document, preferences) &amp;&amp; preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
 <span class="nc" id="L171">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
 			} else {
 <span class="fc" id="L173">				ret = 4;</span>
@@ -187,14 +187,21 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 <span class="fc" id="L187">			return null;</span>
 		}
 
-<span class="fc" id="L190">		Boolean ret = null;</span>
+<span class="fc" id="L190">		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));</span>
+	}
 
-<span class="fc" id="L192">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L193" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L194">			ret = true;</span>
+	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
+<span class="pc bpc" id="L194" title="2 of 4 branches missed.">		if (document == null || preferences == null) {</span>
+<span class="nc" id="L195">			return null;</span>
 		}
 
-<span class="fc" id="L197">		return ret;</span>
+<span class="fc" id="L198">		Boolean ret = null;</span>
+
+<span class="fc bfc" id="L200" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L201">			ret = true;</span>
+		}
+
+<span class="fc" id="L204">		return ret;</span>
 	}
 
 	/**
@@ -207,7 +214,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="fc" id="L210">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="fc" id="L217">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

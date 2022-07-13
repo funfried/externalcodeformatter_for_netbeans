@@ -151,7 +151,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 <span class="fc" id="L152">		Preferences preferences = Settings.getActivePreferences(document);</span>
 <span class="fc bfc" id="L153" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="pc bpc" id="L154" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="pc bpc" id="L154" title="3 of 4 branches missed.">			if (!isExpandTabToSpaces(document, preferences) &amp;&amp; preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
 <span class="nc" id="L155">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
 			} else {
 <span class="fc" id="L157">				ret = preferences.getInt(JacksonJsonFormatterSettings.SPACES_PER_TAB, 2);</span>
@@ -171,14 +171,21 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 <span class="fc" id="L171">			return null;</span>
 		}
 
-<span class="fc" id="L174">		Boolean ret = null;</span>
+<span class="fc" id="L174">		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));</span>
+	}
 
-<span class="fc" id="L176">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L177" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L178">			ret = preferences.getBoolean(JacksonJsonFormatterSettings.EXPAND_TABS_TO_SPACES, true);</span>
+	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
+<span class="pc bpc" id="L178" title="2 of 4 branches missed.">		if (document == null || preferences == null) {</span>
+<span class="nc" id="L179">			return null;</span>
 		}
 
-<span class="fc" id="L181">		return ret;</span>
+<span class="fc" id="L182">		Boolean ret = null;</span>
+
+<span class="fc bfc" id="L184" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L185">			ret = preferences.getBoolean(JacksonJsonFormatterSettings.EXPAND_TABS_TO_SPACES, true);</span>
+		}
+
+<span class="fc" id="L188">		return ret;</span>
 	}
 
 	/**
@@ -191,7 +198,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="fc" id="L194">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="fc" id="L201">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

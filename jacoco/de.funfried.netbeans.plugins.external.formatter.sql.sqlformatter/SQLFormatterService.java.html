@@ -168,14 +168,18 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 <span class="fc" id="L168">			return null;</span>
 		}
 
-<span class="fc" id="L171">		Integer width = null;</span>
+<span class="fc" id="L171">		Integer ret = null;</span>
 
 <span class="fc" id="L173">		Preferences preferences = Settings.getActivePreferences(document);</span>
 <span class="fc bfc" id="L174" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L175">			width = preferences.getInt(SQLFormatterSettings.INDENT_SIZE, SQLFormatterSettings.INDENT_SIZE_DEFAULT);</span>
+<span class="pc bpc" id="L175" title="3 of 4 branches missed.">			if (!isExpandTabToSpaces(document, preferences) &amp;&amp; preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="nc" id="L176">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+			} else {
+<span class="fc" id="L178">				ret = preferences.getInt(SQLFormatterSettings.INDENT_SIZE, SQLFormatterSettings.INDENT_SIZE_DEFAULT);</span>
+			}
 		}
 
-<span class="fc" id="L178">		return width;</span>
+<span class="fc" id="L182">		return ret;</span>
 	}
 
 	/**
@@ -184,16 +188,23 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
-<span class="fc bfc" id="L187" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L188">			return null;</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L192">			return null;</span>
 		}
 
-<span class="fc" id="L191">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L192" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L193">			return preferences.getBoolean(SQLFormatterSettings.EXPAND_TABS_TO_SPACES, SQLFormatterSettings.EXPAND_TABS_TO_SPACES_DEFAULT);</span>
+<span class="fc" id="L195">		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));</span>
+	}
+
+	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
+<span class="pc bpc" id="L199" title="2 of 4 branches missed.">		if (document == null || preferences == null) {</span>
+<span class="nc" id="L200">			return null;</span>
 		}
 
-<span class="fc" id="L196">		return null;</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L204">			return preferences.getBoolean(SQLFormatterSettings.EXPAND_TABS_TO_SPACES, SQLFormatterSettings.EXPAND_TABS_TO_SPACES_DEFAULT);</span>
+		}
+
+<span class="fc" id="L207">		return null;</span>
 	}
 
 	/**
@@ -206,7 +217,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="fc" id="L209">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="fc" id="L220">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

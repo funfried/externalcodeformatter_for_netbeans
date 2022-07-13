@@ -176,47 +176,58 @@
 <a class="jxr_linenumber" name="L168" href="#L168">168</a> 			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L169" href="#L169">169</a> 		}
 <a class="jxr_linenumber" name="L170" href="#L170">170</a> 
-<a class="jxr_linenumber" name="L171" href="#L171">171</a> 		Integer width = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> 		Integer ret = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L172" href="#L172">172</a> 
 <a class="jxr_linenumber" name="L173" href="#L173">173</a> 		Preferences preferences = Settings.getActivePreferences(document);
 <a class="jxr_linenumber" name="L174" href="#L174">174</a> 		<strong class="jxr_keyword">if</strong> (isUseFormatterIndentationSettings(preferences)) {
-<a class="jxr_linenumber" name="L175" href="#L175">175</a> 			width = preferences.getInt(DBeaverFormatterSettings.INDENT_SIZE, DBeaverFormatterSettings.INDENT_SIZE_DEFAULT);
-<a class="jxr_linenumber" name="L176" href="#L176">176</a> 		}
-<a class="jxr_linenumber" name="L177" href="#L177">177</a> 
-<a class="jxr_linenumber" name="L178" href="#L178">178</a> 		<strong class="jxr_keyword">return</strong> width;
-<a class="jxr_linenumber" name="L179" href="#L179">179</a> 	}
-<a class="jxr_linenumber" name="L180" href="#L180">180</a> 
-<a class="jxr_linenumber" name="L181" href="#L181">181</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L182" href="#L182">182</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
-<a class="jxr_linenumber" name="L183" href="#L183">183</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L184" href="#L184">184</a> 	@CheckForNull
-<a class="jxr_linenumber" name="L185" href="#L185">185</a> 	@Override
-<a class="jxr_linenumber" name="L186" href="#L186">186</a> 	<strong class="jxr_keyword">public</strong> Boolean isExpandTabToSpaces(Document document) {
-<a class="jxr_linenumber" name="L187" href="#L187">187</a> 		<strong class="jxr_keyword">if</strong> (document == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L188" href="#L188">188</a> 			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L189" href="#L189">189</a> 		}
-<a class="jxr_linenumber" name="L190" href="#L190">190</a> 
-<a class="jxr_linenumber" name="L191" href="#L191">191</a> 		Preferences preferences = Settings.getActivePreferences(document);
-<a class="jxr_linenumber" name="L192" href="#L192">192</a> 		<strong class="jxr_keyword">if</strong> (isUseFormatterIndentationSettings(preferences)) {
-<a class="jxr_linenumber" name="L193" href="#L193">193</a> 			<strong class="jxr_keyword">return</strong> <span class="jxr_string">"space"</span>.equals(preferences.get(DBeaverFormatterSettings.INDENT_TYPE, DBeaverFormatterSettings.INDENT_TYPE_DEFAULT));
-<a class="jxr_linenumber" name="L194" href="#L194">194</a> 		}
-<a class="jxr_linenumber" name="L195" href="#L195">195</a> 
-<a class="jxr_linenumber" name="L196" href="#L196">196</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L197" href="#L197">197</a> 	}
-<a class="jxr_linenumber" name="L198" href="#L198">198</a> 
-<a class="jxr_linenumber" name="L199" href="#L199">199</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L200" href="#L200">200</a> <em class="jxr_javadoccomment">	 * Returns {@code true} if using the formatter indentation settings from the external</em>
-<a class="jxr_linenumber" name="L201" href="#L201">201</a> <em class="jxr_javadoccomment">	 * formatter is activated, otherwise {@code false}.</em>
-<a class="jxr_linenumber" name="L202" href="#L202">202</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L203" href="#L203">203</a> <em class="jxr_javadoccomment">	 * @param prefs the {@link Preferences} where to check</em>
-<a class="jxr_linenumber" name="L204" href="#L204">204</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L205" href="#L205">205</a> <em class="jxr_javadoccomment">	 * @return {@code true} if using the formatter indentation settings from the external</em>
-<a class="jxr_linenumber" name="L206" href="#L206">206</a> <em class="jxr_javadoccomment">	 *         formatter is activated, otherwise {@code false}</em>
-<a class="jxr_linenumber" name="L207" href="#L207">207</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L208" href="#L208">208</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> isUseFormatterIndentationSettings(Preferences prefs) {
-<a class="jxr_linenumber" name="L209" href="#L209">209</a> 		<strong class="jxr_keyword">return</strong> prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L210" href="#L210">210</a> 	}
-<a class="jxr_linenumber" name="L211" href="#L211">211</a> }
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> 			<strong class="jxr_keyword">if</strong> (!isExpandTabToSpaces(document, preferences) &amp;&amp; preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, <strong class="jxr_keyword">true</strong>)) {
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> 				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> 			} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> 				ret = preferences.getInt(DBeaverFormatterSettings.INDENT_SIZE, DBeaverFormatterSettings.INDENT_SIZE_DEFAULT);
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> 			}
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 		}
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> 		<strong class="jxr_keyword">return</strong> ret;
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> 	}
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> 
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> 	@CheckForNull
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> 	@Override
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> 	<strong class="jxr_keyword">public</strong> Boolean isExpandTabToSpaces(Document document) {
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> 		<strong class="jxr_keyword">if</strong> (document == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> 			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> 		}
+<a class="jxr_linenumber" name="L194" href="#L194">194</a> 
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> 		<strong class="jxr_keyword">return</strong> isExpandTabToSpaces(document, Settings.getActivePreferences(document));
+<a class="jxr_linenumber" name="L196" href="#L196">196</a> 	}
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> 
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> 	<strong class="jxr_keyword">private</strong> Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
+<a class="jxr_linenumber" name="L199" href="#L199">199</a> 		<strong class="jxr_keyword">if</strong> (document == <strong class="jxr_keyword">null</strong> || preferences == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> 			<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> 		}
+<a class="jxr_linenumber" name="L202" href="#L202">202</a> 
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> 		<strong class="jxr_keyword">if</strong> (isUseFormatterIndentationSettings(preferences)) {
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> 			<strong class="jxr_keyword">return</strong> <span class="jxr_string">"space"</span>.equals(preferences.get(DBeaverFormatterSettings.INDENT_TYPE, DBeaverFormatterSettings.INDENT_TYPE_DEFAULT));
+<a class="jxr_linenumber" name="L205" href="#L205">205</a> 		}
+<a class="jxr_linenumber" name="L206" href="#L206">206</a> 
+<a class="jxr_linenumber" name="L207" href="#L207">207</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L208" href="#L208">208</a> 	}
+<a class="jxr_linenumber" name="L209" href="#L209">209</a> 
+<a class="jxr_linenumber" name="L210" href="#L210">210</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> <em class="jxr_javadoccomment">	 * Returns {@code true} if using the formatter indentation settings from the external</em>
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> <em class="jxr_javadoccomment">	 * formatter is activated, otherwise {@code false}.</em>
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L214" href="#L214">214</a> <em class="jxr_javadoccomment">	 * @param prefs the {@link Preferences} where to check</em>
+<a class="jxr_linenumber" name="L215" href="#L215">215</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L216" href="#L216">216</a> <em class="jxr_javadoccomment">	 * @return {@code true} if using the formatter indentation settings from the external</em>
+<a class="jxr_linenumber" name="L217" href="#L217">217</a> <em class="jxr_javadoccomment">	 *         formatter is activated, otherwise {@code false}</em>
+<a class="jxr_linenumber" name="L218" href="#L218">218</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L219" href="#L219">219</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> isUseFormatterIndentationSettings(Preferences prefs) {
+<a class="jxr_linenumber" name="L220" href="#L220">220</a> 		<strong class="jxr_keyword">return</strong> prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L221" href="#L221">221</a> 	}
+<a class="jxr_linenumber" name="L222" href="#L222">222</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2019&#x2013;2022. All rights reserved.</div>

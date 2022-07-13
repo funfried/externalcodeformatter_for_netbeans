@@ -202,7 +202,7 @@ import io.spring.javaformat.formatter.eclipse.EclipseCodeFormatter;
 
 <span class="fc" id="L203">		Preferences preferences = Settings.getActivePreferences(document);</span>
 <span class="fc bfc" id="L204" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="pc bpc" id="L205" title="1 of 2 branches missed.">			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="pc bpc" id="L205" title="2 of 4 branches missed.">			if (!isExpandTabToSpaces(document, preferences) &amp;&amp; preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
 <span class="nc" id="L206">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
 			} else {
 <span class="fc" id="L208">				String propKey = &quot;core.formatter.tabulation.size&quot;;</span>
@@ -254,22 +254,29 @@ import io.spring.javaformat.formatter.eclipse.EclipseCodeFormatter;
 <span class="fc" id="L254">			return null;</span>
 		}
 
-<span class="fc" id="L257">		Boolean ret = null;</span>
+<span class="fc" id="L257">		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));</span>
+	}
 
-<span class="fc" id="L259">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L260" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L261">			String propKey = &quot;core.formatter.tabulation.char&quot;;</span>
-<span class="fc" id="L262">			String prop = this.getSpringFormatterProperty(propKey);</span>
-<span class="pc bpc" id="L263" title="1 of 2 branches missed.">			if (prop != null) {</span>
-<span class="fc" id="L264">				ret = Objects.equals(prop, &quot;space&quot;);</span>
+	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
+<span class="pc bpc" id="L261" title="2 of 4 branches missed.">		if (document == null || preferences == null) {</span>
+<span class="nc" id="L262">			return null;</span>
+		}
+
+<span class="fc" id="L265">		Boolean ret = null;</span>
+
+<span class="fc bfc" id="L267" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L268">			String propKey = &quot;core.formatter.tabulation.char&quot;;</span>
+<span class="fc" id="L269">			String prop = this.getSpringFormatterProperty(propKey);</span>
+<span class="pc bpc" id="L270" title="1 of 2 branches missed.">			if (prop != null) {</span>
+<span class="fc" id="L271">				ret = Objects.equals(prop, &quot;space&quot;);</span>
 			}
 
-<span class="pc bpc" id="L267" title="1 of 2 branches missed.">			if (ret == null) {</span>
-<span class="nc" id="L268">				ret = false;</span>
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">			if (ret == null) {</span>
+<span class="nc" id="L275">				ret = false;</span>
 			}
 		}
 
-<span class="fc" id="L272">		return ret;</span>
+<span class="fc" id="L279">		return ret;</span>
 	}
 
 	/**
@@ -282,7 +289,7 @@ import io.spring.javaformat.formatter.eclipse.EclipseCodeFormatter;
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="fc" id="L285">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="fc" id="L292">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
