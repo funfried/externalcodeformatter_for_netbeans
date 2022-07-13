@@ -168,14 +168,18 @@ public class DBeaverFormatterService implements FormatterService {
 			return null;
 		}
 
-		Integer width = null;
+		Integer ret = null;
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			width = preferences.getInt(DBeaverFormatterSettings.INDENT_SIZE, DBeaverFormatterSettings.INDENT_SIZE_DEFAULT);
+			if (!isExpandTabToSpaces(document, preferences) && preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
+				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
+			} else {
+				ret = preferences.getInt(DBeaverFormatterSettings.INDENT_SIZE, DBeaverFormatterSettings.INDENT_SIZE_DEFAULT);
+			}
 		}
 
-		return width;
+		return ret;
 	}
 
 	/**
@@ -188,7 +192,14 @@ public class DBeaverFormatterService implements FormatterService {
 			return null;
 		}
 
-		Preferences preferences = Settings.getActivePreferences(document);
+		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));
+	}
+
+	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
+		if (document == null || preferences == null) {
+			return null;
+		}
+
 		if (isUseFormatterIndentationSettings(preferences)) {
 			return "space".equals(preferences.get(DBeaverFormatterSettings.INDENT_TYPE, DBeaverFormatterSettings.INDENT_TYPE_DEFAULT));
 		}

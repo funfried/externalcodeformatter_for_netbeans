@@ -173,7 +173,7 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
+			if (!isExpandTabToSpaces(document, preferences) && preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
 				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
 			} else {
 				String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.tabulation.size");
@@ -226,9 +226,16 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 			return null;
 		}
 
+		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));
+	}
+
+	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
+		if (document == null || preferences == null) {
+			return null;
+		}
+
 		Boolean ret = null;
 
-		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
 			String value = getEclipseFormatterProperty(preferences, document, "org.eclipse.jdt.core.formatter.tabulation.char");
 			if (value != null) {
