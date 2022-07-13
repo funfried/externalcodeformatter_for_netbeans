@@ -185,18 +185,14 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			if (preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
-				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
+			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
+			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
+				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
+				ret = 2;
 			} else {
-				String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
-				JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
-				if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
-					// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-					ret = 2;
-				} else {
-					// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-					ret = 4;
-				}
+				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
+				ret = 4;
 			}
 		}
 
