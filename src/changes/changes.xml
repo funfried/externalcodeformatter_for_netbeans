@@ -9,6 +9,17 @@
 	</properties>
 
 	<body>
+		<release version="1.15.2-SNAPSHOT" date="n/a" description="Bug-fix release">
+			<action dev="bahlef" type="fix" issue="211">
+				Fixed issue with overriding tab sizes when formatter is using spaces for indentation
+				and not tabs
+			</action>
+			<action dev="bahlef" type="fix" issue="219">
+				Fixed warning about org.eclipse.osgi.launch.EquinoxFactory ClassNotFoundException
+				which appeared due to Eclipse Equinox OSGi classes which were inside the jsdt-core
+			</action>
+		</release>
+
 		<release version="1.15.1" date="2022-05-20" description="Bug-fix release">
 			<action dev="bahlef" type="fix" issue="208">
 				Fixed NoClassDefFoundException when using palantir-java-format (added missing
