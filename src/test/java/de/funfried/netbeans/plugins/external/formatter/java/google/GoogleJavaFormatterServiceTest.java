@@ -53,7 +53,7 @@ public class GoogleJavaFormatterServiceTest extends NbTestCase {
 		document.insertString(0, text, null);
 
 		Preferences prefs = Settings.getActivePreferences(document);
-		prefs.put(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+		prefs.put(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 		prefs.putBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 
@@ -108,7 +108,7 @@ public class GoogleJavaFormatterServiceTest extends NbTestCase {
 		document.insertString(0, text, null);
 
 		Preferences prefs = Settings.getActivePreferences(document);
-		prefs.put(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.AOSP.name());
+		prefs.put(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.AOSP.name());
 		prefs.putBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 		prefs.putBoolean(Settings.OVERRIDE_TAB_SIZE, false);
 

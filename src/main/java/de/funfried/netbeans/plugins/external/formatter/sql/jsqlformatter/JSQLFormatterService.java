@@ -209,4 +209,12 @@ public class JSQLFormatterService implements FormatterService {
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
 		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+		return null;
+	}
 }

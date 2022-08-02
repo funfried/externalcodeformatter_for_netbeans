@@ -16,6 +16,7 @@ import java.util.prefs.Preferences;
 
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.LayoutStyle;
@@ -38,7 +39,7 @@ public class GoogleJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
 	 * Creates new form {@link GoogleJavaFormatterOptionsPanel}.
 	 *
 	 * @param project the {@link Project} if the panel is used to modify project
-	 *                specific settings, otherwise {@code null}
+	 *        specific settings, otherwise {@code null}
 	 */
 	public GoogleJavaFormatterOptionsPanel(Project project) {
 		super(project);
@@ -60,6 +61,8 @@ public class GoogleJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
         googleCodeStyleRdBtn = new JRadioButton();
         aospRdBtn = new JRadioButton();
         googleCodeStyleLbl = new JLabel();
+        organizeImportsChkBox = new JCheckBox();
+        organizeImportsAfterFixImportsChkBox = new JCheckBox();
 
         googleCodeStyleBtnGrp.add(googleCodeStyleRdBtn);
         googleCodeStyleRdBtn.setSelected(true);
@@ -83,16 +86,37 @@ public class GoogleJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
         Mnemonics.setLocalizedText(googleCodeStyleLbl, NbBundle.getMessage(GoogleJavaFormatterOptionsPanel.class, "GoogleJavaFormatterOptionsPanel.googleCodeStyleLbl.text")); // NOI18N
         googleCodeStyleLbl.setToolTipText(NbBundle.getMessage(GoogleJavaFormatterOptionsPanel.class, "GoogleJavaFormatterOptionsPanel.googleCodeStyleLbl.toolTipText")); // NOI18N
 
+        Mnemonics.setLocalizedText(organizeImportsChkBox, NbBundle.getMessage(GoogleJavaFormatterOptionsPanel.class, "GoogleJavaFormatterOptionsPanel.organizeImportsChkBox.text")); // NOI18N
+        organizeImportsChkBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                organizeImportsChkBoxActionPerformed(evt);
+            }
+        });
+
+        Mnemonics.setLocalizedText(organizeImportsAfterFixImportsChkBox, NbBundle.getMessage(GoogleJavaFormatterOptionsPanel.class, "GoogleJavaFormatterOptionsPanel.organizeImportsAfterFixImportsChkBox.text")); // NOI18N
+        organizeImportsAfterFixImportsChkBox.setEnabled(false);
+        organizeImportsAfterFixImportsChkBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                organizeImportsAfterFixImportsChkBoxActionPerformed(evt);
+            }
+        });
+
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(googleCodeStyleLbl)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(googleCodeStyleRdBtn)
-                .addGap(18, 18, 18)
-                .addComponent(aospRdBtn)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(googleCodeStyleLbl)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(googleCodeStyleRdBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(aospRdBtn))
+                    .addComponent(organizeImportsChkBox)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(organizeImportsAfterFixImportsChkBox)))
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -102,6 +126,10 @@ public class GoogleJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
                     .addComponent(googleCodeStyleRdBtn)
                     .addComponent(aospRdBtn)
                     .addComponent(googleCodeStyleLbl))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(organizeImportsChkBox)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(organizeImportsAfterFixImportsChkBox)
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -114,40 +142,73 @@ public class GoogleJavaFormatterOptionsPanel extends AbstractFormatterOptionsPan
 		fireChangedListener();
     }//GEN-LAST:event_aospRdBtnActionPerformed
 
+    private void organizeImportsChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_organizeImportsChkBoxActionPerformed
+        fireChangedListener();
+    }//GEN-LAST:event_organizeImportsChkBoxActionPerformed
+
+    private void organizeImportsAfterFixImportsChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_organizeImportsAfterFixImportsChkBoxActionPerformed
+        fireChangedListener();
+    }//GEN-LAST:event_organizeImportsAfterFixImportsChkBoxActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JRadioButton aospRdBtn;
     private ButtonGroup googleCodeStyleBtnGrp;
     private JLabel googleCodeStyleLbl;
     private JRadioButton googleCodeStyleRdBtn;
+    private JCheckBox organizeImportsAfterFixImportsChkBox;
+    private JCheckBox organizeImportsChkBox;
     // End of variables declaration//GEN-END:variables
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void load(Preferences preferences) {
-		String googleFormatterCodeStyle = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void load(Preferences preferences) {
+			String googleFormatterCodeStyle = preferences.get(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 
-		if (JavaFormatterOptions.Style.AOSP.name().equals(googleFormatterCodeStyle)) {
-			googleCodeStyleBtnGrp.setSelected(aospRdBtn.getModel(), true);
-		} else {
-			googleCodeStyleBtnGrp.setSelected(googleCodeStyleRdBtn.getModel(), true);
+			if (JavaFormatterOptions.Style.AOSP.name().equals(googleFormatterCodeStyle)) {
+				googleCodeStyleBtnGrp.setSelected(aospRdBtn.getModel(), true);
+			} else {
+				googleCodeStyleBtnGrp.setSelected(googleCodeStyleRdBtn.getModel(), true);
+			}
+
+			boolean organizeImports = preferences.getBoolean(GoogleJavaFormatterSettings.ORGANIZE_IMPORTS, false);
+
+			organizeImportsChkBox.setSelected(organizeImports);
+
+			organizeImportsAfterFixImportsChkBox.setEnabled(organizeImports);
+			if (!organizeImports) {
+				organizeImportsAfterFixImportsChkBox.setSelected(false);
+			} else {
+				boolean organizeImportsAfterFixImports = preferences.getBoolean(GoogleJavaFormatterSettings.ORGANIZE_IMPORTS_AFTER_FIX_IMPORTS, false);
+
+				organizeImportsAfterFixImportsChkBox.setSelected(organizeImportsAfterFixImports);
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void store(Preferences preferences) {
+			preferences.put(GoogleJavaFormatterSettings.CODE_STYLE, googleCodeStyleRdBtn.isSelected() ? JavaFormatterOptions.Style.GOOGLE.name() : JavaFormatterOptions.Style.AOSP.name());
+
+			boolean organizeImports = organizeImportsChkBox.isSelected();
+			preferences.putBoolean(GoogleJavaFormatterSettings.ORGANIZE_IMPORTS, organizeImports);
+			preferences.putBoolean(GoogleJavaFormatterSettings.ORGANIZE_IMPORTS_AFTER_FIX_IMPORTS, organizeImports && organizeImportsAfterFixImportsChkBox.isSelected());
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean valid() {
+			boolean organizeImports = organizeImportsChkBox.isSelected();
+			organizeImportsAfterFixImportsChkBox.setEnabled(organizeImports);
+			if (!organizeImports) {
+				organizeImportsAfterFixImportsChkBox.setEnabled(false);
+			}
+
+			return googleCodeStyleBtnGrp.getSelection() != null;
 		}
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void store(Preferences preferences) {
-		preferences.put(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, googleCodeStyleRdBtn.isSelected() ? JavaFormatterOptions.Style.GOOGLE.name() : JavaFormatterOptions.Style.AOSP.name());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean valid() {
-		return googleCodeStyleBtnGrp.getSelection() != null;
-	}
-}

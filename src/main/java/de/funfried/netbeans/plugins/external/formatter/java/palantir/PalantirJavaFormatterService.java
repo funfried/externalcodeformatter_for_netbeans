@@ -12,6 +12,7 @@ package de.funfried.netbeans.plugins.external.formatter.java.palantir;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
@@ -25,8 +26,9 @@ import org.openide.util.lookup.ServiceProvider;
 
 import com.palantir.javaformat.java.JavaFormatterOptions;
 
-import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.MimeType;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.palantir.ui.PalantirJavaFormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
@@ -41,7 +43,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 		"FormatterName=Palantir Java Code Formatter"
 })
 @ServiceProvider(service = FormatterService.class, position = 2000)
-public class PalantirJavaFormatterService extends AbstractJavaFormatterService {
+public class PalantirJavaFormatterService extends AbstractJavaFormatterService<PalantirFormatJob> {
 	/** The ID of this formatter service. */
 	public static final String ID = "palantir-java-formatter";
 
@@ -149,7 +151,7 @@ public class PalantirJavaFormatterService extends AbstractJavaFormatterService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected FormatJob getFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
+	protected PalantirFormatJob getFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
 		return new PalantirFormatJob(document, formatter, changedElements);
 	}
 
@@ -215,5 +217,19 @@ public class PalantirJavaFormatterService extends AbstractJavaFormatterService {
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
 		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+		if (!canHandle(document)) {
+			throw new FormattingFailedException("The file type '" + MimeType.getMimeTypeAsString(document) + "' is not supported");
+		}
+
+		getFormatJob(document, null).organizeImports();
+
+		return true;
 	}
 }

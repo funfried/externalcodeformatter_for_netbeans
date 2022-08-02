@@ -72,6 +72,7 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 *   Support for Palantir Java Formatter (since 1.15.0)
 *   Support for Vertical Blank SQL Formatter (since 1.15.0)
 *   Support for DBeaver (via Spotless) (since 1.15.0)
+*   Option to organize imports with Google and Palantir Formatter instead of NetBeans (since 1.15.2)
 
 Compatibility
 -------------

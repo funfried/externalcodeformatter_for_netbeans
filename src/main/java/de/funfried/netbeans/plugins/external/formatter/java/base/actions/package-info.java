@@ -8,19 +8,7 @@
  * bahlef - initial API and implementation and/or initial documentation
  */
 
-package de.funfried.netbeans.plugins.external.formatter;
-
-import javax.swing.text.BadLocationException;
-
 /**
- *
- * @author bahlef
+ * Package containing global Java actions.
  */
-public interface FormatJob {
-	/**
-	 * Executes the formatting of this {@link FormatJob}.
-	 *
-	 * @throws BadLocationException if something goes wrong while applying the formatted code
-	 */
-	void format() throws BadLocationException;
-}
+package de.funfried.netbeans.plugins.external.formatter.java.base.actions;

@@ -72,7 +72,7 @@ class EclipseFormatJob extends AbstractEclipseFormatJob {
 	 */
 	@Override
 	protected String getFormatterProfile(Preferences pref) {
-		return pref.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
+		return pref.get(EclipseJavascriptFormatterSettings.ACTIVE_PROFILE, "");
 	}
 
 	/**

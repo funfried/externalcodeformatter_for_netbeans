@@ -20,7 +20,9 @@ import org.netbeans.api.annotations.common.CheckForNull;
 import com.google.common.collect.Range;
 import com.palantir.javaformat.java.Formatter;
 import com.palantir.javaformat.java.FormatterException;
+import com.palantir.javaformat.java.ImportOrderer;
 import com.palantir.javaformat.java.JavaFormatterOptions;
+import com.palantir.javaformat.java.RemoveUnusedImports;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 
@@ -57,7 +59,7 @@ public final class PalantirJavaFormatterWrapper {
 		Collection<Range<Integer>> characterRanges = new ArrayList<>();
 		if (changedElements == null) {
 			characterRanges.add(Range.closedOpen(0, code.length()));
-		} else if (!CollectionUtils.isEmpty(changedElements)) {
+		} else if (!CollectionUtils.isEmpty(changedElements)) { // empty changed elements means nothing's left which can be formatted due to guarded sections
 			for (Pair<Integer, Integer> changedElement : changedElements) {
 				int start = changedElement.getLeft();
 				int end = changedElement.getRight();
@@ -68,16 +70,38 @@ public final class PalantirJavaFormatterWrapper {
 
 				characterRanges.add(Range.open(start, end));
 			}
-		} else {
-			// empty changed elements means nothing's left which can be formatted due to guarded sections
-			return code;
+		}
+
+		if (changedElements == null || !CollectionUtils.isEmpty(changedElements)) {
+			try {
+				Formatter formatter = Formatter.createFormatter(JavaFormatterOptions.builder().style(JavaFormatterOptions.Style.PALANTIR).build());
+				code = formatter.formatSource(code, characterRanges);
+			} catch (FormatterException ex) {
+				throw new FormattingFailedException(ex);
+			}
+		}
+
+		return code;
+	}
+
+	@CheckForNull
+	public String organizeImports(String code) throws FormattingFailedException {
+		if (code == null) {
+			return null;
 		}
 
 		try {
-			Formatter formatter = Formatter.createFormatter(JavaFormatterOptions.builder().style(JavaFormatterOptions.Style.PALANTIR).build());
-			return formatter.formatSource(code, characterRanges);
+			code = RemoveUnusedImports.removeUnusedImports(code);
 		} catch (FormatterException ex) {
 			throw new FormattingFailedException(ex);
 		}
+
+		try {
+			code = ImportOrderer.reorderImports(code, JavaFormatterOptions.Style.PALANTIR);
+		} catch (FormatterException ex) {
+			throw new FormattingFailedException(ex);
+		}
+
+		return code;
 	}
 }

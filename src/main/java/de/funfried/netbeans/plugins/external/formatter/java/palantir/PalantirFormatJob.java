@@ -78,4 +78,30 @@ class PalantirFormatJob extends AbstractFormatJob {
 			throw ex;
 		}
 	}
+
+	public void organizeImports() throws BadLocationException {
+		Preferences pref = Settings.getActivePreferences(document);
+
+		String code = getCode();
+
+		try {
+			String formattedContent = formatter.organizeImports(code);
+
+			if (setFormattedCode(code, formattedContent)) {
+				SwingUtilities.invokeLater(() -> {
+					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
+						NotificationDisplayer.getDefault().notify("Organizing imports using Palantir formatter", Icons.ICON_EXTERNAL, "", null);
+					}
+
+					StatusDisplayer.getDefault().setStatusText("Organizing imports using Palantir formatter");
+				});
+			}
+		} catch (FormattingFailedException ex) {
+			SwingUtilities.invokeLater(() -> {
+				StatusDisplayer.getDefault().setStatusText("Failed to organize imports using Palantir formatter: " + ex.getMessage());
+			});
+
+			throw ex;
+		}
+	}
 }

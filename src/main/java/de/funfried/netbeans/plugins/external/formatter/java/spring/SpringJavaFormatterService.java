@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
@@ -28,7 +29,6 @@ import org.netbeans.api.project.Project;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
-import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.spring.ui.SpringJavaFormatterOptionsPanel;
@@ -45,7 +45,7 @@ import io.spring.javaformat.formatter.eclipse.EclipseCodeFormatter;
 		"FormatterName=Spring Java Code Formatter"
 })
 @ServiceProvider(service = FormatterService.class, position = 1500)
-public class SpringJavaFormatterService extends AbstractJavaFormatterService {
+public class SpringJavaFormatterService extends AbstractJavaFormatterService<SpringFormatJob> {
 	/** {@link Logger} of this class. */
 	private static final Logger log = Logger.getLogger(SpringJavaFormatterService.class.getName());
 
@@ -184,7 +184,7 @@ public class SpringJavaFormatterService extends AbstractJavaFormatterService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected FormatJob getFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
+	protected SpringFormatJob getFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
 		return new SpringFormatJob(document, formatter, changedElements);
 	}
 
@@ -290,5 +290,10 @@ public class SpringJavaFormatterService extends AbstractJavaFormatterService {
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
 		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+	}
+
+	@Override
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+		return null;
 	}
 }

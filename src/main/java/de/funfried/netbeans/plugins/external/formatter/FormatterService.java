@@ -164,4 +164,6 @@ public interface FormatterService {
 	 */
 	@CheckForNull
 	Boolean isExpandTabToSpaces(Document document);
+
+	Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException;
 }

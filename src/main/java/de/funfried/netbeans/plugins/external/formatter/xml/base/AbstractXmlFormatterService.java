@@ -57,4 +57,12 @@ public abstract class AbstractXmlFormatterService implements FormatterService {
 	public List<MimeType> getSupportedMimeTypes() {
 		return Collections.singletonList(MimeType.XML);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+		return null;
+	}
 }

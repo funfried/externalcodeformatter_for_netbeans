@@ -269,4 +269,18 @@ public class FormatterServiceDelegate {
 
 		return null;
 	}
+
+	@CheckForNull
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) {
+		try {
+			FormatterService formatterService = getActiveFormatterService(document);
+			if (formatterService != null && formatterService.canHandle(document)) {
+				return formatterService.organizeImports(document, afterFixImports);
+			}
+		} catch (Exception e) {
+			Exceptions.printStackTrace(e);
+		}
+
+		return null;
+	}
 }

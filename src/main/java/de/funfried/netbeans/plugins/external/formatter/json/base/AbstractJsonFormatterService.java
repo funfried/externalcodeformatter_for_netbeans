@@ -57,4 +57,12 @@ public abstract class AbstractJsonFormatterService implements FormatterService {
 	public List<MimeType> getSupportedMimeTypes() {
 		return Collections.singletonList(MimeType.JSON);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+		return null;
+	}
 }

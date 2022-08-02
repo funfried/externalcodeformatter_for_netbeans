@@ -57,14 +57,16 @@ class GoogleFormatJob extends AbstractFormatJob {
 	public void format() throws BadLocationException {
 		Preferences pref = Settings.getActivePreferences(document);
 
-		String codeStylePref = pref.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+		String codeStylePref = pref.get(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 
 		String code = getCode();
 
 		SortedSet<Pair<Integer, Integer>> regions = getFormatableSections(code);
 
 		try {
-			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);
+			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
+			String formattedContent = formatter.format(code, codeStyle, regions);
+
 			if (setFormattedCode(code, formattedContent)) {
 				SwingUtilities.invokeLater(() -> {
 					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
@@ -77,6 +79,35 @@ class GoogleFormatJob extends AbstractFormatJob {
 		} catch (FormattingFailedException ex) {
 			SwingUtilities.invokeLater(() -> {
 				StatusDisplayer.getDefault().setStatusText("Failed to format using Google formatter: " + ex.getMessage());
+			});
+
+			throw ex;
+		}
+	}
+
+	public void organizeImports() throws BadLocationException {
+		Preferences pref = Settings.getActivePreferences(document);
+
+		String codeStylePref = pref.get(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+
+		String code = getCode();
+
+		try {
+			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
+			String formattedContent = formatter.organizeImports(code, codeStyle);
+
+			if (setFormattedCode(code, formattedContent)) {
+				SwingUtilities.invokeLater(() -> {
+					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
+						NotificationDisplayer.getDefault().notify("Organizing imports using Google formatter", Icons.ICON_GOOGLE, "", null);
+					}
+
+					StatusDisplayer.getDefault().setStatusText("Organizing imports using Google formatter");
+				});
+			}
+		} catch (FormattingFailedException ex) {
+			SwingUtilities.invokeLater(() -> {
+				StatusDisplayer.getDefault().setStatusText("Failed to organize imports using Google formatter: " + ex.getMessage());
 			});
 
 			throw ex;

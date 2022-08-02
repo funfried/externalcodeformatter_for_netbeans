@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.prefs.Preferences;
 
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
@@ -207,7 +208,7 @@ public class EclipseJavascriptFormatterService extends AbstractJavascriptFormatt
 		}
 
 		String formatterFile = EclipseJavascriptFormatterSettings.getEclipseFormatterFile(preferences, document);
-		String formatterProfile = preferences.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
+		String formatterProfile = preferences.get(EclipseJavascriptFormatterSettings.ACTIVE_PROFILE, "");
 
 		Map<String, String> config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile);
 
@@ -255,5 +256,13 @@ public class EclipseJavascriptFormatterService extends AbstractJavascriptFormatt
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
 		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+		return null;
 	}
 }

@@ -42,7 +42,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  */
 public class ExternalFormatterIndentTaskFactory implements IndentTask.Factory {
 	/** {@link Map} which acts as a cache for default implementations of the {@link IndentTask.Factory}. */
-	private static final Map<MimePath, Reference<IndentTask.Factory>> cache = new WeakHashMap<MimePath, Reference<IndentTask.Factory>>();
+	private static final Map<MimePath, Reference<IndentTask.Factory>> cache = new WeakHashMap<>();
 
 	/**
 	 * {@inheritDoc}

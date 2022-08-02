@@ -20,7 +20,9 @@ import org.netbeans.api.annotations.common.CheckForNull;
 import com.google.common.collect.Range;
 import com.google.googlejavaformat.java.Formatter;
 import com.google.googlejavaformat.java.FormatterException;
+import com.google.googlejavaformat.java.ImportOrderer;
 import com.google.googlejavaformat.java.JavaFormatterOptions;
+import com.google.googlejavaformat.java.RemoveUnusedImports;
 
 import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 
@@ -52,7 +54,8 @@ public final class GoogleJavaFormatterWrapper {
 	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
 	@CheckForNull
-	public String format(String code, JavaFormatterOptions.Style codeStyle, SortedSet<Pair<Integer, Integer>> changedElements) throws FormattingFailedException {
+	public String format(String code, JavaFormatterOptions.Style codeStyle, SortedSet<Pair<Integer, Integer>> changedElements)
+			throws FormattingFailedException {
 		if (code == null) {
 			return null;
 		}
@@ -64,7 +67,7 @@ public final class GoogleJavaFormatterWrapper {
 		Collection<Range<Integer>> characterRanges = new ArrayList<>();
 		if (changedElements == null) {
 			characterRanges.add(Range.closedOpen(0, code.length()));
-		} else if (!CollectionUtils.isEmpty(changedElements)) {
+		} else if (!CollectionUtils.isEmpty(changedElements)) { // empty changed elements means nothing's left which can be formatted due to guarded sections
 			for (Pair<Integer, Integer> changedElement : changedElements) {
 				int start = changedElement.getLeft();
 				int end = changedElement.getRight();
@@ -75,16 +78,42 @@ public final class GoogleJavaFormatterWrapper {
 
 				characterRanges.add(Range.open(start, end));
 			}
-		} else {
-			// empty changed elements means nothing's left which can be formatted due to guarded sections
-			return code;
+		}
+
+		if (changedElements == null || !CollectionUtils.isEmpty(changedElements)) {
+			try {
+				Formatter formatter = new Formatter(JavaFormatterOptions.builder().style(codeStyle).build());
+				code = formatter.formatSource(code, characterRanges);
+			} catch (FormatterException ex) {
+				throw new FormattingFailedException(ex);
+			}
+		}
+
+		return code;
+	}
+
+	@CheckForNull
+	public String organizeImports(String code, JavaFormatterOptions.Style codeStyle) throws FormattingFailedException {
+		if (code == null) {
+			return null;
+		}
+
+		if (codeStyle == null) {
+			codeStyle = JavaFormatterOptions.Style.GOOGLE;
 		}
 
 		try {
-			Formatter formatter = new Formatter(JavaFormatterOptions.builder().style(codeStyle).build());
-			return formatter.formatSource(code, characterRanges);
+			code = RemoveUnusedImports.removeUnusedImports(code);
 		} catch (FormatterException ex) {
 			throw new FormattingFailedException(ex);
 		}
+
+		try {
+			code = ImportOrderer.reorderImports(code, codeStyle);
+		} catch (FormatterException ex) {
+			throw new FormattingFailedException(ex);
+		}
+
+		return code;
 	}
 }
