@@ -17,6 +17,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.CheckForNull;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
@@ -62,6 +63,7 @@ public abstract class AbstractXmlFormatterService implements FormatterService {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@CheckForNull
 	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
 		return null;
 	}

@@ -262,6 +262,7 @@ public class EclipseJavascriptFormatterService extends AbstractJavascriptFormatt
 	 * {@inheritDoc}
 	 */
 	@Override
+	@CheckForNull
 	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
 		return null;
 	}

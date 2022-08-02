@@ -223,6 +223,7 @@ public class PalantirJavaFormatterService extends AbstractJavaFormatterService<P
 	 * {@inheritDoc}
 	 */
 	@Override
+	@CheckForNull
 	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
 		if (!canHandle(document)) {
 			throw new FormattingFailedException("The file type '" + MimeType.getMimeTypeAsString(document) + "' is not supported");

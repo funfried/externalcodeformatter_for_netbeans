@@ -259,7 +259,11 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService<Ec
 		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
+	@CheckForNull
 	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
 		return null;
 	}

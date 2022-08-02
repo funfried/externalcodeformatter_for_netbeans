@@ -69,11 +69,11 @@ public class FormatterServiceDelegate {
 			if (instance == null) {
 				instance = new FormatterServiceDelegate();
 			}
+
+			return instance;
 		} finally {
 			lock.unlock();
 		}
-
-		return instance;
 	}
 
 	/**

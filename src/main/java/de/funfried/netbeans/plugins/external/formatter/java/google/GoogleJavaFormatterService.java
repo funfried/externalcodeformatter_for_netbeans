@@ -240,6 +240,7 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService<Goo
 	 * {@inheritDoc}
 	 */
 	@Override
+	@CheckForNull
 	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (!preferences.getBoolean(GoogleJavaFormatterSettings.ORGANIZE_IMPORTS, false)) {

@@ -257,6 +257,7 @@ public class SpringJavaFormatterService extends AbstractJavaFormatterService<Spr
 		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));
 	}
 
+	@CheckForNull
 	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
 		if (document == null || preferences == null) {
 			return null;
@@ -292,7 +293,11 @@ public class SpringJavaFormatterService extends AbstractJavaFormatterService<Spr
 		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
+	@CheckForNull
 	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
 		return null;
 	}

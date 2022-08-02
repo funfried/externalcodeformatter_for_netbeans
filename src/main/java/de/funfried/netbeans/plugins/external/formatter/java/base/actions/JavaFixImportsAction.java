@@ -26,6 +26,7 @@ import de.funfried.netbeans.plugins.external.formatter.FormatterServiceDelegate;
 import de.funfried.netbeans.plugins.external.formatter.ui.editor.EditorUtils;
 
 /**
+ * {@link BaseAction} for fixing imports which overrides the NetBeans original action.
  *
  * @author fbahle
  */
@@ -40,6 +41,9 @@ public class JavaFixImportsAction extends BaseAction {
 		putValue(BaseAction.POPUP_MENU_TEXT, NbBundle.getMessage(JavaFixImportsAction.class, "popup-fix-imports")); // NOI18N
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt, JTextComponent target) {
 		if (target != null) {

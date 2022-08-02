@@ -32,7 +32,7 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
  */
 public abstract class AbstractJavaFormatterService<F extends FormatJob> implements FormatterService {
 	/**
-	 * Returns the {@link FormatJob}.
+	 * Returns the {@link F}.
 	 *
 	 * @param document the {@link StyledDocument} which should be formatted
 	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted

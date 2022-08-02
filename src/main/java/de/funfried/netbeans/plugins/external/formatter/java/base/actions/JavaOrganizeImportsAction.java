@@ -31,6 +31,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.editor.EditorUtils;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
+ * {@link BaseAction} for organizing imports which overrides the NetBeans original action.
  *
  * @author fbahle
  */
@@ -39,6 +40,9 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 public class JavaOrganizeImportsAction extends BaseAction {
 	private static final long serialVersionUID = 2459410245945401241L;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt, JTextComponent target) {
 		if (target != null) {
