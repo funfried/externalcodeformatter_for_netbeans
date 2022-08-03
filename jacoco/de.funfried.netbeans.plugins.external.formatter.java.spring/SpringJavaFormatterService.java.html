@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
@@ -28,7 +29,6 @@ import org.netbeans.api.project.Project;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
-import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.spring.ui.SpringJavaFormatterOptionsPanel;
@@ -45,7 +45,7 @@ import io.spring.javaformat.formatter.eclipse.EclipseCodeFormatter;
 		&quot;FormatterName=Spring Java Code Formatter&quot;
 })
 @ServiceProvider(service = FormatterService.class, position = 1500)
-<span class="fc" id="L48">public class SpringJavaFormatterService extends AbstractJavaFormatterService {</span>
+<span class="fc" id="L48">public class SpringJavaFormatterService extends AbstractJavaFormatterService&lt;SpringFormatJob&gt; {</span>
 	/** {@link Logger} of this class. */
 <span class="fc" id="L50">	private static final Logger log = Logger.getLogger(SpringJavaFormatterService.class.getName());</span>
 
@@ -184,7 +184,7 @@ import io.spring.javaformat.formatter.eclipse.EclipseCodeFormatter;
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected FormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
+	protected SpringFormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
 <span class="fc" id="L188">		return new SpringFormatJob(document, formatter, changedElements);</span>
 	}
 
@@ -257,26 +257,27 @@ import io.spring.javaformat.formatter.eclipse.EclipseCodeFormatter;
 <span class="fc" id="L257">		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));</span>
 	}
 
+	@CheckForNull
 	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
-<span class="pc bpc" id="L261" title="2 of 4 branches missed.">		if (document == null || preferences == null) {</span>
-<span class="nc" id="L262">			return null;</span>
+<span class="pc bpc" id="L262" title="2 of 4 branches missed.">		if (document == null || preferences == null) {</span>
+<span class="nc" id="L263">			return null;</span>
 		}
 
-<span class="fc" id="L265">		Boolean ret = null;</span>
+<span class="fc" id="L266">		Boolean ret = null;</span>
 
-<span class="fc bfc" id="L267" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L268">			String propKey = &quot;core.formatter.tabulation.char&quot;;</span>
-<span class="fc" id="L269">			String prop = this.getSpringFormatterProperty(propKey);</span>
-<span class="pc bpc" id="L270" title="1 of 2 branches missed.">			if (prop != null) {</span>
-<span class="fc" id="L271">				ret = Objects.equals(prop, &quot;space&quot;);</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L269">			String propKey = &quot;core.formatter.tabulation.char&quot;;</span>
+<span class="fc" id="L270">			String prop = this.getSpringFormatterProperty(propKey);</span>
+<span class="pc bpc" id="L271" title="1 of 2 branches missed.">			if (prop != null) {</span>
+<span class="fc" id="L272">				ret = Objects.equals(prop, &quot;space&quot;);</span>
 			}
 
-<span class="pc bpc" id="L274" title="1 of 2 branches missed.">			if (ret == null) {</span>
-<span class="nc" id="L275">				ret = false;</span>
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">			if (ret == null) {</span>
+<span class="nc" id="L276">				ret = false;</span>
 			}
 		}
 
-<span class="fc" id="L279">		return ret;</span>
+<span class="fc" id="L280">		return ret;</span>
 	}
 
 	/**
@@ -289,7 +290,16 @@ import io.spring.javaformat.formatter.eclipse.EclipseCodeFormatter;
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="fc" id="L292">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="fc" id="L293">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@CheckForNull
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+<span class="nc" id="L302">		return null;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

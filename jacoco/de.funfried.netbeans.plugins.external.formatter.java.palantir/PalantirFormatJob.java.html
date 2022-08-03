@@ -78,5 +78,31 @@ class PalantirFormatJob extends AbstractFormatJob {
 <span class="nc" id="L78">			throw ex;</span>
 <span class="fc" id="L79">		}</span>
 <span class="fc" id="L80">	}</span>
+
+	public void organizeImports() throws BadLocationException {
+<span class="nc" id="L83">		Preferences pref = Settings.getActivePreferences(document);</span>
+
+<span class="nc" id="L85">		String code = getCode();</span>
+
+		try {
+<span class="nc" id="L88">			String formattedContent = formatter.organizeImports(code);</span>
+
+<span class="nc bnc" id="L90" title="All 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
+<span class="nc" id="L91">				SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L93">						NotificationDisplayer.getDefault().notify(&quot;Organizing imports using Palantir formatter&quot;, Icons.ICON_EXTERNAL, &quot;&quot;, null);</span>
+					}
+
+<span class="nc" id="L96">					StatusDisplayer.getDefault().setStatusText(&quot;Organizing imports using Palantir formatter&quot;);</span>
+<span class="nc" id="L97">				});</span>
+			}
+<span class="nc" id="L99">		} catch (FormattingFailedException ex) {</span>
+<span class="nc" id="L100">			SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L101">				StatusDisplayer.getDefault().setStatusText(&quot;Failed to organize imports using Palantir formatter: &quot; + ex.getMessage());</span>
+<span class="nc" id="L102">			});</span>
+
+<span class="nc" id="L104">			throw ex;</span>
+<span class="nc" id="L105">		}</span>
+<span class="nc" id="L106">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

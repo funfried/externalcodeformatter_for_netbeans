@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
@@ -25,7 +26,6 @@ import org.netbeans.api.project.Project;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
-import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.eclipse.ui.EclipseJavaFormatterOptionsPanel;
@@ -42,7 +42,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 		&quot;FormatterName=Eclipse Java Code Formatter&quot;
 })
 @ServiceProvider(service = FormatterService.class, position = 1000)
-<span class="fc" id="L45">public class EclipseJavaFormatterService extends AbstractJavaFormatterService {</span>
+<span class="fc" id="L45">public class EclipseJavaFormatterService extends AbstractJavaFormatterService&lt;EclipseFormatJob&gt; {</span>
 	/** The ID of this formatter service. */
 	public static final String ID = &quot;eclipse-java-formatter&quot;;
 
@@ -155,7 +155,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected FormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
+	protected EclipseFormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
 <span class="fc" id="L159">		return new EclipseFormatJob(document, formatter, changedElements);</span>
 	}
 
@@ -208,7 +208,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 		}
 
 <span class="fc" id="L210">		String formatterFile = EclipseJavaFormatterSettings.getEclipseFormatterFile(preferences, document);</span>
-<span class="fc" id="L211">		String formatterProfile = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, &quot;&quot;);</span>
+<span class="fc" id="L211">		String formatterProfile = preferences.get(EclipseJavaFormatterSettings.ACTIVE_PROFILE, &quot;&quot;);</span>
 <span class="fc" id="L212">		String sourceLevel = preferences.get(EclipseJavaFormatterSettings.SOURCELEVEL, &quot;&quot;);</span>
 
 <span class="fc" id="L214">		Map&lt;String, String&gt; config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);</span>
@@ -257,6 +257,15 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
 <span class="fc" id="L259">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@CheckForNull
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+<span class="nc" id="L268">		return null;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -26,29 +26,31 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
 /**
  * Abstract base implementation of {@link FormatterService} for Java formatters.
  *
+ * @param &lt;F&gt; the {@link FormatJob} type
+ *
  * @author bahlef
  */
-<span class="fc" id="L31">public abstract class AbstractJavaFormatterService implements FormatterService {</span>
+<span class="fc" id="L33">public abstract class AbstractJavaFormatterService&lt;F extends FormatJob&gt; implements FormatterService {</span>
 	/**
-	 * Returns the {@link FormatJob}.
+	 * Returns the {@link F}.
 	 *
 	 * @param document the {@link StyledDocument} which should be formatted
 	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
 	 */
-	protected abstract FormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements);
+	protected abstract F getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements);
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException, FormattingFailedException {
-<span class="fc bfc" id="L45" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
-<span class="fc" id="L46">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
+<span class="fc" id="L48">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
 		}
 
-<span class="fc" id="L49">		getFormatJob(document, changedElements).format();</span>
+<span class="fc" id="L51">		getFormatJob(document, changedElements).format();</span>
 
-<span class="fc" id="L51">		return true;</span>
+<span class="fc" id="L53">		return true;</span>
 	}
 
 	/**
@@ -56,7 +58,7 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
 	 */
 	@Override
 	public List&lt;MimeType&gt; getSupportedMimeTypes() {
-<span class="fc" id="L59">		return Collections.singletonList(MimeType.JAVA);</span>
+<span class="fc" id="L61">		return Collections.singletonList(MimeType.JAVA);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

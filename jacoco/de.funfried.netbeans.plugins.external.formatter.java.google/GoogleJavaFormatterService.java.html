@@ -12,6 +12,7 @@ package de.funfried.netbeans.plugins.external.formatter.java.google;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
@@ -25,8 +26,9 @@ import org.openide.util.lookup.ServiceProvider;
 
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
-import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.MimeType;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.google.ui.GoogleJavaFormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
@@ -41,12 +43,12 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 		&quot;FormatterName=Google Java Code Formatter&quot;
 })
 @ServiceProvider(service = FormatterService.class, position = 500)
-<span class="fc" id="L44">public class GoogleJavaFormatterService extends AbstractJavaFormatterService {</span>
+<span class="fc" id="L46">public class GoogleJavaFormatterService extends AbstractJavaFormatterService&lt;GoogleFormatJob&gt; {</span>
 	/** The ID of this formatter service. */
 	public static final String ID = &quot;google-java-formatter&quot;;
 
 	/** * The {@link GoogleJavaFormatterWrapper} implementation. */
-<span class="fc" id="L49">	private final GoogleJavaFormatterWrapper formatter = new GoogleJavaFormatterWrapper();</span>
+<span class="fc" id="L51">	private final GoogleJavaFormatterWrapper formatter = new GoogleJavaFormatterWrapper();</span>
 
 	/**
 	 * {@inheritDoc}
@@ -55,15 +57,15 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	public boolean canHandle(Document document) {
 		// Cannot handle guarded blocks properly due to a bug in the Google Java Code Formatter:
 		// https://github.com/google/google-java-format/issues/433
-<span class="pc bpc" id="L58" title="1 of 2 branches missed.">		if (document instanceof StyledDocument) {</span>
-<span class="fc" id="L59">			StyledDocument styledDoc = (StyledDocument) document;</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">		if (document instanceof StyledDocument) {</span>
+<span class="fc" id="L61">			StyledDocument styledDoc = (StyledDocument) document;</span>
 
-<span class="pc bpc" id="L61" title="1 of 2 branches missed.">			if (GuardedSectionManager.getInstance(styledDoc) != null) {</span>
-<span class="nc" id="L62">				return false;</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">			if (GuardedSectionManager.getInstance(styledDoc) != null) {</span>
+<span class="nc" id="L64">				return false;</span>
 			}
 		}
 
-<span class="fc" id="L66">		return super.canHandle(document);</span>
+<span class="fc" id="L68">		return super.canHandle(document);</span>
 	}
 
 	/**
@@ -72,7 +74,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@NonNull
 	@Override
 	public String getDisplayName() {
-<span class="fc" id="L75">		return NbBundle.getMessage(GoogleJavaFormatterService.class, &quot;FormatterName&quot;);</span>
+<span class="fc" id="L77">		return NbBundle.getMessage(GoogleJavaFormatterService.class, &quot;FormatterName&quot;);</span>
 	}
 
 	/**
@@ -81,7 +83,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@NonNull
 	@Override
 	public String getId() {
-<span class="fc" id="L84">		return ID;</span>
+<span class="fc" id="L86">		return ID;</span>
 	}
 
 	/**
@@ -89,7 +91,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 */
 	@Override
 	public FormatterOptionsPanel createOptionsPanel(Project project) {
-<span class="fc" id="L92">		return new GoogleJavaFormatterOptionsPanel(project);</span>
+<span class="fc" id="L94">		return new GoogleJavaFormatterOptionsPanel(project);</span>
 	}
 
 	/**
@@ -98,26 +100,26 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Integer getContinuationIndentSize(Document document) {
-<span class="fc bfc" id="L101" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L102">			return null;</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L104">			return null;</span>
 		}
 
-<span class="fc" id="L105">		Integer ret = null;</span>
+<span class="fc" id="L107">		Integer ret = null;</span>
 
-<span class="fc" id="L107">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L108" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L109">			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
-<span class="fc" id="L110">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
-<span class="fc bfc" id="L111" title="All 2 branches covered.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
+<span class="fc" id="L109">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L111">			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="fc" id="L112">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
 				// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent
-<span class="fc" id="L113">				ret = 4;</span>
+<span class="fc" id="L115">				ret = 4;</span>
 			} else {
 				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-<span class="fc" id="L116">				ret = 8;</span>
+<span class="fc" id="L118">				ret = 8;</span>
 			}
 		}
 
-<span class="fc" id="L120">		return ret;</span>
+<span class="fc" id="L122">		return ret;</span>
 	}
 
 	/**
@@ -126,26 +128,26 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Integer getIndentSize(Document document) {
-<span class="fc bfc" id="L129" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L130">			return null;</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L132">			return null;</span>
 		}
 
-<span class="fc" id="L133">		Integer ret = null;</span>
+<span class="fc" id="L135">		Integer ret = null;</span>
 
-<span class="fc" id="L135">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L136" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L137">			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
-<span class="fc" id="L138">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
-<span class="fc bfc" id="L139" title="All 2 branches covered.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
+<span class="fc" id="L137">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L139">			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="fc" id="L140">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
 				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-<span class="fc" id="L141">				ret = 2;</span>
+<span class="fc" id="L143">				ret = 2;</span>
 			} else {
 				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-<span class="fc" id="L144">				ret = 4;</span>
+<span class="fc" id="L146">				ret = 4;</span>
 			}
 		}
 
-<span class="fc" id="L148">		return ret;</span>
+<span class="fc" id="L150">		return ret;</span>
 	}
 
 	/**
@@ -154,21 +156,21 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Integer getRightMargin(Document document) {
-<span class="pc bpc" id="L157" title="1 of 2 branches missed.">		if (document == null) {</span>
-<span class="nc" id="L158">			return null;</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L160">			return null;</span>
 		}
 
 		// see: https://google.github.io/styleguide/javaguide.html#s4.4-column-limit
 		// and https://source.android.com/setup/contribute/code-style#limit-line-length
-<span class="fc" id="L163">		return 100;</span>
+<span class="fc" id="L165">		return 100;</span>
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected FormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L171">		return new GoogleFormatJob(document, formatter, changedElements);</span>
+	protected GoogleFormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
+<span class="fc" id="L173">		return new GoogleFormatJob(document, formatter, changedElements);</span>
 	}
 
 	/**
@@ -177,26 +179,26 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Integer getSpacesPerTab(Document document) {
-<span class="fc bfc" id="L180" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L181">			return null;</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L183">			return null;</span>
 		}
 
-<span class="fc" id="L184">		Integer ret = null;</span>
+<span class="fc" id="L186">		Integer ret = null;</span>
 
-<span class="fc" id="L186">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L187" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L188">			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
-<span class="fc" id="L189">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
-<span class="fc bfc" id="L190" title="All 2 branches covered.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
+<span class="fc" id="L188">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L190">			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="fc" id="L191">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {</span>
 				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
-<span class="fc" id="L192">				ret = 2;</span>
+<span class="fc" id="L194">				ret = 2;</span>
 			} else {
 				// see: https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-<span class="fc" id="L195">				ret = 4;</span>
+<span class="fc" id="L197">				ret = 4;</span>
 			}
 		}
 
-<span class="fc" id="L199">		return ret;</span>
+<span class="fc" id="L201">		return ret;</span>
 	}
 
 	/**
@@ -205,20 +207,20 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
-<span class="fc bfc" id="L208" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L209">			return null;</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L211">			return null;</span>
 		}
 
-<span class="fc" id="L212">		Boolean ret = null;</span>
+<span class="fc" id="L214">		Boolean ret = null;</span>
 
-<span class="fc" id="L214">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L215" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L216">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L217" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
 			// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
 			// and https://source.android.com/setup/contribute/code-style#use-spaces-for-indentation
-<span class="fc" id="L218">			ret = true;</span>
+<span class="fc" id="L220">			ret = true;</span>
 		}
 
-<span class="fc" id="L221">		return ret;</span>
+<span class="fc" id="L223">		return ret;</span>
 	}
 
 	/**
@@ -231,7 +233,33 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="fc" id="L234">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="fc" id="L236">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@CheckForNull
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+<span class="nc" id="L245">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">		if (!preferences.getBoolean(GoogleJavaFormatterSettings.ORGANIZE_IMPORTS, false)) {</span>
+<span class="nc" id="L247">			return null;</span>
+		}
+
+<span class="nc bnc" id="L250" title="All 2 branches missed.">		if (afterFixImports) {</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">			if (!preferences.getBoolean(GoogleJavaFormatterSettings.ORGANIZE_IMPORTS_AFTER_FIX_IMPORTS, false)) {</span>
+<span class="nc" id="L252">				return null;</span>
+			}
+		}
+
+<span class="nc bnc" id="L256" title="All 2 branches missed.">		if (!canHandle(document)) {</span>
+<span class="nc" id="L257">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
+		}
+
+<span class="nc" id="L260">		getFormatJob(document, null).organizeImports();</span>
+
+<span class="nc" id="L262">		return true;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

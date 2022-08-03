@@ -57,30 +57,61 @@ class GoogleFormatJob extends AbstractFormatJob {
 	public void format() throws BadLocationException {
 <span class="fc" id="L58">		Preferences pref = Settings.getActivePreferences(document);</span>
 
-<span class="fc" id="L60">		String codeStylePref = pref.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+<span class="fc" id="L60">		String codeStylePref = pref.get(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
 
 <span class="fc" id="L62">		String code = getCode();</span>
 
 <span class="fc" id="L64">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = getFormatableSections(code);</span>
 
 		try {
-<span class="fc" id="L67">			String formattedContent = formatter.format(code, JavaFormatterOptions.Style.valueOf(codeStylePref), regions);</span>
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
-<span class="fc" id="L69">				SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="pc bpc" id="L70" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
-<span class="nc" id="L71">						NotificationDisplayer.getDefault().notify(&quot;Format using Google formatter&quot;, Icons.ICON_GOOGLE, &quot;&quot;, null);</span>
+<span class="fc" id="L67">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
+<span class="fc" id="L68">			String formattedContent = formatter.format(code, codeStyle, regions);</span>
+
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
+<span class="fc" id="L71">				SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L73">						NotificationDisplayer.getDefault().notify(&quot;Format using Google formatter&quot;, Icons.ICON_GOOGLE, &quot;&quot;, null);</span>
 					}
 
-<span class="fc" id="L74">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Google formatter&quot;);</span>
-<span class="fc" id="L75">				});</span>
+<span class="fc" id="L76">					StatusDisplayer.getDefault().setStatusText(&quot;Format using Google formatter&quot;);</span>
+<span class="fc" id="L77">				});</span>
 			}
-<span class="fc" id="L77">		} catch (FormattingFailedException ex) {</span>
-<span class="fc" id="L78">			SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="fc" id="L79">				StatusDisplayer.getDefault().setStatusText(&quot;Failed to format using Google formatter: &quot; + ex.getMessage());</span>
-<span class="fc" id="L80">			});</span>
+<span class="fc" id="L79">		} catch (FormattingFailedException ex) {</span>
+<span class="fc" id="L80">			SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="fc" id="L81">				StatusDisplayer.getDefault().setStatusText(&quot;Failed to format using Google formatter: &quot; + ex.getMessage());</span>
+<span class="fc" id="L82">			});</span>
 
-<span class="fc" id="L82">			throw ex;</span>
-<span class="fc" id="L83">		}</span>
-<span class="fc" id="L84">	}</span>
+<span class="fc" id="L84">			throw ex;</span>
+<span class="fc" id="L85">		}</span>
+<span class="fc" id="L86">	}</span>
+
+	public void organizeImports() throws BadLocationException {
+<span class="nc" id="L89">		Preferences pref = Settings.getActivePreferences(document);</span>
+
+<span class="nc" id="L91">		String codeStylePref = pref.get(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());</span>
+
+<span class="nc" id="L93">		String code = getCode();</span>
+
+		try {
+<span class="nc" id="L96">			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);</span>
+<span class="nc" id="L97">			String formattedContent = formatter.organizeImports(code, codeStyle);</span>
+
+<span class="nc bnc" id="L99" title="All 2 branches missed.">			if (setFormattedCode(code, formattedContent)) {</span>
+<span class="nc" id="L100">				SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {</span>
+<span class="nc" id="L102">						NotificationDisplayer.getDefault().notify(&quot;Organizing imports using Google formatter&quot;, Icons.ICON_GOOGLE, &quot;&quot;, null);</span>
+					}
+
+<span class="nc" id="L105">					StatusDisplayer.getDefault().setStatusText(&quot;Organizing imports using Google formatter&quot;);</span>
+<span class="nc" id="L106">				});</span>
+			}
+<span class="nc" id="L108">		} catch (FormattingFailedException ex) {</span>
+<span class="nc" id="L109">			SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L110">				StatusDisplayer.getDefault().setStatusText(&quot;Failed to organize imports using Google formatter: &quot; + ex.getMessage());</span>
+<span class="nc" id="L111">			});</span>
+
+<span class="nc" id="L113">			throw ex;</span>
+<span class="nc" id="L114">		}</span>
+<span class="nc" id="L115">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

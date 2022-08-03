@@ -77,11 +77,11 @@
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  			<strong class="jxr_keyword">if</strong> (instance == <strong class="jxr_keyword">null</strong>) {
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  				instance = <strong class="jxr_keyword">new</strong> <a name="FormatterServiceDelegate" href="../../../../../../de/funfried/netbeans/plugins/external/formatter/FormatterServiceDelegate.html#FormatterServiceDelegate">FormatterServiceDelegate</a>();
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  			}
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>  		} <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>  			lock.unlock();
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>  		}
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>  
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>  		<strong class="jxr_keyword">return</strong> instance;
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  			<strong class="jxr_keyword">return</strong> instance;
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  		} <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  			lock.unlock();
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  		}
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  	}
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>  
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>  	<em class="jxr_javadoccomment">/**</em>
@@ -277,7 +277,21 @@
 <a class="jxr_linenumber" name="L269" href="#L269">269</a> 
 <a class="jxr_linenumber" name="L270" href="#L270">270</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L271" href="#L271">271</a> 	}
-<a class="jxr_linenumber" name="L272" href="#L272">272</a> }
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> 
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> 	@CheckForNull
+<a class="jxr_linenumber" name="L274" href="#L274">274</a> 	<strong class="jxr_keyword">public</strong> Boolean organizeImports(StyledDocument document, <strong class="jxr_keyword">boolean</strong> afterFixImports) {
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> 		<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 			FormatterService formatterService = getActiveFormatterService(document);
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 			<strong class="jxr_keyword">if</strong> (formatterService != <strong class="jxr_keyword">null</strong> &amp;&amp; formatterService.canHandle(document)) {
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> 				<strong class="jxr_keyword">return</strong> formatterService.organizeImports(document, afterFixImports);
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> 			}
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> 		} <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> 			Exceptions.printStackTrace(e);
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> 		}
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> 
+<a class="jxr_linenumber" name="L284" href="#L284">284</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L285" href="#L285">285</a> 	}
+<a class="jxr_linenumber" name="L286" href="#L286">286</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2019&#x2013;2022. All rights reserved.</div>

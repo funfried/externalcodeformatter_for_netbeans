@@ -17,6 +17,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.netbeans.api.annotations.common.CheckForNull;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
@@ -28,7 +29,7 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
  *
  * @author bahlef
  */
-<span class="fc" id="L31">public abstract class AbstractJsonFormatterService implements FormatterService {</span>
+<span class="fc" id="L32">public abstract class AbstractJsonFormatterService implements FormatterService {</span>
 	/**
 	 * Returns the {@link FormatJob}.
 	 *
@@ -41,13 +42,13 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
 	 */
 	@Override
 	public boolean format(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) throws BadLocationException, FormattingFailedException {
-<span class="fc bfc" id="L44" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
-<span class="fc" id="L45">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		if (!canHandle(document)) {</span>
+<span class="fc" id="L46">			throw new FormattingFailedException(&quot;The file type '&quot; + MimeType.getMimeTypeAsString(document) + &quot;' is not supported&quot;);</span>
 		}
 
-<span class="fc" id="L48">		getFormatJob(document).format();</span>
+<span class="fc" id="L49">		getFormatJob(document).format();</span>
 
-<span class="fc" id="L50">		return true;</span>
+<span class="fc" id="L51">		return true;</span>
 	}
 
 	/**
@@ -55,7 +56,16 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
 	 */
 	@Override
 	public List&lt;MimeType&gt; getSupportedMimeTypes() {
-<span class="fc" id="L58">		return Collections.singletonList(MimeType.JSON);</span>
+<span class="fc" id="L59">		return Collections.singletonList(MimeType.JSON);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@CheckForNull
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+<span class="nc" id="L68">		return null;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

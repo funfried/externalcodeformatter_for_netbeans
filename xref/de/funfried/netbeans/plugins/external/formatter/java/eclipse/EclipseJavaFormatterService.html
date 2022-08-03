@@ -23,17 +23,17 @@
 <a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> java.util.SortedSet;
 <a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> java.util.prefs.Preferences;
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>  
-<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> javax.swing.text.Document;
-<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> javax.swing.text.StyledDocument;
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>  
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.tuple.Pair;
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.netbeans.api.annotations.common.CheckForNull;
-<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.netbeans.api.annotations.common.NonNull;
-<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.netbeans.api.project.Project;
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.openide.util.NbBundle;
-<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.openide.util.lookup.ServiceProvider;
-<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.FormatJob;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> javax.swing.text.BadLocationException;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> javax.swing.text.Document;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> javax.swing.text.StyledDocument;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.lang3.tuple.Pair;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.netbeans.api.annotations.common.CheckForNull;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.netbeans.api.annotations.common.NonNull;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.netbeans.api.project.Project;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.openide.util.NbBundle;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.openide.util.lookup.ServiceProvider;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.FormatterService;
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> de.funfried.netbeans.plugins.external.formatter.java.eclipse.ui.EclipseJavaFormatterOptionsPanel;
@@ -50,7 +50,7 @@
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  		<span class="jxr_string">"FormatterName=Eclipse Java Code Formatter"</span>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  })
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  @ServiceProvider(service = FormatterService.<strong class="jxr_keyword">class</strong>, position = 1000)
-<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> EclipseJavaFormatterService <strong class="jxr_keyword">extends</strong> <a name="AbstractJavaFormatterService" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/java/base/AbstractJavaFormatterService.html#AbstractJavaFormatterService">AbstractJavaFormatterService</a> {
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> EclipseJavaFormatterService <strong class="jxr_keyword">extends</strong> AbstractJavaFormatterService&lt;EclipseFormatJob&gt; {
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>  	<em class="jxr_javadoccomment">/** The ID of this formatter service. */</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String ID = <span class="jxr_string">"eclipse-java-formatter"</span>;
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  
@@ -163,7 +163,7 @@
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
 <a class="jxr_linenumber" name="L156" href="#L156">156</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L157" href="#L157">157</a> 	@Override
-<a class="jxr_linenumber" name="L158" href="#L158">158</a> 	<strong class="jxr_keyword">protected</strong> <a name="FormatJob" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/FormatJob.html#FormatJob">FormatJob</a> getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 	<strong class="jxr_keyword">protected</strong> <a name="EclipseFormatJob" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/java/eclipse/EclipseFormatJob.html#EclipseFormatJob">EclipseFormatJob</a> getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
 <a class="jxr_linenumber" name="L159" href="#L159">159</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a name="EclipseFormatJob" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/java/eclipse/EclipseFormatJob.html#EclipseFormatJob">EclipseFormatJob</a>(document, formatter, changedElements);
 <a class="jxr_linenumber" name="L160" href="#L160">160</a> 	}
 <a class="jxr_linenumber" name="L161" href="#L161">161</a> 
@@ -216,7 +216,7 @@
 <a class="jxr_linenumber" name="L208" href="#L208">208</a> 		}
 <a class="jxr_linenumber" name="L209" href="#L209">209</a> 
 <a class="jxr_linenumber" name="L210" href="#L210">210</a> 		String formatterFile = EclipseJavaFormatterSettings.getEclipseFormatterFile(preferences, document);
-<a class="jxr_linenumber" name="L211" href="#L211">211</a> 		String formatterProfile = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> 		String formatterProfile = preferences.get(EclipseJavaFormatterSettings.ACTIVE_PROFILE, <span class="jxr_string">""</span>);
 <a class="jxr_linenumber" name="L212" href="#L212">212</a> 		String sourceLevel = preferences.get(EclipseJavaFormatterSettings.SOURCELEVEL, <span class="jxr_string">""</span>);
 <a class="jxr_linenumber" name="L213" href="#L213">213</a> 
 <a class="jxr_linenumber" name="L214" href="#L214">214</a> 		Map&lt;String, String&gt; config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);
@@ -266,7 +266,16 @@
 <a class="jxr_linenumber" name="L258" href="#L258">258</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> isUseFormatterIndentationSettings(Preferences prefs) {
 <a class="jxr_linenumber" name="L259" href="#L259">259</a> 		<strong class="jxr_keyword">return</strong> prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, <strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="L260" href="#L260">260</a> 	}
-<a class="jxr_linenumber" name="L261" href="#L261">261</a> }
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> 
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L263" href="#L263">263</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
+<a class="jxr_linenumber" name="L264" href="#L264">264</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> 	@Override
+<a class="jxr_linenumber" name="L266" href="#L266">266</a> 	@CheckForNull
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> 	<strong class="jxr_keyword">public</strong> Boolean organizeImports(StyledDocument document, <strong class="jxr_keyword">boolean</strong> afterFixImports) <strong class="jxr_keyword">throws</strong> BadLocationException {
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> 	}
+<a class="jxr_linenumber" name="L270" href="#L270">270</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2019&#x2013;2022. All rights reserved.</div>

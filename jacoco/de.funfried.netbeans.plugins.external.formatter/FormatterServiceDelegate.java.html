@@ -69,11 +69,11 @@ public class FormatterServiceDelegate {
 <span class="fc bfc" id="L69" title="All 2 branches covered.">			if (instance == null) {</span>
 <span class="fc" id="L70">				instance = new FormatterServiceDelegate();</span>
 			}
-		} finally {
-<span class="fc" id="L73">			lock.unlock();</span>
-		}
 
-<span class="fc" id="L76">		return instance;</span>
+<span class="fc" id="L73">			return instance;</span>
+		} finally {
+<span class="fc" id="L75">			lock.unlock();</span>
+		}
 	}
 
 	/**
@@ -268,6 +268,20 @@ public class FormatterServiceDelegate {
 <span class="fc" id="L268">		}</span>
 
 <span class="fc" id="L270">		return null;</span>
+	}
+
+	@CheckForNull
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) {
+		try {
+<span class="nc" id="L276">			FormatterService formatterService = getActiveFormatterService(document);</span>
+<span class="nc bnc" id="L277" title="All 4 branches missed.">			if (formatterService != null &amp;&amp; formatterService.canHandle(document)) {</span>
+<span class="nc" id="L278">				return formatterService.organizeImports(document, afterFixImports);</span>
+			}
+<span class="nc" id="L280">		} catch (Exception e) {</span>
+<span class="nc" id="L281">			Exceptions.printStackTrace(e);</span>
+<span class="nc" id="L282">		}</span>
+
+<span class="nc" id="L284">		return null;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

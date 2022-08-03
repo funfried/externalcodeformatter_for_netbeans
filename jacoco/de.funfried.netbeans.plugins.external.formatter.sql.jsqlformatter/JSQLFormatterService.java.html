@@ -153,10 +153,13 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Returns the {@link FormatJob}.
+	 *
+	 * @param document the {@link StyledDocument} which should be formatted
+	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
 	 */
 	protected FormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L159">		return new JSQLFormatterJob(document, formatter, changedElements);</span>
+<span class="fc" id="L162">		return new JSQLFormatterJob(document, formatter, changedElements);</span>
 	}
 
 	/**
@@ -165,18 +168,18 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Integer getSpacesPerTab(Document document) {
-<span class="fc bfc" id="L168" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L169">			return null;</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L172">			return null;</span>
 		}
 
-<span class="fc" id="L172">		Integer width = null;</span>
+<span class="fc" id="L175">		Integer width = null;</span>
 
-<span class="fc" id="L174">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L175" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L176">			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());</span>
+<span class="fc" id="L177">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L179">			width = preferences.getInt(JSQLFormatter.FormattingOption.INDENT_WIDTH.toString(), JSQLFormatter.getIndentWidth());</span>
 		}
 
-<span class="fc" id="L179">		return width;</span>
+<span class="fc" id="L182">		return width;</span>
 	}
 
 	/**
@@ -185,16 +188,16 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
-<span class="fc bfc" id="L188" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L189">			return null;</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L192">			return null;</span>
 		}
 
-<span class="fc" id="L192">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L193" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L194">			return Boolean.TRUE;</span>
+<span class="fc" id="L195">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L197">			return Boolean.TRUE;</span>
 		}
 
-<span class="fc" id="L197">		return null;</span>
+<span class="fc" id="L200">		return null;</span>
 	}
 
 	/**
@@ -207,7 +210,16 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="fc" id="L210">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="fc" id="L213">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@CheckForNull
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+<span class="nc" id="L222">		return null;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

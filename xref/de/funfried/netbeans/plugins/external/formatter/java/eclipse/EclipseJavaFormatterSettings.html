@@ -30,10 +30,10 @@
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="EclipseJavaFormatterSettings" href="../../../../../../../../de/funfried/netbeans/plugins/external/formatter/java/eclipse/EclipseJavaFormatterSettings.html#EclipseJavaFormatterSettings">EclipseJavaFormatterSettings</a> {
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  	<em class="jxr_javadoccomment">/** Property key which defines the active profile of the Eclipse configuration file. */</em>
-<a class="jxr_linenumber" name="L25" href="#L25">25</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String ECLIPSE_FORMATTER_ACTIVE_PROFILE = <span class="jxr_string">"eclipseFormatterActiveProfile"</span>;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String ACTIVE_PROFILE = <span class="jxr_string">"eclipseFormatterActiveProfile"</span>;
 <a class="jxr_linenumber" name="L26" href="#L26">26</a>  
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  	<em class="jxr_javadoccomment">/** Property key which defines the location of the Eclipse formatter configuration file. */</em>
-<a class="jxr_linenumber" name="L28" href="#L28">28</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION = <span class="jxr_string">"eclipseFormatterLocation"</span>;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CONFIG_FILE_LOCATION = <span class="jxr_string">"eclipseFormatterLocation"</span>;
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment">	 * Property key which defines whether or not to use Eclipse project specific formatter configuration if available.</em>
@@ -75,14 +75,14 @@
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">	 * checked if there is a project specific formatter configuration file available.</em>
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment">	 * @param preferences the {@link Preferences} where to load from</em>
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment">	 * @param document    the {@link Document}</em>
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment">	 * @param document the {@link Document}</em>
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>  <em class="jxr_javadoccomment">	 * @return the Eclipse formatter file for the given {@link Document} from the given {@link Preferences}.</em>
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  <em class="jxr_javadoccomment">	 *         If {@link #USE_PROJECT_PREFS} is {@code true} in the given {@link Preferences}, it will be automatically</em>
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  <em class="jxr_javadoccomment">	 *         checked if there is a project specific formatter configuration file available</em>
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>  <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String getEclipseFormatterFile(Preferences preferences, Document document) {
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>  		<strong class="jxr_keyword">return</strong> EclipseFormatterUtils.getEclipseFormatterFile(preferences, document, ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, USE_PROJECT_PREFS, PROJECT_PREF_FILE);
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  		<strong class="jxr_keyword">return</strong> EclipseFormatterUtils.getEclipseFormatterFile(preferences, document, CONFIG_FILE_LOCATION, USE_PROJECT_PREFS, PROJECT_PREF_FILE);
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>  	}
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>  
 <a class="jxr_linenumber" name="L80" href="#L80">80</a>  	<em class="jxr_javadoccomment">/**</em>

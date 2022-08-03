@@ -152,10 +152,13 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Returns the {@link FormatJob}.
+	 *
+	 * @param document the {@link StyledDocument} which should be formatted
+	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
 	 */
 	protected FormatJob getFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {
-<span class="fc" id="L158">		return new DBeaverFormatterJob(document, formatter, changedElements);</span>
+<span class="fc" id="L161">		return new DBeaverFormatterJob(document, formatter, changedElements);</span>
 	}
 
 	/**
@@ -164,22 +167,22 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Integer getSpacesPerTab(Document document) {
-<span class="fc bfc" id="L167" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L168">			return null;</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L171">			return null;</span>
 		}
 
-<span class="fc" id="L171">		Integer ret = null;</span>
+<span class="fc" id="L174">		Integer ret = null;</span>
 
-<span class="fc" id="L173">		Preferences preferences = Settings.getActivePreferences(document);</span>
-<span class="fc bfc" id="L174" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="pc bpc" id="L175" title="3 of 4 branches missed.">			if (!isExpandTabToSpaces(document, preferences) &amp;&amp; preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
-<span class="nc" id="L176">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+<span class="fc" id="L176">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="pc bpc" id="L178" title="3 of 4 branches missed.">			if (!isExpandTabToSpaces(document, preferences) &amp;&amp; preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="nc" id="L179">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
 			} else {
-<span class="fc" id="L178">				ret = preferences.getInt(DBeaverFormatterSettings.INDENT_SIZE, DBeaverFormatterSettings.INDENT_SIZE_DEFAULT);</span>
+<span class="fc" id="L181">				ret = preferences.getInt(DBeaverFormatterSettings.INDENT_SIZE, DBeaverFormatterSettings.INDENT_SIZE_DEFAULT);</span>
 			}
 		}
 
-<span class="fc" id="L182">		return ret;</span>
+<span class="fc" id="L185">		return ret;</span>
 	}
 
 	/**
@@ -188,23 +191,23 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	@CheckForNull
 	@Override
 	public Boolean isExpandTabToSpaces(Document document) {
-<span class="fc bfc" id="L191" title="All 2 branches covered.">		if (document == null) {</span>
-<span class="fc" id="L192">			return null;</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L195">			return null;</span>
 		}
 
-<span class="fc" id="L195">		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));</span>
+<span class="fc" id="L198">		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));</span>
 	}
 
 	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
-<span class="pc bpc" id="L199" title="2 of 4 branches missed.">		if (document == null || preferences == null) {</span>
-<span class="nc" id="L200">			return null;</span>
+<span class="pc bpc" id="L202" title="2 of 4 branches missed.">		if (document == null || preferences == null) {</span>
+<span class="nc" id="L203">			return null;</span>
 		}
 
-<span class="fc bfc" id="L203" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
-<span class="fc" id="L204">			return &quot;space&quot;.equals(preferences.get(DBeaverFormatterSettings.INDENT_TYPE, DBeaverFormatterSettings.INDENT_TYPE_DEFAULT));</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L207">			return &quot;space&quot;.equals(preferences.get(DBeaverFormatterSettings.INDENT_TYPE, DBeaverFormatterSettings.INDENT_TYPE_DEFAULT));</span>
 		}
 
-<span class="fc" id="L207">		return null;</span>
+<span class="fc" id="L210">		return null;</span>
 	}
 
 	/**
@@ -217,7 +220,16 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 	 *         formatter is activated, otherwise {@code false}
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
-<span class="fc" id="L220">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+<span class="fc" id="L223">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@CheckForNull
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+<span class="nc" id="L232">		return null;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
