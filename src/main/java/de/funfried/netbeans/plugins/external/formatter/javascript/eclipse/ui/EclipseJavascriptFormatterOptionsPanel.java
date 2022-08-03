@@ -176,12 +176,9 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
                         .addComponent(formatterLocField, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(browseButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(cbLinefeed, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbUseProjectPref)
-                            .addComponent(cbProfile, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(cbLinefeed, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbUseProjectPref)
+                    .addComponent(cbProfile, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -322,151 +319,151 @@ public class EclipseJavascriptFormatterOptionsPanel extends AbstractFormatterOpt
     private JLabel lblProfile;
     // End of variables declaration//GEN-END:variables
 
-	private String getLinefeed() {
-		if (0 == cbLinefeed.getSelectedIndex()) {
-			return "";
-		}
-		return cbLinefeed.getSelectedItem().toString();
-	}
-
-	/**
-	 * Returns the selected Eclipse formatter profile.
-	 *
-	 * @return the selected Eclipse formatter profile
-	 */
-	private String getSelectedProfile() {
-		if (null != cbProfile.getSelectedItem()) {
-			return cbProfile.getSelectedItem().toString();
-		} else {
-			return "";
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void load(Preferences preferences) {
-		String eclipseFormatterLocation = preferences.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, "");
-		String eclipseFormatterProfile = preferences.get(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
-		boolean useProjectPrefs = preferences.getBoolean(EclipseJavascriptFormatterSettings.USE_PROJECT_PREFS, true);
-		String eclipseLineFeed = preferences.get(EclipseJavascriptFormatterSettings.LINEFEED, "");
-
-		loadEclipseFormatterFileForPreview(eclipseFormatterLocation, eclipseFormatterProfile);
-
-		cbUseProjectPref.setSelected(useProjectPrefs);
-
-		if (StringUtils.isBlank(eclipseLineFeed)) {
-			//default = system-dependend LF
-			cbLinefeed.setSelectedIndex(0);
-		} else {
-			cbLinefeed.setSelectedItem(eclipseLineFeed);
+		private String getLinefeed() {
+			if (0 == cbLinefeed.getSelectedIndex()) {
+				return "";
+			}
+			return cbLinefeed.getSelectedItem().toString();
 		}
 
-		cbLinefeed.setToolTipText(Objects.toString(cbLinefeed.getSelectedItem(), null));
-	}
+		/**
+		 * Returns the selected Eclipse formatter profile.
+		 *
+		 * @return the selected Eclipse formatter profile
+		 */
+		private String getSelectedProfile() {
+			if (null != cbProfile.getSelectedItem()) {
+				return cbProfile.getSelectedItem().toString();
+			} else {
+				return "";
+			}
+		}
 
-	private void loadEclipseFormatterFileForPreview(String formatterFile, String activeProfile) {
-		String filePath;
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void load(Preferences preferences) {
+			String eclipseFormatterLocation = preferences.get(EclipseJavascriptFormatterSettings.CONFIG_FILE_LOCATION, "");
+			String eclipseFormatterProfile = preferences.get(EclipseJavascriptFormatterSettings.ACTIVE_PROFILE, "");
+			boolean useProjectPrefs = preferences.getBoolean(EclipseJavascriptFormatterSettings.USE_PROJECT_PREFS, true);
+			String eclipseLineFeed = preferences.get(EclipseJavascriptFormatterSettings.LINEFEED, "");
 
-		try {
-			URL url = new URL(formatterFile);
+			loadEclipseFormatterFileForPreview(eclipseFormatterLocation, eclipseFormatterProfile);
 
-			filePath = url.toString();
-		} catch (IOException ex) {
-			Path formatterFilePath = Paths.get(formatterFile);
-			if (!formatterFilePath.isAbsolute() && project != null) {
-				formatterFilePath = Paths.get(project.getProjectDirectory().getPath()).resolve(formatterFilePath);
+			cbUseProjectPref.setSelected(useProjectPrefs);
+
+			if (StringUtils.isBlank(eclipseLineFeed)) {
+				//default = system-dependend LF
+				cbLinefeed.setSelectedIndex(0);
+			} else {
+				cbLinefeed.setSelectedItem(eclipseLineFeed);
 			}
 
-			filePath = formatterFilePath.toAbsolutePath().toString();
+			cbLinefeed.setToolTipText(Objects.toString(cbLinefeed.getSelectedItem(), null));
 		}
 
-		formatterLocField.setText(formatterFile);
+		private void loadEclipseFormatterFileForPreview(String formatterFile, String activeProfile) {
+			String filePath;
 
-		cbProfile.setEnabled(false);
+			try {
+				URL url = new URL(formatterFile);
 
-		cbProfile.removeAllItems();
-
-		try {
-			//only xml configurations contain profiles
-			if (EclipseJavascriptFormatterSettings.isXMLConfigurationFile(filePath)) {
-				List<String> profileNames = ConfigReader.getProfileNames(ConfigReader.readContentFromFilePath(filePath));
-				cbProfile.addItem(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.chooseProfile"));
-
-				String entryToSelect = null;
-				for (String profileName : profileNames) {
-					cbProfile.addItem(profileName);
-					if (activeProfile != null && activeProfile.equals(profileName)) {
-						entryToSelect = profileName;
-					}
+				filePath = url.toString();
+			} catch (IOException ex) {
+				Path formatterFilePath = Paths.get(formatterFile);
+				if (!formatterFilePath.isAbsolute() && project != null) {
+					formatterFilePath = Paths.get(project.getProjectDirectory().getPath()).resolve(formatterFilePath);
 				}
-				selectProfileOrFallback(entryToSelect, profileNames);
-				cbProfile.setEnabled(true);
+
+				filePath = formatterFilePath.toAbsolutePath().toString();
 			}
 
-			formatterLocField.setToolTipText(filePath);
-		} catch (IOException | SAXException | ConfigReadException ex) {
-			log.log(Level.INFO, "Could not parse formatter config", ex);
+			formatterLocField.setText(formatterFile);
+
+			cbProfile.setEnabled(false);
+
+			cbProfile.removeAllItems();
+
+			try {
+				//only xml configurations contain profiles
+				if (EclipseJavascriptFormatterSettings.isXMLConfigurationFile(filePath)) {
+					List<String> profileNames = ConfigReader.getProfileNames(ConfigReader.readContentFromFilePath(filePath));
+					cbProfile.addItem(NbBundle.getMessage(EclipseJavascriptFormatterOptionsPanel.class, "EclipseJavascriptFormatterOptionsPanel.chooseProfile"));
+
+					String entryToSelect = null;
+					for (String profileName : profileNames) {
+						cbProfile.addItem(profileName);
+						if (activeProfile != null && activeProfile.equals(profileName)) {
+							entryToSelect = profileName;
+						}
+					}
+					selectProfileOrFallback(entryToSelect, profileNames);
+					cbProfile.setEnabled(true);
+				}
+
+				formatterLocField.setToolTipText(filePath);
+			} catch (IOException | SAXException | ConfigReadException ex) {
+				log.log(Level.INFO, "Could not parse formatter config", ex);
+			}
+		}
+
+		private void selectProfileOrFallback(String entryToSelect, List<String> profiles) {
+			if (null != entryToSelect) {
+				cbProfile.setSelectedItem(entryToSelect);
+			} else if (profiles.size() == 1) {
+				//only one entry (excl. default) -> choose the only valid item
+				cbProfile.setSelectedIndex(1);
+			} else {
+				//fallback: ===choose profile==
+				cbProfile.setSelectedIndex(0);
+			}
+
+			cbProfile.setToolTipText(Objects.toString(cbProfile.getSelectedItem(), null));
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void store(Preferences preferences) {
+			preferences.put(EclipseJavascriptFormatterSettings.CONFIG_FILE_LOCATION, formatterLocField.getText());
+			preferences.put(EclipseJavascriptFormatterSettings.ACTIVE_PROFILE, getSelectedProfile());
+			preferences.putBoolean(EclipseJavascriptFormatterSettings.USE_PROJECT_PREFS, cbUseProjectPref.isSelected());
+			preferences.put(EclipseJavascriptFormatterSettings.LINEFEED, getLinefeed());
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean valid() {
+			errorLabel.setText("");
+
+			String fileName = formatterLocField.getText();
+			if (StringUtils.isBlank(fileName) && cbUseProjectPref.isSelected()) {
+				// use configuration from .settings
+				return true;
+			}
+
+			boolean fileExists;
+			try {
+				new URL(fileName);
+
+				fileExists = true;
+			} catch (IOException ex) {
+				fileExists = new File(fileName).exists();
+			}
+
+			boolean isXML = EclipseJavascriptFormatterSettings.isXMLConfigurationFile(fileName);
+			boolean isEPF = EclipseJavascriptFormatterSettings.isWorkspaceMechanicFile(fileName);
+			boolean isProjectSetting = EclipseJavascriptFormatterSettings.isProjectSetting(fileName);
+
+			if (!fileExists || (!isXML && !isEPF && !isProjectSetting) || cbProfile.getSelectedIndex() < 0) {
+				errorLabel.setText("Invalid file. Please enter a valid configuration file.");
+				return false;
+			} else {
+				return !isXML || cbProfile.getSelectedIndex() != 0;
+			}
 		}
 	}
-
-	private void selectProfileOrFallback(String entryToSelect, List<String> profiles) {
-		if (null != entryToSelect) {
-			cbProfile.setSelectedItem(entryToSelect);
-		} else if (profiles.size() == 1) {
-			//only one entry (excl. default) -> choose the only valid item
-			cbProfile.setSelectedIndex(1);
-		} else {
-			//fallback: ===choose profile==
-			cbProfile.setSelectedIndex(0);
-		}
-
-		cbProfile.setToolTipText(Objects.toString(cbProfile.getSelectedItem(), null));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void store(Preferences preferences) {
-		preferences.put(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, formatterLocField.getText());
-		preferences.put(EclipseJavascriptFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, getSelectedProfile());
-		preferences.putBoolean(EclipseJavascriptFormatterSettings.USE_PROJECT_PREFS, cbUseProjectPref.isSelected());
-		preferences.put(EclipseJavascriptFormatterSettings.LINEFEED, getLinefeed());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean valid() {
-		errorLabel.setText("");
-
-		String fileName = formatterLocField.getText();
-		if (StringUtils.isBlank(fileName) && cbUseProjectPref.isSelected()) {
-			// use configuration from .settings
-			return true;
-		}
-
-		boolean fileExists;
-		try {
-			new URL(fileName);
-
-			fileExists = true;
-		} catch (IOException ex) {
-			fileExists = new File(fileName).exists();
-		}
-
-		boolean isXML = EclipseJavascriptFormatterSettings.isXMLConfigurationFile(fileName);
-		boolean isEPF = EclipseJavascriptFormatterSettings.isWorkspaceMechanicFile(fileName);
-		boolean isProjectSetting = EclipseJavascriptFormatterSettings.isProjectSetting(fileName);
-
-		if (!fileExists || (!isXML && !isEPF && !isProjectSetting) || cbProfile.getSelectedIndex() < 0) {
-			errorLabel.setText("Invalid file. Please enter a valid configuration file.");
-			return false;
-		} else {
-			return !isXML || cbProfile.getSelectedIndex() != 0;
-		}
-	}
-}

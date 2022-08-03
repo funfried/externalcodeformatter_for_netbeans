@@ -20,7 +20,21 @@ public class GoogleJavaFormatterSettings {
 	 *
 	 * @since 1.13
 	 */
-	public static final String GOOGLE_FORMATTER_CODE_STYLE = "googleFormatterCodeStyle";
+	public static final String CODE_STYLE = "googleFormatterCodeStyle";
+
+	/**
+	 * Property key which defines if the Google formatter internal organize imports action should be used.
+	 *
+	 * @since 1.15.2
+	 */
+	public static final String ORGANIZE_IMPORTS = "googleFormatterOrganizeImports";
+
+	/**
+	 * Property key which defines if the Google formatter internal organize imports action should be used after NetBeans fix import action was executed.
+	 *
+	 * @since 1.15.2
+	 */
+	public static final String ORGANIZE_IMPORTS_AFTER_FIX_IMPORTS = "googleFormatterOrganizeImportsAfterFixImports";
 
 	/**
 	 * Private contructor because of static methods only.

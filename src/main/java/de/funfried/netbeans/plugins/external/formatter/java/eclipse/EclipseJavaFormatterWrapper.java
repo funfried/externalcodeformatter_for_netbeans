@@ -96,7 +96,7 @@ public final class EclipseJavaFormatterWrapper {
 		CodeFormatter formatter = ToolFactory.createCodeFormatter(allConfig, ToolFactory.M_FORMAT_EXISTING);
 		//see http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Fcore%2Fformatter%2FCodeFormatter.html&anchor=format(int,
 
-		return format(formatter, code, regions.toArray(new IRegion[regions.size()]), lineFeed);
+		return format(formatter, code, regions.toArray(IRegion[]::new), lineFeed);
 	}
 
 	/**

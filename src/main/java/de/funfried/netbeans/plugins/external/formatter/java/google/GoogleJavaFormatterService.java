@@ -12,6 +12,7 @@ package de.funfried.netbeans.plugins.external.formatter.java.google;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
@@ -25,8 +26,9 @@ import org.openide.util.lookup.ServiceProvider;
 
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 
-import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.MimeType;
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
 import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.google.ui.GoogleJavaFormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
@@ -41,7 +43,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 		"FormatterName=Google Java Code Formatter"
 })
 @ServiceProvider(service = FormatterService.class, position = 500)
-public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
+public class GoogleJavaFormatterService extends AbstractJavaFormatterService<GoogleFormatJob> {
 	/** The ID of this formatter service. */
 	public static final String ID = "google-java-formatter";
 
@@ -106,7 +108,7 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 				// see: https://google.github.io/styleguide/javaguide.html#s4.5.2-line-wrapping-indent
@@ -134,7 +136,7 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
@@ -167,7 +169,7 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected FormatJob getFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
+	protected GoogleFormatJob getFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
 		return new GoogleFormatJob(document, formatter, changedElements);
 	}
 
@@ -185,7 +187,7 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.GOOGLE_FORMATTER_CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
+			String codeStylePref = preferences.get(GoogleJavaFormatterSettings.CODE_STYLE, JavaFormatterOptions.Style.GOOGLE.name());
 			JavaFormatterOptions.Style codeStyle = JavaFormatterOptions.Style.valueOf(codeStylePref);
 			if (JavaFormatterOptions.Style.GOOGLE.equals(codeStyle)) {
 				// see: https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation
@@ -232,5 +234,31 @@ public class GoogleJavaFormatterService extends AbstractJavaFormatterService {
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
 		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@CheckForNull
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+		Preferences preferences = Settings.getActivePreferences(document);
+		if (!preferences.getBoolean(GoogleJavaFormatterSettings.ORGANIZE_IMPORTS, false)) {
+			return null;
+		}
+
+		if (afterFixImports) {
+			if (!preferences.getBoolean(GoogleJavaFormatterSettings.ORGANIZE_IMPORTS_AFTER_FIX_IMPORTS, false)) {
+				return null;
+			}
+		}
+
+		if (!canHandle(document)) {
+			throw new FormattingFailedException("The file type '" + MimeType.getMimeTypeAsString(document) + "' is not supported");
+		}
+
+		getFormatJob(document, null).organizeImports();
+
+		return true;
 	}
 }

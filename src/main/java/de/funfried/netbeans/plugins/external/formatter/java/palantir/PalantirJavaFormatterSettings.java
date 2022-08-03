@@ -15,6 +15,21 @@ package de.funfried.netbeans.plugins.external.formatter.java.palantir;
  * @author bahlef
  */
 public class PalantirJavaFormatterSettings {
+
+	/**
+	 * Property key which defines if the Palantir formatter internal organize imports action should be used.
+	 *
+	 * @since 1.15.2
+	 */
+	public static final String ORGANIZE_IMPORTS = "palantirFormatterOrganizeImports";
+
+	/**
+	 * Property key which defines if the Palantir formatter internal organize imports action should be used after NetBeans fix import action was executed.
+	 *
+	 * @since 1.15.2
+	 */
+	public static final String ORGANIZE_IMPORTS_AFTER_FIX_IMPORTS = "palantirFormatterOrganizeImportsAfterFixImports";
+
 	/**
 	 * Private contructor because of static methods only.
 	 */

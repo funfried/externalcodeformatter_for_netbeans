@@ -26,14 +26,14 @@ public class EclipseJavascriptFormatterSettings {
 	 *
 	 * @since 1.14
 	 */
-	public static final String ECLIPSE_FORMATTER_ACTIVE_PROFILE = "eclipseJsFormatterActiveProfile";
+	public static final String ACTIVE_PROFILE = "eclipseJsFormatterActiveProfile";
 
 	/**
 	 * Property key which defines the location of the Eclipse formatter configuration file.
 	 *
 	 * @since 1.14
 	 */
-	public static final String ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION = "eclipseJsFormatterLocation";
+	public static final String CONFIG_FILE_LOCATION = "eclipseJsFormatterLocation";
 
 	/**
 	 * Property key which defines whether or not to use Eclipse project specific formatter configuration if available.
@@ -68,14 +68,14 @@ public class EclipseJavascriptFormatterSettings {
 	 * checked if there is a project specific formatter configuration file available.
 	 *
 	 * @param preferences the {@link Preferences} where to load from
-	 * @param document    the {@link Document}
+	 * @param document the {@link Document}
 	 *
 	 * @return the Eclipse formatter file for the given {@link Document} from the given {@link Preferences}.
 	 *         If {@link #USE_PROJECT_PREFS} is {@code true} in the given {@link Preferences}, it will be automatically
 	 *         checked if there is a project specific formatter configuration file available
 	 */
 	public static String getEclipseFormatterFile(Preferences preferences, Document document) {
-		return EclipseFormatterUtils.getEclipseFormatterFile(preferences, document, ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, USE_PROJECT_PREFS, PROJECT_PREF_FILE);
+		return EclipseFormatterUtils.getEclipseFormatterFile(preferences, document, CONFIG_FILE_LOCATION, USE_PROJECT_PREFS, PROJECT_PREF_FILE);
 	}
 
 	/**

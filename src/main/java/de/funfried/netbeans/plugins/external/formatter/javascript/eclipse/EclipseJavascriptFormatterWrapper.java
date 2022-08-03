@@ -45,18 +45,18 @@ public final class EclipseJavascriptFormatterWrapper {
 	 * Formats the given {@code code} with the given configurations and returns
 	 * the formatted code.
 	 *
-	 * @param formatterFile    the path to the formatter configuration file
+	 * @param formatterFile the path to the formatter configuration file
 	 * @param formatterProfile the name of the formatter configuration profile
-	 * @param code             the unformatted code
-	 * @param lineFeed         the line feed to use for formatting
-	 * @param changedElement   an optional range as a {@link Pair} object defining the offsets which should be formatted
+	 * @param code the unformatted code
+	 * @param lineFeed the line feed to use for formatting
+	 * @param changedElement an optional range as a {@link Pair} object defining the offsets which should be formatted
 	 *
 	 * @return the formatted code
 	 *
-	 * @throws ConfigReadException              if there is an issue parsing the formatter configuration
-	 * @throws ProfileNotFoundException         if the given {@code profile} could not be found
+	 * @throws ConfigReadException if there is an issue parsing the formatter configuration
+	 * @throws ProfileNotFoundException if the given {@code profile} could not be found
 	 * @throws CannotLoadConfigurationException if there is any issue accessing or reading the formatter configuration
-	 * @throws FormattingFailedException        if the external formatter failed to format the given code
+	 * @throws FormattingFailedException if the external formatter failed to format the given code
 	 */
 	@CheckForNull
 	public String format(String formatterFile, String formatterProfile, String code, String lineFeed, Pair<Integer, Integer> changedElement)
@@ -94,10 +94,10 @@ public final class EclipseJavascriptFormatterWrapper {
 	 * the formatted code.
 	 *
 	 * @param formatter the {@link CodeFormatter}
-	 * @param code      the unformatted code
-	 * @param offset    the offset where to start formatting the given code
-	 * @param length    the length where to stop formatting the given code
-	 * @param lineFeed  the line feed to use for formatting
+	 * @param code the unformatted code
+	 * @param offset the offset where to start formatting the given code
+	 * @param length the length where to stop formatting the given code
+	 * @param lineFeed the line feed to use for formatting
 	 *
 	 * @return the formatted code
 	 *

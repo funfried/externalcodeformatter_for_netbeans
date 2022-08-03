@@ -10,12 +10,19 @@
 
 package de.funfried.netbeans.plugins.external.formatter.java.palantir.ui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.prefs.Preferences;
 
 import javax.swing.GroupLayout;
+import javax.swing.JCheckBox;
+import javax.swing.LayoutStyle;
 
 import org.netbeans.api.project.Project;
+import org.openide.awt.Mnemonics;
+import org.openide.util.NbBundle;
 
+import de.funfried.netbeans.plugins.external.formatter.java.palantir.PalantirJavaFormatterSettings;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.AbstractFormatterOptionsPanel;
 
 /**
@@ -45,29 +52,98 @@ public class PalantirJavaFormatterOptionsPanel extends AbstractFormatterOptionsP
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        organizeImportsAfterFixImportsChkBox = new JCheckBox();
+        organizeImportsChkBox = new JCheckBox();
+
+        Mnemonics.setLocalizedText(organizeImportsAfterFixImportsChkBox, NbBundle.getMessage(PalantirJavaFormatterOptionsPanel.class, "PalantirJavaFormatterOptionsPanel.organizeImportsAfterFixImportsChkBox.text")); // NOI18N
+        organizeImportsAfterFixImportsChkBox.setEnabled(false);
+        organizeImportsAfterFixImportsChkBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                organizeImportsAfterFixImportsChkBoxActionPerformed(evt);
+            }
+        });
+
+        Mnemonics.setLocalizedText(organizeImportsChkBox, NbBundle.getMessage(PalantirJavaFormatterOptionsPanel.class, "PalantirJavaFormatterOptionsPanel.organizeImportsChkBox.text")); // NOI18N
+        organizeImportsChkBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                organizeImportsChkBoxActionPerformed(evt);
+            }
+        });
+
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(organizeImportsChkBox)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(organizeImportsAfterFixImportsChkBox)))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 33, Short.MAX_VALUE)
+            .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(organizeImportsChkBox)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(organizeImportsAfterFixImportsChkBox)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void load(Preferences preferences) {
-	}
+    private void organizeImportsAfterFixImportsChkBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_organizeImportsAfterFixImportsChkBoxActionPerformed
+        fireChangedListener();
+    }//GEN-LAST:event_organizeImportsAfterFixImportsChkBoxActionPerformed
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void store(Preferences preferences) {
+    private void organizeImportsChkBoxActionPerformed(ActionEvent evt) {//GEN-FIRST:event_organizeImportsChkBoxActionPerformed
+        fireChangedListener();
+    }//GEN-LAST:event_organizeImportsChkBoxActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JCheckBox organizeImportsAfterFixImportsChkBox;
+    private JCheckBox organizeImportsChkBox;
+    // End of variables declaration//GEN-END:variables
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void load(Preferences preferences) {
+			boolean organizeImports = preferences.getBoolean(PalantirJavaFormatterSettings.ORGANIZE_IMPORTS, false);
+
+			organizeImportsChkBox.setSelected(organizeImports);
+
+			organizeImportsAfterFixImportsChkBox.setEnabled(organizeImports);
+			if (!organizeImports) {
+				organizeImportsAfterFixImportsChkBox.setSelected(false);
+			} else {
+				boolean organizeImportsAfterFixImports = preferences.getBoolean(PalantirJavaFormatterSettings.ORGANIZE_IMPORTS_AFTER_FIX_IMPORTS, false);
+
+				organizeImportsAfterFixImportsChkBox.setSelected(organizeImportsAfterFixImports);
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void store(Preferences preferences) {
+			boolean organizeImports = organizeImportsChkBox.isSelected();
+			preferences.putBoolean(PalantirJavaFormatterSettings.ORGANIZE_IMPORTS, organizeImports);
+			preferences.putBoolean(PalantirJavaFormatterSettings.ORGANIZE_IMPORTS_AFTER_FIX_IMPORTS, organizeImports && organizeImportsAfterFixImportsChkBox.isSelected());
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean valid() {
+			boolean organizeImports = organizeImportsChkBox.isSelected();
+			organizeImportsAfterFixImportsChkBox.setEnabled(organizeImports);
+			if (!organizeImports) {
+				organizeImportsAfterFixImportsChkBox.setEnabled(false);
+			}
+
+			return true;
+		}
 	}
-}

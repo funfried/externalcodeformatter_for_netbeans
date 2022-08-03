@@ -10,6 +10,9 @@
 
 	<body>
 		<release version="1.15.2-SNAPSHOT" date="n/a" description="Bug-fix release">
+			<action dev="bahlef" type="add" issue="215">
+				Added possibility to organize imports with Google and Palantir formatter
+			</action>
 			<action dev="bahlef" type="fix" issue="211">
 				Fixed issue with overriding tab sizes when formatter is using spaces for indentation
 				and not tabs

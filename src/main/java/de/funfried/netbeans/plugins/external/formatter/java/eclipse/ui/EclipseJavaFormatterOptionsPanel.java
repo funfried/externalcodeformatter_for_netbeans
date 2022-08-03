@@ -189,16 +189,13 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(browseButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(cbLinefeed, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblSourceLevel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbSourceLevel, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE))
-                            .addComponent(cbUseProjectPref)
-                            .addComponent(cbProfile, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(cbLinefeed, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblSourceLevel)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbSourceLevel, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbUseProjectPref)
+                    .addComponent(cbProfile, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -323,9 +320,7 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
     private void formatterLocFieldFocusLost(FocusEvent evt) {//GEN-FIRST:event_formatterLocFieldFocusLost
 		loadEclipseFormatterFileForPreview(formatterLocField.getText(), getSelectedProfile());
 
-		if (!valid()) {
-			fireChangedListener();
-		}
+		fireChangedListener();
     }//GEN-LAST:event_formatterLocFieldFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -376,8 +371,8 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
 		 */
 		@Override
 		public void load(Preferences preferences) {
-			String eclipseFormatterLocation = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, "");
-			String eclipseFormatterProfile = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
+			String eclipseFormatterLocation = preferences.get(EclipseJavaFormatterSettings.CONFIG_FILE_LOCATION, "");
+			String eclipseFormatterProfile = preferences.get(EclipseJavaFormatterSettings.ACTIVE_PROFILE, "");
 			boolean useProjectPrefs = preferences.getBoolean(EclipseJavaFormatterSettings.USE_PROJECT_PREFS, true);
 			String eclipseLineFeed = preferences.get(EclipseJavaFormatterSettings.LINEFEED, "");
 			String sourceLevel = preferences.get(EclipseJavaFormatterSettings.SOURCELEVEL, "");
@@ -470,8 +465,8 @@ public class EclipseJavaFormatterOptionsPanel extends AbstractFormatterOptionsPa
 		 */
 		@Override
 		public void store(Preferences preferences) {
-			preferences.put(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_CONFIG_FILE_LOCATION, formatterLocField.getText());
-			preferences.put(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, getSelectedProfile());
+			preferences.put(EclipseJavaFormatterSettings.CONFIG_FILE_LOCATION, formatterLocField.getText());
+			preferences.put(EclipseJavaFormatterSettings.ACTIVE_PROFILE, getSelectedProfile());
 			preferences.putBoolean(EclipseJavaFormatterSettings.USE_PROJECT_PREFS, cbUseProjectPref.isSelected());
 			preferences.put(EclipseJavaFormatterSettings.LINEFEED, getLinefeed());
 			preferences.put(EclipseJavaFormatterSettings.SOURCELEVEL, getSourceLevel());

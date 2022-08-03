@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
 <filesystem>
+	<folder name="extFormatters">
+		<folder name="backupOrgActions">
+			<folder name="fixImports">
+				<file name="fix-imports.instance">
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.editor.java.JavaKit$JavaFixImports" />
+					<attr name="instanceOf" stringvalue="org.netbeans.editor.BaseAction" />
+				</file>
+			</folder>
+			<folder name="organizeImports">
+				<file name="organize-imports.instance">
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.hints.OrganizeImports$OrganizeImportsAction" />
+					<attr name="instanceOf" stringvalue="org.netbeans.editor.BaseAction" />
+				</file>
+			</folder>
+		</folder>
+	</folder>
 	<!-- restructure the original formatting panel to a hierarchy node -->
 	<folder name="Projects">
 		<folder name="org-netbeans-modules-j2ee-clientproject">

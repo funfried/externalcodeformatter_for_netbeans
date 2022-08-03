@@ -152,7 +152,10 @@ public class SQLFormatterService implements FormatterService {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Returns the {@link FormatJob}.
+	 *
+	 * @param document the {@link StyledDocument} which should be formatted
+	 * @param changedElements a {@link SortedSet} containing ranges as {@link Pair} objects that should be formatted
 	 */
 	protected FormatJob getFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
 		return new SQLFormatterJob(document, formatter, changedElements);
@@ -218,5 +221,14 @@ public class SQLFormatterService implements FormatterService {
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
 		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@CheckForNull
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+		return null;
 	}
 }

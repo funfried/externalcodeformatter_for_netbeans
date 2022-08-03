@@ -69,11 +69,11 @@ public class FormatterServiceDelegate {
 			if (instance == null) {
 				instance = new FormatterServiceDelegate();
 			}
+
+			return instance;
 		} finally {
 			lock.unlock();
 		}
-
-		return instance;
 	}
 
 	/**
@@ -262,6 +262,20 @@ public class FormatterServiceDelegate {
 			FormatterService formatterService = getActiveFormatterService(document);
 			if (formatterService != null && formatterService.canHandle(document)) {
 				return formatterService.isExpandTabToSpaces(document);
+			}
+		} catch (Exception e) {
+			Exceptions.printStackTrace(e);
+		}
+
+		return null;
+	}
+
+	@CheckForNull
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) {
+		try {
+			FormatterService formatterService = getActiveFormatterService(document);
+			if (formatterService != null && formatterService.canHandle(document)) {
+				return formatterService.organizeImports(document, afterFixImports);
 			}
 		} catch (Exception e) {
 			Exceptions.printStackTrace(e);

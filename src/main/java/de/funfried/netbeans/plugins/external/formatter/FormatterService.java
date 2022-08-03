@@ -55,7 +55,7 @@ public interface FormatterService {
 	 *
 	 * @return if {@code true} formatting was done, otherwise formatting was rejected and needs to be done by NetBeans internal formatter
 	 *
-	 * @throws BadLocationException if something goes wrong while appliying the formatted code
+	 * @throws BadLocationException if something goes wrong while applying the formatted code
 	 * @throws FormattingFailedException if the given {@link StyledDocument} cannot be formatted by the given formatter
 	 */
 	boolean format(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) throws BadLocationException, FormattingFailedException;
@@ -164,4 +164,20 @@ public interface FormatterService {
 	 */
 	@CheckForNull
 	Boolean isExpandTabToSpaces(Document document);
+
+	/**
+	 * Organizes the imports of the given {@link StyledDocument}.
+	 *
+	 * @param document the {@link StyledDocument}
+	 * @param afterFixImports {@code true} if this method was called after fixing imports,
+	 *        otherwise {@code false}
+	 *
+	 * @return {@code true} if the imports have been reorganized, if something went wrong
+	 *         it will return {@code false}, if it wasn't executed, e.g. because it is not
+	 *         activated through its configuration, it will return {@code null}
+	 *
+	 * @throws BadLocationException if something goes wrong while applying the reorganized imports code
+	 */
+	@CheckForNull
+	Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException;
 }

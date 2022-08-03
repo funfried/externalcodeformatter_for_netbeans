@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.util.SortedSet;
 import java.util.prefs.Preferences;
 
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
@@ -25,7 +26,6 @@ import org.netbeans.api.project.Project;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
-import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.base.AbstractJavaFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.java.eclipse.ui.EclipseJavaFormatterOptionsPanel;
@@ -42,7 +42,7 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 		"FormatterName=Eclipse Java Code Formatter"
 })
 @ServiceProvider(service = FormatterService.class, position = 1000)
-public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
+public class EclipseJavaFormatterService extends AbstractJavaFormatterService<EclipseFormatJob> {
 	/** The ID of this formatter service. */
 	public static final String ID = "eclipse-java-formatter";
 
@@ -155,7 +155,7 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected FormatJob getFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
+	protected EclipseFormatJob getFormatJob(StyledDocument document, SortedSet<Pair<Integer, Integer>> changedElements) {
 		return new EclipseFormatJob(document, formatter, changedElements);
 	}
 
@@ -208,7 +208,7 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 		}
 
 		String formatterFile = EclipseJavaFormatterSettings.getEclipseFormatterFile(preferences, document);
-		String formatterProfile = preferences.get(EclipseJavaFormatterSettings.ECLIPSE_FORMATTER_ACTIVE_PROFILE, "");
+		String formatterProfile = preferences.get(EclipseJavaFormatterSettings.ACTIVE_PROFILE, "");
 		String sourceLevel = preferences.get(EclipseJavaFormatterSettings.SOURCELEVEL, "");
 
 		Map<String, String> config = EclipseFormatterConfig.parseConfig(formatterFile, formatterProfile, sourceLevel);
@@ -257,5 +257,14 @@ public class EclipseJavaFormatterService extends AbstractJavaFormatterService {
 	 */
 	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
 		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@CheckForNull
+	public Boolean organizeImports(StyledDocument document, boolean afterFixImports) throws BadLocationException {
+		return null;
 	}
 }
