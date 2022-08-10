@@ -114,7 +114,7 @@
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<google-java-format.version>1.15.0</google-java-format.version>
-		<palantir-java-format.version>2.25.0</palantir-java-format.version>
+		<palantir-java-format.version>2.26.0</palantir-java-format.version>
 		<xml-formatter.version>0.2.2</xml-formatter.version>
 		<commons-lang.version>3.12.0</commons-lang.version>
 		<netbeans.version>RELEASE120</netbeans.version>
