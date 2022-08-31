@@ -21,6 +21,22 @@
 					this bug can be watched here:
 					<a href="https://github.com/google/google-java-format/issues/433">https://github.com/google/google-java-format/issues/433</a>
 				</li>
+				<li>
+					It's not possible to sort the imports with the Eclipse Formatter as it needs some OSGi/Eclipse
+					Equinox Runtime related classes to initialize the related objects. But you can configure
+					NetBeans to do the sorting exactly as Eclipse does by default. Just go to &quote;Preferences&quote;
+					-&gt; &quote;Editor&quote; -&gt; &quote;Formatting&quote; -&gt; Choose &quote;Java&quote; as the
+					&quote;Language&quote; and &quote;Imports&quote; as the &quote;Category&quote; and configure the
+					following &quote;Import Layout&quote;:
+					<ol>
+						<li>java</li>
+						<li>javax</li>
+						<li>org</li>
+						<li>com</li>
+						<li>&lt;all other imports&gt;</li>
+					</ol>
+					and make a check &quote;Separate Groups&quote;
+				</li>
 			</ul>
 		</section>
 	</body>
