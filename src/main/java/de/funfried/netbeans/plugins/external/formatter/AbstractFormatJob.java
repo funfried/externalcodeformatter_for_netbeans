@@ -110,14 +110,11 @@ public abstract class AbstractFormatJob implements FormatJob {
 								// if the document consists of only 1 line without a trailing line-break
 								// then LENGTH would exceed the document and yield an exception
 								length = Math.min(length, document.getLength());
-								if (start >= length) {
-									start = (length - 1);
-								}
 
 								String addText = d.getSecondText();
 
 								if (log.isLoggable(logLevel)) {
-									log.log(logLevel, "CHANGE: {0} - {1} / Line {2}: ''{3}'' <= ''{4}'' ({5})", new Object[] { start, length, startLine, addText, document.getText(start, length), removeText });
+									log.log(logLevel, "CHANGE: {0} - {1} / Line {2}: ''{3}'' <= ''{4}''", new Object[] { start, length, startLine, addText, removeText });
 								}
 
 								document.remove(start, length);
@@ -130,8 +127,12 @@ public abstract class AbstractFormatJob implements FormatJob {
 								String removeText = d.getFirstText();
 								int length = removeText.length();
 
+								// if the document consists of only 1 line without a trailing line-break
+								// then LENGTH would exceed the document and yield an exception
+								length = Math.min(length, document.getLength());
+
 								if (log.isLoggable(logLevel)) {
-									log.log(logLevel, "DELETE: {0} - {1} / Line {2}: ''{3}'' ({4})", new Object[] { start, length, startLine, document.getText(start, length), removeText });
+									log.log(logLevel, "DELETE: {0} - {1} / Line {2}: ''{3}''", new Object[] { start, length, startLine, removeText });
 								}
 
 								document.remove(start, length);
