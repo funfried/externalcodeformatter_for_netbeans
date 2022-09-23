@@ -110,45 +110,46 @@ public abstract class AbstractFormatJob implements FormatJob {
 								// if the document consists of only 1 line without a trailing line-break
 								// then LENGTH would exceed the document and yield an exception
 <span class="fc" id="L112">								length = Math.min(length, document.getLength());</span>
-<span class="pc bpc" id="L113" title="1 of 2 branches missed.">								if (start &gt;= length) {</span>
-<span class="nc" id="L114">									start = (length - 1);</span>
+
+<span class="fc" id="L114">								String addText = d.getSecondText();</span>
+
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
+<span class="nc" id="L117">									log.log(logLevel, &quot;CHANGE: {0} - {1} / Line {2}: ''{3}'' &lt;= ''{4}''&quot;, new Object[] { start, length, startLine, addText, removeText });</span>
 								}
 
-<span class="fc" id="L117">								String addText = d.getSecondText();</span>
+<span class="fc" id="L120">								document.remove(start, length);</span>
+<span class="fc" id="L121">								document.insertString(start, addText, null);</span>
 
-<span class="pc bpc" id="L119" title="1 of 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
-<span class="nc" id="L120">									log.log(logLevel, &quot;CHANGE: {0} - {1} / Line {2}: ''{3}'' &lt;= ''{4}'' ({5})&quot;, new Object[] { start, length, startLine, addText, document.getText(start, length), removeText });</span>
-								}
-
-<span class="fc" id="L123">								document.remove(start, length);</span>
-<span class="fc" id="L124">								document.insertString(start, addText, null);</span>
-
-<span class="fc" id="L126">								break;</span>
+<span class="fc" id="L123">								break;</span>
 							}
 							case Difference.DELETE: {
-<span class="nc" id="L129">								int start = NbDocument.findLineOffset(document, startLine);</span>
-<span class="nc" id="L130">								String removeText = d.getFirstText();</span>
-<span class="nc" id="L131">								int length = removeText.length();</span>
+<span class="nc" id="L126">								int start = NbDocument.findLineOffset(document, startLine);</span>
+<span class="nc" id="L127">								String removeText = d.getFirstText();</span>
+<span class="nc" id="L128">								int length = removeText.length();</span>
 
-<span class="nc bnc" id="L133" title="All 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
-<span class="nc" id="L134">									log.log(logLevel, &quot;DELETE: {0} - {1} / Line {2}: ''{3}'' ({4})&quot;, new Object[] { start, length, startLine, document.getText(start, length), removeText });</span>
+								// if the document consists of only 1 line without a trailing line-break
+								// then LENGTH would exceed the document and yield an exception
+<span class="nc" id="L132">								length = Math.min(length, document.getLength());</span>
+
+<span class="nc bnc" id="L134" title="All 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
+<span class="nc" id="L135">									log.log(logLevel, &quot;DELETE: {0} - {1} / Line {2}: ''{3}''&quot;, new Object[] { start, length, startLine, removeText });</span>
 								}
 
-<span class="nc" id="L137">								document.remove(start, length);</span>
+<span class="nc" id="L138">								document.remove(start, length);</span>
 
-<span class="nc" id="L139">								break;</span>
+<span class="nc" id="L140">								break;</span>
 							}
 						}
 					}
 
-<span class="fc" id="L144">					return true;</span>
+<span class="fc" id="L145">					return true;</span>
 				}
-<span class="pc" id="L146">			} catch (IOException ex) {</span>
-<span class="nc" id="L147">				log.log(Level.WARNING, &quot;Could not create diff&quot;, ex);</span>
-<span class="nc" id="L148">			}</span>
+<span class="pc" id="L147">			} catch (IOException ex) {</span>
+<span class="nc" id="L148">				log.log(Level.WARNING, &quot;Could not create diff&quot;, ex);</span>
+<span class="nc" id="L149">			}</span>
 		}
 
-<span class="nc" id="L151">		return false;</span>
+<span class="nc" id="L152">		return false;</span>
 	}
 
 	/**
@@ -159,12 +160,12 @@ public abstract class AbstractFormatJob implements FormatJob {
 	protected String getCode() {
 		try {
 			// returns the actual content of the document
-<span class="fc" id="L162">			return document.getText(0, document.getLength());</span>
-<span class="nc" id="L163">		} catch (BadLocationException ex) {</span>
-<span class="nc" id="L164">			log.log(Level.WARNING, &quot;Could not fetch text, falling back to utility method&quot;, ex);</span>
+<span class="fc" id="L163">			return document.getText(0, document.getLength());</span>
+<span class="nc" id="L164">		} catch (BadLocationException ex) {</span>
+<span class="nc" id="L165">			log.log(Level.WARNING, &quot;Could not fetch text, falling back to utility method&quot;, ex);</span>
 
 			// returns only the trimmed content of the document
-<span class="nc" id="L167">			return DocumentUtilities.getText(document).toString();</span>
+<span class="nc" id="L168">			return DocumentUtilities.getText(document).toString();</span>
 		}
 	}
 
@@ -183,46 +184,46 @@ public abstract class AbstractFormatJob implements FormatJob {
 	 */
 	@NonNull
 	protected SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; getFormatableSections(String code) {
-<span class="fc" id="L186">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = changedElements;</span>
-<span class="fc bfc" id="L187" title="All 2 branches covered.">		if (CollectionUtils.isEmpty(changedElements)) {</span>
-<span class="fc" id="L188">			regions = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L187">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = changedElements;</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">		if (CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="fc" id="L189">			regions = new TreeSet&lt;&gt;();</span>
 
-<span class="fc" id="L190">			regions.add(Pair.of(0, code.length() - 1));</span>
+<span class="fc" id="L191">			regions.add(Pair.of(0, code.length() - 1));</span>
 		}
 
-<span class="fc" id="L193">		GuardedSectionManager guards = GuardedSectionManager.getInstance(document);</span>
-<span class="pc bpc" id="L194" title="1 of 2 branches missed.">		if (guards != null) {</span>
-<span class="nc" id="L195">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; nonGuardedSections = new TreeSet&lt;&gt;();</span>
-<span class="nc" id="L196">			Iterable&lt;GuardedSection&gt; guardedSections = guards.getGuardedSections();</span>
+<span class="fc" id="L194">		GuardedSectionManager guards = GuardedSectionManager.getInstance(document);</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">		if (guards != null) {</span>
+<span class="nc" id="L196">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; nonGuardedSections = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L197">			Iterable&lt;GuardedSection&gt; guardedSections = guards.getGuardedSections();</span>
 
-<span class="nc bnc" id="L198" title="All 2 branches missed.">			if (log.isLoggable(logLevel)) {</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">			if (log.isLoggable(logLevel)) {</span>
 				{
-<span class="nc" id="L200">					StringBuilder sb = new StringBuilder();</span>
-<span class="nc" id="L201">					regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
-<span class="nc" id="L202">					log.log(logLevel, &quot;Formatting sections before guards: {0}&quot;, sb.toString().trim());</span>
+<span class="nc" id="L201">					StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L202">					regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
+<span class="nc" id="L203">					log.log(logLevel, &quot;Formatting sections before guards: {0}&quot;, sb.toString().trim());</span>
 				}
 
 				{
-<span class="nc" id="L206">					StringBuilder sb = new StringBuilder();</span>
-<span class="nc" id="L207">					guardedSections.forEach(guard -&gt; sb.append(guard.getStartPosition().getOffset()).append(&quot;/&quot;).append(guard.getEndPosition().getOffset()).append(&quot; &quot;));</span>
-<span class="nc" id="L208">					log.log(logLevel, &quot;Guarded sections: {0}&quot;, sb.toString().trim());</span>
+<span class="nc" id="L207">					StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L208">					guardedSections.forEach(guard -&gt; sb.append(guard.getStartPosition().getOffset()).append(&quot;/&quot;).append(guard.getEndPosition().getOffset()).append(&quot; &quot;));</span>
+<span class="nc" id="L209">					log.log(logLevel, &quot;Guarded sections: {0}&quot;, sb.toString().trim());</span>
 				}
 			}
 
-<span class="nc bnc" id="L212" title="All 2 branches missed.">			for (Pair&lt;Integer, Integer&gt; changedElement : regions) {</span>
-<span class="nc" id="L213">				nonGuardedSections.addAll(avoidGuardedSection(changedElement, guardedSections));</span>
-<span class="nc" id="L214">			}</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">			for (Pair&lt;Integer, Integer&gt; changedElement : regions) {</span>
+<span class="nc" id="L214">				nonGuardedSections.addAll(avoidGuardedSection(changedElement, guardedSections));</span>
+<span class="nc" id="L215">			}</span>
 
-<span class="nc" id="L216">			regions = nonGuardedSections;</span>
+<span class="nc" id="L217">			regions = nonGuardedSections;</span>
 		}
 
-<span class="pc bpc" id="L219" title="1 of 2 branches missed.">		if (log.isLoggable(logLevel)) {</span>
-<span class="nc" id="L220">			StringBuilder sb = new StringBuilder();</span>
-<span class="nc" id="L221">			regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
-<span class="nc" id="L222">			log.log(logLevel, &quot;Formatting sections: {0}&quot;, sb.toString().trim());</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">		if (log.isLoggable(logLevel)) {</span>
+<span class="nc" id="L221">			StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L222">			regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
+<span class="nc" id="L223">			log.log(logLevel, &quot;Formatting sections: {0}&quot;, sb.toString().trim());</span>
 		}
 
-<span class="fc" id="L225">		return regions;</span>
+<span class="fc" id="L226">		return regions;</span>
 	}
 
 	/**
@@ -238,55 +239,55 @@ public abstract class AbstractFormatJob implements FormatJob {
 	 *         {@code guardedSections}
 	 */
 	protected SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; avoidGuardedSection(Pair&lt;Integer, Integer&gt; section, Iterable&lt;GuardedSection&gt; guardedSections) {
-<span class="nc" id="L241">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; ret = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L242">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; ret = new TreeSet&lt;&gt;();</span>
 
-<span class="nc" id="L243">		MutableInt start = new MutableInt(section.getLeft());</span>
-<span class="nc" id="L244">		MutableInt end = new MutableInt(section.getRight());</span>
+<span class="nc" id="L244">		MutableInt start = new MutableInt(section.getLeft());</span>
+<span class="nc" id="L245">		MutableInt end = new MutableInt(section.getRight());</span>
 
-<span class="nc bnc" id="L246" title="All 2 branches missed.">		if (guardedSections != null) {</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">		if (guardedSections != null) {</span>
 			try {
-<span class="nc" id="L248">				guardedSections.forEach(guardedSection -&gt; {</span>
-<span class="nc bnc" id="L249" title="All 4 branches missed.">					if (start.getValue() &gt;= guardedSection.getStartPosition().getOffset() &amp;&amp; start.getValue() &lt;= guardedSection.getEndPosition().getOffset()) {</span>
-<span class="nc bnc" id="L250" title="All 2 branches missed.">						if (end.getValue() &gt; guardedSection.getEndPosition().getOffset()) {</span>
-<span class="nc" id="L251">							start.setValue(guardedSection.getEndPosition().getOffset());</span>
+<span class="nc" id="L249">				guardedSections.forEach(guardedSection -&gt; {</span>
+<span class="nc bnc" id="L250" title="All 4 branches missed.">					if (start.getValue() &gt;= guardedSection.getStartPosition().getOffset() &amp;&amp; start.getValue() &lt;= guardedSection.getEndPosition().getOffset()) {</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">						if (end.getValue() &gt; guardedSection.getEndPosition().getOffset()) {</span>
+<span class="nc" id="L252">							start.setValue(guardedSection.getEndPosition().getOffset());</span>
 						} else {
-<span class="nc" id="L253">							start.setValue(-1);</span>
-<span class="nc" id="L254">							end.setValue(-1);</span>
+<span class="nc" id="L254">							start.setValue(-1);</span>
+<span class="nc" id="L255">							end.setValue(-1);</span>
 
-<span class="nc" id="L256">							throw new BreakException();</span>
+<span class="nc" id="L257">							throw new BreakException();</span>
 						}
-<span class="nc bnc" id="L258" title="All 4 branches missed.">					} else if (end.getValue() &gt;= guardedSection.getStartPosition().getOffset() &amp;&amp; end.getValue() &lt;= guardedSection.getEndPosition().getOffset()) {</span>
-<span class="nc bnc" id="L259" title="All 2 branches missed.">						if (start.getValue() &lt; guardedSection.getStartPosition().getOffset()) {</span>
-<span class="nc" id="L260">							end.setValue(guardedSection.getStartPosition().getOffset() - 1);</span>
+<span class="nc bnc" id="L259" title="All 4 branches missed.">					} else if (end.getValue() &gt;= guardedSection.getStartPosition().getOffset() &amp;&amp; end.getValue() &lt;= guardedSection.getEndPosition().getOffset()) {</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">						if (start.getValue() &lt; guardedSection.getStartPosition().getOffset()) {</span>
+<span class="nc" id="L261">							end.setValue(guardedSection.getStartPosition().getOffset() - 1);</span>
 						} else {
-<span class="nc" id="L262">							start.setValue(-1);</span>
-<span class="nc" id="L263">							end.setValue(-1);</span>
+<span class="nc" id="L263">							start.setValue(-1);</span>
+<span class="nc" id="L264">							end.setValue(-1);</span>
 
-<span class="nc" id="L265">							throw new BreakException();</span>
+<span class="nc" id="L266">							throw new BreakException();</span>
 						}
-<span class="nc bnc" id="L267" title="All 4 branches missed.">					} else if (start.getValue() &lt; guardedSection.getStartPosition().getOffset() &amp;&amp; end.getValue() &gt; guardedSection.getEndPosition().getOffset()) {</span>
-<span class="nc" id="L268">						ret.add(Pair.of(start.getValue(), guardedSection.getStartPosition().getOffset() - 1));</span>
+<span class="nc bnc" id="L268" title="All 4 branches missed.">					} else if (start.getValue() &lt; guardedSection.getStartPosition().getOffset() &amp;&amp; end.getValue() &gt; guardedSection.getEndPosition().getOffset()) {</span>
+<span class="nc" id="L269">						ret.add(Pair.of(start.getValue(), guardedSection.getStartPosition().getOffset() - 1));</span>
 
-<span class="nc" id="L270">						start.setValue(guardedSection.getEndPosition().getOffset());</span>
+<span class="nc" id="L271">						start.setValue(guardedSection.getEndPosition().getOffset());</span>
 					}
-<span class="nc" id="L272">				});</span>
-<span class="nc" id="L273">			} catch (BreakException ex) {</span>
+<span class="nc" id="L273">				});</span>
+<span class="nc" id="L274">			} catch (BreakException ex) {</span>
 				// found no better solution to break a forEach
-<span class="nc" id="L275">			}</span>
+<span class="nc" id="L276">			}</span>
 		}
 
-<span class="nc bnc" id="L278" title="All 4 branches missed.">		if (start.getValue() &gt; -1 &amp;&amp; end.getValue() &gt; -1) {</span>
-<span class="nc" id="L279">			ret.add(Pair.of(start.getValue(), end.getValue()));</span>
+<span class="nc bnc" id="L279" title="All 4 branches missed.">		if (start.getValue() &gt; -1 &amp;&amp; end.getValue() &gt; -1) {</span>
+<span class="nc" id="L280">			ret.add(Pair.of(start.getValue(), end.getValue()));</span>
 		}
 
-<span class="nc" id="L282">		return ret;</span>
+<span class="nc" id="L283">		return ret;</span>
 	}
 
 	/**
 	 * {@link RuntimeException} which is used as a {@code break} condition inside
 	 * a {@link Iterable#forEach(java.util.function.Consumer)}.
 	 */
-<span class="nc" id="L289">	protected static class BreakException extends RuntimeException {</span>
+<span class="nc" id="L290">	protected static class BreakException extends RuntimeException {</span>
 		private static final long serialVersionUID = 1L;
 	}
 }
