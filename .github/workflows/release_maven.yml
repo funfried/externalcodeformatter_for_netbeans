@@ -28,7 +28,7 @@ jobs:
         mvn -s .ci.settings.xml --no-transfer-progress -Prelease-commons,sonatype-oss-release deploy site site:stage scm-publish:publish-scm
         mvn -s .ci.settings.xml -Pcoveralls coveralls:report
         mvn -s .ci.settings.xml --no-transfer-progress -Prelease-commons,github clean deploy
-        bash <(curl -s https://codecov.io/bash)
+        bash <(curl -s -Os https://uploader.codecov.io/latest/linux/codecov) -t ${{ secrets.CODECOV_TOKEN }}
       env:
         GPG_TTY: $(tty)
         MAVEN_OPTS: -Xms128m -Xmx512m --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED
