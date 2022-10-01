@@ -9,7 +9,7 @@
 	</properties>
 
 	<body>
-		<release version="1.15.2-SNAPSHOT" date="n/a" description="Bug-fix release">
+		<release version="1.15.2" date="2022-10-02" description="Bug-fix release">
 			<action dev="bahlef" type="add" issue="215">
 				Added possibility to organize imports with Google and Palantir formatter
 			</action>
