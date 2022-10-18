@@ -27,13 +27,11 @@ import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFail
 /**
  * Abstract base implementation of {@link FormatterService} for CSS formatters.
  *
- * @param <F> the {@link FormatJob} type
- *
  * @author bahlef
  */
 public abstract class AbstractCssFormatterService implements FormatterService {
 	/**
-	 * Returns the {@link F}.
+	 * Returns the {@link FormatJob}.
 	 *
 	 * @param document the {@link StyledDocument} which should be formatted
 	 */
