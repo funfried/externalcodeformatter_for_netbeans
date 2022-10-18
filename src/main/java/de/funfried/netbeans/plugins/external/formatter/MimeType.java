@@ -36,9 +36,8 @@ import org.openide.util.NbBundle;
 		"SQL=SQL"
 })
 public enum MimeType {
-	//	CSS("text/css"), HTML("application/xhtml+xml", "text/html"),
-	JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT("text/javascript"), JSON("text/x-json", "^text/(.*)\\+x-json$"), XML("text/xml",
-			"^text/(.*)\\+xml$"), SQL("application/sql", "text/sql", "text/x-sql", "text/plain");
+	CSS("text/css"), HTML("application/xhtml+xml", "text/html", "text/xhtml"), JAVA(JavaTokenId.language().mimeType()), JAVASCRIPT("text/javascript"), JSON("text/x-json",
+			"^text/(.*)\\+x-json$"), XML("text/xml", "^text/(.*)\\+xml$"), SQL("application/sql", "text/sql", "text/x-sql", "text/plain");
 
 	private final String[] mimeTypes;
 

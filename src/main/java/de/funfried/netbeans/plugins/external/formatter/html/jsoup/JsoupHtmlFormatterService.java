@@ -8,7 +8,7 @@
  * markiewb - initial API and implementation and/or initial documentation
  * bahlef
  */
-package de.funfried.netbeans.plugins.external.formatter.xml.jsoup;
+package de.funfried.netbeans.plugins.external.formatter.html.jsoup;
 
 import java.util.prefs.Preferences;
 
@@ -23,6 +23,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.html.base.AbstractHtmlFormatterService;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 import de.funfried.netbeans.plugins.external.formatter.xml.base.AbstractXmlFormatterService;
@@ -34,15 +35,15 @@ import de.funfried.netbeans.plugins.external.formatter.xml.jsoup.ui.JsoupXmlForm
  * @author bahlef
  */
 @NbBundle.Messages({
-		"FormatterName=Jsoup XML Code Formatter"
+		"FormatterName=Jsoup HTML Code Formatter"
 })
-@ServiceProvider(service = FormatterService.class, position = 1000)
-public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
+@ServiceProvider(service = FormatterService.class, position = 500)
+public class JsoupHtmlFormatterService extends AbstractHtmlFormatterService {
 	/** The ID of this formatter service. */
-	public static final String ID = "jsoup-xml-formatter";
+	public static final String ID = "jsoup-html-formatter";
 
-	/** * The {@link JsoupXmlFormatterWrapper} implementation. */
-	private final JsoupXmlFormatterWrapper formatter = new JsoupXmlFormatterWrapper();
+	/** * The {@link JsoupHtmlFormatterWrapper} implementation. */
+	private final JsoupHtmlFormatterWrapper formatter = new JsoupHtmlFormatterWrapper();
 
 	/**
 	 * {@inheritDoc}
@@ -50,7 +51,7 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 	@NonNull
 	@Override
 	public String getDisplayName() {
-		return NbBundle.getMessage(JsoupXmlFormatterService.class, "FormatterName");
+		return NbBundle.getMessage(JsoupHtmlFormatterService.class, "FormatterName");
 	}
 
 	/**
@@ -84,7 +85,7 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			ret = preferences.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);
+			ret = preferences.getInt(JsoupHtmlFormatterSettings.INDENT_SIZE, 1);
 		}
 
 		return ret;
@@ -104,7 +105,7 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			ret = preferences.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);
+			ret = preferences.getInt(JsoupHtmlFormatterSettings.INDENT_SIZE, 1);
 		}
 
 		return ret;
@@ -128,7 +129,7 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 	 */
 	@Override
 	protected FormatJob getFormatJob(StyledDocument document) {
-		return new JsoupXmlFormatJob(document, formatter);
+		return new JsoupHtmlFormatJob(document, formatter);
 	}
 
 	/**
@@ -148,7 +149,7 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 			if (!isExpandTabToSpaces(document, preferences) && preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
 				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
 			} else {
-				ret = preferences.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);
+				ret = preferences.getInt(JsoupHtmlFormatterSettings.INDENT_SIZE, 1);
 			}
 		}
 

@@ -17,7 +17,7 @@
 
 	<groupId>de.funfried.netbeans.plugins</groupId>
 	<artifactId>externalcodeformatter</artifactId>
-	<version>1.15.2</version>
+	<version>1.15.3-SNAPSHOT</version>
 	<packaging>nbm</packaging>
 
 	<developers>
@@ -162,7 +162,7 @@
 		<dependency>
 			<groupId>de.funfried.libraries</groupId>
 			<artifactId>jsdt-core</artifactId>
-			<version>1.0.2</version>
+			<version>1.0.3</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.guava</groupId>
@@ -193,7 +193,7 @@
 		<dependency>
 			<groupId>io.spring.javaformat</groupId>
 			<artifactId>spring-javaformat-formatter</artifactId>
-			<version>0.0.34</version>
+			<version>0.0.35</version>
 		</dependency>
 
 		<!-- Google Formatter -->
@@ -268,13 +268,26 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.13.4</version>
+			<version>2.14.0-rc1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.13.4</version>
+			<version>2.14.0-rc1</version>
+		</dependency>
+
+		<!-- CSS Parser -->
+		<dependency>
+			<groupId>net.sourceforge.cssparser</groupId>
+			<artifactId>cssparser</artifactId>
+			<version>0.9.29</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.w3c.css</groupId>
+			<artifactId>sac</artifactId>
+			<version>1.3</version>
 		</dependency>
 
 		<!-- JSQLFormatter -->
@@ -282,6 +295,12 @@
 			<groupId>com.manticore-projects.jsqlformatter</groupId>
 			<artifactId>jsqlformatter</artifactId>
 			<version>1.0.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-text</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Vertical Blank SQL Formatter -->
@@ -447,6 +466,12 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
 			<version>4.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.10.0</version>
 		</dependency>
 
 		<dependency>
@@ -888,6 +913,7 @@
 						<configuration>
 							<failOnWarning>true</failOnWarning>
 							<ignoredUnusedDeclaredDependencies>
+								<ignoredUnusedDeclaredDependency>org.apache.commons:commons-text</ignoredUnusedDeclaredDependency>
 								<ignoredUnusedDeclaredDependency>org.osgi:org.osgi.service.prefs</ignoredUnusedDeclaredDependency>
 								<ignoredUnusedDeclaredDependency>org.functionaljava:functionaljava</ignoredUnusedDeclaredDependency>
 							</ignoredUnusedDeclaredDependencies>

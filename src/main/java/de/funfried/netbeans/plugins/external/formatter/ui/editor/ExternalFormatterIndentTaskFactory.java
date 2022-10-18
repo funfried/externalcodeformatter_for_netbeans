@@ -12,6 +12,7 @@ package de.funfried.netbeans.plugins.external.formatter.ui.editor;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.prefs.Preferences;
@@ -118,6 +119,12 @@ public class ExternalFormatterIndentTaskFactory implements IndentTask.Factory {
 	@NonNull
 	IndentTask.Factory getDefaultForMimePath(String mimePath) {
 		MimePath mp = MimePath.get(mimePath);
+		List<MimePath> includedPaths = mp.getIncludedPaths();
+		if (includedPaths.size() > 1) {
+			mp = includedPaths.get(includedPaths.size() - 2);
+			mp = MimePath.get(mp.getMimeType(mp.size() - 1));
+		}
+
 		Reference<IndentTask.Factory> ref = cache.get(mp);
 		IndentTask.Factory factory = ref == null ? null : ref.get();
 		if (factory == null) {

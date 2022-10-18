@@ -5,10 +5,9 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  * Contributors:
- * markiewb - initial API and implementation and/or initial documentation
- * bahlef
+ * bahlef - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.xml.jsoup;
+package de.funfried.netbeans.plugins.external.formatter.css.cssparser;
 
 import java.util.prefs.Preferences;
 
@@ -17,32 +16,51 @@ import javax.swing.text.StyledDocument;
 
 import org.netbeans.api.annotations.common.CheckForNull;
 import org.netbeans.api.annotations.common.NonNull;
+import org.netbeans.api.editor.guards.GuardedSectionManager;
 import org.netbeans.api.project.Project;
 import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
 import de.funfried.netbeans.plugins.external.formatter.FormatJob;
 import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.css.base.AbstractCssFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.css.cssparser.ui.CssParserFormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
 import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
-import de.funfried.netbeans.plugins.external.formatter.xml.base.AbstractXmlFormatterService;
-import de.funfried.netbeans.plugins.external.formatter.xml.jsoup.ui.JsoupXmlFormatterOptionsPanel;
 
 /**
- * Jsoup XML implementation of the {@link AbstractXmlFormatterService}.
+ * CssParser implementation of the {@link AbstractCssFormatterService}.
  *
  * @author bahlef
  */
 @NbBundle.Messages({
-		"FormatterName=Jsoup XML Code Formatter"
+		"FormatterName=CssParser"
 })
-@ServiceProvider(service = FormatterService.class, position = 1000)
-public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
+@ServiceProvider(service = FormatterService.class, position = 500)
+public class CssParserFormatterService extends AbstractCssFormatterService {
 	/** The ID of this formatter service. */
-	public static final String ID = "jsoup-xml-formatter";
+	public static final String ID = "css-parser";
 
-	/** * The {@link JsoupXmlFormatterWrapper} implementation. */
-	private final JsoupXmlFormatterWrapper formatter = new JsoupXmlFormatterWrapper();
+	/** * The {@link CssParserFormatterWrapper} implementation. */
+	private final CssParserFormatterWrapper formatter = new CssParserFormatterWrapper();
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean canHandle(Document document) {
+		// Cannot handle guarded blocks properly due to a bug in the Google Java Code Formatter:
+		// https://github.com/google/google-java-format/issues/433
+		if (document instanceof StyledDocument) {
+			StyledDocument styledDoc = (StyledDocument) document;
+
+			if (GuardedSectionManager.getInstance(styledDoc) != null) {
+				return false;
+			}
+		}
+
+		return super.canHandle(document);
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -50,7 +68,7 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 	@NonNull
 	@Override
 	public String getDisplayName() {
-		return NbBundle.getMessage(JsoupXmlFormatterService.class, "FormatterName");
+		return NbBundle.getMessage(CssParserFormatterService.class, "FormatterName");
 	}
 
 	/**
@@ -67,7 +85,7 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 	 */
 	@Override
 	public FormatterOptionsPanel createOptionsPanel(Project project) {
-		return new JsoupXmlFormatterOptionsPanel(project);
+		return new CssParserFormatterOptionsPanel(project);
 	}
 
 	/**
@@ -84,7 +102,7 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			ret = preferences.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);
+			ret = preferences.getInt(CssParserFormatterSettings.INDENT, CssParserFormatterSettings.INDENT_DEFAULT);
 		}
 
 		return ret;
@@ -104,7 +122,7 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			ret = preferences.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);
+			ret = preferences.getInt(CssParserFormatterSettings.INDENT, CssParserFormatterSettings.INDENT_DEFAULT);
 		}
 
 		return ret;
@@ -128,7 +146,7 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 	 */
 	@Override
 	protected FormatJob getFormatJob(StyledDocument document) {
-		return new JsoupXmlFormatJob(document, formatter);
+		return new CssParserFormatJob(document, formatter);
 	}
 
 	/**
@@ -145,11 +163,7 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 
 		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
-			if (!isExpandTabToSpaces(document, preferences) && preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {
-				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);
-			} else {
-				ret = preferences.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);
-			}
+			ret = preferences.getInt(CssParserFormatterSettings.INDENT, CssParserFormatterSettings.INDENT_DEFAULT);
 		}
 
 		return ret;
@@ -165,16 +179,9 @@ public class JsoupXmlFormatterService extends AbstractXmlFormatterService {
 			return null;
 		}
 
-		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));
-	}
-
-	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
-		if (document == null || preferences == null) {
-			return null;
-		}
-
 		Boolean ret = null;
 
+		Preferences preferences = Settings.getActivePreferences(document);
 		if (isUseFormatterIndentationSettings(preferences)) {
 			ret = true;
 		}
