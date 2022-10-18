@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsoupHtmlFormatterService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.html.jsoup</a> &gt; <span class="el_source">JsoupHtmlFormatterService.java</span></div><h1>JsoupHtmlFormatterService.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2020 bahlef.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * markiewb - initial API and implementation and/or initial documentation
+ * bahlef
+ */
+package de.funfried.netbeans.plugins.external.formatter.html.jsoup;
+
+import java.util.prefs.Preferences;
+
+import javax.swing.text.Document;
+import javax.swing.text.StyledDocument;
+
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.netbeans.api.annotations.common.NonNull;
+import org.netbeans.api.project.Project;
+import org.openide.util.NbBundle;
+import org.openide.util.lookup.ServiceProvider;
+
+import de.funfried.netbeans.plugins.external.formatter.FormatJob;
+import de.funfried.netbeans.plugins.external.formatter.FormatterService;
+import de.funfried.netbeans.plugins.external.formatter.html.base.AbstractHtmlFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.FormatterOptionsPanel;
+import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
+import de.funfried.netbeans.plugins.external.formatter.xml.base.AbstractXmlFormatterService;
+import de.funfried.netbeans.plugins.external.formatter.xml.jsoup.ui.JsoupXmlFormatterOptionsPanel;
+
+/**
+ * Jsoup XML implementation of the {@link AbstractXmlFormatterService}.
+ *
+ * @author bahlef
+ */
+@NbBundle.Messages({
+		&quot;FormatterName=Jsoup HTML Code Formatter&quot;
+})
+@ServiceProvider(service = FormatterService.class, position = 500)
+<span class="fc" id="L41">public class JsoupHtmlFormatterService extends AbstractHtmlFormatterService {</span>
+	/** The ID of this formatter service. */
+	public static final String ID = &quot;jsoup-html-formatter&quot;;
+
+	/** * The {@link JsoupHtmlFormatterWrapper} implementation. */
+<span class="fc" id="L46">	private final JsoupHtmlFormatterWrapper formatter = new JsoupHtmlFormatterWrapper();</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@NonNull
+	@Override
+	public String getDisplayName() {
+<span class="fc" id="L54">		return NbBundle.getMessage(JsoupHtmlFormatterService.class, &quot;FormatterName&quot;);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@NonNull
+	@Override
+	public String getId() {
+<span class="fc" id="L63">		return ID;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public FormatterOptionsPanel createOptionsPanel(Project project) {
+<span class="fc" id="L71">		return new JsoupXmlFormatterOptionsPanel(project);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getContinuationIndentSize(Document document) {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L81">			return null;</span>
+		}
+
+<span class="fc" id="L84">		Integer ret = null;</span>
+
+<span class="fc" id="L86">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L88">			ret = preferences.getInt(JsoupHtmlFormatterSettings.INDENT_SIZE, 1);</span>
+		}
+
+<span class="fc" id="L91">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getIndentSize(Document document) {
+<span class="fc bfc" id="L100" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L101">			return null;</span>
+		}
+
+<span class="fc" id="L104">		Integer ret = null;</span>
+
+<span class="fc" id="L106">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L108">			ret = preferences.getInt(JsoupHtmlFormatterSettings.INDENT_SIZE, 1);</span>
+		}
+
+<span class="fc" id="L111">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getRightMargin(Document document) {
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">		if (document == null) {</span>
+<span class="nc" id="L121">			return null;</span>
+		}
+
+<span class="fc" id="L124">		return 0;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected FormatJob getFormatJob(StyledDocument document) {
+<span class="fc" id="L132">		return new JsoupHtmlFormatJob(document, formatter);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Integer getSpacesPerTab(Document document) {
+<span class="fc bfc" id="L141" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L142">			return null;</span>
+		}
+
+<span class="fc" id="L145">		Integer ret = null;</span>
+
+<span class="fc" id="L147">		Preferences preferences = Settings.getActivePreferences(document);</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="pc bpc" id="L149" title="3 of 4 branches missed.">			if (!isExpandTabToSpaces(document, preferences) &amp;&amp; preferences.getBoolean(Settings.OVERRIDE_TAB_SIZE, true)) {</span>
+<span class="nc" id="L150">				ret = preferences.getInt(Settings.OVERRIDE_TAB_SIZE_VALUE, 4);</span>
+			} else {
+<span class="fc" id="L152">				ret = preferences.getInt(JsoupHtmlFormatterSettings.INDENT_SIZE, 1);</span>
+			}
+		}
+
+<span class="fc" id="L156">		return ret;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@CheckForNull
+	@Override
+	public Boolean isExpandTabToSpaces(Document document) {
+<span class="fc bfc" id="L165" title="All 2 branches covered.">		if (document == null) {</span>
+<span class="fc" id="L166">			return null;</span>
+		}
+
+<span class="fc" id="L169">		return isExpandTabToSpaces(document, Settings.getActivePreferences(document));</span>
+	}
+
+	private Boolean isExpandTabToSpaces(Document document, Preferences preferences) {
+<span class="pc bpc" id="L173" title="2 of 4 branches missed.">		if (document == null || preferences == null) {</span>
+<span class="nc" id="L174">			return null;</span>
+		}
+
+<span class="fc" id="L177">		Boolean ret = null;</span>
+
+<span class="fc bfc" id="L179" title="All 2 branches covered.">		if (isUseFormatterIndentationSettings(preferences)) {</span>
+<span class="fc" id="L180">			ret = true;</span>
+		}
+
+<span class="fc" id="L183">		return ret;</span>
+	}
+
+	/**
+	 * Returns {@code true} if using the formatter indentation settings from the external
+	 * formatter is activated, otherwise {@code false}.
+	 *
+	 * @param prefs the {@link Preferences} where to check
+	 *
+	 * @return {@code true} if using the formatter indentation settings from the external
+	 *         formatter is activated, otherwise {@code false}
+	 */
+	private boolean isUseFormatterIndentationSettings(Preferences prefs) {
+<span class="fc" id="L196">		return prefs.getBoolean(Settings.ENABLE_USE_OF_INDENTATION_SETTINGS, true);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

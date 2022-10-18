@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CssParserFormatterWrapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.css.cssparser</a> &gt; <span class="el_source">CssParserFormatterWrapper.java</span></div><h1>CssParserFormatterWrapper.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2020 bahlef.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * Contributors:
+ * bahlef - initial API and implementation and/or initial documentation
+ */
+package de.funfried.netbeans.plugins.external.formatter.css.cssparser;
+
+import java.io.IOException;
+import java.io.StringReader;
+
+import org.netbeans.api.annotations.common.CheckForNull;
+import org.w3c.css.sac.InputSource;
+
+import com.steadystate.css.dom.CSSStyleSheetImpl;
+import com.steadystate.css.format.CSSFormat;
+import com.steadystate.css.parser.CSSOMParser;
+import com.steadystate.css.parser.SACParserCSS3;
+
+import de.funfried.netbeans.plugins.external.formatter.exceptions.FormattingFailedException;
+
+/**
+ * Delegation class to the CssParser formatter implementation.
+ *
+ * @author bahlef
+ */
+public final class CssParserFormatterWrapper {
+	/**
+	 * Package private Constructor for creating a new instance of {@link CssParserFormatterWrapper}.
+	 */
+<span class="fc" id="L34">	CssParserFormatterWrapper() {</span>
+<span class="fc" id="L35">	}</span>
+
+	/**
+	 * Formats the given {@code code} with the given configurations and returns
+	 * the formatted code.
+	 *
+	 * @param code the unformatted code
+	 * @param indent the indent to use
+	 * @param rgbAsHex {@code true} to prefer hex over rgb, otherwise {@code false}
+	 * @param useSingleQuotes {@code true} to prefer single quotes over double quotes, otherwise {@code false}
+	 * @param useSourceStringValues {@code true} to use source string values, otherwise {@code false}
+	 *
+	 * @return the formatted code
+	 *
+	 * @throws FormattingFailedException if the external formatter failed to format the given code
+	 */
+	@CheckForNull
+	public String format(String code, int indent, boolean rgbAsHex, boolean useSingleQuotes, boolean useSourceStringValues) throws FormattingFailedException {
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">		if (code == null) {</span>
+<span class="nc" id="L54">			return null;</span>
+		}
+
+<span class="fc" id="L57">		CSSFormat formatter = new CSSFormat()</span>
+<span class="fc" id="L58">				.setPropertiesInSeparateLines(indent)</span>
+<span class="fc" id="L59">				.setRgbAsHex(rgbAsHex)</span>
+<span class="fc" id="L60">				.setUseSingleQuotes(useSingleQuotes)</span>
+<span class="fc" id="L61">				.setUseSourceStringValues(useSourceStringValues);</span>
+
+<span class="fc" id="L63">		try (StringReader reader = new StringReader(code)) {</span>
+<span class="fc" id="L64">			InputSource source = new InputSource(reader);</span>
+<span class="fc" id="L65">			CSSOMParser parser = new CSSOMParser(new SACParserCSS3());</span>
+<span class="fc" id="L66">			CSSStyleSheetImpl sheet = (CSSStyleSheetImpl) parser.parseStyleSheet(source, null, null);</span>
+
+<span class="fc" id="L68">			String formattedCode = sheet.getCssText(formatter);</span>
+
+			// Patch converted 'tab' back to '\9' for IE 7,8, and 9 hack. Cssparser switches it to 'tab'.
+<span class="fc" id="L71">			return formattedCode.replace(&quot;\t;&quot;, &quot;\\9;&quot;);</span>
+<span class="nc" id="L72">		} catch (IOException ex) {</span>
+<span class="nc" id="L73">			throw new FormattingFailedException(ex);</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
