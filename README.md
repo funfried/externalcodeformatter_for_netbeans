@@ -40,6 +40,12 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
     *   [revelc.net XML Code Formatter](https://github.com/revelc/xml-formatter)
     *   [Jsoup XML Code Formatter](https://jsoup.org/)
 
+*   HTML
+    *   [Jsoup XML Code Formatter](https://jsoup.org/)
+
+*   CSS
+    *   [CSS Parser](https://cssparser.sourceforge.net/)
+
 *   Json
     *   [Jackson Json Code Formatter](https://github.com/FasterXML/jackson)
 
@@ -73,6 +79,8 @@ the same way as e.g. your co-workers do with their Eclipse IDE.
 *   Support for Vertical Blank SQL Formatter (since 1.15.0)
 *   Support for DBeaver (via Spotless) (since 1.15.0)
 *   Option to organize imports with Google and Palantir Formatter instead of NetBeans (since 1.15.2)
+*   Support for Jsoup HTML formatter (since 1.15.3)
+*   Support for CSS Parser (since 1.15.3)
 
 Compatibility
 -------------

@@ -9,6 +9,15 @@
 	</properties>
 
 	<body>
+		<release version="1.15.3-SNAPSHOT" date="N/A" description="Added HTML and CSS formatter">
+			<action dev="bahlef" type="add" issue="107">
+				Add JSoup HTML formatter
+			</action>
+			<action dev="bahlef" type="add" issue="106">
+				Add CSSParser CSS formatter
+			</action>
+		</release>
+
 		<release version="1.15.2" date="2022-10-02" description="Bug-fix release">
 			<action dev="bahlef" type="add" issue="215">
 				Added possibility to organize imports with Google and Palantir formatter

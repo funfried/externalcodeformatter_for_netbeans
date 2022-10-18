@@ -198,6 +198,14 @@
 					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory" />
 				</file>
 			</folder>
+			<folder name="xhtml+xml">
+				<file name="org-netbeans-modules-html-editor-indent-HtmlIndentTaskFactory.instance">
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterIndentTaskFactory" />
+				</file>
+				<file name="org.netbeans.modules.editor.indent.spi.IndentTask.Factory.instance">
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.html.editor.indent.HtmlIndentTaskFactory" />
+				</file>
+			</folder>
 		</folder>
 		<folder name="text">
 			<folder name="css">
@@ -211,6 +219,7 @@
 			<folder name="html">
 				<file name="org-netbeans-modules-html-editor-indent-HtmlIndentTaskFactory.instance">
 					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterIndentTaskFactory" />
+					<attr name="instanceOf" stringvalue="org.netbeans.modules.editor.indent.spi.IndentTask$Factory" />
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.IndentTask.Factory.instance">
 					<attr name="instanceClass" stringvalue="org.netbeans.modules.html.editor.indent.HtmlIndentTaskFactory" />
@@ -253,6 +262,14 @@
 				</file>
 				<file name="org.netbeans.modules.editor.indent.spi.ReformatTask.Factory.instance">
 					<attr name="instanceClass" stringvalue="org.netbeans.modules.java.source.save.Reformatter$Factory" />
+				</file>
+			</folder>
+			<folder name="xhtml">
+				<file name="org-netbeans-modules-html-editor-indent-HtmlIndentTaskFactory.instance">
+					<attr name="instanceClass" stringvalue="de.funfried.netbeans.plugins.external.formatter.ui.editor.ExternalFormatterIndentTaskFactory" />
+				</file>
+				<file name="org.netbeans.modules.editor.indent.spi.IndentTask.Factory.instance">
+					<attr name="instanceClass" stringvalue="org.netbeans.modules.html.editor.indent.HtmlIndentTaskFactory" />
 				</file>
 			</folder>
 			<folder name="xml">

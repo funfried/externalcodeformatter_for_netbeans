@@ -7,7 +7,7 @@
  * Contributors:
  * bahlef - initial API and implementation and/or initial documentation
  */
-package de.funfried.netbeans.plugins.external.formatter.xml.jsoup;
+package de.funfried.netbeans.plugins.external.formatter.html.jsoup;
 
 import java.nio.charset.Charset;
 import java.util.prefs.Preferences;
@@ -30,21 +30,21 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
 
 /**
  * Jsoup formatter implementation of the {@link AbstractFormatJob} to
- * format a given document using the {@link JsoupXmlFormatterWrapper}.
+ * format a given document using the {@link JsoupHtmlFormatterWrapper}.
  *
  * @author bahlef
  */
-class JsoupFormatJob extends AbstractFormatJob {
-	/** * The {@link JsoupXmlFormatterWrapper} implementation. */
-	private final JsoupXmlFormatterWrapper formatter;
+class JsoupHtmlFormatJob extends AbstractFormatJob {
+	/** * The {@link JsoupHtmlFormatterWrapper} implementation. */
+	private final JsoupHtmlFormatterWrapper formatter;
 
 	/**
 	 * Package private constructor to create a new instance of {@link JsoupFormatJob}.
 	 *
 	 * @param document the {@link StyledDocument} which sould be formatted
-	 * @param formatter the {@link JsoupXmlFormatterWrapper} to use
+	 * @param formatter the {@link JsoupHtmlFormatterWrapper} to use
 	 */
-	JsoupFormatJob(StyledDocument document, JsoupXmlFormatterWrapper formatter) {
+	JsoupHtmlFormatJob(StyledDocument document, JsoupHtmlFormatterWrapper formatter) {
 		super(document, null);
 
 		this.formatter = formatter;
@@ -57,10 +57,10 @@ class JsoupFormatJob extends AbstractFormatJob {
 	public void format() throws BadLocationException {
 		Preferences pref = Settings.getActivePreferences(document);
 
-		boolean prettyPrint = pref.getBoolean(JsoupXmlFormatterSettings.PRETTY_PRINT, true);
-		boolean outline = pref.getBoolean(JsoupXmlFormatterSettings.OUTLINE, false);
-		int indentSize = pref.getInt(JsoupXmlFormatterSettings.INDENT_SIZE, 1);
-		String lineFeedSetting = pref.get(JsoupXmlFormatterSettings.LINEFEED, "");
+		boolean prettyPrint = pref.getBoolean(JsoupHtmlFormatterSettings.PRETTY_PRINT, true);
+		boolean outline = pref.getBoolean(JsoupHtmlFormatterSettings.OUTLINE, false);
+		int indentSize = pref.getInt(JsoupHtmlFormatterSettings.INDENT_SIZE, 1);
+		String lineFeedSetting = pref.get(JsoupHtmlFormatterSettings.LINEFEED, "");
 
 		Document.OutputSettings options = new Document.OutputSettings();
 		options.indentAmount(indentSize);
@@ -88,10 +88,10 @@ class JsoupFormatJob extends AbstractFormatJob {
 		if (setFormattedCode(code, formattedContent)) {
 			SwingUtilities.invokeLater(() -> {
 				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-					NotificationDisplayer.getDefault().notify("Format using Jsoup XML formatter", Icons.ICON_JSOUP, "", null);
+					NotificationDisplayer.getDefault().notify("Format using Jsoup HTML formatter", Icons.ICON_JSOUP, "", null);
 				}
 
-				StatusDisplayer.getDefault().setStatusText("Format using Jsoup XML formatter");
+				StatusDisplayer.getDefault().setStatusText("Format using Jsoup HTML formatter");
 			});
 		}
 	}
