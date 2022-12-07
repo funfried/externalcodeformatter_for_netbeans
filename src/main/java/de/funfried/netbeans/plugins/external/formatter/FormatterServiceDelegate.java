@@ -19,7 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
-import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 
@@ -93,10 +92,10 @@ public class FormatterServiceDelegate {
 			if (formatterService != null && formatterService.canHandle(document)) {
 				try {
 					return formatterService.format(document, changedElements);
-				} catch (BadLocationException ex) {
-					log.log(Level.SEVERE, formatterService.getDisplayName() + " failed to format the code", ex);
 				} catch (FormattingFailedException ex) {
 					log.log(Level.INFO, formatterService.getDisplayName() + " failed to format the code", ex);
+				} catch (Exception ex) {
+					log.log(Level.WARNING, formatterService.getDisplayName() + " failed to format the code", ex);
 				}
 
 				return true;
