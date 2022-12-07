@@ -734,7 +734,7 @@
 					<artifactId>dependency-check-maven</artifactId>
 					<version>7.2.0</version>
 					<configuration>
-						<failBuildOnCVSS>7</failBuildOnCVSS>
+						<failBuildOnCVSS>8</failBuildOnCVSS>
 						<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
 					</configuration>
 				</plugin>
@@ -743,7 +743,7 @@
 					<artifactId>ossindex-maven-plugin</artifactId>
 					<version>3.2.0</version>
 					<configuration>
-						<cvssScoreThreshold>7</cvssScoreThreshold>
+						<cvssScoreThreshold>8</cvssScoreThreshold>
 					</configuration>
 				</plugin>
 			</plugins>
