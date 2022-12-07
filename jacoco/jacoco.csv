@@ -61,7 +61,7 @@ External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.form
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,FormatterService,2,8,1,1,1,2,1,1,0,1
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,MimeType,15,269,5,23,4,29,5,17,1,7
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,AbstractFormatJob,427,155,41,13,65,35,31,7,5,5
-External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,FormatterServiceDelegate,51,174,12,24,24,49,11,17,1,9
+External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,FormatterServiceDelegate,50,175,12,24,23,50,11,17,1,9
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter,AbstractFormatJob.BreakException,3,0,0,0,1,0,1,0,1,0
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.base.actions,JavaFixImportsAction,46,0,2,0,12,0,3,0,2,0
 External Code Formatters for NetBeans,de.funfried.netbeans.plugins.external.formatter.java.base.actions,JavaOrganizeImportsAction,53,0,6,0,15,0,6,0,3,0
