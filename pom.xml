@@ -115,12 +115,12 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<keystore.file>${project.build.directory}/keystore</keystore.file>
 		<google-java-format.version>1.15.0</google-java-format.version>
-		<palantir-java-format.version>2.27.0</palantir-java-format.version>
+		<palantir-java-format.version>2.28.0</palantir-java-format.version>
 		<xml-formatter.version>0.2.2</xml-formatter.version>
 		<commons-lang.version>3.12.0</commons-lang.version>
 		<netbeans.version>RELEASE120</netbeans.version>
 		<jsoup.version>1.15.3</jsoup.version>
-		<pmd.version>6.49.0</pmd.version>
+		<pmd.version>6.53.0</pmd.version>
 		<argLine></argLine>
 	</properties>
 
@@ -129,7 +129,7 @@
 		<dependency>
 			<groupId>org.eclipse.platform</groupId>
 			<artifactId>org.eclipse.text</artifactId>
-			<version>3.12.200</version>
+			<version>3.12.300</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.eclipse.platform</groupId>
@@ -146,7 +146,7 @@
 		<dependency>
 			<groupId>org.eclipse.jdt</groupId>
 			<artifactId>org.eclipse.jdt.core</artifactId>
-			<version>3.31.0</version>
+			<version>3.32.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.eclipse.platform</groupId>
@@ -249,7 +249,7 @@
 		<dependency>
 			<groupId>com.diffplug.spotless</groupId>
 			<artifactId>spotless-lib</artifactId>
-			<version>2.30.0</version>
+			<version>2.31.1</version>
 		</dependency>
 
 		<!-- XML Formatter -->
@@ -269,20 +269,20 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.14.0-rc1</version>
+			<version>2.14.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.14.0-rc1</version>
+			<version>2.14.1</version>
 		</dependency>
 
 		<!-- CSS Parser -->
 		<dependency>
 			<groupId>net.sourceforge.cssparser</groupId>
 			<artifactId>cssparser</artifactId>
-			<version>0.9.29</version>
+			<version>0.9.30</version>
 		</dependency>
 
 		<dependency>
@@ -525,7 +525,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-install-plugin</artifactId>
-					<version>3.0.1</version>
+					<version>3.1.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -585,7 +585,7 @@
 				<plugin>
 					<groupId>net.revelc.code.formatter</groupId>
 					<artifactId>formatter-maven-plugin</artifactId>
-					<version>2.20.0</version>
+					<version>2.21.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -647,7 +647,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>versions-maven-plugin</artifactId>
-					<version>2.12.0</version>
+					<version>2.14.2</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -680,13 +680,16 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.3.0</version>
+					<version>3.4.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>0.8.8</version>
 					<configuration>
+						<includes>
+							<include>de/funfried/netbeans/plugins/external/formatter/**/*</include>
+						</includes>
 						<excludes>
 							<exclude>de/funfried/netbeans/plugins/external/formatter/**/Bundle.class</exclude>
 							<exclude>de/funfried/netbeans/plugins/external/formatter/**/ui/**/*</exclude>
@@ -733,12 +736,12 @@
 				<plugin>
 					<groupId>com.github.spotbugs</groupId>
 					<artifactId>spotbugs-maven-plugin</artifactId>
-					<version>4.7.2.0</version>
+					<version>4.7.3.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.owasp</groupId>
 					<artifactId>dependency-check-maven</artifactId>
-					<version>7.2.0</version>
+					<version>7.4.4</version>
 					<configuration>
 						<failBuildOnCVSS>8</failBuildOnCVSS>
 						<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
@@ -756,29 +759,6 @@
 		</pluginManagement>
 
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>keytool-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generateKeyPair</goal>
-						</goals>
-						<phase>initialize</phase>
-					</execution>
-				</executions>
-				<configuration>
-					<keystore>${keystore.file}</keystore>
-					<storepass>${keystore.pass}</storepass>
-					<keypass>${keystore.pass}</keypass>
-					<alias>${project.artifactId}</alias>
-					<dname>CN=funfried.de, OU=${project.artifactId}, O=funfried.de, L=Schwaebisch Hall, ST=Baden-Wuerttemberg, C=DE</dname>
-					<validity>730</validity>
-					<keysize>2048</keysize>
-					<sigalg>SHA512withRSA</sigalg>
-					<keyalg>RSA</keyalg>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.netbeans.utilities</groupId>
 				<artifactId>nbm-maven-plugin</artifactId>
@@ -1118,6 +1098,29 @@
 			<id>release-commons</id>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>keytool-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>generateKeyPair</goal>
+								</goals>
+								<phase>initialize</phase>
+							</execution>
+						</executions>
+						<configuration>
+							<keystore>${keystore.file}</keystore>
+							<storepass>${keystore.pass}</storepass>
+							<keypass>${keystore.pass}</keypass>
+							<alias>${project.artifactId}</alias>
+							<dname>CN=funfried.de, OU=${project.artifactId}, O=funfried.de, L=Schwaebisch Hall, ST=Baden-Wuerttemberg, C=DE</dname>
+							<validity>730</validity>
+							<keysize>2048</keysize>
+							<sigalg>SHA512withRSA</sigalg>
+							<keyalg>RSA</keyalg>
+						</configuration>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
