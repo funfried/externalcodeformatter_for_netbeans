@@ -88,7 +88,7 @@
 			<id>ci</id>
 			<properties>
 				<repoToken>${env.repoToken}</repoToken>
-				<keystore.pass>${env.signing_keypass}</keystore.pass>
+				<keystore.pass>${env.gh_token}</keystore.pass>
 				<gpg.passphrase>${env.signing_keypass}</gpg.passphrase>
 				<skipRemoteStaging>${env.skipRemoteStaging}</skipRemoteStaging>
 			</properties>

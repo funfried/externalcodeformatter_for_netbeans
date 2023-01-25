@@ -772,7 +772,7 @@
 					<storepass>${keystore.pass}</storepass>
 					<keypass>${keystore.pass}</keypass>
 					<alias>${project.artifactId}</alias>
-					<dname>cn=${project.scm.developerConnection}, ou=${project.groupId}, L=Schwaebisch Hall, ST=Baden-Wuerttemberg, o=${project.artifactId}, c=DE</dname>
+					<dname>CN=funfried.de, OU=${project.artifactId}, O=funfried.de, L=Schwaebisch Hall, ST=Baden-Wuerttemberg, C=DE</dname>
 					<validity>730</validity>
 					<keysize>2048</keysize>
 					<sigalg>SHA512withRSA</sigalg>
