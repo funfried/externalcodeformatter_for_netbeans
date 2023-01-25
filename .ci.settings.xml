@@ -26,6 +26,26 @@
 			<username>${env.sonatype_username}</username>
 			<password>${env.sonatype_password}</password>
 		</server>
+		<server>
+			<id>sonatype-nexus-staging-http-blocker</id>
+			<username>${env.sonatype_username}</username>
+			<password>${env.sonatype_password}</password>
+		</server>
+		<server>
+			<id>sonatype-nexus-snapshots-http-blocker</id>
+			<username>${env.sonatype_username}</username>
+			<password>${env.sonatype_password}</password>
+		</server>
+		<server>
+			<id>sonatype-nexus-s01-staging-http-blocker</id>
+			<username>${env.sonatype_username}</username>
+			<password>${env.sonatype_password}</password>
+		</server>
+		<server>
+			<id>sonatype-nexus-s01-snapshots-http-blocker</id>
+			<username>${env.sonatype_username}</username>
+			<password>${env.sonatype_password}</password>
+		</server>
 	</servers>
 
 	<mirrors>
@@ -88,6 +108,7 @@
 			<id>ci</id>
 			<properties>
 				<repoToken>${env.repoToken}</repoToken>
+				<keystore.pass>${env.signing_keypass}</keystore.pass>
 				<gpg.passphrase>${env.signing_keypass}</gpg.passphrase>
 				<skipRemoteStaging>${env.skipRemoteStaging}</skipRemoteStaging>
 			</properties>
