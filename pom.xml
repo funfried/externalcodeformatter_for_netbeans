@@ -113,6 +113,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<keystore.file>${project.build.directory}/keystore</keystore.file>
 		<google-java-format.version>1.15.0</google-java-format.version>
 		<palantir-java-format.version>2.27.0</palantir-java-format.version>
 		<xml-formatter.version>0.2.2</xml-formatter.version>
@@ -572,6 +573,11 @@
 					</configuration>
 				</plugin>
 				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>keytool-maven-plugin</artifactId>
+					<version>1.6</version>
+				</plugin>
+				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-gpg-plugin</artifactId>
 					<version>3.0.1</version>
@@ -751,6 +757,29 @@
 
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>keytool-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generateKeyPair</goal>
+						</goals>
+						<phase>initialize</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<keystore>${keystore.file}</keystore>
+					<storepass>${keystore.pass}</storepass>
+					<keypass>${keystore.pass}</keypass>
+					<alias>${project.artifactId}</alias>
+					<dname>cn=${project.scm.developerConnection}, ou=${project.groupId}, L=Schwaebisch Hall, ST=Baden-Wuerttemberg, o=${project.artifactId}, c=DE</dname>
+					<validity>730</validity>
+					<keysize>2048</keysize>
+					<sigalg>SHA512withRSA</sigalg>
+					<keyalg>RSA</keyalg>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.netbeans.utilities</groupId>
 				<artifactId>nbm-maven-plugin</artifactId>
 				<extensions>true</extensions>
@@ -760,6 +789,9 @@
 					<distributionUrl>https://github.com/funfried/eclipsecodeformatter_for_netbeans/</distributionUrl>
 					<author>Fabian Bahle (info@funfried.de) and others / original authors: benno.markiewicz@googlemail.com, geertjan.wielenga@oracle.com and williescholtz@gmail.com</author>
 					<verifyRuntime>warn</verifyRuntime>
+					<keystore>${keystore.file}</keystore>
+					<keystorealias>${project.artifactId}</keystorealias>
+					<keystorepassword>${keystore.pass}</keystorepassword>
 				</configuration>
 			</plugin>
 			<plugin>
