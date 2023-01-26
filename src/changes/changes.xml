@@ -9,7 +9,10 @@
 	</properties>
 
 	<body>
-		<release version="1.15.3-SNAPSHOT" date="N/A" description="Added HTML and CSS formatter">
+		<release version="1.15.3" date="2023-01-26" description="Added HTML and CSS formatter along with nbm signing">
+			<action dev="bahlef" type="add">
+				Signing of nbm file as requested by the NetBeans team to get the plugin center verification
+			</action>
 			<action dev="bahlef" type="add" issue="107">
 				Add JSoup HTML formatter
 			</action>
