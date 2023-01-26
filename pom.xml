@@ -760,6 +760,30 @@
 
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>keytool-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generateKeyPair</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<skipIfExist>true</skipIfExist>
+					<keystore>${keystore.file}</keystore>
+					<storepass>${keystore.pass}</storepass>
+					<keypass>${keystore.pass}</keypass>
+					<alias>${project.artifactId}</alias>
+					<dname>CN=funfried.de, OU=${project.artifactId}, O=funfried.de, L=Schwaebisch Hall, ST=Baden-Wuerttemberg, C=DE</dname>
+					<validity>730</validity>
+					<keysize>2048</keysize>
+					<sigalg>SHA512withRSA</sigalg>
+					<keyalg>RSA</keyalg>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.netbeans.utilities</groupId>
 				<artifactId>nbm-maven-plugin</artifactId>
 				<extensions>true</extensions>
@@ -1098,29 +1122,6 @@
 			<id>release-commons</id>
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>keytool-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<goals>
-									<goal>generateKeyPair</goal>
-								</goals>
-								<phase>initialize</phase>
-							</execution>
-						</executions>
-						<configuration>
-							<keystore>${keystore.file}</keystore>
-							<storepass>${keystore.pass}</storepass>
-							<keypass>${keystore.pass}</keypass>
-							<alias>${project.artifactId}</alias>
-							<dname>CN=funfried.de, OU=${project.artifactId}, O=funfried.de, L=Schwaebisch Hall, ST=Baden-Wuerttemberg, C=DE</dname>
-							<validity>730</validity>
-							<keysize>2048</keysize>
-							<sigalg>SHA512withRSA</sigalg>
-							<keyalg>RSA</keyalg>
-						</configuration>
-					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
