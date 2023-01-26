@@ -40,11 +40,11 @@ public interface FormatterService {
 	 *         format the given {@link Document}, otherwise {@code false}
 	 */
 	default boolean canHandle(Document document) {
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">		if (document == null) {</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">		if (document == null) {</span>
 <span class="nc" id="L44">			return false;</span>
 		}
 
-<span class="fc" id="L47">		return MimeType.canHandle(getSupportedMimeTypes(), MimeType.getMimeTypeAsString(document));</span>
+<span class="nc" id="L47">		return MimeType.canHandle(getSupportedMimeTypes(), MimeType.getMimeTypeAsString(document));</span>
 	}
 
 	/**

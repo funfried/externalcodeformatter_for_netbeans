@@ -39,10 +39,10 @@ import de.funfried.netbeans.plugins.external.formatter.ui.editor.diff.Diff;
  */
 public abstract class AbstractFormatJob implements FormatJob {
 	/** {@link Logger} of this class. */
-<span class="fc" id="L42">	private static final Logger log = Logger.getLogger(AbstractFormatJob.class.getName());</span>
+<span class="nc" id="L42">	private static final Logger log = Logger.getLogger(AbstractFormatJob.class.getName());</span>
 
 	/** Log {@link Level} for fast switching while investigating issues. */
-<span class="fc" id="L45">	private static final Level logLevel = Level.FINER;</span>
+<span class="nc" id="L45">	private static final Level logLevel = Level.FINER;</span>
 
 	/** {@link SortedSet} containing document offset ranges which should be formatted. */
 	protected final SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements;
@@ -56,10 +56,10 @@ public abstract class AbstractFormatJob implements FormatJob {
 	 * @param document the {@link StyledDocument} from which the content should be formatted
 	 * @param changedElements {@link SortedSet} containing document offset ranges which should be formatted or {@code null} to format the whole document
 	 */
-<span class="fc" id="L59">	protected AbstractFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {</span>
-<span class="fc" id="L60">		this.document = document;</span>
-<span class="fc" id="L61">		this.changedElements = changedElements;</span>
-<span class="fc" id="L62">	}</span>
+<span class="nc" id="L59">	protected AbstractFormatJob(StyledDocument document, SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; changedElements) {</span>
+<span class="nc" id="L60">		this.document = document;</span>
+<span class="nc" id="L61">		this.changedElements = changedElements;</span>
+<span class="nc" id="L62">	}</span>
 
 	/**
 	 * Applies the given {@code formattedContent} to the {@code document}.
@@ -76,20 +76,20 @@ public abstract class AbstractFormatJob implements FormatJob {
 	 */
 	protected boolean setFormattedCode(String code, String formattedContent) throws BadLocationException {
 		// quick check for changed
-<span class="pc bpc" id="L79" title="2 of 4 branches missed.">		if (formattedContent != null &amp;&amp; /* does not support changes of EOL */ !formattedContent.equals(code)) {</span>
-<span class="fc" id="L80">			try (StringReader original = new StringReader(code);</span>
-<span class="fc" id="L81">					StringReader formatted = new StringReader(formattedContent)) {</span>
-<span class="fc" id="L82">				Difference[] differences = Diff.diff(original, formatted);</span>
-<span class="pc bpc" id="L83" title="2 of 4 branches missed.">				if (differences != null &amp;&amp; differences.length != 0) {</span>
-<span class="pc bpc" id="L84" title="1 of 2 branches missed.">					if (log.isLoggable(logLevel)) {</span>
+<span class="nc bnc" id="L79" title="All 4 branches missed.">		if (formattedContent != null &amp;&amp; /* does not support changes of EOL */ !formattedContent.equals(code)) {</span>
+<span class="nc" id="L80">			try (StringReader original = new StringReader(code);</span>
+<span class="nc" id="L81">					StringReader formatted = new StringReader(formattedContent)) {</span>
+<span class="nc" id="L82">				Difference[] differences = Diff.diff(original, formatted);</span>
+<span class="nc bnc" id="L83" title="All 4 branches missed.">				if (differences != null &amp;&amp; differences.length != 0) {</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">					if (log.isLoggable(logLevel)) {</span>
 <span class="nc" id="L85">						log.log(logLevel, &quot;Unformatted: ''{0}''&quot;, code);</span>
 <span class="nc" id="L86">						log.log(logLevel, &quot;Formatted: ''{0}''&quot;, formattedContent);</span>
 					}
 
-<span class="fc bfc" id="L89" title="All 2 branches covered.">					for (Difference d : differences) {</span>
-<span class="fc" id="L90">						int startLine = d.getSecondStart();</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">					for (Difference d : differences) {</span>
+<span class="nc" id="L90">						int startLine = d.getSecondStart();</span>
 
-<span class="pc bpc" id="L92" title="3 of 4 branches missed.">						switch (d.getType()) {</span>
+<span class="nc bnc" id="L92" title="All 4 branches missed.">						switch (d.getType()) {</span>
 							case Difference.ADD: {
 <span class="nc" id="L94">								int start = NbDocument.findLineOffset(document, startLine - 1);</span>
 <span class="nc" id="L95">								String addText = d.getSecondText();</span>
@@ -103,24 +103,24 @@ public abstract class AbstractFormatJob implements FormatJob {
 <span class="nc" id="L103">								break;</span>
 							}
 							case Difference.CHANGE: {
-<span class="fc" id="L106">								int start = NbDocument.findLineOffset(document, startLine - 1);</span>
-<span class="fc" id="L107">								String removeText = d.getFirstText();</span>
-<span class="fc" id="L108">								int length = removeText.length();</span>
+<span class="nc" id="L106">								int start = NbDocument.findLineOffset(document, startLine - 1);</span>
+<span class="nc" id="L107">								String removeText = d.getFirstText();</span>
+<span class="nc" id="L108">								int length = removeText.length();</span>
 
 								// if the document consists of only 1 line without a trailing line-break
 								// then LENGTH would exceed the document and yield an exception
-<span class="fc" id="L112">								length = Math.min(length, document.getLength());</span>
+<span class="nc" id="L112">								length = Math.min(length, document.getLength());</span>
 
-<span class="fc" id="L114">								String addText = d.getSecondText();</span>
+<span class="nc" id="L114">								String addText = d.getSecondText();</span>
 
-<span class="pc bpc" id="L116" title="1 of 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">								if (log.isLoggable(logLevel)) {</span>
 <span class="nc" id="L117">									log.log(logLevel, &quot;CHANGE: {0} - {1} / Line {2}: ''{3}'' &lt;= ''{4}''&quot;, new Object[] { start, length, startLine, addText, removeText });</span>
 								}
 
-<span class="fc" id="L120">								document.remove(start, length);</span>
-<span class="fc" id="L121">								document.insertString(start, addText, null);</span>
+<span class="nc" id="L120">								document.remove(start, length);</span>
+<span class="nc" id="L121">								document.insertString(start, addText, null);</span>
 
-<span class="fc" id="L123">								break;</span>
+<span class="nc" id="L123">								break;</span>
 							}
 							case Difference.DELETE: {
 <span class="nc" id="L126">								int start = NbDocument.findLineOffset(document, startLine);</span>
@@ -142,9 +142,9 @@ public abstract class AbstractFormatJob implements FormatJob {
 						}
 					}
 
-<span class="fc" id="L145">					return true;</span>
+<span class="nc" id="L145">					return true;</span>
 				}
-<span class="pc" id="L147">			} catch (IOException ex) {</span>
+<span class="nc" id="L147">			} catch (IOException ex) {</span>
 <span class="nc" id="L148">				log.log(Level.WARNING, &quot;Could not create diff&quot;, ex);</span>
 <span class="nc" id="L149">			}</span>
 		}
@@ -160,7 +160,7 @@ public abstract class AbstractFormatJob implements FormatJob {
 	protected String getCode() {
 		try {
 			// returns the actual content of the document
-<span class="fc" id="L163">			return document.getText(0, document.getLength());</span>
+<span class="nc" id="L163">			return document.getText(0, document.getLength());</span>
 <span class="nc" id="L164">		} catch (BadLocationException ex) {</span>
 <span class="nc" id="L165">			log.log(Level.WARNING, &quot;Could not fetch text, falling back to utility method&quot;, ex);</span>
 
@@ -184,15 +184,15 @@ public abstract class AbstractFormatJob implements FormatJob {
 	 */
 	@NonNull
 	protected SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; getFormatableSections(String code) {
-<span class="fc" id="L187">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = changedElements;</span>
-<span class="fc bfc" id="L188" title="All 2 branches covered.">		if (CollectionUtils.isEmpty(changedElements)) {</span>
-<span class="fc" id="L189">			regions = new TreeSet&lt;&gt;();</span>
+<span class="nc" id="L187">		SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; regions = changedElements;</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">		if (CollectionUtils.isEmpty(changedElements)) {</span>
+<span class="nc" id="L189">			regions = new TreeSet&lt;&gt;();</span>
 
-<span class="fc" id="L191">			regions.add(Pair.of(0, code.length() - 1));</span>
+<span class="nc" id="L191">			regions.add(Pair.of(0, code.length() - 1));</span>
 		}
 
-<span class="fc" id="L194">		GuardedSectionManager guards = GuardedSectionManager.getInstance(document);</span>
-<span class="pc bpc" id="L195" title="1 of 2 branches missed.">		if (guards != null) {</span>
+<span class="nc" id="L194">		GuardedSectionManager guards = GuardedSectionManager.getInstance(document);</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">		if (guards != null) {</span>
 <span class="nc" id="L196">			SortedSet&lt;Pair&lt;Integer, Integer&gt;&gt; nonGuardedSections = new TreeSet&lt;&gt;();</span>
 <span class="nc" id="L197">			Iterable&lt;GuardedSection&gt; guardedSections = guards.getGuardedSections();</span>
 
@@ -217,13 +217,13 @@ public abstract class AbstractFormatJob implements FormatJob {
 <span class="nc" id="L217">			regions = nonGuardedSections;</span>
 		}
 
-<span class="pc bpc" id="L220" title="1 of 2 branches missed.">		if (log.isLoggable(logLevel)) {</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">		if (log.isLoggable(logLevel)) {</span>
 <span class="nc" id="L221">			StringBuilder sb = new StringBuilder();</span>
 <span class="nc" id="L222">			regions.stream().forEach(section -&gt; sb.append(section.getLeft()).append(&quot;/&quot;).append(section.getRight()).append(&quot; &quot;));</span>
 <span class="nc" id="L223">			log.log(logLevel, &quot;Formatting sections: {0}&quot;, sb.toString().trim());</span>
 		}
 
-<span class="fc" id="L226">		return regions;</span>
+<span class="nc" id="L226">		return regions;</span>
 	}
 
 	/**
