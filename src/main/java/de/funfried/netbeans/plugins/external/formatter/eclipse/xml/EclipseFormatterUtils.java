@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.swing.text.Document;
 
@@ -187,7 +188,7 @@ public class EclipseFormatterUtils {
 			} else if (EclipseFormatterUtils.isXMLConfigurationFile(formatterFile)) {
 				configFromFile = ConfigReader.getProfileSettings(ConfigReader.readContentFromFilePath(formatterFile), formatterProfile);
 			} else if (EclipseFormatterUtils.isProjectSetting(formatterFile, projectPrefFile)) {
-				configFromFile = EclipseFormatterUtils.readPropertiesFromConfigurationFile(formatterFile, null);
+				configFromFile = EclipseFormatterUtils.readPropertiesFromConfigurationFile(formatterFile);
 			} else {
 				configFromFile = new LinkedHashMap<>();
 			}
@@ -224,7 +225,7 @@ public class EclipseFormatterUtils {
 	 * @throws IOException if there is an issue accessing the given configuration file
 	 */
 	@NonNull
-	public static Map<String, String> readPropertiesFromConfigurationFile(String filePath, String prefix) throws IOException {
+	public static Map<String, String> readPropertiesFromConfigurationFile(String filePath) throws IOException {
 		Properties properties = new Properties();
 
 		try {
@@ -239,38 +240,23 @@ public class EclipseFormatterUtils {
 			}
 		}
 
-		if (StringUtils.isBlank(prefix)) {
-			return toMap(properties);
+		return EclipseFormatterUtils.toMap(properties, null);
+	}
+
+	/**
+	 * Collect the given properties into a map and optionall filter the property keys by the given optional prefix.
+	 *
+	 * @param properties The {@link Properties} to filter and collect.
+	 * @param prefix An optional prefix to filter the keys.
+	 *
+	 * @return A map containing the keys and their respective values
+	 */
+	public static Map<String, String> toMap(Properties properties, String prefix) {
+		Stream<Object> stream = properties.keySet().stream();
+		if (StringUtils.isNotBlank(prefix)) {
+			return stream.filter(key -> ((String) key).startsWith(prefix)).collect(Collectors.toMap(key -> ((String) key).substring(prefix.length()), key -> properties.getProperty((String) key)));
 		}
 
-		return toFilteredMap(properties, prefix);
-	}
-
-	/**
-	 * Filter the given properties keys by the given prefix and collect them into a map.
-	 * 
-	 * @param properties The {@link Properties} to filter and collect.
-	 * @param prefix The prefix to filter the keys by.
-	 * @return A map containing the keys that match the given prefix and their respective values,
-	 */
-	public static Map<String, String> toFilteredMap(Properties properties, String prefix) {
-		return properties.keySet().stream()
-				.filter(key -> ((String) key).startsWith(prefix))
-				.collect(Collectors.toMap(
-						key -> ((String) key).substring(prefix.length()),
-						key -> properties.getProperty((String) key)));
-	}
-
-	/**
-	 * Collect the given properties into a map.
-	 * 
-	 * @param properties The {@link Properties} to collect.
-	 * @return A map containing the keys and their respective values,
-	 */
-	public static Map<String, String> toMap(Properties properties) {
-		return properties.keySet().stream()
-				.collect(Collectors.toMap(
-						key -> (String) key,
-						key -> properties.getProperty((String) key)));
+		return stream.collect(Collectors.toMap(key -> (String) key, key -> properties.getProperty((String) key)));
 	}
 }

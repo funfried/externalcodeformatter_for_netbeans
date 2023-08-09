@@ -17,7 +17,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.annotations.common.NonNull;
 
 import de.funfried.netbeans.plugins.external.formatter.eclipse.xml.EclipseFormatterUtils;
@@ -34,7 +33,7 @@ public class WorkspaceMechanicConfigParser {
 	private static final String WORKSPACE_MECHANIC_FILE_POSTFIX = ".epf";
 
 	private static final Pattern MULTI_FILE_PATH_PATTERN = Pattern.compile("^\\[\"(\\S*)\",\"\\S*\"\\]$");
-	
+
 	private static final int MATCHER_GROUP = 1;
 
 	/**
@@ -52,16 +51,13 @@ public class WorkspaceMechanicConfigParser {
 	@NonNull
 	public static Map<String, String> readPropertiesFromConfigurationFile(String filePath, String prefix) throws IOException {
 		Properties properties = createPropertiesFromPath(filePath);
-
 		if (properties.containsKey(MULTI_FILE_SETUP_PREFIX)) {
-			parseAdditionalFiles((String) properties.get(MULTI_FILE_SETUP_PREFIX)).stream()
-					.forEach(p -> properties.putAll(p));
+			parseAdditionalFiles((String) properties.get(MULTI_FILE_SETUP_PREFIX)).stream().forEach(p -> properties.putAll(p));
+
 			properties.remove(MULTI_FILE_SETUP_PREFIX);
 		}
-		if (StringUtils.isBlank(prefix)) {
-			return EclipseFormatterUtils.toMap(properties);
-		}
-		return EclipseFormatterUtils.toFilteredMap(properties, prefix);
+
+		return EclipseFormatterUtils.toMap(properties, prefix);
 	}
 
 	@NonNull
