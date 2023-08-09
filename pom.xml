@@ -305,6 +305,10 @@
 					<groupId>org.apache.commons</groupId>
 					<artifactId>commons-text</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.graalvm.sdk</groupId>
+					<artifactId>graal-sdk</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
