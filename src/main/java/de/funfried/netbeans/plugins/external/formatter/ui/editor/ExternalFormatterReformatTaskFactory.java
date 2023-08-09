@@ -14,6 +14,8 @@ import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
@@ -41,6 +43,8 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  * @author bahlef
  */
 public class ExternalFormatterReformatTaskFactory implements ReformatTask.Factory {
+	private static final Logger log = Logger.getLogger(ExternalFormatterReformatTaskFactory.class.getName());
+
 	/** {@link Map} which acts as a cache for default implementations of the {@link ReformatTask.Factory}. */
 	private static final Map<MimePath, Reference<ReformatTask.Factory>> cache = new WeakHashMap<MimePath, Reference<ReformatTask.Factory>>();
 
@@ -145,17 +149,21 @@ public class ExternalFormatterReformatTaskFactory implements ReformatTask.Factor
 
 	private void formatWithNetBeansFormatter(ReformatTask netbeansDefaultTask, Document document) throws BadLocationException {
 		if (netbeansDefaultTask != null) {
-			netbeansDefaultTask.reformat();
+			try {
+				netbeansDefaultTask.reformat();
 
-			Preferences pref = Settings.getActivePreferences(document);
+				Preferences pref = Settings.getActivePreferences(document);
 
-			SwingUtilities.invokeLater(() -> {
-				if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-					NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Icons.ICON_NETBEANS, "", null);
-				}
+				SwingUtilities.invokeLater(() -> {
+					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
+						NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Icons.ICON_NETBEANS, "", null);
+					}
 
-				StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
-			});
+					StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
+				});
+			} catch (Throwable ex) {
+				log.log(Level.FINE, "NetBeans internal reformat ran into", ex);
+			}
 		}
 	}
 }
