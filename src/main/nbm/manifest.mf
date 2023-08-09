@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
 OpenIDE-Module-Layer: de/funfried/netbeans/plugins/external/formatter/layer.xml
 OpenIDE-Module-Localizing-Bundle: de/funfried/netbeans/plugins/external/formatter/Bundle.properties
-OpenIDE-Module-Java-Dependencies: Java > 11
+OpenIDE-Module-Java-Dependencies: Java > 17
