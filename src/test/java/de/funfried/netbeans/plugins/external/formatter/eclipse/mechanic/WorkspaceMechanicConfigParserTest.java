@@ -18,9 +18,9 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.netbeans.junit.NbTestCase;
 
-public class WorkspaceMechanicConfigParserTest {
-
+public class WorkspaceMechanicConfigParserTest extends NbTestCase {
 	private static final String PREFIX = "/instance/org.eclipse.jdt.core/";
 
 	@Rule
@@ -32,15 +32,21 @@ public class WorkspaceMechanicConfigParserTest {
 	@Rule
 	public TemporaryFolder EPF_PROXY_FOLDER = new TemporaryFolder();
 
+	public WorkspaceMechanicConfigParserTest(String name) {
+		super(name);
+	}
+
 	@Test
 	public void testSimpleEpfFileFiltered() throws Exception {
+		EPF_FOLDER.create();
+
 		File epfImportFile = EPF_FOLDER.newFile("imports.epf");
 		try (FileWriter fw = new FileWriter(epfImportFile)) {
-			fw.write(
-					"/instance/org.eclipse.jdt.core/importorder=java;javax;org;com;\n" +
-							"/instance/org.eclipse.jdt.core/ondemandthreshold=99\n" +
-							"/instance/org.eclipse.jdt.core/staticondemandthreshold=2\n"
-							+ "/instance/org.eclipse.jdt.ui/staticondemandthreshold=7");
+			fw.write("""
+					/instance/org.eclipse.jdt.core/importorder=java;javax;org;com;
+					/instance/org.eclipse.jdt.core/ondemandthreshold=99
+					/instance/org.eclipse.jdt.core/staticondemandthreshold=2
+					/instance/org.eclipse.jdt.ui/staticondemandthreshold=7""");
 		}
 		Map<String, String> props = WorkspaceMechanicConfigParser.readPropertiesFromConfigurationFile(epfImportFile.getAbsolutePath(), PREFIX);
 
@@ -49,9 +55,11 @@ public class WorkspaceMechanicConfigParserTest {
 		Assert.assertEquals("99", props.get("ondemandthreshold"));
 		Assert.assertEquals("java;javax;org;com;", props.get("importorder"));
 	}
-	
+
 	@Test
 	public void testSimpleEpfFileUnfiltered() throws Exception {
+		EPF_FOLDER.create();
+
 		File epfImportFile = EPF_FOLDER.newFile("imports.epf");
 		try (FileWriter fw = new FileWriter(epfImportFile)) {
 			fw.write(
@@ -71,6 +79,9 @@ public class WorkspaceMechanicConfigParserTest {
 
 	@Test
 	public void testProxyEpfFile() throws Exception {
+		EPF_FOLDER.create();
+		EPF_PROXY_FOLDER.create();
+
 		File epfFile = EPF_FOLDER.newFile();
 		try (FileWriter fw = new FileWriter(epfFile)) {
 			fw.write(
