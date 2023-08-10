@@ -48,6 +48,7 @@ public class WorkspaceMechanicConfigParserTest extends NbTestCase {
 					/instance/org.eclipse.jdt.core/staticondemandthreshold=2
 					/instance/org.eclipse.jdt.ui/staticondemandthreshold=7""");
 		}
+
 		Map<String, String> props = WorkspaceMechanicConfigParser.readPropertiesFromConfigurationFile(epfImportFile.getAbsolutePath(), PREFIX);
 
 		Assert.assertEquals(3, props.size());
@@ -62,12 +63,13 @@ public class WorkspaceMechanicConfigParserTest extends NbTestCase {
 
 		File epfImportFile = EPF_FOLDER.newFile("imports.epf");
 		try (FileWriter fw = new FileWriter(epfImportFile)) {
-			fw.write(
-					"/instance/org.eclipse.jdt.core/importorder=java;javax;org;com;\n" +
-							"/instance/org.eclipse.jdt.core/ondemandthreshold=99\n" +
-							"/instance/org.eclipse.jdt.core/staticondemandthreshold=2\n" +
-							"/instance/org.eclipse.jdt.ui/adifferentpref=7");
+			fw.write("""
+					/instance/org.eclipse.jdt.core/importorder=java;javax;org;com;
+					/instance/org.eclipse.jdt.core/ondemandthreshold=99
+					/instance/org.eclipse.jdt.core/staticondemandthreshold=2
+					/instance/org.eclipse.jdt.ui/adifferentpref=7""");
 		}
+
 		Map<String, String> props = WorkspaceMechanicConfigParser.readPropertiesFromConfigurationFile(epfImportFile.getAbsolutePath(), null);
 
 		Assert.assertEquals(4, props.size());
@@ -90,17 +92,17 @@ public class WorkspaceMechanicConfigParserTest extends NbTestCase {
 
 		File epfImportFile = EPF_PROXY_FOLDER.newFile("imports.epf");
 		try (FileWriter fw = new FileWriter(epfImportFile)) {
-			fw.write(
-					"/instance/org.eclipse.jdt.core/importorder=java;javax;org;com;\n" +
-							"/instance/org.eclipse.jdt.core/ondemandthreshold=99\n" +
-							"/instance/org.eclipse.jdt.core/staticondemandthreshold=2");
+			fw.write("""
+					/instance/org.eclipse.jdt.core/importorder=java;javax;org;com;
+					/instance/org.eclipse.jdt.core/ondemandthreshold=99
+					/instance/org.eclipse.jdt.core/staticondemandthreshold=2""");
 		}
 
 		File epfSaveActionsFile = EPF_PROXY_FOLDER.newFile("onsave.epf");
 		try (FileWriter fw = new FileWriter(epfSaveActionsFile)) {
-			fw.write(
-					"/instance/org.eclipse.jdt.core/sp_cleanup.format_source_code=true\n" +
-							"/instance/org.eclipse.jdt.core/sp_cleanup.on_save_use_additional_actions=true");
+			fw.write("""
+					/instance/org.eclipse.jdt.core/sp_cleanup.format_source_code=true
+					/instance/org.eclipse.jdt.core/sp_cleanup.on_save_use_additional_actions=true""");
 		}
 
 		Map<String, String> props = WorkspaceMechanicConfigParser.readPropertiesFromConfigurationFile(epfFile.getAbsolutePath(), PREFIX);

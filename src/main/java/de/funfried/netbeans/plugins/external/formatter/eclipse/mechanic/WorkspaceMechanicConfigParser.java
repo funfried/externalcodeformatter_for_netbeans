@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.validator.routines.UrlValidator;
 import org.netbeans.api.annotations.common.NonNull;
 
 import de.funfried.netbeans.plugins.external.formatter.eclipse.xml.EclipseFormatterUtils;
@@ -69,14 +70,15 @@ public class WorkspaceMechanicConfigParser {
 		if (!matcher.matches()) {
 			LOG.fine(String.format("No matching path to additional Workspace Mechanic files: '%s'.", pathStruct));
 			return Collections.emptyList();
-
 		}
+
 		String additionalFilesPath = matcher.group(MATCHER_GROUP);
 		Path pathToAdditionalFiles = Paths.get(additionalFilesPath);
 		if (!Files.exists(pathToAdditionalFiles)) {
 			LOG.fine(String.format("Ignoring path '%s' because it does not exist.", additionalFilesPath));
 			return Collections.emptyList();
 		}
+
 		List<Properties> result = new ArrayList<>();
 		final List<String> additionalFiles = Files.list(pathToAdditionalFiles)
 				.filter(Files::isRegularFile)
@@ -87,23 +89,30 @@ public class WorkspaceMechanicConfigParser {
 			Properties additionalProperties = createPropertiesFromPath(mechanicFile);
 			result.add(additionalProperties);
 		}
+
 		return result;
 	}
 
 	@NonNull
-	private static Properties createPropertiesFromPath(String filePath) throws IOException {
+	private static Properties createPropertiesFromPath(String path) throws IOException {
 		Properties properties = new Properties();
-		try {
-			URL url = new URL(filePath);
 
-			properties.load(url.openStream());
-		} catch (IOException ex) {
-			LOG.log(Level.FINEST, "Could not read file via URL, fallback to local file reading", ex);
+		if (UrlValidator.getInstance().isValid(path)) {
+			try {
+				URL url = new URL(path);
 
-			try (FileInputStream is = new FileInputStream(filePath)) {
-				properties.load(is);
+				properties.load(url.openStream());
+
+				return properties;
+			} catch (IOException ex) {
+				LOG.log(Level.WARNING, "Could not read given path as URL, fallback to local file reading", ex);
 			}
 		}
+
+		try (FileInputStream is = new FileInputStream(path)) {
+			properties.load(is);
+		}
+
 		return properties;
 	}
 }
