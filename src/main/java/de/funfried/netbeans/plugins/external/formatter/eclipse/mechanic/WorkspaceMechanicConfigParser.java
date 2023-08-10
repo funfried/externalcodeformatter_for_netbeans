@@ -33,7 +33,7 @@ public class WorkspaceMechanicConfigParser {
 
 	private static final String WORKSPACE_MECHANIC_FILE_POSTFIX = ".epf";
 
-	private static final Pattern MULTI_FILE_PATH_PATTERN = Pattern.compile("^\\[\"(\\S*)\",\"\\S*\"\\]$");
+	private static final Pattern MULTI_FILE_PATH_PATTERN = Pattern.compile("^\\[\"(.*)\",\".*\"\\]$");
 
 	private static final int MATCHER_GROUP = 1;
 
