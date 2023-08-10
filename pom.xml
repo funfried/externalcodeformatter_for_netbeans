@@ -167,7 +167,7 @@
 		<dependency>
 			<groupId>de.funfried.libraries</groupId>
 			<artifactId>jsdt-core</artifactId>
-			<version>1.0.3</version>
+			<version>1.0.5</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.guava</groupId>
@@ -751,7 +751,7 @@
 					<artifactId>dependency-check-maven</artifactId>
 					<version>8.3.1</version>
 					<configuration>
-						<failBuildOnCVSS>8</failBuildOnCVSS>
+						<failBuildOnCVSS>6</failBuildOnCVSS>
 						<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
 					</configuration>
 				</plugin>
@@ -760,7 +760,7 @@
 					<artifactId>ossindex-maven-plugin</artifactId>
 					<version>3.2.0</version>
 					<configuration>
-						<cvssScoreThreshold>8</cvssScoreThreshold>
+						<cvssScoreThreshold>6</cvssScoreThreshold>
 					</configuration>
 				</plugin>
 			</plugins>
