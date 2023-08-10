@@ -213,12 +213,9 @@ public class EclipseFormatterUtils {
 	}
 
 	/**
-	 * Parses and returns properties of the given {@code filePath} into a key value {@link Map}. If an optional
-	 * {@code prefix} is specified, only the properties where the key starts with the given {@code prefix}
-	 * are returned and the {@code prefix} will be removed from the keys in the returned {@link Map}.
+	 * Parses and returns properties of the given {@code filePath} into a key value {@link Map}.
 	 *
 	 * @param filePath a configuration file path
-	 * @param prefix an optional key prefix
 	 *
 	 * @return properties of the given {@code file} as a key value {@link Map}
 	 *
