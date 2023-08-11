@@ -49,7 +49,7 @@ public class WorkspaceMechanicConfigParserTest extends NbTestCase {
 					/instance/org.eclipse.jdt.ui/staticondemandthreshold=7""");
 		}
 
-		Map<String, String> props = WorkspaceMechanicConfigParser.readPropertiesFromConfigurationFile(epfImportFile.getAbsolutePath(), PREFIX);
+		Map<String, String> props = WorkspaceMechanicConfigParser.readPropertiesFromConfiguration(epfImportFile.getAbsolutePath(), PREFIX);
 
 		Assert.assertEquals(3, props.size());
 		Assert.assertEquals("2", props.get("staticondemandthreshold"));
@@ -70,7 +70,7 @@ public class WorkspaceMechanicConfigParserTest extends NbTestCase {
 					/instance/org.eclipse.jdt.ui/adifferentpref=7""");
 		}
 
-		Map<String, String> props = WorkspaceMechanicConfigParser.readPropertiesFromConfigurationFile(epfImportFile.getAbsolutePath(), null);
+		Map<String, String> props = WorkspaceMechanicConfigParser.readPropertiesFromConfiguration(epfImportFile.getAbsolutePath(), null);
 
 		Assert.assertEquals(4, props.size());
 		Assert.assertEquals("2", props.get("/instance/org.eclipse.jdt.core/staticondemandthreshold"));
@@ -105,7 +105,7 @@ public class WorkspaceMechanicConfigParserTest extends NbTestCase {
 					/instance/org.eclipse.jdt.core/sp_cleanup.on_save_use_additional_actions=true""");
 		}
 
-		Map<String, String> props = WorkspaceMechanicConfigParser.readPropertiesFromConfigurationFile(epfFile.getAbsolutePath(), PREFIX);
+		Map<String, String> props = WorkspaceMechanicConfigParser.readPropertiesFromConfiguration(epfFile.getAbsolutePath(), PREFIX);
 
 		Assert.assertEquals(5, props.size());
 		Assert.assertEquals("2", props.get("staticondemandthreshold"));

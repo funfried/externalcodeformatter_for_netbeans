@@ -49,10 +49,10 @@ public class EclipseFormatterUtils {
 	private static final Logger log = Logger.getLogger(EclipseFormatterUtils.class.getName());
 
 	/** EPF file extension */
-	private static final String EPF_FILE_EXTENSION = ".epf";
+	public static final String EPF_FILE_EXTENSION = ".epf";
 
 	/** XML file extension */
-	private static final String XML_FILE_EXTENSION = ".xml";
+	public static final String XML_FILE_EXTENSION = ".xml";
 
 	/**
 	 * Private constructor due to static methods only.
@@ -184,7 +184,7 @@ public class EclipseFormatterUtils {
 		try {
 			Map<String, String> configFromFile;
 			if (EclipseFormatterUtils.isWorkspaceMechanicFile(formatterFile)) {
-				configFromFile = WorkspaceMechanicConfigParser.readPropertiesFromConfigurationFile(formatterFile, workspaceMechanicPrefix);
+				configFromFile = WorkspaceMechanicConfigParser.readPropertiesFromConfiguration(formatterFile, workspaceMechanicPrefix);
 			} else if (EclipseFormatterUtils.isXMLConfigurationFile(formatterFile)) {
 				configFromFile = ConfigReader.getProfileSettings(ConfigReader.readContentFromFilePath(formatterFile), formatterProfile);
 			} else if (EclipseFormatterUtils.isProjectSetting(formatterFile, projectPrefFile)) {
