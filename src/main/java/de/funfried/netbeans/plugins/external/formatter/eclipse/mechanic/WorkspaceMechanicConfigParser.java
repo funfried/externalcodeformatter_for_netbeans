@@ -76,13 +76,6 @@ public class WorkspaceMechanicConfigParser {
 			return new Properties();
 		}
 
-		if (StringUtils.contains(path, "\\")) {
-			// normalize path if it already has double backslashes
-			StringUtils.replace(path, "\\\\", "\\");
-			// ensure double backslashes
-			StringUtils.replace(path, "\\", "\\\\");
-		}
-
 		if (UrlValidator.getInstance().isValid(path)) {
 			try {
 				URL url = new URL(path);

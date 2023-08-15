@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -72,10 +74,15 @@ public class WorkspaceMechanicConfigParserTest {
 
 	@Test
 	public void testProxyEpfFile() throws Exception {
+		String epfProxyFolderPath = EPF_PROXY_FOLDER.getRoot().getAbsolutePath();
+		if (SystemUtils.IS_OS_WINDOWS) {
+			epfProxyFolderPath = StringUtils.replace(epfProxyFolderPath, "\\", "\\\\");
+		}
+
 		File epfFile = EPF_FOLDER.newFile();
 		try (FileWriter fw = new FileWriter(epfFile)) {
 			fw.write(
-					"/instance/com.google.eclipse.mechanic/mechanicSourceDirectories=[\"" + EPF_PROXY_FOLDER.getRoot().getAbsolutePath() + "\",\"/a/user/path/.eclipse/mechanic\"]");
+					"/instance/com.google.eclipse.mechanic/mechanicSourceDirectories=[\"" + epfProxyFolderPath + "\",\"/a/user/path/.eclipse/mechanic\"]");
 		}
 
 		File epfImportFile = EPF_PROXY_FOLDER.newFile("imports.epf");
