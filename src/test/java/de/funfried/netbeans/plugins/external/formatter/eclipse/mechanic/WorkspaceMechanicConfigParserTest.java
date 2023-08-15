@@ -18,9 +18,8 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.netbeans.junit.NbTestCase;
 
-public class WorkspaceMechanicConfigParserTest extends NbTestCase {
+public class WorkspaceMechanicConfigParserTest {
 	private static final String PREFIX = "/instance/org.eclipse.jdt.core/";
 
 	@Rule
@@ -32,14 +31,8 @@ public class WorkspaceMechanicConfigParserTest extends NbTestCase {
 	@Rule
 	public TemporaryFolder EPF_PROXY_FOLDER = new TemporaryFolder();
 
-	public WorkspaceMechanicConfigParserTest(String name) {
-		super(name);
-	}
-
 	@Test
 	public void testSimpleEpfFileFiltered() throws Exception {
-		EPF_FOLDER.create();
-
 		File epfImportFile = EPF_FOLDER.newFile("imports.epf");
 		try (FileWriter fw = new FileWriter(epfImportFile)) {
 			fw.write("""
@@ -59,8 +52,6 @@ public class WorkspaceMechanicConfigParserTest extends NbTestCase {
 
 	@Test
 	public void testSimpleEpfFileUnfiltered() throws Exception {
-		EPF_FOLDER.create();
-
 		File epfImportFile = EPF_FOLDER.newFile("imports.epf");
 		try (FileWriter fw = new FileWriter(epfImportFile)) {
 			fw.write("""
@@ -81,9 +72,6 @@ public class WorkspaceMechanicConfigParserTest extends NbTestCase {
 
 	@Test
 	public void testProxyEpfFile() throws Exception {
-		EPF_FOLDER.create();
-		EPF_PROXY_FOLDER.create();
-
 		File epfFile = EPF_FOLDER.newFile();
 		try (FileWriter fw = new FileWriter(epfFile)) {
 			fw.write(
@@ -104,6 +92,11 @@ public class WorkspaceMechanicConfigParserTest extends NbTestCase {
 					/instance/org.eclipse.jdt.core/sp_cleanup.format_source_code=true
 					/instance/org.eclipse.jdt.core/sp_cleanup.on_save_use_additional_actions=true""");
 		}
+
+		System.out.println("EPF FILE: " + epfFile.getAbsolutePath());
+		System.out.println("EPF PROXY FOLDER: " + EPF_PROXY_FOLDER.getRoot().getAbsolutePath());
+		System.out.println("EPF IMPORT FILE: " + epfImportFile.getAbsolutePath());
+		System.out.println("EPF SAVE ACTIONS FILE: " + epfSaveActionsFile.getAbsolutePath());
 
 		Map<String, String> props = WorkspaceMechanicConfigParser.readPropertiesFromConfiguration(epfFile.getAbsolutePath(), PREFIX);
 
