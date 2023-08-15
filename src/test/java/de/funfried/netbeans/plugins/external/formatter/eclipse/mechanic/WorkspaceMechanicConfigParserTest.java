@@ -93,11 +93,6 @@ public class WorkspaceMechanicConfigParserTest {
 					/instance/org.eclipse.jdt.core/sp_cleanup.on_save_use_additional_actions=true""");
 		}
 
-		System.out.println("EPF FILE: " + epfFile.getAbsolutePath());
-		System.out.println("EPF PROXY FOLDER: " + EPF_PROXY_FOLDER.getRoot().getAbsolutePath());
-		System.out.println("EPF IMPORT FILE: " + epfImportFile.getAbsolutePath());
-		System.out.println("EPF SAVE ACTIONS FILE: " + epfSaveActionsFile.getAbsolutePath());
-
 		Map<String, String> props = WorkspaceMechanicConfigParser.readPropertiesFromConfiguration(epfFile.getAbsolutePath(), PREFIX);
 
 		Assert.assertEquals(5, props.size());

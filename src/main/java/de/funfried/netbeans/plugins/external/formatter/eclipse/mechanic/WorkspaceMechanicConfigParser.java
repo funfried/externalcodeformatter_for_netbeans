@@ -51,8 +51,6 @@ public class WorkspaceMechanicConfigParser {
 
 	@NonNull
 	private static List<Properties> parseAdditionalFiles(String pathStruct) throws IOException {
-		System.out.println("PATH STRUCT: " + pathStruct);
-
 		// the pathStruct looks as follows:
 		// ["/path/to/additional/mechanic/files","/path/to/origin/mechanic/file"]
 		pathStruct = StringUtils.trimToEmpty(pathStruct);
@@ -62,8 +60,6 @@ public class WorkspaceMechanicConfigParser {
 		List<Properties> result = new ArrayList<>();
 		String[] additionalFilesPaths = StringUtils.split(pathStruct, ",");
 		for (String additionalFilesPath : additionalFilesPaths) {
-			System.out.println("ADDITIONAL FILES PATH: " + additionalFilesPath);
-
 			additionalFilesPath = StringUtils.removeStart(additionalFilesPath, "\"");
 			additionalFilesPath = StringUtils.removeEnd(additionalFilesPath, "\"");
 
@@ -76,6 +72,17 @@ public class WorkspaceMechanicConfigParser {
 
 	@NonNull
 	private static Properties createPropertiesFromPath(String path) throws IOException {
+		if (StringUtils.isBlank(path)) {
+			return new Properties();
+		}
+
+		if (StringUtils.contains(path, "\\")) {
+			// normalize path if it already has double backslashes
+			StringUtils.replace(path, "\\\\", "\\");
+			// ensure double backslashes
+			StringUtils.replace(path, "\\", "\\\\");
+		}
+
 		if (UrlValidator.getInstance().isValid(path)) {
 			try {
 				URL url = new URL(path);
