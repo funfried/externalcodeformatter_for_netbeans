@@ -15,6 +15,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javax.swing.SwingUtilities;
@@ -42,6 +44,8 @@ import de.funfried.netbeans.plugins.external.formatter.ui.options.Settings;
  * @author bahlef
  */
 public class ExternalFormatterIndentTaskFactory implements IndentTask.Factory {
+	private static final Logger log = Logger.getLogger(ExternalFormatterIndentTaskFactory.class.getName());
+
 	/** {@link Map} which acts as a cache for default implementations of the {@link IndentTask.Factory}. */
 	private static final Map<MimePath, Reference<IndentTask.Factory>> cache = new WeakHashMap<>();
 
@@ -148,16 +152,22 @@ public class ExternalFormatterIndentTaskFactory implements IndentTask.Factory {
 	}
 
 	private void formatWithNetBeansIndenter(IndentTask netbeansDefaultTask, Document document) throws BadLocationException {
-		netbeansDefaultTask.reindent();
+		if (netbeansDefaultTask != null) {
+			try {
+				netbeansDefaultTask.reindent();
 
-		Preferences pref = Settings.getActivePreferences(document);
+				Preferences pref = Settings.getActivePreferences(document);
 
-		SwingUtilities.invokeLater(() -> {
-			if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
-				NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Icons.ICON_NETBEANS, "", null);
+				SwingUtilities.invokeLater(() -> {
+					if (pref.getBoolean(Settings.SHOW_NOTIFICATIONS, false)) {
+						NotificationDisplayer.getDefault().notify("Format using NetBeans formatter", Icons.ICON_NETBEANS, "", null);
+					}
+
+					StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
+				});
+			} catch (Throwable ex) {
+				log.log(Level.FINE, "NetBeans internal reindent ran into", ex);
 			}
-
-			StatusDisplayer.getDefault().setStatusText("Format using NetBeans formatter");
-		});
+		}
 	}
 }

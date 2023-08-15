@@ -35,6 +35,7 @@ import org.netbeans.api.project.Project;
 import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.filesystems.FileObject;
 
+import de.funfried.netbeans.plugins.external.formatter.eclipse.mechanic.WorkspaceMechanicConfigParser;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.CannotLoadConfigurationException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ConfigReadException;
 import de.funfried.netbeans.plugins.external.formatter.exceptions.ProfileNotFoundException;
@@ -48,10 +49,10 @@ public class EclipseFormatterUtils {
 	private static final Logger log = Logger.getLogger(EclipseFormatterUtils.class.getName());
 
 	/** EPF file extension */
-	private static final String EPF_FILE_EXTENSION = ".epf";
+	public static final String EPF_FILE_EXTENSION = ".epf";
 
 	/** XML file extension */
-	private static final String XML_FILE_EXTENSION = ".xml";
+	public static final String XML_FILE_EXTENSION = ".xml";
 
 	/**
 	 * Private constructor due to static methods only.
@@ -183,11 +184,11 @@ public class EclipseFormatterUtils {
 		try {
 			Map<String, String> configFromFile;
 			if (EclipseFormatterUtils.isWorkspaceMechanicFile(formatterFile)) {
-				configFromFile = EclipseFormatterUtils.readPropertiesFromConfigurationFile(formatterFile, workspaceMechanicPrefix);
+				configFromFile = WorkspaceMechanicConfigParser.readPropertiesFromConfiguration(formatterFile, workspaceMechanicPrefix);
 			} else if (EclipseFormatterUtils.isXMLConfigurationFile(formatterFile)) {
 				configFromFile = ConfigReader.getProfileSettings(ConfigReader.readContentFromFilePath(formatterFile), formatterProfile);
 			} else if (EclipseFormatterUtils.isProjectSetting(formatterFile, projectPrefFile)) {
-				configFromFile = EclipseFormatterUtils.readPropertiesFromConfigurationFile(formatterFile, null);
+				configFromFile = EclipseFormatterUtils.readPropertiesFromConfigurationFile(formatterFile);
 			} else {
 				configFromFile = new LinkedHashMap<>();
 			}
@@ -212,19 +213,16 @@ public class EclipseFormatterUtils {
 	}
 
 	/**
-	 * Parses and returns properties of the given {@code filePath} into a key value {@link Map}. If an optional
-	 * {@code prefix} is specified, only the properties where the key starts with the given {@code prefix}
-	 * are returned and the {@code prefix} will be removed from the keys in the returned {@link Map}.
+	 * Parses and returns properties of the given {@code filePath} into a key value {@link Map}.
 	 *
 	 * @param filePath a configuration file path
-	 * @param prefix an optional key prefix
 	 *
 	 * @return properties of the given {@code file} as a key value {@link Map}
 	 *
 	 * @throws IOException if there is an issue accessing the given configuration file
 	 */
 	@NonNull
-	public static Map<String, String> readPropertiesFromConfigurationFile(String filePath, String prefix) throws IOException {
+	public static Map<String, String> readPropertiesFromConfigurationFile(String filePath) throws IOException {
 		Properties properties = new Properties();
 
 		try {
@@ -239,6 +237,18 @@ public class EclipseFormatterUtils {
 			}
 		}
 
+		return EclipseFormatterUtils.toMap(properties, null);
+	}
+
+	/**
+	 * Collect the given properties into a map and optionall filter the property keys by the given optional prefix.
+	 *
+	 * @param properties The {@link Properties} to filter and collect.
+	 * @param prefix An optional prefix to filter the keys.
+	 *
+	 * @return A map containing the keys and their respective values
+	 */
+	public static Map<String, String> toMap(Properties properties, String prefix) {
 		Stream<Object> stream = properties.keySet().stream();
 		if (StringUtils.isNotBlank(prefix)) {
 			return stream.filter(key -> ((String) key).startsWith(prefix)).collect(Collectors.toMap(key -> ((String) key).substring(prefix.length()), key -> properties.getProperty((String) key)));
