@@ -84,14 +84,14 @@ public class WorkspaceMechanicConfigParser {
 			}
 		}
 
-		return createPropertiesFromPath(new File(path));
+		return createPropertiesFromFile(new File(path));
 	}
 
 	@NonNull
-	private static Properties createPropertiesFromPath(File file) throws IOException {
+	private static Properties createPropertiesFromFile(File file) throws IOException {
 		Properties properties = new Properties();
 
-		if (file != null && file.exists() && file.canRead()) {
+		if (file != null && file.exists()) {
 			if (file.isFile()) {
 				try (FileInputStream is = new FileInputStream(file)) {
 					properties.load(is);
@@ -99,8 +99,8 @@ public class WorkspaceMechanicConfigParser {
 			} else if (file.isDirectory()) {
 				File[] files = file.listFiles();
 				for (File f : files) {
-					if (f.canRead() && (file.isDirectory() || (file.isFile() && StringUtils.endsWith(file.getName(), EclipseFormatterUtils.EPF_FILE_EXTENSION)))) {
-						Properties additionalProperties = createPropertiesFromPath(f);
+					if (file.isDirectory() || (file.isFile() && StringUtils.endsWith(file.getName(), EclipseFormatterUtils.EPF_FILE_EXTENSION))) {
+						Properties additionalProperties = createPropertiesFromFile(f);
 						properties.putAll(additionalProperties);
 					}
 				}
