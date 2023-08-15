@@ -3,6 +3,7 @@ de.funfried.netbeans.plugins.external.formatter.css.base
 de.funfried.netbeans.plugins.external.formatter.css.cssparser
 de.funfried.netbeans.plugins.external.formatter.css.cssparser.ui
 de.funfried.netbeans.plugins.external.formatter.eclipse
+de.funfried.netbeans.plugins.external.formatter.eclipse.mechanic
 de.funfried.netbeans.plugins.external.formatter.eclipse.xml
 de.funfried.netbeans.plugins.external.formatter.exceptions
 de.funfried.netbeans.plugins.external.formatter.html.base

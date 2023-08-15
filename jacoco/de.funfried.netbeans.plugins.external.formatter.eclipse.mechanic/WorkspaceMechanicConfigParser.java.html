@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WorkspaceMechanicConfigParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">External Code Formatters for NetBeans</a> &gt; <a href="index.source.html" class="el_package">de.funfried.netbeans.plugins.external.formatter.eclipse.mechanic</a> &gt; <span class="el_source">WorkspaceMechanicConfigParser.java</span></div><h1>WorkspaceMechanicConfigParser.java</h1><pre class="source lang-java linenums">package de.funfried.netbeans.plugins.external.formatter.eclipse.mechanic;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.validator.routines.UrlValidator;
+import org.netbeans.api.annotations.common.NonNull;
+
+import de.funfried.netbeans.plugins.external.formatter.eclipse.xml.EclipseFormatterUtils;
+
+/**
+ * A parser for Workspace Mechanic configuration files.
+ */
+<span class="nc" id="L23">public class WorkspaceMechanicConfigParser {</span>
+<span class="fc" id="L24">	private static final Logger log = Logger.getLogger(WorkspaceMechanicConfigParser.class.getName());</span>
+
+	private static final String MULTI_FILE_SETUP_PREFIX = &quot;/instance/com.google.eclipse.mechanic/mechanicSourceDirectories&quot;;
+
+	/**
+	 * Parses and returns properties of the given {@code path} into a key value {@link Map}. If an optional
+	 * {@code prefix} is specified, only the properties where the key starts with the given {@code prefix}
+	 * are returned and the {@code prefix} will be removed from the keys in the returned {@link Map}.
+	 *
+	 * @param path a configuration file path or URL
+	 * @param prefix an optional key prefix
+	 *
+	 * @return properties of the given {@code path} as a key value {@link Map}
+	 *
+	 * @throws IOException if there is an issue accessing the given configuration file
+	 */
+	@NonNull
+	public static Map&lt;String, String&gt; readPropertiesFromConfiguration(String path, String prefix) throws IOException {
+<span class="fc" id="L42">		Properties properties = createPropertiesFromPath(path);</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">		if (properties.containsKey(MULTI_FILE_SETUP_PREFIX)) {</span>
+<span class="fc" id="L44">			parseAdditionalFiles((String) properties.get(MULTI_FILE_SETUP_PREFIX)).stream().forEach(p -&gt; properties.putAll(p));</span>
+
+<span class="fc" id="L46">			properties.remove(MULTI_FILE_SETUP_PREFIX);</span>
+		}
+
+<span class="fc" id="L49">		return EclipseFormatterUtils.toMap(properties, prefix);</span>
+	}
+
+	@NonNull
+	private static List&lt;Properties&gt; parseAdditionalFiles(String pathStruct) throws IOException {
+		// the pathStruct looks as follows:
+		// [&quot;/path/to/additional/mechanic/files&quot;,&quot;/path/to/origin/mechanic/file&quot;]
+<span class="fc" id="L56">		pathStruct = StringUtils.trimToEmpty(pathStruct);</span>
+<span class="fc" id="L57">		pathStruct = StringUtils.removeStart(pathStruct, &quot;[&quot;);</span>
+<span class="fc" id="L58">		pathStruct = StringUtils.removeEnd(pathStruct, &quot;]&quot;);</span>
+
+<span class="fc" id="L60">		List&lt;Properties&gt; result = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L61">		String[] additionalFilesPaths = StringUtils.split(pathStruct, &quot;,&quot;);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">		for (String additionalFilesPath : additionalFilesPaths) {</span>
+<span class="fc" id="L63">			additionalFilesPath = StringUtils.removeStart(additionalFilesPath, &quot;\&quot;&quot;);</span>
+<span class="fc" id="L64">			additionalFilesPath = StringUtils.removeEnd(additionalFilesPath, &quot;\&quot;&quot;);</span>
+
+<span class="fc" id="L66">			Properties additionalProperties = createPropertiesFromPath(additionalFilesPath);</span>
+<span class="fc" id="L67">			result.add(additionalProperties);</span>
+		}
+
+<span class="fc" id="L70">		return result;</span>
+	}
+
+	@NonNull
+	private static Properties createPropertiesFromPath(String path) throws IOException {
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">		if (StringUtils.isBlank(path)) {</span>
+<span class="nc" id="L76">			return new Properties();</span>
+		}
+
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">		if (UrlValidator.getInstance().isValid(path)) {</span>
+			try {
+<span class="nc" id="L81">				URL url = new URL(path);</span>
+
+<span class="nc" id="L83">				Properties properties = new Properties();</span>
+<span class="nc" id="L84">				properties.load(url.openStream());</span>
+
+<span class="nc" id="L86">				return properties;</span>
+<span class="nc" id="L87">			} catch (IOException ex) {</span>
+<span class="nc" id="L88">				log.log(Level.WARNING, &quot;Could not read given path as URL, fallback to local file reading&quot;, ex);</span>
+			}
+		}
+
+<span class="fc" id="L92">		return createPropertiesFromFile(new File(path));</span>
+	}
+
+	@NonNull
+	private static Properties createPropertiesFromFile(File file) throws IOException {
+<span class="fc" id="L97">		Properties properties = new Properties();</span>
+
+<span class="pc bpc" id="L99" title="1 of 4 branches missed.">		if (file != null &amp;&amp; file.exists()) {</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">			if (file.isFile()) {</span>
+<span class="fc" id="L101">				try (FileInputStream is = new FileInputStream(file)) {</span>
+<span class="fc" id="L102">					properties.load(is);</span>
+				}
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">			} else if (file.isDirectory()) {</span>
+<span class="fc" id="L105">				File[] files = file.listFiles();</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">				for (File f : files) {</span>
+<span class="pc bpc" id="L107" title="5 of 6 branches missed.">					if (file.isDirectory() || (file.isFile() &amp;&amp; StringUtils.endsWith(file.getName(), EclipseFormatterUtils.EPF_FILE_EXTENSION))) {</span>
+<span class="fc" id="L108">						Properties additionalProperties = createPropertiesFromFile(f);</span>
+<span class="fc" id="L109">						properties.putAll(additionalProperties);</span>
+					}
+				}
+			}
+		}
+
+<span class="fc" id="L115">		return properties;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

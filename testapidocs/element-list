@@ -1,5 +1,6 @@
 de.funfried.netbeans.plugins.external.formatter
 de.funfried.netbeans.plugins.external.formatter.css.cssparser
+de.funfried.netbeans.plugins.external.formatter.eclipse.mechanic
 de.funfried.netbeans.plugins.external.formatter.eclipse.xml
 de.funfried.netbeans.plugins.external.formatter.html.jsoup
 de.funfried.netbeans.plugins.external.formatter.java.eclipse
