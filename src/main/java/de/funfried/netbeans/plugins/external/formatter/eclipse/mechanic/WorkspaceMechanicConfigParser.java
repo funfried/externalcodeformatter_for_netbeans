@@ -51,14 +51,19 @@ public class WorkspaceMechanicConfigParser {
 
 	@NonNull
 	private static List<Properties> parseAdditionalFiles(String pathStruct) throws IOException {
+		System.out.println("PATH STRUCT: " + pathStruct);
+
 		// the pathStruct looks as follows:
 		// ["/path/to/additional/mechanic/files","/path/to/origin/mechanic/file"]
+		pathStruct = StringUtils.trimToEmpty(pathStruct);
 		pathStruct = StringUtils.removeStart(pathStruct, "[");
 		pathStruct = StringUtils.removeEnd(pathStruct, "]");
 
 		List<Properties> result = new ArrayList<>();
 		String[] additionalFilesPaths = StringUtils.split(pathStruct, ",");
 		for (String additionalFilesPath : additionalFilesPaths) {
+			System.out.println("ADDITIONAL FILES PATH: " + additionalFilesPath);
+
 			additionalFilesPath = StringUtils.removeStart(additionalFilesPath, "\"");
 			additionalFilesPath = StringUtils.removeEnd(additionalFilesPath, "\"");
 
