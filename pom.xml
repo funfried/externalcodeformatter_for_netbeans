@@ -299,7 +299,7 @@
 		<dependency>
 			<groupId>com.manticore-projects.jsqlformatter</groupId>
 			<artifactId>jsqlformatter</artifactId>
-			<version>1.0.0</version>
+			<version>4.8.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.commons</groupId>
