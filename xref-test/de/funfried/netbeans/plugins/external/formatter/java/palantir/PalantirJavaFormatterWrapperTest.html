@@ -163,7 +163,7 @@
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> 		<strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="L156" href="#L156">156</a> 			instance.format(text, <strong class="jxr_keyword">null</strong>);
 <a class="jxr_linenumber" name="L157" href="#L157">157</a> 		} <strong class="jxr_keyword">catch</strong> (RuntimeException ex) {
-<a class="jxr_linenumber" name="L158" href="#L158">158</a> 			Assert.assertTrue(ex.getMessage(), ex.getMessage().contains(<span class="jxr_string">"class, interface, or enum expected"</span>) || ex.getMessage().contains(<span class="jxr_string">"class, interface, enum, or record expected"</span>));
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 			Assert.assertTrue(ex.getMessage(), ex.getMessage().contains(<span class="jxr_string">"error: class, interface, "</span>));
 <a class="jxr_linenumber" name="L159" href="#L159">159</a> 		}
 <a class="jxr_linenumber" name="L160" href="#L160">160</a> 	}
 <a class="jxr_linenumber" name="L161" href="#L161">161</a> 
@@ -183,6 +183,6 @@
 <a class="jxr_linenumber" name="L175" href="#L175">175</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2019&#x2013;2023. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2019&#x2013;2024. All rights reserved.</div>
 </body>
 </html>
