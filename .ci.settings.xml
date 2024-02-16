@@ -46,6 +46,10 @@
 			<username>${env.sonatype_username}</username>
 			<password>${env.sonatype_password}</password>
 		</server>
+		<server>
+			<id>nvd-api-key</id>
+			<password>${env.nvd_api_key}</password>
+		</server>
 	</servers>
 
 	<mirrors>
