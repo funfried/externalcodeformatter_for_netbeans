@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.prefs.Preferences;
 
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -55,8 +56,10 @@ public final class ExternalFormatterOptionsPanelController extends OptionsPanelC
 	 */
 	@Override
 	public void applyChanges() {
-		createOrGetPanel().store();
-		changed = false;
+		SwingUtilities.invokeLater(() -> {
+			createOrGetPanel().store();
+			changed = false;
+		});
 	}
 
 	/**
