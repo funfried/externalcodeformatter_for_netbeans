@@ -26,3 +26,4 @@ jobs:
       run: mvn -s .ci.settings.xml --no-transfer-progress -Dgh_username=${{ secrets.GH_USERNAME }} -Dgh_token=${{ secrets.GH_TOKEN }} -Prelease-commons,sonatype-oss-release package site
       env:
         MAVEN_OPTS: -Xms128m -Xmx512m --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED
+        nvd_api_key: ${{ secrets.NVD_API_KEY }}
