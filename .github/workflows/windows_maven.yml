@@ -34,3 +34,4 @@ jobs:
         repoToken: ${{ secrets.GH_REPOTOKEN }}
         signing_keypass: ${{ secrets.GPG_PASSPHRASE }}
         skipRemoteStaging: ${{ secrets.SKIP_REMOTE_STAGING }}
+        nvd_api_key: ${{ secrets.NVD_API_KEY }}
