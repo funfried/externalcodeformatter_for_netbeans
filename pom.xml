@@ -118,13 +118,13 @@
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<keystore.file>${project.build.directory}/keystore</keystore.file>
-		<google-java-format.version>1.19.2</google-java-format.version>
-		<palantir-java-format.version>2.40.0</palantir-java-format.version>
-		<xml-formatter.version>0.3.0</xml-formatter.version>
+		<google-java-format.version>1.23.0</google-java-format.version>
+		<palantir-java-format.version>2.48.0</palantir-java-format.version>
+		<xml-formatter.version>0.4.0</xml-formatter.version>
 		<commons-lang.version>3.14.0</commons-lang.version>
 		<netbeans.version>RELEASE120</netbeans.version>
-		<jsoup.version>1.17.2</jsoup.version>
-		<pmd.version>6.55.0</pmd.version>
+		<jsoup.version>1.18.1</jsoup.version>
+		<pmd.version>7.3.0</pmd.version>
 		<argLine></argLine>
 	</properties>
 
@@ -133,7 +133,7 @@
 		<dependency>
 			<groupId>org.eclipse.platform</groupId>
 			<artifactId>org.eclipse.text</artifactId>
-			<version>3.13.100</version>
+			<version>3.14.100</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.eclipse.platform</groupId>
@@ -150,7 +150,7 @@
 		<dependency>
 			<groupId>org.eclipse.jdt</groupId>
 			<artifactId>org.eclipse.jdt.core</artifactId>
-			<version>3.36.0</version>
+			<version>3.38.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.eclipse.platform</groupId>
@@ -167,7 +167,7 @@
 		<dependency>
 			<groupId>de.funfried.libraries</groupId>
 			<artifactId>jsdt-core</artifactId>
-			<version>1.0.7</version>
+			<version>1.0.8</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.guava</groupId>
@@ -198,7 +198,7 @@
 		<dependency>
 			<groupId>io.spring.javaformat</groupId>
 			<artifactId>spring-javaformat-formatter</artifactId>
-			<version>0.0.41</version>
+			<version>0.0.42</version>
 		</dependency>
 
 		<!-- Google Formatter -->
@@ -273,13 +273,13 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.16.1</version>
+			<version>2.17.2</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.16.1</version>
+			<version>2.17.2</version>
 		</dependency>
 
 		<!-- CSS Parser -->
@@ -316,7 +316,7 @@
 		<dependency>
 			<groupId>com.github.vertical-blank</groupId>
 			<artifactId>sql-formatter</artifactId>
-			<version>2.0.4</version>
+			<version>2.0.5</version>
 		</dependency>
 
 		<!-- NetBeans -->
@@ -480,26 +480,26 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
-			<version>1.11.0</version>
+			<version>1.12.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.15.1</version>
+			<version>2.16.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
-			<version>1.8.0</version>
+			<version>1.9.0</version>
 		</dependency>
 
 		<!-- Google -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>33.0.0-jre</version>
+			<version>33.2.1-jre</version>
 		</dependency>
 
 		<!-- Test -->
@@ -524,22 +524,22 @@
 				<plugin>
 					<groupId>org.apache.netbeans.utilities</groupId>
 					<artifactId>nbm-maven-plugin</artifactId>
-					<version>14.0</version>
+					<version>14.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.12.1</version>
+					<version>3.13.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
-					<version>3.3.0</version>
+					<version>3.4.2</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-install-plugin</artifactId>
-					<version>3.1.1</version>
+					<version>3.1.2</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -549,17 +549,17 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-clean-plugin</artifactId>
-					<version>3.3.2</version>
+					<version>3.4.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
-					<version>3.6.0</version>
+					<version>3.7.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-deploy-plugin</artifactId>
-					<version>3.1.1</version>
+					<version>3.1.2</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -569,7 +569,7 @@
 				<plugin>
 					<groupId>org.sonatype.plugins</groupId>
 					<artifactId>nexus-staging-maven-plugin</artifactId>
-					<version>1.6.13</version>
+					<version>1.7.0</version>
 					<configuration>
 						<serverId>sonatype-nexus-staging</serverId>
 						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
@@ -594,12 +594,12 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-gpg-plugin</artifactId>
-					<version>3.1.0</version>
+					<version>3.2.4</version>
 				</plugin>
 				<plugin>
 					<groupId>net.revelc.code.formatter</groupId>
 					<artifactId>formatter-maven-plugin</artifactId>
-					<version>2.23.0</version>
+					<version>2.24.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -624,17 +624,17 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-scm-publish-plugin</artifactId>
-					<version>3.2.1</version>
+					<version>3.3.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-project-info-reports-plugin</artifactId>
-					<version>3.5.0</version>
+					<version>3.6.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>3.6.3</version>
+					<version>3.7.0</version>
 					<configuration>
 						<quiet>true</quiet>
 						<doclint>all,-missing</doclint>
@@ -655,12 +655,12 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
-					<version>3.3.0</version>
+					<version>3.3.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>versions-maven-plugin</artifactId>
-					<version>2.16.2</version>
+					<version>2.17.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -688,17 +688,17 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.2.5</version>
+					<version>3.3.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.6.1</version>
+					<version>3.7.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.8.11</version>
+					<version>0.8.12</version>
 					<configuration>
 						<includes>
 							<include>de/funfried/netbeans/plugins/external/formatter/**/*</include>
@@ -717,12 +717,12 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jxr-plugin</artifactId>
-					<version>3.3.2</version>
+					<version>3.4.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-pmd-plugin</artifactId>
-					<version>3.21.2</version>
+					<version>3.23.0</version>
 					<dependencies>
 						<dependency>
 							<groupId>net.sourceforge.pmd</groupId>
@@ -749,12 +749,12 @@
 				<plugin>
 					<groupId>com.github.spotbugs</groupId>
 					<artifactId>spotbugs-maven-plugin</artifactId>
-					<version>4.8.3.0</version>
+					<version>4.8.6.2</version>
 				</plugin>
 				<plugin>
 					<groupId>org.owasp</groupId>
 					<artifactId>dependency-check-maven</artifactId>
-					<version>9.0.9</version>
+					<version>10.0.2</version>
 					<configuration>
 						<nvdApiServerId>nvd-api-key</nvdApiServerId>
 						<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
@@ -1057,7 +1057,7 @@
 						<plugin>
 							<groupId>com.h3xstream.findsecbugs</groupId>
 							<artifactId>findsecbugs-plugin</artifactId>
-							<version>1.12.0</version>
+							<version>1.13.0</version>
 						</plugin>
 					</plugins>
 				</configuration>
