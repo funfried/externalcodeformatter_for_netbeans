@@ -118,7 +118,7 @@
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<keystore.file>${project.build.directory}/keystore</keystore.file>
-		<google-java-format.version>1.23.0</google-java-format.version>
+		<google-java-format.version>1.28.0</google-java-format.version>
 		<palantir-java-format.version>2.50.0</palantir-java-format.version>
 		<xml-formatter.version>0.4.0</xml-formatter.version>
 		<commons-lang.version>3.17.0</commons-lang.version>
