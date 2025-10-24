@@ -9,6 +9,7 @@
  */
 package de.funfried.netbeans.plugins.external.formatter.java.google;
 
+import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -28,6 +29,8 @@ public class GoogleJavaFormatterWrapperTest {
 
 	@BeforeClass
 	public static void setUpClass() {
+		Locale.setDefault(Locale.ENGLISH);
+
 		instance = new GoogleJavaFormatterWrapper();
 	}
 

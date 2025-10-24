@@ -59,7 +59,8 @@ public class ExternalFormatterCustomizerTab implements ProjectCustomizer.Composi
 	 */
 	@Override
 	public Category createCategory(Lookup lkp) {
-		return ProjectCustomizer.Category.create("external-format", Bundle.LBL_Config(), ImageUtilities.loadImage(Icons.EXTERNAL_FORMATTER_ICON_PATH, false));
+		return ProjectCustomizer.Category.create("external-format", NbBundle.getMessage(ExternalFormatterCustomizerTab.class, "LBL_Config"),
+				ImageUtilities.loadImage(Icons.EXTERNAL_FORMATTER_ICON_PATH, false));
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class ExternalFormatterCustomizerTab implements ProjectCustomizer.Composi
 		/**
 		 * Creates a new instance of the {@link ValidationListener}.
 		 *
-		 * @param category             the {@link Category} where to update the validation
+		 * @param category the {@link Category} where to update the validation
 		 * @param projectSpecificPanel the {@link ProjectSpecificSettingsPanel} where to check the validation
 		 */
 		private ValidationListener(Category category, ProjectSpecificSettingsPanel projectSpecificPanel) {

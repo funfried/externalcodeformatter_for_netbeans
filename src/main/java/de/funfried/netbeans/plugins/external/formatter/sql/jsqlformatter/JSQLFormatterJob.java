@@ -85,13 +85,16 @@ class JSQLFormatterJob extends AbstractFormatJob {
 	private String[] getOptions(Preferences pref) {
 		int i = 0;
 		String[] options = new String[FormattingOption.values().length];
-		options[i++] = toOption(pref, FormattingOption.OUTPUT_FORMAT, JSQLFormatter.getOutputFormat());
-		options[i++] = toOption(pref, FormattingOption.KEYWORD_SPELLING, JSQLFormatter.getKeywordSpelling());
+		options[i++] = toOption(pref, FormattingOption.BACKSLASH_QUOTING, JSQLFormatter.getBackSlashQuoting());
 		options[i++] = toOption(pref, FormattingOption.FUNCTION_SPELLING, JSQLFormatter.getFunctionSpelling());
-		options[i++] = toOption(pref, FormattingOption.OBJECT_SPELLING, JSQLFormatter.getObjectSpelling());
 		options[i++] = toOption(pref, FormattingOption.INDENT_WIDTH, JSQLFormatter.getIndentWidth());
+		options[i++] = toOption(pref, FormattingOption.KEYWORD_SPELLING, JSQLFormatter.getKeywordSpelling());
+		options[i++] = toOption(pref, FormattingOption.OBJECT_SPELLING, JSQLFormatter.getObjectSpelling());
+		options[i++] = toOption(pref, FormattingOption.OUTPUT_FORMAT, JSQLFormatter.getOutputFormat());
 		options[i++] = toOption(pref, FormattingOption.SEPARATION, JSQLFormatter.getSeparation());
+		options[i++] = toOption(pref, FormattingOption.SHOW_LINE_NUMBERS, JSQLFormatter.ShowLineNumbers.NO);
 		options[i++] = toOption(pref, FormattingOption.SQUARE_BRACKET_QUOTATION, JSQLFormatter.getSquaredBracketQuotation());
+		options[i++] = toOption(pref, FormattingOption.STATEMENT_TERMINATOR, JSQLFormatter.getStatementTerminator());
 
 		return options;
 	}

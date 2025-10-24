@@ -40,13 +40,9 @@ public class JsoupXmlFormatterServiceTest extends NbTestCase {
 		final String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 				+ "<root>\n"
 				+ " <foo bar=\"value\">\n"
-				+ "  <elem>\n"
-				+ "   val\n"
-				+ "  </elem>\n"
+				+ "  <elem>val</elem>\n"
 				+ " </foo>\n"
-				+ " <otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">\n"
-				+ "  otherValue\n"
-				+ " </otherTag>\n"
+				+ " <otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">otherValue</otherTag>\n"
 				+ "</root>\n"
 				+ "";
 

@@ -34,13 +34,9 @@ public class JsoupXmlFormatterWrapperTest {
 		final String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 				+ "<root>\n"
 				+ " <foo bar=\"value\">\n"
-				+ "  <elem>\n"
-				+ "   val\n"
-				+ "  </elem>\n"
+				+ "  <elem>val</elem>\n"
 				+ " </foo>\n"
-				+ " <otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">\n"
-				+ "  otherValue\n"
-				+ " </otherTag>\n"
+				+ " <otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">otherValue</otherTag>\n"
 				+ "</root>";
 
 		String actual = instance.format(text, null, new Document.OutputSettings());
@@ -54,13 +50,9 @@ public class JsoupXmlFormatterWrapperTest {
 		final String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r"
 				+ "<root>\r"
 				+ " <foo bar=\"value\">\r"
-				+ "  <elem>\r"
-				+ "   val\r"
-				+ "  </elem>\r"
+				+ "  <elem>val</elem>\r"
 				+ " </foo>\r"
-				+ " <otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">\r"
-				+ "  otherValue\r"
-				+ " </otherTag>\r"
+				+ " <otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">otherValue</otherTag>\r"
 				+ "</root>";
 
 		String actual = instance.format(text, Settings.getLineFeed("\\r", null), new Document.OutputSettings());
@@ -74,13 +66,9 @@ public class JsoupXmlFormatterWrapperTest {
 		final String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 				+ "<root>\n"
 				+ " <foo bar=\"value\">\n"
-				+ "  <elem>\n"
-				+ "   val\n"
-				+ "  </elem>\n"
+				+ "  <elem>val</elem>\n"
 				+ " </foo>\n"
-				+ " <otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">\n"
-				+ "  otherValue\n"
-				+ " </otherTag>\n"
+				+ " <otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">otherValue</otherTag>\n"
 				+ "</root>";
 
 		String actual = instance.format(text, Settings.getLineFeed("\\n", null), new Document.OutputSettings());
@@ -94,13 +82,9 @@ public class JsoupXmlFormatterWrapperTest {
 		final String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
 				+ "<root>\r\n"
 				+ " <foo bar=\"value\">\r\n"
-				+ "  <elem>\r\n"
-				+ "   val\r\n"
-				+ "  </elem>\r\n"
+				+ "  <elem>val</elem>\r\n"
 				+ " </foo>\r\n"
-				+ " <otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">\r\n"
-				+ "  otherValue\r\n"
-				+ " </otherTag>\r\n"
+				+ " <otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">otherValue</otherTag>\r\n"
 				+ "</root>";
 
 		String actual = instance.format(text, Settings.getLineFeed("\\r\\n", null), new Document.OutputSettings());
@@ -114,13 +98,9 @@ public class JsoupXmlFormatterWrapperTest {
 		final String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 				+ "<root>\n"
 				+ " <foo bar=\"value\">\n"
-				+ "  <elem>\n"
-				+ "   val\n"
-				+ "  </elem>\n"
+				+ "  <elem>val</elem>\n"
 				+ " </foo>\n"
-				+ " <otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">\n"
-				+ "  otherValue\n"
-				+ " </otherTag>\n"
+				+ " <otherTag attrib=\"attribValue\" attrib2=\"attribValue2\">otherValue</otherTag>\n"
 				+ "</root>";
 
 		String actual = instance.format(text, null, null);

@@ -38,7 +38,8 @@ public class JsoupHtmlFormatterWrapperTest {
 				+ " </head>\n"
 				+ " <body width=\"100%\">\n"
 				+ "  <div>\n"
-				+ "   <p>some text</p><img src=\"../img.png\" alt=\"Some image\">\n"
+				+ "   <p>some text</p>\n"
+				+ "   <img src=\"../img.png\" alt=\"Some image\">\n"
 				+ "  </div>\n"
 				+ " </body>\n"
 				+ "</html>";
@@ -58,7 +59,8 @@ public class JsoupHtmlFormatterWrapperTest {
 				+ " </head>\r"
 				+ " <body width=\"100%\">\r"
 				+ "  <div>\r"
-				+ "   <p>some text</p><img src=\"../img.png\" alt=\"Some image\">\r"
+				+ "   <p>some text</p>\r"
+				+ "   <img src=\"../img.png\" alt=\"Some image\">\r"
 				+ "  </div>\r"
 				+ " </body>\r"
 				+ "</html>";
@@ -78,7 +80,8 @@ public class JsoupHtmlFormatterWrapperTest {
 				+ " </head>\n"
 				+ " <body width=\"100%\">\n"
 				+ "  <div>\n"
-				+ "   <p>some text</p><img src=\"../img.png\" alt=\"Some image\">\n"
+				+ "   <p>some text</p>\n"
+				+ "   <img src=\"../img.png\" alt=\"Some image\">\n"
 				+ "  </div>\n"
 				+ " </body>\n"
 				+ "</html>";
@@ -98,7 +101,8 @@ public class JsoupHtmlFormatterWrapperTest {
 				+ " </head>\r\n"
 				+ " <body width=\"100%\">\r\n"
 				+ "  <div>\r\n"
-				+ "   <p>some text</p><img src=\"../img.png\" alt=\"Some image\">\r\n"
+				+ "   <p>some text</p>\r\n"
+				+ "   <img src=\"../img.png\" alt=\"Some image\">\r\n"
 				+ "  </div>\r\n"
 				+ " </body>\r\n"
 				+ "</html>";
@@ -118,7 +122,8 @@ public class JsoupHtmlFormatterWrapperTest {
 				+ " </head>\n"
 				+ " <body width=\"100%\">\n"
 				+ "  <div>\n"
-				+ "   <p>some text</p><img src=\"../img.png\" alt=\"Some image\">\n"
+				+ "   <p>some text</p>\n"
+				+ "   <img src=\"../img.png\" alt=\"Some image\">\n"
 				+ "  </div>\n"
 				+ " </body>\n"
 				+ "</html>";
