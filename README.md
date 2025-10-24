@@ -6,6 +6,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7d825731274a4f4783e4203eb7cbf811)](https://www.codacy.com/manual/funfried/externalcodeformatter_for_netbeans?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=funfried/externalcodeformatter_for_netbeans&amp;utm_campaign=Badge_Grade)
 [![Maven Central](https://img.shields.io/maven-central/v/de.funfried.netbeans.plugins/externalcodeformatter)](https://repo1.maven.org/maven2/de/funfried/netbeans/plugins/externalcodeformatter/)
 [![GitHub All Releases](https://img.shields.io/github/downloads/funfried/externalcodeformatter_for_netbeans/total)](https://github.com/funfried/externalcodeformatter_for_netbeans/releases)
+[![Portal Downloads](https://img.shields.io/endpoint?url=https%3A%2F%2Fopenbeans.org%2Fplugin-counter%2Fapi%2F15&label=portal%20downloads)](https://plugins.netbeans.apache.org/catalogue/?id=15)
 [![GitHub issues](https://img.shields.io/github/issues/funfried/externalcodeformatter_for_netbeans)](https://github.com/funfried/externalcodeformatter_for_netbeans/issues)
 [![Eclipse Public License, Version 2.0](https://img.shields.io/badge/license-EPL%20v2.0-green)](http://funfried.github.io/externalcodeformatter_for_netbeans/licenses.html)
 [![Follow Me On Twitter](https://img.shields.io/twitter/follow/funfried84?style=social)](https://twitter.com/funfried84)
