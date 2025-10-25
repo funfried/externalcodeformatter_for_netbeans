@@ -125,8 +125,17 @@
 		<netbeans.version>RELEASE120</netbeans.version>
 		<jsoup.version>1.21.2</jsoup.version>
 		<pmd.version>7.17.0</pmd.version>
+		<scm.version>2.2.1</scm.version>
 		<argLine></argLine>
 	</properties>
+
+	<extensions>
+		<extension>
+			<groupId>org.apache.maven.scm</groupId>
+			<artifactId>maven-scm-provider-jgit</artifactId>
+			<version>${scm.version}</version>
+		</extension>
+	</extensions>
 
 	<dependencies>
 		<!-- Eclipse Formatter -->
@@ -513,25 +522,25 @@
 		<dependency>
 			<groupId>org.apache.maven.scm</groupId>
 			<artifactId>maven-scm-api</artifactId>
-			<version>2.2.1</version>
+			<version>${scm.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.maven.scm</groupId>
 			<artifactId>maven-scm-provider-gitexe</artifactId>
-			<version>2.2.1</version>
+			<version>${scm.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.maven.scm</groupId>
 			<artifactId>maven-scm-provider-git-commons</artifactId>
-			<version>2.2.1</version>
+			<version>${scm.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.maven.scm</groupId>
 			<artifactId>maven-scm-provider-jgit</artifactId>
-			<version>2.2.1</version>
+			<version>${scm.version}</version>
 		</dependency>
 
 		<!-- Google -->
@@ -718,13 +727,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-changelog-plugin</artifactId>
 					<version>3.0.0-M1</version>
-					<dependencies>
-						<dependency>
-							<groupId>org.apache.maven.scm</groupId>
-							<artifactId>maven-scm-provider-jgit</artifactId>
-							<version>2.2.1</version>
-						</dependency>
-					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -999,6 +1001,17 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-changelog-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.scm</groupId>
+						<artifactId>maven-scm-provider-jgit</artifactId>
+						<version>${scm.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
@@ -1072,6 +1085,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-changelog-plugin</artifactId>
+				<configuration>
+					<providerImplementations>
+						<svn>jgit</svn>
+					</providerImplementations>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
