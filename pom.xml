@@ -17,7 +17,7 @@
 
 	<groupId>de.funfried.netbeans.plugins</groupId>
 	<artifactId>externalcodeformatter</artifactId>
-	<version>1.15.5</version>
+	<version>1.15.6-SNAPSHOT</version>
 	<packaging>nbm</packaging>
 
 	<developers>
@@ -111,20 +111,21 @@
 	</distributionManagement>
 
 	<properties>
-		<java.version>17</java.version>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<java.version>21</java.version>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<keystore.file>${project.build.directory}/keystore</keystore.file>
-		<google-java-format.version>1.23.0</google-java-format.version>
-		<palantir-java-format.version>2.50.0</palantir-java-format.version>
+		<google-java-format.version>1.30.0</google-java-format.version>
+		<palantir-java-format.version>2.81.0</palantir-java-format.version>
 		<xml-formatter.version>0.4.0</xml-formatter.version>
-		<commons-lang.version>3.17.0</commons-lang.version>
+		<commons-lang.version>3.19.0</commons-lang.version>
 		<netbeans.version>RELEASE120</netbeans.version>
-		<jsoup.version>1.18.1</jsoup.version>
-		<pmd.version>7.3.0</pmd.version>
+		<jsoup.version>1.21.2</jsoup.version>
+		<pmd.version>7.17.0</pmd.version>
+		<scm.version>2.2.1</scm.version>
 		<argLine></argLine>
 	</properties>
 
@@ -133,7 +134,7 @@
 		<dependency>
 			<groupId>org.eclipse.platform</groupId>
 			<artifactId>org.eclipse.text</artifactId>
-			<version>3.14.100</version>
+			<version>3.14.400</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.eclipse.platform</groupId>
@@ -150,7 +151,7 @@
 		<dependency>
 			<groupId>org.eclipse.jdt</groupId>
 			<artifactId>org.eclipse.jdt.core</artifactId>
-			<version>3.39.0</version>
+			<version>3.43.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.eclipse.platform</groupId>
@@ -167,7 +168,7 @@
 		<dependency>
 			<groupId>de.funfried.libraries</groupId>
 			<artifactId>jsdt-core</artifactId>
-			<version>1.0.10</version>
+			<version>1.0.11</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.guava</groupId>
@@ -198,7 +199,7 @@
 		<dependency>
 			<groupId>io.spring.javaformat</groupId>
 			<artifactId>spring-javaformat-formatter</artifactId>
-			<version>0.0.43</version>
+			<version>0.0.47</version>
 		</dependency>
 
 		<!-- Google Formatter -->
@@ -253,7 +254,7 @@
 		<dependency>
 			<groupId>com.diffplug.spotless</groupId>
 			<artifactId>spotless-lib</artifactId>
-			<version>2.44.0</version>
+			<version>4.0.0</version>
 		</dependency>
 
 		<!-- XML Formatter -->
@@ -273,13 +274,13 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.17.2</version>
+			<version>2.20.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.17.2</version>
+			<version>2.20.0</version>
 		</dependency>
 
 		<!-- CSS Parser -->
@@ -299,7 +300,7 @@
 		<dependency>
 			<groupId>com.manticore-projects.jsqlformatter</groupId>
 			<artifactId>jsqlformatter</artifactId>
-			<version>1.0.0</version>
+			<version>5.3</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.commons</groupId>
@@ -309,7 +310,21 @@
 					<groupId>org.graalvm.sdk</groupId>
 					<artifactId>graal-sdk</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish</groupId>
+					<artifactId>javax.json</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.github.jsqlparser</groupId>
+					<artifactId>jsqlparser</artifactId>
+				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.jsqlparser</groupId>
+			<artifactId>jsqlparser</artifactId>
+			<version>5.3</version>
 		</dependency>
 
 		<!-- Vertical Blank SQL Formatter -->
@@ -474,32 +489,57 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
-			<version>4.4</version>
+			<version>4.5.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
-			<version>1.12.0</version>
+			<version>1.14.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.17.0</version>
+			<version>2.20.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
-			<version>1.9.0</version>
+			<version>1.10.0</version>
+		</dependency>
+
+		<!-- Apache Maven -->
+		<dependency>
+			<groupId>org.apache.maven.scm</groupId>
+			<artifactId>maven-scm-api</artifactId>
+			<version>${scm.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.maven.scm</groupId>
+			<artifactId>maven-scm-provider-gitexe</artifactId>
+			<version>${scm.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.maven.scm</groupId>
+			<artifactId>maven-scm-provider-git-commons</artifactId>
+			<version>${scm.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.maven.scm</groupId>
+			<artifactId>maven-scm-provider-jgit</artifactId>
+			<version>${scm.version}</version>
 		</dependency>
 
 		<!-- Google -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>33.3.1-jre</version>
+			<version>33.5.0-jre</version>
 		</dependency>
 
 		<!-- Test -->
@@ -524,12 +564,12 @@
 				<plugin>
 					<groupId>org.apache.netbeans.utilities</groupId>
 					<artifactId>nbm-maven-plugin</artifactId>
-					<version>14.2</version>
+					<version>14.4</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.13.0</version>
+					<version>3.14.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -539,7 +579,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-install-plugin</artifactId>
-					<version>3.1.3</version>
+					<version>3.1.4</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -549,7 +589,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-clean-plugin</artifactId>
-					<version>3.4.0</version>
+					<version>3.5.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -559,7 +599,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-deploy-plugin</artifactId>
-					<version>3.1.3</version>
+					<version>3.1.4</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -594,17 +634,17 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-gpg-plugin</artifactId>
-					<version>3.2.6</version>
+					<version>3.2.8</version>
 				</plugin>
 				<plugin>
 					<groupId>net.revelc.code.formatter</groupId>
 					<artifactId>formatter-maven-plugin</artifactId>
-					<version>2.24.1</version>
+					<version>2.29.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
-					<version>3.20.0</version>
+					<version>3.21.0</version>
 					<configuration>
 						<skipDeploy>true</skipDeploy>
 					</configuration>
@@ -612,12 +652,12 @@
 						<dependency>
 							<groupId>org.apache.maven.skins</groupId>
 							<artifactId>maven-fluido-skin</artifactId>
-							<version>2.0.0-M10</version>
+							<version>2.0.1</version>
 						</dependency>
 						<dependency>
 							<groupId>org.apache.maven.doxia</groupId>
 							<artifactId>doxia-module-xdoc</artifactId>
-							<version>2.0.0-M12</version>
+							<version>2.0.0</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -629,12 +669,12 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-project-info-reports-plugin</artifactId>
-					<version>3.7.0</version>
+					<version>3.9.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>3.10.0</version>
+					<version>3.12.0</version>
 					<configuration>
 						<quiet>true</quiet>
 						<doclint>all,-missing</doclint>
@@ -660,7 +700,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>versions-maven-plugin</artifactId>
-					<version>2.17.1</version>
+					<version>2.19.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -678,27 +718,27 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-changelog-plugin</artifactId>
-					<version>2.3</version>
+					<version>3.0.0-M1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>license-maven-plugin</artifactId>
-					<version>2.4.0</version>
+					<version>2.7.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.5.0</version>
+					<version>3.5.4</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.8.0</version>
+					<version>3.9.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.8.12</version>
+					<version>0.8.14</version>
 					<configuration>
 						<includes>
 							<include>de/funfried/netbeans/plugins/external/formatter/**/*</include>
@@ -717,12 +757,12 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jxr-plugin</artifactId>
-					<version>3.5.0</version>
+					<version>3.6.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-pmd-plugin</artifactId>
-					<version>3.24.0</version>
+					<version>3.28.0</version>
 					<dependencies>
 						<dependency>
 							<groupId>net.sourceforge.pmd</groupId>
@@ -749,12 +789,12 @@
 				<plugin>
 					<groupId>com.github.spotbugs</groupId>
 					<artifactId>spotbugs-maven-plugin</artifactId>
-					<version>4.8.6.4</version>
+					<version>4.9.7.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.owasp</groupId>
 					<artifactId>dependency-check-maven</artifactId>
-					<version>10.0.4</version>
+					<version>12.1.6</version>
 					<configuration>
 						<nvdApiServerId>nvd-api-key</nvdApiServerId>
 						<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
@@ -818,6 +858,7 @@
 					<release>${java.version}</release>
 					<forceJavacCompilerUse>true</forceJavacCompilerUse>
 					<fork>true</fork>
+					<proc>full</proc>
 					<compilerArgs>
 						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
 						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
@@ -952,6 +993,17 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-changelog-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.scm</groupId>
+						<artifactId>maven-scm-provider-jgit</artifactId>
+						<version>${scm.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
@@ -965,6 +1017,7 @@
 								<ignoredUnusedDeclaredDependency>org.apache.commons:commons-text</ignoredUnusedDeclaredDependency>
 								<ignoredUnusedDeclaredDependency>org.osgi:org.osgi.service.prefs</ignoredUnusedDeclaredDependency>
 								<ignoredUnusedDeclaredDependency>org.functionaljava:functionaljava</ignoredUnusedDeclaredDependency>
+								<ignoredUnusedDeclaredDependency>com.github.jsqlparser:jsqlparser</ignoredUnusedDeclaredDependency>
 							</ignoredUnusedDeclaredDependencies>
 						</configuration>
 					</execution>
@@ -984,6 +1037,14 @@
 				</executions>
 			</plugin>
 		</plugins>
+
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.scm</groupId>
+				<artifactId>maven-scm-provider-jgit</artifactId>
+				<version>${scm.version}</version>
+			</extension>
+		</extensions>
 	</build>
 
 	<reporting>
@@ -1024,6 +1085,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-changelog-plugin</artifactId>
+				<configuration>
+					<providerImplementations>
+						<git>jgit</git>
+					</providerImplementations>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>

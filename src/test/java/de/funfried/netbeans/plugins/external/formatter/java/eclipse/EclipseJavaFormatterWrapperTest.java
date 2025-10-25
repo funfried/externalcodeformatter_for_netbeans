@@ -247,7 +247,13 @@ public class EclipseJavaFormatterWrapperTest {
 	@Test
 	public void testFormatSourceLevel_1dot3() {
 		final String text = "package foo;public enum NewEmptyJUnitTest { A, B, C}";
-		final String expected = null;
+		final String expected = "package foo;\n"
+				+ "\n"
+				+ "public enum NewEmptyJUnitTest {\n"
+				+ "			       A,\n"
+				+ "				   B,\n"
+				+ "				   C\n"
+				+ "}";
 
 		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), "1.3", null);
 		Assert.assertEquals("Invalid source code for 1.3 - enum is not a keyword", expected, actual);
@@ -256,7 +262,13 @@ public class EclipseJavaFormatterWrapperTest {
 	@Test
 	public void testFormatSourceLevel_1dot4() {
 		final String text = "package foo;public enum NewEmptyJUnitTest { A, B, C}";
-		final String expected = null;
+		final String expected = "package foo;\n"
+				+ "\n"
+				+ "public enum NewEmptyJUnitTest {\n"
+				+ "			       A,\n"
+				+ "				   B,\n"
+				+ "				   C\n"
+				+ "}";
 
 		String actual = instance.format("src/test/resources/org.eclipse.jdt.core.prefs", null, text, Settings.getLineFeed("\\n", null), "1.4", null);
 		Assert.assertEquals("Invalid source code for 1.4 - enum is not a keyword", expected, actual);
