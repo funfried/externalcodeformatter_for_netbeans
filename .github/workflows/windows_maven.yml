@@ -24,7 +24,7 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Build with Maven
-      run: mvn -s .ci.settings.xml --no-transfer-progress clean package site
+      run: mvn -s .ci.settings.xml --no-transfer-progress clean package
       env:
         MAVEN_OPTS: -Xms128m -Xmx512m --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED
         gh_username: ${{ secrets.GH_USERNAME }}
