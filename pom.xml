@@ -1087,7 +1087,7 @@
 				<artifactId>maven-changelog-plugin</artifactId>
 				<configuration>
 					<providerImplementations>
-						<svn>jgit</svn>
+						<git>jgit</git>
 					</providerImplementations>
 				</configuration>
 			</plugin>
