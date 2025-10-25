@@ -129,14 +129,6 @@
 		<argLine></argLine>
 	</properties>
 
-	<extensions>
-		<extension>
-			<groupId>org.apache.maven.scm</groupId>
-			<artifactId>maven-scm-provider-jgit</artifactId>
-			<version>${scm.version}</version>
-		</extension>
-	</extensions>
-
 	<dependencies>
 		<!-- Eclipse Formatter -->
 		<dependency>
@@ -1045,6 +1037,14 @@
 				</executions>
 			</plugin>
 		</plugins>
+
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.scm</groupId>
+				<artifactId>maven-scm-provider-jgit</artifactId>
+				<version>${scm.version}</version>
+			</extension>
+		</extensions>
 	</build>
 
 	<reporting>
