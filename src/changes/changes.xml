@@ -9,6 +9,12 @@
 	</properties>
 
 	<body>
+		<release version="1.15.6" date="2025-10-25" description="Maintenance release">
+			<action dev="bahlef" type="change">
+				Updated to latest dependency and plugin versions (and due to the Google Formatter also increased the minimum Java version to 21)
+			</action>
+		</release>
+
 		<release version="1.15.5" date="2024-09-29" description="Maintenance release">
 			<action dev="bahlef" type="change">
 				Updated to latest dependency and plugin versions
