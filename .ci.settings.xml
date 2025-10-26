@@ -113,7 +113,6 @@
 			<properties>
 				<repoToken>${env.repoToken}</repoToken>
 				<keystore.pass>${env.signing_keypass}</keystore.pass>
-				<gpg.passphrase>${env.signing_keypass}</gpg.passphrase>
 				<skipRemoteStaging>${env.skipRemoteStaging}</skipRemoteStaging>
 			</properties>
 			<repositories>
