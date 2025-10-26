@@ -17,7 +17,7 @@
 
 	<groupId>de.funfried.netbeans.plugins</groupId>
 	<artifactId>externalcodeformatter</artifactId>
-	<version>1.15.6-SNAPSHOT</version>
+	<version>1.15.6</version>
 	<packaging>nbm</packaging>
 
 	<developers>
@@ -1018,6 +1018,10 @@
 								<ignoredUnusedDeclaredDependency>org.osgi:org.osgi.service.prefs</ignoredUnusedDeclaredDependency>
 								<ignoredUnusedDeclaredDependency>org.functionaljava:functionaljava</ignoredUnusedDeclaredDependency>
 								<ignoredUnusedDeclaredDependency>com.github.jsqlparser:jsqlparser</ignoredUnusedDeclaredDependency>
+								<ignoredUnusedDeclaredDependency>org.apache.maven.scm:maven-scm-api</ignoredUnusedDeclaredDependency>
+								<ignoredUnusedDeclaredDependency>org.apache.maven.scm:maven-scm-provider-jgit</ignoredUnusedDeclaredDependency>
+								<ignoredUnusedDeclaredDependency>org.apache.maven.scm:maven-scm-provider-gitexe</ignoredUnusedDeclaredDependency>
+								<ignoredUnusedDeclaredDependency>org.apache.maven.scm:maven-scm-provider-git-commons</ignoredUnusedDeclaredDependency>
 							</ignoredUnusedDeclaredDependencies>
 						</configuration>
 					</execution>
