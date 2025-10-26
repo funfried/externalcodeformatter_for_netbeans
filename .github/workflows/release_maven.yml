@@ -32,11 +32,12 @@ jobs:
       env:
         GPG_TTY: $(tty)
         MAVEN_OPTS: -Xms128m -Xmx512m --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+        signing_keypass: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
         gh_username: ${{ secrets.GH_USERNAME }}
         gh_token: ${{ secrets.GH_TOKEN }}
         sonatype_username: ${{ secrets.SONATYPE_USERNAME }}
         sonatype_password: ${{ secrets.SONATYPE_PASSWORD }}
         repoToken: ${{ secrets.COVERALLS_REPOTOKEN }}
-        signing_keypass: ${{ secrets.GPG_PASSPHRASE }}
         skipRemoteStaging: ${{ secrets.SKIP_REMOTE_STAGING }}
         nvd_api_key: ${{ secrets.NVD_API_KEY }}
