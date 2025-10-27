@@ -7,42 +7,7 @@
 			<password>${env.gh_token}</password>
 		</server>
 		<server>
-			<id>sonatype-nexus-staging</id>
-			<username>${env.sonatype_username}</username>
-			<password>${env.sonatype_password}</password>
-		</server>
-		<server>
-			<id>sonatype-nexus-snapshots</id>
-			<username>${env.sonatype_username}</username>
-			<password>${env.sonatype_password}</password>
-		</server>
-		<server>
-			<id>sonatype-nexus-s01-staging</id>
-			<username>${env.sonatype_username}</username>
-			<password>${env.sonatype_password}</password>
-		</server>
-		<server>
-			<id>sonatype-nexus-s01-snapshots</id>
-			<username>${env.sonatype_username}</username>
-			<password>${env.sonatype_password}</password>
-		</server>
-		<server>
-			<id>sonatype-nexus-staging-http-blocker</id>
-			<username>${env.sonatype_username}</username>
-			<password>${env.sonatype_password}</password>
-		</server>
-		<server>
-			<id>sonatype-nexus-snapshots-http-blocker</id>
-			<username>${env.sonatype_username}</username>
-			<password>${env.sonatype_password}</password>
-		</server>
-		<server>
-			<id>sonatype-nexus-s01-staging-http-blocker</id>
-			<username>${env.sonatype_username}</username>
-			<password>${env.sonatype_password}</password>
-		</server>
-		<server>
-			<id>sonatype-nexus-s01-snapshots-http-blocker</id>
+			<id>central</id>
 			<username>${env.sonatype_username}</username>
 			<password>${env.sonatype_password}</password>
 		</server>
@@ -76,30 +41,6 @@
 			<mirrorOf>apache</mirrorOf>
 			<name>Apache Mirror</name>
 			<url>https://repository.apache.org/</url>
-		</mirror>
-		<mirror>
-			<id>sonatype-nexus-staging-http-blocker</id>
-			<mirrorOf>sonatype-nexus-staging</mirrorOf>
-			<name>Sonatype Nexus Staging Mirror</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</mirror>
-		<mirror>
-			<id>sonatype-nexus-snapshots-http-blocker</id>
-			<mirrorOf>sonatype-nexus-snapshots</mirrorOf>
-			<name>Sonatype Nexus Snapshots Mirror</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</mirror>
-		<mirror>
-			<id>sonatype-nexus-s01-staging-http-blocker</id>
-			<mirrorOf>sonatype-nexus-s01-staging</mirrorOf>
-			<name>Sonatype Nexus S01 Staging Mirror</name>
-			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</mirror>
-		<mirror>
-			<id>sonatype-nexus-s01-snapshots-http-blocker</id>
-			<mirrorOf>sonatype-nexus-s01-snapshots</mirrorOf>
-			<name>Sonatype Nexus S01 Snapshots Mirror</name>
-			<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
 		</mirror>
 	</mirrors>
 
