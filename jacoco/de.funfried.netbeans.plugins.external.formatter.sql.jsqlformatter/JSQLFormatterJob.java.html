@@ -85,27 +85,30 @@ class JSQLFormatterJob extends AbstractFormatJob {
 	private String[] getOptions(Preferences pref) {
 <span class="fc" id="L86">		int i = 0;</span>
 <span class="fc" id="L87">		String[] options = new String[FormattingOption.values().length];</span>
-<span class="fc" id="L88">		options[i++] = toOption(pref, FormattingOption.OUTPUT_FORMAT, JSQLFormatter.getOutputFormat());</span>
-<span class="fc" id="L89">		options[i++] = toOption(pref, FormattingOption.KEYWORD_SPELLING, JSQLFormatter.getKeywordSpelling());</span>
-<span class="fc" id="L90">		options[i++] = toOption(pref, FormattingOption.FUNCTION_SPELLING, JSQLFormatter.getFunctionSpelling());</span>
-<span class="fc" id="L91">		options[i++] = toOption(pref, FormattingOption.OBJECT_SPELLING, JSQLFormatter.getObjectSpelling());</span>
-<span class="fc" id="L92">		options[i++] = toOption(pref, FormattingOption.INDENT_WIDTH, JSQLFormatter.getIndentWidth());</span>
-<span class="fc" id="L93">		options[i++] = toOption(pref, FormattingOption.SEPARATION, JSQLFormatter.getSeparation());</span>
-<span class="fc" id="L94">		options[i++] = toOption(pref, FormattingOption.SQUARE_BRACKET_QUOTATION, JSQLFormatter.getSquaredBracketQuotation());</span>
+<span class="fc" id="L88">		options[i++] = toOption(pref, FormattingOption.BACKSLASH_QUOTING, JSQLFormatter.getBackSlashQuoting());</span>
+<span class="fc" id="L89">		options[i++] = toOption(pref, FormattingOption.FUNCTION_SPELLING, JSQLFormatter.getFunctionSpelling());</span>
+<span class="fc" id="L90">		options[i++] = toOption(pref, FormattingOption.INDENT_WIDTH, JSQLFormatter.getIndentWidth());</span>
+<span class="fc" id="L91">		options[i++] = toOption(pref, FormattingOption.KEYWORD_SPELLING, JSQLFormatter.getKeywordSpelling());</span>
+<span class="fc" id="L92">		options[i++] = toOption(pref, FormattingOption.OBJECT_SPELLING, JSQLFormatter.getObjectSpelling());</span>
+<span class="fc" id="L93">		options[i++] = toOption(pref, FormattingOption.OUTPUT_FORMAT, JSQLFormatter.getOutputFormat());</span>
+<span class="fc" id="L94">		options[i++] = toOption(pref, FormattingOption.SEPARATION, JSQLFormatter.getSeparation());</span>
+<span class="fc" id="L95">		options[i++] = toOption(pref, FormattingOption.SHOW_LINE_NUMBERS, JSQLFormatter.ShowLineNumbers.NO);</span>
+<span class="fc" id="L96">		options[i++] = toOption(pref, FormattingOption.SQUARE_BRACKET_QUOTATION, JSQLFormatter.getSquaredBracketQuotation());</span>
+<span class="fc" id="L97">		options[i++] = toOption(pref, FormattingOption.STATEMENT_TERMINATOR, JSQLFormatter.getStatementTerminator());</span>
 
-<span class="fc" id="L96">		return options;</span>
+<span class="fc" id="L99">		return options;</span>
 	}
 
 	private &lt;E extends Enum&lt;E&gt;&gt; String toOption(Preferences pref, JSQLFormatter.FormattingOption option, E defaultValue) {
-<span class="fc" id="L100">		return toOption(pref, option, String.valueOf(defaultValue));</span>
+<span class="fc" id="L103">		return toOption(pref, option, String.valueOf(defaultValue));</span>
 	}
 
 	private String toOption(Preferences pref, JSQLFormatter.FormattingOption option, String defaultValue) {
-<span class="fc" id="L104">		return option.toString() + &quot;=&quot; + pref.get(option.toString(), defaultValue);</span>
+<span class="fc" id="L107">		return option.toString() + &quot;=&quot; + pref.get(option.toString(), defaultValue);</span>
 	}
 
 	private String toOption(Preferences pref, JSQLFormatter.FormattingOption option, int defaultValue) {
-<span class="fc" id="L108">		return String.valueOf(option) + &quot;=&quot; + pref.getInt(String.valueOf(option), defaultValue);</span>
+<span class="fc" id="L111">		return String.valueOf(option) + &quot;=&quot; + pref.getInt(String.valueOf(option), defaultValue);</span>
 	}
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -119,7 +119,7 @@ public final class EclipseJavaFormatterWrapper {
 
 		try {
 <span class="fc" id="L121">			TextEdit te = formatter.format(FORMATTER_OPTS, code, regions, 0, lineFeed);</span>
-<span class="pc bpc" id="L122" title="1 of 4 branches missed.">			if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
+<span class="pc bpc" id="L122" title="2 of 4 branches missed.">			if (te != null &amp;&amp; te.getChildrenSize() &gt; 0) {</span>
 <span class="fc" id="L123">				IDocument dc = new Document(code);</span>
 <span class="fc" id="L124">				te.apply(dc);</span>
 
@@ -138,4 +138,4 @@ public final class EclipseJavaFormatterWrapper {
 <span class="fc" id="L138">		return formattedCode;</span>
 	}
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
