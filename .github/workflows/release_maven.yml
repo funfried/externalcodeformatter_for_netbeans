@@ -19,13 +19,13 @@ jobs:
         java-version: '21'
         distribution: 'adopt'
         cache: maven
-	- name: Cache Dependency-Check DB
-	  uses: actions/cache@v4
-	  with:
-		path: ~/.m2/repository/org/owasp/dependency-check-data
-		key: ${{ runner.os }}-dc-data-v12
-		restore-keys: |
-		  ${{ runner.os }}-dc-data-
+    - name: Cache Dependency-Check DB
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository/org/owasp/dependency-check-data
+        key: ${{ runner.os }}-dc-data-v12
+        restore-keys: |
+          ${{ runner.os }}-dc-data-
     - name: Build and Deploy with Maven
       run: |
         git config --global user.email "info@funfried.de"
