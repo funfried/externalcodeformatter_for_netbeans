@@ -19,6 +19,13 @@ jobs:
         java-version: '21'
         distribution: 'adopt'
         cache: maven
+	- name: Cache Dependency-Check DB
+	  uses: actions/cache@v4
+	  with:
+		path: ~/.m2/repository/org/owasp/dependency-check-data
+		key: ${{ runner.os }}-dc-data-v12
+		restore-keys: |
+		  ${{ runner.os }}-dc-data-
     - name: Build and Deploy with Maven
       run: |
         git config --global user.email "info@funfried.de"
@@ -31,7 +38,7 @@ jobs:
         bash <(curl -s https://codecov.io/bash)
       env:
         GPG_TTY: $(tty)
-        MAVEN_OPTS: -Xms128m -Xmx512m --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED
+        MAVEN_OPTS: -Xms256m -Xmx2g --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED
         MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
         signing_keypass: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
         gh_username: ${{ secrets.GH_USERNAME }}

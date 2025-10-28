@@ -9,10 +9,10 @@
 	http://www.eclipse.org/legal/epl-v20.html
 
 -->
-<project name="${project.name}"
-		 xmlns="http://maven.apache.org/DECORATION/1.8.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd">
+<site name="${project.name}"
+	  xmlns="http://maven.apache.org/SITE/2.0.0"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd">
 	<skin>
 		<groupId>org.apache.maven.skins</groupId>
 		<artifactId>maven-fluido-skin</artifactId>
@@ -30,32 +30,58 @@
 	<publishDate position="right" />
 
 	<bannerLeft>
-		<name>External Code Formatters for NetBeans</name>
-		<src>imgs/logos/externalcodeformatter.png</src>
 		<href>https://funfried.github.io/externalcodeformatter_for_netbeans/</href>
+		<image src="imgs/logos/externalcodeformatter.png" alt="External Code Formatters for NetBeans" />
 	</bannerLeft>
 
 	<bannerRight>
-		<name>Apache NetBeans</name>
-		<src>imgs/logos/netbeans.png</src>
 		<href>https://netbeans.apache.org/</href>
+		<image src="imgs/logos/netbeans.png" alt="Apache NetBeans" />
 	</bannerRight>
 
 	<poweredBy>
-		<logo name="Apache NetBeans" href="https://netbeans.apache.org/" img="imgs/logos/netbeans_small.png" />
-		<logo name="Maven" href="https://maven.apache.org/" img="https://maven.apache.org/images/logos/maven-feather.png" />
-		<logo name="Maven Central" href="https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/" img="https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/badge.svg" />
-		<logo name="Release Build Status" href="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/release_maven.yml" img="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/release_maven.yml/badge.svg" />
-		<logo name="Linux Build Status" href="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/linux_maven.yml" img="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/linux_maven.yml/badge.svg" />
-		<logo name="Windows Build Status" href="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/windows_maven.yml" img="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/windows_maven.yml/badge.svg" />
-		<logo name="Coverage Status" href="https://coveralls.io/github/funfried/externalcodeformatter_for_netbeans?branch=master" img="https://coveralls.io/repos/github/funfried/externalcodeformatter_for_netbeans/badge.svg?branch=master" />
-		<logo name="Code Coverage" href="https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans" img="https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans/branch/master/graph/badge.svg" />
-		<logo name="Codacy Badge" href="https://www.codacy.com/manual/funfried/externalcodeformatter_for_netbeans?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=funfried/externalcodeformatter_for_netbeans&amp;utm_campaign=Badge_Grade" img="https://api.codacy.com/project/badge/Grade/7d825731274a4f4783e4203eb7cbf811" />
-		<logo name="Follow Me On Twitter" href="https://twitter.com/funfried84" img="https://img.shields.io/twitter/follow/funfried84?style=social" />
-		<logo name="Donate via PayPal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=926F5XBCTK2LQ&amp;source=url" img="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" />
-		<logo name="Become a Patron!" href="https://www.patreon.com/funfried" img="imgs/logos/become_a_patron_button.png" />
-		<logo name="Buy me a drink" href="https://www.buymeacoffee.com/funfried" img="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20drink&amp;emoji=%F0%9F%A5%83&amp;slug=funfried&amp;button_colour=5F7FFF&amp;font_colour=ffffff&amp;font_family=Cookie&amp;outline_colour=000000&amp;coffee_colour=FFDD00" />
-		<logo name="Say Thanks" href="https://saythanks.io/to/funfried" img="https://img.shields.io/static/v1?label=say&amp;message=thanks&amp;color=green&amp;style=for-the-badge&amp;logo=handshake" />
+		<logo name="Apache NetBeans" href="https://netbeans.apache.org/">
+			<image src="imgs/logos/netbeans_small.png" />
+		</logo>
+		<logo name="Maven" href="https://maven.apache.org/">
+			<image src="https://maven.apache.org/images/logos/maven-feather.png" />
+		</logo>
+		<logo name="Maven Central" href="https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/">
+			<image src="https://maven-badges.herokuapp.com/maven-central/de.funfried.netbeans.plugins/externalcodeformatter/badge.svg" />
+		</logo>
+		<logo name="Release Build Status" href="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/release_maven.yml">
+			<image src="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/release_maven.yml/badge.svg" />
+		</logo>
+		<logo name="Linux Build Status" href="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/linux_maven.yml">
+			<image src="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/linux_maven.yml/badge.svg" />
+		</logo>
+		<logo name="Windows Build Status" href="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/windows_maven.yml">
+			<image src="https://github.com/funfried/externalcodeformatter_for_netbeans/actions/workflows/windows_maven.yml/badge.svg" />
+		</logo>
+		<logo name="Coverage Status" href="https://coveralls.io/github/funfried/externalcodeformatter_for_netbeans?branch=master">
+			<image src="https://coveralls.io/repos/github/funfried/externalcodeformatter_for_netbeans/badge.svg?branch=master" />
+		</logo>
+		<logo name="Code Coverage" href="https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans">
+			<image src="https://codecov.io/gh/funfried/externalcodeformatter_for_netbeans/branch/master/graph/badge.svg" />
+		</logo>
+		<logo name="Codacy Badge" href="https://www.codacy.com/manual/funfried/externalcodeformatter_for_netbeans?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=funfried/externalcodeformatter_for_netbeans&amp;utm_campaign=Badge_Grade">
+			<image src="https://api.codacy.com/project/badge/Grade/7d825731274a4f4783e4203eb7cbf811" />
+		</logo>
+		<logo name="Follow Me On Twitter" href="https://twitter.com/funfried84">
+			<image src="https://img.shields.io/twitter/follow/funfried84?style=social" />
+		</logo>
+		<logo name="Donate via PayPal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=926F5XBCTK2LQ&amp;source=url">
+			<image src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" />
+		</logo>
+		<logo name="Become a Patron!" href="https://www.patreon.com/funfried">
+			<image src="imgs/logos/become_a_patron_button.png" />
+		</logo>
+		<logo name="Buy me a drink" href="https://www.buymeacoffee.com/funfried">
+			<image src="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20drink&amp;emoji=%F0%9F%A5%83&amp;slug=funfried&amp;button_colour=5F7FFF&amp;font_colour=ffffff&amp;font_family=Cookie&amp;outline_colour=000000&amp;coffee_colour=FFDD00" />
+		</logo>
+		<logo name="Say Thanks" href="https://saythanks.io/to/funfried">
+			<image src="https://img.shields.io/static/v1?label=say&amp;message=thanks&amp;color=green&amp;style=for-the-badge&amp;logo=handshake" />
+		</logo>
 	</poweredBy>
 
 	<body>
@@ -79,4 +105,4 @@
 			<item name="Donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=926F5XBCTK2LQ&amp;source=url" />
 		</links>
 	</body>
-</project>
+</site>
