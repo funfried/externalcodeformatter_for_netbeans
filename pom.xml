@@ -123,12 +123,55 @@
 		<palantir-java-format.version>2.81.0</palantir-java-format.version>
 		<xml-formatter.version>0.4.0</xml-formatter.version>
 		<commons-lang.version>3.19.0</commons-lang.version>
-		<netbeans.version>RELEASE120</netbeans.version>
+		<netbeans.version>RELEASE170</netbeans.version>
 		<jsoup.version>1.21.2</jsoup.version>
 		<pmd.version>7.17.0</pmd.version>
+		<sshd.version>2.16.0</sshd.version>
 		<scm.version>2.2.1</scm.version>
 		<argLine></argLine>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- SSHD -->
+			<dependency>
+				<groupId>org.apache.sshd</groupId>
+				<artifactId>sshd-core</artifactId>
+				<version>${sshd.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.sshd</groupId>
+				<artifactId>sshd-common</artifactId>
+				<version>${sshd.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.sshd</groupId>
+				<artifactId>sshd-sftp</artifactId>
+				<version>${sshd.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.sshd</groupId>
+				<artifactId>sshd-osgi</artifactId>
+				<version>${sshd.version}</version>
+			</dependency>
+
+			<!-- JGit -->
+			<dependency>
+				<groupId>org.eclipse.jgit</groupId>
+				<artifactId>org.eclipse.jgit</artifactId>
+				<version>7.4.0.202509020913-r</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.eclipse.jgit</groupId>
+				<artifactId>org.eclipse.jgit.ssh.apache</artifactId>
+				<version>7.4.0.202509020913-r</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<!-- Eclipse Formatter -->
@@ -534,6 +577,12 @@
 			<groupId>org.apache.maven.scm</groupId>
 			<artifactId>maven-scm-provider-jgit</artifactId>
 			<version>${scm.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>net.i2p.crypto</groupId>
+					<artifactId>eddsa</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Google -->
@@ -813,6 +862,12 @@
 					<artifactId>ossindex-maven-plugin</artifactId>
 					<version>3.2.0</version>
 					<configuration>
+						<clientConfiguration>
+							<authConfiguration>
+								<username>${ossindex.username}</username>
+								<password>${ossindex.password}</password>
+							</authConfiguration>
+						</clientConfiguration>
 						<cvssScoreThreshold>3</cvssScoreThreshold>
 					</configuration>
 				</plugin>
@@ -864,7 +919,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<release>${java.version}</release>
-					<forceJavacCompilerUse>true</forceJavacCompilerUse>
+					<forceLegacyJavacApi>true</forceLegacyJavacApi>
 					<fork>true</fork>
 					<proc>full</proc>
 					<compilerArgs>
@@ -1030,6 +1085,7 @@
 								<ignoredUnusedDeclaredDependency>org.apache.maven.scm:maven-scm-provider-jgit</ignoredUnusedDeclaredDependency>
 								<ignoredUnusedDeclaredDependency>org.apache.maven.scm:maven-scm-provider-gitexe</ignoredUnusedDeclaredDependency>
 								<ignoredUnusedDeclaredDependency>org.apache.maven.scm:maven-scm-provider-git-commons</ignoredUnusedDeclaredDependency>
+								<ignoredUnusedDeclaredDependency>org.apache.sshd:ssh-common</ignoredUnusedDeclaredDependency>
 							</ignoredUnusedDeclaredDependencies>
 						</configuration>
 					</execution>

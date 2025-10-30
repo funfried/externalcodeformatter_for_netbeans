@@ -54,6 +54,8 @@
 			<properties>
 				<repoToken>${env.repoToken}</repoToken>
 				<keystore.pass>${env.signing_keypass}</keystore.pass>
+				<ossindex.username>${env.ossindex_username}</ossindex.username>
+				<ossindex.password>${env.ossindex_password}</ossindex.password>
 				<skipRemoteStaging>${env.skipRemoteStaging}</skipRemoteStaging>
 			</properties>
 			<repositories>
@@ -101,50 +103,6 @@
 						<enabled>false</enabled>
 					</snapshots>
 				</repository>
-				<repository>
-					<id>sonatype-nexus-staging</id>
-					<name>sonatype-nexus-staging</name>
-					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>sonatype-nexus-snapshots</id>
-					<name>sonatype-nexus-snapshots</name>
-					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>sonatype-nexus-s01-staging</id>
-					<name>sonatype-nexus-s01-staging</name>
-					<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>sonatype-nexus-s01-snapshots</id>
-					<name>sonatype-nexus-s01-snapshots</name>
-					<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
 			</repositories>
 			<pluginRepositories>
 				<pluginRepository>
@@ -189,50 +147,6 @@
 					</releases>
 					<snapshots>
 						<enabled>false</enabled>
-					</snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>sonatype-nexus-staging</id>
-					<name>sonatype-nexus-staging</name>
-					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>sonatype-nexus-snapshots</id>
-					<name>sonatype-nexus-snapshots</name>
-					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>sonatype-nexus-s01-staging</id>
-					<name>sonatype-nexus-s01-staging</name>
-					<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-					<releases>
-						<enabled>true</enabled>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</pluginRepository>
-				<pluginRepository>
-					<id>sonatype-nexus-s01-snapshots</id>
-					<name>sonatype-nexus-s01-snapshots</name>
-					<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-					<releases>
-						<enabled>false</enabled>
-					</releases>
-					<snapshots>
-						<enabled>true</enabled>
 					</snapshots>
 				</pluginRepository>
 			</pluginRepositories>
