@@ -19,6 +19,10 @@ jobs:
         java-version: '21'
         distribution: 'adopt'
         cache: maven
+    - name: Set up Maven 3.9.11
+      uses: stCarolas/setup-maven@v5
+      with:
+        maven-version: 3.9.11
     - name: Cache Dependency-Check DB
       uses: actions/cache@v4
       with:
@@ -47,4 +51,6 @@ jobs:
         sonatype_password: ${{ secrets.SONATYPE_PASSWORD }}
         repoToken: ${{ secrets.COVERALLS_REPOTOKEN }}
         skipRemoteStaging: ${{ secrets.SKIP_REMOTE_STAGING }}
+        ossindex_username: ${{ secrets.OSSINDEX_USERNAME }}
+        ossindex_password: ${{ secrets.OSSINDEX_TOKEN }}
         nvd_api_key: ${{ secrets.NVD_API_KEY }}

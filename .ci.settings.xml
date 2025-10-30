@@ -54,6 +54,8 @@
 			<properties>
 				<repoToken>${env.repoToken}</repoToken>
 				<keystore.pass>${env.signing_keypass}</keystore.pass>
+				<ossindex.username>${env.ossindex_username}</ossindex.username>
+				<ossindex.password>${env.ossindex_password}</ossindex.password>
 				<skipRemoteStaging>${env.skipRemoteStaging}</skipRemoteStaging>
 			</properties>
 			<repositories>
